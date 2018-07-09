@@ -1,0 +1,23 @@
+{
+  "name": "examples",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-horizontal-scrolling-menu": "^0.1.2",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "PORT=3005 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
+  }
+}

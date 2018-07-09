@@ -1,0 +1,24 @@
+{
+  "ignore": [],
+  "plugins": [
+    "syntax-jsx",
+    "syntax-object-rest-spread",
+    "transform-regenerator",
+    "transform-runtime",
+    "syntax-async-generators",
+    "transform-class-properties"
+  ],
+  "presets": [
+    "react",
+  ["env", {
+    "useBuiltins": "entry"
+  }],
+    "stage-3",
+    "stage-2"
+  ],
+  "env": {
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"]
+    }
+  }
+}
