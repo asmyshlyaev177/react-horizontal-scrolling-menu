@@ -1,0 +1,56 @@
+{
+  "name": "react-horizontal-scrolling-menu",
+  "version": "0.1.0",
+  "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "build": "cross-env NODE_ENV=production webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
+  },
+  "keywords": [
+    "react",
+    "menu",
+    "horizontal",
+    "scroll",
+    "scrolling-menu"
+  ],
+  "author": "asmyshlyaev177@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues"
+  },
+  "homepage": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#readme",
+  "peerDependencies": {
+    "react": "^15.x || ^16.x",
+    "react-dom": "^15.x || ^16.x"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-syntax-async-generators": "^6.13.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "prop-types": "^15.6.2",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
+}

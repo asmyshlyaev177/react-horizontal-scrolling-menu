@@ -1,0 +1,17 @@
+{
+  "env": {},
+  "ignore": [],
+  "plugins": [
+    "transform-regenerator",
+    "transform-runtime",
+    "syntax-async-generators",
+    "syntax-jsx",
+    "syntax-object-rest-spread"
+  ],
+  "presets": [
+    "stage-3",
+    "stage-2",
+    "react",
+    "env"
+  ]
+}
