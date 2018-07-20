@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
-import ScrollMenu, { Arrow, innerStyle, InnerWrapper } from './scrollMenu';
+
+import ScrollMenu, { Arrow, innerStyle, InnerWrapper, defaultSetting } from './scrollMenu';
 
 describe('test Arrow', () => {
   const props = {
@@ -354,6 +355,16 @@ describe('functions', () => {
       expect(wrapper.instance().getNextItemInd(false, [ ['item2', false], ['item4', false] ]))
         .toEqual(4);
     });
+
+    it('getNextItem fn', () => {
+      expect(wrapper.instance().getNextItem(items[0][0])).toEqual(items[1]);
+      expect(wrapper.instance().getNextItem(items[6][0])).toEqual(items[6]);
+    });
+    it('getPrevItem fn', () => {
+      expect(wrapper.instance().getPrevItem(items[1][0])).toEqual(items[0]);
+      expect(wrapper.instance().getPrevItem(items[3][0])).toEqual(items[2]);
+      expect(wrapper.instance().getPrevItem(items[0][0])).toEqual(items[0]);
+    });
   });
 
   describe('offsets', () => {
@@ -428,11 +439,11 @@ describe('functions', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setState(prop);
 
-      const checkScroll = (alignCenter = false, menuPos = 0) => {
+      const checkScroll = (alignCenter = false, menuPos = 0, empty = false) => {
         wrapper.setState({ menuPos });
         wrapper.setProps({ alignCenter });
         const visibleItems = wrapper.instance().getVisibleItems({});
-        const offset = wrapper.instance().getScrollRightOffset(visibleItems, items);
+        const offset = wrapper.instance().getScrollRightOffset(empty ? [] : visibleItems, items);
         return [offset, visibleItems.length];
       };
 
@@ -450,6 +461,10 @@ describe('functions', () => {
 
       it('scroll align from right edge', () => {
         expect(checkScroll(true, 100)).toEqual([80, 1]);
+      });
+
+      it('visibleItems empty use last item', () => {
+        expect(checkScroll(true, 100, true)).toEqual([130, 1]);
       });
 
     });
@@ -568,7 +583,6 @@ describe('functions', () => {
   });
 
   describe('dragging', () => {
-    const wrapper = mount(<ScrollMenu {...props} />);
 
     it('don not drag if dragging disabled', () => {
       const wrapper = mount(<ScrollMenu {...props} dragging={false} />);
@@ -578,6 +592,7 @@ describe('functions', () => {
     });
 
     it('handleDragStart', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setState({ dragging: false, xPoint: 100 });
       wrapper.instance().handleDragStart();
 
@@ -587,6 +602,7 @@ describe('functions', () => {
     });
 
     it('handleDrag', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
       const ev = pos => ({ clientX: pos });
 
       wrapper.setState({
@@ -609,10 +625,15 @@ describe('functions', () => {
       expect(checkDrag(-250, 0, 30)).toEqual([-250, 30]);
       expect(checkDrag(-50, 30, 35)).toEqual([-45, 35]);
       expect(checkDrag(-50, 35, 45)).toEqual([-40, 45]);
+
+      expect(checkDrag(50, 55, 5)).toEqual([defaultSetting.translate, 5]);
     });
 
     it('handleDragStop', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
       const ev = point => ({ clientX: point });
+      const getPoint = jest.fn().mockReturnValue(0);
+      wrapper.instance().getPoint = getPoint;
 
       wrapper.setState({ dragging: false });
       expect(wrapper.instance().handleDragStop(ev)).toEqual(false);
@@ -628,24 +649,41 @@ describe('functions', () => {
         alignCenter: false
       });
 
-      const checkDrag = (translate, alignCenter, x) => {
+      const checkDrag = (translate, alignCenter, x, xPoint = 0) => {
+        wrapper.setState({ xPoint: xPoint });
         wrapper.setState({ translate: translate, dragging: true });
         wrapper.setProps({ alignCenter: alignCenter });
         wrapper.instance().handleDragStop(ev(x));
-        const { translate: trans, xPoint, dragging } = wrapper.state();
+        const XPoint = wrapper.instance().getPoint(ev(x));
+        const { translate: trans, dragging } = wrapper.state();
         expect(dragging).toEqual(false);
-        return [trans, xPoint];
+        return [trans, XPoint];
       };
 
       expect(checkDrag(100, true, 5)).toEqual([10, 0]);
       expect(checkDrag(100, false, 5)).toEqual([0, 0]);
       expect(checkDrag(-200, true, 5)).toEqual([-165, 0]);
       expect(checkDrag(-200, false, 5)).toEqual([-150, 0]);
-      // TODO must be [-50, 5] WTF
-      expect(checkDrag(-50, false, 5)).toEqual([-50, 0]);
+
+      expect(checkDrag(-50, false, 5, null)).toEqual([-50, 0]);
     });
 
+    it('set xPoint from getPoint', () => {
+      const beforeStart = jest.fn().mockReturnValue(false);
+      const afterEnd = jest.fn().mockReturnValue(false);
+      const props = {
+        translate: 0,
+        dragging: true
+      };
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.instance().itBeforeStart = beforeStart;
+      wrapper.instance().itAfterEnd = afterEnd;
+      wrapper.setState({ dragging: true });
+      const ev = { clientX: 35 };
+      expect(wrapper.instance().getPoint(ev)).toEqual(35);
+    });
     it('get clientX or touch cordinates', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
       const ev1 = { touches: [25] };
       const ev2 = { clientX: 35 };
       expect(wrapper.instance().getPoint(ev1)).toEqual(25);
