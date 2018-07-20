@@ -12,7 +12,18 @@ const list = [
   { name: 'item6' },
   { name: 'item7' },
   { name: 'item8' },
-  { name: 'item9' }
+  { name: 'item9' },
+  { name: 'item10' },
+  { name: 'item11' },
+  { name: 'item12' },
+  { name: 'item13' },
+  { name: 'item14' },
+  { name: 'item15' },
+  { name: 'item16' },
+  { name: 'item17' },
+  { name: 'item18' },
+  { name: 'item19' },
+  { name: 'item20' }
 ];
 
 const MenuItem = ({ text, selected }) => {

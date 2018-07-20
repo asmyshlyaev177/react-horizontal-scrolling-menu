@@ -7,8 +7,10 @@
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
     "build": "webpack --env.production --mode production",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --coverage --runInBand --ci",
+    "postbuild": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
+    "test:watch": "jest --watch --cache=false",
+    "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov"
   },
   "repository": {
     "type": "git",
@@ -48,12 +50,15 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.1.0",
     "eslint-plugin-react": "^7.10.0",
     "jest": "^23.4.0",
+    "jscoverage": "^0.6.0",
     "jsdom": "^11.11.0",
+    "nodeunit": "^0.11.3",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -68,11 +73,16 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     },
+    "collectCoverageFrom": [
+      "src/**.js"
+    ],
     "coveragePathIgnorePatterns": [
+      "/build",
       "/node_modules/",
       "/examples/",
-      "/build/",
-      "jest.js"
-    ]
+      "jest.js",
+      "src/index.js"
+    ],
+    "coverageDirectory": "coverage"
   }
 }
