@@ -2,6 +2,9 @@
 
 ![example](/sample.gif)
 
+[![Build Status](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu.svg?branch=master)](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu)
+[![Coverage Status](https://coveralls.io/repos/github/asmyshlyaev177/react-horizontal-scrolling-menu/badge.svg?branch=master)](https://coveralls.io/github/asmyshlyaev177/react-horizontal-scrolling-menu?branch=master)
+
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
 This is horizontal scrolling menu component for React.
