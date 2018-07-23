@@ -66,7 +66,8 @@ class App extends Component {
     alignCenter: true,
     dragging: true,
     clickWhenDrag: false,
-    transition: 0.4
+    transition: 0.4,
+    wheel: true
   };
 
   constructor(props) {
@@ -84,9 +85,12 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { alignCenter } = prevState;
-    const { alignCenter: alignCenterNew } = this.state;
-    if (alignCenter !== alignCenterNew) {
+    const { alignCenter, wheel } = prevState;
+    const {
+      alignCenter: alignCenterNew,
+      wheel: wheelNew
+    } = this.state;
+    if (alignCenter !== alignCenterNew || wheel !== wheelNew) {
       this.menu.setState({ translate: 0, initialized: true, mounted: true, xPoint: 0});
       this.menu.setInitial();
       this.menu.forceUpdate();
@@ -100,7 +104,8 @@ class App extends Component {
       alignCenter,
       dragging,
       clickWhenDrag,
-      transition
+      transition,
+      wheel
     } = this.state;
     const menu = Menu(list, selected);
 
@@ -136,6 +141,7 @@ class App extends Component {
           alignCenter={alignCenter}
           dragging={dragging}
           clickWhenDrag={clickWhenDrag}
+          wheel={wheel}
         />
 
         <form className="properties">
@@ -164,6 +170,15 @@ class App extends Component {
               type="checkbox"
               checked={clickWhenDrag}
               onChange={() => this.setState({ clickWhenDrag: !clickWhenDrag })}
+            /> 
+          </label>
+          <label style={ checkboxStyle }>
+            Use mouse wheel
+            <input
+              name="wheel"
+              type="checkbox"
+              checked={wheel}
+              onChange={() => this.setState({ wheel: !wheel })}
             /> 
           </label>
           <br />

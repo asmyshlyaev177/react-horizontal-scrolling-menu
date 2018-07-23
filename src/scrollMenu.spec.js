@@ -5,25 +5,51 @@
 import ScrollMenu, { Arrow, innerStyle, InnerWrapper, defaultSetting } from './scrollMenu';
 
 describe('test Arrow', () => {
-  const props = {
+  const onClick = jest.fn();
+  const left = {
     className: 'arrow-prev',
-    onClick: jest.fn(),
+    onClick: jest.fn()
+  };
+  const right = {
+    className: 'arrow-next',
+    onClick: jest.fn()
   };
   const children = (<div>Test</div>);
   const wrapper = shallow(
-    <Arrow {...props}>
+    <Arrow {...left}>
       {children}
     </Arrow>
   );
 
-  it('display class and children', () => {
-    expect(wrapper.find('.' + props.className).length).toEqual(1);
+  it('arrow left', () => {
+    const wrapper = shallow(
+      <Arrow {...left}>
+        {children}
+      </Arrow>
+    );
+    expect(wrapper.find('.' + left.className).length).toEqual(1);
+    expect(wrapper.find('.' + right.className).length).toEqual(0);
+    expect(wrapper.html().includes(children));
+  });
+  it('arrow right', () => {
+    const wrapper = shallow(
+      <Arrow {...right}>
+        {children}
+      </Arrow>
+    );
+    expect(wrapper.find('.' + left.className).length).toEqual(0);
+    expect(wrapper.find('.' + right.className).length).toEqual(1);
     expect(wrapper.html().includes(children));
   });
 
   it('click', () => {
+    const wrapper = shallow(
+      <Arrow onClick={onClick}>
+        {children}
+      </Arrow>
+    );
     wrapper.simulate('click');
-    expect(props.onClick.mock.calls.length).toBe(1);
+    expect(onClick.mock.calls.length).toBe(1);
   });
 });
 
@@ -144,9 +170,15 @@ describe('test menu', () => {
     wrapper.instance().setInitial();
     expect(wrapper.html()).toEqual(null);
   });
-  it('render arrows and menu items', () => {
-    expect(wrapper.find('Arrow').length).toBe(2);
-    expect(wrapper.find('MenuItem').length).toBe(menu.length);
+  it('render left arrow', () => {
+    const { arrowRight, ...rest } = props; 
+    const wrapper = mount(<ScrollMenu {...rest} />); 
+    expect(wrapper.find('Arrow').length).toBe(1);
+  });
+  it('render right arrow', () => {
+    const { arrowLeft, ...rest } = props; 
+    const wrapper = mount(<ScrollMenu {...rest} />); 
+    expect(wrapper.find('Arrow').length).toBe(1);
   });
   it('click on arrow', () => {
     const arrowClick = jest.fn();
@@ -528,6 +560,41 @@ describe('functions', () => {
     it('getPagesOffsets', () => {
       expect(wrapper.instance().getPagesOffsets({}))
         .toEqual({ firstPageOffset: 45, lastPageOffset: 45 }); 
+    });
+
+    describe('handleWheel', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      const arrowClick = jest.fn(); 
+      wrapper.instance().handleArrowClick = arrowClick;
+      let ev = {
+        deltaY: 0,
+        stopPropagation: () => null,
+        preventDefault: () => null
+      };
+      it('scroll left', () => {
+        ev.deltaY = -10;
+        wrapper.instance().handleWheel(ev);
+
+        expect(arrowClick.mock.calls.length).toEqual(1);
+        expect(arrowClick.mock.calls[0]).toEqual([]);
+        arrowClick.mockClear();
+      });
+      it('scroll right', () => {
+        ev.deltaY = 10;
+        wrapper.instance().handleWheel(ev);
+
+        expect(arrowClick.mock.calls.length).toEqual(1);
+        expect(arrowClick.mock.calls[0]).toEqual([false]);
+        arrowClick.mockClear();
+      });
+      it('wheel disabled', () => {
+        wrapper.setProps({ wheel: false });
+        ev.deltaY = -10;
+        wrapper.instance().handleWheel(ev);
+
+        expect(arrowClick.mock.calls.length).toEqual(0);
+        arrowClick.mockClear();
+      });
     });
 
     describe('handleArrowClick', () => {

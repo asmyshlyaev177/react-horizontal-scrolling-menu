@@ -12,7 +12,7 @@ Menu component has adaptive width, just set width for parent container.
 Items width will be determinated from css styles.
 **Note**: don't set margin for item wrapper, use padding instead. Can use margin for item element those you pass as props.
 
-For navigation you can use arrows or just drag items.
+For navigation you can use arrows, mouse wheel or just drag items.
 
 Component return items position, selected item and click event from callbacks.
 
@@ -145,8 +145,9 @@ npm run start
 Props | Type | Description | Required | Default Value
 ------------ | ------------- | ------------- | ------------- | -------------
 data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
+wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
-arrowRight | React component | React component for right arrow |false | null
+arrowRight | React component | React component for right arrow | false | null
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 alignCenter | Boolean | Try to align items by center | false | true
 selected | String or Number | Initial selected item | false | 0
