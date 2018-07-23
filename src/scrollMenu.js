@@ -611,7 +611,7 @@ export class ScrollMenu extends React.Component {
       <div
         className={menuClass}
         style={ menuStyle }
-        onWell = {
+        onWeel = {
           (e) => this.handleWeel(e)
         }
       >
