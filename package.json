@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
     "build": "webpack --env.production --mode production",
-    "test": "jest --coverage --runInBand --ci && cat coverage/lcov.info | coveralls",
+    "test": "jest --coverage --runInBand --ci",
     "postbuild": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
     "test:watch": "jest --watch --cache=false",
     "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov"

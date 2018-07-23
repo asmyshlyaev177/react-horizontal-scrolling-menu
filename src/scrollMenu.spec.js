@@ -668,6 +668,20 @@ describe('functions', () => {
       expect(checkDrag(-50, false, 5, null)).toEqual([-50, 0]);
     });
 
+    it('set xPoint from getPoint', () => {
+      const beforeStart = jest.fn().mockReturnValue(false);
+      const afterEnd = jest.fn().mockReturnValue(false);
+      const props = {
+        translate: 0,
+        dragging: true
+      };
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.instance().itBeforeStart = beforeStart;
+      wrapper.instance().itAfterEnd = afterEnd;
+      wrapper.setState({ dragging: true });
+      const ev = { clientX: 35 };
+      expect(wrapper.instance().getPoint(ev)).toEqual(35);
+    });
     it('get clientX or touch cordinates', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       const ev1 = { touches: [25] };
