@@ -453,7 +453,8 @@ export class ScrollMenu extends React.Component {
     return offset;
   };
 
-    handleWeel = e => {
+    handleWheel = e => {
+      console.log('onWheel',e.deltaY)
       e.stopPropagation();
       e.preventDefault();
       if (e.deltaY < 0) {
@@ -611,8 +612,8 @@ export class ScrollMenu extends React.Component {
       <div
         className={menuClass}
         style={ menuStyle }
-        onWeel = {
-          (e) => this.handleWeel(e)
+        onWheel = {
+          (e) => this.handleWheel(e)
         }
       >
 
