@@ -453,6 +453,16 @@ export class ScrollMenu extends React.Component {
     return offset;
   };
 
+    handleWeel = e => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        this.handleArrowClick()
+      } else {
+        this.handleArrowClick(false)
+      }
+    }
+
   handleArrowClick = (left = true) => {
     const { alignCenter } = this.props;
     const {
@@ -601,6 +611,9 @@ export class ScrollMenu extends React.Component {
       <div
         className={menuClass}
         style={ menuStyle }
+        onWell = {
+          (e) => this.handleWeel(e)
+        }
       >
 
         {arrowLeft && 
