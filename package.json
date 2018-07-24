@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "esnext": "src/index.js",
   "browser": "build/index.js",
@@ -10,7 +10,9 @@
     "test": "jest --coverage --runInBand --ci",
     "postbuild": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
     "test:watch": "jest --watch --cache=false",
-    "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov"
+    "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
     "react-dom": "^15.x || ^16.x"
   },
   "devDependencies": {
+    "all-contributors-cli": "^5.3.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.5",
     "babel-jest": "^23.4.0",
