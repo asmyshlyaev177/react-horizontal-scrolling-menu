@@ -23,7 +23,12 @@ const list = [
   { name: 'item17' },
   { name: 'item18' },
   { name: 'item19' },
-  { name: 'item20' }
+  { name: 'item20' },
+  { name: 'item21' },
+  { name: 'item22' },
+  { name: 'item23' },
+  { name: 'item24' },
+  { name: 'item25' }
 ];
 
 const MenuItem = ({ text, selected }) => {
@@ -82,15 +87,15 @@ class App extends Component {
 
   onSelect = key => {
     console.log(`onSelect: ${key}`);
+    this.setState({ selected: key });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { alignCenter, wheel } = prevState;
+    const { alignCenter } = prevState;
     const {
-      alignCenter: alignCenterNew,
-      wheel: wheelNew
+      alignCenter: alignCenterNew
     } = this.state;
-    if (alignCenter !== alignCenterNew || wheel !== wheelNew) {
+    if (alignCenter !== alignCenterNew) {
       this.menu.setState({ translate: 0, initialized: true, mounted: true, xPoint: 0});
       this.menu.setInitial();
       this.menu.forceUpdate();

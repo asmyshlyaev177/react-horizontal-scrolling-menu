@@ -286,8 +286,7 @@ export class ScrollMenu extends React.Component {
 
     if (dragging || !afterScroll && !clickWhenDrag && diff > 5) return false;
 
-    if (onSelect) onSelect(id);
-    this.setState({ selected: id } );
+    this.setState({ selected: id }, () => { if (onSelect) onSelect(id); });
   }
 
   getVisibleItems = ({
@@ -583,7 +582,6 @@ export class ScrollMenu extends React.Component {
 
   onUpdate = ({ selected = this.state.selected, translate = this.state.translate }) => {
     const { onUpdate } = this.props;
-
     if (onUpdate) {
       onUpdate({ selected, translate });
     }
