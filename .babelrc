@@ -3,9 +3,6 @@
   "plugins": [
     "syntax-jsx",
     "syntax-object-rest-spread",
-    "transform-regenerator",
-    "transform-runtime",
-    "syntax-async-generators",
     "transform-class-properties"
   ],
   "presets": [
