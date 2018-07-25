@@ -21,6 +21,8 @@ Component return items position, selected item and click event from callbacks.
 
 Possible set default position and selected item on initialization.
 
+Add star if you like project :)
+
 ## Quick start
 
 ```
@@ -150,7 +152,7 @@ Props | Type | Description | Required | Default Value
 data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
 wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
-arrowRight | React component | React component for right arrow | false | null
+arrowRight | React component | React component for right arrow, don't pass it for disable arrow | false | null
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 alignCenter | Boolean | Try to align items by center | false | true
 selected | String or Number | Initial selected item | false | 0
