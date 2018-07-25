@@ -172,6 +172,23 @@ My first npm project. Sorry for my english.
 
 Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
 
+## Contributing
+1 Fork the repo:
+  * Remove *react-horizontal-scrolling-menu* from *package.json* in demo project(expamples)
+  * In root folder ```run npm link```
+  * In examples folder run ```npm link react-horizontal-scrolling-menu```
+  * Run ```npm install``` in examples and root folders
+  * Run ```npm run start``` in root and in examples folders
+  
+2 Write code! Add some feature or fix bug.
+
+3 Check that all tests passed and add tests for your code.
+  * You can use ```npm run test:watch``` for run tests in watch mode
+  
+4 Update readme and example(if needed) and run ```npm install --save react-horizontal-scrolling-menu``` in demo project
+
+5 Run ```npm run build``` , make commit and Pull Request
+
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
