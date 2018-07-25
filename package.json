@@ -1,14 +1,18 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "main": "build/index.js",
+  "module": "build/index2.mjs",
   "esnext": "src/index.js",
   "browser": "build/index.js",
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
     "build": "webpack --env.production --mode production",
     "test": "jest --coverage --runInBand --ci",
-    "postbuild": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
+    "postbuild": "npm run minify-mjs && npm run coverage",
+    "coverage": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
+    "minify-mjs": "babel --compact true --minified --no-comments build/index.mjs --out-file build/index2.mjs",
     "test:watch": "jest --watch --cache=false",
     "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov",
     "contributors:add": "all-contributors add",
@@ -65,6 +69,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
@@ -79,6 +84,10 @@
     "collectCoverageFrom": [
       "src/**.js"
     ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/babel-polyfill/",
+      "<rootDir>/node_modules/babel*/"
+    ],
     "coveragePathIgnorePatterns": [
       "/build",
       "/node_modules/",
@@ -87,5 +96,9 @@
       "src/index.js"
     ],
     "coverageDirectory": "coverage"
-  }
+  },
+  "files": [
+    "build",
+    "src"
+  ]
 }
