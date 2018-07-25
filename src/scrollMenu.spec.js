@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
-
+import 'babel-polyfill';
 import ScrollMenu, { Arrow, innerStyle, InnerWrapper, defaultSetting } from './scrollMenu';
 
 describe('test Arrow', () => {
