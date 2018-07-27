@@ -23,7 +23,12 @@ const list = [
   { name: 'item17' },
   { name: 'item18' },
   { name: 'item19' },
-  { name: 'item20' }
+  { name: 'item20' },
+  { name: 'item21' },
+  { name: 'item22' },
+  { name: 'item23' },
+  { name: 'item24' },
+  { name: 'item25' }
 ];
 
 const MenuItem = ({ text, selected }) => {
@@ -66,7 +71,8 @@ class App extends Component {
     alignCenter: true,
     dragging: true,
     clickWhenDrag: false,
-    transition: 0.4
+    transition: 0.4,
+    wheel: true
   };
 
   constructor(props) {
@@ -81,11 +87,14 @@ class App extends Component {
 
   onSelect = key => {
     console.log(`onSelect: ${key}`);
+    this.setState({ selected: key });
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { alignCenter } = prevState;
-    const { alignCenter: alignCenterNew } = this.state;
+    const {
+      alignCenter: alignCenterNew
+    } = this.state;
     if (alignCenter !== alignCenterNew) {
       this.menu.setState({ translate: 0, initialized: true, mounted: true, xPoint: 0});
       this.menu.setInitial();
@@ -100,7 +109,8 @@ class App extends Component {
       alignCenter,
       dragging,
       clickWhenDrag,
-      transition
+      transition,
+      wheel
     } = this.state;
     const menu = Menu(list, selected);
 
@@ -136,6 +146,7 @@ class App extends Component {
           alignCenter={alignCenter}
           dragging={dragging}
           clickWhenDrag={clickWhenDrag}
+          wheel={wheel}
         />
 
         <form className="properties">
@@ -164,6 +175,15 @@ class App extends Component {
               type="checkbox"
               checked={clickWhenDrag}
               onChange={() => this.setState({ clickWhenDrag: !clickWhenDrag })}
+            /> 
+          </label>
+          <label style={ checkboxStyle }>
+            Use mouse wheel
+            <input
+              name="wheel"
+              type="checkbox"
+              checked={wheel}
+              onChange={() => this.setState({ wheel: !wheel })}
             /> 
           </label>
           <br />

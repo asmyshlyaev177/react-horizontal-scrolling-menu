@@ -1,0 +1,22 @@
+{
+  "projectName": "react-horizontal-scrolling-menu",
+  "projectOwner": "asmyshlyaev177",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 70,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "fdferrari",
+      "name": "Federico D. Ferrari",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19995201?v=4",
+      "profile": "https://github.com/fdferrari",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}

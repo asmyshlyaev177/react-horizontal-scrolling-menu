@@ -4,6 +4,9 @@
 
 [![Build Status](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu.svg?branch=master)](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu)
 [![Coverage Status](https://coveralls.io/repos/github/asmyshlyaev177/react-horizontal-scrolling-menu/badge.svg?branch=master)](https://coveralls.io/github/asmyshlyaev177/react-horizontal-scrolling-menu?branch=master)
+[![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
+[![codebeat badge](https://codebeat.co/badges/2457d520-3d0f-4f70-b563-842d9574ebc6)](https://codebeat.co/projects/github-com-asmyshlyaev177-react-horizontal-scrolling-menu-master)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=asmyshlyaev177%40gmail%2ecom&lc=US&item_name=asmyshlyaev177&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
@@ -12,11 +15,13 @@ Menu component has adaptive width, just set width for parent container.
 Items width will be determinated from css styles.
 **Note**: don't set margin for item wrapper, use padding instead. Can use margin for item element those you pass as props.
 
-For navigation you can use arrows or just drag items.
+For navigation you can use arrows, mouse wheel or just drag items.
 
 Component return items position, selected item and click event from callbacks.
 
 Possible set default position and selected item on initialization.
+
+Add star if you like project :)
 
 ## Quick start
 
@@ -145,8 +150,9 @@ npm run start
 Props | Type | Description | Required | Default Value
 ------------ | ------------- | ------------- | ------------- | -------------
 data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
+wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
-arrowRight | React component | React component for right arrow |false | null
+arrowRight | React component | React component for right arrow, don't pass it for disable arrow | false | null
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 alignCenter | Boolean | Try to align items by center | false | true
 selected | String or Number | Initial selected item | false | 0
@@ -167,3 +173,31 @@ itemClassActive | String | Class for active item wrapper| false | 'active'
 My first npm project. Sorry for my english.
 
 Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
+
+## Contributing
+1 Fork the repo:
+  * In root folder ```run npm link```
+  * In examples folder run ```npm link react-horizontal-scrolling-menu```
+  * Run ```npm install``` in examples and root folders
+  * Run ```npm run start``` in root and in examples folders
+  
+2 Write code! Add some feature or fix bug.
+
+3 Check that all tests passed and add tests for your code.
+  * You can use ```npm run test:watch``` for run tests in watch mode
+  
+4 Update readme and example(if needed)
+
+5 Run ```npm run build``` , make commit and Pull Request
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars2.githubusercontent.com/u/19995201?v=4" width="70px;"/><br /><sub><b>Federico D. Ferrari</b></sub>](https://github.com/fdferrari)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fdferrari "Code") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

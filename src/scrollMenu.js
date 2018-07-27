@@ -23,7 +23,8 @@ export const defaultSetting = {
   innerWrapperClass: 'menu-wrapper--inner',
   itemClass: 'menu-item-wrapper',
   itemClassActive: 'active',
-  arrowClass: 'scroll-menu-arrow'
+  arrowClass: 'scroll-menu-arrow',
+  wheel: true
 };
 
 export const Arrow = ({ className, onClick, children }) => {
@@ -285,8 +286,7 @@ export class ScrollMenu extends React.Component {
 
     if (dragging || !afterScroll && !clickWhenDrag && diff > 5) return false;
 
-    if (onSelect) onSelect(id);
-    this.setState({ selected: id } );
+    this.setState({ selected: id }, () => { if (onSelect) onSelect(id); });
   }
 
   getVisibleItems = ({
@@ -454,12 +454,14 @@ export class ScrollMenu extends React.Component {
   };
 
   handleWheel = e => {
+    const { wheel } = this.props;
+    if (!wheel) return false;
     e.stopPropagation();
     e.preventDefault();
     if (e.deltaY < 0) {
-      this.handleArrowClick()
+      this.handleArrowClick();
     } else {
-      this.handleArrowClick(false)
+      this.handleArrowClick(false);
     }
   }
 
@@ -580,7 +582,6 @@ export class ScrollMenu extends React.Component {
 
   onUpdate = ({ selected = this.state.selected, translate = this.state.translate }) => {
     const { onUpdate } = this.props;
-
     if (onUpdate) {
       onUpdate({ selected, translate });
     }
@@ -675,7 +676,8 @@ export const defaultProps = {
   itemClass: defaultSetting.itemClass,
   itemClassActive: defaultSetting.itemClassActive,
   arrowClass: defaultSetting.arrowClass,
-  menuClass: defaultSetting.menuClass
+  menuClass: defaultSetting.menuClass,
+  wheel: defaultSetting.wheel
 };
 
 export const propTypes = {
@@ -696,7 +698,8 @@ export const propTypes = {
   itemClass: PropTypes.string,
   itemClassActive: PropTypes.string,
   arrowClass: PropTypes.string,
-  menuClass: PropTypes.string
+  menuClass: PropTypes.string,
+  wheel: PropTypes.bool
 };
 ScrollMenu.defaultProps = defaultProps;
 ScrollMenu.propTypes = propTypes;
