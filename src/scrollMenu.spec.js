@@ -751,7 +751,7 @@ describe('functions', () => {
     });
     it('get clientX or touch cordinates', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      const ev1 = { touches: [25] };
+      const ev1 = { touches: [{clientX:25}] };
       const ev2 = { clientX: 35 };
       expect(wrapper.instance().getPoint(ev1)).toEqual(25);
       expect(wrapper.instance().getPoint(ev2)).toEqual(35);
