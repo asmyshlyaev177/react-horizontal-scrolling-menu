@@ -513,7 +513,7 @@ export class ScrollMenu extends React.Component {
 
   getPoint = e => {
     return e.touches && e.touches.length
-      ? e.touches[0]
+      ? e.touches[0].clientX
       : e.clientX;
   };
 
