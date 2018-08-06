@@ -66,7 +66,7 @@ export const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 class App extends Component {
 
   state = {
-    selected: 0,
+    selected: 'item1',
     translate: 0,
     alignCenter: true,
     dragging: true,
@@ -80,9 +80,9 @@ class App extends Component {
     this.menu = null;
   }
 
-  onUpdate = ({ selected, translate }) => {
-    console.log(`onUpdate: selected ${selected}  translate: ${translate}`);
-    this.setState({ selected, translate });
+  onUpdate = ({ translate }) => {
+    console.log(`onUpdate: translate: ${translate}`);
+    this.setState({ translate });
   }
 
   onSelect = key => {

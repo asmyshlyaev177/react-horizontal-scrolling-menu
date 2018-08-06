@@ -140,7 +140,8 @@ var defaultSetting = exports.defaultSetting = {
   itemClass: 'menu-item-wrapper',
   itemClassActive: 'active',
   arrowClass: 'scroll-menu-arrow',
-  wheel: true
+  wheel: true,
+  transition: 0.4
 };
 
 var Arrow = exports.Arrow = function Arrow(_ref) {
@@ -221,13 +222,13 @@ var InnerWrapper = exports.InnerWrapper = function (_React$Component) {
           mounted = _props.mounted,
           transition = _props.transition,
           selected = _props.selected,
-          _onClick = _props.onClick,
           innerWrapperClass = _props.innerWrapperClass,
           itemClass = _props.itemClass,
+          _onClick = _props.onClick,
           itemClassActive = _props.itemClassActive;
 
       var isActive = function isActive(itemId, selected) {
-        return itemId === selected;
+        return String(itemId) === String(selected);
       };
       var items = data.map(function (el) {
         return _react2.default.cloneElement(el, { selected: isActive(el.key, selected) });
@@ -756,14 +757,12 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
     };
 
     _this3.onUpdate = function (_ref11) {
-      var _ref11$selected = _ref11.selected,
-          selected = _ref11$selected === undefined ? _this3.state.selected : _ref11$selected,
-          _ref11$translate = _ref11.translate,
+      var _ref11$translate = _ref11.translate,
           translate = _ref11$translate === undefined ? _this3.state.translate : _ref11$translate;
       var onUpdate = _this3.props.onUpdate;
 
       if (onUpdate) {
-        onUpdate({ selected: selected, translate: translate });
+        onUpdate({ translate: translate });
       }
     };
 

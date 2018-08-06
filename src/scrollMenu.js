@@ -110,12 +110,12 @@ export class InnerWrapper extends React.Component {
       mounted,
       transition,
       selected,
-      onClick,
       innerWrapperClass,
       itemClass,
+      onClick,
       itemClassActive
     } = this.props;
-    const isActive = (itemId, selected) => itemId === selected;
+    const isActive = (itemId, selected) => String(itemId) === String(selected);
     const items = data
       .map(el => React.cloneElement(el, { selected: isActive(el.key, selected) }));
     return (
@@ -581,10 +581,10 @@ export class ScrollMenu extends React.Component {
     );
   }
 
-  onUpdate = ({ selected = this.state.selected, translate = this.state.translate }) => {
+  onUpdate = ({ translate = this.state.translate }) => {
     const { onUpdate } = this.props;
     if (onUpdate) {
-      onUpdate({ selected, translate });
+      onUpdate({ translate });
     }
   }
 

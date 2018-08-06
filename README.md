@@ -160,8 +160,7 @@ translate | Number | Initial offset | false | 0
 dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
 onSelect | Function | Callback when item selected, return item key | false | null
-onUpdate | Function | Callback when menu position or selected item changed, return { selected: 'item.key', translate: 0 } | false | null
-onClick | Function | Callback for click on menu item, return item key |  false | null
+onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
