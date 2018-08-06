@@ -24,7 +24,8 @@ export const defaultSetting = {
   itemClass: 'menu-item-wrapper',
   itemClassActive: 'active',
   arrowClass: 'scroll-menu-arrow',
-  wheel: true
+  wheel: true,
+  transition: 0.4
 };
 
 export const Arrow = ({ className, onClick, children }) => {
@@ -43,13 +44,13 @@ Arrow.propTypes = {
   children: PropTypes.object.isRequired
 };
 
-const menuStyle = {
+const defaultMenuStyle = {
   display: 'flex',
   alignItems: 'center',
   userSelect: 'none'
 };
 
-const wrapperStyle = {
+const defaultWrapperStyle = {
   overflow: 'hidden',
   userSelect: 'none' 
 };
@@ -602,16 +603,21 @@ export class ScrollMenu extends React.Component {
       wrapperClass,
       innerWrapperClass,
       itemClass,
-      itemClassActive
+      itemClassActive,
+      menuStyle,
+      wrapperStyle
     } = this.props;
     const { translate, selected, dragging, mounted } = this.state;
 
     if (!data || !data.length) return null;
 
+    const menuStyles = { ...defaultMenuStyle, ...menuStyle };
+    const wrapperStyles = { ...defaultWrapperStyle, ...wrapperStyle };
+
     return (
       <div
         className={menuClass}
-        style={ menuStyle }
+        style={ menuStyles }
         onWheel = {(e) => this.handleWheel(e)}
       >
 
@@ -626,7 +632,7 @@ export class ScrollMenu extends React.Component {
 
         <div
           className={wrapperClass}
-          style={ wrapperStyle }
+          style={ wrapperStyles }
           ref={inst => this.ref.menuWrapper = inst}
           onMouseDown={this.handleDragStart}
           onTouchStart={this.handleDragStart}
@@ -693,13 +699,15 @@ export const propTypes = {
   onUpdate: PropTypes.func,
   dragging: PropTypes.bool,
   clickWhenDrag: PropTypes.bool,
+  wheel: PropTypes.bool,
   wrapperClass: PropTypes.string,
   innerWrapperClass: PropTypes.string,
   itemClass: PropTypes.string,
   itemClassActive: PropTypes.string,
   arrowClass: PropTypes.string,
   menuClass: PropTypes.string,
-  wheel: PropTypes.bool
+  menuStyle: PropTypes.object,
+  wrapperStyle: PropTypes.object
 };
 ScrollMenu.defaultProps = defaultProps;
 ScrollMenu.propTypes = propTypes;
