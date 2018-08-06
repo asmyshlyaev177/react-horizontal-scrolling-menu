@@ -168,6 +168,8 @@ wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
 innerWrapperClass | String | Class for inner wrapper | false | 'menu-wrapper--inner'
 itemClass | String | Class for item wrapper | false | 'menu-item-wrapper'
 itemClassActive | String | Class for active item wrapper| false | 'active'
+menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
+wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
 
 ## About
 My first npm project. Sorry for my english.

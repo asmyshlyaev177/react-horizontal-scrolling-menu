@@ -163,13 +163,13 @@ Arrow.propTypes = {
   children: _propTypes2.default.object.isRequired
 };
 
-var menuStyle = {
+var defaultMenuStyle = {
   display: 'flex',
   alignItems: 'center',
   userSelect: 'none'
 };
 
-var wrapperStyle = {
+var defaultWrapperStyle = {
   overflow: 'hidden',
   userSelect: 'none'
 };
@@ -831,7 +831,9 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           wrapperClass = _props2.wrapperClass,
           innerWrapperClass = _props2.innerWrapperClass,
           itemClass = _props2.itemClass,
-          itemClassActive = _props2.itemClassActive;
+          itemClassActive = _props2.itemClassActive,
+          menuStyle = _props2.menuStyle,
+          wrapperStyle = _props2.wrapperStyle;
       var _state2 = this.state,
           translate = _state2.translate,
           selected = _state2.selected,
@@ -841,11 +843,14 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
 
       if (!data || !data.length) return null;
 
+      var menuStyles = _extends({}, defaultMenuStyle, menuStyle);
+      var wrapperStyles = _extends({}, defaultWrapperStyle, wrapperStyle);
+
       return _react2.default.createElement(
         'div',
         {
           className: menuClass,
-          style: menuStyle,
+          style: menuStyles,
           onWheel: function onWheel(e) {
             return _this4.handleWheel(e);
           }
@@ -864,7 +869,7 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           'div',
           {
             className: wrapperClass,
-            style: wrapperStyle,
+            style: wrapperStyles,
             ref: function ref(inst) {
               return _this4.ref.menuWrapper = inst;
             },
@@ -935,13 +940,15 @@ var propTypes = exports.propTypes = {
   onUpdate: _propTypes2.default.func,
   dragging: _propTypes2.default.bool,
   clickWhenDrag: _propTypes2.default.bool,
+  wheel: _propTypes2.default.bool,
   wrapperClass: _propTypes2.default.string,
   innerWrapperClass: _propTypes2.default.string,
   itemClass: _propTypes2.default.string,
   itemClassActive: _propTypes2.default.string,
   arrowClass: _propTypes2.default.string,
   menuClass: _propTypes2.default.string,
-  wheel: _propTypes2.default.bool
+  menuStyle: _propTypes2.default.object,
+  wrapperStyle: _propTypes2.default.object
 };
 ScrollMenu.defaultProps = defaultProps;
 ScrollMenu.propTypes = propTypes;
