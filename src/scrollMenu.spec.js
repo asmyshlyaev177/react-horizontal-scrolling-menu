@@ -128,13 +128,6 @@ describe('test innerWrapper', () => {
     expect(setRef.mock.calls.length).toEqual(menu.length + 1);
   });
 
-  it('click on item', () => {
-    const wrapper = mount(<InnerWrapper {...props} />);
-    const item = wrapper.find('MenuItem').first();
-    item.simulate('click');
-    expect(onClick.mock.calls.length).toEqual(1);
-    expect(onClick.mock.calls[0][0]).toEqual(menu[0].key);
-  });
 });
 
 describe('test menu', () => {
