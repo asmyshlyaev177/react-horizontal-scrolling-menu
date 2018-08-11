@@ -472,8 +472,13 @@ export class ScrollMenu extends React.Component {
       allItemsWidth,
       menuWidth,
       firstPageOffset,
-      lastPageOffset
+      lastPageOffset,
+      translate
     } = this.state;
+
+    if (!alignCenter && !left && menuWidth >= allItemsWidth) {
+      return false;
+    }
 
     const offset = this.getOffset(left);
     let transl = -offset;
@@ -493,7 +498,11 @@ export class ScrollMenu extends React.Component {
         startDragTranslate: null,
         stopDragTranslate: null
       },
-      () => this.onUpdate({})
+      () => {
+        if (translate !== transl) {
+          this.onUpdate({});
+        }
+      }
     );
   }
 
@@ -559,25 +568,32 @@ export class ScrollMenu extends React.Component {
       menuWidth,
       xPoint = this.getPoint(e),
       firstPageOffset,
-      lastPageOffset
+      lastPageOffset,
+      startDragTranslate
     } = this.state;
     const { dragging: draggingEnable } = this.props;
     if (!draggingEnable || !dragging) return false;
     const { alignCenter } = this.props;
 
+    let newTranslate = 0;
+
     if (this.itBeforeStart(translate)) {
-      translate = alignCenter ? firstPageOffset : 0;
+      newTranslate = alignCenter ? firstPageOffset : 0;
       xPoint = defaultSetting.xPoint;
     }
     if (this.itAfterEnd(translate)) {
       const offset = allItemsWidth - menuWidth;
-      translate = alignCenter ? -offset - lastPageOffset : -offset;
+      newTranslate = alignCenter ? -offset - lastPageOffset : -offset;
       xPoint = defaultSetting.xPoint;
     }
 
     this.setState(
-      { dragging: false, xPoint, translate },
-      () => this.onUpdate({})
+      { dragging: false, xPoint, translate: newTranslate },
+      () => {
+        if (startDragTranslate !== newTranslate) {
+          this.onUpdate({});
+        }
+      }
     );
   }
 
