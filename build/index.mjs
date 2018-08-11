@@ -643,8 +643,13 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           allItemsWidth = _this3$state5.allItemsWidth,
           menuWidth = _this3$state5.menuWidth,
           firstPageOffset = _this3$state5.firstPageOffset,
-          lastPageOffset = _this3$state5.lastPageOffset;
+          lastPageOffset = _this3$state5.lastPageOffset,
+          translate = _this3$state5.translate;
 
+
+      if (!alignCenter && !left && menuWidth >= allItemsWidth) {
+        return false;
+      }
 
       var offset = _this3.getOffset(left);
       var transl = -offset;
@@ -663,7 +668,9 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
         startDragTranslate: null,
         stopDragTranslate: null
       }, function () {
-        return _this3.onUpdate({});
+        if (translate !== transl) {
+          _this3.onUpdate({});
+        }
       });
     };
 
@@ -734,25 +741,30 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           _this3$state8$xPoint = _this3$state8.xPoint,
           xPoint = _this3$state8$xPoint === undefined ? _this3.getPoint(e) : _this3$state8$xPoint,
           firstPageOffset = _this3$state8.firstPageOffset,
-          lastPageOffset = _this3$state8.lastPageOffset;
+          lastPageOffset = _this3$state8.lastPageOffset,
+          startDragTranslate = _this3$state8.startDragTranslate;
       var draggingEnable = _this3.props.dragging;
 
       if (!draggingEnable || !dragging) return false;
       var alignCenter = _this3.props.alignCenter;
 
 
+      var newTranslate = 0;
+
       if (_this3.itBeforeStart(translate)) {
-        translate = alignCenter ? firstPageOffset : 0;
+        newTranslate = alignCenter ? firstPageOffset : 0;
         xPoint = defaultSetting.xPoint;
       }
       if (_this3.itAfterEnd(translate)) {
         var offset = allItemsWidth - menuWidth;
-        translate = alignCenter ? -offset - lastPageOffset : -offset;
+        newTranslate = alignCenter ? -offset - lastPageOffset : -offset;
         xPoint = defaultSetting.xPoint;
       }
 
-      _this3.setState({ dragging: false, xPoint: xPoint, translate: translate }, function () {
-        return _this3.onUpdate({});
+      _this3.setState({ dragging: false, xPoint: xPoint, translate: newTranslate }, function () {
+        if (startDragTranslate !== newTranslate) {
+          _this3.onUpdate({});
+        }
       });
     };
 

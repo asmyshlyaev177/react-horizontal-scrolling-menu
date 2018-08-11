@@ -601,6 +601,8 @@ describe('functions', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ alignCenter: false });
       wrapper.setState({ allItemsWidth: 200, menuWidth: 50, firstPageOffset: 5, lastPageOffset: 6 });
+      const onUpdate = jest.fn();
+      wrapper.instance().onUpdate = onUpdate;
 
       const checkClick = (left = false, align = false, before = false, after = false) => {
         const itBeforeStart = jest.fn().mockReturnValue(before);
@@ -645,12 +647,65 @@ describe('functions', () => {
         wrapper.setProps({ alignCenter: true });
         expect(checkClick(false, true, false, true)).toEqual(-156);
       });
+      it('call onUpdate if translate changed', () => {
+        const wrapper = mount(
+          <ScrollMenu
+            {...props}
+          />
+        );
+        const onUpdate = jest.fn();
+        wrapper.instance().onUpdate = onUpdate;
+        const getOffset = jest.fn().mockReturnValue(120);
+        wrapper.instance().getOffset = getOffset;
+
+        wrapper.setState({ translate: 0, allItemsWidth: 300, menuWidth: 200 });
+        const click = wrapper.instance().handleArrowClick(false);
+        expect(wrapper.instance().state.translate).toEqual(-100);
+
+        expect(onUpdate.mock.calls.length).toEqual(1);
+      });
+      it('do not call onUpdate if translate same', () => {
+        const wrapper = mount(
+          <ScrollMenu
+            {...props}
+          />
+        );
+        const onUpdate = jest.fn();
+        wrapper.instance().onUpdate = onUpdate;
+        const getOffset = jest.fn().mockReturnValue(-0);
+        wrapper.instance().getOffset = getOffset;
+
+        wrapper.setState({ translate: 0, allItemsWidth: 300, menuWidth: 200 });
+        const click = wrapper.instance().handleArrowClick(false);
+        expect(wrapper.instance().state.translate).toEqual(0);
+
+        expect(onUpdate.mock.calls.length).toEqual(0);
+      });
+      it('do nothing width right noAlign, items width less than menu width', () => {
+        const wrapper = mount(
+          <ScrollMenu
+            {...props}
+            alignCenter={false}
+          />
+        );
+        const onUpdate = jest.fn();
+        wrapper.instance().onUpdate = onUpdate;
+
+        wrapper.setState({ translate: 0, allItemsWidth: 100, menuWidth: 200 });
+        expect(wrapper.instance().state.translate).toEqual(0);
+        const click = wrapper.instance().handleArrowClick(false);
+        expect(click).toEqual(false);
+        expect(wrapper.instance().state.translate).toEqual(0);
+
+        expect(onUpdate.mock.calls.length).toEqual(0);
+      });
     });
 
   });
 
   describe('dragging', () => {
 
+    const ev = pos => ({ clientX: pos });
     it('don not drag if dragging disabled', () => {
       const wrapper = mount(<ScrollMenu {...props} dragging={false} />);
       expect(wrapper.instance().handleDragStart()).toEqual(false);
@@ -670,7 +725,6 @@ describe('functions', () => {
 
     it('handleDrag', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      const ev = pos => ({ clientX: pos });
 
       wrapper.setState({
         menuWidth: 100,
@@ -713,12 +767,13 @@ describe('functions', () => {
         xPoint: 0,
         firstPageOffset: 10,
         lastPageOffset: 15,
-        alignCenter: false
+        alignCenter: false,
+        startDragTranslate: 0,
+        stopDragTranslate: 0
       });
 
       const checkDrag = (translate, alignCenter, x, xPoint = 0) => {
-        wrapper.setState({ xPoint: xPoint });
-        wrapper.setState({ translate: translate, dragging: true });
+        wrapper.setState({ xPoint, translate: translate, dragging: true });
         wrapper.setProps({ alignCenter: alignCenter });
         wrapper.instance().handleDragStop(ev(x));
         const XPoint = wrapper.instance().getPoint(ev(x));
@@ -731,8 +786,7 @@ describe('functions', () => {
       expect(checkDrag(100, false, 5)).toEqual([0, 0]);
       expect(checkDrag(-200, true, 5)).toEqual([-165, 0]);
       expect(checkDrag(-200, false, 5)).toEqual([-150, 0]);
-
-      expect(checkDrag(-50, false, 5, null)).toEqual([-50, 0]);
+      expect(checkDrag(-50, false, 5, null)).toEqual([0, 0]);
     });
 
     it('set xPoint from getPoint', () => {
@@ -755,6 +809,35 @@ describe('functions', () => {
       const ev2 = { clientX: 35 };
       expect(wrapper.instance().getPoint(ev1)).toEqual(25);
       expect(wrapper.instance().getPoint(ev2)).toEqual(35);
+    });
+    it('fire onUpdate if translate different', () => {
+      const wrapper = mount(<ScrollMenu {...props} alignCenter={true} dragging={true} />);
+      const onUpdate = jest.fn();
+      wrapper.instance().onUpdate = onUpdate;
+      const itBeforeStart = jest.fn().mockReturnValue(true);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+
+      wrapper.setState({ translate: 50, startDragTranslate: 50, firstPageOffset: 100 });
+
+      wrapper.instance().handleDragStart();
+      wrapper.instance().handleDrag(ev(35));
+      wrapper.instance().handleDragStop(ev(120));
+
+      expect(onUpdate.mock.calls.length).toEqual(1);
+    });
+    it('don not fire onUpdate if translate same', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      const onUpdate = jest.fn();
+      wrapper.instance().onUpdate = onUpdate;
+      const itBeforeStart = jest.fn().mockReturnValue(true);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      wrapper.setState({ translate: 50, startDragTranslate: 50, firstPageOffset: 50 });
+
+      wrapper.instance().handleDragStart();
+      wrapper.instance().handleDrag(ev(50));
+      wrapper.instance().handleDragStop(ev(50));
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
     });
   });
 
