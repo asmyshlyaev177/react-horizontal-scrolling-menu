@@ -170,6 +170,9 @@ itemClassActive | String | Class for active item wrapper| false | 'active'
 menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
 wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
 
+## Gotcha
+For now component will use for menu items props passed first time, further props as data will be ignored.
+
 ## About
 My first npm project. Sorry for my english.
 
