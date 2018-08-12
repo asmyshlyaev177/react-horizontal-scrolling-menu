@@ -786,7 +786,7 @@ describe('functions', () => {
       expect(checkDrag(100, false, 5)).toEqual([0, 0]);
       expect(checkDrag(-200, true, 5)).toEqual([-165, 0]);
       expect(checkDrag(-200, false, 5)).toEqual([-150, 0]);
-      expect(checkDrag(-50, false, 5, null)).toEqual([0, 0]);
+      expect(checkDrag(-50, false, 5, null)).toEqual([-50, 0]);
     });
 
     it('set xPoint from getPoint', () => {
