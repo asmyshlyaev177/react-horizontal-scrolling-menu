@@ -182,7 +182,7 @@ var innerStyle = exports.innerStyle = function innerStyle(_ref2) {
       transition = _ref2.transition;
 
   return {
-    width: '9000px',
+    width: '9900px',
     transform: 'translate3d(' + translate + 'px, 0px, 0px)',
     transition: 'transform ' + (dragging || !mounted ? '0' : transition) + 's',
     whiteSpace: 'nowrap',
@@ -749,7 +749,7 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
       var alignCenter = _this3.props.alignCenter;
 
 
-      var newTranslate = 0;
+      var newTranslate = translate;
 
       if (_this3.itBeforeStart(translate)) {
         newTranslate = alignCenter ? firstPageOffset : 0;

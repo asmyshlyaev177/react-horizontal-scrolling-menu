@@ -57,7 +57,7 @@ const defaultWrapperStyle = {
 
 export const innerStyle = ({ translate, dragging, mounted, transition }) => {
   return {
-    width: '9000px',
+    width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
     transition: `transform ${dragging || !mounted ? '0' : transition}s`,
     whiteSpace: 'nowrap',
@@ -575,7 +575,8 @@ export class ScrollMenu extends React.Component {
     if (!draggingEnable || !dragging) return false;
     const { alignCenter } = this.props;
 
-    let newTranslate = 0;
+    let newTranslate = translate;
+
 
     if (this.itBeforeStart(translate)) {
       newTranslate = alignCenter ? firstPageOffset : 0;
