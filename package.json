@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "module": "build/index2.mjs",
   "esnext": "src/index.js",
+  "jsnext:main": "src/index.js",
   "browser": "build/index.js",
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
