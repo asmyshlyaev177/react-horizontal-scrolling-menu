@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// if (process.env.NODE_ENV !== 'production') {
-//   const {whyDidYouUpdate} = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
 
 export const defaultSetting = {
   alignCenter: true,
@@ -571,12 +567,10 @@ export class ScrollMenu extends React.Component {
       lastPageOffset,
       startDragTranslate
     } = this.state;
-    const { dragging: draggingEnable } = this.props;
+    const { dragging: draggingEnable, alignCenter } = this.props;
     if (!draggingEnable || !dragging) return false;
-    const { alignCenter } = this.props;
 
     let newTranslate = translate;
-
 
     if (this.itBeforeStart(translate)) {
       newTranslate = alignCenter ? firstPageOffset : 0;
@@ -585,6 +579,11 @@ export class ScrollMenu extends React.Component {
     if (this.itAfterEnd(translate)) {
       const offset = allItemsWidth - menuWidth;
       newTranslate = alignCenter ? -offset - lastPageOffset : -offset;
+      xPoint = defaultSetting.xPoint;
+    }
+
+    if (!alignCenter && menuWidth >= allItemsWidth) {
+      newTranslate = 0;
       xPoint = defaultSetting.xPoint;
     }
 

@@ -789,6 +789,24 @@ describe('functions', () => {
       expect(checkDrag(-50, false, 5, null)).toEqual([-50, 0]);
     });
 
+    it('call getPoint(e)', () => {
+      const beforeStart = jest.fn().mockReturnValue(false);
+      const afterEnd = jest.fn().mockReturnValue(false);
+      const getPoint= jest.fn().mockReturnValue(100);
+      const props = {
+        translate: 0,
+        dragging: true
+      };
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.instance().itBeforeStart = beforeStart;
+      wrapper.instance().itAfterEnd = afterEnd;
+      wrapper.instance().getPoint = getPoint;
+      wrapper.setState({ dragging: true });
+      const ev = { clientX: 35 };
+      expect(wrapper.instance().getPoint(ev)).toEqual(100);
+      expect(getPoint.mock.calls.length).toEqual(1);
+    });
+
     it('set xPoint from getPoint', () => {
       const beforeStart = jest.fn().mockReturnValue(false);
       const afterEnd = jest.fn().mockReturnValue(false);
@@ -838,6 +856,28 @@ describe('functions', () => {
       wrapper.instance().handleDragStop(ev(50));
 
       expect(onUpdate.mock.calls.length).toEqual(0);
+    });
+    it('set translate to 0 if items width less then menu width', () => {
+      const wrapper = mount(<ScrollMenu {...props} alignCenter={false} />);
+      const afterEnd = jest.fn().mockReturnValue(false);
+      const itBeforeStart = jest.fn().mockReturnValue(false);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      wrapper.instance().itAfterEnd = afterEnd;
+      wrapper.setState({
+        xPoint: 111,
+        translate: 50,
+        startDragTranslate: 55,
+        firstPageOffset: 30,
+        menuWidth: 200,
+        allItemsWidth: 190
+      });
+
+      wrapper.instance().handleDragStart();
+      wrapper.instance().handleDrag(ev(50));
+      wrapper.instance().handleDragStop(ev(56));
+
+      expect(wrapper.state().translate).toEqual(0);
+      expect(wrapper.state().xPoint).toEqual(defaultSetting.xPoint);
     });
   });
 
