@@ -73,8 +73,7 @@
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4",
-    "why-did-you-update": "git+https://github.com/maicki/why-did-you-update.git"
+    "webpack-dev-server": "^3.1.4"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./jest.js",

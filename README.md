@@ -183,7 +183,8 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 1 Fork the repo:
   * In root folder ```run npm link```
   * Run ```npm install``` in root folder
-  * Run ```yarn install``` in examples folder or ```npm install && npm link react-horizontal-scrolling-menu```
+  * Remove react-horizontal-scrolling-menu from package.json example project
+  * Run ```npm link react-horizontal-scrolling-menu && npm install```
   * Run ```npm run start``` in root and in examples folders
   
 2 Write code! Add some feature or fix bug.
