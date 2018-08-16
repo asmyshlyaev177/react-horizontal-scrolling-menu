@@ -116,11 +116,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// if (process.env.NODE_ENV !== 'production') {
-//   const {whyDidYouUpdate} = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
-
 var defaultSetting = exports.defaultSetting = {
   alignCenter: true,
   clickWhenDrag: false,
@@ -743,11 +738,11 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           firstPageOffset = _this3$state8.firstPageOffset,
           lastPageOffset = _this3$state8.lastPageOffset,
           startDragTranslate = _this3$state8.startDragTranslate;
-      var draggingEnable = _this3.props.dragging;
+      var _this3$props3 = _this3.props,
+          draggingEnable = _this3$props3.dragging,
+          alignCenter = _this3$props3.alignCenter;
 
       if (!draggingEnable || !dragging) return false;
-      var alignCenter = _this3.props.alignCenter;
-
 
       var newTranslate = translate;
 
@@ -758,6 +753,11 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
       if (_this3.itAfterEnd(translate)) {
         var offset = allItemsWidth - menuWidth;
         newTranslate = alignCenter ? -offset - lastPageOffset : -offset;
+        xPoint = defaultSetting.xPoint;
+      }
+
+      if (!alignCenter && menuWidth >= allItemsWidth) {
+        newTranslate = 0;
         xPoint = defaultSetting.xPoint;
       }
 
