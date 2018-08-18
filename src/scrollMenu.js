@@ -114,6 +114,7 @@ export class InnerWrapper extends React.Component {
     const isActive = (itemId, selected) => String(itemId) === String(selected);
     const items = data
       .map(el => React.cloneElement(el, { selected: isActive(el.key, selected) }));
+
     return (
       <div
         className={innerWrapperClass}
@@ -200,6 +201,14 @@ export class ScrollMenu extends React.Component {
     document.removeEventListener('mouseup', this.handleDragStop);
   }
 
+  setRef = ref => {
+    this.ref = ref;
+  }
+
+  setWrapperRef = ref => {
+    this.ref.menuWrapper = ref;
+  }
+
   setInitial = () => {
     const { selected, data } = this.props;
     if (!data || !data.length) return false;
@@ -274,14 +283,13 @@ export class ScrollMenu extends React.Component {
   };
 
   onItemClick = id => {
-    const { dragging } = this.state;
     const { clickWhenDrag, onSelect } = this.props;
 
-    const { startDragTranslate, stopDragTranslate } = this.state;
-    const diff = Math.abs((startDragTranslate || 0) - (stopDragTranslate || 0));
-    const afterScroll = startDragTranslate === null || stopDragTranslate === null;
+    const { startDragTranslate, stopDragTranslate, xPoint } = this.state;
+    const diff = Math.abs(stopDragTranslate - startDragTranslate);
+    const afterScroll = xPoint && diff > 5;
 
-    if (dragging || !afterScroll && !clickWhenDrag && diff > 5) return false;
+    if (afterScroll && !clickWhenDrag) return false;
 
     this.setState({ selected: id }, () => { if (onSelect) onSelect(id); });
   }
@@ -462,6 +470,10 @@ export class ScrollMenu extends React.Component {
     }
   }
 
+  handleArrowClickRight = () => {
+    this.handleArrowClick(false);
+  }
+
   handleArrowClick = (left = true) => {
     const { alignCenter } = this.props;
     const {
@@ -588,7 +600,11 @@ export class ScrollMenu extends React.Component {
     }
 
     this.setState(
-      { dragging: false, xPoint, translate: newTranslate },
+      {
+        dragging: false,
+        xPoint,
+        translate: newTranslate
+      },
       () => {
         if (startDragTranslate !== newTranslate) {
           this.onUpdate({});
@@ -602,10 +618,6 @@ export class ScrollMenu extends React.Component {
     if (onUpdate) {
       onUpdate({ translate });
     }
-  }
-
-  setRef = ref => {
-    this.ref = ref;
   }
 
   render() {
@@ -634,13 +646,13 @@ export class ScrollMenu extends React.Component {
       <div
         className={menuClass}
         style={ menuStyles }
-        onWheel = {(e) => this.handleWheel(e)}
+        onWheel={this.handleWheel}
       >
 
         {arrowLeft && 
           <Arrow
             className={arrowClass}
-            onClick={() => this.handleArrowClick()}
+            onClick={this.handleArrowClick}
           >
             {arrowLeft}
           </Arrow>
@@ -649,7 +661,7 @@ export class ScrollMenu extends React.Component {
         <div
           className={wrapperClass}
           style={ wrapperStyles }
-          ref={inst => this.ref.menuWrapper = inst}
+          ref={this.setWrapperRef}
           onMouseDown={this.handleDragStart}
           onTouchStart={this.handleDragStart}
           onTouchEnd={this.handleDragStop}
@@ -675,7 +687,7 @@ export class ScrollMenu extends React.Component {
         {arrowRight &&
           <Arrow
             className={arrowClass}
-            onClick={() => this.handleArrowClick(false)}
+            onClick={this.handleArrowClickRight}
           >
             {arrowRight}
           </Arrow>
