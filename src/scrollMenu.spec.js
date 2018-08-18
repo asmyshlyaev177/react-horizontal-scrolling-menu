@@ -180,13 +180,17 @@ describe('test menu', () => {
     const wrapper = mount(<ScrollMenu {...rest} />); 
     expect(wrapper.find('Arrow').length).toBe(1);
   });
-  it('click on arrow', () => {
+  it('handle arrowClickRight dispatch handleArrowClick', () => {
     const arrowClick = jest.fn();
     wrapper.instance().handleArrowClick = arrowClick;
-    wrapper.find('Arrow').first().simulate('click');
+    wrapper.instance().handleArrowClickRight();
     expect(arrowClick.mock.calls.length).toEqual(1);
-    wrapper.find('Arrow').last().simulate('click');
-    expect(arrowClick.mock.calls.length).toEqual(2);
+  });
+  it('handle arrowClickRight fn', () => {
+    const arrowClickRight = jest.fn();
+    wrapper.instance().handleArrowClickRight = arrowClickRight;
+    wrapper.instance().handleArrowClickRight();
+    expect(arrowClickRight.mock.calls.length).toEqual(1);
   });
   it('not render empty arrows', () => {
     const wrapper = mount(<ScrollMenu data={menu} />);
@@ -969,11 +973,6 @@ describe('functions', () => {
 
     it('onItemClick', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      wrapper.setState({ dragging: true });
-      wrapper.instance().onItemClick(items[3][0]);
-      expect(wrapper.state().selected).toEqual(0);
-
-      wrapper.setState({ dragging: false });
       wrapper.instance().onItemClick(items[3][0]);
       expect(wrapper.state().selected).toEqual(items[3][0]);
     });
@@ -985,7 +984,8 @@ describe('functions', () => {
         selected: 'item1',
         dragging: false,
         startDragTranslate: 0,
-        stopDragTranslate: 10
+        stopDragTranslate: 10,
+        xPoint: 10
       });
       wrapper.instance().onItemClick(items[2][0]);
       expect(wrapper.state().selected).toEqual('item1');

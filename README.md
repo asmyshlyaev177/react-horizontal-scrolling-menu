@@ -26,11 +26,11 @@ Add star if you like project :)
 
 ## Quick start
 
-```
+```bash
 npm install --save react-horizontal-scrolling-menu
 ```
 In project:
-```
+```javascript
 import React, { Component } from 'react';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import './App.css';
@@ -117,7 +117,7 @@ class App extends Component {
 
 ```
 In App.css
-```
+```scss
 .menu-item {
   padding: 0 40px;
   margin: 5px 10px;
@@ -139,7 +139,7 @@ In App.css
 ```
 ## Example
 You can clone repository and run demo project from *examples* folder.
-```
+```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu/examples
 npm install
@@ -181,20 +181,20 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 
 ## Contributing
 1 Fork the repo:
-  * In root folder ```run npm link```
-  * Run ```npm install``` in root folder
+  * In root folder `run npm link`
+  * Run `npm install` in root folder
   * Remove react-horizontal-scrolling-menu from package.json example project
-  * Run ```npm link react-horizontal-scrolling-menu && npm install```
-  * Run ```npm run start``` in root and in examples folders
+  * Run `npm link react-horizontal-scrolling-menu && npm install`
+  * Run `npm run start` in root and in examples folders
   
 2 Write code! Add some feature or fix bug.
 
 3 Check that all tests passed and add tests for your code.
-  * You can use ```npm run test:watch``` for run tests in watch mode
+  * You can use `npm run test:watch` for run tests in watch mode
   
 4 Update readme and example(if needed)
 
-5 Run ```npm run build``` , make commit and Pull Request
+5 Run `npm run build` , make commit and Pull Request
 
 ## Contributors
 

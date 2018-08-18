@@ -228,6 +228,7 @@ var InnerWrapper = exports.InnerWrapper = function (_React$Component) {
       var items = data.map(function (el) {
         return _react2.default.cloneElement(el, { selected: isActive(el.key, selected) });
       });
+
       return _react2.default.createElement(
         'div',
         {
@@ -307,6 +308,14 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
       lastPageOffset: defaultSetting.lastPageOffset,
       startDragTranslate: null,
       stopDragTranslate: null
+    };
+
+    _this3.setRef = function (ref) {
+      _this3.ref = ref;
+    };
+
+    _this3.setWrapperRef = function (ref) {
+      _this3.ref.menuWrapper = ref;
     };
 
     _this3.setInitial = function () {
@@ -411,18 +420,18 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
     };
 
     _this3.onItemClick = function (id) {
-      var dragging = _this3.state.dragging;
       var _this3$props2 = _this3.props,
           clickWhenDrag = _this3$props2.clickWhenDrag,
           onSelect = _this3$props2.onSelect;
       var _this3$state2 = _this3.state,
           startDragTranslate = _this3$state2.startDragTranslate,
-          stopDragTranslate = _this3$state2.stopDragTranslate;
+          stopDragTranslate = _this3$state2.stopDragTranslate,
+          xPoint = _this3$state2.xPoint;
 
-      var diff = Math.abs((startDragTranslate || 0) - (stopDragTranslate || 0));
-      var afterScroll = startDragTranslate === null || stopDragTranslate === null;
+      var diff = Math.abs(stopDragTranslate - startDragTranslate);
+      var afterScroll = xPoint && diff > 5;
 
-      if (dragging || !afterScroll && !clickWhenDrag && diff > 5) return false;
+      if (afterScroll && !clickWhenDrag) return false;
 
       _this3.setState({ selected: id }, function () {
         if (onSelect) onSelect(id);
@@ -631,6 +640,10 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
       }
     };
 
+    _this3.handleArrowClickRight = function () {
+      _this3.handleArrowClick(false);
+    };
+
     _this3.handleArrowClick = function () {
       var left = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
       var alignCenter = _this3.props.alignCenter;
@@ -761,7 +774,13 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
         xPoint = defaultSetting.xPoint;
       }
 
-      _this3.setState({ dragging: false, xPoint: xPoint, translate: newTranslate }, function () {
+      _this3.setState({
+        dragging: false,
+        xPoint: xPoint,
+        translate: newTranslate
+        // startDragTranslate: null,
+        // stopDragTranslate: null
+      }, function () {
         if (startDragTranslate !== newTranslate) {
           _this3.onUpdate({});
         }
@@ -776,10 +795,6 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
       if (onUpdate) {
         onUpdate({ translate: translate });
       }
-    };
-
-    _this3.setRef = function (ref) {
-      _this3.ref = ref;
     };
 
     _this3.ref = {};
@@ -830,8 +845,6 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
-
       var _props2 = this.props,
           data = _props2.data,
           arrowLeft = _props2.arrowLeft,
@@ -862,17 +875,13 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
         {
           className: menuClass,
           style: menuStyles,
-          onWheel: function onWheel(e) {
-            return _this4.handleWheel(e);
-          }
+          onWheel: this.handleWheel
         },
         arrowLeft && _react2.default.createElement(
           Arrow,
           {
             className: arrowClass,
-            onClick: function onClick() {
-              return _this4.handleArrowClick();
-            }
+            onClick: this.handleArrowClick
           },
           arrowLeft
         ),
@@ -881,9 +890,7 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           {
             className: wrapperClass,
             style: wrapperStyles,
-            ref: function ref(inst) {
-              return _this4.ref.menuWrapper = inst;
-            },
+            ref: this.setWrapperRef,
             onMouseDown: this.handleDragStart,
             onTouchStart: this.handleDragStart,
             onTouchEnd: this.handleDragStop,
@@ -908,9 +915,7 @@ var ScrollMenu = exports.ScrollMenu = function (_React$Component2) {
           Arrow,
           {
             className: arrowClass,
-            onClick: function onClick() {
-              return _this4.handleArrowClick(false);
-            }
+            onClick: this.handleArrowClickRight
           },
           arrowRight
         )
