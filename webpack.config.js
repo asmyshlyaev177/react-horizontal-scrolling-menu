@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const webpack = require("webpack");
 
 const outputPath = path.resolve(__dirname, 'build');
 const filename = 'index';
@@ -41,10 +40,7 @@ const options = env => ({
         }
       })
     ]
-  },
-  // plugins: [
-  //   new webpack.optimize.ModuleConcatenationPlugin()
-  // ]
+  }
 });
 
 module.exports = env => {
