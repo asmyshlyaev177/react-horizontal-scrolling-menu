@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 
 export const defaultSetting = {
   alignCenter: true,
+  arrowClass: 'scroll-menu-arrow',
   clickWhenDrag: false,
   dragging: true,
   data: [],
-  xPoint: 0,
-  translate: 0,
-  selected: 0,
-  menuItems: [],
-  menuPos: 0,
-  menuWidth: 0,
   firstPageOffset: 0,
-  lastPageOffset: 0,
-  menuClass: 'horizontal-menu',
-  wrapperClass: 'menu-wrapper',
   innerWrapperClass: 'menu-wrapper--inner',
   itemClass: 'menu-item-wrapper',
   itemClassActive: 'active',
-  arrowClass: 'scroll-menu-arrow',
+  lastPageOffset: 0,
+  menuItems: [],
+  menuPos: 0,
+  menuWidth: 0,
+  menuClass: 'horizontal-menu',
+  selected: 0,
+  translate: 0,
+  transition: 0.4,
+  wrapperClass: 'menu-wrapper',
   wheel: true,
-  transition: 0.4
+  xPoint: 0
 };
 
 export const Arrow = ({ className, onClick, children }) => {
@@ -181,13 +181,33 @@ export class ScrollMenu extends React.Component {
       dragging: draggingNew
     } = nextState;
 
+    const {
+      translate: translateProps,
+      selected: selectedProps
+    } = this.props;
+    const {
+      translate: translatePropsNew,
+      selected: selectedPropsNew
+    } = nextProps;
+    const translatePropsDiff = translateProps !== translatePropsNew;
+    const selectedPropsDiff = selectedProps !== selectedPropsNew;
+    const propsDiff = translatePropsDiff || selectedPropsDiff;
+
+    if (propsDiff) {
+      this.setState({
+        translate: translatePropsNew,
+        selected: selectedPropsNew
+      });
+    }
+
     return (
       menuWidth !== menuWidthNew ||
       wWidth !== wWidthNew ||
       translate !== translateNew ||
       selected !== selectedNew ||
       mounted !== mountedNew ||
-      dragging !== draggingNew 
+      dragging !== draggingNew ||
+      propsDiff
     );
   }
 
@@ -219,7 +239,9 @@ export class ScrollMenu extends React.Component {
     this.setState(
       {
         menuItems,
-        selected:  selectedItem && selectedItem !== -1 ? selectedItem.key : defaultSetting.selected,
+        selected:  selectedItem && selectedItem !== -1
+          ? selectedItem.key
+          : defaultSetting.selected,
         ...width
       });
   };
