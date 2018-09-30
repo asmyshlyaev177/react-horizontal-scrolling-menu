@@ -1004,4 +1004,19 @@ describe('functions', () => {
     });
   });
 
+  describe('update props', () => {
+    it('update translate', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.setProps({ translate: 0 });
+      expect(wrapper.state().translate).toEqual(0);
+    });
+    
+    it('update selected', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.setProps({ selected: 'item3' });
+      expect(wrapper.state().selected).toEqual('item3');
+    });
+  
+  });
+
 });
