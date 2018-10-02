@@ -913,7 +913,7 @@ describe('functions', () => {
     });
   });
 
-  describe('add/remove eventListeners', () => {
+ describe('add/remove eventListeners', () => {
 
     it('add event listeners', () => {
       const map = {};
@@ -983,12 +983,23 @@ describe('functions', () => {
       wrapper.setState({
         selected: 'item1',
         dragging: false,
-        startDragTranslate: 0,
-        stopDragTranslate: 10,
-        xPoint: 10
+        xDraggedDistance: 30,
+        xPoint: 0
       });
       wrapper.instance().onItemClick(items[2][0]);
       expect(wrapper.state().selected).toEqual('item1');
+    });
+    it('clickWhenDrug true select item under cursor after drag', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.setProps({ clickWhenDrag: true });
+      wrapper.setState({
+        selected: 'item1',
+        dragging: false,
+        xDraggedDistance: 30,
+        xPoint: 0
+      });
+      wrapper.instance().onItemClick(items[2][0]);
+      expect(wrapper.state().selected).toEqual('item3');
     });
 
     it('trigger onSelect after click', () => {

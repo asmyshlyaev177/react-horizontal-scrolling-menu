@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const notUndefOrNull = val => val !== undefined && val !== null;
+
 export const defaultSetting = {
   alignCenter: true,
   arrowClass: 'scroll-menu-arrow',
@@ -159,7 +161,7 @@ export class ScrollMenu extends React.Component {
     firstPageOffset: defaultSetting.firstPageOffset,
     lastPageOffset: defaultSetting.lastPageOffset,
     startDragTranslate: null,
-    stopDragTranslate: null
+    xDraggedDistance: null
   }
 
   componentDidMount() {
@@ -189,15 +191,18 @@ export class ScrollMenu extends React.Component {
       translate: translatePropsNew,
       selected: selectedPropsNew
     } = nextProps;
-    const translatePropsDiff = translateProps !== translatePropsNew;
-    const selectedPropsDiff = selectedProps !== selectedPropsNew;
+
+    let newState = {};
+    const translatePropsDiff = notUndefOrNull(translatePropsNew) &&
+      translateProps !== translatePropsNew;
+    const selectedPropsDiff = notUndefOrNull(selectedPropsNew) &&
+      selectedProps !== selectedPropsNew;
     const propsDiff = translatePropsDiff || selectedPropsDiff;
 
     if (propsDiff) {
-      this.setState({
-        translate: translatePropsNew,
-        selected: selectedPropsNew
-      });
+      if (translatePropsDiff) newState.translate = translatePropsNew;
+      if (selectedPropsDiff) newState.selected = selectedPropsNew;
+      this.setState(newState);
     }
 
     return (
@@ -305,11 +310,11 @@ export class ScrollMenu extends React.Component {
   };
 
   onItemClick = id => {
+    // debugger;
     const { clickWhenDrag, onSelect } = this.props;
+    const {  xDraggedDistance } = this.state;
 
-    const { startDragTranslate, stopDragTranslate, xPoint } = this.state;
-    const diff = Math.abs(stopDragTranslate - startDragTranslate);
-    const afterScroll = xPoint && diff > 5;
+    const afterScroll = xDraggedDistance > 5;
 
     if (afterScroll && !clickWhenDrag) return false;
 
@@ -526,7 +531,7 @@ export class ScrollMenu extends React.Component {
         translate: transl,
         xPoint: defaultSetting.xPoint,
         startDragTranslate: null,
-        stopDragTranslate: null
+        xDraggedDistance: null
       },
       () => {
         if (translate !== transl) {
@@ -561,12 +566,12 @@ export class ScrollMenu extends React.Component {
     const { dragging: draggingEnable } = this.props;
     if (!draggingEnable) return false;
     const { translate: startDragTranslate } = this.state;
-    this.setState({ dragging: true, xPoint: 0, startDragTranslate });
+    this.setState({ dragging: true, xPoint: 0, startDragTranslate, xDraggedDistance: 0 });
   }
 
   handleDrag = e => {
     const { dragging: draggingEnable } = this.props;
-    const { dragging, xPoint, translate } = this.state;
+    const { dragging, xPoint, translate, xDraggedDistance } = this.state;
     if (!draggingEnable || !dragging) return false;
 
     const point = this.getPoint(e);
@@ -585,7 +590,7 @@ export class ScrollMenu extends React.Component {
       {
         xPoint: point,
         translate: result || defaultSetting.translate,
-        stopDragTranslate: result || defaultSetting.translate
+        xDraggedDistance: xDraggedDistance + Math.abs(diff) 
       }
     );
   };
