@@ -6,7 +6,7 @@
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-horizontal-scrolling-menu": "^0.2.8",
+    "react-horizontal-scrolling-menu": "^0.2.9",
     "react-scripts": "1.1.4"
   },
   "scripts": {
