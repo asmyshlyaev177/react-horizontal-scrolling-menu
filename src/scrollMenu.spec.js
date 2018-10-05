@@ -218,13 +218,16 @@ describe('test menu', () => {
     const updateWidth = jest.fn()
       .mockReturnValue({ wWidth: 500, menuPos: 30 });
     const setMounted = jest.fn();
+    const getAlignItemsOffset = jest.fn();
     wrapper.instance().getMenuItems = getMenuItems;
     wrapper.instance().updateWidth = updateWidth;
     wrapper.instance().setMounted = setMounted;
+    wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
     wrapper.instance().setInitial();
-    expect(wrapper.instance().getMenuItems.mock.calls.length).toEqual(1);
-    expect(wrapper.instance().updateWidth.mock.calls.length).toEqual(1);
-    const { wWidth, menuPos, menuItems } = wrapper.state();
+    expect(getMenuItems.mock.calls.length).toEqual(1);
+    expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
+    expect(updateWidth.mock.calls.length).toEqual(1);
+    const { wWidth, menuPos, menuItems } = wrapper.instance();
     expect(wWidth).toEqual(500);
     expect(menuPos).toEqual(30);
     expect(menuItems).toEqual([1, 2, 3]);
@@ -232,7 +235,7 @@ describe('test menu', () => {
     const { key, ...newData } = menu[0];
     wrapper.setProps({ data: [newData] });
     wrapper.instance().setInitial();
-    expect(wrapper.state().selected).toEqual(0);
+    expect(wrapper.instance().selected).toEqual(0);
   });
 });
 
@@ -240,13 +243,13 @@ describe('functions', () => {
 
   describe('visibility functions', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
+    wrapper.instance().wWidth = 500;
+    wrapper.instance().menuPos = 50;
+    wrapper.instance().menuWidth = 350;
+    wrapper.instance().menuItems = items;
+    wrapper.instance().firstPageOffset = 10;
     wrapper.setState({
-      wWidth: 500,
-      menuPos: 50,
-      menuWidth: 350,
-      translate: 0,
-      menuItems: items,
-      firstPageOffset: 10
+      translate: 0
     });
     it('elemVisible - check visibility of element', () => {
       expect(wrapper.instance().elemVisible({ x: -50, elWidth: 50 })).toBe(false);
@@ -270,16 +273,16 @@ describe('functions', () => {
     });
 
     it('getVisibleItems', () => {
-      wrapper.setState({ menuPos: 0 });
+      wrapper.instance().menuPos = 0;
       expect(wrapper.instance().getVisibleItems({})).toEqual(items);
 
-      wrapper.setState({ menuPos: 10 });
+      wrapper.instance().menuPos = 10;
       expect(wrapper.instance().getVisibleItems({})).toEqual(items.slice(1, 10));
 
-      wrapper.setState({ menuWidth: 50 });
+      wrapper.instance().menuWidth = 50;
       expect(wrapper.instance().getVisibleItems({})).toEqual(items.slice(1, 3));
 
-      wrapper.setState({ menuWidth: 350 });
+      wrapper.instance().menuWidth = 350;
       expect(wrapper.instance().getVisibleItems({ offset: 50 })).toEqual(items.slice(0, 10));
       expect(wrapper.instance().getVisibleItems({ offset: -10 })).toEqual(items.slice(2, 10));
       expect(wrapper.instance().getVisibleItems({ offset: -20 })).toEqual(items.slice(2, 10));
@@ -289,7 +292,7 @@ describe('functions', () => {
 
     it('itBeforeStart', () => {
       wrapper.setProps({ alignCenter: false });
-      wrapper.setState({ firstPageOffset: 20 });
+      wrapper.instance().firstPageOffset = 20;
       expect(wrapper.instance().itBeforeStart(0)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(-10)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(50)).toEqual(true);
@@ -306,7 +309,9 @@ describe('functions', () => {
 
     it('itAfterEnd', () => {
       wrapper.setProps({ alignCenter: false });
-      wrapper.setState({ menuWidth: 30, allItemsWidth: 150, lastPageOffset: 20 });
+      wrapper.instance().menuWidth = 30;
+      wrapper.instance().allItemsWidth = 150;
+      wrapper.instance().lastPageOffset = 20;
 
       expect(wrapper.instance().itAfterEnd(0)).toEqual(false);
       expect(wrapper.instance().itAfterEnd(50)).toEqual(false);
@@ -339,7 +344,7 @@ describe('functions', () => {
     const getWidthResult = { wWidth: 1024, menuPos: 10, menuWidth: 20, allItemsWidth: 260};
 
     it('getItemsWidth', () => {
-      wrapper.setState({ menuItems: items });
+      wrapper.instance().menuItems = items;
       const width = wrapper.instance().getItemsWidth({});
       expect(width).toEqual(260);
     });
@@ -350,12 +355,16 @@ describe('functions', () => {
     });
 
     it('updateWidth, no alignCenter no offsets', () => {
-      wrapper.setState({ menuItems: items });
+      wrapper.instance().menuItems = items;
       wrapper.instance().updateWidth({});
       expect(getPagesOffsets.mock.calls.length).toEqual(1);
       const result = getPagesOffsets.mock.calls[0];
-      const expected = { items, ...getWidthResult };
-      expect(result).toEqual([expected]);
+      const expected = getWidthResult;
+
+      for (const val in expected) {
+        expect(result[0][val]).toEqual(expected[val]);
+      }
+
       wrapper.setProps({ alignCenter: false });
       wrapper.instance().updateWidth({});
       expect(getPagesOffsets.mock.calls.length).toEqual(1);
@@ -364,7 +373,7 @@ describe('functions', () => {
 
   describe('get index functions', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
-    wrapper.setState({ menuItems: items });
+    wrapper.instance().menuItems = items;
 
     it('getItemInd get item index fn', () => {
       expect(wrapper.instance().getItemInd(null, ['item2'])).toEqual(0);
@@ -405,13 +414,14 @@ describe('functions', () => {
 
   describe('offsets', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
-    wrapper.setState({ menuItems: items, translate: 0 });
+    wrapper.setState({ translate: 0 });
+    wrapper.instance().menuItems = items;
 
     it('getOfsetToItem', () => {
-      wrapper.setState({ menuItems: [] });
+      wrapper.instance().menuItems = [];
       expect(wrapper.instance().getOffsetToItem({ itemId: 9 })).toEqual(0);
 
-      wrapper.setState({ menuItems: items });
+      wrapper.instance().menuItems = items;
       expect(wrapper.instance().getOffsetToItem({ itemId: 0 })).toEqual(0);
       expect(wrapper.instance().getOffsetToItem({ itemId: 1 })).toEqual(10);
       expect(wrapper.instance().getOffsetToItem({ itemId: 2 })).toEqual(30);
@@ -450,13 +460,14 @@ describe('functions', () => {
     });
 
     it('getCenterOffset fn', () => {
-      const prop = { firstPageOffset: 10, lastPageOffset: 20, menuWidth: 350 };
-      wrapper.setState(prop);
+      wrapper.instance().firstPageOffset = 10;
+      wrapper.instance().lastPageOffset = 20;
+      wrapper.instance().menuWidth = 350;
 
       const itemsWidth = wrapper.instance().getItemsWidth({ items });
       expect(wrapper.instance().getCenterOffset({ items }))
         .toEqual(
-          (prop.menuWidth - itemsWidth) / 2
+          (350 - itemsWidth) / 2
         );
 
     });
@@ -464,19 +475,19 @@ describe('functions', () => {
     describe('getScrollRightOffset fn', () => {
       const prop = {
         items,
-        wWidth: 500,
-        menuWidth: 100,
-        menuItems: items,
-        firstPageOffset: 10,
-        lastPageOffset: 20,
-        menuPos: 0,
         translate: 0
       };
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setState(prop);
+      wrapper.instance().wWidth = 500;
+      wrapper.instance().menuWidth = 100;
+      wrapper.instance().menuItems = items;
+      wrapper.instance().firstPageOffset = 10;
+      wrapper.instance().lastPageOffset = 20;
+      wrapper.instance().menuPos = 0;
 
       const checkScroll = (alignCenter = false, menuPos = 0, empty = false) => {
-        wrapper.setState({ menuPos });
+        wrapper.instance().menuPos = menuPos;
         wrapper.setProps({ alignCenter });
         const visibleItems = wrapper.instance().getVisibleItems({});
         const offset = wrapper.instance().getScrollRightOffset(empty ? [] : visibleItems, items);
@@ -517,19 +528,20 @@ describe('functions', () => {
       ];
       const prop = {
         items: items1,
-        wWidth: 500,
-        menuWidth: 110,
-        menuItems: items,
-        firstPageOffset: 10,
-        lastPageOffset: 20,
-        menuPos: 0,
         translate: 0
       };
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setState(prop);
+      wrapper.instance().wWidth = 500;
+      wrapper.instance().menuWidth = 110;
+      wrapper.instance().menuItems = items;
+      wrapper.instance().firstPageOffset = 10;
+      wrapper.instance().lastPageOffset = 20;
+      wrapper.instance().menuPos = 0;
 
       const checkScroll = (alignCenter = false, menuPos = 0, items = items1) => {
-        wrapper.setState({ menuPos, items: items });
+        wrapper.setState({ items: items });
+        wrapper.instance().menuPos = menuPos;
         wrapper.setProps({ alignCenter });
         const visibleItems = wrapper.instance().getVisibleItems({ items: items });
         const offset = wrapper.instance().getScrollLeftOffset(visibleItems, items);
@@ -562,8 +574,9 @@ describe('functions', () => {
     });
 
     it('getPagesOffsets', () => {
-      expect(wrapper.instance().getPagesOffsets({}))
-        .toEqual({ firstPageOffset: 45, lastPageOffset: 45 }); 
+      const { firstPageOffset, lastPageOffset } = wrapper.instance().getPagesOffsets({});
+      expect(firstPageOffset).toEqual(45);
+      expect(lastPageOffset).toEqual(45);
     });
 
     describe('handleWheel', () => {
@@ -604,7 +617,10 @@ describe('functions', () => {
     describe('handleArrowClick', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ alignCenter: false });
-      wrapper.setState({ allItemsWidth: 200, menuWidth: 50, firstPageOffset: 5, lastPageOffset: 6 });
+      wrapper.instance().allItemsWidth = 200;
+      wrapper.instance().menuWidth = 50;
+      wrapper.instance().firstPageOffset = 5;
+      wrapper.instance().lastPageOffset = 6;
       const onUpdate = jest.fn();
       wrapper.instance().onUpdate = onUpdate;
 
@@ -662,7 +678,9 @@ describe('functions', () => {
         const getOffset = jest.fn().mockReturnValue(120);
         wrapper.instance().getOffset = getOffset;
 
-        wrapper.setState({ translate: 0, allItemsWidth: 300, menuWidth: 200 });
+        wrapper.setState({ translate: 0 });
+        wrapper.instance().allItemsWidth = 300;
+        wrapper.instance().menuWidth = 200;
         const click = wrapper.instance().handleArrowClick(false);
         expect(wrapper.instance().state.translate).toEqual(-100);
 
@@ -679,7 +697,9 @@ describe('functions', () => {
         const getOffset = jest.fn().mockReturnValue(-0);
         wrapper.instance().getOffset = getOffset;
 
-        wrapper.setState({ translate: 0, allItemsWidth: 300, menuWidth: 200 });
+        wrapper.setState({ translate: 0 });
+        wrapper.instance().allItemsWidth = 300;
+        wrapper.instance().menuWidth = 200;
         const click = wrapper.instance().handleArrowClick(false);
         expect(wrapper.instance().state.translate).toEqual(0);
 
@@ -695,13 +715,88 @@ describe('functions', () => {
         const onUpdate = jest.fn();
         wrapper.instance().onUpdate = onUpdate;
 
-        wrapper.setState({ translate: 0, allItemsWidth: 100, menuWidth: 200 });
+        wrapper.setState({ translate: 0 });
+        wrapper.instance().allItemsWidth = 100;
+        wrapper.instance().menuWidth = 200;
         expect(wrapper.instance().state.translate).toEqual(0);
         const click = wrapper.instance().handleArrowClick(false);
         expect(click).toEqual(false);
         expect(wrapper.instance().state.translate).toEqual(0);
 
         expect(onUpdate.mock.calls.length).toEqual(0);
+      });
+    });
+
+    describe('getAlignItemsOffset', () => {
+      it('allItemsWidth less tham menuWidth', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        const handleArrowClick = jest.fn();
+        wrapper.instance().handleArrowClick = handleArrowClick;
+        wrapper.instance().allItemsWidth = 10;
+        wrapper.instance().menuWidth = 100;
+        const { translate } = wrapper.state();
+
+        wrapper.instance().getAlignItemsOffset();
+        expect(handleArrowClick.mock.calls.length).toEqual(1);
+        expect(handleArrowClick.mock.calls[0][0]).toEqual(false);
+        expect(wrapper.state().translate).toEqual(translate);
+      });
+      it('center is visible, more items on the left and right', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        const handleArrowClick = jest.fn();
+        const getVisibleItems = jest.fn().mockReturnValue([]);
+        wrapper.instance().handleArrowClick = handleArrowClick;
+        wrapper.instance().getVisibleItems = getVisibleItems;
+        wrapper.instance().allItemsWidth = 200;
+        wrapper.instance().menuWidth = 100;
+
+        wrapper.instance().getAlignItemsOffset();
+        expect(handleArrowClick.mock.calls.length).toEqual(0);
+        expect(getVisibleItems.mock.calls.length).toEqual(1);
+        expect(wrapper.state().translate).toEqual(-50);
+      });
+      it('left edge visible', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        const handleArrowClick = jest.fn();
+        const visibleItems = wrapper.instance().menuItems;
+        const getVisibleItems = jest.fn().mockReturnValue(visibleItems.slice(0, 1));
+        wrapper.instance().handleArrowClick = handleArrowClick;
+        wrapper.instance().getVisibleItems = getVisibleItems;
+        wrapper.instance().allItemsWidth = 200;
+        wrapper.instance().menuWidth = 100;
+        wrapper.instance().firstPageOffset = 55;
+
+        wrapper.instance().getAlignItemsOffset();
+        expect(handleArrowClick.mock.calls.length).toEqual(0);
+        expect(getVisibleItems.mock.calls.length).toEqual(1);
+
+        expect(wrapper.instance().getAlignItemsOffset()).toEqual(55);
+
+        wrapper.setProps({ alignCenter: false });
+        wrapper.instance().getAlignItemsOffset();
+        expect(wrapper.instance().getAlignItemsOffset()).toEqual(defaultSetting.translate);
+      });
+      it('right edge visible', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        const handleArrowClick = jest.fn();
+        const visibleItems = wrapper.instance().menuItems;
+        const getVisibleItems = jest.fn().mockReturnValue(visibleItems.slice(-1));
+        wrapper.instance().handleArrowClick = handleArrowClick;
+        wrapper.instance().getVisibleItems = getVisibleItems;
+        wrapper.instance().allItemsWidth = 200;
+        wrapper.instance().menuWidth = 100;
+        wrapper.instance().firstPageOffset = 55;
+        wrapper.instance().lastPageOffset = 65;
+
+        wrapper.instance().getAlignItemsOffset();
+        expect(handleArrowClick.mock.calls.length).toEqual(0);
+        expect(getVisibleItems.mock.calls.length).toEqual(1);
+
+        expect(wrapper.instance().getAlignItemsOffset()).toEqual(-165);
+
+        wrapper.setProps({ alignCenter: false });
+        wrapper.instance().getAlignItemsOffset();
+        expect(wrapper.instance().getAlignItemsOffset()).toEqual(-100);
       });
     });
 
@@ -730,17 +825,17 @@ describe('functions', () => {
     it('handleDrag', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
 
+      wrapper.instance().menuWidth = 100;
+      wrapper.instance().allItemsWidth = 200;
+      wrapper.instance().firstPageOffset = 10;
+      wrapper.instance().lastPageOffset = 15;
       wrapper.setState({
-        menuWidth: 100,
-        allItemsWidth: 200,
-        firstPageOffset: 10,
-        lastPageOffset: 15,
         dragging: false
       });
       expect(wrapper.instance().handleDrag()).toEqual(false);
 
       const checkDrag = (translate, xPoint, x) => {
-        wrapper.setState({ dragging: true, translate: translate, xPoint: xPoint });
+        wrapper.setState({ dragging: true, translate, xPoint });
         wrapper.instance().handleDrag(ev(x));
         const { translate: trans, xPoint: xP } = wrapper.state();
         return [trans, xP];
@@ -763,22 +858,21 @@ describe('functions', () => {
       wrapper.setState({ dragging: false });
       expect(wrapper.instance().handleDragStop(ev)).toEqual(false);
 
+      wrapper.instance().allItemsWidth = 250;
+      wrapper.instance().menuWidth = 100;
+      wrapper.instance().firstPageOffset = 10;
+      wrapper.instance().lastPageOffset = 15;
+      wrapper.instance().startDragTranslate = 0;
       wrapper.setState({
         dragging: true,
-        allItemsWidth: 250,
         translate: 0,
-        menuWidth: 100,
         xPoint: 0,
-        firstPageOffset: 10,
-        lastPageOffset: 15,
-        alignCenter: false,
-        startDragTranslate: 0,
-        stopDragTranslate: 0
+        alignCenter: false
       });
 
       const checkDrag = (translate, alignCenter, x, xPoint = 0) => {
-        wrapper.setState({ xPoint, translate: translate, dragging: true });
-        wrapper.setProps({ alignCenter: alignCenter });
+        wrapper.setState({ xPoint, translate, dragging: true });
+        wrapper.setProps({ alignCenter });
         wrapper.instance().handleDragStop(ev(x));
         const XPoint = wrapper.instance().getPoint(ev(x));
         const { translate: trans, dragging } = wrapper.state();
@@ -839,7 +933,9 @@ describe('functions', () => {
       const itBeforeStart = jest.fn().mockReturnValue(true);
       wrapper.instance().itBeforeStart = itBeforeStart;
 
-      wrapper.setState({ translate: 50, startDragTranslate: 50, firstPageOffset: 100 });
+      wrapper.setState({ translate: 50  });
+      wrapper.instance().startDragTranslate = 50;
+      wrapper.instance().firstPageOffset = 100;
 
       wrapper.instance().handleDragStart();
       wrapper.instance().handleDrag(ev(35));
@@ -853,7 +949,9 @@ describe('functions', () => {
       wrapper.instance().onUpdate = onUpdate;
       const itBeforeStart = jest.fn().mockReturnValue(true);
       wrapper.instance().itBeforeStart = itBeforeStart;
-      wrapper.setState({ translate: 50, startDragTranslate: 50, firstPageOffset: 50 });
+      wrapper.setState({ translate: 50 });
+      wrapper.instance().startDragTranslate = 50;
+      wrapper.instance().firstPageOffset = 50;
 
       wrapper.instance().handleDragStart();
       wrapper.instance().handleDrag(ev(50));
@@ -870,11 +968,11 @@ describe('functions', () => {
       wrapper.setState({
         xPoint: 111,
         translate: 50,
-        startDragTranslate: 55,
-        firstPageOffset: 30,
-        menuWidth: 200,
-        allItemsWidth: 190
       });
+      wrapper.instance().startDragTranslate = 55;
+      wrapper.instance().firstPageOffset = 30;
+      wrapper.instance().menuWidth = 200;
+      wrapper.instance().allItemsWidth = 190;
 
       wrapper.instance().handleDragStart();
       wrapper.instance().handleDrag(ev(50));
@@ -974,39 +1072,39 @@ describe('functions', () => {
     it('onItemClick', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.instance().onItemClick(items[3][0]);
-      expect(wrapper.state().selected).toEqual(items[3][0]);
+      expect(wrapper.instance().selected).toEqual(items[3][0]);
     });
 
     it('mouse up after drag is not a click', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ clickWhenDrag: false });
+      wrapper.instance().selected = 'item1';
       wrapper.setState({
-        selected: 'item1',
         dragging: false,
         xDraggedDistance: 30,
         xPoint: 0
       });
       wrapper.instance().onItemClick(items[2][0]);
-      expect(wrapper.state().selected).toEqual('item1');
+      expect(wrapper.instance().selected).toEqual('item1');
     });
     it('clickWhenDrug true select item under cursor after drag', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ clickWhenDrag: true });
+      wrapper.instance().selected = 'item1';
       wrapper.setState({
-        selected: 'item1',
         dragging: false,
         xDraggedDistance: 30,
         xPoint: 0
       });
       wrapper.instance().onItemClick(items[2][0]);
-      expect(wrapper.state().selected).toEqual('item3');
+      expect(wrapper.instance().selected).toEqual('item3');
     });
 
     it('trigger onSelect after click', () => {
       const onSelect = jest.fn();
       const wrapper = mount(<ScrollMenu {...props} onSelect={onSelect} />);
+      wrapper.instance().selected = 'item1';
       wrapper.setState({
-        selected: 'item1',
         dragging: false
       });
       wrapper.instance().onItemClick(items[2][0]);
@@ -1025,9 +1123,78 @@ describe('functions', () => {
     it('update selected', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ selected: 'item3' });
-      expect(wrapper.state().selected).toEqual('item3');
+      expect(wrapper.instance().selected).toEqual('item3');
     });
-  
+  });
+
+  describe('update menu items', () => {
+    const prop = {
+      ...props,
+      translate: 0,
+      alignCenter: true
+    };
+    const menuNew = Menu(items.slice(3, 10), '');
+    it('call setInitial', () => {
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      const setInitial = jest.fn();
+      wrapper.instance().setInitial = setInitial;
+      wrapper.setProps({ data: menuNew });
+      expect(wrapper.instance().needUpdate).toEqual(false);
+      expect(setInitial.mock.calls.length).toEqual(1);
+    });
+    it('do not call setInitial if data is same', () => {
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      const setInitial = jest.fn();
+      wrapper.instance().setInitial = setInitial;
+      wrapper.setProps({ data: menuNew });
+      expect(setInitial.mock.calls.length).toEqual(1);
+      wrapper.setProps({ data: menuNew });
+      expect(setInitial.mock.calls.length).toEqual(1);
+    });
+    it('update menu elements', () => {
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      wrapper.setProps({ data: menuNew });
+      expect(wrapper.instance().menuItems.length).toEqual(4);
+      expect(wrapper.state().translate).toEqual(0);
+    });
+    describe('update translate and offsets if items changed', () => {
+      const menuNew = Menu(items.slice(4, 6), '');
+      const getAlignItemsOffset = jest.fn().mockReturnValue(25);
+      const setInitial = jest.fn();
+      const updateWidth = jest.fn().mockReturnValue({
+        allItemsWidth: 100,
+        firstPageOffset: 25,
+        lastPageOffset: 30,
+        menuPos: 50,
+        menuWidth: 500,
+        translate: 20,
+        wWidth: 755
+      });
+      afterEach(() => {
+        getAlignItemsOffset.mockClear();
+        setInitial.mockClear();
+        updateWidth.mockClear();
+      });
+
+      it('call setInitial', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        wrapper.instance().setInitial = setInitial;
+        wrapper.setProps({ data: menuNew });
+        expect(setInitial.mock.calls.length).toEqual(1);
+      });
+      it('call getAlignItemsOffset', () => {
+        const onUpdate = jest.fn();
+        const prop = { ...props, onUpdate };
+        const wrapper = mount(<ScrollMenu {...prop} />);
+        wrapper.instance().updateWidth = updateWidth;
+        wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
+        wrapper.setProps({ data: menuNew });
+        expect(updateWidth.mock.calls.length).toEqual(1);
+        expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
+        expect(onUpdate.mock.calls.length).toEqual(1);
+        expect(wrapper.state().translate).toEqual(25);
+      });
+    });
   });
 
 });
