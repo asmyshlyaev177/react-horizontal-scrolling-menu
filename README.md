@@ -172,7 +172,7 @@ menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignIt
 wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
 
 ## Gotcha
-For now component will use for menu items props passed first time. Can not change count or properties of menu items.
+Menu items must have width, so if you use images as elements before image loaded it has width 0.
 
 ## About
 My first npm project. Sorry for my english.

@@ -67,6 +67,7 @@ class App extends Component {
 
   state = {
     selected: 'item1',
+    itemsCount: list.length,
     translate: 0,
     alignCenter: true,
     dragging: true,
@@ -78,6 +79,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.menu = null;
+    this.menuItems = Menu(list.slice(0, list.length), this.state.selected);
   }
 
   onUpdate = ({ translate }) => {
@@ -96,10 +98,28 @@ class App extends Component {
       alignCenter: alignCenterNew
     } = this.state;
     if (alignCenter !== alignCenterNew) {
-      this.menu.setState({ translate: 0, initialized: true, mounted: true, xPoint: 0});
       this.menu.setInitial();
-      this.menu.forceUpdate();
     }
+  }
+
+  setItemsCount = ev => {
+    const { itemsCount = list.length, selected } = this.state;
+    const val = +ev.target.value;
+    const itemsCountNew = !isNaN(val) && val <= list.length && val >= 0
+      ? +ev.target.value
+      : list.length;
+    const itemsCountChanged = itemsCount !== itemsCountNew;
+
+    if (itemsCountChanged) {
+      this.menuItems = Menu(list.slice(0, itemsCountNew), selected);
+      this.setState({
+        itemsCount: itemsCountNew});
+    }
+  }
+
+  setSelected = ev => {
+    const { value } = ev.target;
+    this.setState({ selected: String(value) });
   }
 
   render() {
@@ -110,9 +130,11 @@ class App extends Component {
       dragging,
       clickWhenDrag,
       transition,
-      wheel
+      wheel,
+      itemsCount
     } = this.state;
-    const menu = Menu(list, selected);
+
+    const menu = this.menuItems;
 
     const checkboxStyle = {
       margin: '5px 10px'
@@ -188,7 +210,16 @@ class App extends Component {
           </label>
           <br />
           <div style={ valueStyle }>Translate: {(translate).toFixed(2)}</div>
-          <div style={ valueStyle }>Selected: {selected}</div>
+          <label style={ valueStyle }>
+            Selected:
+            <input
+              style={{ margin: '0 5px' }}
+              name="selected"
+              type="text"
+              value={selected}
+              onChange={this.setSelected}
+            />
+          </label>
           <label style={ valueStyle }>
             Transition duration:
             <input
@@ -199,6 +230,18 @@ class App extends Component {
               min={0}
               max={10}
               onChange={ev => this.setState({ transition: !isNaN(ev.target.value) ? +ev.target.value : 0})} />
+          </label>
+          <label style={ valueStyle }>
+            Items count:
+            <input
+              style={{ margin: '0 5px' }}
+              name="itemsCount"
+              type="number"
+              value={itemsCount}
+              min={0}
+              max={list.length}
+              onChange={this.setItemsCount}
+            />
           </label>
         </form>
         <hr />
