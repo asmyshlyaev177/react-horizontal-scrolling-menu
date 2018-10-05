@@ -811,6 +811,13 @@ describe('functions', () => {
       expect(wrapper.instance().handleDrag()).toEqual(false);
       expect(wrapper.instance().handleDragStop()).toEqual(false);
     });
+    it('don not drag for right mouse button', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      const ev = { buttons: 2 };
+      wrapper.instance().handleDragStart(ev);
+      const { dragging, xPoint } = wrapper.state();
+      expect(dragging).toEqual(false);
+    });
 
     it('handleDragStart', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
