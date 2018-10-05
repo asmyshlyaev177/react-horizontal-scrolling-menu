@@ -221,12 +221,11 @@ export class ScrollMenu extends React.Component {
   }
 
   componentDidUpdate() {
-    this.setMounted();
     if (this.needUpdate) {
       this.needUpdate = false;
       this.setInitial();
-      // TODO
     }
+    this.setMounted();
   }
 
   componentWillUnmount() {
@@ -252,7 +251,6 @@ export class ScrollMenu extends React.Component {
     const selectedItem = data.find(el => el.key === selected);
 
     const values = {
-      initialized: true,
       menuItems,
       selected:  selectedItem && selectedItem !== -1
         ? selectedItem.key
@@ -338,7 +336,6 @@ export class ScrollMenu extends React.Component {
   };
 
   onItemClick = id => {
-    // debugger;
     const { clickWhenDrag, onSelect } = this.props;
     const {  xDraggedDistance } = this.state;
 
