@@ -338,6 +338,7 @@ export class ScrollMenu extends React.Component {
   };
 
   onItemClick = id => {
+    // debugger;
     const { clickWhenDrag, onSelect } = this.props;
     const {  xDraggedDistance } = this.state;
 

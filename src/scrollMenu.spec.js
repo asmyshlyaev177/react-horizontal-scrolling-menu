@@ -1011,7 +1011,7 @@ describe('functions', () => {
     });
   });
 
-  describe('add/remove eventListeners', () => {
+ describe('add/remove eventListeners', () => {
 
     it('add event listeners', () => {
       const map = {};
