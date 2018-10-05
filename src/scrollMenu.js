@@ -613,7 +613,9 @@ export class ScrollMenu extends React.Component {
       : e.clientX;
   };
 
-  handleDragStart = () => {
+  handleDragStart = ev => {
+    // 1 left button, 2 right button
+    if (ev && ev.buttons === 2) return false;
     const { dragging: draggingEnable } = this.props;
     if (!draggingEnable) return false;
     const { translate: startDragTranslate } = this.state;
