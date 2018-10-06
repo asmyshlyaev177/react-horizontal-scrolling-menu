@@ -10,6 +10,7 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=asmyshlyaev177%40gmail%2ecom&lc=US&item_name=asmyshlyaev177&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
+[on Codesandbox](https://codesandbox.io/s/lpjol1opmq)
 
 This is horizontal scrolling menu component for React.
 Menu component has adaptive width, just set width for parent container.
