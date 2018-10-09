@@ -146,7 +146,6 @@ export class ScrollMenu extends React.Component {
   constructor(props) {
     super(props);
     this.ref = {};
-    this.initialized = false;
     this.mounted = false;
     this.needUpdate = false;
     this.allItemsWidth = 0;
@@ -171,6 +170,8 @@ export class ScrollMenu extends React.Component {
     window.addEventListener('resize', this.setInitial);
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleDragStop);
+
+    setTimeout(() => this.mounted = true, 0);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -225,7 +226,6 @@ export class ScrollMenu extends React.Component {
       this.needUpdate = false;
       this.setInitial();
     }
-    this.setMounted();
   }
 
   componentWillUnmount() {
@@ -280,15 +280,6 @@ export class ScrollMenu extends React.Component {
       .slice(0, dataLength)
       .filter(Boolean);
   };
-
-  setMounted = () => {
-    const { initialized, mounted } = this;
-    if (!initialized) {
-      this.initialized = true;
-    } else if (!mounted) {
-      this.mounted = true;
-    }
-  }
 
   getItemsWidth = ({ items = this.menuItems}) => {
     const data = items && items.items || items;
