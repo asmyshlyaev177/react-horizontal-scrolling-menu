@@ -171,7 +171,14 @@ export class ScrollMenu extends React.Component {
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleDragStop);
 
-    setTimeout(() => this.mounted = true, 0);
+    // if styles loaded before js bundle need wait for it
+    window.addEventListener('load', this.onLoad);
+    setTimeout(() => this.onLoad, 0);
+  }
+
+  onLoad = () => {
+    this.mounted = true;
+    this.setInitial();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
