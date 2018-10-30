@@ -57,13 +57,13 @@ const ArrowLeft = Arrow({ text: '<' });
 const ArrowRight = Arrow({ text: '>' });
 
 const items = [
-  ['item1', { getBoundingClientRect: () => ({ x: 0, width: 10 }) }],
-  ['item2', { getBoundingClientRect: () => ({ x: 10, width: 20 }) }],
-  ['item3', { getBoundingClientRect: () => ({ x: 30, width: 30 }) }],
-  ['item4', { getBoundingClientRect: () => ({ x: 60, width: 50 }) }],
-  ['item5', { getBoundingClientRect: () => ({ x: 110, width: 50 }) }],
-  ['item6', { getBoundingClientRect: () => ({ x: 160, width: 50 }) }],
-  ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50 }) }]
+  ['item1', { getBoundingClientRect: () => ({ x: 0, width: 10, left: 0 }) }],
+  ['item2', { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) }],
+  ['item3', { getBoundingClientRect: () => ({ x: 30, width: 30, left: 30 }) }],
+  ['item4', { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }],
+  ['item5', { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }],
+  ['item6', { getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) }],
+  ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }]
 ];
   
 const MenuItem = ({ text, selected }) => {
@@ -335,7 +335,7 @@ describe('functions', () => {
 
   describe('width functions', () => {
     const prop = { ...props, alignCenter: true };
-    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20 }) };   
+    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) };   
     const getPagesOffsets = jest.fn();
     const wrapper = mount(<ScrollMenu {...prop} />);
     wrapper.instance().ref.menuWrapper = menuWrapper;
@@ -518,13 +518,13 @@ describe('functions', () => {
 
     describe('getScrollLeftOffset fn', () => {
       const items1 = [
-        ['item1', { getBoundingClientRect: () => ({ x: -90, width: 10 }) }],
-        ['item2', { getBoundingClientRect: () => ({ x: -80, width: 20 }) }],
-        ['item3', { getBoundingClientRect: () => ({ x: -60, width: 30 }) }],
-        ['item4', { getBoundingClientRect: () => ({ x: -30, width: 50 }) }],
-        ['item5', { getBoundingClientRect: () => ({ x: 20, width: 50 }) }],
-        ['item6', { getBoundingClientRect: () => ({ x: 60, width: 50 }) }],
-        ['item7', { getBoundingClientRect: () => ({ x: 110, width: 50 }) }]
+        ['item1', { getBoundingClientRect: () => ({ x: -90, width: 10, left: -90 }) }],
+        ['item2', { getBoundingClientRect: () => ({ x: -80, width: 20, left: -80 }) }],
+        ['item3', { getBoundingClientRect: () => ({ x: -60, width: 30, left: -60 }) }],
+        ['item4', { getBoundingClientRect: () => ({ x: -30, width: 50, left: -30 }) }],
+        ['item5', { getBoundingClientRect: () => ({ x: 20, width: 50, left: 20 }) }],
+        ['item6', { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }],
+        ['item7', { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }]
       ];
       const prop = {
         items: items1,
@@ -753,7 +753,7 @@ describe('functions', () => {
         wrapper.instance().getAlignItemsOffset();
         expect(handleArrowClick.mock.calls.length).toEqual(0);
         expect(getVisibleItems.mock.calls.length).toEqual(1);
-        expect(wrapper.state().translate).toEqual(-50);
+        expect(wrapper.state().translate).toEqual(0);
       });
       it('left edge visible', () => {
         const wrapper = mount(<ScrollMenu {...props} />);
@@ -1014,11 +1014,11 @@ describe('functions', () => {
         />);
       wrapper.setState({ dragging: true });
       wrapper.instance().handleDragStop();
-      expect(onUpdate.mock.calls.length).toEqual(1);
+      expect(onUpdate).toHaveBeenCalled();
     });
   });
 
- describe('add/remove eventListeners', () => {
+  describe('add/remove eventListeners', () => {
 
     it('add event listeners', () => {
       const map = {};
@@ -1198,7 +1198,7 @@ describe('functions', () => {
         wrapper.setProps({ data: menuNew });
         expect(updateWidth.mock.calls.length).toEqual(1);
         expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
-        expect(onUpdate.mock.calls.length).toEqual(1);
+        expect(onUpdate).toHaveBeenCalled();
         expect(wrapper.state().translate).toEqual(25);
       });
     });

@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const notUndefOrNull = val => val !== undefined && val !== null;
+const getClientRect = elem => {
+  const { x, left, width } = elem.getBoundingClientRect();
+  return { width, x: !isNaN(x) ? +x : +left };
+};
 
 export const defaultSetting = {
   alignCenter: true,
@@ -167,13 +171,13 @@ export class ScrollMenu extends React.Component {
   componentDidMount() {
     this.setInitial();
 
+    // if styles loaded before js bundle need wait for it
+    window.addEventListener('load', this.onLoad);
     window.addEventListener('resize', this.setInitial);
     document.addEventListener('mousemove', this.handleDrag);
     document.addEventListener('mouseup', this.handleDragStop);
 
-    // if styles loaded before js bundle need wait for it
-    window.addEventListener('load', this.onLoad);
-    setTimeout(() => this.onLoad, 0);
+    setTimeout(() => this.onLoad(), 0);
   }
 
   onLoad = () => {
@@ -215,7 +219,7 @@ export class ScrollMenu extends React.Component {
         this.selected = selectedPropsNew;
       }
       
-      if (translatePropsDiff && !newMenuItems) {
+      if (!isNaN(translatePropsNew) && translatePropsDiff && !newMenuItems) {
         this.setState({ translate: translatePropsNew });
       }
     }
@@ -292,12 +296,12 @@ export class ScrollMenu extends React.Component {
     const data = items && items.items || items;
     return data.map(el => el[1])
       .filter(Boolean)
-      .reduce((acc, el) => acc += el.getBoundingClientRect().width, 0);
+      .reduce((acc, el) => acc += getClientRect(el).width, 0);
   };
 
   getWidth = ({ items }) => {
     const wWidth = window && window.innerWidth;
-    const { x: menuPos, width: menuWidth } = this.ref.menuWrapper.getBoundingClientRect();
+    const { x: menuPos, width: menuWidth} = getClientRect(this.ref.menuWrapper);
     const allItemsWidth = this.getItemsWidth({ items });
     return { wWidth, menuPos, menuWidth, allItemsWidth };
   }
@@ -355,10 +359,12 @@ export class ScrollMenu extends React.Component {
     translate = this.state.translate
   }) => {
     const data = items.items || items;
+
     return data.filter(el => {
-      const { width: elWidth } = el[1].getBoundingClientRect();
+      const { width: elWidth } = getClientRect(el[1]);
       const id = this.getItemInd(items, el);
       const x = this.getOffsetToItem({ itemId: id, menuItems: items, translate, firstPageOffset });
+
       return this.elemVisible({ x, elWidth, wWidth, menuPos, menuWidth, offset });
     });
   };
@@ -403,8 +409,8 @@ export class ScrollMenu extends React.Component {
   }) => {
     if (!menuItems.length) return 0;
     const id = itemId >= menuItems.length ? menuItems.length - 1 : itemId;
-    const { x } = menuItems[id][1].getBoundingClientRect();
-    const position = x - translate;
+    const { x } = getClientRect(menuItems[id][1]);
+    const position = +x - translate;
     return position;
   };
 
@@ -483,16 +489,16 @@ export class ScrollMenu extends React.Component {
     const right = visibleItems.includes(menuItems.slice(-1)[0]);
 
     // center is visible, do nothing
-    if (!left && !right) return translate;
+    if (!left && !right) return +translate;
 
     // left edge visible
     if (left) {
       const transl = alignCenter ? firstPageOffset : defaultSetting.translate;
-      return transl;
+      return +transl;
     } else {
       const offset = allItemsWidth - menuWidth;
       const transl = alignCenter ? -offset - lastPageOffset : -offset;
-      return transl;
+      return +transl;
     }
   }
 
@@ -518,7 +524,6 @@ export class ScrollMenu extends React.Component {
     const newOffset = left
       ? this.getScrollLeftOffset(visibleItems, items)
       : this.getScrollRightOffset(visibleItems, items);
-
     return newOffset;
   }
 
