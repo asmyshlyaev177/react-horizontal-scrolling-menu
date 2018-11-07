@@ -156,14 +156,13 @@ data | Array of react components| Menu items, if empy render null (note, **compo
 wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
 arrowRight | React component | React component for right arrow, don't pass it for disable arrow | false | null
+hideArrows | Boolean | hide arrows if items fit to one screen, (add class scroll-menu-arrow--disabled to arrows) | false | false
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 alignCenter | Boolean | Try to align items by center | false | true
 selected | String or Number | Initial selected item | false | 0
 translate | Number | Initial offset | false | 0
 dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
-onSelect | Function | Callback when item selected, return item key | false | null
-onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
@@ -172,6 +171,8 @@ itemClass | String | Class for item wrapper | false | 'menu-item-wrapper'
 itemClassActive | String | Class for active item wrapper| false | 'active'
 menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
 wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
+onSelect | Function | Callback when item selected, return item key | false | null
+onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 
 ## Gotcha
 Menu items must have width, so if you use images as elements before image loaded it has width 0.

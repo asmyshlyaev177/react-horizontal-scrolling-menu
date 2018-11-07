@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import './App.css';
@@ -59,6 +60,10 @@ const Arrow = ({ text, className }) => {
     >{text}</div>
   );
 };
+Arrow.propTypes = {
+  text: PropTypes.string,
+  className: PropTypes.string
+};
 
 export const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
 export const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
@@ -68,6 +73,7 @@ class App extends Component {
   state = {
     selected: 'item1',
     itemsCount: list.length,
+    hideArrows: true,
     translate: 0,
     alignCenter: true,
     dragging: true,
@@ -129,6 +135,7 @@ class App extends Component {
       alignCenter,
       dragging,
       clickWhenDrag,
+      hideArrows,
       transition,
       wheel,
       itemsCount
@@ -160,6 +167,7 @@ class App extends Component {
           data={menu}
           arrowLeft={ArrowLeft}
           arrowRight={ArrowRight}
+          hideArrows={hideArrows}
           transition={+transition}
           onUpdate={this.onUpdate}
           onSelect={this.onSelect}
@@ -208,6 +216,15 @@ class App extends Component {
               onChange={() => this.setState({ wheel: !wheel })}
             /> 
           </label>
+          <label style={ checkboxStyle }>
+            Hide arrows if items width less than menu width
+            <input
+              name="hideArrows"
+              type="checkbox"
+              checked={hideArrows}
+              onChange={() => this.setState({ hideArrows: !hideArrows })}
+            /> 
+          </label>
           <br />
           <div style={ valueStyle }>Translate: {(translate).toFixed(2)}</div>
           <label style={ valueStyle }>
@@ -247,6 +264,7 @@ class App extends Component {
         <hr />
         <div>
           <a
+            /* eslint-disable react/jsx-no-target-blank */
             target="_blank"
             rel="noopener"
             href="https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu">
