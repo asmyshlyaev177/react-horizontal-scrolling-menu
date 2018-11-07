@@ -45,3 +45,7 @@
   padding: 20px;
   cursor: pointer;
 }
+
+.scroll-menu-arrow--disabled {
+  visibility: hidden;
+}

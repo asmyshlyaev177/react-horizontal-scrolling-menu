@@ -7,6 +7,26 @@ const getClientRect = elem => {
   return { width, x: !isNaN(x) ? +x : +left };
 };
 
+const testPassiveEventSupport = () => {
+  let passiveSupported = false;
+
+  try {
+    let options = {
+      get passive() { // This function will be called when the browser
+        // attempts to access the passive property.
+        passiveSupported = true;
+        return false;
+      }
+    };
+
+    window.addEventListener('testPassiveEventSupport', options, options);
+    window.removeEventListener('testPassiveEventSupport', options, options);
+  } catch(err) {
+    passiveSupported = false;
+  }
+  return passiveSupported;
+};
+
 export const defaultSetting = {
   alignCenter: true,
   arrowClass: 'scroll-menu-arrow',
@@ -17,6 +37,7 @@ export const defaultSetting = {
   innerWrapperClass: 'menu-wrapper--inner',
   itemClass: 'menu-item-wrapper',
   itemClassActive: 'active',
+  hideArrows: false,
   lastPageOffset: 0,
   menuItems: [],
   menuPos: 0,
@@ -30,7 +51,10 @@ export const defaultSetting = {
   xPoint: 0
 };
 
-export const Arrow = ({ className, onClick, children }) => {
+export const ArrowWrapper = ({ className: clsName, onClick, children, isDisabled, hideArrows }) => {
+  const disabledClassName = isDisabled ? `${clsName}--disabled` : '';
+  const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
+
   return (
     <div
       className={className}
@@ -40,10 +64,12 @@ export const Arrow = ({ className, onClick, children }) => {
     </div>
   );
 };
-Arrow.propTypes = {
+ArrowWrapper.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool,
+  hideArrows: PropTypes.bool
 };
 
 const defaultMenuStyle = {
@@ -171,11 +197,15 @@ export class ScrollMenu extends React.Component {
   componentDidMount() {
     this.setInitial();
 
+    const passiveEvents = testPassiveEventSupport();
+    const optionsCapture = passiveEvents ? { passive: true, capture: true } : true;
+    const optionsNoCapture = passiveEvents ? { passive: true, capture: false } : false;
+
     // if styles loaded before js bundle need wait for it
-    window.addEventListener('load', this.onLoad);
-    window.addEventListener('resize', this.setInitial);
-    document.addEventListener('mousemove', this.handleDrag);
-    document.addEventListener('mouseup', this.handleDragStop);
+    window.addEventListener('load', this.onLoad, optionsNoCapture);
+    window.addEventListener('resize', this.setInitial, optionsNoCapture);
+    document.addEventListener('mousemove', this.handleDrag, optionsCapture);
+    document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
 
     setTimeout(() => this.onLoad(), 0);
   }
@@ -294,6 +324,7 @@ export class ScrollMenu extends React.Component {
 
   getItemsWidth = ({ items = this.menuItems}) => {
     const data = items && items.items || items;
+    // TODO maybe while cycle faster, need test
     return data.map(el => el[1])
       .filter(Boolean)
       .reduce((acc, el) => acc += getClientRect(el).width, 0);
@@ -542,8 +573,6 @@ export class ScrollMenu extends React.Component {
   handleWheel = e => {
     const { wheel } = this.props;
     if (!wheel) return false;
-    e.stopPropagation();
-    e.preventDefault();
     if (e.deltaY < 0) {
       this.handleArrowClick();
     } else {
@@ -698,6 +727,12 @@ export class ScrollMenu extends React.Component {
     );
   }
 
+  isArrowsVisible = () => {
+    const { allItemsWidth, menuWidth, props: {hideArrows} } = this;
+    const hide = Boolean(hideArrows && allItemsWidth <= menuWidth);
+    return !hide;
+  };
+
   onUpdate = ({ translate = this.state.translate }) => {
     const { onUpdate } = this.props;
     if (onUpdate) {
@@ -707,23 +742,26 @@ export class ScrollMenu extends React.Component {
 
   render() {
     const {
-      data,
+      arrowClass,
       arrowLeft,
       arrowRight,
-      transition,
-      arrowClass,
-      menuClass,
-      wrapperClass,
+      data,
       innerWrapperClass,
       itemClass,
       itemClassActive,
+      hideArrows,
       menuStyle,
+      menuClass,
+      transition,
+      wrapperClass,
       wrapperStyle
     } = this.props;
     const { translate, dragging } = this.state;
     const { selected, mounted } = this;
 
     if (!data || !data.length) return null;
+
+    const arrowsVisible = this.isArrowsVisible();
 
     const menuStyles = { ...defaultMenuStyle, ...menuStyle };
     const wrapperStyles = { ...defaultWrapperStyle, ...wrapperStyle };
@@ -736,12 +774,14 @@ export class ScrollMenu extends React.Component {
       >
 
         {arrowLeft && 
-          <Arrow
+          <ArrowWrapper
             className={arrowClass}
+            isDisabled={!arrowsVisible}
+            hideArrows={hideArrows}
             onClick={this.handleArrowClick}
           >
             {arrowLeft}
-          </Arrow>
+          </ArrowWrapper>
         }
 
         <div
@@ -771,12 +811,14 @@ export class ScrollMenu extends React.Component {
         </div>
 
         {arrowRight &&
-          <Arrow
+          <ArrowWrapper
             className={arrowClass}
+            isDisabled={!arrowsVisible}
+            hideArrows={hideArrows}
             onClick={this.handleArrowClickRight}
           >
             {arrowRight}
-          </Arrow>
+          </ArrowWrapper>
         }
 
       </div>
@@ -784,44 +826,46 @@ export class ScrollMenu extends React.Component {
   }}
 
 export const defaultProps = {
-  data: defaultSetting.data,
-  translate: defaultSetting.translate,
-  selected: defaultSetting.selected,
-  transition: defaultSetting.transition,
-  dragging: defaultSetting.dragging,
-  clickWhenDrag: defaultSetting.clickWhenDrag,
   alignCenter: defaultSetting.alignCenter,
-  wrapperClass: defaultSetting.wrapperClass,
+  arrowClass: defaultSetting.arrowClass,
   innerWrapperClass: defaultSetting.innerWrapperClass,
   itemClass: defaultSetting.itemClass,
   itemClassActive: defaultSetting.itemClassActive,
-  arrowClass: defaultSetting.arrowClass,
+  hideArrows: defaultSetting.hideArrows,
+  clickWhenDrag: defaultSetting.clickWhenDrag,
+  data: defaultSetting.data,
+  dragging: defaultSetting.dragging,
+  selected: defaultSetting.selected,
+  transition: defaultSetting.transition,
+  translate: defaultSetting.translate,
   menuClass: defaultSetting.menuClass,
-  wheel: defaultSetting.wheel
+  wheel: defaultSetting.wheel,
+  wrapperClass: defaultSetting.wrapperClass
 };
 
 export const propTypes = {
-  data: PropTypes.array.isRequired,
-  selected: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  translate: PropTypes.number,
-  transition: PropTypes.number,
+  alignCenter: PropTypes.bool,
+  arrowClass: PropTypes.string,
   arrowLeft: PropTypes.object,
   arrowRight: PropTypes.object,
-  alignCenter: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  onUpdate: PropTypes.func,
-  dragging: PropTypes.bool,
   clickWhenDrag: PropTypes.bool,
-  wheel: PropTypes.bool,
-  wrapperClass: PropTypes.string,
+  data: PropTypes.array.isRequired,
+  dragging: PropTypes.bool,
   innerWrapperClass: PropTypes.string,
   itemClass: PropTypes.string,
   itemClassActive: PropTypes.string,
-  arrowClass: PropTypes.string,
+  hideArrows: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onClick: PropTypes.func,
+  selected: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  translate: PropTypes.number,
+  transition: PropTypes.number,
+  onUpdate: PropTypes.func,
   menuClass: PropTypes.string,
   menuStyle: PropTypes.object,
-  wrapperStyle: PropTypes.object
+  wrapperStyle: PropTypes.object,
+  wheel: PropTypes.bool,
+  wrapperClass: PropTypes.string,
 };
 ScrollMenu.defaultProps = defaultProps;
 ScrollMenu.propTypes = propTypes;
