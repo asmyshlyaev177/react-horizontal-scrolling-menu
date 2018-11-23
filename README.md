@@ -152,17 +152,18 @@ npm run start
 
 Props | Type | Description | Required | Default Value
 ------------ | ------------- | ------------- | ------------- | -------------
-data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
+alignCenter | Boolean | Try to align items by center | false | true
+clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
+dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
 arrowRight | React component | React component for right arrow, don't pass it for disable arrow | false | null
+data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
 hideArrows | Boolean | hide arrows if items fit to one screen, (add class scroll-menu-arrow--disabled to arrows) | false | false
+hideSingleArrow | Boolean | hide left/right arrows on first/last pages | false | false
 transition | Float number | How long animation last, 0 for disable | false | 0.4
-alignCenter | Boolean | Try to align items by center | false | true
 selected | String or Number | Initial selected item | false | 0
 translate | Number | Initial offset | false | 0
-dragging | Boolean | Allow drag items by mouse(and touch) | false | true
-clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
 menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
