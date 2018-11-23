@@ -1220,6 +1220,114 @@ describe('functions', () => {
         expect(wrapper.instance().isArrowsVisible()).toEqual(false);
       });
     });
+
+    describe('hide single arrow if at first/last element, hideSingleArrow flag', () => {
+      const prop = { ...props, hideSingleArrow: true };
+
+      describe('checkSingleArrowVisibility', () => {
+        it('', () => {
+        });
+      });
+
+      describe('check arrow visibility on mount', () => {
+        it('checkSingleArrowVisibility have been called', () => {
+          const checkSingleArrowVisibility = jest.fn().mockReturnValue({ leftArrowVisible: true, rightArrowVisible: true });
+          const getVisibleItems = jest.fn();
+          const wrapper = mount(<ScrollMenu {...prop} />);
+
+          wrapper.instance().getVisibleItems = getVisibleItems;
+          wrapper.instance().checkSingleArrowVisibility = checkSingleArrowVisibility;
+          wrapper.instance().setInitial();
+          expect(checkSingleArrowVisibility).toHaveBeenCalled();
+          expect(getVisibleItems).toHaveBeenCalled();
+        });
+
+        it('first item visible thus left arrow hidden', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 0;
+
+          const { leftArrowVisible } = wrapper.instance().checkSingleArrowVisibility({});
+          expect(leftArrowVisible).toEqual(false);
+        });
+
+        it('first item not visible thus left arrow visible', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 0;
+
+          const { leftArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
+          expect(leftArrowVisible).toEqual(true);
+        });
+
+        it('last item visible thus right arrow hidden', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 0;
+
+          const { rightArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -200 });
+          expect(rightArrowVisible).toEqual(false);
+        });
+
+        it('last item not visible thus right arrow visible', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 0;
+
+          const { rightArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
+          expect(rightArrowVisible).toEqual(true);
+        });
+        it('last and fist items not visible thus both arrows visible', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 70;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 0;
+
+          const {
+            leftArrowVisible,
+            rightArrowVisible
+          } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
+          expect(leftArrowVisible).toEqual(true);
+          expect(rightArrowVisible).toEqual(true);
+        });
+      });
+
+      describe('check arrow visibility after update', () => {
+        it('', () => {
+          const p = { ...prop, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          const checkArrows = jest.fn();
+          const setSingleArrowVisibility = jest.fn();
+          wrapper.instance().checkArrows = checkArrows;
+          wrapper.instance().setSingleArrowVisibility = setSingleArrowVisibility;
+          wrapper.setState({ translate: 50 });
+
+          expect(checkArrows).toHaveBeenCalled();
+          expect(setSingleArrowVisibility).toHaveBeenCalled();
+        });
+      });
+
+    });
+
   });
 
 });

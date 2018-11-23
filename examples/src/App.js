@@ -71,13 +71,14 @@ export const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 class App extends Component {
 
   state = {
-    selected: 'item1',
-    itemsCount: list.length,
-    hideArrows: true,
-    translate: 0,
     alignCenter: true,
-    dragging: true,
     clickWhenDrag: false,
+    dragging: true,
+    hideArrows: true,
+    hideSingleArrow: true,
+    itemsCount: list.length,
+    selected: 'item1',
+    translate: 0,
     transition: 0.4,
     wheel: true
   };
@@ -130,15 +131,16 @@ class App extends Component {
 
   render() {
     const {
+      alignCenter,
+      clickWhenDrag,
+      dragging,
+      hideArrows,
+      hideSingleArrow,
+      itemsCount,
       selected,
       translate,
-      alignCenter,
-      dragging,
-      clickWhenDrag,
-      hideArrows,
       transition,
-      wheel,
-      itemsCount
+      wheel
     } = this.state;
 
     const menu = this.menuItems;
@@ -168,6 +170,7 @@ class App extends Component {
           arrowLeft={ArrowLeft}
           arrowRight={ArrowRight}
           hideArrows={hideArrows}
+          hideSingleArrow={hideSingleArrow}
           transition={+transition}
           onUpdate={this.onUpdate}
           onSelect={this.onSelect}
@@ -223,6 +226,15 @@ class App extends Component {
               type="checkbox"
               checked={hideArrows}
               onChange={() => this.setState({ hideArrows: !hideArrows })}
+            /> 
+          </label>
+          <label style={ checkboxStyle }>
+            Hide left/right arrows if first/last item visible
+            <input
+              name="hideSingleArrow"
+              type="checkbox"
+              checked={hideSingleArrow}
+              onChange={() => this.setState({ hideSingleArrow: !hideSingleArrow })}
             /> 
           </label>
           <br />
