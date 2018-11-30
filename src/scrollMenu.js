@@ -125,6 +125,7 @@ export class ScrollMenu extends React.Component {
     this.wWidth = 0;
     this.firstPageOffset = 0;
     this.lastPageOffset = 0;
+    this.checkArrowTimer = () => null;
   }
 
   state = {
@@ -132,7 +133,9 @@ export class ScrollMenu extends React.Component {
     xPoint: defaultSetting.xPoint,
     translate: this.props.translate,
     startDragTranslate: null,
-    xDraggedDistance: null
+    xDraggedDistance: null,
+    leftArrowVisible: true,
+    rightArrowVisible: true
   }
 
   componentDidMount() {
@@ -147,20 +150,16 @@ export class ScrollMenu extends React.Component {
     window.addEventListener('resize', this.setInitial, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
-
     setTimeout(() => this.onLoad(), 0);
   }
 
-  onLoad = () => {
-    this.mounted = true;
-    this.setInitial();
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
-    const { translate, dragging } = this.state;
+    const { translate, dragging, leftArrowVisible, rightArrowVisible } = this.state;
     const {
       translate: translateNew,
-      dragging: draggingNew
+      dragging: draggingNew,
+      leftArrowVisible: leftArrowVisibleNew,
+      rightArrowVisible: rightArrowVisibleNew
     } = nextState;
 
     const {
@@ -177,7 +176,8 @@ export class ScrollMenu extends React.Component {
     const selectedPropsDiff = notUndefOrNull(selectedPropsNew) &&
       selectedProps !== selectedPropsNew;
     const propsDiff = translatePropsDiff || selectedPropsDiff;
-
+    const leftArrowVisibleDiff = leftArrowVisible !== leftArrowVisibleNew;
+    const rightArrowVisibleDiff = rightArrowVisible !== rightArrowVisibleNew;
 
     let newMenuItems = false;
     if (this.props.data !== nextProps.data) {
@@ -191,7 +191,7 @@ export class ScrollMenu extends React.Component {
       }
       
       if (!isNaN(translatePropsNew) && translatePropsDiff && !newMenuItems) {
-        this.setState({ translate: translatePropsNew });
+        this.setState({ translate: +translatePropsNew.toFixed(3) });
       }
     }
 
@@ -199,7 +199,9 @@ export class ScrollMenu extends React.Component {
       newMenuItems ||
       translate !== translateNew ||
       dragging !== draggingNew ||
-      propsDiff
+      propsDiff ||
+      leftArrowVisibleDiff ||
+      rightArrowVisibleDiff
     );
   }
 
@@ -208,6 +210,17 @@ export class ScrollMenu extends React.Component {
       this.needUpdate = false;
       this.setInitial();
     }
+    const { hideSingleArrow } = this.props;
+    if (hideSingleArrow) {
+      this.setSingleArrowVisibility();
+      this.checkArrows();
+    }
+  }
+
+  checkArrows = () => {
+    const { transition } = this.props;
+    clearTimeout(this.checkArrowTimer);
+    this.checkArrowTimer = setTimeout(() => this.setSingleArrowVisibility(), (transition + 0.1) * 1000);
   }
 
   componentWillUnmount() {
@@ -222,6 +235,35 @@ export class ScrollMenu extends React.Component {
 
   setWrapperRef = ref => {
     this.ref.menuWrapper = ref;
+  }
+
+  checkSingleArrowVisibility = ({ translate = this.state.translate }) => {
+    const { hideSingleArrow } = this.props;
+    let [leftArrowVisible, rightArrowVisible] = [true, true];
+    const { menuItems: items } = this;
+
+    if (hideSingleArrow && items) {
+      const visibleItems = this.getVisibleItems({ offset: translate });
+      const firstItemVisible = visibleItems.includes( items[0] );
+      const lastItemVisible = visibleItems.includes( items.slice(-1)[0] );
+      leftArrowVisible = !firstItemVisible;
+      rightArrowVisible = !lastItemVisible;
+    }
+
+    return { leftArrowVisible, rightArrowVisible };
+  }
+
+  setSingleArrowVisibility = () => {
+    const { leftArrowVisible, rightArrowVisible } = this.state;
+    const { leftArrowVisible: leftArrowVisibleNew, rightArrowVisible: rightArrowVisibleNew } = this.checkSingleArrowVisibility({});
+    if (leftArrowVisible !== leftArrowVisibleNew || rightArrowVisible !== rightArrowVisibleNew) {
+      this.setState({ leftArrowVisible: leftArrowVisibleNew, rightArrowVisible: rightArrowVisibleNew });
+    }
+  }
+
+  onLoad = () => {
+    this.mounted = true;
+    this.setInitial();
   }
 
   setInitial = () => {
@@ -247,10 +289,14 @@ export class ScrollMenu extends React.Component {
     for (const key in width) {
       this[key] = width[key];
     }
-    const translateNew = this.getAlignItemsOffset();
-    if (translate !== translateNew && typeof (translateNew) === 'number') {
+    const translateNewRaw = this.getAlignItemsOffset();
+    const translateNew = typeof (translateNewRaw) === 'number' ? +translateNewRaw.toFixed(3) : false;
+
+    const { leftArrowVisible, rightArrowVisible } = this.checkSingleArrowVisibility({ translate: translateNew });
+
+    if (typeof (translateNew) === 'number' && translate !== translateNew) {
       this.setState(
-        { translate: translateNew },
+        { translate: translateNew, leftArrowVisible, rightArrowVisible },
         () => this.onUpdate({ translate: translateNew })
       );
     }
@@ -306,7 +352,7 @@ export class ScrollMenu extends React.Component {
     const trans = translate === 0 && alignCenter ? firstPageOffset : translate;
     this.firstPageOffset = firstPageOffset;
     this.lastPageOffset = lastPageOffset;
-    return { firstPageOffset, lastPageOffset, translate: trans };
+    return { firstPageOffset, lastPageOffset, translate: +trans.toFixed(3) };
   };
 
   onItemClick = id => {
@@ -454,7 +500,9 @@ export class ScrollMenu extends React.Component {
     const { alignCenter } = this.props;
     const { translate } = this.state;
 
-    if (allItemsWidth < menuWidth) return this.handleArrowClick(!alignCenter);
+    if (allItemsWidth < menuWidth) {
+      return this.handleArrowClick(!alignCenter);
+    }
 
     const visibleItems = (this.getVisibleItems({}) || []);
     const left = visibleItems.includes(menuItems[0]);
@@ -535,7 +583,7 @@ export class ScrollMenu extends React.Component {
     } = this;
     const { translate } = this.state;
 
-    if (!alignCenter && !left && menuWidth >= allItemsWidth) {
+    if (!alignCenter && !left && menuWidth > allItemsWidth) {
       return false;
     }
 
@@ -550,15 +598,17 @@ export class ScrollMenu extends React.Component {
       transl = alignCenter ? -offset - lastPageOffset : -offset;
     }
 
+    const newTranslate = +transl.toFixed(3);
+
     this.setState(
       {
-        translate: transl,
+        translate: newTranslate,
         xPoint: defaultSetting.xPoint,
         startDragTranslate: null,
         xDraggedDistance: null
       },
       () => {
-        if (translate !== transl) {
+        if (translate !== newTranslate) {
           this.onUpdate({});
         }
       }
@@ -612,11 +662,13 @@ export class ScrollMenu extends React.Component {
       result = result + Math.abs(diff) / 2;
     }
 
+    const newTranslate = +result.toFixed(3);
+
     this.setState(
       {
         xPoint: point,
-        translate: result || defaultSetting.translate,
-        xDraggedDistance: xDraggedDistance + Math.abs(diff) 
+        translate: newTranslate,
+        xDraggedDistance: xDraggedDistance + Math.abs(diff)
       }
     );
   };
@@ -658,7 +710,7 @@ export class ScrollMenu extends React.Component {
       {
         dragging: false,
         xPoint,
-        translate: newTranslate
+        translate: +newTranslate.toFixed(3)
       },
       () => {
         if (startDragTranslate !== newTranslate) {
@@ -697,12 +749,12 @@ export class ScrollMenu extends React.Component {
       wrapperClass,
       wrapperStyle
     } = this.props;
-    const { translate, dragging } = this.state;
+    const { translate, dragging, leftArrowVisible, rightArrowVisible } = this.state;
     const { selected, mounted } = this;
 
     if (!data || !data.length) return null;
 
-    const arrowsVisible = this.isArrowsVisible();
+    const arrowsVisible = mounted ? this.isArrowsVisible() : true;
 
     const menuStyles = { ...defaultMenuStyle, ...menuStyle };
     const wrapperStyles = { ...defaultWrapperStyle, ...wrapperStyle };
@@ -717,7 +769,7 @@ export class ScrollMenu extends React.Component {
         {arrowLeft && 
           <ArrowWrapper
             className={arrowClass}
-            isDisabled={!arrowsVisible}
+            isDisabled={!arrowsVisible || !leftArrowVisible}
             hideArrows={hideArrows}
             onClick={this.handleArrowClick}
           >
@@ -754,7 +806,7 @@ export class ScrollMenu extends React.Component {
         {arrowRight &&
           <ArrowWrapper
             className={arrowClass}
-            isDisabled={!arrowsVisible}
+            isDisabled={!arrowsVisible || !rightArrowVisible}
             hideArrows={hideArrows}
             onClick={this.handleArrowClickRight}
           >
@@ -778,6 +830,7 @@ export const propTypes = {
   itemClass: PropTypes.string,
   itemClassActive: PropTypes.string,
   hideArrows: PropTypes.bool,
+  hideSingleArrow: PropTypes.bool,
   onSelect: PropTypes.func,
   onClick: PropTypes.func,
   selected: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
