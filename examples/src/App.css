@@ -27,6 +27,13 @@
   to { transform: rotate(360deg); }
 }
 
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+
 .menu-item {
   padding: 0 40px;
   margin: 5px 10px;
