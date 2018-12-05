@@ -180,9 +180,9 @@ export class ScrollMenu extends React.Component {
     const rightArrowVisibleDiff = rightArrowVisible !== rightArrowVisibleNew;
 
     let newMenuItems = false;
-    if (this.props.data !== nextProps.data) {
+    if (this.props.data !== nextProps.data || this.props.data.length !== nextProps.data.length) {
       newMenuItems = true;
-      this.needUpdate = newMenuItems;
+      this.needUpdate = true;
     }
 
     if (propsDiff) {
@@ -208,7 +208,7 @@ export class ScrollMenu extends React.Component {
   componentDidUpdate() {
     if (this.needUpdate) {
       this.needUpdate = false;
-      this.setInitial();
+      this.onLoad();
     }
     const { hideSingleArrow } = this.props;
     if (hideSingleArrow) {
