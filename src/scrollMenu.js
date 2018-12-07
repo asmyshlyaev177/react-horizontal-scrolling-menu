@@ -285,7 +285,7 @@ export class ScrollMenu extends React.Component {
       this[key] = values[key];
     }
 
-    const { translate: _, ...width } = this.updateWidth({ items: menuItems });
+    const { translate: _, ...width } = this.updateWidth({ items: menuItems, offset: 0, translate: 0 });
     for (const key in width) {
       this[key] = width[key];
     }
@@ -324,10 +324,10 @@ export class ScrollMenu extends React.Component {
     return { wWidth, menuPos, menuWidth, allItemsWidth };
   }
 
-  updateWidth = ({ items = this.menuItems }) => {
+  updateWidth = ({ items = this.menuItems, ...args }) => {
     const { alignCenter } = this.props;
     const width = this.getWidth({ items });
-    return { ...width, ...(alignCenter ? this.getPagesOffsets({ items, ...width }) : {}) };
+    return { ...width, ...(alignCenter ? this.getPagesOffsets({ items, ...width, ...args }) : {}) };
   }
 
   getPagesOffsets = ({
@@ -336,11 +336,12 @@ export class ScrollMenu extends React.Component {
     wWidth = this.wWidth,
     menuPos = this.menuPos,
     menuWidth = this.menuWidth,
-    translate = this.state.translate
+    translate = this.state.translate,
+    offset = this.state.translate
   }) => {
     const { alignCenter } = this.props;
-    const visibleItemsStart = this.getVisibleItems({ items, wWidth, menuPos, menuWidth });
-    const firstPageOffset = this.getCenterOffset({ items: visibleItemsStart, menuWidth });
+    const visibleItemsStart = this.getVisibleItems({ offset, items, wWidth, menuPos, menuWidth });
+    const firstPageOffset = +this.getCenterOffset({ items: visibleItemsStart, menuWidth }).toFixed(3);
     const visibleItemsEnd = this.getVisibleItems({
       items,
       offset: -allItemsWidth + menuWidth,
@@ -348,8 +349,8 @@ export class ScrollMenu extends React.Component {
       menuPos,
       menuWidth
     });
-    const lastPageOffset = this.getCenterOffset({ items: visibleItemsEnd, menuWidth });
-    const trans = translate === 0 && alignCenter ? firstPageOffset : translate;
+    const lastPageOffset = +this.getCenterOffset({ items: visibleItemsEnd, menuWidth }).toFixed(3);
+    const trans = alignCenter ? firstPageOffset : translate;
     this.firstPageOffset = firstPageOffset;
     this.lastPageOffset = lastPageOffset;
     return { firstPageOffset, lastPageOffset, translate: +trans.toFixed(3) };
@@ -373,7 +374,6 @@ export class ScrollMenu extends React.Component {
     menuPos = this.menuPos,
     menuWidth = this.menuWidth,
     offset = this.state.translate,
-    firstPageOffset = this.firstPageOffset,
     translate = this.state.translate
   }) => {
     const data = items.items || items;
@@ -381,7 +381,7 @@ export class ScrollMenu extends React.Component {
     return data.filter(el => {
       const { width: elWidth } = getClientRect(el[1]);
       const id = this.getItemInd(items, el);
-      const x = this.getOffsetToItem({ itemId: id, menuItems: items, translate, firstPageOffset });
+      const x = this.getOffsetToItem({ itemId: id, menuItems: items, translate });
 
       return this.elemVisible({ x, elWidth, wWidth, menuPos, menuWidth, offset });
     });
@@ -496,7 +496,7 @@ export class ScrollMenu extends React.Component {
   }
 
   getAlignItemsOffset = () => {
-    const { menuWidth, allItemsWidth, firstPageOffset, lastPageOffset, menuItems } = this;
+    const { menuWidth, allItemsWidth, menuItems, firstPageOffset, lastPageOffset } = this;
     const { alignCenter } = this.props;
     const { translate } = this.state;
 
@@ -504,21 +504,21 @@ export class ScrollMenu extends React.Component {
       return this.handleArrowClick(!alignCenter);
     }
 
-    const visibleItems = (this.getVisibleItems({}) || []);
+    const visibleItems = (this.getVisibleItems({ offset: 0 }) || []);
     const left = visibleItems.includes(menuItems[0]);
     const right = visibleItems.includes(menuItems.slice(-1)[0]);
 
     // center is visible, do nothing
-    if (!left && !right) return +translate;
+    if (!left && !right) return +translate.toFixed(3);
 
     // left edge visible
     if (left) {
       const transl = alignCenter ? firstPageOffset : defaultSetting.translate;
-      return +transl;
+      return +transl.toFixed(3);
     } else {
       const offset = allItemsWidth - menuWidth;
       const transl = alignCenter ? -offset - lastPageOffset : -offset;
-      return +transl;
+      return +transl.toFixed(3);
     }
   }
 
@@ -556,7 +556,7 @@ export class ScrollMenu extends React.Component {
     }
     const itemsWidth = this.getItemsWidth({ items });
     const offset = (menuWidth - itemsWidth) / 2;
-    return offset;
+    return +offset.toFixed(3);
   };
 
   handleWheel = e => {
