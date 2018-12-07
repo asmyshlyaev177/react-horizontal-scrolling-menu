@@ -752,7 +752,7 @@ describe('functions', () => {
         wrapper.instance().getAlignItemsOffset();
         expect(handleArrowClick.mock.calls.length).toEqual(0);
         expect(getVisibleItems.mock.calls.length).toEqual(1);
-        expect(wrapper.state().translate).toEqual(0);
+        expect(wrapper.state().translate).toEqual(-50);
       });
       it('left edge visible', () => {
         const wrapper = mount(<ScrollMenu {...props} />);
