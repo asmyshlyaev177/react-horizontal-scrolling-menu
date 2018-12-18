@@ -152,6 +152,7 @@ export class ScrollMenu extends React.Component {
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
     setTimeout(() => this.onLoad(), 0);
+    // window.requestAnimationFrame(this.onLoad);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -344,7 +345,7 @@ export class ScrollMenu extends React.Component {
       menuWidth
     });
     const lastPageOffset = +this.getCenterOffset({ items: visibleItemsEnd, menuWidth }).toFixed(3);
-    const trans = alignCenter ? firstPageOffset : translate;
+    const trans = translate === 0 && alignCenter ? firstPageOffset : translate;
     this.firstPageOffset = firstPageOffset;
     this.lastPageOffset = lastPageOffset;
     return { firstPageOffset, lastPageOffset, translate: +trans.toFixed(3) };
@@ -498,7 +499,7 @@ export class ScrollMenu extends React.Component {
       return this.handleArrowClick(!alignCenter);
     }
 
-    const visibleItems = (this.getVisibleItems({ offset: 0 }) || []);
+    const visibleItems = (this.getVisibleItems({}) || []);
     const left = visibleItems.includes(menuItems[0]);
     const right = visibleItems.includes(menuItems.slice(-1)[0]);
 
