@@ -125,7 +125,6 @@ export class ScrollMenu extends React.Component {
     this.wWidth = 0;
     this.firstPageOffset = 0;
     this.lastPageOffset = 0;
-    this.checkArrowTimer = () => null;
   }
 
   state = {
@@ -140,6 +139,8 @@ export class ScrollMenu extends React.Component {
 
   componentDidMount() {
     this.setInitial();
+
+    window.requestAnimationFrame = window.requestAnimationFrame || function() { };
 
     const passiveEvents = testPassiveEventSupport();
     const optionsCapture = passiveEvents ? { passive: true, capture: true } : true;
@@ -212,15 +213,8 @@ export class ScrollMenu extends React.Component {
     }
     const { hideSingleArrow } = this.props;
     if (hideSingleArrow) {
-      this.setSingleArrowVisibility();
-      this.checkArrows();
+      window.requestAnimationFrame(this.setSingleArrowVisibility);
     }
-  }
-
-  checkArrows = () => {
-    const { transition } = this.props;
-    clearTimeout(this.checkArrowTimer);
-    this.checkArrowTimer = setTimeout(() => this.setSingleArrowVisibility(), (transition + 0.1) * 1000);
   }
 
   componentWillUnmount() {
