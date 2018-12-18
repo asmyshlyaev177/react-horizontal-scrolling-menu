@@ -1316,13 +1316,10 @@ describe('functions', () => {
         it('', () => {
           const p = { ...prop, translate: 0 };
           const wrapper = mount(<ScrollMenu {...p} />);
-          const checkArrows = jest.fn();
           const setSingleArrowVisibility = jest.fn();
-          wrapper.instance().checkArrows = checkArrows;
           wrapper.instance().setSingleArrowVisibility = setSingleArrowVisibility;
           wrapper.setState({ translate: 50 });
 
-          expect(checkArrows).toHaveBeenCalled();
           expect(setSingleArrowVisibility).toHaveBeenCalled();
         });
       });
