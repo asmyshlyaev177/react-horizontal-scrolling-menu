@@ -16,14 +16,6 @@ const documentHTML = '<!doctype html><html><body><div id="root"></div></body></h
 global.document = new JSDOM(documentHTML);
 global.window = document.parentWindow;
 
-beforeEach(() => {
-  jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
-});
-
-afterEach(() => {
-  window.requestAnimationFrame.mockRestore();
-});
-
 global.window.resizeTo = (width, height) => {
   global.window.innerWidth = width || global.window.innerWidth;
   global.window.innerHeight = height || global.window.innerHeight;
