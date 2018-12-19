@@ -152,7 +152,6 @@ export class ScrollMenu extends React.Component {
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
     setTimeout(() => this.onLoad(), 0);
-    // window.requestAnimationFrame(this.onLoad);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -212,9 +211,10 @@ export class ScrollMenu extends React.Component {
       this.needUpdate = false;
       this.onLoad();
     }
-    const { hideSingleArrow } = this.props;
+    const { hideSingleArrow, transition } = this.props;
     if (hideSingleArrow) {
-      window.requestAnimationFrame(this.setSingleArrowVisibility);
+      requestAnimationFrame(this.setSingleArrowVisibility);
+      setTimeout(() => requestAnimationFrame(this.setSingleArrowVisibility), transition * 1000 + 10);
     }
   }
 
@@ -687,7 +687,7 @@ export class ScrollMenu extends React.Component {
     let newTranslate = translate;
 
     if (this.itBeforeStart(translate)) {
-      newTranslate = alignCenter ? firstPageOffset : 0;
+      newTranslate = alignCenter ? firstPageOffset : defaultSetting.translate;
       xPoint = defaultSetting.xPoint;
     }
     if (this.itAfterEnd(translate)) {
@@ -697,7 +697,7 @@ export class ScrollMenu extends React.Component {
     }
 
     if (!alignCenter && menuWidth >= allItemsWidth) {
-      newTranslate = 0;
+      newTranslate = defaultSetting.translate;
       xPoint = defaultSetting.xPoint;
     }
 

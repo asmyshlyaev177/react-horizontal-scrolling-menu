@@ -5,6 +5,14 @@ import 'babel-polyfill';
 import ScrollMenu, { innerStyle, InnerWrapper } from './scrollMenu';
 import { defaultSetting } from './defautSettings';
 
+beforeEach(() => {
+  jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
+  jest.useFakeTimers();
+});
+afterEach(() => {
+  window.requestAnimationFrame.mockRestore();
+});
+
 const Arrow = ({ text, className }) => {
   return (
     <div
@@ -1313,7 +1321,7 @@ describe('functions', () => {
       });
 
       describe('check arrow visibility after update', () => {
-        it('', () => {
+        it('check via RAF', () => {
           const p = { ...prop, translate: 0 };
           const wrapper = mount(<ScrollMenu {...p} />);
           const setSingleArrowVisibility = jest.fn();
@@ -1321,6 +1329,18 @@ describe('functions', () => {
           wrapper.setState({ translate: 50 });
 
           expect(setSingleArrowVisibility).toHaveBeenCalled();
+        });
+        it('check via setTimeout after animation end', () => {
+          const p = { ...prop, transition: 0.5, translate: 0 };
+          const wrapper = mount(<ScrollMenu {...p} />);
+          const setSingleArrowVisibility = jest.fn();
+          wrapper.instance().setSingleArrowVisibility = setSingleArrowVisibility;
+
+          expect(setSingleArrowVisibility.mock.calls.length).toEqual(0);
+          wrapper.setState({ translate: 50 });
+          jest.runAllTimers();
+
+          expect(setSingleArrowVisibility.mock.calls.length).toBeGreaterThanOrEqual(2);
         });
       });
 
