@@ -159,6 +159,7 @@ wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
 data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
 hideArrows | Boolean | hide arrows if items fit to one screen, (add class scroll-menu-arrow--disabled to arrows) | false | false
+arrowDisabledClass | String | The class name to append when arrows are disabled | false | "scroll-menu-arrow--disabled"
 hideSingleArrow | Boolean | hide left/right arrows on first/last pages | false | false
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 selected | String or Number | Initial selected item | false | 0
@@ -175,6 +176,7 @@ menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignIt
 wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
 onSelect | Function | Callback when item selected, return item key | false | null
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
+forwardClick | Boolean | When enabled passes `onClick` as a prop to the arrow and item components. Each item and arrow should handle the onClick callback | false | false
 
 ## Gotcha
 Menu items must have width, so if you use images as elements before image loaded it has width 0.
@@ -186,7 +188,7 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 
 ## Contributing
 1 Fork the repo:
-  * In root folder `run npm link`
+  * In root folder run `npm link`
   * Run `npm install` in root folder
   * Remove react-horizontal-scrolling-menu from package.json example project
   * Run `npm link react-horizontal-scrolling-menu && npm install`

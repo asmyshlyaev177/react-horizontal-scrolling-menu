@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { notUndefOrNull, getClientRect, testPassiveEventSupport } from './utils';
 import { defaultSetting, defaultProps, defaultMenuStyle, defaultWrapperStyle } from './defautSettings';
 
-export const ArrowWrapper = ({ className: clsName, onClick, children, isDisabled, hideArrows }) => {
-  const disabledClassName = isDisabled ? `${clsName}--disabled` : '';
+export const ArrowWrapper = ({ className: clsName, onClick, children, isDisabled, hideArrows, disabledClass, forwardClick }) => {
+  const disabledClassName = isDisabled ? disabledClass || `${clsName}--disabled` : '';
   const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
+  const childProps = {
+    ...children.props,
+    onClick: () => (forwardClick ? onClick() : null)
+  };
 
   return (
     <div
       className={className}
-      onClick={onClick}
+      onClick={forwardClick ? null : onClick}
     >
-      {children}
+      {React.cloneElement(children, childProps)}
     </div>
   );
 };
@@ -21,7 +25,8 @@ ArrowWrapper.propTypes = {
   onClick: PropTypes.func.isRequired,
   children: PropTypes.object.isRequired,
   isDisabled: PropTypes.bool,
-  hideArrows: PropTypes.bool
+  hideArrows: PropTypes.bool,
+  disabledClass: PropTypes.string
 };
 
 export const innerStyle = ({ translate, dragging, mounted, transition }) => {
@@ -48,7 +53,8 @@ export class InnerWrapper extends React.Component {
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     innerWrapperClass: PropTypes.string,
     itemClass: PropTypes.string,
-    itemClassActive: PropTypes.string
+    itemClassActive: PropTypes.string,
+    forwardClick: PropTypes.bool
   }
 
   static defaultProps = {
@@ -82,11 +88,18 @@ export class InnerWrapper extends React.Component {
       innerWrapperClass,
       itemClass,
       onClick,
-      itemClassActive
+      itemClassActive,
+      forwardClick
     } = this.props;
     const isActive = (itemId, selected) => String(itemId) === String(selected);
     const items = data
-      .map(el => React.cloneElement(el, { selected: isActive(el.key, selected) }));
+      .map(el => {
+        const props = {
+          selected: isActive(el.key, selected),
+          onClick: () => (forwardClick ? onClick(el.key) : null)
+        };
+        return React.cloneElement(el, props);
+      });
 
     return (
       <div
@@ -102,7 +115,7 @@ export class InnerWrapper extends React.Component {
             style={{
               display: 'inline-block'
             }}
-            onClick={() => onClick(Item.key)}
+            onClick={() => forwardClick ? null : onClick(Item.key)}
           >
             {Item}
           </div>
@@ -731,6 +744,7 @@ export class ScrollMenu extends React.Component {
   render() {
     const {
       arrowClass,
+      arrowDisabledClass,
       arrowLeft,
       arrowRight,
       data,
@@ -742,7 +756,8 @@ export class ScrollMenu extends React.Component {
       menuClass,
       transition,
       wrapperClass,
-      wrapperStyle
+      wrapperStyle,
+      forwardClick
     } = this.props;
     const { translate, dragging, leftArrowVisible, rightArrowVisible } = this.state;
     const { selected, mounted } = this;
@@ -767,6 +782,8 @@ export class ScrollMenu extends React.Component {
             isDisabled={!arrowsVisible || !leftArrowVisible}
             hideArrows={hideArrows}
             onClick={this.handleArrowClick}
+            disabledClass={arrowDisabledClass}
+            forwardClick={forwardClick}
           >
             {arrowLeft}
           </ArrowWrapper>
@@ -795,6 +812,7 @@ export class ScrollMenu extends React.Component {
             innerWrapperClass={innerWrapperClass}
             itemClass={itemClass}
             itemClassActive={itemClassActive}
+            forwardClick={forwardClick}
           />
         </div>
 
@@ -804,6 +822,8 @@ export class ScrollMenu extends React.Component {
             isDisabled={!arrowsVisible || !rightArrowVisible}
             hideArrows={hideArrows}
             onClick={this.handleArrowClickRight}
+            disabledClass={arrowDisabledClass}
+            forwardClick={forwardClick}
           >
             {arrowRight}
           </ArrowWrapper>
@@ -816,6 +836,7 @@ export class ScrollMenu extends React.Component {
 export const propTypes = {
   alignCenter: PropTypes.bool,
   arrowClass: PropTypes.string,
+  arrowDisabledClass: PropTypes.string,
   arrowLeft: PropTypes.object,
   arrowRight: PropTypes.object,
   clickWhenDrag: PropTypes.bool,
@@ -837,6 +858,7 @@ export const propTypes = {
   wrapperStyle: PropTypes.object,
   wheel: PropTypes.bool,
   wrapperClass: PropTypes.string,
+  forwardClick: PropTypes.bool
 };
 ScrollMenu.defaultProps = defaultProps;
 ScrollMenu.propTypes = propTypes;
