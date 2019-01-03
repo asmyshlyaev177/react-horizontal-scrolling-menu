@@ -17,6 +17,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "aoxrud-ww",
+      "name": "Alex Oxrud",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/17786035?v=4",
+      "profile": "https://www.alexoxrud.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ]
 }
