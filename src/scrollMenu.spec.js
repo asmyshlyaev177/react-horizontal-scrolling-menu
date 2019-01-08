@@ -49,14 +49,6 @@ describe('test Arrow', () => {
     expect(wrapper.find('.' + right.className).length).toEqual(1);
   });
 
-  // xit('click', () => {
-  //   const p = { ...left, onClick };
-  //   const wrapper = shallow(
-  //     <Arrow {...p} />
-  //   );
-  //   wrapper.simulate('click');
-  //   expect(onClick.mock.calls.length).toBe(1);
-  // });
 });
 
 
@@ -243,6 +235,27 @@ describe('test menu', () => {
     wrapper.setProps({ data: [newData] });
     wrapper.instance().setInitial();
     expect(wrapper.instance().selected).toEqual(0);
+  });
+  it('pass 0 as translate props, must not be changed', () => {
+    const newProps = { ...props, translate: 0 };
+    const wrapper = mount(<ScrollMenu {...newProps} />);
+    wrapper.instance().setInitial();
+    expect(wrapper.state().translate).toEqual(0);
+  });
+  it('pass defaultSetting.translate as translate props, must not be changed', () => {
+    const newProps = { ...props, translate: defaultSetting.translate };
+    const wrapper = mount(<ScrollMenu {...newProps} />);
+    wrapper.instance().setInitial();
+    expect(wrapper.state().translate).toEqual(defaultSetting.translate);
+  });
+  it('don not call onUpdate on mount', () => {
+    const onUpdate = jest.fn();
+    const wrapper = mount(<ScrollMenu {...props} />);
+    wrapper.instance().onUpdate = onUpdate;
+
+    wrapper.instance().setInitial();
+    
+    expect(onUpdate).not.toHaveBeenCalled();
   });
 });
 
@@ -757,10 +770,10 @@ describe('functions', () => {
         wrapper.instance().allItemsWidth = 200;
         wrapper.instance().menuWidth = 100;
 
-        wrapper.instance().getAlignItemsOffset();
+        const translate = wrapper.instance().getAlignItemsOffset();
         expect(handleArrowClick.mock.calls.length).toEqual(0);
         expect(getVisibleItems.mock.calls.length).toEqual(1);
-        expect(wrapper.state().translate).toEqual(0);
+        expect(translate).toEqual(-50);
       });
       it('left edge visible', () => {
         const wrapper = mount(<ScrollMenu {...props} />);
@@ -1206,7 +1219,7 @@ describe('functions', () => {
         expect(updateWidth.mock.calls.length).toEqual(1);
         expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
         expect(onUpdate).toHaveBeenCalled();
-        expect(wrapper.state().translate).toEqual(25);
+        expect(wrapper.state().translate).toEqual(-50);
       });
     });
     describe('hide arrows flag', () => {

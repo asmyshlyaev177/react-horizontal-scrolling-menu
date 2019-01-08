@@ -16,11 +16,13 @@ const defaultSetting = {
   menuWidth: 0,
   menuClass: 'horizontal-menu',
   selected: 0,
+  startDragTranslate: null,
   translate: 0.000,
   transition: 0.4,
   wrapperClass: 'menu-wrapper',
   wheel: true,
-  xPoint: 0
+  xPoint: 0,
+  xDraggedDistance: null
 };
 
 const defaultProps = {
