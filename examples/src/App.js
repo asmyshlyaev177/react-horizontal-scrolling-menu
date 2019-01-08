@@ -78,7 +78,7 @@ class App extends Component {
     hideSingleArrow: true,
     itemsCount: list.length,
     selected: 'item1',
-    translate: 0,
+    translate: null,
     transition: 0.4,
     wheel: true
   };
@@ -89,6 +89,15 @@ class App extends Component {
     this.menuItems = Menu(list.slice(0, list.length), this.state.selected);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { alignCenter } = prevState;
+    const { alignCenter: alignCenterNew } = this.state;
+    if (alignCenter !== alignCenterNew) {
+      this.setState({ translate: 0 }, () => this.forceUpdate());
+      setTimeout(() => this.menu.handleArrowClick(), 0);
+    }
+  }
+
   onUpdate = ({ translate }) => {
     console.log(`onUpdate: translate: ${translate}`);
     this.setState({ translate });
@@ -97,16 +106,6 @@ class App extends Component {
   onSelect = key => {
     console.log(`onSelect: ${key}`);
     this.setState({ selected: key });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { alignCenter } = prevState;
-    const {
-      alignCenter: alignCenterNew
-    } = this.state;
-    if (alignCenter !== alignCenterNew) {
-      this.menu.setInitial();
-    }
   }
 
   setItemsCount = ev => {
@@ -238,7 +237,7 @@ class App extends Component {
             /> 
           </label>
           <br />
-          <div style={ valueStyle }>Translate: {(translate).toFixed(2)}</div>
+          <div style={ valueStyle }>Translate: {(+translate).toFixed(2)}</div>
           <label style={ valueStyle }>
             Selected:
             <input

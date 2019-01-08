@@ -144,8 +144,8 @@ export class ScrollMenu extends React.Component {
     dragging: false,
     xPoint: defaultSetting.xPoint,
     translate: this.props.translate,
-    startDragTranslate: null,
-    xDraggedDistance: null,
+    startDragTranslate: defaultSetting.startDragTranslate,
+    xDraggedDistance: defaultSetting.xDraggedDistance,
     leftArrowVisible: true,
     rightArrowVisible: true
   }
@@ -204,7 +204,7 @@ export class ScrollMenu extends React.Component {
         this.selected = selectedPropsNew;
       }
       
-      if (!isNaN(translatePropsNew) && translatePropsDiff && !newMenuItems) {
+      if (typeof (translatePropsNew) === 'number' && translatePropsDiff && !newMenuItems) {
         this.setState({ translate: +translatePropsNew.toFixed(3) });
       }
     }
@@ -275,8 +275,7 @@ export class ScrollMenu extends React.Component {
   }
 
   setInitial = () => {
-    const { selected, data } = this.props;
-    const { translate } = this.state;
+    const { selected, data, translate: translateProps } = this.props;
     if (!data || !data.length) return false;
 
     const menuItems = this.getMenuItems(data.length);
@@ -300,14 +299,18 @@ export class ScrollMenu extends React.Component {
     const translateNewRaw = this.getAlignItemsOffset();
     const translateNew = typeof (translateNewRaw) === 'number' ? +translateNewRaw.toFixed(3) : false;
 
-    const { leftArrowVisible, rightArrowVisible } = this.checkSingleArrowVisibility({ translate: translateNew });
+    const newState = { ...this.state };
 
-    if (typeof (translateNew) === 'number' && translate !== translateNew) {
-      this.setState(
-        { translate: translateNew, leftArrowVisible, rightArrowVisible },
-        () => this.onUpdate({ translate: translateNew })
-      );
+    const { leftArrowVisible, rightArrowVisible } = this.checkSingleArrowVisibility({ translate: translateNew });
+    newState.leftArrowVisible = leftArrowVisible;
+    newState.rightArrowVisible = rightArrowVisible;
+
+    if (typeof (translateProps) !== 'number') {
+      newState.translate = translateNew;
     }
+    this.setState(
+      { ...newState }, () => this.mounted ? this.onUpdate({}) : false
+    );
   };
 
   getMenuItems = (dataLength) => {
