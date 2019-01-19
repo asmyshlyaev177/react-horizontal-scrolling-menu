@@ -2,128 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { notUndefOrNull, getClientRect, testPassiveEventSupport } from './utils';
 import { defaultSetting, defaultProps, defaultMenuStyle, defaultWrapperStyle } from './defautSettings';
-
-export const ArrowWrapper = ({ className: clsName, onClick, children, isDisabled, hideArrows, disabledClass, forwardClick }) => {
-  const disabledClassName = isDisabled ? disabledClass || `${clsName}--disabled` : '';
-  const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
-  const childProps = {
-    ...children.props,
-    onClick: () => (forwardClick ? onClick() : null)
-  };
-
-  return (
-    <div
-      className={className}
-      onClick={forwardClick ? null : onClick}
-    >
-      {React.cloneElement(children, childProps)}
-    </div>
-  );
-};
-ArrowWrapper.propTypes = {
-  className: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.object.isRequired,
-  isDisabled: PropTypes.bool,
-  hideArrows: PropTypes.bool,
-  disabledClass: PropTypes.string
-};
-
-export const innerStyle = ({ translate, dragging, mounted, transition }) => {
-  return {
-    width: '9900px',
-    transform: `translate3d(${translate}px, 0px, 0px)`,
-    transition: `transform ${dragging || !mounted ? '0' : transition}s`,
-    whiteSpace: 'nowrap',
-    textAlign: 'left',
-    userSelect: 'none'
-  };
-};
-
-export class InnerWrapper extends React.Component {
-
-  static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    setRef: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
-    translate: PropTypes.number,
-    dragging: PropTypes.bool,
-    mounted: PropTypes.bool,
-    transition: PropTypes.number,
-    selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    innerWrapperClass: PropTypes.string,
-    itemClass: PropTypes.string,
-    itemClassActive: PropTypes.string,
-    forwardClick: PropTypes.bool
-  }
-
-  static defaultProps = {
-    data: [],
-    translate: defaultSetting.translate,
-    dragging: true,
-    mounted: false,
-    transition: defaultSetting.transition,
-    selected: defaultSetting.selected
-  }
-
-  constructor(props) {
-    super(props);
-    this.ref = {};
-  }
-
-  setRef = (key, value) => {
-    const { setRef } = this.props;
-    this.ref[key] = value;
-    setRef(this.ref);
-  }
-
-  render() {
-    const {
-      data,
-      translate,
-      dragging,
-      mounted,
-      transition,
-      selected,
-      innerWrapperClass,
-      itemClass,
-      onClick,
-      itemClassActive,
-      forwardClick
-    } = this.props;
-    const isActive = (itemId, selected) => String(itemId) === String(selected);
-    const items = data
-      .map(el => {
-        const props = {
-          selected: isActive(el.key, selected),
-          onClick: () => (forwardClick ? onClick(el.key) : null)
-        };
-        return React.cloneElement(el, props);
-      });
-
-    return (
-      <div
-        className={innerWrapperClass}
-        style={ innerStyle({ translate, dragging, mounted, transition }) }
-        ref={inst => this.setRef('menuInner', inst)}
-      >
-        {items.map((Item, i) => (
-          <div
-            ref={inst => this.setRef(`menuitem-${i}`, inst)}
-            className={`${itemClass} ${isActive(Item.key, selected) ? itemClassActive : ''}`}
-            key={'menuItem-' + Item.key} 
-            style={{
-              display: 'inline-block'
-            }}
-            onClick={() => forwardClick ? null : onClick(Item.key)}
-          >
-            {Item}
-          </div>
-        ))}
-      </div>
-    );
-  }
-}
+import { ArrowWrapper, InnerWrapper } from './wrapper';
 
 export class ScrollMenu extends React.Component {
 
@@ -138,12 +17,13 @@ export class ScrollMenu extends React.Component {
     this.wWidth = 0;
     this.firstPageOffset = 0;
     this.lastPageOffset = 0;
+    this.lastTranslateUpdate = 0;
   }
 
   state = {
     dragging: false,
     xPoint: defaultSetting.xPoint,
-    translate: this.props.translate,
+    translate: this.props.translate || defaultSetting.translate,
     startDragTranslate: defaultSetting.startDragTranslate,
     xDraggedDistance: defaultSetting.xDraggedDistance,
     leftArrowVisible: false,
@@ -168,8 +48,9 @@ export class ScrollMenu extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { translate, dragging, leftArrowVisible, rightArrowVisible } = this.state;
+    const { selected, translate, dragging, leftArrowVisible, rightArrowVisible } = this.state;
     const {
+      selected: selectedNew,
       translate: translateNew,
       dragging: draggingNew,
       leftArrowVisible: leftArrowVisibleNew,
@@ -185,11 +66,19 @@ export class ScrollMenu extends React.Component {
       selected: selectedPropsNew
     } = nextProps;
 
-    const translatePropsDiff = notUndefOrNull(translatePropsNew) &&
+    const translatePropsNotNull = notUndefOrNull(translatePropsNew);
+    const translateStateDiff = translate !== translateNew;
+    const translatePropsDiff = translatePropsNotNull &&
       translateProps !== translatePropsNew;
+    const translateDiff = translatePropsNew !== translateNew && (translateStateDiff || translatePropsDiff);
+
     const selectedPropsDiff = notUndefOrNull(selectedPropsNew) &&
       selectedProps !== selectedPropsNew;
-    const propsDiff = translatePropsDiff || selectedPropsDiff;
+    const selectedStateDiff = selected !== selectedNew;
+    const selectedDiff = selectedPropsNew !== selectedNew && (selectedPropsDiff || selectedStateDiff);
+
+    const propsDiff = translateDiff || selectedDiff;
+
     const leftArrowVisibleDiff = leftArrowVisible !== leftArrowVisibleNew;
     const rightArrowVisibleDiff = rightArrowVisible !== rightArrowVisibleNew;
 
@@ -211,7 +100,7 @@ export class ScrollMenu extends React.Component {
 
     return (
       newMenuItems ||
-      translate !== translateNew ||
+      translateDiff ||
       dragging !== draggingNew ||
       propsDiff ||
       leftArrowVisibleDiff ||
@@ -219,11 +108,19 @@ export class ScrollMenu extends React.Component {
     );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.needUpdate) {
       this.needUpdate = false;
       this.onLoad();
     }
+
+    const { translate: translateOld } = prevState;
+    let { translate: translateNew, dragging } = this.state;
+
+    if (!dragging && translateOld !== translateNew) {
+      this.onUpdate({ translate: translateNew, translateOld });
+    }
+
     const { hideSingleArrow, transition } = this.props;
     if (hideSingleArrow) {
       requestAnimationFrame(this.setSingleArrowVisibility);
@@ -308,9 +205,18 @@ export class ScrollMenu extends React.Component {
     if (typeof (translateProps) !== 'number') {
       newState.translate = translateNew;
     }
-    this.setState(
-      { ...newState }, () => this.mounted ? this.onUpdate({}) : false
-    );
+
+    this.setState({ ...newState });
+  };
+
+  isScrollNeeded = ({ itemId, translate = this.state.translate }) => {
+    const itemIndex = this.getItemIndexByKey(itemId);
+    if (itemIndex === -1) return false;
+
+    const { menuItems } = this;
+    const visibleItems = this.getVisibleItems({ items: menuItems, offset: translate });
+    const item = menuItems[itemIndex];
+    return !visibleItems.includes(item);
   };
 
   getMenuItems = (dataLength) => {
@@ -392,7 +298,7 @@ export class ScrollMenu extends React.Component {
     return data.filter(el => {
       const { width: elWidth } = getClientRect(el[1]);
       const id = this.getItemInd(items, el);
-      const x = this.getOffsetToItem({ itemId: id, menuItems: items, translate });
+      const x = this.getOffsetToItemByIndex({ index: id, menuItems: items, translate });
 
       return this.elemVisible({ x, elWidth, wWidth, menuPos, menuWidth, offset });
     });
@@ -432,9 +338,9 @@ export class ScrollMenu extends React.Component {
   };
 
   getOffsetToItemByKey = (key) => {
-    if (!key) return this.state.translate;
-
     let { translate } = this.state;
+
+    if (!key) return translate;
 
     const itemIndex = this.getItemIndexByKey(key);
     if (itemIndex === -1) return translate;
@@ -442,7 +348,7 @@ export class ScrollMenu extends React.Component {
     const { menuPos } = this;
     const { alignCenter } = this.props;
 
-    translate = this.getOffsetToItem({ itemId: itemIndex });
+    translate = this.getOffsetToItemByIndex({ index: itemIndex });
 
     const visibleItemsWithNewTranslate = this.getVisibleItems({ offset: -translate });
     const offset = alignCenter
@@ -465,14 +371,14 @@ export class ScrollMenu extends React.Component {
     return this.props.data.findIndex(el => el.key === itemKey);
   }
 
-  getOffsetToItem = ({
-    itemId,
+  getOffsetToItemByIndex = ({
+    index,
     menuItems = this.menuItems,
     translate = this.state.translate
   }) => {
     if (!menuItems.length) return 0;
-    const id = itemId >= menuItems.length ? menuItems.length - 1 : itemId;
-    const { x } = getClientRect(menuItems[id][1]);
+    const ind = index >= menuItems.length ? menuItems.length - 1 : index;
+    const { x } = getClientRect(menuItems[ind][1]);
     const position = +x - translate;
     return position;
   };
@@ -488,7 +394,7 @@ export class ScrollMenu extends React.Component {
     ); 
     const nextItemIndex = items.findIndex(el => el[0] === nextItem[0]);
 
-    const offsetToItem = this.getOffsetToItem({ itemId: nextItemIndex, menuItems: items});
+    const offsetToItem = this.getOffsetToItemByIndex({ index: nextItemIndex, menuItems: items});
     const offsetToItemOnStart = offsetToItem - menuPos;
 
     const nextVisibleItems = this.getVisibleItems({
@@ -519,7 +425,7 @@ export class ScrollMenu extends React.Component {
     ); 
     const prevItemIndex = items.findIndex(el => el[0] === prevItem[0]);
 
-    const offsetToItem = this.getOffsetToItem({ itemId: prevItemIndex, menuItems: items});
+    const offsetToItem = this.getOffsetToItemByIndex({ index: prevItemIndex, menuItems: items});
     const itemWidth = this.getItemsWidth({ items: [prevItem] });
     const offsetToItemOnEnd = offsetToItem - menuPos - (menuWidth - itemWidth);
 
@@ -637,7 +543,6 @@ export class ScrollMenu extends React.Component {
       allItemsWidth,
       menuWidth
     } = this;
-    const { translate } = this.state;
 
     if (!alignCenter && !left && menuWidth > allItemsWidth) {
       return false;
@@ -661,11 +566,6 @@ export class ScrollMenu extends React.Component {
         xPoint: defaultSetting.xPoint,
         startDragTranslate: null,
         xDraggedDistance: null
-      },
-      () => {
-        if (translate !== newTranslate) {
-          this.onUpdate({});
-        }
       }
     );
   }
@@ -734,12 +634,12 @@ export class ScrollMenu extends React.Component {
       menuWidth,
       firstPageOffset,
       lastPageOffset,
-      startDragTranslate
     } = this;
     let {
       dragging,
       xPoint = this.getPoint(e),
       translate,
+      startDragTranslate
     } = this.state;
     const { dragging: draggingEnable, alignCenter } = this.props;
     if (!draggingEnable || !dragging) return false;
@@ -761,17 +661,14 @@ export class ScrollMenu extends React.Component {
       xPoint = defaultSetting.xPoint;
     }
 
+    newTranslate = +newTranslate.toFixed(3);
+
     this.setState(
       {
         dragging: false,
         xPoint,
-        translate: +newTranslate.toFixed(3)
-      },
-      () => {
-        if (startDragTranslate !== newTranslate) {
-          this.onUpdate({});
-        }
-      }
+        translate: newTranslate
+      }, () => this.onUpdate({ translate: newTranslate, translateOld: startDragTranslate })
     );
   }
 
@@ -781,9 +678,11 @@ export class ScrollMenu extends React.Component {
     return !hide;
   };
 
-  onUpdate = ({ translate = this.state.translate }) => {
+  onUpdate = ({ translate = this.state.translate, translateOld = this.state.translate }) => {
     const { onUpdate } = this.props;
-    if (onUpdate) {
+    const { lastTranslateUpdate } = this;
+    if (onUpdate && translate !== translateOld && translate !== lastTranslateUpdate) {
+      this.lastTranslateUpdate = translate;
       onUpdate({ translate });
     }
   }
@@ -902,6 +801,7 @@ export const propTypes = {
   onUpdate: PropTypes.func,
   menuClass: PropTypes.string,
   menuStyle: PropTypes.object,
+  scrollToSelected: PropTypes.bool,
   wrapperStyle: PropTypes.object,
   wheel: PropTypes.bool,
   wrapperClass: PropTypes.string,

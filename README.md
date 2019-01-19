@@ -90,7 +90,7 @@ const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
 class App extends Component {
   state = {
-    selected: 0
+    selected: 'item1'
   };
   
   onSelect = key => {

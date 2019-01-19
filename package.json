@@ -10,9 +10,9 @@
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
     "build": "webpack --env.production --mode production",
-    "test": "jest --coverage --runInBand --ci",
+    "test": "jest --coverage --runInBand --ci --cache=false",
     "coverage": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
-    "test:watch": "jest --watch --cache=false",
+    "test:watch": "jest --watch",
     "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"

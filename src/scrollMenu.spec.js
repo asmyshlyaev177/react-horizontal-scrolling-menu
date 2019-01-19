@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
-import 'babel-polyfill';
-import ScrollMenu, { innerStyle, InnerWrapper } from './scrollMenu';
+import ScrollMenu from './scrollMenu';
 import { defaultSetting } from './defautSettings';
+
+const ev = pos => ({ clientX: pos });
 
 beforeEach(() => {
   jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
@@ -95,9 +96,9 @@ const Menu = (list, selected) => list.map(el => {
   );
 });
 
-const menu = Menu(items, '');
+export const menu = Menu(items, '');
 
-const props = {
+export const props = {
   data: menu,
   arrowLeft: ArrowLeft,
   arrowRight: ArrowRight,
@@ -105,60 +106,9 @@ const props = {
   translate: -50
 };
 
-describe('test innerWrapper', () => {
-  const onClick = jest.fn();
-  const setRef = jest.fn();
-
-  const props = {
-    data: menu,
-    setRef: setRef,
-    onClick: onClick,
-    translate: 0,
-    dragging: true,
-    mounted: false,
-    transition: 0.4,
-    selected: 0
-  };
-
-  it('mount inner wrapper', () => {
-    const wrapper = mount(<InnerWrapper {...props} />);
-    expect(wrapper.find('MenuItem').length).toEqual(menu.length);
-
-    expect(setRef.mock.calls.length).toEqual(menu.length + 1);
-  });
-
-  it('click on item', () => {
-    const wrapper = mount(<InnerWrapper {...props} />);
-    const item = wrapper.find('MenuItem').first();
-    item.simulate('click');
-    expect(onClick.mock.calls.length).toEqual(1);
-    expect(onClick.mock.calls[0][0]).toEqual(menu[0].key);
-  });
-});
-
 describe('test menu', () => {
 
   const wrapper = mount(<ScrollMenu {...props} />);
-  it('set correct innerStyle', () => {
-    let style, result;
-    result = {
-      width: '9900px',
-      transform: 'translate3d(10px, 0px, 0px)',
-      transition: 'transform 0s',
-      whiteSpace: 'nowrap',
-      textAlign: 'left',
-      userSelect: 'none'
-    };
-
-    style = innerStyle({ translate: 10, dragging: true, mounted: true, transition: 0.4 });
-    expect(style).toEqual(result);
-
-    style = innerStyle({ translate: 20, dragging: false, mounted: false, transition: 0.4 });
-    expect(style).toEqual({ ...result, transform: 'translate3d(20px, 0px, 0px)' });
-
-    style = innerStyle({ translate: 10, dragging: false, mounted: true, transition: 0.4 });
-    expect(style).toEqual({ ...result, transition: 'transform 0.4s' });
-  });
   it('don"t render arrow', () => {
     const { arrowLeft, arrowRight, ...rest } = props; 
     const wrapper = mount(<ScrollMenu {...rest} />); 
@@ -260,6 +210,98 @@ describe('test menu', () => {
 });
 
 describe('functions', () => {
+
+  describe('onUpdate', () => {
+    it('translate same old, don not call fn', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+
+      const { translate } = wrapper.instance().state;
+      wrapper.setState({ translate });
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+    });
+
+    it('translate changed, call fn', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+
+      wrapper.setState({ translate: defaultSetting.translate + 10 });
+      expect(onUpdate.mock.calls.length).toEqual(1);
+    });
+
+    it('arguments', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+
+      wrapper.instance().onUpdate({ translate: 0, translateOld: 0 });
+      expect(onUpdate.mock.calls.length).toEqual(0);
+
+      wrapper.instance().onUpdate({ translate: 5, translateOld: 0 });
+      expect(onUpdate.mock.calls.length).toEqual(1);
+    });
+
+    it('call on handleDragStop if translate changed', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, dragging: true, alignCenter: true, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      wrapper.setState({ dragging: true, translate: 0, startDragTranslate: 10 });
+      const itBeforeStart = jest.fn();
+      itBeforeStart.mockReturnValue(false);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      const itAfterEnd = jest.fn();
+      itAfterEnd.mockReturnValue(false);
+      wrapper.instance().itAfterEnd = itAfterEnd;
+
+      wrapper.setState({ translate: 50 });
+      wrapper.instance().handleDragStop();
+      expect(onUpdate.mock.calls.length).toEqual(1);
+    });
+
+    it('do not call on handleDragStop if translate same', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, dragging: true, alignCenter: true, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      wrapper.setState({ dragging: true, translate: 0, startDragTranslate: 0 });
+      const itBeforeStart = jest.fn();
+      itBeforeStart.mockReturnValue(false);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      const itAfterEnd = jest.fn();
+      itAfterEnd.mockReturnValue(false);
+      wrapper.instance().itAfterEnd = itAfterEnd;
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+      wrapper.setState({ translate: 0 });
+      wrapper.instance().handleDragStop();
+      expect(onUpdate.mock.calls.length).toEqual(0);
+    });
+
+    it('do not call on didUpdate after drag over edge if translate same', () => {
+      const onUpdate = jest.fn();
+      const prop = { ...props, dragging: true, alignCenter: true, onUpdate };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      wrapper.setState({ dragging: true, translate: 0, startDragTranslate: 0 });
+      const itBeforeStart = jest.fn();
+      itBeforeStart.mockReturnValue(false);
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      const itAfterEnd = jest.fn();
+      itAfterEnd.mockReturnValue(false);
+      wrapper.instance().itAfterEnd = itAfterEnd;
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+      wrapper.setState({ translate: 5, dragging: true });
+      wrapper.setState({ translate: 0, dragging: false });
+      wrapper.instance().handleDragStop(ev(0));
+      expect(onUpdate.mock.calls.length).toEqual(0);
+    });
+  });
 
   describe('visibility functions', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
@@ -402,6 +444,10 @@ describe('functions', () => {
       expect(itemIndex2).toEqual(4);
       const itemIndex3 = wrapper.instance().getItemIndexByKey('item555');
       expect(itemIndex3).toEqual(-1);
+      const itemIndex4 = wrapper.instance().getItemIndexByKey(null);
+      expect(itemIndex4).toEqual(-1);
+      const itemIndex5 = wrapper.instance().getItemIndexByKey();
+      expect(itemIndex5).toEqual(-1);
     });
 
     it('getItemInd get item index fn', () => {
@@ -495,9 +541,9 @@ describe('functions', () => {
 
         it('align center', () => {
           wrapper.setProps({ alignCenter: true });
-          const getOffsetToItem = jest.fn();
+          const getOffsetToItemByIndex = jest.fn();
           const translate = 70;
-          getOffsetToItem.mockReturnValue(translate);
+          getOffsetToItemByIndex.mockReturnValue(translate);
           const offset = 50;
           const getCenterOffset = jest.fn();
           getCenterOffset.mockReturnValue(offset);
@@ -507,7 +553,7 @@ describe('functions', () => {
           itBeforeStart.mockReturnValue(false);
           const itAfterEnd = jest.fn();
           itAfterEnd.mockReturnValue(false);
-          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
           wrapper.instance().getCenterOffset = getCenterOffset;
           wrapper.instance().getVisibleItems = getVisibleItems;
           wrapper.instance().itBeforeStart = itBeforeStart;
@@ -516,7 +562,7 @@ describe('functions', () => {
           const resultExpected = -(translate - menuPos - offset);
           const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
 
-          expect(getOffsetToItem.mock.calls.length).toEqual(1);
+          expect(getOffsetToItemByIndex.mock.calls.length).toEqual(1);
           expect(getCenterOffset.mock.calls.length).toEqual(1);
           expect(getVisibleItems.mock.calls.length).toEqual(1);
           expect(itBeforeStart.mock.calls.length).toEqual(1);
@@ -526,9 +572,9 @@ describe('functions', () => {
 
         it('no align center', () => {
           wrapper.setProps({ alignCenter: false });
-          const getOffsetToItem = jest.fn();
+          const getOffsetToItemByIndex = jest.fn();
           const translate = 70;
-          getOffsetToItem.mockReturnValue(translate);
+          getOffsetToItemByIndex.mockReturnValue(translate);
           const offset = defaultSetting.translate;
           const getVisibleItems = jest.fn();
           getVisibleItems.mockReturnValue([]);
@@ -536,7 +582,7 @@ describe('functions', () => {
           itBeforeStart.mockReturnValue(false);
           const itAfterEnd = jest.fn();
           itAfterEnd.mockReturnValue(false);
-          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
           wrapper.instance().getVisibleItems = getVisibleItems;
           wrapper.instance().itBeforeStart = itBeforeStart;
           wrapper.instance().itAfterEnd = itAfterEnd;
@@ -544,7 +590,7 @@ describe('functions', () => {
           const resultExpected = -(translate - menuPos - offset);
           const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
 
-          expect(getOffsetToItem.mock.calls.length).toEqual(1);
+          expect(getOffsetToItemByIndex.mock.calls.length).toEqual(1);
           expect(getVisibleItems.mock.calls.length).toEqual(1);
           expect(itBeforeStart.mock.calls.length).toEqual(1);
           expect(itAfterEnd.mock.calls.length).toEqual(1);
@@ -553,9 +599,9 @@ describe('functions', () => {
 
         it('it before start', () => {
           wrapper.setProps({ alignCenter: false });
-          const getOffsetToItem = jest.fn();
+          const getOffsetToItemByIndex = jest.fn();
           const translate = 70;
-          getOffsetToItem.mockReturnValue(translate);
+          getOffsetToItemByIndex.mockReturnValue(translate);
           const offset = defaultSetting.translate;
           const getVisibleItems = jest.fn();
           getVisibleItems.mockReturnValue([]);
@@ -565,7 +611,7 @@ describe('functions', () => {
           itAfterEnd.mockReturnValue(false);
           const getOffsetAtStart = jest.fn();
           getOffsetAtStart.mockReturnValue(25);
-          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
           wrapper.instance().getVisibleItems = getVisibleItems;
           wrapper.instance().itBeforeStart = itBeforeStart;
           wrapper.instance().itAfterEnd = itAfterEnd;
@@ -579,19 +625,19 @@ describe('functions', () => {
 
         it('it after end', () => {
           wrapper.setProps({ alignCenter: false });
-          const getOffsetToItem = jest.fn();
+          const getOffsetToItemByIndex = jest.fn();
           const translate = 70;
-          getOffsetToItem.mockReturnValue(translate);
+          getOffsetToItemByIndex.mockReturnValue(translate);
           const offset = defaultSetting.translate;
           const getVisibleItems = jest.fn();
           getVisibleItems.mockReturnValue([]);
           const itBeforeStart = jest.fn();
-          itBeforeStart.mockReturnValue(true);
+          itBeforeStart.mockReturnValue(false);
           const itAfterEnd = jest.fn();
-          itAfterEnd.mockReturnValue(false);
+          itAfterEnd.mockReturnValue(true);
           const getOffsetAtEnd = jest.fn();
           getOffsetAtEnd.mockReturnValue(25);
-          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
           wrapper.instance().getVisibleItems = getVisibleItems;
           wrapper.instance().itBeforeStart = itBeforeStart;
           wrapper.instance().itAfterEnd = itAfterEnd;
@@ -608,26 +654,26 @@ describe('functions', () => {
 
     it('getOfsetToItem', () => {
       wrapper.instance().menuItems = [];
-      expect(wrapper.instance().getOffsetToItem({ itemId: 9 })).toEqual(0);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 9 })).toEqual(0);
 
       wrapper.instance().menuItems = items;
-      expect(wrapper.instance().getOffsetToItem({ itemId: 0 })).toEqual(0);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 1 })).toEqual(10);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 2 })).toEqual(30);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 3 })).toEqual(60);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 0 })).toEqual(0);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 1 })).toEqual(10);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 2 })).toEqual(30);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 3 })).toEqual(60);
 
       wrapper.setState({ translate: 30 });
-      expect(wrapper.instance().getOffsetToItem({ itemId: 0 })).toEqual(-30);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 1 })).toEqual(-20);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 2 })).toEqual(0);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 3 })).toEqual(30);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 0 })).toEqual(-30);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 1 })).toEqual(-20);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 2 })).toEqual(0);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 3 })).toEqual(30);
 
       wrapper.setState({ translate: -30 });
-      expect(wrapper.instance().getOffsetToItem({ itemId: 0 })).toEqual(30);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 1 })).toEqual(40);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 2 })).toEqual(60);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 3 })).toEqual(90);
-      expect(wrapper.instance().getOffsetToItem({ itemId: 12 })).toEqual(240);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 0 })).toEqual(30);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 1 })).toEqual(40);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 2 })).toEqual(60);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 3 })).toEqual(90);
+      expect(wrapper.instance().getOffsetToItemByIndex({ index: 12 })).toEqual(240);
     });
 
     it('getOfsset fn', () => {
@@ -810,8 +856,6 @@ describe('functions', () => {
       wrapper.instance().menuWidth = 50;
       wrapper.instance().firstPageOffset = 5;
       wrapper.instance().lastPageOffset = 6;
-      const onUpdate = jest.fn();
-      wrapper.instance().onUpdate = onUpdate;
 
       const checkClick = (left = false, align = false, before = false, after = false) => {
         const itBeforeStart = jest.fn().mockReturnValue(before);
@@ -863,11 +907,11 @@ describe('functions', () => {
           />
         );
         const onUpdate = jest.fn();
+        wrapper.setState({ translate: 0 });
         wrapper.instance().onUpdate = onUpdate;
         const getOffset = jest.fn().mockReturnValue(120);
         wrapper.instance().getOffset = getOffset;
 
-        wrapper.setState({ translate: 0 });
         wrapper.instance().allItemsWidth = 300;
         wrapper.instance().menuWidth = 200;
         const click = wrapper.instance().handleArrowClick(false);
@@ -882,11 +926,11 @@ describe('functions', () => {
           />
         );
         const onUpdate = jest.fn();
-        wrapper.instance().onUpdate = onUpdate;
         const getOffset = jest.fn().mockReturnValue(-0);
         wrapper.instance().getOffset = getOffset;
 
         wrapper.setState({ translate: 0 });
+        wrapper.instance().onUpdate = onUpdate;
         wrapper.instance().allItemsWidth = 300;
         wrapper.instance().menuWidth = 200;
         const click = wrapper.instance().handleArrowClick(false);
@@ -902,9 +946,9 @@ describe('functions', () => {
           />
         );
         const onUpdate = jest.fn();
-        wrapper.instance().onUpdate = onUpdate;
 
         wrapper.setState({ translate: 0 });
+        wrapper.instance().onUpdate = onUpdate;
         wrapper.instance().allItemsWidth = 100;
         wrapper.instance().menuWidth = 200;
         expect(wrapper.instance().state.translate).toEqual(0);
@@ -993,7 +1037,6 @@ describe('functions', () => {
 
   describe('dragging', () => {
 
-    const ev = pos => ({ clientX: pos });
     it('don not drag if dragging disabled', () => {
       const wrapper = mount(<ScrollMenu {...props} dragging={false} />);
       expect(wrapper.instance().handleDragStart()).toEqual(false);
@@ -1047,7 +1090,6 @@ describe('functions', () => {
 
     it('handleDragStop', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      const ev = point => ({ clientX: point });
       const getPoint = jest.fn().mockReturnValue(0);
       wrapper.instance().getPoint = getPoint;
 
@@ -1096,8 +1138,7 @@ describe('functions', () => {
       wrapper.instance().itAfterEnd = afterEnd;
       wrapper.instance().getPoint = getPoint;
       wrapper.setState({ dragging: true });
-      const ev = { clientX: 35 };
-      expect(wrapper.instance().getPoint(ev)).toEqual(100);
+      expect(wrapper.instance().getPoint(ev(35))).toEqual(100);
       expect(getPoint.mock.calls.length).toEqual(1);
     });
 
@@ -1112,8 +1153,7 @@ describe('functions', () => {
       wrapper.instance().itBeforeStart = beforeStart;
       wrapper.instance().itAfterEnd = afterEnd;
       wrapper.setState({ dragging: true });
-      const ev = { clientX: 35 };
-      expect(wrapper.instance().getPoint(ev)).toEqual(35);
+      expect(wrapper.instance().getPoint(ev(35))).toEqual(35);
     });
     it('get clientX or touch cordinates', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
@@ -1125,35 +1165,62 @@ describe('functions', () => {
     it('fire onUpdate if translate different', () => {
       const wrapper = mount(<ScrollMenu {...props} alignCenter={true} dragging={true} />);
       const onUpdate = jest.fn();
-      wrapper.instance().onUpdate = onUpdate;
       const itBeforeStart = jest.fn().mockReturnValue(true);
       wrapper.instance().itBeforeStart = itBeforeStart;
 
+      wrapper.instance().onUpdate = onUpdate;
       wrapper.setState({ translate: 50  });
       wrapper.instance().startDragTranslate = 50;
       wrapper.instance().firstPageOffset = 100;
 
       wrapper.instance().handleDragStart();
       wrapper.instance().handleDrag(ev(35));
-      wrapper.instance().handleDragStop(ev(120));
 
       expect(onUpdate.mock.calls.length).toEqual(1);
     });
     it('don not fire onUpdate if translate same', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.setProps({ alignCenter: true });
       const onUpdate = jest.fn();
-      wrapper.instance().onUpdate = onUpdate;
-      const itBeforeStart = jest.fn().mockReturnValue(true);
-      wrapper.instance().itBeforeStart = itBeforeStart;
       wrapper.setState({ translate: 50 });
       wrapper.instance().startDragTranslate = 50;
       wrapper.instance().firstPageOffset = 50;
+      const itBeforeStart = jest.fn();
+      itBeforeStart.mockReturnValue(false);
+      wrapper.instance().onUpdate = onUpdate;
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      const itAfterEnd = jest.fn();
+      itAfterEnd.mockReturnValue(false);
+      wrapper.instance().itAfterEnd = itAfterEnd;
+
+      wrapper.setState({ translate: 50 });
+      expect(onUpdate.mock.calls.length).toEqual(0);
+
+      wrapper.instance().handleDragStart();
+      wrapper.instance().handleDrag(ev(50));
+
+      expect(onUpdate.mock.calls.length).toEqual(0);
+    });
+    it('call onUpdate after handleDragStop', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.setProps({ alignCenter: true });
+      const onUpdate = jest.fn();
+      wrapper.setState({ translate: 50 });
+      wrapper.instance().startDragTranslate = 50;
+      wrapper.instance().firstPageOffset = 50;
+      const itBeforeStart = jest.fn();
+      itBeforeStart.mockReturnValue(false);
+      wrapper.instance().onUpdate = onUpdate;
+      wrapper.instance().itBeforeStart = itBeforeStart;
+      const itAfterEnd = jest.fn();
+      itAfterEnd.mockReturnValue(false);
+      wrapper.instance().itAfterEnd = itAfterEnd;
 
       wrapper.instance().handleDragStart();
       wrapper.instance().handleDrag(ev(50));
       wrapper.instance().handleDragStop(ev(50));
 
-      expect(onUpdate.mock.calls.length).toEqual(0);
+      expect(onUpdate.mock.calls.length).toEqual(1);
     });
     it('set translate to 0 if items width less then menu width', () => {
       const wrapper = mount(<ScrollMenu {...props} alignCenter={false} />);
@@ -1176,34 +1243,6 @@ describe('functions', () => {
 
       expect(wrapper.state().translate).toEqual(0);
       expect(wrapper.state().xPoint).toEqual(defaultSetting.xPoint);
-    });
-  });
-
-  describe('onUpdate after click arrow', () => {
-    it('set 0 if key from props not exist', () => {
-      const onUpdate = jest.fn();
-      const wrapper = mount(
-        <ScrollMenu
-          data={props.data}
-          selected={3}
-          translate={-50}
-          onUpdate={onUpdate}
-        />);
-      wrapper.instance().handleArrowClick();
-      expect(onUpdate.mock.calls.length).toEqual(1);
-    });
-    it('onUpdate after dragStop', () => {
-      const onUpdate = jest.fn();
-      const wrapper = mount(
-        <ScrollMenu
-          data={props.data}
-          selected={props.data[1].key}
-          translate={-50}
-          onUpdate={onUpdate}
-        />);
-      wrapper.setState({ dragging: true });
-      wrapper.instance().handleDragStop();
-      expect(onUpdate).toHaveBeenCalled();
     });
   });
 
@@ -1379,15 +1418,12 @@ describe('functions', () => {
         expect(setInitial.mock.calls.length).toEqual(1);
       });
       it('call getAlignItemsOffset', () => {
-        const onUpdate = jest.fn();
-        const prop = { ...props, onUpdate };
-        const wrapper = mount(<ScrollMenu {...prop} />);
+        const wrapper = mount(<ScrollMenu {...props} />);
         wrapper.instance().updateWidth = updateWidth;
         wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
         wrapper.setProps({ data: menuNew });
         expect(updateWidth.mock.calls.length).toEqual(1);
         expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
-        expect(onUpdate).toHaveBeenCalled();
         expect(wrapper.state().translate).toEqual(-50);
       });
     });
@@ -1524,6 +1560,75 @@ describe('functions', () => {
 
           expect(setSingleArrowVisibility.mock.calls.length).toBeGreaterThanOrEqual(2);
         });
+      });
+
+      describe('scroll to selected item on start', () => {
+        it('selected visible do not scroll - isScrollNeeded fn', () => {
+          const prop = { ...props, scrollToSelected: true };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+          wrapper.setState({ translate: 0 });
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 10;
+
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item1', translate: 0 }))
+              .toEqual(false);
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item2', translate: 0 }))
+              .toEqual(false);
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item3', translate: 0 }))
+              .toEqual(false);
+        });
+        it('selected item not visible', () => {
+          const prop = { ...props, scrollToSelected: true };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+          wrapper.setState({ translate: 0 });
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 10;
+
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item4', translate: 0 }))
+            .toEqual(true);
+
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item5', translate: 0 }))
+              .toEqual(true);
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item6', translate: 0 }))
+              .toEqual(true);
+        });
+        it('scroll to item when mount', () => {
+          const prop = { ...props, scrollToSelected: true };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 0;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 10;
+          wrapper.setState({ translate: 0 });
+
+          wrapper.setProps({ selected: 'item4' });
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: 'item4', translate: 0 }))
+            .toEqual(true);
+
+          expect(wrapper.state().translate).toEqual(0);
+        });
+
       });
 
     });
