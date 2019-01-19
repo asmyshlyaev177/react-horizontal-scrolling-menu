@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -39,7 +43,10 @@ form {
   margin: 5px 10px;
   user-select: none;
   cursor: pointer;
-  border: none;
+  border: 1px transparent solid;
+}
+.menu-item-wrapper {
+  border: 1px transparent solid;
 }
 .menu-item-wrapper.active {
   border: 1px blue solid;

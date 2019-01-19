@@ -395,6 +395,15 @@ describe('functions', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
     wrapper.instance().menuItems = items;
 
+    it('getItemIndexByKey', () => {
+      const itemIndex = wrapper.instance().getItemIndexByKey('item1');
+      expect(itemIndex).toEqual(0);
+      const itemIndex2 = wrapper.instance().getItemIndexByKey('item5');
+      expect(itemIndex2).toEqual(4);
+      const itemIndex3 = wrapper.instance().getItemIndexByKey('item555');
+      expect(itemIndex3).toEqual(-1);
+    });
+
     it('getItemInd get item index fn', () => {
       expect(wrapper.instance().getItemInd(null, ['item2'])).toEqual(0);
       expect(wrapper.instance().getItemInd(items, null)).toEqual(0);
@@ -436,6 +445,166 @@ describe('functions', () => {
     const wrapper = mount(<ScrollMenu {...props} />);
     wrapper.setState({ translate: 0 });
     wrapper.instance().menuItems = items;
+
+    it('getOffsetAtStart', () => {
+      // return offset for first page of items for alignCenter
+      const prop = { ...props, alignCenter: true };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      wrapper.instance().firstPageOffset = 10;
+      expect(wrapper.instance().getOffsetAtStart()).toEqual(10);
+
+      wrapper.setProps({ alignCenter: false });
+      expect(wrapper.instance().getOffsetAtStart()).toEqual(defaultSetting.translate);
+    });
+    it('getOffsetAtEnd', () => {
+      // return offset for last page of items for alignCenter
+      const prop = { ...props, alignCenter: true };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      const [ allItemsWidth, menuWidth, lastPageOffset ] = [200, 50, 20];
+      wrapper.instance().allItemsWidth = allItemsWidth;
+      wrapper.instance().menuWidth = menuWidth;
+      wrapper.instance().lastPageOffset = lastPageOffset;
+
+      const offset = -(allItemsWidth - menuWidth);
+      expect(wrapper.instance().getOffsetAtEnd()).toEqual(offset - lastPageOffset);
+
+      wrapper.setProps({ alignCenter: false });
+      expect(wrapper.instance().getOffsetAtEnd()).toEqual(offset);
+    });
+
+    describe('getOffsetToItemByKey', () => {
+      const prop = { ...props, alignCenter: true };
+      const wrapper = mount(<ScrollMenu {...prop} />);
+      const translate = 20;
+      wrapper.setState({ translate });
+      const menuPos = 30;
+      wrapper.instance().menuPos = 30;
+
+      it('no key value return current translate', () => {
+        const result = wrapper.instance().getOffsetToItemByKey(null);
+        expect(result).toEqual(translate);
+      });
+      it('key does not exist return current translate', () => {
+        const result = wrapper.instance().getOffsetToItemByKey('test_567');
+        expect(result).toEqual(translate);
+      });
+      describe('calc and return translate', () => {
+        const getVisibleItems = jest.fn();
+        getVisibleItems.mockReturnValue([]);
+        wrapper.instance().getVisibleItems = getVisibleItems;
+
+        it('align center', () => {
+          wrapper.setProps({ alignCenter: true });
+          const getOffsetToItem = jest.fn();
+          const translate = 70;
+          getOffsetToItem.mockReturnValue(translate);
+          const offset = 50;
+          const getCenterOffset = jest.fn();
+          getCenterOffset.mockReturnValue(offset);
+          const getVisibleItems = jest.fn();
+          getVisibleItems.mockReturnValue([]);
+          const itBeforeStart = jest.fn();
+          itBeforeStart.mockReturnValue(false);
+          const itAfterEnd = jest.fn();
+          itAfterEnd.mockReturnValue(false);
+          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getCenterOffset = getCenterOffset;
+          wrapper.instance().getVisibleItems = getVisibleItems;
+          wrapper.instance().itBeforeStart = itBeforeStart;
+          wrapper.instance().itAfterEnd = itAfterEnd;
+
+          const resultExpected = -(translate - menuPos - offset);
+          const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
+
+          expect(getOffsetToItem.mock.calls.length).toEqual(1);
+          expect(getCenterOffset.mock.calls.length).toEqual(1);
+          expect(getVisibleItems.mock.calls.length).toEqual(1);
+          expect(itBeforeStart.mock.calls.length).toEqual(1);
+          expect(itAfterEnd.mock.calls.length).toEqual(1);
+          expect(result).toEqual(+resultExpected.toFixed(3));
+        });
+
+        it('no align center', () => {
+          wrapper.setProps({ alignCenter: false });
+          const getOffsetToItem = jest.fn();
+          const translate = 70;
+          getOffsetToItem.mockReturnValue(translate);
+          const offset = defaultSetting.translate;
+          const getVisibleItems = jest.fn();
+          getVisibleItems.mockReturnValue([]);
+          const itBeforeStart = jest.fn();
+          itBeforeStart.mockReturnValue(false);
+          const itAfterEnd = jest.fn();
+          itAfterEnd.mockReturnValue(false);
+          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getVisibleItems = getVisibleItems;
+          wrapper.instance().itBeforeStart = itBeforeStart;
+          wrapper.instance().itAfterEnd = itAfterEnd;
+
+          const resultExpected = -(translate - menuPos - offset);
+          const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
+
+          expect(getOffsetToItem.mock.calls.length).toEqual(1);
+          expect(getVisibleItems.mock.calls.length).toEqual(1);
+          expect(itBeforeStart.mock.calls.length).toEqual(1);
+          expect(itAfterEnd.mock.calls.length).toEqual(1);
+          expect(result).toEqual(+resultExpected.toFixed(3));
+        });
+
+        it('it before start', () => {
+          wrapper.setProps({ alignCenter: false });
+          const getOffsetToItem = jest.fn();
+          const translate = 70;
+          getOffsetToItem.mockReturnValue(translate);
+          const offset = defaultSetting.translate;
+          const getVisibleItems = jest.fn();
+          getVisibleItems.mockReturnValue([]);
+          const itBeforeStart = jest.fn();
+          itBeforeStart.mockReturnValue(true);
+          const itAfterEnd = jest.fn();
+          itAfterEnd.mockReturnValue(false);
+          const getOffsetAtStart = jest.fn();
+          getOffsetAtStart.mockReturnValue(25);
+          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getVisibleItems = getVisibleItems;
+          wrapper.instance().itBeforeStart = itBeforeStart;
+          wrapper.instance().itAfterEnd = itAfterEnd;
+          wrapper.instance().getOffsetAtStart = getOffsetAtStart;
+
+          const resultExpected = 25;
+          const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
+
+          expect(result).toEqual(+resultExpected.toFixed(3));
+        });
+
+        it('it after end', () => {
+          wrapper.setProps({ alignCenter: false });
+          const getOffsetToItem = jest.fn();
+          const translate = 70;
+          getOffsetToItem.mockReturnValue(translate);
+          const offset = defaultSetting.translate;
+          const getVisibleItems = jest.fn();
+          getVisibleItems.mockReturnValue([]);
+          const itBeforeStart = jest.fn();
+          itBeforeStart.mockReturnValue(true);
+          const itAfterEnd = jest.fn();
+          itAfterEnd.mockReturnValue(false);
+          const getOffsetAtEnd = jest.fn();
+          getOffsetAtEnd.mockReturnValue(25);
+          wrapper.instance().getOffsetToItem = getOffsetToItem;
+          wrapper.instance().getVisibleItems = getVisibleItems;
+          wrapper.instance().itBeforeStart = itBeforeStart;
+          wrapper.instance().itAfterEnd = itAfterEnd;
+          wrapper.instance().getOffsetAtEnd = getOffsetAtEnd;
+
+          const resultExpected = 25;
+          const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
+
+          expect(result).toEqual(+resultExpected.toFixed(3));
+        });
+      });
+
+    });
 
     it('getOfsetToItem', () => {
       wrapper.instance().menuItems = [];

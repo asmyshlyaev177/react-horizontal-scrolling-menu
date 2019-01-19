@@ -146,7 +146,7 @@ export class ScrollMenu extends React.Component {
     translate: this.props.translate,
     startDragTranslate: defaultSetting.startDragTranslate,
     xDraggedDistance: defaultSetting.xDraggedDistance,
-    leftArrowVisible: true,
+    leftArrowVisible: false,
     rightArrowVisible: true
   }
 
@@ -431,6 +431,40 @@ export class ScrollMenu extends React.Component {
     return ind < 0 ? 0 : ind;
   };
 
+  getOffsetToItemByKey = (key) => {
+    if (!key) return this.state.translate;
+
+    let { translate } = this.state;
+
+    const itemIndex = this.getItemIndexByKey(key);
+    if (itemIndex === -1) return translate;
+
+    const { menuPos } = this;
+    const { alignCenter } = this.props;
+
+    translate = this.getOffsetToItem({ itemId: itemIndex });
+
+    const visibleItemsWithNewTranslate = this.getVisibleItems({ offset: -translate });
+    const offset = alignCenter
+      ? this.getCenterOffset({ items: visibleItemsWithNewTranslate })
+      : defaultSetting.translate;
+
+    translate = -(translate - menuPos - offset);
+
+    if (this.itBeforeStart(translate)) {
+      translate = this.getOffsetAtStart();
+    } 
+    if (this.itAfterEnd(translate)) {
+      translate = this.getOffsetAtEnd();
+    }
+    return +translate.toFixed(3);
+  }
+
+  getItemIndexByKey = (itemKey) => {
+    if (!itemKey) return -1;
+    return this.props.data.findIndex(el => el.key === itemKey);
+  }
+
   getOffsetToItem = ({
     itemId,
     menuItems = this.menuItems,
@@ -584,13 +618,24 @@ export class ScrollMenu extends React.Component {
     this.handleArrowClick(false);
   }
 
+  getOffsetAtStart = () => {
+    const { firstPageOffset } = this;
+    const { alignCenter } = this.props;
+    return alignCenter ? firstPageOffset : defaultSetting.translate;
+  }
+
+  getOffsetAtEnd = () => {
+    const { alignCenter } = this.props;
+    const { allItemsWidth, menuWidth, lastPageOffset } = this;
+    const offset = allItemsWidth - menuWidth;
+    return alignCenter ? -offset - lastPageOffset : -offset;
+  }
+
   handleArrowClick = (left = true) => {
     const { alignCenter } = this.props;
     const {
       allItemsWidth,
-      menuWidth,
-      firstPageOffset,
-      lastPageOffset
+      menuWidth
     } = this;
     const { translate } = this.state;
 
@@ -602,11 +647,10 @@ export class ScrollMenu extends React.Component {
     let transl = -offset;
 
     if (left && this.itBeforeStart(transl)) {
-      transl = alignCenter ? firstPageOffset : defaultSetting.translate;
+      transl = this.getOffsetAtStart();
     }
     if (!left && this.itAfterEnd(transl)) {
-      const offset = allItemsWidth - menuWidth;
-      transl = alignCenter ? -offset - lastPageOffset : -offset;
+      transl = this.getOffsetAtEnd();
     }
 
     const newTranslate = +transl.toFixed(3);
