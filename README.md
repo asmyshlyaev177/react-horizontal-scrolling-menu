@@ -179,8 +179,17 @@ onUpdate | Function | Callback when menu position changed, return { translate: 0
 forwardClick | Boolean | When enabled passes `onClick` as a prop to the arrow and item components. Each item and arrow should handle the onClick callback | false | false
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false
 
-## Gotcha
-Menu items must have width, so if you use images as elements before image loaded it has width 0.
+## Programmaticaly change things
+You can scroll left/right via `componentRef.handleArrowClick()` and `componentRef.handleArrowClickRight()` functions.
+
+Can get other properties in component state - `const { leftArrowVisible, rightArrowVisible, selected, translate } = componentRef.state`
+
+Can simulate click with `componentRef.onItemClick('item4')`
+
+## Gotchas
+* Menu items must have width, so if you use images as elements before image loaded it has width 0.
+
+* Browser must support **requestAnimationFrame** or use polyfill.
 
 ## About
 My first npm project. Sorry for my english.
