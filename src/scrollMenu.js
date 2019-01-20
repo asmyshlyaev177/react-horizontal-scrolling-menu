@@ -59,7 +59,8 @@ export class ScrollMenu extends React.Component {
 
     const {
       translate: translateProps,
-      selected: selectedProps
+      selected: selectedProps,
+      scrollToSelected
     } = this.props;
     const {
       translate: translatePropsNew,
@@ -82,9 +83,12 @@ export class ScrollMenu extends React.Component {
     const leftArrowVisibleDiff = leftArrowVisible !== leftArrowVisibleNew;
     const rightArrowVisibleDiff = rightArrowVisible !== rightArrowVisibleNew;
 
-    let newMenuItems = false;
-    if (this.props.data !== nextProps.data || this.props.data.length !== nextProps.data.length) {
-      newMenuItems = true;
+    let translateResult = translateNew;
+
+    const newMenuItems = this.props.data !== nextProps.data || this.props.data.length !== nextProps.data.length;
+    const newTranslateProps = typeof (translatePropsNew) === 'number' && translatePropsDiff && !newMenuItems;
+
+    if (newMenuItems || scrollToSelected && selectedPropsDiff) {
       this.needUpdate = true;
     }
 
@@ -92,10 +96,14 @@ export class ScrollMenu extends React.Component {
       if (selectedPropsDiff) {
         this.selected = selectedPropsNew;
       }
-      
-      if (typeof (translatePropsNew) === 'number' && translatePropsDiff && !newMenuItems) {
-        this.setState({ translate: +translatePropsNew.toFixed(3) });
+
+      if (newTranslateProps) {
+        translateResult = translatePropsNew;
       }
+    }
+
+    if (newTranslateProps) {
+      this.setState({ translate: +translateResult.toFixed(3) });
     }
 
     return (
@@ -172,7 +180,7 @@ export class ScrollMenu extends React.Component {
   }
 
   setInitial = () => {
-    const { selected, data, translate: translateProps } = this.props;
+    const { selected, data, translate: translateProps, scrollToSelected } = this.props;
     if (!data || !data.length) return false;
 
     const menuItems = this.getMenuItems(data.length);
@@ -189,6 +197,7 @@ export class ScrollMenu extends React.Component {
       this[key] = values[key];
     }
 
+    // align item on initial load
     const { translate: _, ...width } = this.updateWidth({ items: menuItems, offset: 0, translate: 0 });
     for (const key in width) {
       this[key] = width[key];
@@ -198,12 +207,20 @@ export class ScrollMenu extends React.Component {
 
     const newState = { ...this.state };
 
+    // check arrows
     const { leftArrowVisible, rightArrowVisible } = this.checkSingleArrowVisibility({ translate: translateNew });
     newState.leftArrowVisible = leftArrowVisible;
     newState.rightArrowVisible = rightArrowVisible;
 
     if (typeof (translateProps) !== 'number') {
       newState.translate = translateNew;
+    }
+    // scrollToSelected
+    if (scrollToSelected) {
+      const needScroll = this.isScrollNeeded({ itemId: selected, translate: newState.translate });
+      if (needScroll) {
+        newState.translate = +this.getOffsetToItemByKey(selected).toFixed(3);
+      }
     }
 
     this.setState({ ...newState });
@@ -228,7 +245,6 @@ export class ScrollMenu extends React.Component {
 
   getItemsWidth = ({ items = this.menuItems}) => {
     const data = items && items.items || items;
-    // TODO maybe while cycle faster, need test
     return data.map(el => el[1])
       .filter(Boolean)
       .reduce((acc, el) => acc += getClientRect(el).width, 0);
