@@ -236,6 +236,15 @@ export class ScrollMenu extends React.Component {
     return !visibleItems.includes(item);
   };
 
+  scrollTo = (itemKey) => {
+    const { translate } = this.state;
+    const newTranslate = this.getOffsetToItemByKey(itemKey);
+    this.selected = itemKey;
+    if (translate === newTranslate) return false;
+
+    this.setState({ translate: newTranslate });
+  };
+
   getMenuItems = (dataLength) => {
     return Object.entries(this.ref)
       .filter(el => el[0].includes('menuitem'))

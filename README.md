@@ -186,6 +186,8 @@ Can get other properties in component state - `const { leftArrowVisible, rightAr
 
 Can simulate click with `componentRef.onItemClick('item4')`
 
+Can select and scroll to item with `componentRef.scrollTo('item14')`
+
 ## Gotchas
 * Menu items must have width, so if you use images as elements before image loaded it has width 0.
 
