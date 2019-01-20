@@ -173,6 +173,7 @@ class App extends Component {
           transition={+transition}
           onUpdate={this.onUpdate}
           onSelect={this.onSelect}
+          scrollToSelected={true}
           selected={selected}
           translate={translate}
           alignCenter={alignCenter}

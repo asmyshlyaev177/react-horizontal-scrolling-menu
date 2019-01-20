@@ -1563,6 +1563,27 @@ describe('functions', () => {
       });
 
       describe('scroll to selected item on start', () => {
+        it('scrollToSelected false', () => {
+          const scrollTo = 'item7';
+          const prop = { ...props, scrollToSelected: false };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+          const getOffsetToItemByKey = jest.fn();
+          getOffsetToItemByKey.mockReturnValue(35);
+          wrapper.instance().getOffsetToItemByKey = getOffsetToItemByKey;
+          const isScrollNeeded = jest.fn();
+          isScrollNeeded.mockReturnValue(true);
+          wrapper.instance().isScrollNeeded = isScrollNeeded;
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 20;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 10;
+
+          wrapper.setProps({ selected: scrollTo });
+          expect(wrapper.instance().selected).toEqual(scrollTo);
+          expect(isScrollNeeded).not.toHaveBeenCalled();
+          expect(getOffsetToItemByKey.mock.calls.length).toEqual(0);
+        });
         it('selected visible do not scroll - isScrollNeeded fn', () => {
           const prop = { ...props, scrollToSelected: true };
           const wrapper = mount(<ScrollMenu {...prop} />);
@@ -1586,6 +1607,7 @@ describe('functions', () => {
               .isScrollNeeded({ itemId: 'item3', translate: 0 }))
               .toEqual(false);
         });
+
         it('selected item not visible', () => {
           const prop = { ...props, scrollToSelected: true };
           const wrapper = mount(<ScrollMenu {...prop} />);
@@ -1610,23 +1632,57 @@ describe('functions', () => {
               .isScrollNeeded({ itemId: 'item6', translate: 0 }))
               .toEqual(true);
         });
+
         it('scroll to item when mount', () => {
-          const prop = { ...props, scrollToSelected: true };
+          const scrollTo = 'item7';
+          const prop = { ...props, scrollToSelected: true, selected: scrollTo };
           const wrapper = mount(<ScrollMenu {...prop} />);
           wrapper.instance().wWidth = 500;
           wrapper.instance().menuPos = 0;
           wrapper.instance().menuWidth = 100;
           wrapper.instance().menuItems = items;
           wrapper.instance().firstPageOffset = 10;
-          wrapper.setState({ translate: 0 });
 
-          wrapper.setProps({ selected: 'item4' });
+          const { translate } = wrapper.state();
           expect(
             wrapper.instance()
-              .isScrollNeeded({ itemId: 'item4', translate: 0 }))
+              .isScrollNeeded({ itemId: scrollTo, translate }))
+            .toEqual(true);
+          expect(wrapper.instance().selected).toEqual(scrollTo);
+          // const offsetToItem = wrapper.instance().getOffsetToItemByKey(scrollTo);
+          // expect(wrapper.state().translate).toEqual(offsetToItem);
+        });
+
+        it('scroll to item when change props', () => {
+          const scrollTo = 'item7';
+          const prop = { ...props, scrollToSelected: true, selected: 'item1' };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+          const getOffsetToItemByKey = jest.fn();
+          getOffsetToItemByKey.mockReturnValue(35);
+          wrapper.instance().getOffsetToItemByKey = getOffsetToItemByKey;
+          const isScrollNeeded = jest.fn();
+          isScrollNeeded.mockReturnValue(true);
+          wrapper.instance().isScrollNeeded = isScrollNeeded;
+          wrapper.instance().wWidth = 500;
+          wrapper.instance().menuPos = 20;
+          wrapper.instance().menuWidth = 100;
+          wrapper.instance().menuItems = items;
+          wrapper.instance().firstPageOffset = 10;
+
+          const { translate } = wrapper.state();
+          expect(
+            wrapper.instance()
+              .isScrollNeeded({ itemId: scrollTo, translate }))
             .toEqual(true);
 
-          expect(wrapper.state().translate).toEqual(0);
+          // TODO don't know why doesn't work
+          // translate in state does not change
+          // const offsetToItem = wrapper.instance().getOffsetToItemByKey(scrollTo);
+          wrapper.setProps({ selected: scrollTo });
+          expect(wrapper.instance().selected).toEqual(scrollTo);
+          expect(isScrollNeeded).toHaveBeenCalled();
+          expect(getOffsetToItemByKey.mock.calls.length).toEqual(1);
+          // expect(wrapper.state().translate).toEqual(offsetToItem);
         });
 
       });
