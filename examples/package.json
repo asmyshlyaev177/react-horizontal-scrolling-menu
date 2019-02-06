@@ -1,7 +1,6 @@
 {
   "name": "examples",
   "version": "0.1.0",
-  "private": true,
   "homepage": "https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/",
   "dependencies": {
     "react": "^16.6.3",
