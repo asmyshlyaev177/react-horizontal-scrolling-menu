@@ -1,9 +1,8 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "main": "build/index.js",
-  "module": "build/index.mjs.js",
   "esnext": "src/index.js",
   "jsnext:main": "src/index.js",
   "browser": "build/index.js",
