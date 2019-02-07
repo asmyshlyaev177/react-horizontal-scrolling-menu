@@ -65,7 +65,7 @@ const items = [
   ['item6', { getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) }],
   ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }]
 ];
-  
+
 const MenuItem = ({ text, selected }) => {
   return (
     <div
@@ -110,23 +110,23 @@ describe('test menu', () => {
 
   const wrapper = mount(<ScrollMenu {...props} />);
   it('don"t render arrow', () => {
-    const { arrowLeft, arrowRight, ...rest } = props; 
-    const wrapper = mount(<ScrollMenu {...rest} />); 
+    const { arrowLeft, arrowRight, ...rest } = props;
+    const wrapper = mount(<ScrollMenu {...rest} />);
     expect(wrapper.find('Arrow').length).toBe(0);
   });
   it('render null if menuItems empty', () => {
-    const wrapper = mount(<ScrollMenu data={[]}/>); 
+    const wrapper = mount(<ScrollMenu data={[]}/>);
     wrapper.instance().setInitial();
     expect(wrapper.html()).toEqual(null);
   });
   it('render left arrow', () => {
-    const { arrowRight, ...rest } = props; 
-    const wrapper = mount(<ScrollMenu {...rest} />); 
+    const { arrowRight, ...rest } = props;
+    const wrapper = mount(<ScrollMenu {...rest} />);
     expect(wrapper.find('.arrow-prev').length).toBe(1);
   });
   it('render right arrow', () => {
-    const { arrowLeft, ...rest } = props; 
-    const wrapper = mount(<ScrollMenu {...rest} />); 
+    const { arrowLeft, ...rest } = props;
+    const wrapper = mount(<ScrollMenu {...rest} />);
     expect(wrapper.find('.arrow-next').length).toBe(1);
   });
   it('handle arrowClickRight dispatch handleArrowClick', () => {
@@ -204,7 +204,7 @@ describe('test menu', () => {
     wrapper.instance().onUpdate = onUpdate;
 
     wrapper.instance().setInitial();
-    
+
     expect(onUpdate).not.toHaveBeenCalled();
   });
 });
@@ -299,7 +299,7 @@ describe('functions', () => {
       wrapper.setState({ translate: 5, dragging: true });
       wrapper.setState({ translate: 0, dragging: false });
       wrapper.instance().handleDragStop(ev(0));
-      expect(onUpdate.mock.calls.length).toEqual(0);
+      expect(onUpdate.mock.calls.length).toEqual(1);
     });
   });
 
@@ -359,7 +359,7 @@ describe('functions', () => {
       expect(wrapper.instance().itBeforeStart(-10)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(50)).toEqual(true);
       expect(wrapper.instance().itBeforeStart(100)).toEqual(true);
-    
+
       wrapper.setProps({ alignCenter: true });
       expect(wrapper.instance().itBeforeStart(0)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(-10)).toEqual(false);
@@ -382,7 +382,7 @@ describe('functions', () => {
 
       expect(wrapper.instance().itAfterEnd(-121)).toEqual(true);
       expect(wrapper.instance().itAfterEnd(-200)).toEqual(true);
-    
+
       wrapper.setProps({ alignCenter: true });
       expect(wrapper.instance().itAfterEnd(0)).toEqual(false);
       expect(wrapper.instance().itAfterEnd(50)).toEqual(false);
@@ -397,7 +397,7 @@ describe('functions', () => {
 
   describe('width functions', () => {
     const prop = { ...props, alignCenter: true };
-    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) };   
+    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) };
     const getPagesOffsets = jest.fn();
     const wrapper = mount(<ScrollMenu {...prop} />);
     wrapper.instance().ref.menuWrapper = menuWrapper;
@@ -677,9 +677,9 @@ describe('functions', () => {
     });
 
     it('getOfsset fn', () => {
-      const getVisibleItems = jest.fn(); 
-      const getScrollLeftOffset = jest.fn().mockReturnValue('left'); 
-      const getScrollRightOffset = jest.fn().mockReturnValue('right'); 
+      const getVisibleItems = jest.fn();
+      const getScrollLeftOffset = jest.fn().mockReturnValue('left');
+      const getScrollRightOffset = jest.fn().mockReturnValue('right');
       wrapper.instance().getVisibleItems = getVisibleItems;
       wrapper.instance().getScrollLeftOffset = getScrollLeftOffset;
       wrapper.instance().getScrollRightOffset = getScrollRightOffset;
@@ -816,7 +816,7 @@ describe('functions', () => {
 
     describe('handleWheel', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      const arrowClick = jest.fn(); 
+      const arrowClick = jest.fn();
       wrapper.instance().handleArrowClick = arrowClick;
       let ev = {
         deltaY: 0,
@@ -1354,7 +1354,7 @@ describe('functions', () => {
       wrapper.setProps({ translate: 0 });
       expect(wrapper.state().translate).toEqual(0);
     });
-    
+
     it('update selected', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ selected: 'item3' });

@@ -17,7 +17,7 @@ export class ScrollMenu extends React.Component {
     this.wWidth = 0;
     this.firstPageOffset = 0;
     this.lastPageOffset = 0;
-    this.lastTranslateUpdate = 0;
+    this.lastTranslateUpdate = null;
   }
 
   state = {
@@ -384,7 +384,7 @@ export class ScrollMenu extends React.Component {
 
     if (this.itBeforeStart(translate)) {
       translate = this.getOffsetAtStart();
-    } 
+    }
     if (this.itAfterEnd(translate)) {
       translate = this.getOffsetAtEnd();
     }
@@ -416,7 +416,7 @@ export class ScrollMenu extends React.Component {
       visibleItems && visibleItems.slice(-1)[0]
         ? visibleItems.slice(-1)[0][0]
         : items.slice(-1)[0][0]
-    ); 
+    );
     const nextItemIndex = items.findIndex(el => el[0] === nextItem[0]);
 
     const offsetToItem = this.getOffsetToItemByIndex({ index: nextItemIndex, menuItems: items});
@@ -432,7 +432,7 @@ export class ScrollMenu extends React.Component {
     }
 
     const centerOffset = () => this.getCenterOffset({ items: nextVisibleItems });
- 
+
     const newOffset = alignCenter
       ? offsetToItemOnStart - centerOffset()
       : offsetToItemOnStart;
@@ -447,7 +447,7 @@ export class ScrollMenu extends React.Component {
       visibleItems && visibleItems[0]
         ? visibleItems[0][0]
         : items[0][0]
-    ); 
+    );
     const prevItemIndex = items.findIndex(el => el[0] === prevItem[0]);
 
     const offsetToItem = this.getOffsetToItemByIndex({ index: prevItemIndex, menuItems: items});
@@ -464,7 +464,7 @@ export class ScrollMenu extends React.Component {
     }
 
     const centerOffset = () => this.getCenterOffset({ items: nextVisibleItems });
- 
+
     const newOffset = alignCenter
       ? offsetToItemOnEnd + centerOffset()
       : offsetToItemOnEnd;
@@ -747,7 +747,7 @@ export class ScrollMenu extends React.Component {
         onWheel={this.handleWheel}
       >
 
-        {arrowLeft && 
+        {arrowLeft &&
           <ArrowWrapper
             className={arrowClass}
             isDisabled={!arrowsVisible || !leftArrowVisible}
