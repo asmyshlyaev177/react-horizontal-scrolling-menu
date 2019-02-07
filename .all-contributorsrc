@@ -27,6 +27,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "fyanezv",
+      "name": "Francisco",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3169150?v=4",
+      "profile": "https://github.com/fyanezv",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ]
 }

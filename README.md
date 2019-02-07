@@ -221,8 +221,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/19995201?v=4" width="70px;"/><br /><sub><b>Federico D. Ferrari</b></sub>](https://github.com/fdferrari)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fdferrari "Code") | [<img src="https://avatars0.githubusercontent.com/u/17786035?v=4" width="70px;"/><br /><sub><b>Alex Oxrud</b></sub>](https://www.alexoxrud.com)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Code") [📖](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Documentation") |
-| :---: | :---: |
+| [<img src="https://avatars2.githubusercontent.com/u/19995201?v=4" width="70px;"/><br /><sub><b>Federico D. Ferrari</b></sub>](https://github.com/fdferrari)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fdferrari "Code") | [<img src="https://avatars0.githubusercontent.com/u/17786035?v=4" width="70px;"/><br /><sub><b>Alex Oxrud</b></sub>](https://www.alexoxrud.com)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Code") [📖](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Documentation") | [<img src="https://avatars2.githubusercontent.com/u/3169150?v=4" width="70px;"/><br /><sub><b>Francisco</b></sub>](https://github.com/fyanezv)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fyanezv "Code") [⚠️](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fyanezv "Tests") |
+| :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
