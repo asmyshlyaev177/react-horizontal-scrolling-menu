@@ -63,8 +63,10 @@ const deployExamples = pathes => {
 const npmPublish = async () => {
   const version = getVersion(packageJsonPath);
   try {
+    await execSync('npm run build', {cwd: rootPath});
     await execSync('git add .', {cwd: rootPath});
     await execSync(`git commit -am"version ${version}"`, {cwd: rootPath});
+    await execSync(`git tag ${version}`, {cwd: rootPath});
     await execSync('git push', {cwd: rootPath});
     await execSync('npm publish', {cwd: rootPath});
   } catch (e) {
