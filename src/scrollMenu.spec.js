@@ -283,24 +283,6 @@ describe('functions', () => {
       expect(onUpdate.mock.calls.length).toEqual(0);
     });
 
-    it('do not call on didUpdate after drag over edge if translate same', () => {
-      const onUpdate = jest.fn();
-      const prop = { ...props, dragging: true, alignCenter: true, onUpdate };
-      const wrapper = mount(<ScrollMenu {...prop} />);
-      wrapper.setState({ dragging: true, translate: 0, startDragTranslate: 0 });
-      const itBeforeStart = jest.fn();
-      itBeforeStart.mockReturnValue(false);
-      wrapper.instance().itBeforeStart = itBeforeStart;
-      const itAfterEnd = jest.fn();
-      itAfterEnd.mockReturnValue(false);
-      wrapper.instance().itAfterEnd = itAfterEnd;
-
-      expect(onUpdate.mock.calls.length).toEqual(0);
-      wrapper.setState({ translate: 5, dragging: true });
-      wrapper.setState({ translate: 0, dragging: false });
-      wrapper.instance().handleDragStop(ev(0));
-      expect(onUpdate.mock.calls.length).toEqual(1);
-    });
   });
 
   describe('visibility functions', () => {
