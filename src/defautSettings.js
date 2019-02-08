@@ -18,12 +18,12 @@ const defaultSetting = {
   scrollToSelected: false,
   selected: 0,
   startDragTranslate: null,
-  translate: 0.000,
+  translate: 0.0,
   transition: 0.4,
   wrapperClass: 'menu-wrapper',
   wheel: true,
   xPoint: 0,
-  xDraggedDistance: null
+  xDraggedDistance: null,
 };
 
 const defaultProps = {
@@ -43,18 +43,18 @@ const defaultProps = {
   translate: defaultSetting.translate,
   menuClass: defaultSetting.menuClass,
   wheel: defaultSetting.wheel,
-  wrapperClass: defaultSetting.wrapperClass
+  wrapperClass: defaultSetting.wrapperClass,
 };
 
 const defaultMenuStyle = {
   display: 'flex',
   alignItems: 'center',
-  userSelect: 'none'
+  userSelect: 'none',
 };
 
 const defaultWrapperStyle = {
   overflow: 'hidden',
-  userSelect: 'none' 
+  userSelect: 'none',
 };
 
-export { defaultSetting, defaultProps, defaultMenuStyle, defaultWrapperStyle };
+export {defaultSetting, defaultProps, defaultMenuStyle, defaultWrapperStyle};

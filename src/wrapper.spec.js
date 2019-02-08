@@ -2,8 +2,8 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
 import ScrollMenu from './scrollMenu';
-import { innerStyle, InnerWrapper } from './wrapper';
-import { props, menu } from './scrollMenu.spec.js';
+import {innerStyle, InnerWrapper} from './wrapper';
+import {props, menu} from './scrollMenu.spec.js';
 
 describe('wrappers and styles', () => {
   const wrapper = mount(<ScrollMenu {...props} />);
@@ -16,17 +16,35 @@ describe('wrappers and styles', () => {
       transition: 'transform 0s',
       whiteSpace: 'nowrap',
       textAlign: 'left',
-      userSelect: 'none'
+      userSelect: 'none',
     };
 
-    style = innerStyle({ translate: 10, dragging: true, mounted: true, transition: 0.4 });
+    style = innerStyle({
+      translate: 10,
+      dragging: true,
+      mounted: true,
+      transition: 0.4,
+    });
     expect(style).toEqual(result);
 
-    style = innerStyle({ translate: 20, dragging: false, mounted: false, transition: 0.4 });
-    expect(style).toEqual({ ...result, transform: 'translate3d(20px, 0px, 0px)' });
+    style = innerStyle({
+      translate: 20,
+      dragging: false,
+      mounted: false,
+      transition: 0.4,
+    });
+    expect(style).toEqual({
+      ...result,
+      transform: 'translate3d(20px, 0px, 0px)',
+    });
 
-    style = innerStyle({ translate: 10, dragging: false, mounted: true, transition: 0.4 });
-    expect(style).toEqual({ ...result, transition: 'transform 0.4s' });
+    style = innerStyle({
+      translate: 10,
+      dragging: false,
+      mounted: true,
+      transition: 0.4,
+    });
+    expect(style).toEqual({...result, transition: 'transform 0.4s'});
   });
 
   describe('innerWrapper', () => {
@@ -41,7 +59,7 @@ describe('wrappers and styles', () => {
       dragging: true,
       mounted: false,
       transition: 0.4,
-      selected: 0
+      selected: 0,
     };
 
     const wrapper = mount(<InnerWrapper {...prop} />);

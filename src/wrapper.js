@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defaultSetting } from './defautSettings';
+import {defaultSetting} from './defautSettings';
 
-export const ArrowWrapper = ({ className: clsName, onClick, children, isDisabled, hideArrows, disabledClass, forwardClick }) => {
-  const disabledClassName = isDisabled ? disabledClass || `${clsName}--disabled` : '';
+export const ArrowWrapper = ({
+  className: clsName,
+  onClick,
+  children,
+  isDisabled,
+  hideArrows,
+  disabledClass,
+  forwardClick,
+}) => {
+  const disabledClassName = isDisabled
+    ? disabledClass || `${clsName}--disabled`
+    : '';
   const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
   const childProps = {
     ...children.props,
-    onClick: () => (forwardClick ? onClick() : null)
+    onClick: () => (forwardClick ? onClick() : null),
   };
 
   return (
-    <div
-      className={className}
-      onClick={forwardClick ? null : onClick}
-    >
+    <div className={className} onClick={forwardClick ? null : onClick}>
       {React.cloneElement(children, childProps)}
     </div>
   );
@@ -29,14 +36,14 @@ ArrowWrapper.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export const innerStyle = ({ translate, dragging, mounted, transition }) => {
+export const innerStyle = ({translate, dragging, mounted, transition}) => {
   return {
     width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
     transition: `transform ${dragging || !mounted ? '0' : transition}s`,
     whiteSpace: 'nowrap',
     textAlign: 'left',
-    userSelect: 'none'
+    userSelect: 'none',
   };
 };
 
@@ -47,10 +54,10 @@ export class InnerWrapper extends React.Component {
   }
 
   setRef = (key, value) => {
-    const { setRef } = this.props;
+    const {setRef} = this.props;
     this.ref[key] = value;
     setRef(this.ref);
-  }
+  };
 
   render() {
     const {
@@ -64,34 +71,33 @@ export class InnerWrapper extends React.Component {
       itemClass,
       onClick,
       itemClassActive,
-      forwardClick
+      forwardClick,
     } = this.props;
     const isActive = (itemId, selected) => String(itemId) === String(selected);
-    const items = data
-      .map(el => {
-        const props = {
-          selected: isActive(el.key, selected),
-          onClick: () => (forwardClick ? onClick(el.key) : null)
-        };
-        return React.cloneElement(el, props);
-      });
+    const items = data.map(el => {
+      const props = {
+        selected: isActive(el.key, selected),
+        onClick: () => (forwardClick ? onClick(el.key) : null),
+      };
+      return React.cloneElement(el, props);
+    });
 
     return (
       <div
         className={innerWrapperClass}
-        style={ innerStyle({ translate, dragging, mounted, transition }) }
-        ref={inst => this.setRef('menuInner', inst)}
-      >
+        style={innerStyle({translate, dragging, mounted, transition})}
+        ref={inst => this.setRef('menuInner', inst)}>
         {items.map((Item, i) => (
           <div
             ref={inst => this.setRef(`menuitem-${i}`, inst)}
-            className={`${itemClass} ${isActive(Item.key, selected) ? itemClassActive : ''}`}
-            key={'menuItem-' + Item.key} 
+            className={`${itemClass} ${
+              isActive(Item.key, selected) ? itemClassActive : ''
+            }`}
+            key={'menuItem-' + Item.key}
             style={{
-              display: 'inline-block'
+              display: 'inline-block',
             }}
-            onClick={() => forwardClick ? null : onClick(Item.key)}
-          >
+            onClick={() => (forwardClick ? null : onClick(Item.key))}>
             {Item}
           </div>
         ))}
@@ -111,7 +117,7 @@ InnerWrapper.propTypes = {
   innerWrapperClass: PropTypes.string,
   itemClass: PropTypes.string,
   itemClassActive: PropTypes.string,
-  forwardClick: PropTypes.bool
+  forwardClick: PropTypes.bool,
 };
 
 InnerWrapper.defaultProps = {
@@ -120,5 +126,5 @@ InnerWrapper.defaultProps = {
   dragging: true,
   mounted: false,
   transition: defaultSetting.transition,
-  selected: defaultSetting.selected
+  selected: defaultSetting.selected,
 };
