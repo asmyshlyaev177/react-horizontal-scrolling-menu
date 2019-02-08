@@ -14,7 +14,8 @@
     "test:watch": "jest --watch",
     "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=text-lcov",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "deploy": "babel-node scripts/deploy.js"
   },
   "repository": {
     "type": "git",
