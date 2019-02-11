@@ -191,9 +191,10 @@ Can simulate click with `componentRef.onItemClick('item4')`
 Can select and scroll to item with `componentRef.scrollTo('item14')`
 
 ## Gotchas
-* Menu items must have width, so if you use images as elements before image loaded it has width 0.
+* Menu items must have width, if items contains images and images don't loaded yeat it can be problem. Generally component will try to determine width of items, if it can't you can assign ref to component and call $ref.setInitial() manually when items have width for sure.
 
 * Browser must support **requestAnimationFrame** or use polyfill.
+* It can doesn't work in IE, and I don't care, I am not a necrophile.(if you need it you can make PR, I will merge)
 
 ## About
 My first npm project. Sorry for my english.
