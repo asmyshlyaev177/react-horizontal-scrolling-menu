@@ -66,6 +66,7 @@ class App extends Component {
     translate: null,
     transition: 0.4,
     wheel: true,
+    showList: true,
   };
 
   constructor(props) {
@@ -115,6 +116,10 @@ class App extends Component {
     this.setState({selected: String(value)});
   };
 
+  toggle = () => {
+    this.setState({ showList: !this.state.showList });
+  };
+
   render() {
     const {
       alignCenter,
@@ -127,6 +132,7 @@ class App extends Component {
       translate,
       transition,
       wheel,
+      showList,
     } = this.state;
 
     const menu = this.menuItems;
@@ -149,24 +155,28 @@ class App extends Component {
           Horizontal scrolling menu example. Click arrow or drag items.
         </p>
 
-        <ScrollMenu
-          ref={el => (this.menu = el)}
-          data={menu}
-          arrowLeft={ArrowLeft}
-          arrowRight={ArrowRight}
-          hideArrows={hideArrows}
-          hideSingleArrow={hideSingleArrow}
-          transition={+transition}
-          onUpdate={this.onUpdate}
-          onSelect={this.onSelect}
-          scrollToSelected={true}
-          selected={selected}
-          translate={translate}
-          alignCenter={alignCenter}
-          dragging={dragging}
-          clickWhenDrag={clickWhenDrag}
-          wheel={wheel}
-        />
+        <button onClick={this.toggle}>Toggle Show/hide</button>
+
+        { showList && (
+          <ScrollMenu
+            ref={el => (this.menu = el)}
+            data={menu}
+            arrowLeft={ArrowLeft}
+            arrowRight={ArrowRight}
+            hideArrows={hideArrows}
+            hideSingleArrow={hideSingleArrow}
+            transition={+transition}
+            onUpdate={this.onUpdate}
+            onSelect={this.onSelect}
+            scrollToSelected={true}
+            selected={selected}
+            translate={translate}
+            alignCenter={alignCenter}
+            dragging={dragging}
+            clickWhenDrag={clickWhenDrag}
+            wheel={wheel}
+          />
+        )}
 
         <form className="properties">
           <label style={checkboxStyle}>

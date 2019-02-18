@@ -221,8 +221,8 @@ export class ScrollMenu extends React.Component {
   };
 
   onLoad = () => {
-    this.mounted = true;
     this.setInitial();
+    this.mounted = true;
   };
 
   setInitial = () => {
