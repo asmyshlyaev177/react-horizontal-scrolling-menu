@@ -63,7 +63,7 @@ export class ScrollMenu extends React.Component {
     window.addEventListener('resize', this.setInitial, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
-    setTimeout(() => this.onLoad(), 0);
+    setTimeout(() => (this.onLoad(), this.forceUpdate()), 0);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -579,11 +579,12 @@ export class ScrollMenu extends React.Component {
       menuItems,
       firstPageOffset,
       lastPageOffset,
+      mounted,
     } = this;
     const {alignCenter} = this.props;
     const {translate} = this.state;
 
-    if (allItemsWidth < menuWidth) {
+    if (mounted && allItemsWidth < menuWidth) {
       return this.handleArrowClick(!alignCenter);
     }
 
@@ -887,7 +888,7 @@ export class ScrollMenu extends React.Component {
             translate={translate}
             dragging={dragging}
             mounted={mounted}
-            transition={transition}
+            transition={mounted ? transition : 0}
             selected={selected}
             setRef={this.setRef}
             onClick={this.onItemClick}
