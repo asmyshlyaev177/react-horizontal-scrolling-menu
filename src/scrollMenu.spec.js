@@ -14,6 +14,7 @@ afterEach(() => {
   window.requestAnimationFrame.mockRestore();
 });
 
+// eslint-disable-next-line react/prop-types
 const Arrow = ({ text, className }) => {
   return (
     <div
@@ -66,6 +67,7 @@ const items = [
   ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }]
 ];
 
+// eslint-disable-next-line react/prop-types
 const MenuItem = ({ text, selected }) => {
   return (
     <div
@@ -173,7 +175,6 @@ describe('test menu', () => {
     wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
     wrapper.instance().setInitial();
     expect(getMenuItems.mock.calls.length).toEqual(1);
-    expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
     expect(updateWidth.mock.calls.length).toEqual(1);
     const { wWidth, menuPos, menuItems } = wrapper.instance();
     expect(wWidth).toEqual(500);
@@ -1418,7 +1419,6 @@ describe('functions', () => {
         wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
         wrapper.setProps({ data: menuNew });
         expect(updateWidth.mock.calls.length).toEqual(1);
-        expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
         expect(wrapper.state().translate).toEqual(-50);
       });
     });
@@ -1592,15 +1592,15 @@ describe('functions', () => {
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item1', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item2', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item3', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
         });
 
         it('selected item not visible', () => {
@@ -1621,11 +1621,11 @@ describe('functions', () => {
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item5', translate: 0 }))
-              .toEqual(true);
+            .toEqual(true);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item6', translate: 0 }))
-              .toEqual(true);
+            .toEqual(true);
         });
 
         it('scroll to item when mount', () => {

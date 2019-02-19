@@ -40,7 +40,7 @@ const defaultProps = {
   scrollToSelected: defaultSetting.scrollToSelected,
   selected: defaultSetting.selected,
   transition: defaultSetting.transition,
-  translate: defaultSetting.translate,
+  translate: undefined,
   menuClass: defaultSetting.menuClass,
   wheel: defaultSetting.wheel,
   wrapperClass: defaultSetting.wrapperClass,

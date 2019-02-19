@@ -32,6 +32,7 @@ const list = [
   {name: 'item25'},
 ];
 
+// eslint-disable-next-line react/prop-types
 const MenuItem = ({text, selected}) => {
   return <div className={`menu-item ${selected ? 'active' : ''}`}>{text}</div>;
 };
