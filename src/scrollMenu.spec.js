@@ -14,6 +14,7 @@ afterEach(() => {
   window.requestAnimationFrame.mockRestore();
 });
 
+// eslint-disable-next-line react/prop-types
 const Arrow = ({ text, className }) => {
   return (
     <div
@@ -66,6 +67,7 @@ const items = [
   ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }]
 ];
 
+// eslint-disable-next-line react/prop-types
 const MenuItem = ({ text, selected }) => {
   return (
     <div
@@ -149,11 +151,10 @@ describe('test menu', () => {
     const { selected: s, translate: t, data: d, ...rest } = props;
     const wrapper = mount(<ScrollMenu {...rest} />);
     const state = wrapper.state();
-    const { selected, translate, data, mounted } = state;
+    const { selected, translate, data } = state;
     expect(selected === ScrollMenu.defaultProps.selected);
     expect(translate === ScrollMenu.defaultProps.translate);
     expect(data === ScrollMenu.defaultProps.data);
-    expect(mounted);
   });
   it('set initial selected item and translate', () => {
     const state = wrapper.state();
@@ -174,7 +175,6 @@ describe('test menu', () => {
     wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
     wrapper.instance().setInitial();
     expect(getMenuItems.mock.calls.length).toEqual(1);
-    expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
     expect(updateWidth.mock.calls.length).toEqual(1);
     const { wWidth, menuPos, menuItems } = wrapper.instance();
     expect(wWidth).toEqual(500);
@@ -943,8 +943,22 @@ describe('functions', () => {
     });
 
     describe('getAlignItemsOffset', () => {
+      it('not mounted do not call handleArrowClick', () => {
+        const wrapper = mount(<ScrollMenu {...props} />);
+        wrapper.instance().mounted = false;
+        const handleArrowClick = jest.fn();
+        wrapper.instance().handleArrowClick = handleArrowClick;
+        wrapper.instance().allItemsWidth = 10;
+        wrapper.instance().menuWidth = 100;
+        const { translate } = wrapper.state();
+
+        wrapper.instance().getAlignItemsOffset();
+        expect(handleArrowClick.mock.calls.length).toEqual(0);
+        expect(wrapper.state().translate).toEqual(translate);
+      });
       it('allItemsWidth less tham menuWidth', () => {
         const wrapper = mount(<ScrollMenu {...props} />);
+        wrapper.instance().mounted = true;
         const handleArrowClick = jest.fn();
         wrapper.instance().handleArrowClick = handleArrowClick;
         wrapper.instance().allItemsWidth = 10;
@@ -1405,7 +1419,6 @@ describe('functions', () => {
         wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
         wrapper.setProps({ data: menuNew });
         expect(updateWidth.mock.calls.length).toEqual(1);
-        expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
         expect(wrapper.state().translate).toEqual(-50);
       });
     });
@@ -1579,15 +1592,15 @@ describe('functions', () => {
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item1', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item2', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item3', translate: 0 }))
-              .toEqual(false);
+            .toEqual(false);
         });
 
         it('selected item not visible', () => {
@@ -1608,11 +1621,11 @@ describe('functions', () => {
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item5', translate: 0 }))
-              .toEqual(true);
+            .toEqual(true);
           expect(
             wrapper.instance()
               .isScrollNeeded({ itemId: 'item6', translate: 0 }))
-              .toEqual(true);
+            .toEqual(true);
         });
 
         it('scroll to item when mount', () => {

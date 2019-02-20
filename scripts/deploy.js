@@ -2,9 +2,8 @@
  * Script for deploy new version
  *
  * 1 change version in package.json
- * 2 run this script (npm run deploy)
- * it will make new commit message
- * deploy new version via npm publish
+ * 2 npm publish
+ * 3 run this script (npm run deploy)
  * change version of library in all projects in examples folder,
  * deploy all examples projects
  * */
@@ -60,19 +59,6 @@ const deployExamples = pathes => {
     execSync('npm run deploy', {cwd: path});
   });
 };
-const npmPublish = async () => {
-  const version = getVersion(packageJsonPath);
-  try {
-    await execSync('npm run build', {cwd: rootPath});
-    await execSync('git add .', {cwd: rootPath});
-    await execSync(`git commit -am"version ${version}"`, {cwd: rootPath});
-    await execSync(`git tag ${version}`, {cwd: rootPath});
-    await execSync('git push', {cwd: rootPath});
-    await execSync('npm publish', {cwd: rootPath});
-  } catch (e) {
-    return false;
-  }
-};
 
 // replace version of package in all examples recursively and deploy it
 const replaceVersionAndRunScripts = compose(
@@ -85,11 +71,6 @@ const replaceVersionAndRunScripts = compose(
 );
 
 function main() {
-  try {
-    npmPublish();
-  } catch (e) {
-    return false;
-  }
   replaceVersionAndRunScripts(examplesPath);
   console.log('New version and examples deployed!');
 }

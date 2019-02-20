@@ -34,10 +34,7 @@ export class ScrollMenu extends React.Component {
   state = {
     dragging: false,
     xPoint: defaultSetting.xPoint,
-    translate: validateTranslate(
-      this.props.translate,
-      defaultSetting.translate,
-    ),
+    translate: this.props.translate,
     startDragTranslate: defaultSetting.startDragTranslate,
     xDraggedDistance: defaultSetting.xDraggedDistance,
     leftArrowVisible: false,
@@ -63,7 +60,7 @@ export class ScrollMenu extends React.Component {
     window.addEventListener('resize', this.setInitial, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
-    setTimeout(() => this.onLoad(), 0);
+    setTimeout(() => (this.onLoad(), this.forceUpdate()), 0);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -221,8 +218,8 @@ export class ScrollMenu extends React.Component {
   };
 
   onLoad = () => {
-    this.mounted = true;
     this.setInitial();
+    this.mounted = true;
   };
 
   setInitial = () => {
@@ -232,7 +229,9 @@ export class ScrollMenu extends React.Component {
       translate: translateProps,
       scrollToSelected,
     } = this.props;
+    const { translate: translateState } = this.state;
     if (!data || !data.length) return false;
+    let translateNew = translateProps;
 
     const menuItems = this.getMenuItems(data.length);
     const selectedItem = data.find(el => el.key === selected);
@@ -250,6 +249,7 @@ export class ScrollMenu extends React.Component {
     }
 
     // align item on initial load
+    // eslint-disable-next-line no-unused-vars
     const {translate: _, ...width} = this.updateWidth({
       items: menuItems,
       offset: 0,
@@ -258,12 +258,13 @@ export class ScrollMenu extends React.Component {
     for (const key in width) {
       this[key] = width[key];
     }
-    const translateNewRaw = this.getAlignItemsOffset();
-    const translateNew = translateIsValid(translateNewRaw)
-      ? formatTranslate(translateNewRaw)
-      : false;
 
     const newState = {...this.state};
+
+    if (!translateIsValid(translateNew) && !translateIsValid(translateState)) {
+      translateNew = formatTranslate(this.getAlignItemsOffset());
+      newState.translate = translateNew;
+    }
 
     // check arrows
     const {
@@ -273,9 +274,6 @@ export class ScrollMenu extends React.Component {
     newState.leftArrowVisible = leftArrowVisible;
     newState.rightArrowVisible = rightArrowVisible;
 
-    if (!translateIsValid(translateProps)) {
-      newState.translate = translateNew;
-    }
     // scrollToSelected
     if (scrollToSelected) {
       const needScroll = this.isScrollNeeded({
@@ -405,7 +403,7 @@ export class ScrollMenu extends React.Component {
     menuPos = this.menuPos,
     menuWidth = this.menuWidth,
     offset = this.state.translate,
-    translate = this.state.translate,
+    translate = this.state.translate || defaultSetting.translate,
   }) => {
     const data = items.items || items;
 
@@ -579,11 +577,12 @@ export class ScrollMenu extends React.Component {
       menuItems,
       firstPageOffset,
       lastPageOffset,
+      mounted,
     } = this;
     const {alignCenter} = this.props;
     const {translate} = this.state;
 
-    if (allItemsWidth < menuWidth) {
+    if (mounted && allItemsWidth < menuWidth) {
       return this.handleArrowClick(!alignCenter);
     }
 
@@ -592,7 +591,7 @@ export class ScrollMenu extends React.Component {
     const right = visibleItems.includes(menuItems.slice(-1)[0]);
 
     // center is visible, do nothing
-    if (!left && !right) return formatTranslate(translate);
+    if (!left && !right) return validateTranslate(translate, defaultSetting.translate);
 
     // left edge visible
     if (left) {
@@ -887,7 +886,7 @@ export class ScrollMenu extends React.Component {
             translate={translate}
             dragging={dragging}
             mounted={mounted}
-            transition={transition}
+            transition={mounted ? transition : 0}
             selected={selected}
             setRef={this.setRef}
             onClick={this.onItemClick}
