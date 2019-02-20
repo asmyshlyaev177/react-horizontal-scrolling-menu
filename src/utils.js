@@ -1,6 +1,8 @@
 const notUndefOrNull = val => val !== undefined && val !== null;
 const getClientRect = elem => {
-  const {x, left, width} = elem.getBoundingClientRect();
+  if (!elem || !elem.getBoundingClientRect || typeof elem.getBoundingClientRect !== 'function') return {width: 0, x: 0};
+
+  const {x, left = 0, width = 0} = elem.getBoundingClientRect();
   return {width, x: !isNaN(x) ? +x : +left};
 };
 
