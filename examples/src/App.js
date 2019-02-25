@@ -80,8 +80,9 @@ class App extends Component {
     const {alignCenter} = prevState;
     const {alignCenter: alignCenterNew} = this.state;
     if (alignCenter !== alignCenterNew) {
-      this.setState({translate: 0}, () => this.forceUpdate());
-      setTimeout(() => this.menu.handleArrowClick(), 0);
+      this.menu.setInitial();
+      this.menu.forceUpdate();
+      this.forceUpdate();
     }
   }
 
