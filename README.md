@@ -54,28 +54,20 @@ const list = [
 
 // One item component
 // selected prop will be passed
-const MenuItem = ({ text, selected }) => {
-  return (
-    <div
-      className="menu-item"
-    >
-      {text}
-    </div>
-  );
+const MenuItem = ({text, selected}) => {
+  return <div
+    className={`menu-item ${selected ? 'active' : ''}`}
+    >{text}</div>;
 };
 
 // All items component
 // Important! add unique key
-export const Menu = (list) => list.map(el => {
-  const { name } = el;
+export const Menu = (list, selected) =>
+  list.map(el => {
+    const {name} = el;
 
-  return (
-    <MenuItem
-      text={name}
-      key={name}
-    />
-  );
-});
+    return <MenuItem text={name} key={name} selected={selected} />;
+  });
 
 
 const Arrow = ({ text, className }) => {
@@ -94,12 +86,12 @@ class App extends Component {
   state = {
     selected: 'item1'
   };
-  
+
   onSelect = key => {
     this.setState({ selected: key });
   }
 
-  
+
   render() {
     const { selected } = this.state;
     // Create menu from items
@@ -208,12 +200,12 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
   * Remove react-horizontal-scrolling-menu from package.json example project
   * Run `npm link react-horizontal-scrolling-menu && npm install`
   * Run `npm run start` in root and in examples folders
-  
+
 2 Write code! Add some feature or fix bug.
 
 3 Check that all tests passed and add tests for your code.
   * You can use `npm run test:watch` for run tests in watch mode
-  
+
 4 Update readme and example(if needed)
 
 5 Run `npm run build` , make commit and Pull Request

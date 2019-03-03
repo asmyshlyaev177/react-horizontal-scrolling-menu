@@ -32,6 +32,7 @@ const options = env => ({
           },
           {
             loader: 'ts-loader',
+            options: {configFile: 'tsconfig-esnext.json'}
           }
         ],
       },
@@ -66,13 +67,14 @@ module.exports = env => {
   return [
     {
       devtool: env.development ? 'source-map' : 'none',
-      entry: './src/index.ts',
+      entry: {
+        es: './src/index.ts'
+      },
       output: {
         path: outputPath,
-        filename: `${filename}.js`,
-        libraryTarget: 'commonjs2', // THIS IS THE MOST IMPORTANT LINE! :mindblow: I wasted more than 2 days until realize this was the line most important in all this guide.
+        filename: `${filename}.mjs.js`
       },
-      ...options(env),
+      ...options(env)
     }
   ];
 };

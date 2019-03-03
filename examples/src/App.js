@@ -37,11 +37,11 @@ const MenuItem = ({text, selected}) => {
   return <div className={`menu-item ${selected ? 'active' : ''}`}>{text}</div>;
 };
 
-export const Menu = list =>
+export const Menu = (list, selected) =>
   list.map(el => {
     const {name} = el;
 
-    return <MenuItem text={name} key={name} />;
+    return <MenuItem text={name} key={name} selected={selected} />;
   });
 
 const Arrow = ({text, className}) => {
@@ -64,7 +64,7 @@ class App extends Component {
     hideSingleArrow: true,
     itemsCount: list.length,
     selected: 'item1',
-    translate: null,
+    translate: undefined,
     transition: 0.4,
     wheel: true,
     showList: true,
@@ -79,7 +79,7 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const {alignCenter} = prevState;
     const {alignCenter: alignCenterNew} = this.state;
-    if (alignCenter !== alignCenterNew) {
+    if (alignCenter !== alignCenterNew && this.menu) {
       this.menu.setInitial();
       this.menu.forceUpdate();
       this.forceUpdate();
@@ -238,7 +238,7 @@ class App extends Component {
             />
           </label>
           <br />
-          <div style={valueStyle}>Translate: {(+translate).toFixed(2)}</div>
+          <div style={valueStyle}>Translate: {(translate || 0).toFixed(2)}</div>
           <label style={valueStyle}>
             Selected:
             <input
@@ -260,7 +260,7 @@ class App extends Component {
               max={10}
               onChange={ev =>
                 this.setState({
-                  transition: !isNaN(ev.target.value) ? +ev.target.value : 0,
+                  transition: !isNaN(+ev.target.value) ? +ev.target.value : 0,
                 })
               }
             />
