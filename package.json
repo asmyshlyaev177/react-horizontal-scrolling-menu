@@ -1,14 +1,15 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "main": "build/index.js",
-  "esnext": "src/index.js",
-  "jsnext:main": "src/index.js",
   "browser": "build/index.js",
+  "esnext": "build/index.mjs.js",
+  "jsnext:main": "build/index.mjs.js",
+  "typings": "build/index.d.ts",
   "scripts": {
     "start": "webpack --env.development --mode development --watch",
-    "build": "webpack --env.production --mode production",
+    "build": "webpack --env.production --mode production && webpack --config webpack-esnext.config.js --env.production --mode production",
     "test": "jest --coverage --runInBand --ci --cache=false",
     "coverage": "jest --coverage --cache=false --runInBand --ci --coverageReporters=text-lcov | coveralls",
     "test:watch": "jest --watch",
@@ -39,64 +40,47 @@
     "react-dom": "^15.x || ^16.x"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/runtime": "^7.3.4",
+    "@types/enzyme": "^3.9.0",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.10.4",
+    "@types/react": "^16.8.5",
+    "@types/react-dom": "^16.8.2",
     "all-contributors-cli": "^5.3.0",
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.5",
-    "babel-jest": "^23.4.2",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-syntax-async-generators": "^6.13.0",
-    "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
-    "babel-plugin-transform-regenerator": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
+    "babel-jest": "^24.1.0",
+    "babel-loader": "^8.0.5",
     "coveralls": "^3.0.2",
-    "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
     "eslint": "^5.1.0",
     "eslint-plugin-react": "^7.10.0",
-    "jest": "^23.5.0",
+    "jest": "^24.1.0",
     "jscoverage": "^0.6.0",
     "jsdom": "^11.11.0",
     "nodeunit": "^0.11.3",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "ts-jest": "^24.0.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
   },
-  "jest": {
-    "setupTestFrameworkScriptFile": "./jest.js",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "collectCoverageFrom": [
-      "src/**.js"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/babel-polyfill/",
-      "<rootDir>/node_modules/babel*/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/build",
-      "/node_modules/",
-      "/examples/",
-      "jest.js",
-      "src/index.js"
-    ],
-    "coverageDirectory": "coverage"
-  },
   "files": [
-    "build",
-    "src"
+    "build"
   ]
 }

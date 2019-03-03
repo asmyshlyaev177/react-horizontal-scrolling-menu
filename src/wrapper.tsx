@@ -1,6 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {defaultSetting} from './defautSettings';
+import React, { CSSProperties } from 'react';
+import {defaultProps} from './defautSettings';
+import { Data, RefObject } from './types';
+
+interface ArrowWrapperProps {
+  className: string,
+  onClick: Function,
+  children: JSX.Element,
+  isDisabled: boolean,
+  hideArrows: boolean,
+  disabledClass: string,
+  forwardClick: boolean
+};
+
+const ArrowDefaultProps = {
+  disabledClass: defaultProps.arrowDisabledClass,
+};
 
 export const ArrowWrapper = ({
   className: clsName,
@@ -9,8 +23,8 @@ export const ArrowWrapper = ({
   isDisabled,
   hideArrows,
   disabledClass,
-  forwardClick,
-}) => {
+  forwardClick
+} : ArrowWrapperProps) => {
   const disabledClassName = isDisabled
     ? disabledClass || `${clsName}--disabled`
     : '';
@@ -19,24 +33,28 @@ export const ArrowWrapper = ({
     ...children.props,
     onClick: () => (forwardClick ? onClick() : null),
   };
+  const clickHandler = (): void => {
+    onClick();
+  };
 
-  return (
-    <div className={className} onClick={forwardClick ? null : onClick}>
+  return (<div
+    className={className}
+    onClick={clickHandler}
+    >
       {React.cloneElement(children, childProps)}
-    </div>
-  );
-};
-ArrowWrapper.propTypes = {
-  children: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  disabledClass: PropTypes.string,
-  forwardClick: PropTypes.bool,
-  hideArrows: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
+    </div>);
 };
 
-export const innerStyle = ({translate, dragging, mounted, transition}) => {
+ArrowWrapper.defaultProps = ArrowDefaultProps;
+
+interface innerStyleProps {
+  translate: number,
+  dragging: boolean,
+  mounted: boolean,
+  transition: number,
+};
+
+export const innerStyle = ({translate, dragging, mounted, transition} : innerStyleProps): CSSProperties => {
   return {
     width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
@@ -47,13 +65,37 @@ export const innerStyle = ({translate, dragging, mounted, transition}) => {
   };
 };
 
-export class InnerWrapper extends React.Component {
-  constructor(props) {
+interface InnerWrapperProps {
+  data: Data,
+  setRef: Function,
+  onClick: Function,
+  translate: number,
+  dragging: boolean,
+  mounted: boolean,
+  transition: number,
+  selected: string|number,
+  innerWrapperClass: string,
+  itemClass: string,
+  itemClassActive: string,
+  forwardClick: boolean,
+};
+
+export class InnerWrapper extends React.Component<InnerWrapperProps, {}> {
+  static defaultProps = {
+    data: [],
+    translate: defaultProps.translate,
+    dragging: true,
+    mounted: false,
+    transition: defaultProps.transition,
+    selected: defaultProps.selected,
+  };
+  private ref: RefObject;
+  constructor(props: InnerWrapperProps) {
     super(props);
     this.ref = {};
   }
 
-  setRef = (key, value) => {
+  setRef = (key: string, value: HTMLDivElement | null): void => {
     const {setRef} = this.props;
     this.ref[key] = value;
     setRef(this.ref);
@@ -73,7 +115,7 @@ export class InnerWrapper extends React.Component {
       itemClassActive,
       forwardClick,
     } = this.props;
-    const isActive = (itemId, selected) => String(itemId) === String(selected);
+    const isActive = (itemId: string|number|null, selected: string|number): boolean => String(itemId) === String(selected);
     const items = data.map(el => {
       const props = {
         selected: isActive(el.key, selected),
@@ -82,10 +124,12 @@ export class InnerWrapper extends React.Component {
       return React.cloneElement(el, props);
     });
 
+    const style: CSSProperties = innerStyle({ translate, dragging, mounted, transition });
+
     return (
       <div
         className={innerWrapperClass}
-        style={innerStyle({translate, dragging, mounted, transition})}
+        style={style}
         ref={inst => this.setRef('menuInner', inst)}>
         {items.map((Item, i) => (
           <div
@@ -105,26 +149,6 @@ export class InnerWrapper extends React.Component {
     );
   }
 }
-InnerWrapper.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setRef: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  translate: PropTypes.number,
-  dragging: PropTypes.bool,
-  mounted: PropTypes.bool,
-  transition: PropTypes.number,
-  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  innerWrapperClass: PropTypes.string,
-  itemClass: PropTypes.string,
-  itemClassActive: PropTypes.string,
-  forwardClick: PropTypes.bool,
-};
 
-InnerWrapper.defaultProps = {
-  data: [],
-  translate: defaultSetting.translate,
-  dragging: true,
-  mounted: false,
-  transition: defaultSetting.transition,
-  selected: defaultSetting.selected,
-};
+
+

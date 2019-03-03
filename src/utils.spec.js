@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
-import { defaultSetting } from './defautSettings';
+import { defaultProps } from './defautSettings';
 import { validateTranslate, getClientRect } from './utils';
 
 describe('getClientRect', () => {
@@ -9,7 +9,7 @@ describe('getClientRect', () => {
     const el = {
       getBoundingClientRect: () => ({x: 1, left: 2, width: 3})
     };
-    expect(getClientRect(el)).toEqual({ width: 3, x: 1 });
+    expect(getClientRect(el)).toEqual({ width: 3, x: 2 });
   });
 
   it('no x property, return left instead x', () => {
@@ -38,7 +38,7 @@ describe('getClientRect', () => {
 });
 
 describe('validateTranslate', () => {
-  const defTranslate = defaultSetting.translate;
+  const defTranslate = defaultProps.translate;
   it('valid value', () => {
     expect(validateTranslate(-100, defTranslate)).toEqual(-100.000);
     expect(validateTranslate(0, defTranslate)).toEqual(0.000);

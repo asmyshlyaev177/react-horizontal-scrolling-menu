@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-unused-vars */
+import React from 'react';
+import { mount } from 'enzyme';
 import ScrollMenu from './scrollMenu';
 import {innerStyle, InnerWrapper} from './wrapper';
 import {props, menu} from './scrollMenu.spec.js';
