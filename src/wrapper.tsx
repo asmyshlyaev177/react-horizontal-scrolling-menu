@@ -141,7 +141,8 @@ export class InnerWrapper extends React.Component<InnerWrapperProps, {}> {
             style={{
               display: 'inline-block',
             }}
-            onClick={() => (forwardClick ? null : onClick(Item.key))}>
+            onClick={() => (forwardClick ? null : onClick(Item.key))}
+            tabindex="1">
             {Item}
           </div>
         ))}
