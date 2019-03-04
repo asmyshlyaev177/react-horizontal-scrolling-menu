@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import {defaultProps} from './defautSettings';
-import { Data, RefObject } from './types';
+import { Data, RefObject, Void } from './types';
 
 interface ArrowWrapperProps {
   className: string,
@@ -141,7 +141,10 @@ export class InnerWrapper extends React.Component<InnerWrapperProps, {}> {
             style={{
               display: 'inline-block',
             }}
-            onClick={() => (forwardClick ? null : onClick(Item.key))}>
+            onClick={() => (forwardClick ? null : onClick(Item.key))}
+            tabIndex={1}
+            role="button"
+            >
             {Item}
           </div>
         ))}
