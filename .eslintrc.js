@@ -17,7 +17,8 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "react"
+    "react",
+    "jsx-a11y"
   ],
   "rules": {
     "no-console": 0,
