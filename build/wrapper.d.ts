@@ -1,5 +1,5 @@
 import React from 'react';
-import { Data } from './types';
+import { Data, Void } from './types';
 interface ArrowWrapperProps {
     className: string;
     onClick: Function;
@@ -9,12 +9,12 @@ interface ArrowWrapperProps {
     disabledClass: string;
     forwardClick: boolean;
 }
-export declare const ArrowWrapper: {
-    ({ className: clsName, onClick, children, isDisabled, hideArrows, disabledClass, forwardClick }: ArrowWrapperProps): JSX.Element;
-    defaultProps: {
+export declare class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
+    static defaultProps: {
         disabledClass: string;
     };
-};
+    render(): React.ReactNode;
+}
 interface innerStyleProps {
     translate: number;
     dragging: boolean;
@@ -36,7 +36,7 @@ interface InnerWrapperProps {
     itemClassActive: string;
     forwardClick: boolean;
 }
-export declare class InnerWrapper extends React.Component<InnerWrapperProps, {}> {
+export declare class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     static defaultProps: {
         data: never[];
         translate: number;
@@ -46,8 +46,12 @@ export declare class InnerWrapper extends React.Component<InnerWrapperProps, {}>
         selected: string;
     };
     private ref;
+    private items;
     constructor(props: InnerWrapperProps);
-    setRef: (key: string, value: HTMLDivElement | null) => void;
+    setRef: (key: string, value: HTMLDivElement | null) => Void;
+    isElementActive: (itemId: string | number | null, selected: React.ReactText) => boolean;
+    setItems: (arr: JSX.Element[], selected: React.ReactText, forwardClick: boolean, onClick: Function) => JSX.Element[];
+    forwardClickHandler: (key: any, reverse?: boolean) => () => Void;
     render(): JSX.Element;
 }
 export {};

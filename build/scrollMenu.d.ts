@@ -144,7 +144,7 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         translate?: number | undefined;
         translateOld?: number | undefined;
     }) => Void;
-    render(): JSX.Element | null;
+    render(): React.ReactNode | null;
 }
 export default ScrollMenu;
 //# sourceMappingURL=scrollMenu.d.ts.map

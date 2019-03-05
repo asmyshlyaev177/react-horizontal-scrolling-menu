@@ -88,12 +88,12 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       ? {passive: true, capture: false}
       : false;
 
-    // if styles loaded before js bundle need wait for it
     window.addEventListener('load', this.onLoad, optionsNoCapture);
     window.addEventListener('resize', this.setInitial, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
 
+    // if styles loaded before js bundle need wait for it
     this.onLoadTimer = setTimeout(() => (this.onLoad(), this.forceUpdate()), 0);
   }
 
@@ -200,12 +200,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }
 
   componentWillUnmount(): Void {
-    clearTimeout(this.rafTimer);
-    clearTimeout(this.onLoadTimer);
-
     window.removeEventListener('resize', this.setInitial);
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleDragStop);
+    clearTimeout(this.rafTimer);
+    clearTimeout(this.onLoadTimer);
   }
 
   setRef = (ref: RefObject): Void => {
@@ -884,7 +883,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }
   };
 
-  public render() {
+  public render(): React.ReactNode|null {
     const {
       arrowClass,
       arrowDisabledClass,
