@@ -4,8 +4,8 @@ interface MenuProps {
     alignCenter: boolean;
     arrowClass: string;
     arrowDisabledClass: string;
-    arrowLeft: React.ReactElement | null;
-    arrowRight: React.ReactElement | null;
+    arrowLeft: JSX.Element | null;
+    arrowRight: JSX.Element | null;
     clickWhenDrag: boolean;
     dragging: boolean;
     data: Data;
