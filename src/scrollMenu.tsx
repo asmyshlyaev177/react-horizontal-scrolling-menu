@@ -293,7 +293,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     const newState = {...this.state};
 
-    if (!translateIsValid(translateNew) && !translateIsValid(translateState)) {
+    const firstMountAndDefaultTranslate = !this.mounted && translateNew === defaultProps.translate;
+    if (firstMountAndDefaultTranslate || !translateIsValid(translateNew) && !translateIsValid(translateState)) {
       translateNew = formatTranslate(this.getAlignItemsOffset());
       newState.translate = translateNew;
     }
@@ -744,7 +745,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   itBeforeStart = (trans: number): boolean => {
     const {alignCenter} = this.props;
-    const {firstPageOffset} = this;
+    const {menuWidth, allItemsWidth, firstPageOffset} = this;
+    if (allItemsWidth < menuWidth) return true;
     return alignCenter
       ? trans > firstPageOffset
       : trans > defaultProps.translate;
@@ -752,6 +754,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   itAfterEnd = (trans: number): boolean => {
     const {alignCenter} = this.props;
     const {menuWidth, allItemsWidth, lastPageOffset} = this;
+    if (allItemsWidth < menuWidth) return true;
     return alignCenter
       ? trans < defaultProps.translate &&
           Math.abs(trans) > allItemsWidth - menuWidth + lastPageOffset

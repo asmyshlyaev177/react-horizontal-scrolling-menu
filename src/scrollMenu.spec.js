@@ -338,6 +338,8 @@ describe('functions', () => {
     it('itBeforeStart', () => {
       wrapper.setProps({ alignCenter: false });
       wrapper.instance().firstPageOffset = 20;
+      wrapper.instance().menuWidth = 30;
+      wrapper.instance().allItemsWidth = 150;
       expect(wrapper.instance().itBeforeStart(0)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(-10)).toEqual(false);
       expect(wrapper.instance().itBeforeStart(50)).toEqual(true);
@@ -971,6 +973,22 @@ describe('functions', () => {
         expect(handleArrowClick.mock.calls[0][0]).toEqual(false);
         expect(wrapper.state().translate).toEqual(translate);
       });
+      it('first mounted and no translate prop - set default translate', () => {
+        const { translate: t, ...rest } = props;
+        const newProps = { ...rest, alignCenter: true };
+        const getAlignItemsOffset = jest.fn().mockReturnValue(35);
+        const wrapper = mount(<ScrollMenu {...newProps} />);
+        wrapper.instance().getAlignItemsOffset = getAlignItemsOffset;
+        wrapper.instance().allItemsWidth = 100;
+        wrapper.instance().menuWidth = 1000;
+        wrapper.instance().firstPageOffset = 30;
+        wrapper.instance().lastPageOffset = 40;
+        wrapper.instance().mounted = false;
+
+        wrapper.instance().setInitial();
+        expect(getAlignItemsOffset.mock.calls.length).toEqual(1);
+        expect(wrapper.state().translate).toEqual(35);
+      });
       it('center is visible, more items on the left and right', () => {
         const wrapper = mount(<ScrollMenu {...props} />);
         const handleArrowClick = jest.fn();
@@ -1240,6 +1258,35 @@ describe('functions', () => {
 
       expect(wrapper.state().translate).toEqual(0);
       expect(wrapper.state().xPoint).toEqual(defaultProps.xPoint);
+    });
+
+    it('allItemsWidth less than menuWidth - don not allow drag', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+      wrapper.instance().menuItems = items;
+      wrapper.setProps({ alignCenter: true });
+      wrapper.instance().menuWidth = 300;
+      wrapper.instance().allItemsWidth = 150;
+      wrapper.instance().lastPageOffset = 20;
+      wrapper.instance().firstPageOffset = 20;
+
+      expect(wrapper.instance().itBeforeStart(-10)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(19)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(21)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(50)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(100)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-140)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-141)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-200)).toEqual(true);
+
+      wrapper.setProps({ alignCenter: false });
+      expect(wrapper.instance().itBeforeStart(0)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(-10)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(50)).toEqual(true);
+      expect(wrapper.instance().itBeforeStart(100)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(100)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-118)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-121)).toEqual(true);
+      expect(wrapper.instance().itAfterEnd(-200)).toEqual(true);
     });
   });
 
