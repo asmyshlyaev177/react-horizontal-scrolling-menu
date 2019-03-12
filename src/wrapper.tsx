@@ -1,4 +1,4 @@
-import React, { CSSProperties, forwardRef } from 'react';
+import React, { CSSProperties } from 'react';
 import {defaultProps} from './defautSettings';
 import { Data, RefObject, Void } from './types';
 
