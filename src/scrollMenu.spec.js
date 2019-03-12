@@ -1731,6 +1731,45 @@ describe('functions', () => {
 
       });
 
+      describe('bugs', () => {
+        describe('issue 40/41 left arrow click after select item - should update', () => {
+          // TODO add test cases for other props and refactor
+          const setup = () => {
+            const prop = { ...props, scrollToSelected: false, alignCenter: false };
+            const wrapper = mount(<ScrollMenu {...prop} />);
+
+            wrapper.instance().onItemClick('item3');
+            wrapper.setState({ translate: 20 });
+            wrapper.setProps({ translate: 20 });
+
+            const props = wrapper.props();
+            const state = wrapper.state();
+            return ({ wrapper, props, state });
+          };
+
+          it('new translate in props and in state - update', () => {
+            const { wrapper, props, state } = setup();
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...props, translate: 30 }, { ...state, translate: 30 });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('new translate only in state - update', () => {
+            const { wrapper, props, state } = setup();
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...props }, { ...state, translate: 30 });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('new translate only in props - update', () => {
+            const { wrapper, props, state } = setup();
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...props, translate: 30 }, { ...state });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('same translate - do not update', () => {
+            const { wrapper, props, state } = setup();
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate(props, state);
+            expect(shouldUpdate).toEqual(false);
+          });
+
+        });
+      });
     });
 
   });
