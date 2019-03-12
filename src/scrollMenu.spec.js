@@ -1731,6 +1731,37 @@ describe('functions', () => {
 
       });
 
+      describe('bugs', () => {
+        describe('issue 40/41 left arrow click after select item - should update', () => {
+          const prop = { ...props, scrollToSelected: false, alignCenter: false };
+          const wrapper = mount(<ScrollMenu {...prop} />);
+
+          wrapper.instance().onItemClick('item3');
+          wrapper.setState({ translate: 20 });
+          wrapper.setProps({ translate: 20 });
+
+          const oldProps = wrapper.props();
+          const oldState = wrapper.state();
+
+          it('new translate in props and in state - update', () => {
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...oldProps, translate: 30 }, { ...oldState, translate: 30 });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('new translate only in state - update', () => {
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...oldProps }, { ...oldState, translate: 30 });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('new translate only in props - update', () => {
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...oldProps, translate: 30 }, { ...oldState });
+            expect(shouldUpdate).toEqual(true);
+          });
+          it('same translate - do not update', () => {
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate({ ...oldProps, translate: 30 }, { ...oldState });
+            expect(shouldUpdate).toEqual(true);
+          });
+
+        });
+      });
     });
 
   });

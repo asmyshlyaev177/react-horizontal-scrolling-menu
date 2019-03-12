@@ -98,6 +98,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }
 
   shouldComponentUpdate(nextProps: MenuProps, nextState: MenuState): boolean {
+    // TODO need refactor all this
     const {
       translate,
       dragging,
@@ -126,7 +127,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const translatePropsDiff =
       translatePropsNotNull && translateProps !== translatePropsNew;
     const translateDiff =
-      translatePropsNew !== translateNew &&
+      translatePropsNew !== translateNew ||
       (translateStateDiff || translatePropsDiff);
 
     const selectedPropsDiff =
