@@ -64,6 +64,7 @@ class App extends Component {
     hideSingleArrow: true,
     itemsCount: list.length,
     selected: 'item1',
+    scrollToSelected: true,
     translate: undefined,
     transition: 0.4,
     wheel: true,
@@ -135,6 +136,7 @@ class App extends Component {
       transition,
       wheel,
       showList,
+      scrollToSelected,
     } = this.state;
 
     const menu = this.menuItems;
@@ -170,7 +172,7 @@ class App extends Component {
             transition={+transition}
             onUpdate={this.onUpdate}
             onSelect={this.onSelect}
-            scrollToSelected={true}
+            scrollToSelected={scrollToSelected}
             selected={selected}
             translate={translate}
             alignCenter={alignCenter}
@@ -206,6 +208,15 @@ class App extends Component {
               type="checkbox"
               checked={clickWhenDrag}
               onChange={() => this.setState({clickWhenDrag: !clickWhenDrag})}
+            />
+          </label>
+          <label style={checkboxStyle}>
+            Scroll to selected item
+            <input
+              name="scrollToSelected"
+              type="checkbox"
+              checked={scrollToSelected}
+              onChange={() => this.setState({scrollToSelected: !scrollToSelected})}
             />
           </label>
           <label style={checkboxStyle}>
