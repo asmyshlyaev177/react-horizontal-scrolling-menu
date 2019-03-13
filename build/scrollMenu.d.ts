@@ -49,6 +49,7 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     };
     setSingleArrowVisibility: () => Void;
     onLoad: () => Void;
+    resize: () => Void;
     setInitial: () => Void;
     isScrollNeeded: ({ itemId, translate }: {
         itemId: string;
@@ -75,22 +76,19 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         menuPos: number;
         menuWidth: number;
         allItemsWidth: number;
-        firstPageOffset?: number | undefined;
-        lastPageOffset?: number | undefined;
-        translate?: number | undefined;
+        firstPageOffset: number;
+        lastPageOffset: number;
     };
-    getPagesOffsets: ({ items, allItemsWidth, wWidth, menuPos, menuWidth, translate, offset, }: {
+    getPagesOffsets: ({ items, allItemsWidth, wWidth, menuPos, menuWidth, offset, }: {
         items?: [string, Ref][] | undefined;
         allItemsWidth?: number | undefined;
         wWidth?: number | undefined;
         menuPos?: number | undefined;
         menuWidth?: number | undefined;
-        translate?: number | undefined;
         offset?: number | undefined;
     }) => {
         firstPageOffset: number;
         lastPageOffset: number;
-        translate: number;
     };
     onItemClick: (id: string) => Void;
     getVisibleItems: ({ items, wWidth, menuPos, menuWidth, offset, translate, }: {
@@ -120,7 +118,6 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }) => number;
     getScrollRightOffset: (visibleItems: [string, Ref][], items: [string, Ref][]) => number;
     getScrollLeftOffset: (visibleItems: [string, Ref][], items: [string, Ref][]) => number;
-    getAlignItemsOffset: () => number;
     getNextItem: (key: string) => [string, Ref];
     getPrevItem: (key: string) => [string, Ref];
     getOffset: (left: boolean) => number;

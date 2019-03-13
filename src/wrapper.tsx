@@ -93,11 +93,9 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     selected: defaultProps.selected,
   };
   private ref: RefObject;
-  private items: JSX.Element[]|null;
   constructor(props: InnerWrapperProps) {
     super(props);
     this.ref = {};
-    this.items = null;
   }
 
   setRef = (key: string, value: HTMLDivElement | null): Void => {

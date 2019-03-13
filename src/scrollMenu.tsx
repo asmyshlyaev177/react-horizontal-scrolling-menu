@@ -91,7 +91,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     // TODO: separate function for resize
     window.addEventListener('load', this.onLoad, optionsNoCapture);
-    window.addEventListener('resize', this.setInitial, optionsNoCapture);
+    window.addEventListener('resize', this.resize, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
 
@@ -205,7 +205,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }
 
   componentWillUnmount(): Void {
-    window.removeEventListener('resize', this.setInitial);
+    window.removeEventListener('resize', this.resize);
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleDragStop);
     clearTimeout(this.rafTimer);
@@ -263,6 +263,41 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.mounted = true;
   };
 
+  /** Set values on resize */
+  resize = (): Void => {
+    const { translate } = this.state;
+    const {
+      wWidth,
+      menuPos,
+      menuWidth,
+      allItemsWidth,
+      firstPageOffset,
+      lastPageOffset,
+    } = this.updateWidth({});
+    this.menuPos = menuPos;
+    this.wWidth = wWidth;
+    this.allItemsWidth = allItemsWidth;
+    this.menuWidth = menuWidth;
+    this.firstPageOffset = firstPageOffset;
+    this.lastPageOffset = lastPageOffset;
+
+    // const firstVisibleItem = this.getVisibleItems({})[0] || this.menuItems[0];
+
+    // const needScroll = this.isScrollNeeded({
+    //   itemId: selected,
+    //   translate: newState.translate,
+    // });
+    // if (needScroll) {
+    //   newState.translate = formatTranslate(
+    //     this.getOffsetToItemByKey(selected),
+    //   );
+    // }
+
+    // if (translate !== firstPageOffset) {
+    //   this.setState({ translate: firstPageOffset });
+    // }
+  };
+
   /** set initial values and for updates */
   setInitial = (): Void => {
     const {
@@ -273,48 +308,44 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     } = this.props;
     const { translate: translateState } = this.state;
     if (!data || !data.length) return false;
-    let translateNew = translateProps;
+    let translateProp = translateProps;
 
     const menuItems = this.getMenuItems(data.length);
     const selectedItem = data.find(el => el.key === selected);
-
-    const values = {
-      menuItems,
-      selected:
-        selectedItem
-          ? selectedItem.key
-          : defaultProps.selected,
-    };
-
-    for (const key in values) {
-      this[key] = values[key];
-    }
+    this.menuItems = menuItems;
+    this.selected = selectedItem
+      ? String(selectedItem.key || '')
+      : defaultProps.selected;
 
     // align item on initial load
-    // eslint-disable-next-line no-unused-vars
-    const {translate: _, ...width} = this.updateWidth({
-      items: menuItems,
-      offset: 0,
-      translate: 0,
-    });
-    for (const key in width) {
-      this[key] = width[key];
-    }
+    const {
+      wWidth,
+      menuPos,
+      menuWidth,
+      allItemsWidth,
+      firstPageOffset,
+      lastPageOffset,
+    } = this.updateWidth({});
+    this.menuPos = menuPos;
+    this.wWidth = wWidth;
+    this.allItemsWidth = allItemsWidth;
+    this.menuWidth = menuWidth;
+    this.firstPageOffset = firstPageOffset;
+    this.lastPageOffset = lastPageOffset;
 
     const newState = {...this.state};
 
     // set translate on first load
-    const firstMountAndDefaultTranslate = !this.mounted && translateNew === defaultProps.translate;
-    if (firstMountAndDefaultTranslate || !translateIsValid(translateNew) && !translateIsValid(translateState)) {
-      translateNew = formatTranslate(this.getAlignItemsOffset());
-      newState.translate = translateNew;
+    const firstMountAndDefaultTranslate = !this.mounted && translateProp === defaultProps.translate;
+    if (firstMountAndDefaultTranslate || !translateIsValid(translateProp) && !translateIsValid(translateState)) {
+      newState.translate = this.firstPageOffset;
     }
 
     // check arrows
     const {
       leftArrowVisible,
       rightArrowVisible,
-    } = this.checkSingleArrowVisibility({translate: translateNew});
+    } = this.checkSingleArrowVisibility({translate: translateProp});
     newState.leftArrowVisible = leftArrowVisible;
     newState.rightArrowVisible = rightArrowVisible;
 
@@ -392,33 +423,28 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     menuPos: number,
     menuWidth: number,
     allItemsWidth: number,
-    firstPageOffset?: number,
-    lastPageOffset?: number,
-    translate?: number
+    firstPageOffset: number,
+    lastPageOffset: number,
   } => {
-    const {alignCenter} = this.props;
     const width = this.getWidth({items});
     return {
       ...width,
-      ...(alignCenter ? this.getPagesOffsets({items, ...width, ...args}) : {}),
+      ...this.getPagesOffsets({items, ...width, ...args}),
     };
   };
 
-  /** get offsets to first item, from last and current translate */
+  /** get offsets to first and last item */
   getPagesOffsets = ({
     items = this.menuItems,
     allItemsWidth = this.allItemsWidth,
     wWidth = this.wWidth,
     menuPos = this.menuPos,
     menuWidth = this.menuWidth,
-    translate = this.state.translate,
     offset = this.state.translate,
   }) : {
     firstPageOffset: number,
     lastPageOffset: number,
-    translate: number,
   } => {
-    const {alignCenter} = this.props;
     const visibleItemsStart = this.getVisibleItems({
       offset,
       items,
@@ -445,11 +471,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
         menuWidth,
       }),
     );
-    // not sure need alignCenter in this string
-    const trans = translate === defaultProps.translate && alignCenter ? firstPageOffset : translate;
-    this.firstPageOffset = firstPageOffset;
-    this.lastPageOffset = lastPageOffset;
-    return {firstPageOffset, lastPageOffset, translate: formatTranslate(trans)};
+
+    return {
+      firstPageOffset,
+      lastPageOffset,
+    };
   };
 
   /** item click handler */
@@ -646,44 +672,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     return newOffset;
   };
 
-  /** getPagesOffsets return this as translate */
-  // TODO: few methods do similar job
-  getAlignItemsOffset = (): number => {
-    const {
-      menuWidth,
-      allItemsWidth,
-      menuItems,
-      firstPageOffset,
-      lastPageOffset,
-      mounted,
-    } = this;
-    const {alignCenter} = this.props;
-    const {translate} = this.state;
-
-    if (mounted && allItemsWidth < menuWidth) {
-      // TODO: remove click somehow
-      this.handleArrowClick(!alignCenter);
-      return validateTranslate(translate, defaultProps.translate)
-    }
-
-    const visibleItems = this.getVisibleItems({}) || [];
-    const left = visibleItems.includes(menuItems[0]);
-    const right = visibleItems.includes(menuItems.slice(-1)[0]);
-
-    // center is visible, do nothing
-    if (!left && !right) return validateTranslate(translate, defaultProps.translate);
-
-    // left edge visible
-    if (left) {
-      const transl = alignCenter ? firstPageOffset : defaultProps.translate;
-      return formatTranslate(transl);
-    } else {
-      const offset = allItemsWidth - menuWidth;
-      const transl = alignCenter ? -offset - lastPageOffset : -offset;
-      return formatTranslate(transl);
-    }
-  };
-
   /** get next item by key */
   getNextItem = (key: string): MenuItem => {
     const {menuItems} = this;
@@ -763,7 +751,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const {alignCenter} = this.props;
     const {allItemsWidth, menuWidth} = this;
 
-    if (!alignCenter && !left && menuWidth > allItemsWidth) {
+    if (!alignCenter && !left && allItemsWidth < menuWidth) {
       return false;
     }
 
