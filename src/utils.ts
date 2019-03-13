@@ -11,7 +11,8 @@ const getClientRect = (elem: Ref): {width: number, x: number} => {
 };
 
 /** format translate value */
-const formatTranslate = (val: number): number => +val.toFixed(3);
+//TODO: Do i really need this?
+const formatTranslate = (val: number|string): number => +(+val).toFixed(3);
 /** check if translate is valid */
 const translateIsValid = (val: any): boolean =>
   typeof val === 'number' && !isNaN(+val);
@@ -22,6 +23,7 @@ const validateTranslate = (value: any, defaultValue: number): number =>
     : formatTranslate(defaultValue);
 
 /** test passive event support, for performance */
+// maybe use separate package detect-passive-events
 const testPassiveEventSupport = (): boolean => {
   let passiveSupported = false;
 

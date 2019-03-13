@@ -89,6 +89,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       ? {passive: true, capture: false}
       : false;
 
+    // TODO: separate function for resize
     window.addEventListener('load', this.onLoad, optionsNoCapture);
     window.addEventListener('resize', this.setInitial, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
@@ -711,8 +712,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     return newOffset;
   };
 
-  /** offset from 0 to first menu item when scroll
-   * need pass items visible in on screen
+  /** offset from 0 to first menu item when scroll,
+   * need pass items visible on screen
   */
   getCenterOffset = (
     {items = this.menuItems, menuWidth = this.menuWidth}
