@@ -385,7 +385,7 @@ describe('functions', () => {
     const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) };
     const getPagesOffsets = jest.fn();
     const wrapper = mount(<ScrollMenu {...prop} />);
-    wrapper.instance().ref.menuWrapper = menuWrapper;
+    wrapper.instance().menuWrapper = menuWrapper;
     wrapper.instance().getPagesOffsets = getPagesOffsets;
 
     const getWidthResult = { wWidth: 1024, menuPos: 10, menuWidth: 20, allItemsWidth: 260};

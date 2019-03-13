@@ -12,6 +12,7 @@ interface MenuState {
 export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     static defaultProps: MenuProps;
     private ref;
+    private menuWrapper;
     private mounted;
     private needUpdate;
     private allItemsWidth;

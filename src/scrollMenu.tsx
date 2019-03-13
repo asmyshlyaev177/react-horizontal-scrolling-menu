@@ -30,6 +30,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   static defaultProps: MenuProps = defaultProps;
 
   private ref: RefObject;
+  private menuWrapper: Ref;
   private mounted: boolean;
   private needUpdate: boolean;
   private allItemsWidth: number;
@@ -49,6 +50,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   constructor(props: MenuProps) {
     super(props);
     this.ref = {};
+    this.menuWrapper = null;
     this.mounted = false;
     this.needUpdate = false;
     this.allItemsWidth = 0;
@@ -219,7 +221,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** set ref for wrapper */
   setWrapperRef = (ref: Ref): Void => {
-    this.ref.menuWrapper = ref;
+    this.menuWrapper = ref;
   };
 
   /** check if arrows visible */
@@ -412,7 +414,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** get width of items, window and pos of menu */
   getWidth = ({items} : {items: MenuItems}) : {wWidth: number, menuPos: number, menuWidth: number, allItemsWidth: number} => {
     const wWidth = window && window.innerWidth;
-    const {x: menuPos, width: menuWidth} = getClientRect(this.ref.menuWrapper);
+    const {x: menuPos, width: menuWidth} = getClientRect(this.menuWrapper);
     const allItemsWidth = this.getItemsWidth({items});
     return {wWidth, menuPos, menuWidth, allItemsWidth};
   };
