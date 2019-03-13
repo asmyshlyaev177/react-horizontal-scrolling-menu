@@ -2,8 +2,6 @@ import React, { WheelEvent }  from 'react';
 
 import {
   translateIsValid,
-  validateTranslate,
-  formatTranslate,
   notUndefOrNull,
   getClientRect,
   testPassiveEventSupport,
@@ -46,6 +44,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** timers for setTimeout if RAF not supported */
   private onLoadTimer: any;
   private rafTimer: any;
+  private resizeTimer: any;
 
   constructor(props: MenuProps) {
     super(props);
@@ -65,6 +64,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     this.onLoadTimer = 0;
     this.rafTimer = 0;
+    this.resizeTimer = 0;
   }
 
   state = {
@@ -93,7 +93,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     // TODO: separate function for resize
     window.addEventListener('load', this.onLoad, optionsNoCapture);
-    window.addEventListener('resize', this.resize, optionsNoCapture);
+    window.addEventListener('resize', this.resizeHandler, optionsNoCapture);
     document.addEventListener('mousemove', this.handleDrag, optionsCapture);
     document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
 
@@ -169,7 +169,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }
 
     if (newTranslateProps) {
-      this.setState({translate: formatTranslate(translateResult)});
+      this.setState({translate: +translateResult});
     }
 
     return (
@@ -207,16 +207,18 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }
 
   componentWillUnmount(): Void {
-    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', this.resizeHandler);
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleDragStop);
     clearTimeout(this.rafTimer);
     clearTimeout(this.onLoadTimer);
+    clearTimeout(this.resizeTimer);
   }
 
   /** set ref for MenuItems */
   setRef = (ref: RefObject): Void => {
-    this.ref = ref;
+    const [ key, value ] = Object.entries(ref)[0];
+    this.ref[key] = value;
   };
 
   /** set ref for wrapper */
@@ -265,9 +267,13 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.mounted = true;
   };
 
+  resizeHandler = (): Void => {
+    clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => this.resize(), 250);
+  };
+
   /** Set values on resize */
   resize = (): Void => {
-    const { translate } = this.state;
     const {
       wWidth,
       menuPos,
@@ -282,22 +288,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.menuWidth = menuWidth;
     this.firstPageOffset = firstPageOffset;
     this.lastPageOffset = lastPageOffset;
-
-    // const firstVisibleItem = this.getVisibleItems({})[0] || this.menuItems[0];
-
-    // const needScroll = this.isScrollNeeded({
-    //   itemId: selected,
-    //   translate: newState.translate,
-    // });
-    // if (needScroll) {
-    //   newState.translate = formatTranslate(
-    //     this.getOffsetToItemByKey(selected),
-    //   );
-    // }
-
-    // if (translate !== firstPageOffset) {
-    //   this.setState({ translate: firstPageOffset });
-    // }
   };
 
   /** set initial values and for updates */
@@ -358,9 +348,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
         translate: newState.translate,
       });
       if (needScroll) {
-        newState.translate = formatTranslate(
-          this.getOffsetToItemByKey(selected),
-        );
+        newState.translate = this.getOffsetToItemByKey(selected);
       }
     }
 
@@ -373,15 +361,12 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       itemId: string,
       translate?: number
     }): boolean => {
-    const itemIndex = this.getItemIndexByKey(itemId);
-    if (itemIndex === -1) return false;
-
     const {menuItems} = this;
+    const item = this.getItemByKey(itemId);
+
     const visibleItems = this.getVisibleItems({
-      items: menuItems,
       offset: translate,
     });
-    const item = menuItems[itemIndex];
     return !visibleItems.includes(item);
   };
 
@@ -406,7 +391,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** get width of all menu items */
   getItemsWidth = ({items = this.menuItems} : {items?: MenuItems}): number => {
     return items
-      .map(el => el[1])
+      .map(el => el[1].elem)
       .filter(Boolean)
       .reduce((acc, el) => (acc += getClientRect(el).width), 0);
   };
@@ -454,12 +439,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       menuPos,
       menuWidth,
     });
-    const firstPageOffset = formatTranslate(
-      this.getCenterOffset({
-        items: visibleItemsStart,
-        menuWidth,
-      }),
-    );
+    const firstPageOffset = this.getCenterOffset({
+      items: visibleItemsStart,
+      menuWidth,
+    });
     const visibleItemsEnd = this.getVisibleItems({
       items,
       offset: -allItemsWidth + menuWidth,
@@ -467,12 +450,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       menuPos,
       menuWidth,
     });
-    const lastPageOffset = formatTranslate(
-      this.getCenterOffset({
-        items: visibleItemsEnd,
-        menuWidth,
-      }),
-    );
+    const lastPageOffset = this.getCenterOffset({
+      items: visibleItemsEnd,
+      menuWidth,
+    });
 
     return {
       firstPageOffset,
@@ -503,7 +484,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     translate = this.state.translate || defaultProps.translate,
   }): MenuItems => {
     return items.filter(el => {
-      const {width: elWidth} = getClientRect(el[1]);
+      const {width: elWidth} = getClientRect(el[1].elem);
       const id = this.getItemInd(items, el);
       const x = this.getOffsetToItemByIndex({
         index: id,
@@ -532,7 +513,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   };
 
   /** get index of item */
-  getItemInd = (menuItems: MenuItems, item: MenuItem): number => {
+  getItemInd = (menuItems: MenuItems = this.menuItems, item: MenuItem): number => {
     if (!menuItems || !item) return 0;
     return menuItems.findIndex(el => el[0] === item[0]);
   };
@@ -580,7 +561,13 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     if (this.itAfterEnd(translate)) {
       translate = this.getOffsetAtEnd();
     }
-    return formatTranslate(translate);
+    return translate;
+  };
+
+  /** get item from key */
+  getItemByKey = (key: string): MenuItem => {
+    return this.menuItems
+      .find(el => el[1].key === key) || ['null', {key: 'n', elem: null}];
   };
 
   /** get index of item from it's key */
@@ -597,7 +584,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }): number => {
     if (!menuItems.length) return 0;
     const ind = index >= menuItems.length ? menuItems.length - 1 : index;
-    const {x} = getClientRect(menuItems[ind][1]);
+    const {x} = getClientRect(menuItems[ind][1].elem);
     const position = +x - translate;
     return position;
   };
@@ -713,7 +700,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }
     const itemsWidth = this.getItemsWidth({items});
     const offset = (menuWidth - itemsWidth) / 2;
-    return formatTranslate(offset);
+    return offset;
   };
 
   /** mouse wheel handler */
@@ -767,7 +754,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       transl = this.getOffsetAtEnd();
     }
 
-    const newTranslate = formatTranslate(transl);
+    const newTranslate = transl;
 
     this.setState({
       translate: newTranslate,
@@ -843,7 +830,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       result = result + Math.abs(diff) / 2;
     }
 
-    const newTranslate = formatTranslate(result);
+    const newTranslate = result;
 
     this.setState({
       xPoint: point,
@@ -881,7 +868,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       xPoint = defaultProps.xPoint;
     }
 
-    newTranslate = formatTranslate(newTranslate);
+    newTranslate = newTranslate;
 
     this.setState(
       {

@@ -26,6 +26,7 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     private selected;
     private onLoadTimer;
     private rafTimer;
+    private resizeTimer;
     constructor(props: MenuProps);
     state: {
         dragging: boolean;
@@ -50,6 +51,7 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     };
     setSingleArrowVisibility: () => Void;
     onLoad: () => Void;
+    resizeHandler: () => Void;
     resize: () => Void;
     setInitial: () => Void;
     isScrollNeeded: ({ itemId, translate }: {
@@ -57,12 +59,21 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         translate?: number | undefined;
     }) => boolean;
     scrollTo: (itemKey: string) => Void;
-    getMenuItems: (dataLength: number) => [string, Ref][];
+    getMenuItems: (dataLength: number) => [string, {
+        key: string;
+        elem: Ref;
+    }][];
     getItemsWidth: ({ items }: {
-        items?: [string, Ref][] | undefined;
+        items?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
     }) => number;
     getWidth: ({ items }: {
-        items: [string, Ref][];
+        items: [string, {
+            key: string;
+            elem: Ref;
+        }][];
     }) => {
         wWidth: number;
         menuPos: number;
@@ -71,7 +82,10 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     };
     updateWidth: ({ items, ...args }: {
         [x: string]: any;
-        items?: [string, Ref][] | undefined;
+        items?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
     }) => {
         wWidth: number;
         menuPos: number;
@@ -81,7 +95,10 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         lastPageOffset: number;
     };
     getPagesOffsets: ({ items, allItemsWidth, wWidth, menuPos, menuWidth, offset, }: {
-        items?: [string, Ref][] | undefined;
+        items?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
         allItemsWidth?: number | undefined;
         wWidth?: number | undefined;
         menuPos?: number | undefined;
@@ -93,13 +110,19 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     };
     onItemClick: (id: string) => Void;
     getVisibleItems: ({ items, wWidth, menuPos, menuWidth, offset, translate, }: {
-        items?: [string, Ref][] | undefined;
+        items?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
         wWidth?: number | undefined;
         menuPos?: number | undefined;
         menuWidth?: number | undefined;
         offset?: number | undefined;
         translate?: number | undefined;
-    }) => [string, Ref][];
+    }) => [string, {
+        key: string;
+        elem: Ref;
+    }][];
     elemVisible: ({ x, offset, elWidth, wWidth, menuPos, menuWidth, }: {
         x: any;
         offset?: number | undefined;
@@ -108,22 +131,59 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         menuPos?: number | undefined;
         menuWidth?: number | undefined;
     }) => boolean;
-    getItemInd: (menuItems: [string, Ref][], item: [string, Ref]) => number;
-    getNextItemInd: (left: boolean, visibleItems: [string, Ref][]) => number;
+    getItemInd: (menuItems: [string, {
+        key: string;
+        elem: Ref;
+    }][] | undefined, item: [string, {
+        key: string;
+        elem: Ref;
+    }]) => number;
+    getNextItemInd: (left: boolean, visibleItems: [string, {
+        key: string;
+        elem: Ref;
+    }][]) => number;
     getOffsetToItemByKey: (key: string) => number;
+    getItemByKey: (key: string) => [string, {
+        key: string;
+        elem: Ref;
+    }];
     getItemIndexByKey: (itemKey: string) => number;
     getOffsetToItemByIndex: ({ index, menuItems, translate, }: {
         index: any;
-        menuItems?: [string, Ref][] | undefined;
+        menuItems?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
         translate?: number | undefined;
     }) => number;
-    getScrollRightOffset: (visibleItems: [string, Ref][], items: [string, Ref][]) => number;
-    getScrollLeftOffset: (visibleItems: [string, Ref][], items: [string, Ref][]) => number;
-    getNextItem: (key: string) => [string, Ref];
-    getPrevItem: (key: string) => [string, Ref];
+    getScrollRightOffset: (visibleItems: [string, {
+        key: string;
+        elem: Ref;
+    }][], items: [string, {
+        key: string;
+        elem: Ref;
+    }][]) => number;
+    getScrollLeftOffset: (visibleItems: [string, {
+        key: string;
+        elem: Ref;
+    }][], items: [string, {
+        key: string;
+        elem: Ref;
+    }][]) => number;
+    getNextItem: (key: string) => [string, {
+        key: string;
+        elem: Ref;
+    }];
+    getPrevItem: (key: string) => [string, {
+        key: string;
+        elem: Ref;
+    }];
     getOffset: (left: boolean) => number;
     getCenterOffset: ({ items, menuWidth }: {
-        items?: [string, Ref][] | undefined;
+        items?: [string, {
+            key: string;
+            elem: Ref;
+        }][] | undefined;
         menuWidth?: number | undefined;
     }) => number;
     handleWheel: (e: React.WheelEvent<Element>) => Void;

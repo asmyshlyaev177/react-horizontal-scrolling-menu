@@ -32,11 +32,13 @@ interface MenuProps {
 
 type Ref = HTMLDivElement|HTMLElement|null;
 
-type RefObject = { [key: string]: Ref };
+type Item = {key: string, elem: Ref };
+
+type RefObject = { [key: string]: Item };
 
 type Void = void|false;
 
-type MenuItem = [string, Ref];
+type MenuItem = [string, Item];
 type MenuItems = MenuItem[];
 
 export { MenuProps, Ref, RefObject, Data, Void, MenuItem, MenuItems }

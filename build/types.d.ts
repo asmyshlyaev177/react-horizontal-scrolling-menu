@@ -31,11 +31,15 @@ interface MenuProps {
     xPoint: number;
 }
 declare type Ref = HTMLDivElement | HTMLElement | null;
+declare type Item = {
+    key: string;
+    elem: Ref;
+};
 declare type RefObject = {
-    [key: string]: Ref;
+    [key: string]: Item;
 };
 declare type Void = void | false;
-declare type MenuItem = [string, Ref];
+declare type MenuItem = [string, Item];
 declare type MenuItems = MenuItem[];
 export { MenuProps, Ref, RefObject, Data, Void, MenuItem, MenuItems };
 //# sourceMappingURL=types.d.ts.map

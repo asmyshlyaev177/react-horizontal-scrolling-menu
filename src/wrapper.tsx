@@ -98,10 +98,9 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     this.ref = {};
   }
 
-  setRef = (key: string, value: HTMLDivElement | null): Void => {
+  setRef = (key: string, elKey: string, value: HTMLDivElement | null): Void => {
     const {setRef} = this.props;
-    this.ref[key] = value;
-    setRef(this.ref);
+    setRef({[key]: { key: elKey, elem: value}});
   };
 
   isElementActive = (itemId: string|number|null, selected: string|number): boolean => String(itemId) === String(selected);
@@ -145,10 +144,10 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       <div
         className={innerWrapperClass}
         style={style}
-        ref={inst => this.setRef('menuInner', inst)}>
+        ref={inst => this.setRef('menuInner', 'menuInner', inst)}>
         {items.map((Item, i) => (
           <div
-            ref={inst => this.setRef(`menuitem-${i}`, inst)}
+            ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), inst)}
             className={`${itemClass} ${
               Item.props.selected ? itemClassActive : ''
             }`}

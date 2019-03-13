@@ -47,7 +47,7 @@ export declare class InnerWrapper extends React.PureComponent<InnerWrapperProps,
     };
     private ref;
     constructor(props: InnerWrapperProps);
-    setRef: (key: string, value: HTMLDivElement | null) => Void;
+    setRef: (key: string, elKey: string, value: HTMLDivElement | null) => Void;
     isElementActive: (itemId: string | number | null, selected: React.ReactText) => boolean;
     setItems: (arr: JSX.Element[], selected: React.ReactText, forwardClick: boolean, onClick: Function) => JSX.Element[];
     forwardClickHandler: (key: any, reverse?: boolean) => () => Void;

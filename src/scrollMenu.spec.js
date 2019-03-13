@@ -59,13 +59,13 @@ const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
 const items = [
-  ['item1', { getBoundingClientRect: () => ({ x: 0, width: 10, left: 0 }) }],
-  ['item2', { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) }],
-  ['item3', { getBoundingClientRect: () => ({ x: 30, width: 30, left: 30 }) }],
-  ['item4', { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }],
-  ['item5', { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }],
-  ['item6', { getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) }],
-  ['item7', { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }]
+  ['item1', { key: 'item1', elem: {getBoundingClientRect: () => ({ x: 0, width: 10, left: 0 }) }}],
+  ['item2', { key: 'item2', elem: {getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) }}],
+  ['item3', { key: 'item3', elem: {getBoundingClientRect: () => ({ x: 30, width: 30, left: 30 }) }}],
+  ['item4', { key: 'item4', elem: {getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }}],
+  ['item5', { key: 'item5', elem: {getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }}],
+  ['item6', { key: 'item6', elem: {getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) }}],
+  ['item7', { key: 'item7', elem: {getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }}],
 ];
 
 // eslint-disable-next-line react/prop-types
@@ -738,13 +738,13 @@ describe('functions', () => {
 
     describe('getScrollLeftOffset fn', () => {
       const items1 = [
-        ['item1', { getBoundingClientRect: () => ({ x: -90, width: 10, left: -90 }) }],
-        ['item2', { getBoundingClientRect: () => ({ x: -80, width: 20, left: -80 }) }],
-        ['item3', { getBoundingClientRect: () => ({ x: -60, width: 30, left: -60 }) }],
-        ['item4', { getBoundingClientRect: () => ({ x: -30, width: 50, left: -30 }) }],
-        ['item5', { getBoundingClientRect: () => ({ x: 20, width: 50, left: 20 }) }],
-        ['item6', { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }],
-        ['item7', { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }]
+        ['item1', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: -90, width: 10, left: -90 }) }}],
+        ['item2', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: -80, width: 20, left: -80 }) }}],
+        ['item3', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: -60, width: 30, left: -60 }) }}],
+        ['item4', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: -30, width: 50, left: -30 }) }}],
+        ['item5', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: 20, width: 50, left: 20 }) }}],
+        ['item6', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }}],
+        ['item7', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }}],
       ];
       const prop = {
         items: items1,
