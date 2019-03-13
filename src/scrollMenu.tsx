@@ -498,13 +498,20 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** check if single menu item visible by it's position and width*/
   elemVisible = ({
-    x,
-    offset = 0,
-    elWidth,
-    wWidth = this.wWidth,
-    menuPos = this.menuPos,
-    menuWidth = this.menuWidth,
-  }): boolean => {
+      x,
+      offset = 0,
+      elWidth,
+      wWidth = this.wWidth,
+      menuPos = this.menuPos,
+      menuWidth = this.menuWidth,
+    } : {
+      x: number,
+      offset: number,
+      elWidth: number,
+      wWidth?: number,
+      menuPos?: number,
+      menuWidth?: number
+    }): boolean => {
     const leftEdge = menuPos - 1;
     const rightEdge = wWidth - (wWidth - (menuPos + menuWidth)) + 1;
     const pos = x + offset;
@@ -578,10 +585,14 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** offset from start to item */
   getOffsetToItemByIndex = ({
-    index,
-    menuItems = this.menuItems,
-    translate = this.state.translate,
-  }): number => {
+      index,
+      menuItems = this.menuItems,
+      translate = this.state.translate,
+      } : {
+        index: number,
+        menuItems?: MenuItems,
+        translate?: number,
+      }): number => {
     if (!menuItems.length) return 0;
     const ind = index >= menuItems.length ? menuItems.length - 1 : index;
     const {x} = getClientRect(menuItems[ind][1].elem);
