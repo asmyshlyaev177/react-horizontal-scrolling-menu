@@ -1,0 +1,6 @@
+docs/**
+build/**
+examples/**
+webpack**
+jest**
+scripts/**

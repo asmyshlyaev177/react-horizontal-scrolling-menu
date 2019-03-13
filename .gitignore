@@ -3,3 +3,4 @@ package-lock.json
 yarn.lock
 /coverage/**/*
 .vscode
+**/.DS_Store
