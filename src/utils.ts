@@ -1,6 +1,8 @@
 import { Ref } from "./types";
 
+/** check if value not empty */
 const notUndefOrNull = (val: any) => val !== undefined && val !== null;
+/** getClientRect */
 const getClientRect = (elem: Ref): {width: number, x: number} => {
   if (!elem || !elem.getBoundingClientRect || typeof elem.getBoundingClientRect !== 'function') return {width: 0, x: 0};
 
@@ -8,14 +10,18 @@ const getClientRect = (elem: Ref): {width: number, x: number} => {
   return {width, x: +left};
 };
 
+/** format translate value */
 const formatTranslate = (val: number): number => +val.toFixed(3);
+/** check if translate is valid */
 const translateIsValid = (val: any): boolean =>
   typeof val === 'number' && !isNaN(+val);
+/** pass translate value and default, valid - return formatted value, not valid - return default */
 const validateTranslate = (value: any, defaultValue: number): number =>
   translateIsValid(value)
     ? formatTranslate(value)
     : formatTranslate(defaultValue);
 
+/** test passive event support, for performance */
 const testPassiveEventSupport = (): boolean => {
   let passiveSupported = false;
 
