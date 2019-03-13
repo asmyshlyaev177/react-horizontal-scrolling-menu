@@ -71,6 +71,7 @@ export const innerStyle = ({translate, dragging, mounted, transition} : innerSty
 interface InnerWrapperProps {
   data: Data,
   setRef: Function,
+  setMenuInnerRef: Function,
   onClick: Function,
   translate: number,
   dragging: boolean,
@@ -92,11 +93,11 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     transition: defaultProps.transition,
     selected: defaultProps.selected,
   };
-  private ref: RefObject;
-  constructor(props: InnerWrapperProps) {
-    super(props);
-    this.ref = {};
-  }
+
+  setMenuInnerRef = (value: HTMLDivElement | null): Void => {
+    const {setMenuInnerRef} = this.props;
+    setMenuInnerRef({'menuInner': { key: 'menuInner', elem: value}});
+  };
 
   setRef = (key: string, elKey: string, value: HTMLDivElement | null): Void => {
     const {setRef} = this.props;
@@ -144,7 +145,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       <div
         className={innerWrapperClass}
         style={style}
-        ref={inst => this.setRef('menuInner', 'menuInner', inst)}>
+        ref={inst => this.setMenuInnerRef(inst)}>
         {items.map((Item, i) => (
           <div
             ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), inst)}

@@ -29,6 +29,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   private ref: RefObject;
   private menuWrapper: Ref;
+  private menuInner: Ref;
   private mounted: boolean;
   private needUpdate: boolean;
   private allItemsWidth: number;
@@ -50,6 +51,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     super(props);
     this.ref = {};
     this.menuWrapper = null;
+    this.menuInner = null;
     this.mounted = false;
     this.needUpdate = false;
     this.allItemsWidth = 0;
@@ -218,7 +220,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** set ref for MenuItems */
   setRef = (ref: RefObject): Void => {
     const [ key, value ] = Object.entries(ref)[0];
-    this.ref[key] = value;
+    value.elem ? this.ref[key] = value : false;
+  };
+
+  setMenuInnerRef = (ref: Ref) => {
+    this.menuInner = ref;
   };
 
   /** set ref for wrapper */
@@ -267,9 +273,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.mounted = true;
   };
 
+  /** kinda debounce */
   resizeHandler = (): Void => {
     clearTimeout(this.resizeTimer);
-    this.resizeTimer = setTimeout(() => this.resize(), 250);
+    this.resizeTimer = setTimeout(() => this.resize(), 200);
   };
 
   /** Set values on resize */
@@ -302,7 +309,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     if (!data || !data.length) return false;
     let translateProp = translateProps;
 
-    const menuItems = this.getMenuItems(data.length);
+    const menuItems = this.getMenuItems();
     const selectedItem = data.find(el => el.key === selected);
     this.menuItems = menuItems;
     this.selected = selectedItem
@@ -381,12 +388,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   };
 
   /** get MenuItems from refs */
-  getMenuItems = (dataLength: number): MenuItems => {
-    return Object.entries(this.ref)
-      .filter(el => el[0].includes('menuitem'))
-      .slice(0, dataLength)
-      .filter(Boolean);
-  };
+  getMenuItems = (): MenuItems => Object.entries(this.ref).slice(0, this.props.data.length || 0);
 
   /** get width of all menu items */
   getItemsWidth = ({items = this.menuItems} : {items?: MenuItems}): number => {
@@ -990,6 +992,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             transition={mounted ? transition : 0}
             selected={selected}
             setRef={this.setRef}
+            setMenuInnerRef={this.setMenuInnerRef}
             onClick={this.onItemClick}
             innerWrapperClass={innerWrapperClass}
             itemClass={itemClass}
