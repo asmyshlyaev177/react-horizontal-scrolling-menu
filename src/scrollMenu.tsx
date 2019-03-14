@@ -67,6 +67,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.onLoadTimer = 0;
     this.rafTimer = 0;
     this.resizeTimer = 0;
+
+    checkVersion(this);
   }
 
   state = {
@@ -92,6 +94,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const optionsNoCapture = passiveEvents
       ? { passive: true, capture: false }
       : false;
+
 
     window.addEventListener('load', this.onLoad, optionsNoCapture);
     window.addEventListener('resize', this.resizeHandler, optionsNoCapture);
@@ -688,7 +691,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   };
 
   /** get new offset value when scroll right */
-  // TODO: maybe refactor it
   getScrollRightOffset = (
     visibleItems: MenuItems,
     items: MenuItems
@@ -1106,5 +1108,14 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     );
   }
 }
+
+const checkVersion = (that: any): Void => {
+  const version = (React.version).match(/^(\d{1,2})\./);
+  if (+(version![1]) >= 16) {
+    that.componentDidCatch = (err: any, info: any): Void => {
+      console.log('ScrollMenu catched error: ', err, info);
+    }
+  }
+};
 
 export default ScrollMenu;
