@@ -286,20 +286,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** Set values on resize */
   resize = (): Void => {
-    const {
-      wWidth,
-      menuPos,
-      menuWidth,
-      allItemsWidth,
-      firstPageOffset,
-      lastPageOffset,
-    } = this.updateWidth({});
-    this.menuPos = menuPos;
-    this.wWidth = wWidth;
-    this.allItemsWidth = allItemsWidth;
-    this.menuWidth = menuWidth;
-    this.firstPageOffset = firstPageOffset;
-    this.lastPageOffset = lastPageOffset;
+    this.updateWidth({});
   };
 
   /** set initial values and for updates */
@@ -322,20 +309,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       : defaultProps.selected;
 
     // align item on initial load
-    const {
-      wWidth,
-      menuPos,
-      menuWidth,
-      allItemsWidth,
-      firstPageOffset,
-      lastPageOffset,
-    } = this.updateWidth({});
-    this.menuPos = menuPos;
-    this.wWidth = wWidth;
-    this.allItemsWidth = allItemsWidth;
-    this.menuWidth = menuWidth;
-    this.firstPageOffset = firstPageOffset;
-    this.lastPageOffset = lastPageOffset;
+    this.updateWidth({});
 
     const newState = { ...this.state };
 
@@ -436,19 +410,15 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     items = this.menuItems,
   }: {
     items?: MenuItems;
-  }): {
-    wWidth: number;
-    menuPos: number;
-    menuWidth: number;
-    allItemsWidth: number;
-    firstPageOffset: number;
-    lastPageOffset: number;
-  } => {
-    const width = this.getWidth({ items });
-    return {
-      ...width,
-      ...this.getPagesOffsets({ items, ...width }),
-    };
+  }): Void => {
+    const { wWidth, menuPos, menuWidth, allItemsWidth } = this.getWidth({ items });
+    const { firstPageOffset, lastPageOffset } = this.getPagesOffsets({ items, wWidth, menuPos, menuWidth, allItemsWidth });
+    this.menuPos = menuPos;
+    this.wWidth = wWidth;
+    this.allItemsWidth = allItemsWidth;
+    this.menuWidth = menuWidth;
+    this.firstPageOffset = firstPageOffset;
+    this.lastPageOffset = lastPageOffset;
   };
 
   /** get firstPageOffset */
@@ -1055,7 +1025,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const arrowProps = {
       className: arrowClass,
       hideArrows,
-      onClick: this.handleArrowClick,
       disabledClass: arrowDisabledClass,
       forwardClick,
     };
@@ -1065,6 +1034,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
         {arrowLeft && (
           <ArrowWrapper {...arrowProps}
             isDisabled={!arrowsVisible || !leftArrowVisible}
+            onClick={this.handleArrowClick}
           >
             {arrowLeft}
           </ArrowWrapper>
@@ -1100,6 +1070,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
         {arrowRight && (
           <ArrowWrapper {...arrowProps}
             isDisabled={!arrowsVisible || !rightArrowVisible}
+            onClick={this.handleArrowClickRight}
           >
             {arrowRight}
           </ArrowWrapper>

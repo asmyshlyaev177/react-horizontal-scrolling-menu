@@ -87,14 +87,7 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
             key: string;
             elem: Ref;
         }][] | undefined;
-    }) => {
-        wWidth: number;
-        menuPos: number;
-        menuWidth: number;
-        allItemsWidth: number;
-        firstPageOffset: number;
-        lastPageOffset: number;
-    };
+    }) => Void;
     getFirstPageOffset: ({ items, offset, wWidth, menuPos, menuWidth, }: {
         items: [string, {
             key: string;

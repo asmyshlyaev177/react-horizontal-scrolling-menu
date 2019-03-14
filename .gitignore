@@ -4,3 +4,4 @@ yarn.lock
 /coverage/**/*
 .vscode
 **/.DS_Store
+docs
