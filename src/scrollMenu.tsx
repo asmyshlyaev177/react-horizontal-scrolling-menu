@@ -20,6 +20,8 @@ interface MenuState {
   translate: number;
   startDragTranslate: number;
   xDraggedDistance: number;
+  firstItemVisible: boolean;
+  lastItemVisible: boolean;
   leftArrowVisible: boolean;
   rightArrowVisible: boolean;
 }
@@ -77,6 +79,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     translate: this.props.translate,
     startDragTranslate: 0,
     xDraggedDistance: 0,
+    firstItemVisible: true,
+    lastItemVisible: false,
     leftArrowVisible: false,
     rightArrowVisible: true,
   };
@@ -111,14 +115,14 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const {
       translate,
       dragging,
-      leftArrowVisible,
-      rightArrowVisible,
+      firstItemVisible,
+      lastItemVisible,
     } = this.state;
     const {
       translate: translateNew,
       dragging: draggingNew,
-      leftArrowVisible: leftArrowVisibleNew,
-      rightArrowVisible: rightArrowVisibleNew,
+      firstItemVisible: firstItemVisibleNew,
+      lastItemVisible: lastItemVisibleNew,
     } = nextState;
 
     const {
@@ -145,8 +149,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     const propsDiff = translateDiff || selectedDiff;
 
-    const leftArrowVisibleDiff = leftArrowVisible !== leftArrowVisibleNew;
-    const rightArrowVisibleDiff = rightArrowVisible !== rightArrowVisibleNew;
+    const firstItemVisibleDiff = firstItemVisible !== firstItemVisibleNew;
+    const lastItemVisibleDiff = lastItemVisible !== lastItemVisibleNew;
 
     let translateResult = translateNew;
 
@@ -181,8 +185,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       translateDiff ||
       dragging !== draggingNew ||
       propsDiff ||
-      leftArrowVisibleDiff ||
-      rightArrowVisibleDiff
+      firstItemVisibleDiff ||
+      lastItemVisibleDiff
     );
   }
 
@@ -194,17 +198,23 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }
 
     const { translate: translateOld } = prevState;
-    let { translate: translateNew, dragging } = this.state;
+    const { translate, dragging } = this.state;
 
-    if (!dragging && translateOld !== translateNew) {
-      this.onUpdate({ translate: translateNew, translateOld });
-    }
+    if (!dragging && translateOld !== translate) {
+      /*
+      const {
+        firstItemVisible,
+        lastItemVisible,
+      } = this.checkFirstLastItemVisibility({ translate });
+      */
+      this.onUpdate({ translate, translateOld });
+    };
 
     const { hideSingleArrow, transition } = this.props;
     if (hideSingleArrow) {
-      requestAnimationFrame(this.setSingleArrowVisibility);
+      requestAnimationFrame(this.setFirstLastItemVisibility);
       this.rafTimer = setTimeout(
-        () => requestAnimationFrame(this.setSingleArrowVisibility),
+        () => requestAnimationFrame(this.setFirstLastItemVisibility),
         transition * 1000 + 10
       );
     }
@@ -234,41 +244,46 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.menuWrapper = ref;
   };
 
-  /** check if arrows visible */
-  checkSingleArrowVisibility = ({
+  /** check if first and last items visible */
+  checkFirstLastItemVisibility = ({
     translate = this.state.translate,
   }: {
     translate?: number;
-  }): { leftArrowVisible: boolean; rightArrowVisible: boolean } => {
-    const { hideSingleArrow } = this.props;
-    let [leftArrowVisible, rightArrowVisible] = [true, true];
-    const { menuItems: items } = this;
+  }): { firstItemVisible: boolean; lastItemVisible: boolean } => {
+    const { menuItems } = this;
 
-    if (hideSingleArrow && items) {
+    let firstItemVisible = true;
+    let lastItemVisible = false;
+    if (menuItems) {
       const visibleItems = this.getVisibleItems({ offset: translate });
-      const firstItemVisible = visibleItems.includes(items[0]);
-      const lastItemVisible = visibleItems.includes(items.slice(-1)[0]);
-      leftArrowVisible = !firstItemVisible;
-      rightArrowVisible = !lastItemVisible;
+      firstItemVisible = visibleItems.includes(menuItems[0]);
+      lastItemVisible = visibleItems.includes(menuItems.slice(-1)[0]);
     }
 
-    return { leftArrowVisible, rightArrowVisible };
+    return { firstItemVisible, lastItemVisible };
   };
 
-  /** check arrows visible or not and setState */
-  setSingleArrowVisibility = (): Void => {
-    const { leftArrowVisible, rightArrowVisible } = this.state;
+  /** check first and last items and setState */
+  setFirstLastItemVisibility = (): Void => {
     const {
-      leftArrowVisible: leftArrowVisibleNew,
-      rightArrowVisible: rightArrowVisibleNew,
-    } = this.checkSingleArrowVisibility({});
+      firstItemVisible: firstItemVisibleOld,
+      lastItemVisible: lastItemVisibleOld
+    } = this.state;
+    const {
+      firstItemVisible,
+      lastItemVisible,
+    } = this.checkFirstLastItemVisibility({});
     if (
-      leftArrowVisible !== leftArrowVisibleNew ||
-      rightArrowVisible !== rightArrowVisibleNew
+      firstItemVisibleOld !== firstItemVisible ||
+      lastItemVisibleOld !== lastItemVisible
     ) {
+      const leftArrowVisible = !firstItemVisible;
+      const rightArrowVisible = !lastItemVisible;
       this.setState({
-        leftArrowVisible: leftArrowVisibleNew,
-        rightArrowVisible: rightArrowVisibleNew,
+        firstItemVisible,
+        lastItemVisible,
+        leftArrowVisible,
+        rightArrowVisible,
       });
     }
   };
@@ -325,11 +340,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     // check arrows
     const {
-      leftArrowVisible,
-      rightArrowVisible,
-    } = this.checkSingleArrowVisibility({ translate: translateProp });
-    newState.leftArrowVisible = leftArrowVisible;
-    newState.rightArrowVisible = rightArrowVisible;
+      firstItemVisible,
+      lastItemVisible,
+    } = this.checkFirstLastItemVisibility({ translate: translateProp });
+    newState.firstItemVisible = firstItemVisible;
+    newState.lastItemVisible = lastItemVisible;
 
     // scrollToSelected
     if (scrollToSelected) {
@@ -524,6 +539,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   };
 
   /** get item visible with current/provided translate */
+  // TODO:: why offset and translate?
   getVisibleItems = ({
     items = this.menuItems,
     wWidth = this.wWidth,
@@ -656,6 +672,9 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     if (!menuItems.length) return 0;
     const ind = index >= menuItems.length ? menuItems.length - 1 : index;
     const { x } = getClientRect(menuItems[ind][1].elem);
+    // TODO: refactor
+    // translate - x - menuPos - firstPageOffset/lastPageOffset
+    // translate - (menuItems[3][1].elem.getBoundingClientRect().x - menuPos - firstPageOffset)
     const position = +x - translate;
     return position;
   };
@@ -917,7 +936,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** event handler when drag and mouse up  */
   handleDragStop = (e: React.MouseEvent | React.TouchEvent | Event): Void => {
-    const { allItemsWidth, menuWidth, firstPageOffset, lastPageOffset } = this;
+    const { allItemsWidth, menuWidth } = this;
     let {
       dragging,
       xPoint = this.getPoint(e),
@@ -973,19 +992,27 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   onUpdate = ({
     translate = this.state.translate,
     translateOld = this.state.translate,
-  }: {
+    firstItemVisible = this.state.firstItemVisible,
+    lastItemVisible = this.state.lastItemVisible,
+  } : {
     translate?: number;
     translateOld?: number;
+    firstItemVisible?: boolean;
+    lastItemVisible?: boolean;
   }): Void => {
     const { onUpdate } = this.props;
     const { lastTranslateUpdate } = this;
+    // TODO: return first and last item visibility
+    //const { firstItemVisible, lastItemVisible } = this.state;
     if (
-      onUpdate &&
       translate !== translateOld &&
       translate !== lastTranslateUpdate
     ) {
       this.lastTranslateUpdate = translate;
-      onUpdate({ translate });
+
+      typeof (onUpdate) === 'function' &&
+        onUpdate({ translate, firstItemVisible, lastItemVisible });
+        //onUpdate({ translate });
     }
   };
 
@@ -999,7 +1026,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       innerWrapperClass,
       itemClass,
       itemClassActive,
-      hideArrows,
       menuStyle,
       menuClass,
       transition,
@@ -1024,7 +1050,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     const arrowProps = {
       className: arrowClass,
-      hideArrows,
       disabledClass: arrowDisabledClass,
       forwardClick,
     };

@@ -7,7 +7,6 @@ interface ArrowWrapperProps {
   onClick: Function,
   children: JSX.Element,
   isDisabled: boolean,
-  hideArrows: boolean,
   disabledClass?: string,
   forwardClick: boolean
 };
@@ -24,15 +23,11 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       isDisabled,
       className: clsName,
       disabledClass,
-      hideArrows,
       forwardClick,
       onClick,
       children
     } = this.props;
-    const disabledClassName = isDisabled
-      ? disabledClass || `${clsName}--disabled`
-      : '';
-    const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
+    const className = `${clsName} ${isDisabled ? disabledClass : ''}`;
     const childProps = {
       ...children.props,
       onClick: () => (forwardClick ? onClick() : null),

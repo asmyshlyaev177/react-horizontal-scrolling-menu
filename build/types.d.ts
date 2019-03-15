@@ -18,8 +18,10 @@ interface MenuProps {
     menuStyle: CSSProperties;
     menuClass: string;
     onSelect: ((selectedItemKey: string) => void);
-    onUpdate: (({ translate }: {
+    onUpdate: (({ translate, firstItemVisible, lastItemVisible }: {
         translate: number;
+        firstItemVisible?: boolean;
+        lastItemVisible?: boolean;
     }) => void);
     scrollToSelected: boolean;
     selected: string;

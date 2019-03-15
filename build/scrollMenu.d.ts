@@ -6,6 +6,8 @@ interface MenuState {
     translate: number;
     startDragTranslate: number;
     xDraggedDistance: number;
+    firstItemVisible: boolean;
+    lastItemVisible: boolean;
     leftArrowVisible: boolean;
     rightArrowVisible: boolean;
 }
@@ -35,6 +37,8 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
         translate: number;
         startDragTranslate: number;
         xDraggedDistance: number;
+        firstItemVisible: boolean;
+        lastItemVisible: boolean;
         leftArrowVisible: boolean;
         rightArrowVisible: boolean;
     };
@@ -45,13 +49,13 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     setRef: (ref: RefObject) => Void;
     setMenuInnerRef: (ref: Ref) => void;
     setWrapperRef: (ref: Ref) => Void;
-    checkSingleArrowVisibility: ({ translate, }: {
+    checkFirstLastItemVisibility: ({ translate, }: {
         translate?: number | undefined;
     }) => {
-        leftArrowVisible: boolean;
-        rightArrowVisible: boolean;
+        firstItemVisible: boolean;
+        lastItemVisible: boolean;
     };
-    setSingleArrowVisibility: () => Void;
+    setFirstLastItemVisibility: () => Void;
     onLoad: () => Void;
     resizeHandler: () => Void;
     resize: () => Void;
@@ -212,9 +216,11 @@ export declare class ScrollMenu extends React.Component<MenuProps, MenuState> {
     handleDrag: (e: Event | React.MouseEvent<Element, MouseEvent> | React.TouchEvent<Element>) => Void;
     handleDragStop: (e: Event | React.MouseEvent<Element, MouseEvent> | React.TouchEvent<Element>) => Void;
     isArrowsVisible: () => boolean;
-    onUpdate: ({ translate, translateOld, }: {
+    onUpdate: ({ translate, translateOld, firstItemVisible, lastItemVisible, }: {
         translate?: number | undefined;
         translateOld?: number | undefined;
+        firstItemVisible?: boolean | undefined;
+        lastItemVisible?: boolean | undefined;
     }) => Void;
     render(): React.ReactNode | null;
 }

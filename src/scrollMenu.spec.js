@@ -167,9 +167,12 @@ describe('test menu', () => {
     it('call updateWidth', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       const getMenuItems = jest.fn()
-        .mockReturnValue([1, 2, 3]);
+        .mockReturnValue(menu);
       const updateWidth = jest.fn()
         .mockReturnValue({ wWidth: 500, menuPos: 30 });
+      const checkFirstLastItemVisibility = jest.fn()
+        .mockRejectedValue({ firstItemVisible: true, lastItemVisible: false });
+      wrapper.instance().checkFirstLastItemVisibility = checkFirstLastItemVisibility;
       wrapper.instance().getMenuItems = getMenuItems;
       wrapper.instance().updateWidth = updateWidth;
       wrapper.instance().setInitial();
@@ -1381,26 +1384,23 @@ describe('functions', () => {
     describe('hide single arrow if at first/last element, hideSingleArrow flag', () => {
       const prop = { ...props, hideSingleArrow: true };
 
-      describe('checkSingleArrowVisibility', () => {
-        it('', () => {
-        });
-      });
-
-      describe('check arrow visibility on mount', () => {
-        it('checkSingleArrowVisibility have been called', () => {
-          const checkSingleArrowVisibility = jest.fn().mockReturnValue({ leftArrowVisible: true, rightArrowVisible: true });
-          const getVisibleItems = jest.fn();
+      describe('check first and last item visibility on mount', () => {
+        it('checkFirstLastItemVisibility have been called', () => {
+          const checkFirstLastItemVisibility = jest.fn()
+            .mockReturnValue({ firstItemVisible: true, lastItemVisible: true });
+          const getVisibleItems = jest.fn()
+            .mockReturnValue([]);
           const wrapper = mount(<ScrollMenu {...prop} />);
 
           wrapper.instance().getVisibleItems = getVisibleItems;
-          wrapper.instance().checkSingleArrowVisibility = checkSingleArrowVisibility;
+          wrapper.instance().checkFirstLastItemVisibility = checkFirstLastItemVisibility;
           wrapper.instance().setInitial();
-          expect(checkSingleArrowVisibility).toHaveBeenCalled();
+          expect(checkFirstLastItemVisibility).toHaveBeenCalled();
           expect(getVisibleItems).toHaveBeenCalled();
         });
 
         it('first item visible thus left arrow hidden', () => {
-          const p = { ...prop, translate: 0 };
+          const p = { ...prop, translate: 0, hideArrows: false };
           const wrapper = mount(<ScrollMenu {...p} />);
           wrapper.instance().wWidth = 500;
           wrapper.instance().menuPos = 0;
@@ -1408,8 +1408,14 @@ describe('functions', () => {
           wrapper.instance().menuItems = items;
           wrapper.instance().firstPageOffset = 0;
 
-          const { leftArrowVisible } = wrapper.instance().checkSingleArrowVisibility({});
-          expect(leftArrowVisible).toEqual(false);
+          const { firstItemVisible } = wrapper.instance().checkFirstLastItemVisibility({});
+          expect(firstItemVisible).toEqual(true);
+          wrapper.setState({
+            firstItemVisible, leftArrowVisible: !firstItemVisible,
+            lastItemVisible: false, rightArrowVisible: true,
+          });
+
+          expect(wrapper.html().includes(`${defaultProps.arrowDisabledClass}`));
         });
 
         it('first item not visible thus left arrow visible', () => {
@@ -1421,8 +1427,13 @@ describe('functions', () => {
           wrapper.instance().menuItems = items;
           wrapper.instance().firstPageOffset = 0;
 
-          const { leftArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
-          expect(leftArrowVisible).toEqual(true);
+          const { firstItemVisible } = wrapper.instance().checkFirstLastItemVisibility({ translate: -100 });
+          expect(firstItemVisible).toEqual(false);
+          wrapper.setState({
+            firstItemVisible, leftArrowVisible: !firstItemVisible,
+            lastItemVisible: false, rightArrowVisible: true,
+          });
+          expect(!wrapper.html().includes(`${defaultProps.arrowDisabledClass}`));
         });
 
         it('last item visible thus right arrow hidden', () => {
@@ -1434,8 +1445,13 @@ describe('functions', () => {
           wrapper.instance().menuItems = items;
           wrapper.instance().firstPageOffset = 0;
 
-          const { rightArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -200 });
-          expect(rightArrowVisible).toEqual(false);
+          const { lastItemVisible } = wrapper.instance().checkFirstLastItemVisibility({ translate: -200 });
+          expect(lastItemVisible).toEqual(true);
+          wrapper.setState({
+            firstItemVisible: false, leftArrowVisible: false,
+            lastItemVisible, rightArrowVisible: !lastItemVisible,
+          });
+          expect(wrapper.html().includes(`${defaultProps.arrowDisabledClass}`));
         });
 
         it('last item not visible thus right arrow visible', () => {
@@ -1447,8 +1463,13 @@ describe('functions', () => {
           wrapper.instance().menuItems = items;
           wrapper.instance().firstPageOffset = 0;
 
-          const { rightArrowVisible } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
-          expect(rightArrowVisible).toEqual(true);
+          const { lastItemVisible } = wrapper.instance().checkFirstLastItemVisibility({ translate: -100 });
+          expect(lastItemVisible).toEqual(false);
+          wrapper.setState({
+            firstItemVisible: false, leftArrowVisible: false,
+            lastItemVisible, rightArrowVisible: !lastItemVisible,
+          });
+          expect(!wrapper.html().includes(`${defaultProps.arrowDisabledClass}`));
         });
         it('last and fist items not visible thus both arrows visible', () => {
           const p = { ...prop, translate: 0 };
@@ -1460,11 +1481,12 @@ describe('functions', () => {
           wrapper.instance().firstPageOffset = 0;
 
           const {
-            leftArrowVisible,
-            rightArrowVisible
-          } = wrapper.instance().checkSingleArrowVisibility({ translate: -100 });
-          expect(leftArrowVisible).toEqual(true);
-          expect(rightArrowVisible).toEqual(true);
+            firstItemVisible,
+            lastItemVisible
+          } = wrapper.instance().checkFirstLastItemVisibility({ translate: -100 });
+          expect(firstItemVisible).toEqual(false);
+          expect(lastItemVisible).toEqual(false);
+          expect(wrapper.html().includes(`${defaultProps.arrowDisabledClass}`));
         });
       });
 
@@ -1472,24 +1494,25 @@ describe('functions', () => {
         it('check via RAF', () => {
           const p = { ...prop, translate: 0 };
           const wrapper = mount(<ScrollMenu {...p} />);
-          const setSingleArrowVisibility = jest.fn();
-          wrapper.instance().setSingleArrowVisibility = setSingleArrowVisibility;
+          const setFirstLastItemVisibility = jest.fn();
+          wrapper.instance().setFirstLastItemVisibility = setFirstLastItemVisibility;
           wrapper.setState({ translate: 50 });
 
-          expect(setSingleArrowVisibility).toHaveBeenCalled();
+          expect(setFirstLastItemVisibility).toHaveBeenCalled();
         });
         it('check via setTimeout after animation end', () => {
           const p = { ...prop, transition: 0.5, translate: 0 };
           const wrapper = mount(<ScrollMenu {...p} />);
-          const setSingleArrowVisibility = jest.fn();
-          wrapper.instance().setSingleArrowVisibility = setSingleArrowVisibility;
+          const setFirstLastItemVisibility = jest.fn();
+          wrapper.instance().setFirstLastItemVisibility = setFirstLastItemVisibility;
 
-          expect(setSingleArrowVisibility.mock.calls.length).toEqual(0);
+          expect(setFirstLastItemVisibility.mock.calls.length).toEqual(0);
           wrapper.setState({ translate: 50 });
           jest.runAllTimers();
 
-          expect(setSingleArrowVisibility.mock.calls.length).toBeGreaterThanOrEqual(2);
+          expect(setFirstLastItemVisibility).toHaveBeenCalled();
         });
+
       });
 
       describe('scroll to selected item on start', () => {

@@ -5,7 +5,6 @@ interface ArrowWrapperProps {
     onClick: Function;
     children: JSX.Element;
     isDisabled: boolean;
-    hideArrows: boolean;
     disabledClass?: string;
     forwardClick: boolean;
 }
