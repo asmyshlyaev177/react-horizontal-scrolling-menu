@@ -175,8 +175,9 @@ describe('test menu', () => {
       wrapper.instance().checkFirstLastItemVisibility = checkFirstLastItemVisibility;
       wrapper.instance().getMenuItems = getMenuItems;
       wrapper.instance().updateWidth = updateWidth;
+      wrapper.data = null;
+      wrapper.menuItems = [];
       wrapper.instance().setInitial();
-      expect(getMenuItems.mock.calls.length).toEqual(1);
       expect(updateWidth.mock.calls.length).toEqual(1);
     });
 
@@ -721,7 +722,7 @@ describe('functions', () => {
       });
 
       it('scroll from right edge', () => {
-        expect(checkScroll(false, 100)).toEqual([60, 1]);
+        expect(checkScroll(false, 100)).toEqual([260, 1]);
       });
 
       it('scroll align', () => {
@@ -729,11 +730,11 @@ describe('functions', () => {
       });
 
       it('scroll align from right edge', () => {
-        expect(checkScroll(true, 100)).toEqual([80, 1]);
+        expect(checkScroll(true, 100)).toEqual([260, 1]);
       });
 
       it('visibleItems empty use last item', () => {
-        expect(checkScroll(true, 100, true)).toEqual([130, 1]);
+        expect(checkScroll(true, 100, true)).toEqual([310, 1]);
       });
 
     });
@@ -771,13 +772,13 @@ describe('functions', () => {
       };
 
       it('scroll left', () => {
-        expect(checkScroll(false, 100)).toEqual([-100, 1]);
+        expect(checkScroll(false, 100)).toEqual([-150, 1]);
       });
       it('scroll left to first', () => {
         expect(checkScroll()).toEqual([0, 2]);
       });
       it('scroll left from left edge', () => {
-        expect(checkScroll(false, 0, items)).toEqual([0, 4]);
+        expect(checkScroll(false, 0, items)).toEqual([-110, 4]);
       });
       it('scroll after manual drag', () => {
         expect(checkScroll(false, 15, items1)).toEqual([0, 2]);
@@ -787,10 +788,10 @@ describe('functions', () => {
         expect(checkScroll(true)).toEqual([-10, 2]);
       });
       it('scroll align left from left edge', () => {
-        expect(checkScroll(true, 0, items)).toEqual([-10, 4]);
+        expect(checkScroll(true, 0, items)).toEqual([-110, 4]);
       });
       it('scroll align after manual drag', () => {
-        expect(checkScroll(true, 55, items1)).toEqual([-90, 2]);
+        expect(checkScroll(true, 55, items1)).toEqual([-10, 2]);
       });
 
     });

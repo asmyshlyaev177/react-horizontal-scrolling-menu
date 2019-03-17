@@ -49,6 +49,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   private rafTimer: any;
   private resizeTimer: any;
 
+  private data: JSX.Element[]|null;
+
   constructor(props: MenuProps) {
     super(props);
     this.ref = {};
@@ -70,6 +72,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.rafTimer = 0;
     this.resizeTimer = 0;
 
+    this.data = null;
     checkVersion(this);
   }
 
@@ -302,6 +305,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** Set values on resize */
   resize = (): Void => {
     this.updateWidth({});
+    this.forceUpdate();
   };
 
   /** set initial values and for updates */
@@ -316,15 +320,20 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     if (!data || !data.length) return false;
     let translateProp = translateProps;
 
-    const menuItems = this.getMenuItems();
+    if (!this.menuItems.length || data !== this.data) {
+      const menuItems = this.getMenuItems();
+      this.menuItems = menuItems;
+      this.data = data;
+    }
+
     const selectedItem = data.find(el => el.key === selected);
-    this.menuItems = menuItems;
+
     this.selected = selectedItem
       ? String(selectedItem.key || '')
       : defaultProps.selected;
 
     // align item on initial load
-    this.updateWidth({});
+    this.updateWidth({ });
 
     const newState = { ...this.state };
 
@@ -694,29 +703,30 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     );
     const nextItemIndex = items.findIndex(el => el[0] === nextItem[0]);
 
-    const offsetToItem = this.getOffsetToItemByIndex({
+    const offsetToItem = menuPos + this.getOffsetToItemByIndex({
       index: nextItemIndex,
       menuItems: items,
     });
-    const offsetToItemOnStart = offsetToItem - menuPos;
 
     const nextVisibleItems = this.getVisibleItems({
       items,
-      offset: -offsetToItemOnStart,
+      offset: -offsetToItem,
     });
+
+    if (!nextVisibleItems.length) return offsetToItem;
 
     if (nextVisibleItems.includes(items.slice(-1)[0])) {
       return alignCenter
-        ? offsetToItemOnStart + lastPageOffset
-        : offsetToItemOnStart;
+        ? offsetToItem + lastPageOffset
+        : offsetToItem;
     }
 
     const centerOffset = () =>
       this.getCenterOffset({ items: nextVisibleItems });
 
     const newOffset = alignCenter
-      ? offsetToItemOnStart - centerOffset()
-      : offsetToItemOnStart;
+      ? offsetToItem - centerOffset()
+      : offsetToItem;
     return newOffset;
   };
 
@@ -730,17 +740,16 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     );
     const prevItemIndex = items.findIndex(el => el[0] === prevItem[0]);
 
-    const offsetToItem = this.getOffsetToItemByIndex({
+    const offsetToItem = - menuPos - menuWidth + this.getOffsetToItemByIndex({
       index: prevItemIndex,
       menuItems: items,
     });
-    const itemWidth = this.getItemsWidth({ items: [prevItem] });
-    const offsetToItemOnEnd = offsetToItem - menuPos - (menuWidth - itemWidth);
 
     const nextVisibleItems = this.getVisibleItems({
       items,
-      offset: -offsetToItemOnEnd,
+      offset: -offsetToItem,
     });
+    if (!nextVisibleItems.length) return offsetToItem;
 
     if (nextVisibleItems.includes(items[0])) {
       return alignCenter ? -firstPageOffset : defaultProps.translate;
@@ -750,8 +759,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       this.getCenterOffset({ items: nextVisibleItems });
 
     const newOffset = alignCenter
-      ? offsetToItemOnEnd + centerOffset()
-      : offsetToItemOnEnd;
+      ? offsetToItem + centerOffset()
+      : offsetToItem;
     return newOffset;
   };
 
