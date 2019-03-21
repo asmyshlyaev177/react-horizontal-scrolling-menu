@@ -99,9 +99,9 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
   };
 
   /** set ref for menuItems */
-  setRef = (key: string, elKey: string, value: HTMLDivElement | null): Void => {
+  setRef = (key: string, elKey: string, index: number, value: HTMLDivElement | null): Void => {
     const {setRef} = this.props;
-    setRef({[key]: { key: elKey, elem: value}});
+    setRef({[key]: { index, key: elKey, elem: value}});
   };
 
   /** check if menuItem active */
@@ -148,7 +148,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
         ref={inst => this.setMenuInnerRef(inst)}>
         {items.map((Item, i) => (
           <div
-            ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), inst)}
+            ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), i, inst)}
             className={`${itemClass} ${
               Item.props.selected ? itemClassActive : ''
             }`}

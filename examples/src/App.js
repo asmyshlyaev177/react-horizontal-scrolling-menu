@@ -87,7 +87,7 @@ class App extends Component {
     }
   }
 
-  onUpdate = ({translate, firstItemVisible, lastItemVisible}) => {
+  onUpdate = ({translate}) => {
     console.log(
       // `onUpdate: translate: ${translate} firstItemVisible: ${firstItemVisible}, lastItemVisible: ${lastItemVisible}`
       `onUpdate: translate: ${translate}`
