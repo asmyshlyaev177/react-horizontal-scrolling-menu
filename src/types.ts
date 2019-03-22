@@ -34,7 +34,7 @@ interface MenuProps {
 
 type Ref = HTMLDivElement|HTMLElement|null;
 
-type Item = {key: string, elem: Ref };
+type Item = {key: string, index: number, elem: Ref };
 
 type RefObject = { [key: string]: Item };
 
