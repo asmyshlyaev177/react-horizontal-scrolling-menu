@@ -522,7 +522,7 @@ describe('functions', () => {
       const translate = 20;
       wrapper.setState({ translate });
       const menuPos = 30;
-      wrapper.instance().menuPos = 30;
+      wrapper.instance().menuPos = menuPos;
 
       it('no key value return current translate', () => {
         const result = wrapper.instance().getOffsetToItemByKey(null);
@@ -557,7 +557,7 @@ describe('functions', () => {
           wrapper.instance().itBeforeStart = itBeforeStart;
           wrapper.instance().itAfterEnd = itAfterEnd;
 
-          const resultExpected = -(translate - menuPos - offset);
+          const resultExpected = -(translate - offset);
           const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
 
           expect(getOffsetToItemByIndex.mock.calls.length).toEqual(1);
@@ -585,7 +585,7 @@ describe('functions', () => {
           wrapper.instance().itBeforeStart = itBeforeStart;
           wrapper.instance().itAfterEnd = itAfterEnd;
 
-          const resultExpected = -(translate - menuPos - offset);
+          const resultExpected = -(translate - offset);
           const result = wrapper.instance().getOffsetToItemByKey(items[3][0]);
 
           expect(getOffsetToItemByIndex.mock.calls.length).toEqual(1);
@@ -600,7 +600,6 @@ describe('functions', () => {
           const getOffsetToItemByIndex = jest.fn();
           const translate = 70;
           getOffsetToItemByIndex.mockReturnValue(translate);
-          const offset = defaultProps.translate;
           const getVisibleItems = jest.fn();
           getVisibleItems.mockReturnValue([]);
           const itBeforeStart = jest.fn();

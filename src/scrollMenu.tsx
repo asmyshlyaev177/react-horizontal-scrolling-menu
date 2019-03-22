@@ -619,7 +619,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const itemIndex = this.getItemIndexByKey(key);
     if (itemIndex === -1) return translate;
 
-    const { menuPos } = this;
     const { alignCenter } = this.props;
 
     translate = this.getOffsetToItemByIndex({ index: itemIndex });
@@ -631,7 +630,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       ? this.getCenterOffset({ items: visibleItemsWithNewTranslate })
       : defaultProps.translate;
 
-    translate = -(translate - menuPos - offset);
+    translate = -(translate - offset);
 
     if (this.itBeforeStart(translate)) {
       translate = this.getOffsetAtStart();
