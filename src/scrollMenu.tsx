@@ -293,13 +293,15 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   /** kinda debounce */
   resizeHandler = (): Void => {
     clearTimeout(this.resizeTimer);
-    this.resizeTimer = setTimeout(() => this.resize(), 200);
+    this.resizeTimer = setTimeout(() => this.resize(), 250);
   };
 
   /** Set values on resize */
   resize = (): Void => {
     this.updateWidth({});
-    this.forceUpdate();
+    const visibleItems = this.getVisibleItems({});
+    const offsetToFirstVisItem = this.getOffsetToItemByKey(visibleItems[0][1].key);
+    this.setState({ translate: offsetToFirstVisItem });
   };
 
   /** set initial values and for updates */
@@ -317,8 +319,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     let translateProp = translateProps;
 
     if (!this.menuItems.length || data !== this.data) {
-      const menuItems = this.getMenuItems();
-      this.menuItems = menuItems;
+      this.menuItems = this.getMenuItems();
       this.data = data;
     }
 
