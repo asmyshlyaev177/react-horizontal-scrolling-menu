@@ -3,6 +3,7 @@ type Data = JSX.Element[];
 
 interface MenuProps {
   alignCenter: boolean,
+  alignOnResize: boolean,
   arrowClass: string,
   arrowDisabledClass: string,
   arrowLeft: JSX.Element|null,

@@ -155,6 +155,7 @@ npm run start
 Props | Type | Description | Required | Default Value
 ------------ | ------------- | ------------- | ------------- | -------------
 alignCenter | Boolean | Try to align items by center | false | true
+alignOnResize | Boolean | Try to align items after resize window | false | true
 clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
 dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 wheel | Boolean | Scroll with mouse wheel | false | true

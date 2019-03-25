@@ -292,21 +292,30 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** kinda debounce */
   resizeHandler = (): Void => {
+    const { alignOnResize } = this.props;
+    if (!alignOnResize) return false;
+
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(() => this.resize(), 250);
   };
 
   /** Set values on resize */
   resize = (): Void => {
+    const { alignCenter } = this.props;
     this.updateWidth({});
     const visibleItems = this.getVisibleItems({});
-    const offsetToFirstVisItem = this.getOffsetToItemByKey(visibleItems[0][1].key);
-    this.setState({ translate: offsetToFirstVisItem });
+
+    const offset = this.getOffsetToItemByIndex({
+      index: visibleItems[0] && visibleItems[0][1].index || 0,
+    });
+    const align = alignCenter
+      ? this.getCenterOffset({ items: visibleItems })
+      : 0;
+    this.setState({ translate: -offset + align });
   };
 
   /** set initial values and for updates */
   setInitial = (): Void => {
-    // debugger;
     const {
       selected,
       data,
@@ -559,8 +568,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       return this.elemVisible({
         x,
         elWidth,
-        wWidth,
-        menuPos,
         menuWidth,
         offset,
       });
@@ -572,19 +579,15 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     x,
     offset = 0,
     elWidth,
-    wWidth = this.wWidth,
-    menuPos = this.menuPos,
     menuWidth = this.menuWidth,
   }: {
     x: number;
     offset: number;
     elWidth: number;
-    wWidth?: number;
-    menuPos?: number;
     menuWidth?: number;
   }): boolean => {
     const leftEdge = -1;
-    const rightEdge = wWidth - (wWidth - (menuPos + menuWidth)) + 1;
+    const rightEdge = menuWidth + 1;
     const pos = x + offset;
     const posWithWidth = pos + elWidth;
     return pos >= leftEdge && posWithWidth <= rightEdge;
