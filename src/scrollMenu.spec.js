@@ -72,7 +72,7 @@ const getItems = (offset = 0) => [
   ['item1', { index: 0, key: 'item1', elem: { getBoundingClientRect: () => ({ x: offset + 0, width: 10, left: offset + 0 }) }}],
   ['item2', { index: 1, key: 'item2', elem: { getBoundingClientRect: () => ({ x: offset + 10, width: 20, left: offset + 10 }) }}],
   ['item3', { index: 2, key: 'item3', elem: { getBoundingClientRect: () => ({ x: offset + 30, width: 30, left: offset + 30 }) }}],
-  ['item4', { index: 3, key: 'item4', elem: { getBoundingClientRect: () => ({ x: offset + 60, width: 50, left: offset + 50 }) }}],
+  ['item4', { index: 3, key: 'item4', elem: { getBoundingClientRect: () => ({ x: offset + 60, width: 50, left: offset + 60 }) }}],
   ['item5', { index: 4, key: 'item5', elem: { getBoundingClientRect: () => ({ x: offset + 110, width: 50, left: offset + 110 }) }}],
   ['item6', { index: 5, key: 'item6', elem: { getBoundingClientRect: () => ({ x: offset + 160, width: 50, left: offset + 160 }) }}],
   ['item7', { index: 6, key: 'item8', elem: { getBoundingClientRect: () => ({ x: offset + 210, width: 50, left: offset + 210 }) }}],
@@ -712,9 +712,6 @@ describe('functions', () => {
         wrapper.instance().firstPageOffset = 10;
         wrapper.instance().lastPageOffset = 20;
         wrapper.instance().menuPos = 50;
-        const getOffsetToItemByIndex = jest.fn()
-          .mockReturnValue(200);
-        wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
         const items = getItems(translate);
         wrapper.instance().menuItems = items;
         wrapper.setState({ translate });
@@ -722,29 +719,87 @@ describe('functions', () => {
         return { wrapper, items };
       };
 
-      it('return last visible item pos - lastItem width ', () => {
-        const { wrapper, items } = setUp(0);
-        const getClientRect = jest.fn().mockReturnValue(20);
-        wrapper.instance().getClientRect = getClientRect;
+      describe('scrollBy 0', () => {
+        it('translate -150', () => {
+          const { wrapper, items } = setUp(-150);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
 
-        const visibleItems = [[], [null, {elem: 1}] ];
-        expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
-          .toEqual(-200);
+        it('translate -100', () => {
+          const { wrapper, items } = setUp(-100);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
+
+        it('translate 0', () => {
+          const { wrapper, items } = setUp(0);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-60);
+        });
+
+        it('translate 100', () => {
+          const { wrapper, items } = setUp(100);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(20);
+        });
+        it('translate 150', () => {
+          const { wrapper, items } = setUp(150);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
+      });
+
+      describe('scrollBy 1', () => {
+        it('translate -150', () => {
+          const { wrapper, items } = setUp(-150, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
+
+        it('translate -100', () => {
+          const { wrapper, items } = setUp(-100, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
+
+        it('translate 0', () => {
+          const { wrapper, items } = setUp(0, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-60);
+        });
+
+        it('translate 100', () => {
+          const { wrapper, items } = setUp(100, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(20);
+        });
+        it('translate 150', () => {
+          const { wrapper, items } = setUp(150, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollRightOffset(visibleItems, items))
+            .toEqual(-160);
+        });
       });
     });
 
     describe('getScrollLeftOffset fn', () => {
-      const offset = 100;
-      const setUp = (translate) => {
-        const wrapper = mount(<ScrollMenu {...props} />);
+      const setUp = (translate, scrollBy = 0) => {
+        const wrapper = mount(<ScrollMenu {...props} scrollBy={scrollBy} />);
         wrapper.instance().wWidth = 500;
-        wrapper.instance().menuWidth = 100;
         wrapper.instance().firstPageOffset = 10;
         wrapper.instance().lastPageOffset = 20;
         wrapper.instance().menuPos = 50;
-        const getOffsetToItemByIndex = jest.fn()
-          .mockReturnValue(offset);
-        wrapper.instance().getOffsetToItemByIndex = getOffsetToItemByIndex;
+        wrapper.instance().menuWidth = 100;
         const getItemsWidth = jest.fn()
           .mockReturnValue(70);
         wrapper.instance().getItemsWidth = getItemsWidth;
@@ -756,12 +811,78 @@ describe('functions', () => {
         return { wrapper, items };
       };
 
-      it('return first visible item pos - visible itemsWidth', () => {
-        const { wrapper, items } = setUp(0);
-        const visibleItems = wrapper.instance().getVisibleItems({});
-        expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
-          .toEqual(-30);
+      describe('scrollBy 0', () => {
+        it('translate -150', () => {
+          const { wrapper, items } = setUp(-150);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(-60);
+        });
+
+        it('translate -100', () => {
+          const { wrapper, items } = setUp(-100);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(-10);
+        });
+
+        it('translate 0', () => {
+          const { wrapper, items } = setUp(0);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(40);
+        });
+
+        it('translate 100', () => {
+          const { wrapper, items } = setUp(100);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(50);
+        });
+        it('translate 150', () => {
+          const { wrapper, items } = setUp(150);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(50);
+        });
       });
+
+      describe('scrollBy 1', () => {
+        it('translate -150', () => {
+          const { wrapper, items } = setUp(-150, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(-110);
+        });
+
+        it('translate -100', () => {
+          const { wrapper, items } = setUp(-100, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(-60);
+        });
+
+        it('translate 0', () => {
+          const { wrapper, items } = setUp(0, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(20);
+        });
+
+        it('translate 100', () => {
+          const { wrapper, items } = setUp(100, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(50);
+        });
+        it('translate 150', () => {
+          const { wrapper, items } = setUp(150, 1);
+          const visibleItems = wrapper.instance().getVisibleItems({});
+          expect(wrapper.instance().getScrollLeftOffset(visibleItems, items))
+            .toEqual(50);
+        });
+      });
+
     });
 
     it('getPagesOffsets', () => {
@@ -808,21 +929,25 @@ describe('functions', () => {
     describe('handleArrowClick', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
       wrapper.setProps({ alignCenter: false });
-      wrapper.instance().allItemsWidth = 200;
-      wrapper.instance().menuWidth = 50;
-      wrapper.instance().firstPageOffset = 5;
-      wrapper.instance().lastPageOffset = 6;
+      wrapper.instance().allItemsWidth = 500;
+      wrapper.instance().menuWidth = 100;
+      wrapper.instance().firstPageOffset = 3;
+      wrapper.instance().lastPageOffset = 4;
 
-      const checkClick = (left = false, align = false, before = false, after = false) => {
+      const checkClick = (offset = 0, left = false, align = false, before = false, after = false) => {
+        const items = getItems(offset);
+        wrapper.instance().menuItems = items;
         wrapper.setProps({ alignCenter: align });
-        const itBeforeStart = jest.fn().mockReturnValue(before);
-        wrapper.instance().itBeforeStart = itBeforeStart;
-        const itAfterEnd = jest.fn().mockReturnValue(after);
-        wrapper.instance().itAfterEnd = itAfterEnd;
+        wrapper.setState({ translate: offset });
         const getOffset = jest.fn().mockReturnValue(30);
         wrapper.instance().getOffset = getOffset;
         const getCenterOffset = jest.fn().mockReturnValue(10);
         wrapper.instance().getCenterOffset = getCenterOffset;
+
+        const itBeforeStart = jest.fn().mockReturnValue(before);
+        wrapper.instance().itBeforeStart = itBeforeStart;
+        const itAfterEnd = jest.fn().mockReturnValue(after);
+        wrapper.instance().itAfterEnd = itAfterEnd;
 
         const getOffsetAtStart = jest.fn().mockReturnValue(5);
         wrapper.instance().getOffsetAtStart = getOffsetAtStart;
@@ -865,29 +990,29 @@ describe('functions', () => {
       });
 
       it('left noAlign', () => {
-        expect(checkClick(true)).toEqual(30);
+        expect(checkClick(0, true)).toEqual(5);
       });
       it('left noAlign itBeforeStart', () => {
-        expect(checkClick(true, false, true)).toEqual(5);
+        expect(checkClick(0, true, false, true)).toEqual(5);
       });
       it('right noAlign', () => {
-        expect(checkClick(false)).toEqual(30);
+        expect(checkClick(0, false)).toEqual(30);
       });
       it('right noAlign itAfterEnd', () => {
-        expect(checkClick(false, false, false, true)).toEqual(6);
+        expect(checkClick(0, false, false, false, true)).toEqual(6);
       });
 
       it('left align', () => {
-        expect(checkClick(true, true)).toEqual(40);
+        expect(checkClick(0, true, true)).toEqual(5);
       });
       it('left align itBeforeStart', () => {
-        expect(checkClick(true, true, true)).toEqual(5);
+        expect(checkClick(0, true, true, true)).toEqual(5);
       });
       it('right align', () => {
-        expect(checkClick(false, true)).toEqual(40);
+        expect(checkClick(0, false, true)).toEqual(40);
       });
       it('right align itAfterEnd', () => {
-        expect(checkClick(false, true, false, true)).toEqual(6);
+        expect(checkClick(0, false, true, false, true)).toEqual(6);
       });
     });
 

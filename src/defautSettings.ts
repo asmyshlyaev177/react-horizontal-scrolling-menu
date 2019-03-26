@@ -60,6 +60,7 @@ const defaultProps: MenuProps = {
   onUpdate: () => false,
   /** automatically scroll to selected item on initialization */
   scrollToSelected: false,
+  scrollBy: 0,
   /** selected menu item */
   selected: '',
   /** position of elements */

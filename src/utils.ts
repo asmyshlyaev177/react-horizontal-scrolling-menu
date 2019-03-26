@@ -10,6 +10,8 @@ const getClientRect = (elem: Ref): {width: number, x: number} => {
   return {width, x: +left};
 };
 
+const formatTranslate = (val: number): number => +val.toFixed(0);
+
 /** check if translate is valid */
 const translateIsValid = (val: any): boolean =>
   typeof val === 'number' && !isNaN(+val);
@@ -48,4 +50,5 @@ export {
   testPassiveEventSupport,
   validateTranslate,
   translateIsValid,
+  formatTranslate,
 };

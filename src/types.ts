@@ -24,6 +24,7 @@ interface MenuProps {
     ({translate, firstItemVisible, lastItemVisible}
       : {translate: number, firstItemVisible?: boolean, lastItemVisible?: boolean}) => void),
   scrollToSelected: boolean,
+  scrollBy: number,
   selected: string,
   translate: number,
   transition: number,
