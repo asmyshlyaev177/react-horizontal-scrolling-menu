@@ -177,7 +177,7 @@ class App extends Component {
             onSelect={this.onSelect}
             scrollToSelected={scrollToSelected}
             selected={selected}
-            scrollBy={0}
+            scrollBy={1}
             translate={translate}
             alignCenter={alignCenter}
             dragging={dragging}

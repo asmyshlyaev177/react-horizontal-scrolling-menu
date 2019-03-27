@@ -356,6 +356,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     } = this.checkFirstLastItemVisibility({ translate: translateProp });
     newState.firstItemVisible = firstItemVisible;
     newState.lastItemVisible = lastItemVisible;
+    newState.leftArrowVisible = !firstItemVisible;
+    newState.rightArrowVisible = !lastItemVisible;
 
     // scrollToSelected
     if (scrollToSelected) {
@@ -762,6 +764,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   };
 
   /** mouse wheel handler */
+  //TODO: gestureEvents
   handleWheel = (e: WheelEvent): Void => {
     const { wheel } = this.props;
     if (!wheel) return false;
@@ -963,26 +966,23 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   onUpdate = ({
     translate = this.state.translate,
     translateOld = this.state.translate,
-    firstItemVisible = this.state.firstItemVisible,
-    lastItemVisible = this.state.lastItemVisible,
   }: {
     translate?: number;
     translateOld?: number;
-    firstItemVisible?: boolean;
-    lastItemVisible?: boolean;
   }): Void => {
     const { onUpdate } = this.props;
     const { lastTranslateUpdate } = this;
-    // TODO: return first and last item visibility
-    //const { firstItemVisible, lastItemVisible } = this.state;
     if (translate !== translateOld && translate !== lastTranslateUpdate) {
       this.lastTranslateUpdate = translate;
 
       typeof onUpdate === 'function' &&
-        onUpdate({ translate, firstItemVisible, lastItemVisible });
-      //onUpdate({ translate });
+        onUpdate({ translate });
     }
   };
+
+  // test = (ev: any): Void => {
+  //   console.log(ev.type);
+  // }
 
   public render(): React.ReactNode | null {
     const {

@@ -198,6 +198,7 @@ describe('test menu', () => {
       wrapper.instance().setInitial();
       expect(wrapper.instance().selected).toEqual('3');
     });
+
   });
   it('pass 0 as translate props, must not be changed', () => {
     const newProps = { ...props, translate: 0 };
