@@ -51,10 +51,12 @@ describe('wrappers and styles', () => {
   describe('innerWrapper', () => {
     const onClick = jest.fn();
     const setRef = jest.fn();
+    const setMenuInnerRef = jest.fn();
 
     const prop = {
       ...props,
       setRef,
+      setMenuInnerRef,
       onClick,
       translate: 0,
       dragging: true,
@@ -67,7 +69,8 @@ describe('wrappers and styles', () => {
     it('mount inner wrapper', () => {
       expect(wrapper.find('MenuItem').length).toEqual(menu.length);
 
-      expect(setRef.mock.calls.length).toEqual(menu.length + 1);
+      expect(setRef.mock.calls.length).toEqual(menu.length);
+      expect(setMenuInnerRef.mock.calls.length).toEqual(1);
     });
 
     it('click on item', () => {

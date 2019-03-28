@@ -1,14 +1,13 @@
 import React, { CSSProperties } from 'react';
 import {defaultProps} from './defautSettings';
-import { Data, RefObject, Void } from './types';
+import { Data, Void } from './types';
 
 interface ArrowWrapperProps {
   className: string,
   onClick: Function,
   children: JSX.Element,
   isDisabled: boolean,
-  hideArrows: boolean,
-  disabledClass: string,
+  disabledClass?: string,
   forwardClick: boolean
 };
 
@@ -16,6 +15,7 @@ const ArrowDefaultProps = {
   disabledClass: defaultProps.arrowDisabledClass,
 };
 
+/** Wrapper component for arrows */
 export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
   static defaultProps = ArrowDefaultProps;
   public render(): React.ReactNode {
@@ -23,15 +23,11 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       isDisabled,
       className: clsName,
       disabledClass,
-      hideArrows,
       forwardClick,
       onClick,
       children
     } = this.props;
-    const disabledClassName = isDisabled
-      ? disabledClass || `${clsName}--disabled`
-      : '';
-    const className = `${clsName} ${hideArrows ? disabledClassName : ''}`;
+    const className = `${clsName} ${isDisabled ? disabledClass : ''}`;
     const childProps = {
       ...children.props,
       onClick: () => (forwardClick ? onClick() : null),
@@ -57,6 +53,7 @@ interface innerStyleProps {
   transition: number,
 };
 
+/** function to get default styles for innerWrapper */
 export const innerStyle = ({translate, dragging, mounted, transition} : innerStyleProps): CSSProperties => {
   return {
     width: '9900px',
@@ -71,6 +68,7 @@ export const innerStyle = ({translate, dragging, mounted, transition} : innerSty
 interface InnerWrapperProps {
   data: Data,
   setRef: Function,
+  setMenuInnerRef: Function,
   onClick: Function,
   translate: number,
   dragging: boolean,
@@ -83,6 +81,7 @@ interface InnerWrapperProps {
   forwardClick: boolean,
 };
 
+//** innerWrapper component, menuItems will be children */
 export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
   static defaultProps = {
     data: [],
@@ -92,23 +91,24 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     transition: defaultProps.transition,
     selected: defaultProps.selected,
   };
-  private ref: RefObject;
-  private items: JSX.Element[]|null;
-  constructor(props: InnerWrapperProps) {
-    super(props);
-    this.ref = {};
-    this.items = null;
-  }
 
-  setRef = (key: string, value: HTMLDivElement | null): Void => {
-    const {setRef} = this.props;
-    this.ref[key] = value;
-    setRef(this.ref);
+  /** set ref of this component */
+  setMenuInnerRef = (value: HTMLDivElement | null): Void => {
+    const {setMenuInnerRef} = this.props;
+    setMenuInnerRef({'menuInner': { key: 'menuInner', elem: value}});
   };
 
+  /** set ref for menuItems */
+  setRef = (key: string, elKey: string, index: number, value: HTMLDivElement | null): Void => {
+    const {setRef} = this.props;
+    setRef({[key]: { index, key: elKey, elem: value}});
+  };
+
+  /** check if menuItem active */
   isElementActive = (itemId: string|number|null, selected: string|number): boolean => String(itemId) === String(selected);
 
-  setItems = (arr: JSX.Element[], selected: React.ReactText, forwardClick: boolean, onClick: Function): JSX.Element[] => {
+  /** make array of menuItems */
+  setItems = (arr: JSX.Element[], selected: React.ReactText): JSX.Element[] => {
     const items = arr.map(el => {
       const props = {
         selected: this.isElementActive(el.key, selected),
@@ -135,11 +135,9 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       itemClassActive,
       data,
       selected,
-      forwardClick,
-      onClick,
     } = this.props;
 
-    const items = this.setItems(data, selected, forwardClick, onClick);
+    const items = this.setItems(data, selected);
 
     const style: CSSProperties = innerStyle({ translate, dragging, mounted, transition });
 
@@ -147,10 +145,10 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       <div
         className={innerWrapperClass}
         style={style}
-        ref={inst => this.setRef('menuInner', inst)}>
+        ref={inst => this.setMenuInnerRef(inst)}>
         {items.map((Item, i) => (
           <div
-            ref={inst => this.setRef(`menuitem-${i}`, inst)}
+            ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), i, inst)}
             className={`${itemClass} ${
               Item.props.selected ? itemClassActive : ''
             }`}

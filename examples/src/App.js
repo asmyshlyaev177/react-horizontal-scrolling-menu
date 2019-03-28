@@ -6,19 +6,19 @@ import './App.css';
 
 const list = [
   {name: 'item1'},
-  {name: 'item2'},
+  {name: 'item2______________'},
   {name: 'item3'},
   {name: 'item4'},
   {name: 'item5'},
   {name: 'item6'},
-  {name: 'item7'},
+  {name: 'item7______________'},
   {name: 'item8'},
   {name: 'item9'},
   {name: 'item10'},
   {name: 'item11'},
   {name: 'item12'},
   {name: 'item13'},
-  {name: 'item14'},
+  {name: 'item14______________'},
   {name: 'item15'},
   {name: 'item16'},
   {name: 'item17'},
@@ -26,7 +26,7 @@ const list = [
   {name: 'item19'},
   {name: 'item20'},
   {name: 'item21'},
-  {name: 'item22'},
+  {name: 'item22______________'},
   {name: 'item23'},
   {name: 'item24'},
   {name: 'item25'},
@@ -88,7 +88,10 @@ class App extends Component {
   }
 
   onUpdate = ({translate}) => {
-    console.log(`onUpdate: translate: ${translate}`);
+    console.log(
+      // `onUpdate: translate: ${translate} firstItemVisible: ${firstItemVisible}, lastItemVisible: ${lastItemVisible}`
+      `onUpdate: translate: ${translate}`
+    );
     this.setState({translate});
   };
 
@@ -174,6 +177,7 @@ class App extends Component {
             onSelect={this.onSelect}
             scrollToSelected={scrollToSelected}
             selected={selected}
+            scrollBy={0}
             translate={translate}
             alignCenter={alignCenter}
             dragging={dragging}
