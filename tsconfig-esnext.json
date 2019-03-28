@@ -9,7 +9,7 @@
     "sourceMap": true,                     /* Generates corresponding '.map' file. */
     "jsx": "react",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     "removeComments": true,                /* Do not emit comments to output. */
-    "noImplicitAny": false,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
     "lib": ["es2018", "dom"],                             /* Specify library files to be included in the compilation. */
     "declaration": true,                   /* Generates corresponding '.d.ts' file. */
     "declarationMap": true,                /* Generates a sourcemap for each corresponding '.d.ts' file. */

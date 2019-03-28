@@ -82,9 +82,17 @@ const Arrow = ({ text, className }) => {
 const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
+const selected = 'item1';
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    // call it again if items count changes
+    this.menuItems = Menu(list, selected);
+  }
+
   state = {
-    selected: 'item1'
+    selected
   };
 
   onSelect = key => {
@@ -95,7 +103,7 @@ class App extends Component {
   render() {
     const { selected } = this.state;
     // Create menu from items
-    const menu = Menu(list, selected);
+    const menu = this.menuItems;
 
     return (
       <div className="App">
@@ -147,6 +155,7 @@ npm run start
 Props | Type | Description | Required | Default Value
 ------------ | ------------- | ------------- | ------------- | -------------
 alignCenter | Boolean | Try to align items by center | false | true
+alignOnResize | Boolean | Try to align items after resize window | false | true
 clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
 dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 wheel | Boolean | Scroll with mouse wheel | false | true
@@ -172,6 +181,7 @@ onSelect | Function | Callback when item selected, return item key | false | nul
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 forwardClick | Boolean | When enabled passes `onClick` as a prop to the arrow and item components. Each item and arrow should handle the onClick callback | false | false
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false
+scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
 
 ## Programmaticaly change things
 You can scroll left/right via `componentRef.handleArrowClick()` and `componentRef.handleArrowClickRight()` functions.

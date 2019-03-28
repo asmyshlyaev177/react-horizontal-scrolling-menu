@@ -24,6 +24,8 @@ const defaultWrapperStyle: CSSProperties = {
 const defaultProps: MenuProps = {
   /** align menu items to center, so in left and right will be empty space */
   alignCenter: true,
+  /** align items after window resize*/
+  alignOnResize: true,
   /** class for Arrow component */
   arrowClass: 'scroll-menu-arrow',
   /** Arrows components */
@@ -58,6 +60,8 @@ const defaultProps: MenuProps = {
   onUpdate: () => false,
   /** automatically scroll to selected item on initialization */
   scrollToSelected: false,
+  /** how many items to scroll, 0 for all visible */
+  scrollBy: 0,
   /** selected menu item */
   selected: '',
   /** position of elements */
