@@ -179,7 +179,6 @@ menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignIt
 wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
 onSelect | Function | Callback when item selected, return item key | false | null
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
-forwardClick | Boolean | When enabled passes `onClick` as a prop to the arrow and item components. Each item and arrow should handle the onClick callback | false | false
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false
 scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
 

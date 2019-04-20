@@ -11,7 +11,6 @@ interface MenuProps {
   clickWhenDrag: boolean,
   dragging: boolean,
   data: Data,
-  forwardClick: boolean,
   innerWrapperClass: string,
   itemClass: string,
   itemClassActive: string,
