@@ -975,8 +975,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     if (translate !== translateOld && translate !== lastTranslateUpdate) {
       this.lastTranslateUpdate = translate;
 
-      typeof onUpdate === 'function' &&
-        onUpdate({ translate });
+      typeof onUpdate === 'function' && onUpdate({ translate });
     }
   };
 

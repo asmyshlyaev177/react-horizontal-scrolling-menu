@@ -41,7 +41,9 @@ export const Menu = (list, selected) =>
   list.map(el => {
     const {name} = el;
 
-    return <MenuItem text={name} key={name} selected={selected} />;
+    const onClick = () => console.log('click ', name);
+
+    return <MenuItem text={name} key={name} selected={selected} onClick={onClick} />;
   });
 
 const Arrow = ({text, className}) => {
@@ -183,6 +185,7 @@ class App extends Component {
             dragging={dragging}
             clickWhenDrag={clickWhenDrag}
             wheel={wheel}
+            forwardClick={true}
           />
         )}
 
