@@ -998,7 +998,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       transition,
       wrapperClass,
       wrapperStyle,
-      forwardClick,
     } = this.props;
     const {
       translate,
@@ -1018,7 +1017,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const arrowProps = {
       className: arrowClass,
       disabledClass: arrowDisabledClass,
-      forwardClick,
     };
 
     return (
@@ -1056,7 +1054,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             innerWrapperClass={innerWrapperClass}
             itemClass={itemClass}
             itemClassActive={itemClassActive}
-            forwardClick={forwardClick}
           />
         </div>
 

@@ -8,7 +8,6 @@ interface ArrowWrapperProps {
   children: JSX.Element;
   isDisabled: boolean;
   disabledClass?: string;
-  forwardClick: boolean;
 }
 
 const ArrowDefaultProps = {
@@ -23,22 +22,19 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       isDisabled,
       className: clsName,
       disabledClass,
-      forwardClick,
       onClick,
       children,
     } = this.props;
     const className = `${clsName} ${isDisabled ? disabledClass : ''}`;
-    const childProps = {
-      ...children.props,
-      onClick: () => (forwardClick ? onClick() : null),
-    };
+    const { onClick: childrenOnClick = () => false } = children.props;
     const clickHandler = (): Void => {
+      childrenOnClick();
       onClick();
     };
 
     return (
       <div className={className} onClick={clickHandler}>
-        {React.cloneElement(children, childProps)}
+        {React.cloneElement(children, children.props)}
       </div>
     );
   }
@@ -81,7 +77,6 @@ interface InnerWrapperProps {
   innerWrapperClass: string;
   itemClass: string;
   itemClassActive: string;
-  forwardClick: boolean;
 }
 
 //** innerWrapper component, menuItems will be children */
@@ -121,18 +116,20 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
   /** make array of menuItems */
   setItems = (arr: JSX.Element[], selected: React.ReactText): JSX.Element[] => {
     const items = arr.map(el => {
+      const { onClick } = el.props;
       const props = {
         selected: this.isElementActive(el.key, selected),
-        onClick: this.forwardClickHandler(el.key),
+        onClick: () => this.forwardClickHandler(el.key, onClick),
       };
       return React.cloneElement(el, props);
     });
     return items;
   };
 
-  forwardClickHandler = (key: any, reverse: boolean = false) => (): Void => {
-    const { forwardClick, onClick } = this.props;
-    if (reverse ? !forwardClick : forwardClick) onClick(key);
+  forwardClickHandler = (key: any, onClick: Function = () => false) => (): Void => {
+    const { onClick: selectItem } = this.props;
+    onClick();
+    selectItem(key);
   };
 
   render() {
@@ -175,7 +172,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
             style={{
               display: 'inline-block',
             }}
-            onClick={this.forwardClickHandler(Item.key, true)}
+            onClick={Item.props.onClick()}
             tabIndex={1}
             role="button"
           >
