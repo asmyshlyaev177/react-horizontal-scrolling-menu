@@ -1,15 +1,15 @@
 import React, { CSSProperties } from 'react';
-import {defaultProps} from './defautSettings';
+import { defaultProps } from './defautSettings';
 import { Data, Void } from './types';
 
 interface ArrowWrapperProps {
-  className: string,
-  onClick: Function,
-  children: JSX.Element,
-  isDisabled: boolean,
-  disabledClass?: string,
-  forwardClick: boolean
-};
+  className: string;
+  onClick: Function;
+  children: JSX.Element;
+  isDisabled: boolean;
+  disabledClass?: string;
+  forwardClick: boolean;
+}
 
 const ArrowDefaultProps = {
   disabledClass: defaultProps.arrowDisabledClass,
@@ -25,7 +25,7 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       disabledClass,
       forwardClick,
       onClick,
-      children
+      children,
     } = this.props;
     const className = `${clsName} ${isDisabled ? disabledClass : ''}`;
     const childProps = {
@@ -36,25 +36,28 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       onClick();
     };
 
-    return (<div
-      className={className}
-      onClick={clickHandler}
-      >
+    return (
+      <div className={className} onClick={clickHandler}>
         {React.cloneElement(children, childProps)}
-      </div>);
-  };
-
-};
+      </div>
+    );
+  }
+}
 
 interface innerStyleProps {
-  translate: number,
-  dragging: boolean,
-  mounted: boolean,
-  transition: number,
-};
+  translate: number;
+  dragging: boolean;
+  mounted: boolean;
+  transition: number;
+}
 
 /** function to get default styles for innerWrapper */
-export const innerStyle = ({translate, dragging, mounted, transition} : innerStyleProps): CSSProperties => {
+export const innerStyle = ({
+  translate,
+  dragging,
+  mounted,
+  transition,
+}: innerStyleProps): CSSProperties => {
   return {
     width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
@@ -66,20 +69,20 @@ export const innerStyle = ({translate, dragging, mounted, transition} : innerSty
 };
 
 interface InnerWrapperProps {
-  data: Data,
-  setRef: Function,
-  setMenuInnerRef: Function,
-  onClick: Function,
-  translate: number,
-  dragging: boolean,
-  mounted: boolean,
-  transition: number,
-  selected: string|number,
-  innerWrapperClass: string,
-  itemClass: string,
-  itemClassActive: string,
-  forwardClick: boolean,
-};
+  data: Data;
+  setRef: Function;
+  setMenuInnerRef: Function;
+  onClick: Function;
+  translate: number;
+  dragging: boolean;
+  mounted: boolean;
+  transition: number;
+  selected: string | number;
+  innerWrapperClass: string;
+  itemClass: string;
+  itemClassActive: string;
+  forwardClick: boolean;
+}
 
 //** innerWrapper component, menuItems will be children */
 export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
@@ -94,18 +97,26 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
 
   /** set ref of this component */
   setMenuInnerRef = (value: HTMLDivElement | null): Void => {
-    const {setMenuInnerRef} = this.props;
-    setMenuInnerRef({'menuInner': { key: 'menuInner', elem: value}});
+    const { setMenuInnerRef } = this.props;
+    setMenuInnerRef({ menuInner: { key: 'menuInner', elem: value } });
   };
 
   /** set ref for menuItems */
-  setRef = (key: string, elKey: string, index: number, value: HTMLDivElement | null): Void => {
-    const {setRef} = this.props;
-    setRef({[key]: { index, key: elKey, elem: value}});
+  setRef = (
+    key: string,
+    elKey: string,
+    index: number,
+    value: HTMLDivElement | null
+  ): Void => {
+    const { setRef } = this.props;
+    setRef({ [key]: { index, key: elKey, elem: value } });
   };
 
   /** check if menuItem active */
-  isElementActive = (itemId: string|number|null, selected: string|number): boolean => String(itemId) === String(selected);
+  isElementActive = (
+    itemId: string | number | null,
+    selected: string | number
+  ): boolean => String(itemId) === String(selected);
 
   /** make array of menuItems */
   setItems = (arr: JSX.Element[], selected: React.ReactText): JSX.Element[] => {
@@ -139,16 +150,24 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
 
     const items = this.setItems(data, selected);
 
-    const style: CSSProperties = innerStyle({ translate, dragging, mounted, transition });
+    const style: CSSProperties = innerStyle({
+      translate,
+      dragging,
+      mounted,
+      transition,
+    });
 
     return (
       <div
         className={innerWrapperClass}
         style={style}
-        ref={inst => this.setMenuInnerRef(inst)}>
+        ref={inst => this.setMenuInnerRef(inst)}
+      >
         {items.map((Item, i) => (
           <div
-            ref={inst => this.setRef(`menuitem-${i}`, String(Item.key || ''), i, inst)}
+            ref={inst =>
+              this.setRef(`menuitem-${i}`, String(Item.key || ''), i, inst)
+            }
             className={`${itemClass} ${
               Item.props.selected ? itemClassActive : ''
             }`}
@@ -159,7 +178,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
             onClick={this.forwardClickHandler(Item.key, true)}
             tabIndex={1}
             role="button"
-            >
+          >
             {Item}
           </div>
         ))}
@@ -167,6 +186,3 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     );
   }
 }
-
-
-
