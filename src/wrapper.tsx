@@ -26,10 +26,8 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
       children,
     } = this.props;
     const className = `${clsName} ${isDisabled ? disabledClass : ''}`;
-    const { onClick: childrenOnClick = () => false } = children.props;
     const clickHandler = (): Void => {
-      childrenOnClick();
-      onClick();
+      return onClick();
     };
 
     return (
@@ -116,7 +114,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
   /** make array of menuItems */
   setItems = (arr: JSX.Element[], selected: React.ReactText): JSX.Element[] => {
     const items = arr.map(el => {
-      const { onClick } = el.props;
+      const { onClick = () => false } = el.props;
       const props = {
         selected: this.isElementActive(el.key, selected),
         onClick: () => this.forwardClickHandler(el.key, onClick),

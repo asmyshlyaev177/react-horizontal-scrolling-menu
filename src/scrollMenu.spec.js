@@ -15,26 +15,25 @@ afterEach(() => {
   window.requestAnimationFrame.mockRestore();
 });
 
+const arrowOnClick = jest.fn();
 // eslint-disable-next-line react/prop-types
 const Arrow = ({ text, className }) => {
   return (
     <div
+      onClick={arrowOnClick}
       className={className}
     >{text}</div>
   );
 };
 
 describe('test Arrow', () => {
-  const onClick = jest.fn();
   const left = {
     className: 'arrow-prev',
     text: '<',
-    onClick: jest.fn()
   };
   const right = {
     className: 'arrow-next',
     text: '>',
-    onClick: jest.fn()
   };
 
   it('arrow left', () => {
@@ -78,6 +77,7 @@ const getItems = (offset = 0) => [
   ['item7', { index: 6, key: 'item8', elem: { getBoundingClientRect: () => ({ x: offset + 210, width: 50, left: offset + 210 }) }}],
 ];
 
+const itemOnClick = jest.fn();
 // eslint-disable-next-line react/prop-types
 const MenuItem = ({ text, selected }) => {
   return (
@@ -90,6 +90,7 @@ const MenuItem = ({ text, selected }) => {
         border: selected ? '1px blue solid' : 'none'
       }}
       className={selected ? 'active' : ''}
+      onClick={itemOnClick}
     >
       {text}
     </div>
@@ -105,6 +106,7 @@ const Menu = (list, selected) => list.map(el => {
       text={name}
       key={name}
       selected={isSelected}
+
     />
   );
 });
@@ -153,6 +155,14 @@ describe('test menu', () => {
     wrapper.instance().handleArrowClickRight = arrowClickRight;
     wrapper.instance().handleArrowClickRight();
     expect(arrowClickRight.mock.calls.length).toEqual(1);
+  });
+  it('onClick from arrow component', () => {
+    arrowOnClick.mockClear();
+    const wrapper = mount(<ScrollMenu {...props} />);
+    const arrowClickRight = jest.fn();
+    wrapper.instance().handleArrowClickRight = arrowClickRight;
+    wrapper.find('.arrow-next').simulate('click');
+    expect(arrowOnClick.mock.calls.length).toEqual(1);
   });
   it('not render empty arrows', () => {
     const wrapper = mount(<ScrollMenu data={menu} />);
@@ -1359,6 +1369,14 @@ describe('functions', () => {
       wrapper.instance().onItemClick(items[2][0]);
       expect(onSelect.mock.calls.length).toEqual(1);
       expect(onSelect.mock.calls[0]).toEqual(['item3']);
+    });
+
+    it('trigger original onClick handler', () => {
+      itemOnClick.mockClear();
+      const wrapper = mount(<ScrollMenu {...props}/>);
+      const item = wrapper.find(MenuItem).first();
+      item.simulate('click');
+      expect(itemOnClick.mock.calls.length).toEqual(1);
     });
   });
 
