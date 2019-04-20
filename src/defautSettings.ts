@@ -39,7 +39,6 @@ const defaultProps: MenuProps = {
   dragging: true,
   /** array of MenuItem elements */
   data: [],
-  forwardClick: false,
   /** class for InnerWrapper */
   innerWrapperClass: 'menu-wrapper--inner',
   /** class for MenuItem */

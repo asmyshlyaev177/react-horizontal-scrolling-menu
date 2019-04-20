@@ -40,9 +40,7 @@ const MenuItem = ({text, selected}) => {
 export const Menu = (list, selected) =>
   list.map(el => {
     const {name} = el;
-
-    const onClick = () => console.log('click ', name); // TODO:
-
+    const onClick = () => console.log('original onClick ', name);
     return <MenuItem text={name} key={name} selected={selected} onClick={onClick} />;
   });
 
