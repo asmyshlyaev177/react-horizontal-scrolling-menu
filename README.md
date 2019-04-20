@@ -13,8 +13,6 @@
 
 [Demo on Codesandbox](https://codesandbox.io/s/lpjol1opmq)
 
-**Looking for a job :)**
-
 This is horizontal scrolling menu component for React.
 Menu component has adaptive width, just set width for parent container.
 Items width will be determinated from css styles.
