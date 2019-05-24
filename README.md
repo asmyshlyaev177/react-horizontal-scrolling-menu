@@ -183,6 +183,7 @@ scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when
 scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
 inertiaScrolling | Boolean | Use inertia for scrolling, duration depends on transition and slowdown | false | false
 inertiaScrollingSlowdown | Float Number | Slow down factor for inertia scrolling | false | 0.25
+useButtonRole | Boolean | Adding role="button" to every item | false | true
 
 ## Programmaticaly change things
 You can scroll left/right via `componentRef.handleArrowClick()` and `componentRef.handleArrowClickRight()` functions.

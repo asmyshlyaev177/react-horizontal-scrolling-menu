@@ -91,6 +91,8 @@ const defaultProps: MenuProps = {
   transition: 0.4,
   /** position of elements */
   translate: 0.0,
+  /** use button role for items */
+  useButtonRole: true,
   /** class for wrapper */
   wrapperClass: 'menu-wrapper',
   /** styles for wrapper */

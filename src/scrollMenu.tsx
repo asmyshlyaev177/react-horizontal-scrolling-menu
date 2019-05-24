@@ -1076,6 +1076,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       menuStyle,
       menuClass,
       transition,
+      useButtonRole,
       wrapperClass,
       wrapperStyle,
     } = this.props;
@@ -1140,6 +1141,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             itemClass={itemClass}
             itemClassActive={itemClassActive}
             inertiaScrolling={inertiaScrolling}
+            useButtonRole={useButtonRole}
           />
         </div>
 
