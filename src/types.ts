@@ -24,12 +24,14 @@ interface MenuProps {
   onSelect: ((selectedItemKey: string) => void);
   onUpdate: (
     ({translate, firstItemVisible, lastItemVisible}
+
       : {translate: number, firstItemVisible?: boolean, lastItemVisible?: boolean}) => void);
   scrollToSelected: boolean;
   scrollBy: number;
   selected: string;
   translate: number;
   transition: number;
+  useButtonRole: boolean;
   wrapperClass: string;
   wrapperStyle: CSSProperties;
   innerWrapperStyle: CSSProperties;
