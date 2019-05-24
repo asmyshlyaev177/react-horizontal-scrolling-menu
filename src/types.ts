@@ -11,6 +11,8 @@ interface MenuProps {
   clickWhenDrag: boolean,
   dragging: boolean,
   data: Data,
+  inertiaScrolling: boolean,
+  inertiaScrollingSlowdown: number,
   innerWrapperClass: string,
   itemStyle: CSSProperties,
   itemClass: string,

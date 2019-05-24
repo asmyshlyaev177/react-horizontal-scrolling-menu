@@ -56,6 +56,10 @@ const defaultProps: MenuProps = {
   dragging: true,
   /** array of MenuItem elements */
   data: [],
+  /** enable/disable inertia scrolling */
+  inertiaScrolling: false,
+  /** slow down factor for inertia scrolling */
+  inertiaScrollingSlowdown: 0.25,
   /** styles for InnerWrapper */
   innerWrapperStyle: defaultInnerWrapperStyle,
   /** class for InnerWrapper */

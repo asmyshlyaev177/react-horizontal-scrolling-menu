@@ -26,6 +26,11 @@ interface MenuState {
   rightArrowVisible: boolean;
 }
 
+interface DragHistoryEntry {
+  time: number;
+  position: number;
+}
+
 export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   static defaultProps: MenuProps = defaultProps;
 
@@ -51,6 +56,8 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   private data: JSX.Element[] | null;
 
+  private dragHistory: DragHistoryEntry[];
+
   constructor(props: MenuProps) {
     super(props);
     this.ref = {};
@@ -73,6 +80,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.resizeTimer = 0;
 
     this.data = null;
+    this.dragHistory = [];
     checkVersion(this);
   }
 
@@ -873,6 +881,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const { dragging: draggingEnable } = this.props;
     if (!draggingEnable) return false;
     const { translate: startDragTranslate } = this.state;
+
+    // record drag events
+    this.dragHistory = [{time: Date.now(), position: startDragTranslate}]
+
     this.setState({
       dragging: true,
       xPoint: 0,
@@ -899,6 +911,9 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       result = result + Math.abs(diff) / 2;
     }
 
+    if (diff !== 0)
+      this.dragHistory.push({time: Date.now(), position: result});
+
     const newTranslate = result;
 
     this.setState({
@@ -920,6 +935,21 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const { dragging: draggingEnable, alignCenter } = this.props;
     if (!draggingEnable || !dragging) return false;
 
+    // calculate inertia
+    if (this.props.inertiaScrolling) {
+      const currentTime = Date.now();
+      let recentEntries = this.dragHistory.filter(
+        entry => currentTime - entry.time < 150
+      );
+      if (recentEntries.length > 2) {
+        const first = recentEntries[0]
+        const last = recentEntries[recentEntries.length - 1]
+        let speed = (last.position - first.position) / (last.time - first.time)
+        speed *= this.props.inertiaScrollingSlowdown
+        translate += speed * (this.props.transition * 1000)
+      }
+    }
+
     let newTranslate = translate;
 
     if (this.itBeforeStart(translate)) {
@@ -934,8 +964,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       newTranslate = defaultProps.translate;
       xPoint = defaultProps.xPoint;
     }
-
-    newTranslate = newTranslate;
 
     this.setState(
       {
@@ -986,6 +1014,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       arrowLeft,
       arrowRight,
       data,
+      inertiaScrolling,
       innerWrapperStyle,
       innerWrapperClass,
       itemStyle,
@@ -1059,6 +1088,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             itemStyle={itemWrapperStyle}
             itemClass={itemClass}
             itemClassActive={itemClassActive}
+            inertiaScrolling={inertiaScrolling}
           />
         </div>
 

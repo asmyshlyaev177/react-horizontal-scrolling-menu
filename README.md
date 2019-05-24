@@ -181,6 +181,8 @@ onSelect | Function | Callback when item selected, return item key | false | nul
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false
 scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
+inertiaScrolling | Boolean | Use inertia for scrolling, duration depends on transition and slowdown | false | false
+inertiaScrollingSlowdown | Float Number | Slow down factor for inertia scrolling | false | 0.25
 
 ## Programmaticaly change things
 You can scroll left/right via `componentRef.handleArrowClick()` and `componentRef.handleArrowClickRight()` functions.
