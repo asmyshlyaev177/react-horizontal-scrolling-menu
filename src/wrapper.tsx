@@ -1,9 +1,10 @@
 import React, { CSSProperties } from 'react';
 import { defaultProps } from './defautSettings';
-import { Data, Void } from './types';
+import { Data, Ref, RefObject, Void } from './types';
 
 interface ArrowWrapperProps {
   className: string;
+  // tslint:disable-next-line:ban-types
   onClick: Function;
   children: JSX.Element;
   isDisabled: boolean;
@@ -16,7 +17,7 @@ const ArrowDefaultProps = {
 
 /** Wrapper component for arrows */
 export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
-  static defaultProps = ArrowDefaultProps;
+  public static defaultProps = ArrowDefaultProps;
   public render(): React.ReactNode {
     const {
       isDisabled,
@@ -38,7 +39,7 @@ export class ArrowWrapper extends React.PureComponent<ArrowWrapperProps> {
   }
 }
 
-interface innerStyleProps {
+interface InnerStyleProps {
   translate: number;
   dragging: boolean;
   mounted: boolean;
@@ -53,19 +54,22 @@ export const innerStyle = ({
   mounted,
   transition,
   inertiaScrolling,
-}: innerStyleProps): CSSProperties => {
+}: InnerStyleProps): CSSProperties => {
   return {
-    width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
-    transition: `transform ${dragging || !mounted ? '0' : transition}s` +
-                (inertiaScrolling ? ' ease-out' : '') ,
+    transition:
+      `transform ${dragging || !mounted ? '0' : transition}s` +
+      (inertiaScrolling ? ' ease-out' : ''),
+    width: '9900px',
   };
 };
 
 interface InnerWrapperProps {
   data: Data;
-  setRef: Function;
-  setMenuInnerRef: Function;
+  // setRef: Function;
+  setRef: (ref: RefObject) => Void;
+  setMenuInnerRef: (arg0: any) => Void;
+  // tslint:disable-next-line:ban-types
   onClick: Function;
   translate: number;
   dragging: boolean;
@@ -80,60 +84,68 @@ interface InnerWrapperProps {
   inertiaScrolling: boolean;
 }
 
-//** innerWrapper component, menuItems will be children */
+// ** innerWrapper component, menuItems will be children */
+// tslint:disable-next-line:max-classes-per-file
 export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
-  static defaultProps = {
+  public static defaultProps = {
     data: [],
-    translate: defaultProps.translate,
     dragging: true,
     mounted: false,
-    transition: defaultProps.transition,
     selected: defaultProps.selected,
+    transition: defaultProps.transition,
+    translate: defaultProps.translate,
   };
 
   /** set ref of this component */
-  setMenuInnerRef = (value: HTMLDivElement | null): Void => {
+  public setMenuInnerRef = (value: HTMLDivElement | null): Void => {
     const { setMenuInnerRef } = this.props;
     setMenuInnerRef({ menuInner: { key: 'menuInner', elem: value } });
-  };
+  }
 
   /** set ref for menuItems */
-  setRef = (
+  public setRef = (
     key: string,
     elKey: string,
     index: number,
-    value: HTMLDivElement | null
+    value: HTMLDivElement | null,
   ): Void => {
     const { setRef } = this.props;
     setRef({ [key]: { index, key: elKey, elem: value } });
-  };
+  }
 
   /** check if menuItem active */
-  isElementActive = (
+  public isElementActive = (
     itemId: string | number | null,
-    selected: string | number
-  ): boolean => String(itemId) === String(selected);
+    selected: string | number,
+  ): boolean => String(itemId) === String(selected)
 
   /** make array of menuItems */
-  setItems = (arr: JSX.Element[], selected: React.ReactText): JSX.Element[] => {
+  public setItems = (
+    arr: JSX.Element[],
+    selected: React.ReactText,
+  ): JSX.Element[] => {
     const items = arr.map(el => {
       const { onClick = () => false } = el.props;
       const props = {
-        selected: this.isElementActive(el.key, selected),
         onClick: () => this.forwardClickHandler(el.key, onClick),
+        selected: this.isElementActive(el.key, selected),
       };
       return React.cloneElement(el, props);
     });
     return items;
-  };
+  }
 
-  forwardClickHandler = (key: any, onClick: Function = () => false) => (): Void => {
+  public forwardClickHandler = (
+    key: any,
+    // tslint:disable-next-line:ban-types
+    onClick: Function = () => false,
+  ) => (): Void => {
     const { onClick: selectItem } = this.props;
     onClick();
     selectItem(key);
-  };
+  }
 
-  render() {
+  public render() {
     const {
       translate,
       dragging,
@@ -152,11 +164,11 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     const items = this.setItems(data, selected);
 
     const style: CSSProperties = innerStyle({
-      translate,
       dragging,
+      inertiaScrolling,
       mounted,
       transition,
-      inertiaScrolling,
+      translate,
     });
 
     const wrapperStyles = { ...style, ...innerWrapperStyle };

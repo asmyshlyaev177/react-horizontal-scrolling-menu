@@ -1,12 +1,12 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from 'react';
 import { MenuProps } from './types';
 
 /**
  * Default styles for ScrollMenu component
  */
 const defaultMenuStyle: CSSProperties = {
-  display: 'flex',
   alignItems: 'center',
+  display: 'flex',
   userSelect: 'none',
 };
 
@@ -19,20 +19,19 @@ const defaultWrapperStyle: CSSProperties = {
 };
 
 /**
-* Default styles for InerWrapper component
-*/
+ * Default styles for InerWrapper component
+ */
 const defaultInnerWrapperStyle: CSSProperties = {
-  whiteSpace: 'nowrap',
   textAlign: 'left',
   userSelect: 'none',
+  whiteSpace: 'nowrap',
 };
 
-
 /**
-* Default styles for item Wrapper component
-*/
+ * Default styles for item Wrapper component
+ */
 const defaultItemWrapperStyle: CSSProperties = {
-  display: 'inline-block'
+  display: 'inline-block',
 };
 
 /**
@@ -41,40 +40,40 @@ const defaultItemWrapperStyle: CSSProperties = {
 const defaultProps: MenuProps = {
   /** align menu items to center, so in left and right will be empty space */
   alignCenter: true,
-  /** align items after window resize*/
+  /** align items after window resize */
   alignOnResize: true,
   /** class for Arrow component */
   arrowClass: 'scroll-menu-arrow',
+  /** class for arrow when it's disabled */
+  arrowDisabledClass: 'scroll-menu-arrow--disabled',
   /** Arrows components */
   arrowLeft: null,
   arrowRight: null,
-  /** class for arrow when it's disabled */
-  arrowDisabledClass: 'scroll-menu-arrow--disabled',
   /** when drag item and mouse button mouseup choose menu item under cursor  */
   clickWhenDrag: false,
   /** enable/disable dragging with mouse */
-  dragging: true,
   /** array of MenuItem elements */
   data: [],
+  dragging: true,
   /** enable/disable inertia scrolling */
-  inertiaScrolling: false,
-  /** slow down factor for inertia scrolling */
-  inertiaScrollingSlowdown: 0.25,
-  /** styles for InnerWrapper */
-  innerWrapperStyle: defaultInnerWrapperStyle,
-  /** class for InnerWrapper */
-  innerWrapperClass: 'menu-wrapper--inner',
-  /** styles for menuItem */
-  itemStyle: defaultItemWrapperStyle,
-  /** class for MenuItem */
-  itemClass: 'menu-item-wrapper',
-  /** class for selected MenuItem */
-  itemClassActive: 'active',
   /** add disabled class to arrows */
   hideArrows: false,
   /** hide left/right arrow on left/right edge */
   hideSingleArrow: false,
   /** class for ScrollMenu */
+  inertiaScrolling: false,
+  /** slow down factor for inertia scrolling */
+  inertiaScrollingSlowdown: 0.25,
+  /** class for InnerWrapper */
+  innerWrapperClass: 'menu-wrapper--inner',
+  /** styles for InnerWrapper */
+  innerWrapperStyle: defaultInnerWrapperStyle,
+  /** class for MenuItem */
+  itemClass: 'menu-item-wrapper',
+  /** class for selected MenuItem */
+  itemClassActive: 'active',
+  /** styles for menuItem */
+  itemStyle: defaultItemWrapperStyle,
   menuClass: 'horizontal-menu',
   /** styles for ScrollMenu */
   menuStyle: defaultMenuStyle,
@@ -82,24 +81,25 @@ const defaultProps: MenuProps = {
   onSelect: () => false,
   /** cb when position updated */
   onUpdate: () => false,
-  /** automatically scroll to selected item on initialization */
-  scrollToSelected: false,
   /** how many items to scroll, 0 for all visible */
   scrollBy: 0,
+  /** automatically scroll to selected item on initialization */
+  scrollToSelected: false,
   /** selected menu item */
   selected: '',
-  /** position of elements */
-  translate: 0.0,
   /** animation speed */
   transition: 0.4,
+  /** position of elements */
+  translate: 0.0,
   /** class for wrapper */
   wrapperClass: 'menu-wrapper',
   /** styles for wrapper */
   wrapperStyle: defaultWrapperStyle,
   /** scroll with mouse wheel */
+  // tslint:disable-next-line:object-literal-sort-keys
   wheel: true,
   /** this not used */
   xPoint: 0,
 };
 
-export {defaultProps, defaultMenuStyle, defaultWrapperStyle};
+export {defaultMenuStyle, defaultProps, defaultWrapperStyle};

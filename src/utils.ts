@@ -1,10 +1,11 @@
-import { Ref } from "./types";
+import { Ref } from './types';
 
 /** check if value not empty */
 const notUndefOrNull = (val: any) => val !== undefined && val !== null;
 /** getClientRect */
 const getClientRect = (elem: Ref): {width: number, x: number} => {
-  if (!elem || !elem.getBoundingClientRect || typeof elem.getBoundingClientRect !== 'function') return {width: 0, x: 0};
+  // tslint:disable-next-line:max-line-length
+  if (!elem || !elem.getBoundingClientRect || typeof elem.getBoundingClientRect !== 'function') { return {width: 0, x: 0}; }
 
   const {left = 0, width = 0} = elem.getBoundingClientRect();
   return {width, x: +left};
@@ -27,7 +28,7 @@ const testPassiveEventSupport = (): boolean => {
   let passiveSupported = false;
 
   try {
-    let options = {
+    const options = {
       get passive() {
         // This function will be called when the browser
         // attempts to access the passive property.
