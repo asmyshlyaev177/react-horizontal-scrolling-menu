@@ -69,6 +69,8 @@ class App extends Component {
     transition: 0.4,
     wheel: true,
     showList: true,
+    inertiascrolling: false,
+    slowdownFactor: 0.25,
   };
 
   constructor(props) {
@@ -117,6 +119,10 @@ class App extends Component {
     }
   };
 
+  setSlowdownFactor = ev => {
+    this.setState({slowdownFactor: ev.target.value});
+  }
+
   setSelected = ev => {
     const {value} = ev.target;
     this.setState({selected: String(value)});
@@ -140,6 +146,8 @@ class App extends Component {
       wheel,
       showList,
       scrollToSelected,
+      inertiascrolling,
+      slowdownFactor,
     } = this.state;
 
     const menu = this.menuItems;
@@ -183,6 +191,8 @@ class App extends Component {
             dragging={dragging}
             clickWhenDrag={clickWhenDrag}
             wheel={wheel}
+            inertiaScrolling={inertiascrolling}
+            inertiaScrollingSlowdown={slowdownFactor}
           />
         )}
 
@@ -290,6 +300,25 @@ class App extends Component {
               min={0}
               max={list.length}
               onChange={this.setItemsCount}
+            />
+          </label>
+          <label style={checkboxStyle}>
+            Inertia Scrolling
+            <input
+              name="inertiascrolling"
+              type="checkbox"
+              checked={inertiascrolling}
+              onChange={() => this.setState({inertiascrolling: !inertiascrolling})}
+            />
+          </label>
+          <label style={valueStyle}>
+            Inertia scrolling slowdown:
+            <input
+              style={{margin: '0 5px'}}
+              name="slowdownFactor"
+              type="number"
+              value={slowdownFactor}
+              onChange={this.setSlowdownFactor}
             />
           </label>
         </form>

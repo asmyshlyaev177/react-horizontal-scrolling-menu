@@ -43,6 +43,7 @@ interface innerStyleProps {
   dragging: boolean;
   mounted: boolean;
   transition: number;
+  inertiaScrolling: boolean;
 }
 
 /** function to get default styles for innerWrapper */
@@ -51,11 +52,13 @@ export const innerStyle = ({
   dragging,
   mounted,
   transition,
+  inertiaScrolling,
 }: innerStyleProps): CSSProperties => {
   return {
     width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
-    transition: `transform ${dragging || !mounted ? '0' : transition}s`,
+    transition: `transform ${dragging || !mounted ? '0' : transition}s` +
+                (inertiaScrolling ? ' ease-out' : '') ,
   };
 };
 
@@ -74,6 +77,7 @@ interface InnerWrapperProps {
   itemStyle: object;
   itemClass: string;
   itemClassActive: string;
+  inertiaScrolling: boolean;
 }
 
 //** innerWrapper component, menuItems will be children */
@@ -142,6 +146,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       itemClassActive,
       data,
       selected,
+      inertiaScrolling,
     } = this.props;
 
     const items = this.setItems(data, selected);
@@ -151,6 +156,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       dragging,
       mounted,
       transition,
+      inertiaScrolling,
     });
 
     const wrapperStyles = { ...style, ...innerWrapperStyle };
