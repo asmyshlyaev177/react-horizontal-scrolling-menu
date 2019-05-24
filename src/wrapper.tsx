@@ -78,6 +78,7 @@ interface InnerWrapperProps {
   itemClass: string;
   itemClassActive: string;
   inertiaScrolling: boolean;
+  useButtonRole: boolean;
 }
 
 //** innerWrapper component, menuItems will be children */
@@ -147,6 +148,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       data,
       selected,
       inertiaScrolling,
+      useButtonRole,
     } = this.props;
 
     const items = this.setItems(data, selected);
@@ -179,7 +181,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
             style={itemStyle}
             onClick={Item.props.onClick()}
             tabIndex={1}
-            role="button"
+            role={useButtonRole?'button':''}
           >
             {Item}
           </div>

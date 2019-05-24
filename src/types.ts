@@ -30,6 +30,7 @@ interface MenuProps {
   selected: string,
   translate: number,
   transition: number,
+  useButtonRole: boolean,
   wrapperClass: string,
   wrapperStyle: CSSProperties,
   innerWrapperStyle: CSSProperties,
