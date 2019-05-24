@@ -11,12 +11,22 @@ const defaultMenuStyle: CSSProperties = {
 };
 
 /**
- * Default styles for InnerWrapper component
+ * Default styles for OuterWrapper component
  */
 const defaultWrapperStyle: CSSProperties = {
   overflow: 'hidden',
   userSelect: 'none',
 };
+
+/**
+* Default styles for InerWrapper component
+*/
+const defaultInnerWrapperStyle: CSSProperties = {
+  whiteSpace: 'nowrap',
+  textAlign: 'left',
+  userSelect: 'none',
+};
+
 
 /**
 * Default styles for item Wrapper component
@@ -46,6 +56,8 @@ const defaultProps: MenuProps = {
   dragging: true,
   /** array of MenuItem elements */
   data: [],
+  /** styles for InnerWrapper */
+  innerWrapperStyle: defaultInnerWrapperStyle,
   /** class for InnerWrapper */
   innerWrapperClass: 'menu-wrapper--inner',
   /** styles for menuItem */

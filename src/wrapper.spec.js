@@ -15,9 +15,6 @@ describe('wrappers and styles', () => {
       width: '9900px',
       transform: 'translate3d(10px, 0px, 0px)',
       transition: 'transform 0s',
-      whiteSpace: 'nowrap',
-      textAlign: 'left',
-      userSelect: 'none',
     };
 
     style = innerStyle({
