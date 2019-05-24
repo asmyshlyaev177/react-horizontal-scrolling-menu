@@ -991,6 +991,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       arrowRight,
       data,
       innerWrapperClass,
+      itemStyle,
       itemClass,
       itemClassActive,
       menuStyle,
@@ -1013,6 +1014,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     const menuStyles = { ...defaultMenuStyle, ...menuStyle };
     const wrapperStyles = { ...defaultWrapperStyle, ...wrapperStyle };
+    const itemWrapperStyle = { ...defaultProps.itemStyle, ...itemStyle };
 
     const arrowProps = {
       className: arrowClass,
@@ -1020,7 +1022,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     };
 
     return (
-      <div className={menuClass} style={menuStyles} onWheel={this.handleWheel}>
+      <div
+        className={menuClass}
+        style={menuStyles}
+        onWheel={this.handleWheel}
+      >
         {arrowLeft && (
           <ArrowWrapper
             {...arrowProps}
@@ -1052,6 +1058,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             setMenuInnerRef={this.setMenuInnerRef}
             onClick={this.onItemClick}
             innerWrapperClass={innerWrapperClass}
+            itemStyle={itemWrapperStyle}
             itemClass={itemClass}
             itemClassActive={itemClassActive}
           />

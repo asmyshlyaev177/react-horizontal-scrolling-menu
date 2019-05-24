@@ -19,6 +19,13 @@ const defaultWrapperStyle: CSSProperties = {
 };
 
 /**
+* Default styles for item Wrapper component
+*/
+const defaultItemWrapperStyle: CSSProperties = {
+  display: 'inline-block'
+};
+
+/**
  * Default props for ScrollMenu component
  */
 const defaultProps: MenuProps = {
@@ -41,6 +48,8 @@ const defaultProps: MenuProps = {
   data: [],
   /** class for InnerWrapper */
   innerWrapperClass: 'menu-wrapper--inner',
+  /** styles for menuItem */
+  itemStyle: defaultItemWrapperStyle,
   /** class for MenuItem */
   itemClass: 'menu-item-wrapper',
   /** class for selected MenuItem */
