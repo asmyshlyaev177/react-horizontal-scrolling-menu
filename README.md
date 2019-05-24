@@ -171,10 +171,11 @@ menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
 innerWrapperClass | String | Class for inner wrapper | false | 'menu-wrapper--inner'
+itemStyle | Object | Styles for item wrapper | false | {display: 'inline-block'}
 itemClass | String | Class for item wrapper | false | 'menu-item-wrapper'
 itemClassActive | String | Class for active item wrapper| false | 'active'
-menuStyle | Object | Styles for item wrapper | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
-wrapperStyle | Object | Class for active item wrapper| false | {overflow: 'hidden', userSelect: 'none'}
+menuStyle | Object | Styles for root menu component | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
+wrapperStyle | Object | Style for outer wrapper | false | {overflow: 'hidden', userSelect: 'none'}
 onSelect | Function | Callback when item selected, return item key | false | null
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false

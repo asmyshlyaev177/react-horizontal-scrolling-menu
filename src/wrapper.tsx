@@ -73,6 +73,7 @@ interface InnerWrapperProps {
   transition: number;
   selected: string | number;
   innerWrapperClass: string;
+  itemStyle: object;
   itemClass: string;
   itemClassActive: string;
 }
@@ -137,6 +138,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       mounted,
       transition,
       innerWrapperClass,
+      itemStyle,
       itemClass,
       itemClassActive,
       data,
@@ -167,9 +169,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
               Item.props.selected ? itemClassActive : ''
             }`}
             key={'menuItem-' + Item.key}
-            style={{
-              display: 'inline-block',
-            }}
+            style={itemStyle}
             onClick={Item.props.onClick()}
             tabIndex={1}
             role="button"

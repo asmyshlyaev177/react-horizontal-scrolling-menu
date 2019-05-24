@@ -12,6 +12,7 @@ interface MenuProps {
   dragging: boolean,
   data: Data,
   innerWrapperClass: string,
+  itemStyle: CSSProperties,
   itemClass: string,
   itemClassActive: string,
   hideArrows: boolean,
