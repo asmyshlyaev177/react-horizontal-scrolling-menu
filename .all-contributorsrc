@@ -37,6 +37,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "Entkenntnis",
+      "name": "entkenntnis",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13507950?v=4",
+      "profile": "https://github.com/Entkenntnis",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ]
 }
