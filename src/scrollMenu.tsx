@@ -979,10 +979,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     }
   };
 
-  // test = (ev: any): Void => {
-  //   console.log(ev.type);
-  // }
-
   public render(): React.ReactNode | null {
     const {
       arrowClass,
@@ -990,6 +986,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       arrowLeft,
       arrowRight,
       data,
+      innerWrapperStyle,
       innerWrapperClass,
       itemStyle,
       itemClass,
@@ -1057,6 +1054,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
             setRef={this.setRef}
             setMenuInnerRef={this.setMenuInnerRef}
             onClick={this.onItemClick}
+            innerWrapperStyle={innerWrapperStyle}
             innerWrapperClass={innerWrapperClass}
             itemStyle={itemWrapperStyle}
             itemClass={itemClass}

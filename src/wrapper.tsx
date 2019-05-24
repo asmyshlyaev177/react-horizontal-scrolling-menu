@@ -56,9 +56,6 @@ export const innerStyle = ({
     width: '9900px',
     transform: `translate3d(${translate}px, 0px, 0px)`,
     transition: `transform ${dragging || !mounted ? '0' : transition}s`,
-    whiteSpace: 'nowrap',
-    textAlign: 'left',
-    userSelect: 'none',
   };
 };
 
@@ -72,6 +69,7 @@ interface InnerWrapperProps {
   mounted: boolean;
   transition: number;
   selected: string | number;
+  innerWrapperStyle: object;
   innerWrapperClass: string;
   itemStyle: object;
   itemClass: string;
@@ -137,6 +135,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       dragging,
       mounted,
       transition,
+      innerWrapperStyle,
       innerWrapperClass,
       itemStyle,
       itemClass,
@@ -154,10 +153,12 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       transition,
     });
 
+    const wrapperStyles = { ...style, ...innerWrapperStyle };
+
     return (
       <div
         className={innerWrapperClass}
-        style={style}
+        style={wrapperStyles}
         ref={inst => this.setMenuInnerRef(inst)}
       >
         {items.map((Item, i) => (

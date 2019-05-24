@@ -30,6 +30,7 @@ interface MenuProps {
   transition: number,
   wrapperClass: string,
   wrapperStyle: CSSProperties,
+  innerWrapperStyle: CSSProperties,
   wheel: boolean,
   xPoint: number,
 };
