@@ -207,11 +207,11 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 
 ## Contributing
 1 Fork the repo:
-  * In root folder run `npm link`
   * Run `npm install` in root folder
-  * Remove react-horizontal-scrolling-menu from package.json example project
-  * Run `npm link react-horizontal-scrolling-menu && npm install`
-  * Run `npm run start` in root and in examples folders
+  * In root folder run `npm link`
+  * Go to example project folder (examples)
+  * Run `npm install && npm link react-horizontal-scrolling-menu`
+  * Run `npm run start` in root folder and after that in examples folders
 
 2 Write code! Add some feature or fix bug.
 
@@ -220,7 +220,7 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 
 4 Update readme and example(if needed)
 
-5 Run `npm run build` , make commit and Pull Request
+5 Make commit and Pull Request
 
 ## Contributors
 
