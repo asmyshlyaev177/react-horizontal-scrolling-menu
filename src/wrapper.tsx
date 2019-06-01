@@ -193,7 +193,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
             style={itemStyle}
             onClick={Item.props.onClick()}
             tabIndex={1}
-            role={useButtonRole?'button':''}
+            role={useButtonRole ? 'button' : ''}
           >
             {Item}
           </div>
