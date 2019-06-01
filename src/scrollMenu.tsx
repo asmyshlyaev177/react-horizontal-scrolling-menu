@@ -397,7 +397,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     itemId: string;
     translate?: number;
   }): boolean => {
-    const { menuItems } = this;
     const item = this.getItemByKey(itemId);
 
     const visibleItems = this.getVisibleItems({
@@ -682,7 +681,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   public getItemByKey = (key: string | number): MenuItem => {
     return (
       this.menuItems.find(el => el[1].key === key) || [
-        'null',
+        '',
         { key: 'n', elem: null, index: -1 },
       ]
     );
