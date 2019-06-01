@@ -21,7 +21,7 @@ interface MenuProps {
   hideSingleArrow: boolean;
   menuStyle: CSSProperties;
   menuClass: string;
-  onSelect: ((selectedItemKey: string) => void);
+  onSelect: ((selectedItemKey: string|number|null) => void);
   onUpdate: (
     ({translate, firstItemVisible, lastItemVisible}
 
