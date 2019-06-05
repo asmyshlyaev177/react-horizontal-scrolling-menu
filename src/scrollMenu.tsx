@@ -1,4 +1,5 @@
-import React, { WheelEvent } from 'react';
+import * as React from 'react';
+import { WheelEvent } from 'react';
 
 import {
   defaultMenuStyle,
