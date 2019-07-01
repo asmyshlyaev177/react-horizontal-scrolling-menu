@@ -54,7 +54,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   private onLoadTimer: any;
   private rafTimer: any;
   private resizeTimer: any;
-  private frame: any;
+  private frameId: any;
 
   private data: JSX.Element[] | null;
 
