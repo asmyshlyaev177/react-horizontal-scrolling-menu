@@ -54,6 +54,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   private onLoadTimer: any;
   private rafTimer: any;
   private resizeTimer: any;
+  private frame: any;
 
   private data: JSX.Element[] | null;
 
@@ -79,6 +80,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     this.onLoadTimer = 0;
     this.rafTimer = 0;
     this.resizeTimer = 0;
+    this.frameId = 0;
 
     this.data = null;
     this.dragHistory = [];
@@ -221,9 +223,14 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     const { hideSingleArrow, transition } = this.props;
     if (hideSingleArrow) {
-      requestAnimationFrame(this.setFirstLastItemVisibility);
+      cancelAnimationFrame(this.frameId);
+      clearTimeout(this.rafTimer);
+      this.frameId = requestAnimationFrame(this.setFirstLastItemVisibility);
       this.rafTimer = setTimeout(
-        () => requestAnimationFrame(this.setFirstLastItemVisibility),
+        () => {
+          cancelAnimationFrame(this.frameId);
+          this.frameId = requestAnimationFrame(this.setFirstLastItemVisibility);
+        },
         transition * 1000 + 10,
       );
     }
@@ -236,6 +243,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     clearTimeout(this.rafTimer);
     clearTimeout(this.onLoadTimer);
     clearTimeout(this.resizeTimer);
+    cancelAnimationFrame(this.frameId);
   }
 
   /** set ref for MenuItems */
