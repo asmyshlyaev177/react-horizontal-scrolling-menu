@@ -85,9 +85,28 @@ interface InnerWrapperProps {
   useButtonRole: boolean;
 }
 
+interface InnerWrapperState {
+  items: JSX.Element[];
+  data: Data;
+  selected: string | number;
+}
+
 // ** innerWrapper component, menuItems will be children */
 // tslint:disable-next-line:max-classes-per-file
-export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
+export class InnerWrapper extends React.PureComponent<
+  InnerWrapperProps,
+  InnerWrapperState
+> {
+  constructor(props: InnerWrapperProps) {
+    super(props);
+
+    this.state = {
+      data: [],
+      items: [],
+      selected: '',
+    };
+  }
+
   public static defaultProps = {
     data: [],
     dragging: true,
@@ -96,6 +115,21 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
     transition: defaultProps.transition,
     translate: defaultProps.translate,
   };
+
+  public static getDerivedStateFromProps(
+    props: InnerWrapperProps,
+    state: InnerWrapperState,
+  ) {
+    if (state.data !== props.data || state.selected !== props.selected) {
+      return {
+        data: props.data,
+        items: InnerWrapper.setItems(props.data, props.selected, props.onClick),
+        selected: props.selected,
+      };
+    }
+
+    return null;
+  }
 
   /** set ref of this component */
   public setMenuInnerRef = (value: HTMLDivElement | null): Void => {
@@ -115,33 +149,37 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
   }
 
   /** check if menuItem active */
-  public isElementActive = (
+  public static isElementActive = (
     itemId: string | number | null,
     selected: string | number,
   ): boolean => String(itemId) === String(selected)
 
   /** make array of menuItems */
-  public setItems = (
+  public static setItems = (
     arr: JSX.Element[],
     selected: React.ReactText,
+    // tslint:disable-next-line: ban-types
+    selectItem: Function,
   ): JSX.Element[] => {
     const items = arr.map(el => {
       const { onClick = () => false } = el.props;
       const props = {
-        onClick: () => this.forwardClickHandler(el.key, onClick),
-        selected: this.isElementActive(el.key, selected),
+        onClick: () =>
+          InnerWrapper.forwardClickHandler(el.key, onClick, selectItem),
+        selected: InnerWrapper.isElementActive(el.key, selected),
       };
       return React.cloneElement(el, props);
     });
     return items;
   }
 
-  public forwardClickHandler = (
+  public static forwardClickHandler = (
     key: any,
     // tslint:disable-next-line:ban-types
     onClick: Function = () => false,
+    // tslint:disable-next-line:ban-types
+    selectItem: Function,
   ) => (): Void => {
-    const { onClick: selectItem } = this.props;
     onClick();
     selectItem(key);
   }
@@ -157,13 +195,9 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
       itemStyle,
       itemClass,
       itemClassActive,
-      data,
-      selected,
       inertiaScrolling,
       useButtonRole,
     } = this.props;
-
-    const items = this.setItems(data, selected);
 
     const style: CSSProperties = innerStyle({
       dragging,
@@ -181,7 +215,7 @@ export class InnerWrapper extends React.PureComponent<InnerWrapperProps, {}> {
         style={wrapperStyles}
         ref={inst => this.setMenuInnerRef(inst)}
       >
-        {items.map((Item, i) => (
+        {this.state.items.map((Item, i) => (
           <div
             ref={inst =>
               this.setRef(`menuitem-${i}`, String(Item.key || ''), i, inst)
