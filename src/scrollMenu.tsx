@@ -84,7 +84,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     this.data = null;
     this.dragHistory = [];
-    checkVersion(this);
   }
 
   public state = {
@@ -98,6 +97,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     xDraggedDistance: 0,
     xPoint: 0,
   };
+
+  public componentDidCatch(err: any, info: any): Void {
+    // tslint:disable-next-line:no-console
+    console.log('ScrollMenu catched error: ', err, info);
+  }
 
   public componentDidMount(): Void {
     this.setInitial();
@@ -1166,15 +1170,5 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     );
   }
 }
-
-const checkVersion = (that: any): Void => {
-  const version = React.version.match(/^(\d{1,2})\./);
-  if (+version![1] >= 16) {
-    that.componentDidCatch = (err: any, info: any): Void => {
-      // tslint:disable-next-line:no-console
-      console.log('ScrollMenu catched error: ', err, info);
-    };
-  }
-};
 
 export default ScrollMenu;

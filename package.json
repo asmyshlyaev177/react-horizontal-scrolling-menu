@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "0.6.13",
+  "version": "0.7.0",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "main": "build/index.js",
   "browser": "build/index.js",
@@ -38,8 +38,8 @@
   },
   "homepage": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#readme",
   "peerDependencies": {
-    "react": "^15.x || ^16.x",
-    "react-dom": "^15.x || ^16.x"
+    "react": "^16.x",
+    "react-dom": "^16.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
