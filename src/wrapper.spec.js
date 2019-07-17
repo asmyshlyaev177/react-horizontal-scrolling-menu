@@ -13,7 +13,7 @@ describe('wrappers and styles', () => {
     let style, result;
     result = {
       width: '9900px',
-      transform: 'translate3d(10px, 0px, 0px)',
+      transform: 'translate3d(10px, 0, 0)',
       transition: 'transform 0s',
     };
 
@@ -33,7 +33,7 @@ describe('wrappers and styles', () => {
     });
     expect(style).toEqual({
       ...result,
-      transform: 'translate3d(20px, 0px, 0px)',
+      transform: 'translate3d(20px, 0, 0)',
     });
 
     style = innerStyle({

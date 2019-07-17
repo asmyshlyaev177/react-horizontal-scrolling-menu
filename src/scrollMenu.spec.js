@@ -405,7 +405,7 @@ describe('functions', () => {
 
   describe('width functions', () => {
     const prop = { ...props, alignCenter: true };
-    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) };
+    const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10, right: 30 }) };
     const getPagesOffsets = jest.fn()
       .mockReturnValue({items: [], wWidth: 15, menuPos: 5, menuWidth: 10, allItemsWidth: 7 });
     const wrapper = mount(<ScrollMenu {...prop} />);
@@ -413,6 +413,7 @@ describe('functions', () => {
     wrapper.instance().getPagesOffsets = getPagesOffsets;
 
     const getWidthResult = { wWidth: 1024, menuPos: 10, menuWidth: 20, allItemsWidth: 260};
+    const getOffsetResult = { menuWidth: 20, allItemsWidth: 260 };
 
     it('getItemsWidth', () => {
       wrapper.instance().menuItems = items;
@@ -430,7 +431,7 @@ describe('functions', () => {
       wrapper.instance().updateWidth({});
       expect(getPagesOffsets.mock.calls.length).toEqual(1);
       const result = getPagesOffsets.mock.calls[0];
-      const expected = getWidthResult;
+      const expected = getOffsetResult;
 
       for (const val in expected) {
         expect(result[0][val]).toEqual(expected[val]);
