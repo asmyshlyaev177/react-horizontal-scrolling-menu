@@ -771,7 +771,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       menuItems: items,
     });
 
-    return rtl ? -newOffset : newOffset;
+    return newOffset;
   }
 
   /** get next item by key */
@@ -805,7 +805,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       ? this.getScrollLeftOffset(visibleItems, items)
       : this.getScrollRightOffset(visibleItems, items);
 
-    return rtl ? -newOffset : newOffset;
+    return newOffset;
   }
 
   /** offset from 0 to first menu item when scroll,
@@ -891,11 +891,9 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
         ? this.getCenterOffset({ items: visibleItems() })
         : 0;
 
-      newTranslate = transl + centerOffset;
-      if (rtl) {
-        // TODO: continue here
-        newTranslate = -this.menuPos - this.menuWidth - newTranslate;
-      }
+      newTranslate = transl + (rtl ?
+        (left ? centerOffset + this.menuWidth : - centerOffset - this.menuWidth) :
+        centerOffset);
     }
 
     this.setState({
