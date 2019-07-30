@@ -184,6 +184,7 @@ scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
 inertiaScrolling | Boolean | Use inertia for scrolling, duration depends on transition and slowdown | false | false
 inertiaScrollingSlowdown | Float Number | Slow down factor for inertia scrolling | false | 0.25
 useButtonRole | Boolean | Adding role="button" to every item | false | true
+rtl | Boolean | Reverse the scroll direction (component should have a parent with dir="rtl" in the DOM tree | false | false
 
 ## Programmaticaly change things
 You can scroll left/right via `componentRef.handleArrowClick()` and `componentRef.handleArrowClickRight()` functions.

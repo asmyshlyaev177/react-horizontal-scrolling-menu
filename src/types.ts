@@ -37,6 +37,7 @@ interface MenuProps {
   innerWrapperStyle: CSSProperties;
   wheel: boolean;
   xPoint: number;
+  rtl: boolean;
 }
 
 type Ref = HTMLDivElement|HTMLElement|null;

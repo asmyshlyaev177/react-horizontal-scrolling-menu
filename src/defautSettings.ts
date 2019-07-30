@@ -19,7 +19,7 @@ const defaultWrapperStyle: CSSProperties = {
 };
 
 /**
- * Default styles for InerWrapper component
+ * Default styles for InnerWrapper component
  */
 const defaultInnerWrapperStyle: CSSProperties = {
   textAlign: 'left',
@@ -102,6 +102,8 @@ const defaultProps: MenuProps = {
   wheel: true,
   /** this not used */
   xPoint: 0,
+  /** for rtl languages */
+  rtl: false,
 };
 
 export {defaultMenuStyle, defaultProps, defaultWrapperStyle};
