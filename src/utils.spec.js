@@ -7,19 +7,19 @@ import { validateTranslate, getClientRect } from './utils';
 describe('getClientRect', () => {
   it('get width and x', () => {
     const el = {
-      getBoundingClientRect: () => ({x: 1, left: 2, width: 3})
+      getBoundingClientRect: () => ({x: 1, left: 2, right: 4, width: 3})
     };
-    expect(getClientRect(el)).toEqual({ width: 3, x: 2 });
+    expect(getClientRect(el)).toEqual({ width: 3, x: 2, x2: 4 });
   });
 
   it('no x property, return left instead x', () => {
     const el = {
-      getBoundingClientRect: () => ({left: 2, width: 3})
+      getBoundingClientRect: () => ({left: 2, right: 5, width: 3})
     };
-    expect(getClientRect(el)).toEqual({ width: 3, x: 2 });
+    expect(getClientRect(el)).toEqual({ width: 3, x: 2, x2: 5 });
   });
   it('no element', () => {
-    const result = { width: 0, x: 0 };
+    const result = { width: 0, x: 0, x2: 0 };
     expect(getClientRect()).toEqual(result);
     expect(getClientRect(null)).toEqual(result);
     expect(getClientRect(undefined)).toEqual(result);
@@ -29,11 +29,11 @@ describe('getClientRect', () => {
   });
   it('no getBoundingClientRect method on element', () => {
     const el = {};
-    expect(getClientRect(el)).toEqual({ width: 0, x: 0 });
+    expect(getClientRect(el)).toEqual({ width: 0, x: 0, x2: 0 });
   });
   it('getBoundingClientRect is not a function', () => {
     const el = {getBoundingClientRect: 'test'};
-    expect(getClientRect(el)).toEqual({ width: 0, x: 0 });
+    expect(getClientRect(el)).toEqual({ width: 0, x: 0, x2: 0 });
   });
 });
 

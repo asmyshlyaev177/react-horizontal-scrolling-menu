@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { defaultProps } from './defautSettings';
-import { Data, Ref, RefObject, Void } from './types';
+import { Data, RefObject, Void } from './types';
 
 interface ArrowWrapperProps {
   className: string;
@@ -45,6 +45,7 @@ interface InnerStyleProps {
   mounted: boolean;
   transition: number;
   inertiaScrolling: boolean;
+  rtl: boolean;
 }
 
 /** function to get default styles for innerWrapper */
@@ -54,9 +55,10 @@ export const innerStyle = ({
   mounted,
   transition,
   inertiaScrolling,
+  rtl,
 }: InnerStyleProps): CSSProperties => {
   return {
-    transform: `translate3d(${translate}px, 0px, 0px)`,
+    transform: `translate3d(${rtl ? -translate : translate}px, 0, 0)`,
     transition:
       `transform ${dragging || !mounted ? '0' : transition}s` +
       (inertiaScrolling ? ' ease-out' : ''),
@@ -83,6 +85,7 @@ interface InnerWrapperProps {
   itemClassActive: string;
   inertiaScrolling: boolean;
   useButtonRole: boolean;
+  rtl: boolean;
 }
 
 interface InnerWrapperState {
@@ -197,12 +200,14 @@ export class InnerWrapper extends React.PureComponent<
       itemClassActive,
       inertiaScrolling,
       useButtonRole,
+      rtl,
     } = this.props;
 
     const style: CSSProperties = innerStyle({
       dragging,
       inertiaScrolling,
       mounted,
+      rtl,
       transition,
       translate,
     });
