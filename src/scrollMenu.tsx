@@ -1126,11 +1126,6 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     const wrapperStyles = { ...defaultWrapperStyle, ...wrapperStyle };
     const itemWrapperStyle = { ...defaultProps.itemStyle, ...itemStyle };
 
-    // update default text alignment for rtl
-    if (rtl) {
-      innerWrapperStyle.textAlign = 'right';
-    }
-
     const arrowProps = {
       className: arrowClass,
       disabledClass: arrowDisabledClass,
