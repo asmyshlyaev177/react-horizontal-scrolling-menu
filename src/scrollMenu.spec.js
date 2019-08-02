@@ -58,23 +58,23 @@ const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
 const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
 const items = [
-  ['item1', { key: 'item1', elem: {getBoundingClientRect: () => ({ x: 0, width: 10, left: 0 }) }}],
-  ['item2', { key: 'item2', elem: {getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) }}],
-  ['item3', { key: 'item3', elem: {getBoundingClientRect: () => ({ x: 30, width: 30, left: 30 }) }}],
-  ['item4', { key: 'item4', elem: {getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) }}],
-  ['item5', { key: 'item5', elem: {getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) }}],
-  ['item6', { key: 'item6', elem: {getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) }}],
-  ['item7', { key: 'item7', elem: {getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) }}],
+  ['item1', { key: 'item1', elem: { getBoundingClientRect: () => ({ x: 0, width: 10, left: 0 }) } }],
+  ['item2', { key: 'item2', elem: { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10 }) } }],
+  ['item3', { key: 'item3', elem: { getBoundingClientRect: () => ({ x: 30, width: 30, left: 30 }) } }],
+  ['item4', { key: 'item4', elem: { getBoundingClientRect: () => ({ x: 60, width: 50, left: 60 }) } }],
+  ['item5', { key: 'item5', elem: { getBoundingClientRect: () => ({ x: 110, width: 50, left: 110 }) } }],
+  ['item6', { key: 'item6', elem: { getBoundingClientRect: () => ({ x: 160, width: 50, left: 160 }) } }],
+  ['item7', { key: 'item7', elem: { getBoundingClientRect: () => ({ x: 210, width: 50, left: 210 }) } }],
 ];
 
 const getItems = (offset = 0) => [
-  ['item1', { index: 0, key: 'item1', elem: { getBoundingClientRect: () => ({ x: offset + 0, width: 10, left: offset + 0 }) }}],
-  ['item2', { index: 1, key: 'item2', elem: { getBoundingClientRect: () => ({ x: offset + 10, width: 20, left: offset + 10 }) }}],
-  ['item3', { index: 2, key: 'item3', elem: { getBoundingClientRect: () => ({ x: offset + 30, width: 30, left: offset + 30 }) }}],
-  ['item4', { index: 3, key: 'item4', elem: { getBoundingClientRect: () => ({ x: offset + 60, width: 50, left: offset + 60 }) }}],
-  ['item5', { index: 4, key: 'item5', elem: { getBoundingClientRect: () => ({ x: offset + 110, width: 50, left: offset + 110 }) }}],
-  ['item6', { index: 5, key: 'item6', elem: { getBoundingClientRect: () => ({ x: offset + 160, width: 50, left: offset + 160 }) }}],
-  ['item7', { index: 6, key: 'item8', elem: { getBoundingClientRect: () => ({ x: offset + 210, width: 50, left: offset + 210 }) }}],
+  ['item1', { index: 0, key: 'item1', elem: { getBoundingClientRect: () => ({ x: offset + 0, width: 10, left: offset + 0 }) } }],
+  ['item2', { index: 1, key: 'item2', elem: { getBoundingClientRect: () => ({ x: offset + 10, width: 20, left: offset + 10 }) } }],
+  ['item3', { index: 2, key: 'item3', elem: { getBoundingClientRect: () => ({ x: offset + 30, width: 30, left: offset + 30 }) } }],
+  ['item4', { index: 3, key: 'item4', elem: { getBoundingClientRect: () => ({ x: offset + 60, width: 50, left: offset + 60 }) } }],
+  ['item5', { index: 4, key: 'item5', elem: { getBoundingClientRect: () => ({ x: offset + 110, width: 50, left: offset + 110 }) } }],
+  ['item6', { index: 5, key: 'item6', elem: { getBoundingClientRect: () => ({ x: offset + 160, width: 50, left: offset + 160 }) } }],
+  ['item7', { index: 6, key: 'item8', elem: { getBoundingClientRect: () => ({ x: offset + 210, width: 50, left: offset + 210 }) } }],
 ];
 
 const itemOnClick = jest.fn();
@@ -130,7 +130,7 @@ describe('test menu', () => {
     expect(wrapper.find('Arrow').length).toBe(0);
   });
   it('render null if menuItems empty', () => {
-    const wrapper = mount(<ScrollMenu data={[]}/>);
+    const wrapper = mount(<ScrollMenu data={[]} />);
     wrapper.instance().setInitial();
     expect(wrapper.html()).toEqual(null);
   });
@@ -407,12 +407,12 @@ describe('functions', () => {
     const prop = { ...props, alignCenter: true };
     const menuWrapper = { getBoundingClientRect: () => ({ x: 10, width: 20, left: 10, right: 30 }) };
     const getPagesOffsets = jest.fn()
-      .mockReturnValue({items: [], wWidth: 15, menuPos: 5, menuWidth: 10, allItemsWidth: 7 });
+      .mockReturnValue({ items: [], wWidth: 15, menuPos: 5, menuWidth: 10, allItemsWidth: 7 });
     const wrapper = mount(<ScrollMenu {...prop} />);
     wrapper.instance().menuWrapper = menuWrapper;
     wrapper.instance().getPagesOffsets = getPagesOffsets;
 
-    const getWidthResult = { wWidth: 1024, menuPos: 10, menuWidth: 20, allItemsWidth: 260};
+    const getWidthResult = { wWidth: 1024, menuPos: 10, menuWidth: 20, allItemsWidth: 260 };
     const getOffsetResult = { menuWidth: 20, allItemsWidth: 260 };
 
     it('getItemsWidth', () => {
@@ -473,16 +473,16 @@ describe('functions', () => {
       expect(wrapper.instance().getNextItemInd(false, [])).toEqual(menuItemsLength);
       expect(wrapper.instance().getNextItemInd(true, [])).toEqual(0);
 
-      expect(wrapper.instance().getNextItemInd(true, [ ['item3', false], ['item4', false] ]))
+      expect(wrapper.instance().getNextItemInd(true, [['item3', false], ['item4', false]]))
         .toEqual(1);
-      expect(wrapper.instance().getNextItemInd(true, [ ['item2', false], ['item4', false] ]))
+      expect(wrapper.instance().getNextItemInd(true, [['item2', false], ['item4', false]]))
         .toEqual(0);
-      expect(wrapper.instance().getNextItemInd(true, [ ['item9', false], ['item4', false] ]))
+      expect(wrapper.instance().getNextItemInd(true, [['item9', false], ['item4', false]]))
         .toEqual(0);
 
-      expect(wrapper.instance().getNextItemInd(false, [ ['item3', false], ['item3', false] ]))
+      expect(wrapper.instance().getNextItemInd(false, [['item3', false], ['item3', false]]))
         .toEqual(3);
-      expect(wrapper.instance().getNextItemInd(false, [ ['item2', false], ['item4', false] ]))
+      expect(wrapper.instance().getNextItemInd(false, [['item2', false], ['item4', false]]))
         .toEqual(4);
     });
 
@@ -516,7 +516,7 @@ describe('functions', () => {
       // return offset for last page of items for alignCenter
       const prop = { ...props, alignCenter: true };
       const wrapper = mount(<ScrollMenu {...prop} />);
-      const [ allItemsWidth, menuWidth, lastPageOffset ] = [200, 50, 20];
+      const [allItemsWidth, menuWidth, lastPageOffset] = [200, 50, 20];
       wrapper.instance().allItemsWidth = allItemsWidth;
       wrapper.instance().menuWidth = menuWidth;
       wrapper.instance().lastPageOffset = lastPageOffset;
@@ -1123,7 +1123,7 @@ describe('functions', () => {
     it('call getPoint(e)', () => {
       const beforeStart = jest.fn().mockReturnValue(false);
       const afterEnd = jest.fn().mockReturnValue(false);
-      const getPoint= jest.fn().mockReturnValue(100);
+      const getPoint = jest.fn().mockReturnValue(100);
       const props = {
         translate: 0,
         dragging: true
@@ -1152,7 +1152,7 @@ describe('functions', () => {
     });
     it('get clientX or touch cordinates', () => {
       const wrapper = mount(<ScrollMenu {...props} />);
-      const ev1 = { touches: [{clientX:25}] };
+      const ev1 = { touches: [{ clientX: 25 }] };
       const ev2 = { clientX: 35 };
       expect(wrapper.instance().getPoint(ev1)).toEqual(25);
       expect(wrapper.instance().getPoint(ev2)).toEqual(35);
@@ -1164,7 +1164,7 @@ describe('functions', () => {
       wrapper.instance().itBeforeStart = itBeforeStart;
 
       wrapper.instance().onUpdate = onUpdate;
-      wrapper.setState({ translate: 50  });
+      wrapper.setState({ translate: 50 });
       wrapper.instance().startDragTranslate = 50;
       wrapper.instance().firstPageOffset = 100;
 
@@ -1374,7 +1374,7 @@ describe('functions', () => {
 
     it('trigger original onClick handler', () => {
       itemOnClick.mockClear();
-      const wrapper = mount(<ScrollMenu {...props}/>);
+      const wrapper = mount(<ScrollMenu {...props} />);
       const item = wrapper.find(MenuItem).first();
       item.simulate('click');
       expect(itemOnClick.mock.calls.length).toEqual(1);
@@ -1802,6 +1802,20 @@ describe('functions', () => {
 
       jest.runAllTimers();
       expect(wrapper.state().translate).toEqual(50);
+    });
+    it('should check visibility status on every window resize and change that status if need it', () => {
+      const wrapper = mount(<ScrollMenu {...props} />);
+
+      expect(wrapper.state().rightArrowVisible).toEqual(false);
+      expect(wrapper.state().leftArrowVisible).toEqual(false);
+
+      const checkFirstLastItemVisibility = jest.fn().mockReturnValue({ firstItemVisible: false, lastItemVisible: false });
+
+      wrapper.instance().checkFirstLastItemVisibility = checkFirstLastItemVisibility;
+      wrapper.instance().resize();
+
+      expect(wrapper.state().rightArrowVisible).toEqual(true);
+      expect(wrapper.state().leftArrowVisible).toEqual(true);
     });
   });
 
