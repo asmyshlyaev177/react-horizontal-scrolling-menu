@@ -74,6 +74,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "BogdanVolna",
+      "name": "Bogdan",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/23221619?v=4",
+      "profile": "https://github.com/BogdanVolna",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ]
 }
