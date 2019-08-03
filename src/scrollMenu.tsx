@@ -341,6 +341,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       ? this.getCenterOffset({ items: visibleItems })
       : 0;
     this.setState({ translate: -offset + align });
+    this.setFirstLastItemVisibility();
   }
 
   /** set initial values and for updates */
@@ -797,7 +798,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     left: boolean,
     items: MenuItems = this.menuItems,
   ): number => {
-    const { rtl } =  this.props;
+    const { rtl } = this.props;
 
     left = rtl ? !left : left;
     const visibleItems = this.getVisibleItems({ items });
@@ -925,9 +926,9 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
     return alignCenter
       ? trans < defaultProps.translate &&
-          Math.abs(trans) > allItemsWidth - menuWidth + lastPageOffset
+      Math.abs(trans) > allItemsWidth - menuWidth + lastPageOffset
       : trans < defaultProps.translate &&
-          Math.abs(trans) > allItemsWidth - menuWidth;
+      Math.abs(trans) > allItemsWidth - menuWidth;
   }
 
   /** get coords from mouse event */
