@@ -231,7 +231,7 @@ export class InnerWrapper extends React.PureComponent<
             key={'menuItem-' + Item.key}
             style={itemStyle}
             onClick={Item.props.onClick()}
-            tabIndex={1}
+            tabIndex={0}
             role={useButtonRole ? 'button' : ''}
           >
             {Item}
