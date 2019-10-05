@@ -16,7 +16,9 @@
 This is horizontal scrolling menu component for React.
 Menu component has adaptive width, just set width for parent container.
 Items width will be determinated from css styles.
-**Note**: don't set margin for item wrapper, use padding instead. Can use margin for item element those you pass as props.
+
+**Note**: Don't have much time for support project. Any help apprecciated.
+
 
 For navigation you can use arrows, mouse wheel or just drag items.
 
