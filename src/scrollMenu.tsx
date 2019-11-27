@@ -10,7 +10,6 @@ import { MenuItem, MenuItems, MenuProps, Ref, RefObject, Void } from './types';
 import {
   getClientRect,
   notUndefOrNull,
-  testPassiveEventSupport,
   translateIsValid,
 } from './utils';
 import { ArrowWrapper, InnerWrapper } from './wrapper';
@@ -109,18 +108,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     window.requestAnimationFrame =
       window.requestAnimationFrame || (() => false);
 
-    const passiveEvents = testPassiveEventSupport();
-    const optionsCapture = passiveEvents
-      ? { passive: true, capture: true }
-      : true;
-    const optionsNoCapture = passiveEvents
-      ? { passive: true, capture: false }
-      : false;
-
-    window.addEventListener('load', this.onLoad, optionsNoCapture);
-    window.addEventListener('resize', this.resizeHandler, optionsNoCapture);
-    document.addEventListener('mousemove', this.handleDrag, optionsCapture);
-    document.addEventListener('mouseup', this.handleDragStop, optionsCapture);
+    window.addEventListener('load', this.onLoad);
+    window.addEventListener('resize', this.resizeHandler);
+    document.addEventListener('mousemove', this.handleDragWrapper);
+    document.addEventListener('mouseup', this.handleDragStopWrapper);
 
     // if styles loaded before js bundle need wait for it
     this.onLoadTimer = setTimeout(() => (this.onLoad(), this.forceUpdate()), 0);
@@ -241,9 +232,10 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   }
 
   public componentWillUnmount(): Void {
+    window.removeEventListener('load', this.onLoad);
     window.removeEventListener('resize', this.resizeHandler);
-    document.removeEventListener('mousemove', this.handleDrag);
-    document.removeEventListener('mouseup', this.handleDragStop);
+    document.removeEventListener('mousemove', this.handleDragWrapper);
+    document.removeEventListener('mouseup', this.handleDragStopWrapper);
     clearTimeout(this.rafTimer);
     clearTimeout(this.onLoadTimer);
     clearTimeout(this.resizeTimer);
@@ -967,6 +959,13 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     });
   }
 
+  /** wrapper for handleDrag event to avoid memory leak */
+  public handleDragWrapper = (
+    e: Event,
+  ): Void => {
+    this.handleDrag();
+  }
+
   /** drag event handler */
   public handleDrag = (
     e: React.MouseEvent | React.TouchEvent | Event,
@@ -1000,6 +999,13 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       xDraggedDistance: xDraggedDistance + Math.abs(diff),
       xPoint: point,
     });
+  }
+
+  /** wrapper for handleDragStop event to avoid memory leak */
+  public handleDragStopWrapper = (
+    e: Event,
+  ): Void => {
+    this.handleDragStop(e);
   }
 
   /** event handler when drag and mouse up  */
