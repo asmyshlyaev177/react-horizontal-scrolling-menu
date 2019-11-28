@@ -963,7 +963,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   public handleDragWrapper = (
     e: Event,
   ): Void => {
-    this.handleDrag();
+    this.handleDrag(e);
   }
 
   /** drag event handler */
