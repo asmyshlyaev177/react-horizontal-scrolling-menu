@@ -961,7 +961,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
 
   /** wrapper for handleDrag event to avoid memory leak */
   public handleDragWrapper = (
-    e: Event,
+    e: React.MouseEvent | React.TouchEvent | Event,
   ): Void => {
     this.handleDrag(e);
   }
