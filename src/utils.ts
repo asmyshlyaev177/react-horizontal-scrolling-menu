@@ -22,33 +22,9 @@ const validateTranslate = (value: any, defaultValue: number): number =>
     ? +value
     : defaultValue;
 
-/** test passive event support, for performance */
-// maybe use separate package detect-passive-events
-const testPassiveEventSupport = (): boolean => {
-  let passiveSupported = false;
-
-  try {
-    const options = {
-      get passive() {
-        // This function will be called when the browser
-        // attempts to access the passive property.
-        passiveSupported = true;
-        return false;
-      },
-    };
-
-    window.addEventListener('testPassiveEventSupport', options as any, options);
-    window.removeEventListener('testPassiveEventSupport', options as any, options as any);
-  } catch (err) {
-    passiveSupported = false;
-  }
-  return passiveSupported;
-};
-
 export {
   notUndefOrNull,
   getClientRect,
-  testPassiveEventSupport,
   validateTranslate,
   translateIsValid,
   formatTranslate,
