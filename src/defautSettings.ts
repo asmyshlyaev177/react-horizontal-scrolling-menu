@@ -23,8 +23,6 @@ const defaultWrapperStyle: CSSProperties = {
  */
 const defaultInnerWrapperStyle: CSSProperties = {
   textAlign: 'left',
-  userSelect: 'none',
-  whiteSpace: 'nowrap',
 };
 
 /**
