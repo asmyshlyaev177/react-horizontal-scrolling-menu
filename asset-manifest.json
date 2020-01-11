@@ -1,7 +1,23 @@
 {
-  "main.css": "static/css/main.c6d407b0.css",
-  "main.css.map": "static/css/main.c6d407b0.css.map",
-  "main.js": "static/js/main.4aaa2d8a.js",
-  "main.js.map": "static/js/main.4aaa2d8a.js.map",
-  "static/media/logo.svg": "static/media/logo.5d5d9eef.svg"
+  "files": {
+    "main.css": "/react-horizontal-scrolling-menu/static/css/main.6411d436.chunk.css",
+    "main.js": "/react-horizontal-scrolling-menu/static/js/main.8feab8a4.chunk.js",
+    "main.js.map": "/react-horizontal-scrolling-menu/static/js/main.8feab8a4.chunk.js.map",
+    "runtime-main.js": "/react-horizontal-scrolling-menu/static/js/runtime-main.0fc42ed1.js",
+    "runtime-main.js.map": "/react-horizontal-scrolling-menu/static/js/runtime-main.0fc42ed1.js.map",
+    "static/js/2.cdd1e05d.chunk.js": "/react-horizontal-scrolling-menu/static/js/2.cdd1e05d.chunk.js",
+    "static/js/2.cdd1e05d.chunk.js.map": "/react-horizontal-scrolling-menu/static/js/2.cdd1e05d.chunk.js.map",
+    "index.html": "/react-horizontal-scrolling-menu/index.html",
+    "precache-manifest.1b2917ff8774418917070c1d77551556.js": "/react-horizontal-scrolling-menu/precache-manifest.1b2917ff8774418917070c1d77551556.js",
+    "service-worker.js": "/react-horizontal-scrolling-menu/service-worker.js",
+    "static/css/main.6411d436.chunk.css.map": "/react-horizontal-scrolling-menu/static/css/main.6411d436.chunk.css.map",
+    "static/js/2.cdd1e05d.chunk.js.LICENSE": "/react-horizontal-scrolling-menu/static/js/2.cdd1e05d.chunk.js.LICENSE",
+    "static/media/logo.svg": "/react-horizontal-scrolling-menu/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0fc42ed1.js",
+    "static/js/2.cdd1e05d.chunk.js",
+    "static/css/main.6411d436.chunk.css",
+    "static/js/main.8feab8a4.chunk.js"
+  ]
 }
