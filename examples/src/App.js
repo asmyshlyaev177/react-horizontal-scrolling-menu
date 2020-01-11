@@ -193,6 +193,7 @@ class App extends Component {
             wheel={wheel}
             inertiaScrolling={inertiascrolling}
             inertiaScrollingSlowdown={slowdownFactor}
+            useButtonRole={true}
             rtl={false}
           />
         )}
