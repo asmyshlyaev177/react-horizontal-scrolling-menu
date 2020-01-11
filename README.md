@@ -172,7 +172,7 @@ clickWhenDrag | Boolean | After drag end select item under cursor( if any) | fal
 menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
-innerWrapperStyle | Object | Styles inner wrapper | false |  {whiteSpace: 'nowrap', textAlign: 'left', userSelect: 'none'}
+innerWrapperStyle | Object | Styles inner wrapper | false |  {textAlign: 'left'}
 innerWrapperClass | String | Class for inner wrapper | false | 'menu-wrapper--inner'
 itemStyle | Object | Styles for item wrapper | false | {display: 'inline-block'}
 itemClass | String | Class for item wrapper | false | 'menu-item-wrapper'
