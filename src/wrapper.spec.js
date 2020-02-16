@@ -62,8 +62,9 @@ describe('wrappers and styles', () => {
       selected: 0,
     };
 
-    const wrapper = mount(<InnerWrapper {...prop} />);
     it('mount inner wrapper', () => {
+      const wrapper = mount(<InnerWrapper {...prop} />);
+
       expect(wrapper.find('MenuItem').length).toEqual(menu.length);
 
       expect(setRef.mock.calls.length).toEqual(menu.length);
@@ -71,6 +72,8 @@ describe('wrappers and styles', () => {
     });
 
     it('click on item', () => {
+      const wrapper = mount(<InnerWrapper {...prop} />);
+
       const item = wrapper.find('MenuItem').first();
       item.simulate('click');
       expect(onClick.mock.calls.length).toEqual(1);
