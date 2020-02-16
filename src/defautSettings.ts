@@ -75,6 +75,10 @@ const defaultProps: MenuProps = {
   menuClass: 'horizontal-menu',
   /** styles for ScrollMenu */
   menuStyle: defaultMenuStyle,
+  /** cb for first item reached */
+  onFirstItemVisible: () => false,
+  /** cb for last item reached */
+  onLastItemVisible: () => false,
   /** cb when item selected */
   onSelect: () => false,
   /** cb when position updated */

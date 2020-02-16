@@ -21,11 +21,10 @@ interface MenuProps {
   hideSingleArrow: boolean;
   menuStyle: CSSProperties;
   menuClass: string;
+  onFirstItemVisible: () => void;
+  onLastItemVisible: () => void;
   onSelect: ((selectedItemKey: string|number|null) => void);
-  onUpdate: (
-    ({translate, firstItemVisible, lastItemVisible}
-
-      : {translate: number, firstItemVisible?: boolean, lastItemVisible?: boolean}) => void);
+  onUpdate: ( ({translate}: {translate: number}) => void);
   scrollToSelected: boolean;
   scrollBy: number;
   selected: string;

@@ -1,50 +1,52 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 import './App.css';
 
-const list = [
-  {name: 'item1'},
-  {name: 'item2______________'},
-  {name: 'item3'},
-  {name: 'item4'},
-  {name: 'item5'},
-  {name: 'item6'},
-  {name: 'item7______________'},
-  {name: 'item8'},
-  {name: 'item9'},
-  {name: 'item10'},
-  {name: 'item11'},
-  {name: 'item12'},
-  {name: 'item13'},
-  {name: 'item14______________'},
-  {name: 'item15'},
-  {name: 'item16'},
-  {name: 'item17'},
-  {name: 'item18'},
-  {name: 'item19'},
-  {name: 'item20'},
-  {name: 'item21'},
-  {name: 'item22______________'},
-  {name: 'item23'},
-  {name: 'item24'},
-  {name: 'item25'},
+let list = [
+  { name: 'item1' },
+  { name: 'item2______________' },
+  { name: 'item3' },
+  { name: 'item4' },
+  { name: 'item5' },
+  { name: 'item6' },
+  { name: 'item7______________' },
+  { name: 'item8' },
+  { name: 'item9' },
+  { name: 'item10' },
+  { name: 'item11' },
+  { name: 'item12' },
+  { name: 'item13' },
+  { name: 'item14______________' },
+  { name: 'item15' },
+  { name: 'item16' },
+  { name: 'item17' },
+  { name: 'item18' },
+  { name: 'item19' },
+  { name: 'item20' },
+  { name: 'item21' },
+  { name: 'item22______________' },
+  { name: 'item23' },
+  { name: 'item24' },
+  { name: 'item25' },
 ];
 
 // eslint-disable-next-line react/prop-types
-const MenuItem = ({text, selected}) => {
+const MenuItem = ({ text, selected }) => {
   return <div className={`menu-item ${selected ? 'active' : ''}`}>{text}</div>;
 };
 
 export const Menu = (list, selected) =>
   list.map(el => {
-    const {name} = el;
+    const { name } = el;
     const onClick = () => console.log('original onClick ', name);
-    return <MenuItem text={name} key={name} selected={selected} onClick={onClick} />;
+    return (
+      <MenuItem text={name} key={name} selected={selected} onClick={onClick} />
+    );
   });
 
-const Arrow = ({text, className}) => {
+const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
 };
 Arrow.propTypes = {
@@ -52,8 +54,8 @@ Arrow.propTypes = {
   className: PropTypes.string,
 };
 
-export const ArrowLeft = Arrow({text: '<', className: 'arrow-prev'});
-export const ArrowRight = Arrow({text: '>', className: 'arrow-next'});
+export const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
+export const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
 class App extends Component {
   state = {
@@ -64,7 +66,7 @@ class App extends Component {
     hideSingleArrow: true,
     itemsCount: list.length,
     selected: 'item1',
-    scrollToSelected: true,
+    scrollToSelected: false,
     translate: undefined,
     transition: 0.4,
     wheel: true,
@@ -80,8 +82,8 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {alignCenter} = prevState;
-    const {alignCenter: alignCenterNew} = this.state;
+    const { alignCenter } = prevState;
+    const { alignCenter: alignCenterNew } = this.state;
     if (alignCenter !== alignCenterNew && this.menu) {
       this.menu.setInitial();
       this.menu.forceUpdate();
@@ -89,21 +91,39 @@ class App extends Component {
     }
   }
 
-  onUpdate = ({translate}) => {
-    console.log(
-      // `onUpdate: translate: ${translate} firstItemVisible: ${firstItemVisible}, lastItemVisible: ${lastItemVisible}`
-      `onUpdate: translate: ${translate}`
+  onUpdate = ({ translate }) => {
+    console.log(`onUpdate: translate: ${translate}`);
+    this.setState({ translate });
+  };
+
+  onFirstItemVisible = () => {
+    console.log('first item is visible');
+  };
+
+  onLastItemVisible = () => {
+    console.log('last item is visible');
+
+    const newItems = Array(5)
+      .fill(1)
+      .map((el, ind) => ({ name: `item${list.length + ind + 1}` }));
+    list = list.concat(newItems)
+    this.menuItems = Menu(
+      list,
+      list.slice(-1)[0].name,
     );
-    this.setState({translate});
+    this.setState({
+      itemsCount: list.length,
+      selected: this.state.selected,
+    });
   };
 
   onSelect = key => {
     console.log(`onSelect: ${key}`);
-    this.setState({selected: key});
+    this.setState({ selected: key });
   };
 
   setItemsCount = ev => {
-    const {itemsCount = list.length, selected} = this.state;
+    const { itemsCount = list.length, selected } = this.state;
     const val = +ev.target.value;
     const itemsCountNew =
       !isNaN(val) && val <= list.length && val >= 0
@@ -120,12 +140,12 @@ class App extends Component {
   };
 
   setSlowdownFactor = ev => {
-    this.setState({slowdownFactor: ev.target.value});
-  }
+    this.setState({ slowdownFactor: ev.target.value });
+  };
 
   setSelected = ev => {
-    const {value} = ev.target;
-    this.setState({selected: String(value)});
+    const { value } = ev.target;
+    this.setState({ selected: String(value) });
   };
 
   toggle = () => {
@@ -172,29 +192,31 @@ class App extends Component {
 
         <button onClick={this.toggle}>Toggle Show/hide</button>
 
-        { showList && (
+        {showList && (
           <ScrollMenu
-            ref={el => (this.menu = el)}
-            data={menu}
+            alignCenter={alignCenter}
             arrowLeft={ArrowLeft}
             arrowRight={ArrowRight}
+            clickWhenDrag={clickWhenDrag}
+            data={menu}
+            dragging={dragging}
             hideArrows={hideArrows}
             hideSingleArrow={hideSingleArrow}
-            transition={+transition}
-            onUpdate={this.onUpdate}
-            onSelect={this.onSelect}
-            scrollToSelected={scrollToSelected}
-            selected={selected}
-            scrollBy={0}
-            translate={translate}
-            alignCenter={alignCenter}
-            dragging={dragging}
-            clickWhenDrag={clickWhenDrag}
-            wheel={wheel}
             inertiaScrolling={inertiascrolling}
             inertiaScrollingSlowdown={slowdownFactor}
-            useButtonRole={true}
+            onFirstItemVisible={this.onFirstItemVisible}
+            onLastItemVisible={this.onLastItemVisible}
+            onSelect={this.onSelect}
+            onUpdate={this.onUpdate}
+            ref={el => (this.menu = el)}
             rtl={false}
+            scrollBy={0}
+            scrollToSelected={scrollToSelected}
+            selected={selected}
+            transition={+transition}
+            translate={translate}
+            useButtonRole={true}
+            wheel={wheel}
           />
         )}
 
@@ -205,7 +227,7 @@ class App extends Component {
               name="alignCenter"
               type="checkbox"
               checked={alignCenter}
-              onChange={() => this.setState({alignCenter: !alignCenter})}
+              onChange={() => this.setState({ alignCenter: !alignCenter })}
             />
           </label>
           <label style={checkboxStyle}>
@@ -214,7 +236,7 @@ class App extends Component {
               name="dragging"
               type="checkbox"
               checked={dragging}
-              onChange={() => this.setState({dragging: !dragging})}
+              onChange={() => this.setState({ dragging: !dragging })}
             />
           </label>
           <label style={checkboxStyle}>
@@ -223,7 +245,7 @@ class App extends Component {
               name="clickWhenDrag"
               type="checkbox"
               checked={clickWhenDrag}
-              onChange={() => this.setState({clickWhenDrag: !clickWhenDrag})}
+              onChange={() => this.setState({ clickWhenDrag: !clickWhenDrag })}
             />
           </label>
           <label style={checkboxStyle}>
@@ -232,7 +254,9 @@ class App extends Component {
               name="scrollToSelected"
               type="checkbox"
               checked={scrollToSelected}
-              onChange={() => this.setState({scrollToSelected: !scrollToSelected})}
+              onChange={() =>
+                this.setState({ scrollToSelected: !scrollToSelected })
+              }
             />
           </label>
           <label style={checkboxStyle}>
@@ -241,7 +265,7 @@ class App extends Component {
               name="wheel"
               type="checkbox"
               checked={wheel}
-              onChange={() => this.setState({wheel: !wheel})}
+              onChange={() => this.setState({ wheel: !wheel })}
             />
           </label>
           <label style={checkboxStyle}>
@@ -250,7 +274,7 @@ class App extends Component {
               name="hideArrows"
               type="checkbox"
               checked={hideArrows}
-              onChange={() => this.setState({hideArrows: !hideArrows})}
+              onChange={() => this.setState({ hideArrows: !hideArrows })}
             />
           </label>
           <label style={checkboxStyle}>
@@ -260,7 +284,7 @@ class App extends Component {
               type="checkbox"
               checked={hideSingleArrow}
               onChange={() =>
-                this.setState({hideSingleArrow: !hideSingleArrow})
+                this.setState({ hideSingleArrow: !hideSingleArrow })
               }
             />
           </label>
@@ -269,7 +293,7 @@ class App extends Component {
           <label style={valueStyle}>
             Selected:
             <input
-              style={{margin: '0 5px'}}
+              style={{ margin: '0 5px' }}
               name="selected"
               type="text"
               value={selected}
@@ -279,7 +303,7 @@ class App extends Component {
           <label style={valueStyle}>
             Transition duration:
             <input
-              style={{margin: '0 5px'}}
+              style={{ margin: '0 5px' }}
               name="transition"
               type="number"
               value={transition || 0}
@@ -295,7 +319,7 @@ class App extends Component {
           <label style={valueStyle}>
             Items count:
             <input
-              style={{margin: '0 5px'}}
+              style={{ margin: '0 5px' }}
               name="itemsCount"
               type="number"
               value={itemsCount}
@@ -310,13 +334,15 @@ class App extends Component {
               name="inertiascrolling"
               type="checkbox"
               checked={inertiascrolling}
-              onChange={() => this.setState({inertiascrolling: !inertiascrolling})}
+              onChange={() =>
+                this.setState({ inertiascrolling: !inertiascrolling })
+              }
             />
           </label>
           <label style={valueStyle}>
             Inertia scrolling slowdown:
             <input
-              style={{margin: '0 5px'}}
+              style={{ margin: '0 5px' }}
               name="slowdownFactor"
               type="number"
               value={slowdownFactor}
@@ -330,7 +356,8 @@ class App extends Component {
             /* eslint-disable react/jsx-no-target-blank */
             target="_blank"
             rel="noopener"
-            href="https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu">
+            href="https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu"
+          >
             Project on GitHub
           </a>
         </div>
