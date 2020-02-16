@@ -216,6 +216,15 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       this.onUpdate({ translate, translateOld });
     }
 
+    // call cb for first/last item visible
+    const {
+      firstItemVisible,
+      lastItemVisible,
+    } = this.checkFirstLastItemVisibility({ translate });
+    const { onFirstItemVisible, onLastItemVisible } = this.props
+    if (firstItemVisible) { onFirstItemVisible(); }
+    if (lastItemVisible) { onLastItemVisible(); }
+
     const { hideSingleArrow, transition } = this.props;
     if (hideSingleArrow) {
       cancelAnimationFrame(this.frameId);

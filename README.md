@@ -179,6 +179,8 @@ itemClass | String | Class for item wrapper | false | 'menu-item-wrapper'
 itemClassActive | String | Class for active item wrapper| false | 'active'
 menuStyle | Object | Styles for root menu component | false | {display: 'flex', alignItems: 'center', userSelect: 'none'}
 wrapperStyle | Object | Style for outer wrapper | false | {overflow: 'hidden', userSelect: 'none'}
+onFirstItemVisible | Function | Callback for first item visible | false | () => false
+onLastItemVisible | Function | Callback for last item visible (for example for LazyLoad more items) | false | () => false
 onSelect | Function | Callback when item selected, return item key | false | null
 onUpdate | Function | Callback when menu position changed, return { translate: 0 } | false | null
 scrollToSelected | Boolean | Scroll to `selected` props passed on mount and when props changed | false | false
