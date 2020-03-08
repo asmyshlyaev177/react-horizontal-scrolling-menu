@@ -353,6 +353,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       translate: translateProp,
       scrollToSelected,
       alignCenter,
+      hideSingleArrow
     } = this.props;
     const { translate: translateState } = this.state;
     if (!data || !data.length) {
@@ -388,8 +389,14 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     } = this.checkFirstLastItemVisibility({ translate: translateProp });
     newState.firstItemVisible = firstItemVisible;
     newState.lastItemVisible = lastItemVisible;
-    newState.leftArrowVisible = !firstItemVisible;
-    newState.rightArrowVisible = !lastItemVisible;
+    
+    if (hideSingleArrow) {
+      newState.leftArrowVisible = !firstItemVisible;
+      newState.rightArrowVisible = !lastItemVisible;
+    } else {
+      newState.leftArrowVisible = firstItemVisible;
+      newState.rightArrowVisible = lastItemVisible;
+    }
 
     // scrollToSelected
     if (scrollToSelected) {
