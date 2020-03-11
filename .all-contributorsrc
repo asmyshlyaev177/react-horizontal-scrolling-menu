@@ -102,6 +102,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "gstvribs",
+      "name": "Gustavo Ribeiro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7907966?v=4",
+      "profile": "https://medium.com/@gstvribs",
+      "contributions": [
+        "bug",
+        "code",
+        "test"
+      ]
     }
   ]
 }
