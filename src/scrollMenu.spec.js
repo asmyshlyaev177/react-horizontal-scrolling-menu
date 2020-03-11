@@ -2216,8 +2216,29 @@ describe('functions', () => {
       expect(wrapper.state().translate).toEqual(50);
     });
 
-    it('should check visibility status on every window resize and change that status if need it', () => {
-      const wrapper = mount(<ScrollMenu {...props} />);
+    it('should check visibility status on every window resize and change that status if need it when hideSingleArrow is false', () => {
+      const prop = { ...props, hideSingleArrow: false };
+
+      const wrapper = mount(<ScrollMenu {...prop} />);
+
+      expect(wrapper.state().rightArrowVisible).toEqual(true);
+      expect(wrapper.state().leftArrowVisible).toEqual(true);
+
+      const checkFirstLastItemVisibility = jest
+        .fn()
+        .mockReturnValue({ firstItemVisible: true, lastItemVisible: true });
+
+      wrapper.instance().checkFirstLastItemVisibility = checkFirstLastItemVisibility;
+      wrapper.instance().resize();
+
+      expect(wrapper.state().rightArrowVisible).toEqual(true);
+      expect(wrapper.state().leftArrowVisible).toEqual(true);
+    });
+
+    it('should check visibility status on every window resize and change that status if need it when hideSingleArrow is true', () => {
+      const prop = { ...props, hideSingleArrow: true };
+
+      const wrapper = mount(<ScrollMenu {...prop} />);
 
       expect(wrapper.state().rightArrowVisible).toEqual(false);
       expect(wrapper.state().leftArrowVisible).toEqual(false);
