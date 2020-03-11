@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/react-horizontal-scrolling-menu/static/css/main.6411d436.chunk.css",
-    "main.js": "/react-horizontal-scrolling-menu/static/js/main.46884d4f.chunk.js",
-    "main.js.map": "/react-horizontal-scrolling-menu/static/js/main.46884d4f.chunk.js.map",
-    "runtime-main.js": "/react-horizontal-scrolling-menu/static/js/runtime-main.d1eb1172.js",
-    "runtime-main.js.map": "/react-horizontal-scrolling-menu/static/js/runtime-main.d1eb1172.js.map",
-    "static/js/2.0c84f5c1.chunk.js": "/react-horizontal-scrolling-menu/static/js/2.0c84f5c1.chunk.js",
-    "static/js/2.0c84f5c1.chunk.js.map": "/react-horizontal-scrolling-menu/static/js/2.0c84f5c1.chunk.js.map",
+    "main.js": "/react-horizontal-scrolling-menu/static/js/main.27fe43d1.chunk.js",
+    "main.js.map": "/react-horizontal-scrolling-menu/static/js/main.27fe43d1.chunk.js.map",
+    "runtime-main.js": "/react-horizontal-scrolling-menu/static/js/runtime-main.0fc42ed1.js",
+    "runtime-main.js.map": "/react-horizontal-scrolling-menu/static/js/runtime-main.0fc42ed1.js.map",
+    "static/js/2.b7e75e42.chunk.js": "/react-horizontal-scrolling-menu/static/js/2.b7e75e42.chunk.js",
+    "static/js/2.b7e75e42.chunk.js.map": "/react-horizontal-scrolling-menu/static/js/2.b7e75e42.chunk.js.map",
     "index.html": "/react-horizontal-scrolling-menu/index.html",
-    "precache-manifest.c4aaa3258c52e54826e1e893d932aaf3.js": "/react-horizontal-scrolling-menu/precache-manifest.c4aaa3258c52e54826e1e893d932aaf3.js",
+    "precache-manifest.837f40bfb279a675346ff79617c3b510.js": "/react-horizontal-scrolling-menu/precache-manifest.837f40bfb279a675346ff79617c3b510.js",
     "service-worker.js": "/react-horizontal-scrolling-menu/service-worker.js",
     "static/css/main.6411d436.chunk.css.map": "/react-horizontal-scrolling-menu/static/css/main.6411d436.chunk.css.map",
-    "static/js/2.0c84f5c1.chunk.js.LICENSE.txt": "/react-horizontal-scrolling-menu/static/js/2.0c84f5c1.chunk.js.LICENSE.txt",
+    "static/js/2.b7e75e42.chunk.js.LICENSE": "/react-horizontal-scrolling-menu/static/js/2.b7e75e42.chunk.js.LICENSE",
     "static/media/logo.svg": "/react-horizontal-scrolling-menu/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.d1eb1172.js",
-    "static/js/2.0c84f5c1.chunk.js",
+    "static/js/runtime-main.0fc42ed1.js",
+    "static/js/2.b7e75e42.chunk.js",
     "static/css/main.6411d436.chunk.css",
-    "static/js/main.46884d4f.chunk.js"
+    "static/js/main.27fe43d1.chunk.js"
   ]
 }
