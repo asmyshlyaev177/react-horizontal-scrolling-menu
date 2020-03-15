@@ -13,20 +13,19 @@
 
 [Demo on Codesandbox](https://codesandbox.io/s/lpjol1opmq)
 
-This is horizontal scrolling menu component for React.
-Menu component has adaptive width, just set width for parent container.
-Items width will be determinated from css styles.
+This is a horizontal scrolling menu component for React. 
+Menu component has adaptive width, just set width for parent container. 
+Items width will be determined from CSS styles.
 
-**Note**: Don't have much time for support project. Any help apprecciated.
+**Note:** I don't have much time for project support. Any help is appreciated.
 
+For navigation, you can use arrows, mouse wheel or just drag items.
 
-For navigation you can use arrows, mouse wheel or just drag items.
-
-Component return items position, selected item and click event from callbacks.
+Component return items position, selected item, and click event from callbacks.
 
 Possible set default position and selected item on initialization.
 
-Add star if you like project :)
+:star: if you like the project :)
 
 ## Quick start
 
@@ -199,10 +198,9 @@ Can simulate click with `componentRef.onItemClick('item4')`
 Can select and scroll to item with `componentRef.scrollTo('item14')`
 
 ## Gotchas
-* Menu items must have width, if items contains images and images don't loaded yeat it can be problem. Generally component will try to determine width of items, if it can't you can assign ref to component and call $ref.setInitial() manually when items have width for sure.
-
+* Menu items must have width. If items contain images and images are not loaded yet it can be a problem. Generally component will try to determine the width of items, if it can't you can assign ref to component and call $ref.setInitial() manually when items have the width for sure.
 * Browser must support **requestAnimationFrame** or use polyfill.
-* It can doesn't work in IE, and I don't care, I am not a necrophile.(if you need it you can make PR, I will merge)
+* It may not work in IE. (if you need it you can make a PR, I will merge)
 
 ## About
 My first npm project. Sorry for my english.
