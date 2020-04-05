@@ -166,7 +166,6 @@ hideSingleArrow | Boolean | hide left/right arrows on first/last pages | false |
 transition | Float number | How long animation last, 0 for disable | false | 0.4
 selected | String or Number | Initial selected item | false | 0
 translate | Number | Initial offset | false | 0
-clickWhenDrag | Boolean | After drag end select item under cursor( if any) | false | false
 menuClass | String | Class for component |  false | 'horizontal-menu'
 arrowClass | String | Class for arrow | false | 'scroll-menu-arrow'
 wrapperClass | String | Class for wrapper in component |  false | 'menu-wrapper'
