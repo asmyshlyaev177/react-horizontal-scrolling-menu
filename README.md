@@ -159,6 +159,7 @@ clickWhenDrag | Boolean | After drag end select item under cursor( if any) | fal
 dragging | Boolean | Allow drag items by mouse(and touch) | false | true
 wheel | Boolean | Scroll with mouse wheel | false | true
 arrowLeft | React component | React component for left arrow | false | null
+arrowRight | React component | React component for right arrow | false | null
 data | Array of react components| Menu items, if empy render null (note, **component must have unique key!**) | true | []
 hideArrows | Boolean | hide arrows if items fit to one screen, (add class scroll-menu-arrow--disabled to arrows) | false | false
 arrowDisabledClass | String | The class name to append when arrows are disabled | false | "scroll-menu-arrow--disabled"
