@@ -1,9 +1,23 @@
 {
   "name": "react-horizontal-scrolling-menu",
   "version": "2.0.0-beta.0",
+  "author": "asmyshlyaev177",
+  "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "license": "ISC",
   "main": "dist/scrolling-menu.cjs.js",
   "module": "dist/scrolling-menu.esm.js",
   "browser": "dist/scrolling-menu.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
+  },
+  "keywords": [
+    "react",
+    "menu",
+    "horizontal",
+    "scroll",
+    "scrolling-menu"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.1.0",
@@ -13,8 +27,13 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
+    "prop-types": "^15.7.2",
     "rollup": "^1.32.1",
     "semver": "^7.3.2"
+  },
+  "peerDependencies": {
+    "react": "^16.x",
+    "react-dom": "^16.x"
   },
   "husky": {
     "hooks": {

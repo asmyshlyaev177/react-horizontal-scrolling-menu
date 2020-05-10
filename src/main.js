@@ -1,14 +1,10 @@
-export default function scrollingMenu(props) {
-  return props;
-}
-
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 
 const items = Array(20)
   .fill(0)
-  .map((_, ind) => ({ id: `test${ind}` }));
+  .map((_, ind) => ({ id: `test${ind}` }))
 
-const threshold = [0, 1];
+const threshold = [0, 1]
 
 const Card = ({ id, onClick, selected, visible }) => (
   <div
@@ -32,7 +28,7 @@ const Card = ({ id, onClick, selected, visible }) => (
       }}
     />
   </div>
-);
+)
 
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
@@ -47,7 +43,7 @@ const ScrollContainer = forwardRef(({ children }, ref) => (
   >
     {children}
   </div>
-));
+))
 
 const Container = ({ children }) => (
   <div
@@ -61,7 +57,7 @@ const Container = ({ children }) => (
   >
     {children}
   </div>
-);
+)
 
 const MenuItems = ({ children, visibleItems = [] }) => {
   return React.Children.map(children, child => (
@@ -78,8 +74,8 @@ const MenuItems = ({ children, visibleItems = [] }) => {
       </div>
       <div data-separator={child.props.id} />
     </>
-  ));
-};
+  ))
+}
 
 function ScrollMenu({
   firstItemVisible: firstItemVisibleInitial = true,
@@ -89,70 +85,68 @@ function ScrollMenu({
   onScroll = () => false,
   RightArrow,
 }) {
-  const root = useRef(null);
-  const observer = useRef(false);
-  const [observed, setObserved] = useState({});
+  const root = useRef(null)
+  const observer = useRef(false)
+  const [observed, setObserved] = useState({})
 
-  const [visibleItems, setVisibleItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState([])
   const [firstItemVisible, setFirstItemVisible] = useState(
     firstItemVisibleInitial,
-  );
-  const [lastItemVisible, setLastItemVisible] = useState(
-    lastItemVisibleInitial,
-  );
+  )
+  const [lastItemVisible, setLastItemVisible] = useState(lastItemVisibleInitial)
 
   const cb = entries => {
     const { firstItemVisible, lastItemVisible, visibleItems } = getVisibility(
       observed,
-    );
-    setVisibleItems(visibleItems);
+    )
+    setVisibleItems(visibleItems)
 
-    setFirstItemVisible(firstItemVisible);
-    setLastItemVisible(lastItemVisible);
+    setFirstItemVisible(firstItemVisible)
+    setLastItemVisible(lastItemVisible)
 
     setObserved(observed =>
       entries.reduce(
         (acc, entry) => {
-          const { intersectionRatio, target } = entry;
-          const key = target.getAttribute('data-key');
-          acc[key] = intersectionRatio === 1;
-          return acc;
+          const { intersectionRatio, target } = entry
+          const key = target.getAttribute('data-key')
+          acc[key] = intersectionRatio === 1
+          return acc
         },
         { ...observed },
       ),
-    );
-  };
+    )
+  }
 
   useEffect(() => {
     if (root.current) {
-      observer.current && observer.current.disconnect();
+      observer.current && observer.current.disconnect()
 
       observer.current = new IntersectionObserver(cb, {
         root: root.current,
         threshold,
-      });
+      })
     }
 
     return () => {
-      observer.current && observer.current.disconnect();
-    };
-  });
+      observer.current && observer.current.disconnect()
+    }
+  })
 
   useEffect(() => {
-    const { current: observerFn } = observer;
+    const { current: observerFn } = observer
 
-    const elems = document.querySelectorAll('[data-key]');
+    const elems = document.querySelectorAll('[data-key]')
 
     // elems && observerFn && elems.forEach(elem => observerFn.unobserve(elem));
 
     if (elems && observer.current) {
-      elems.forEach(elem => observerFn.observe(elem));
+      elems.forEach(elem => observerFn.observe(elem))
     }
 
     return () => {
-      elems && observerFn && elems.forEach(elem => observerFn.unobserve(elem));
-    };
-  });
+      elems && observerFn && elems.forEach(elem => observerFn.unobserve(elem))
+    }
+  })
 
   return (
     <div
@@ -172,45 +166,45 @@ function ScrollMenu({
         <RightArrow onClick={scrollRight} visible={!lastItemVisible} />
       )}
     </div>
-  );
+  )
 
   function wheelHandler(event) {
-    const { deltaY } = event;
-    deltaY > 0 ? scrollRight() : scrollLeft();
+    const { deltaY } = event
+    deltaY > 0 ? scrollRight() : scrollLeft()
   }
 
   function scrollRight() {
-    const itemsVisibility = Object.entries(observed);
-    const firstVisible = itemsVisibility.findIndex(el => el[1]);
-    const next = itemsVisibility.slice(firstVisible).find(el => !el[1]);
+    const itemsVisibility = Object.entries(observed)
+    const firstVisible = itemsVisibility.findIndex(el => el[1])
+    const next = itemsVisibility.slice(firstVisible).find(el => !el[1])
 
-    const elem = next && document.querySelector(`[data-key="${next[0]}"`);
+    const elem = next && document.querySelector(`[data-key="${next[0]}"`)
 
-    elem && elem.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+    elem && elem.scrollIntoView({ behavior: 'smooth', inline: 'start' })
   }
 
   function scrollLeft() {
-    const itemsVisibility = Object.entries(observed);
-    const firstVisible = itemsVisibility.findIndex(el => el[1]);
-    const next = firstVisible && itemsVisibility[firstVisible - 1];
+    const itemsVisibility = Object.entries(observed)
+    const firstVisible = itemsVisibility.findIndex(el => el[1])
+    const next = firstVisible && itemsVisibility[firstVisible - 1]
 
-    const elem = next && document.querySelector(`[data-key="${next[0]}"`);
+    const elem = next && document.querySelector(`[data-key="${next[0]}"`)
 
-    elem && elem.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+    elem && elem.scrollIntoView({ behavior: 'smooth', inline: 'end' })
   }
 
   function getVisibility(observed) {
-    const items = Object.entries(observed);
-    const visibleItems = items.filter(el => el[1]).map(el => el[0]);
+    const items = Object.entries(observed)
+    const visibleItems = items.filter(el => el[1]).map(el => el[0])
 
     const firstItemVisible = !!(
       items.length && visibleItems.includes(items[0][0])
-    );
+    )
     const lastItemVisible = !!(
       items.length && visibleItems.includes(items.slice(-1)[0][0])
-    );
+    )
 
-    return { items, visibleItems, firstItemVisible, lastItemVisible };
+    return { items, visibleItems, firstItemVisible, lastItemVisible }
   }
 
   // need to run it on first mount
@@ -221,7 +215,7 @@ function ScrollMenu({
       items,
       visibleItems,
       position: root.current && root.current.scrollLeft,
-    });
+    })
   }
 }
 
@@ -242,7 +236,7 @@ const LeftArrow = ({ onClick, visible }) => (
   >
     Left
   </div>
-);
+)
 const RightArrow = ({ onClick, visible }) => (
   <div
     disabled={!visible}
@@ -260,10 +254,10 @@ const RightArrow = ({ onClick, visible }) => (
   >
     Right
   </div>
-);
+)
 
 export default function App() {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([])
 
   return (
     <ScrollMenu
@@ -278,15 +272,15 @@ export default function App() {
       LeftArrow={LeftArrow}
       RightArrow={RightArrow}
     />
-  );
+  )
 
   function clickHandler(id, ev) {
-    const isSelected = selected.find(el => el === id);
+    const isSelected = selected.find(el => el === id)
 
     //ev.target.scrollIntoView({ behavior: "smooth", inline: "center" });
 
     setSelected(selected =>
       isSelected ? selected.filter(el => el !== id) : selected.concat(id),
-    );
+    )
   }
 }
