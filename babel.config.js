@@ -1,9 +1,8 @@
 module.exports = {
   presets: [
     '@babel/preset-react',
-    [
-      '@babel/preset-env',
-    ],
+    ['@babel/preset-env', { modules: false }],
+    'minify',
   ],
   plugins: [
     '@babel/plugin-transform-react-display-name',
