@@ -41,6 +41,8 @@
     "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-progress": "^1.1.1",
+    "rollup-plugin-uglify": "^6.0.4",
     "semver": "^7.3.2"
   },
   "peerDependencies": {
