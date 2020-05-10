@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 
 const items = Array(20)
   .fill(0)
@@ -29,6 +30,12 @@ const Card = ({ id, onClick, selected, visible }) => (
     />
   </div>
 )
+Card.propTypes = {
+  id: PropTypes.string,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
+  visible: PropTypes.bool,
+}
 
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
