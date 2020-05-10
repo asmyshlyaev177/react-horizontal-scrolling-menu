@@ -25,7 +25,6 @@
     "eslint": "^7.0.0",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.5",
-    "install-peers": "^1.0.3",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
