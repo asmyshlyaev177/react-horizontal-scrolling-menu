@@ -1,41 +1,8 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-
-const items = Array(20)
-  .fill(0)
-  .map((_, ind) => ({ id: `test${ind}` }))
+import { child, children } from './propTypes'
 
 const threshold = [0, 1]
-
-const Card = ({ id, onClick, selected, visible }) => (
-  <div
-    onClick={onClick}
-    style={{
-      border: '1px solid',
-      display: 'inline-block',
-      margin: '0 10px',
-      width: '160px',
-    }}
-  >
-    <div className="card">
-      <div>{id}</div>
-      <div>visible: {JSON.stringify(!!visible)}</div>
-      <div>selected: {JSON.stringify(!!selected)}</div>
-    </div>
-    <div
-      style={{
-        backgroundColor: selected ? 'green' : 'bisque',
-        height: '200px',
-      }}
-    />
-  </div>
-)
-Card.propTypes = {
-  id: PropTypes.string,
-  onClick: PropTypes.func,
-  selected: PropTypes.bool,
-  visible: PropTypes.bool,
-}
 
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
@@ -51,6 +18,10 @@ const ScrollContainer = forwardRef(({ children }, ref) => (
     {children}
   </div>
 ))
+ScrollContainer.displayName = 'ScrollContainer'
+ScrollContainer.propTypes = {
+  children,
+}
 
 const Container = ({ children }) => (
   <div
@@ -65,6 +36,9 @@ const Container = ({ children }) => (
     {children}
   </div>
 )
+Container.propTypes = {
+  children,
+}
 
 const MenuItems = ({ children, visibleItems = [] }) => {
   return React.Children.map(children, child => (
@@ -83,8 +57,12 @@ const MenuItems = ({ children, visibleItems = [] }) => {
     </>
   ))
 }
+MenuItems.propTypes = {
+  children,
+  visibleItems: PropTypes.arrayOf(PropTypes.string),
+}
 
-function ScrollMenu({
+export default function ScrollMenu({
   firstItemVisible: firstItemVisibleInitial = true,
   items: menuItems = [],
   lastItemVisible: lastItemVisibleInitial = false,
@@ -219,75 +197,19 @@ function ScrollMenu({
     onScroll({
       firstItemVisible,
       lastItemVisible,
-      items,
       visibleItems,
       position: root.current && root.current.scrollLeft,
     })
   }
 }
 
-const LeftArrow = ({ onClick, visible }) => (
-  <div
-    disabled={!visible}
-    onClick={onClick}
-    style={{
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      left: '1%',
-      opacity: visible ? '1' : '0',
-      userSelect: 'none',
-      zIndex: visible ? 10 : -1,
-    }}
-  >
-    Left
-  </div>
-)
-const RightArrow = ({ onClick, visible }) => (
-  <div
-    disabled={!visible}
-    onClick={onClick}
-    style={{
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      right: '1%',
-      opacity: visible ? '1' : '0',
-      userSelect: 'none',
-      zIndex: visible ? 10 : -1,
-    }}
-  >
-    Right
-  </div>
-)
-
-export default function App() {
-  const [selected, setSelected] = useState([])
-
-  return (
-    <ScrollMenu
-      items={items.map(({ id }) => (
-        <Card
-          id={id}
-          key={id}
-          onClick={ev => clickHandler(id, ev)}
-          selected={!!selected.find(el => el === id)}
-        />
-      ))}
-      LeftArrow={LeftArrow}
-      RightArrow={RightArrow}
-    />
-  )
-
-  function clickHandler(id, ev) {
-    const isSelected = selected.find(el => el === id)
-
-    //ev.target.scrollIntoView({ behavior: "smooth", inline: "center" });
-
-    setSelected(selected =>
-      isSelected ? selected.filter(el => el !== id) : selected.concat(id),
-    )
-  }
+ScrollMenu.propTypes = {
+  firstItemVisible: PropTypes.bool,
+  items: PropTypes.array,
+  lastItemVisible: PropTypes.bool,
+  LeftArrow: child,
+  onScroll: PropTypes.func,
+  RightArrow: child,
 }
+
+
