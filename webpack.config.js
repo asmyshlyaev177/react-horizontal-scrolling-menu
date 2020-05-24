@@ -5,7 +5,7 @@ const common = env => ({
   mode: env.production ? 'production' : 'development',
   devtool: env.production ? 'none' : 'source-map',
 
-  entry: path.resolve(__dirname, 'src', 'main.js'),
+  entry: path.resolve(__dirname, 'src', 'index.js'),
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -20,11 +20,26 @@ const common = env => ({
       amd: 'react',
       umd: 'react',
     },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      umd: 'react-dom',
+    },
   },
 
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    hot: true,
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   hot: true,
+  // },
+
+  resolve: {
+    // alias: {
+    //   react: path.resolve('./node_moudles/react'),
+    //   'react-dom': path.resolve('./node_moudles/react-dom'),
+    // },
+    symlinks: false,
   },
 
   module: {
@@ -37,7 +52,7 @@ const common = env => ({
           options: {
             cacheDirectory: true,
             configFile: path.resolve(__dirname, 'babel.config.js'),
-            sourceMaps: env.development ? 'both' : undefined
+            sourceMaps: env.development ? 'both' : undefined,
           },
         },
       },
@@ -54,11 +69,13 @@ module.exports = function (env = {}) {
       },
     }),
 
-    env.production && merge(common(env), {
-      output: {
-        filename: 'index.umd.js',
-        libraryTarget: 'umd',
-      },
-    }) || {},
-  ]
+    (env.production &&
+      merge(common(env), {
+        output: {
+          filename: 'index.umd.js',
+          libraryTarget: 'umd',
+        },
+      })) ||
+      false,
+  ].filter(Boolean)
 }
