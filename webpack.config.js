@@ -37,6 +37,7 @@ const common = env => ({
           options: {
             cacheDirectory: true,
             configFile: path.resolve(__dirname, 'babel.config.js'),
+            sourceMaps: env.development ? 'both' : undefined
           },
         },
       },
