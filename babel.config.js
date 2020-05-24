@@ -5,7 +5,6 @@ module.exports = {
     'minify',
   ],
   plugins: [
-    '@babel/plugin-transform-react-display-name',
     'transform-react-remove-prop-types',
   ],
 }
