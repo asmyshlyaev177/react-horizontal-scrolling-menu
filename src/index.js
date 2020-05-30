@@ -43,7 +43,7 @@ const Container = ({ children }) => (
 Container.displayName = 'Container'
 
 const MenuItems = ({ children, visibleItems = [] }) => {
-  return React.Children.map(children, child => (
+  return React.Children.map(children, (child) => (
     <>
       <div data-key={child.props.id} key={child.props.id}>
         {React.cloneElement(
@@ -85,9 +85,9 @@ const ScrollMenu = ({
   )
   const [lastItemVisible, setLastItemVisible] = useState(lastItemVisibleInitial)
 
-  const getVisibility = useCallback(observed => {
+  const getVisibility = useCallback((observed) => {
     const items = Object.entries(observed)
-    const visibleItems = items.filter(el => el[1]).map(el => el[0])
+    const visibleItems = items.filter((el) => el[1]).map((el) => el[0])
 
     const firstItemVisible = !!(
       items.length && visibleItems.includes(items[0][0])
@@ -101,7 +101,7 @@ const ScrollMenu = ({
   const [scrollQueue, setScrollQueue] = useState([])
 
   const cb = useCallback(
-    entries => {
+    (entries) => {
       const _observed = entries.reduce(
         (acc, entry) => {
           const { intersectionRatio, target } = entry
@@ -151,16 +151,16 @@ const ScrollMenu = ({
     const elems = document.querySelectorAll('[data-key]')
 
     if (elems && observer.current) {
-      elems.forEach(elem => observerFn.observe(elem))
+      elems.forEach((elem) => observerFn.observe(elem))
     }
 
     return () => {
-      elems && observerFn && elems.forEach(elem => observerFn.unobserve(elem))
+      elems && observerFn && elems.forEach((elem) => observerFn.unobserve(elem))
     }
   })
 
   const performScroll = useCallback(
-    task => {
+    (task) => {
       const { selector, cb = () => false } = task
 
       const item = document.querySelector(selector)
@@ -180,7 +180,7 @@ const ScrollMenu = ({
   useEffect(() => {
     if (scrollQueue.length) {
       const task = scrollQueue[0]
-      setScrollQueue(q => q.filter(el => el !== task))
+      setScrollQueue((q) => q.filter((el) => el !== task))
       performScroll(task)
     }
   }, [isMounted, performScroll, scrollQueue])
@@ -200,8 +200,8 @@ const ScrollMenu = ({
       setMockWidth(`${firstItemWidth}px`)
 
       // console.log({ itemNearCenter, itemInCenter });
-      if (!scrollQueue.find(el => el.id === itemId)) {
-        setScrollQueue(q =>
+      if (!scrollQueue.find((el) => el.id === itemId)) {
+        setScrollQueue((q) =>
           q.concat({
             id: itemId,
             selector: itemInCenter,
@@ -246,7 +246,7 @@ const ScrollMenu = ({
     const itemsVisibility = Object.entries(observed)
     const lastVisible = visibleItems.slice(-1)[0]
     const lastVisibleIndex = itemsVisibility.findIndex(
-      el => el[0] === lastVisible,
+      (el) => el[0] === lastVisible,
     )
     // TODO: hook for handle prev/next index
 
@@ -261,10 +261,10 @@ const ScrollMenu = ({
         ? `[data-key="${nextItemId}"`
         : `[data-separator="${nextItemId}"`
 
-    if (nextSelector && !scrollQueue.find(el => el.id === nextItemId)) {
+    if (nextSelector && !scrollQueue.find((el) => el.id === nextItemId)) {
       // TODO: if queue not empty increase step in existing entry
       // don't create a new one
-      setScrollQueue(q =>
+      setScrollQueue((q) =>
         q.concat({
           id: nextItemId,
           index: nextItemIndex,
@@ -277,7 +277,7 @@ const ScrollMenu = ({
 
   function scrollLeft() {
     const itemsVisibility = Object.entries(observed)
-    const firstVisible = itemsVisibility.findIndex(el => el[1])
+    const firstVisible = itemsVisibility.findIndex((el) => el[1])
     const next = firstVisible && itemsVisibility[firstVisible - 1]
 
     const elem = next && document.querySelector(`[data-key="${next[0]}"`)
