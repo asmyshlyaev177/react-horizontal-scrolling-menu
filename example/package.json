@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-horizontal-scrolling-menu": "^0.7.7",
     "react-scripts": "3.4.1"
   },
   "scripts": {

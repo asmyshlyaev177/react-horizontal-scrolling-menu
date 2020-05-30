@@ -15,8 +15,8 @@ function App() {
         <Card
           id={id}
           key={id}
-          onClick={ev => clickHandler(id, ev)}
-          selected={!!selected.find(el => el === id)}
+          onClick={(ev) => clickHandler(id, ev)}
+          selected={!!selected.find((el) => el === id)}
         />
       ))}
       LeftArrow={LeftArrow}
@@ -25,12 +25,12 @@ function App() {
   )
 
   function clickHandler(id, ev) {
-    const isSelected = selected.find(el => el === id)
+    const isSelected = selected.find((el) => el === id)
 
     //ev.target.scrollIntoView({ behavior: "smooth", inline: "center" });
 
-    setSelected(selected =>
-      isSelected ? selected.filter(el => el !== id) : selected.concat(id),
+    setSelected((selected) =>
+      isSelected ? selected.filter((el) => el !== id) : selected.concat(id),
     )
   }
 }

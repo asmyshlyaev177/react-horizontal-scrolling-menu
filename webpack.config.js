@@ -1,7 +1,7 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
-const common = env => ({
+const common = (env) => ({
   mode: env.production ? 'production' : 'development',
   devtool: env.production ? 'none' : 'source-map',
 
@@ -17,14 +17,12 @@ const common = env => ({
       root: 'React',
       commonjs: 'react',
       commonjs2: 'react',
-      amd: 'react',
       umd: 'react',
     },
     'react-dom': {
       root: 'ReactDOM',
       commonjs: 'react-dom',
       commonjs2: 'react-dom',
-      amd: 'react-dom',
       umd: 'react-dom',
     },
   },
@@ -35,10 +33,10 @@ const common = env => ({
   // },
 
   resolve: {
-    // alias: {
-    //   react: path.resolve('./node_moudles/react'),
-    //   'react-dom': path.resolve('./node_moudles/react-dom'),
-    // },
+    alias: {
+      react: path.resolve(__dirname, 'node_modules', 'react'),
+      'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom'),
+    },
     symlinks: false,
   },
 
