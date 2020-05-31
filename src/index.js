@@ -170,7 +170,6 @@ const ScrollMenu = ({
       const { selector, cb = () => false } = task
 
       const item = document.querySelector(selector)
-      console.log(item)
       item &&
         item.scrollIntoView({
           behavior: isMounted ? 'smooth' : 'auto',
@@ -183,7 +182,6 @@ const ScrollMenu = ({
   )
 
   // useRef for scrollQueue ?
-  //console.log(scrollQueue);
   useEffect(() => {
     if (scrollQueue.length) {
       const task = scrollQueue[0]
@@ -206,7 +204,6 @@ const ScrollMenu = ({
         (firstItem && firstItem.getBoundingClientRect().width) / 2 || 0
       setMockWidth(`${firstItemWidth}px`)
 
-      // console.log({ itemNearCenter, itemInCenter });
       if (!scrollQueue.find((el) => el.id === itemId)) {
         setScrollQueue((q) =>
           q.concat({
@@ -288,7 +285,10 @@ const ScrollMenu = ({
 
     const isOdd = visibleItems.length % 2
 
-    const prevItemIndex = firstVisibleIndex - Math.ceil(visibleItems.length / 2)
+    const prevItemIndex =
+      firstVisibleIndex -
+      Math.ceil(visibleItems.length / 2) -
+      ((!isOdd && 1) || 0)
     const prevItem = itemsVisibility[prevItemIndex]
     const prevItemId = prevItem && prevItem[0]
 
@@ -296,13 +296,6 @@ const ScrollMenu = ({
       prevItemId && isOdd
         ? `[data-key="${prevItemId}"]`
         : `[data-separator="${prevItemId}"]`
-
-    console.log({
-      prevItemIndex,
-      itemsVisibility,
-      firstVisibleIndex,
-      prevSelector,
-    })
 
     if (prevSelector && !scrollQueue.find((el) => el.id === prevItemId)) {
       setScrollQueue((q) =>
