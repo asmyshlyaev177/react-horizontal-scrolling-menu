@@ -6,12 +6,15 @@ import React, {
   useState,
 } from 'react'
 
+import { child, children } from './propTypes'
+import PropTypes from 'prop-types'
+
 // TODO: Idea
 // https://codesandbox.io/s/horizontal-scroll-usestate-nlkyt?from-embed=&file=/src/horizontal-scroll.js:709-720
 
 const threshold = [0, 1]
 
-const ScrollContainer = forwardRef(({ children, pos }, ref) => (
+const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
     ref={ref}
     style={{
@@ -26,13 +29,15 @@ const ScrollContainer = forwardRef(({ children, pos }, ref) => (
   </div>
 ))
 ScrollContainer.displayName = 'ScrollContainer'
+ScrollContainer.propTypes = {
+  children,
+}
 
 const Container = ({ children }) => (
   <div
     style={{
       display: 'flex',
       height: 'auto',
-      //justifyContent: "flex-start",
       position: 'relative',
       width: 'max-content',
     }}
@@ -41,6 +46,7 @@ const Container = ({ children }) => (
   </div>
 )
 Container.displayName = 'Container'
+Container.propTypes = { children }
 
 const MenuItems = ({ children, visibleItems = [] }) => {
   return React.Children.map(children, (child) => (
@@ -296,5 +302,20 @@ const ScrollMenu = ({
 }
 
 ScrollMenu.displayName = 'ScrollMenu'
+ScrollMenu.propTypes = {
+  firstItemVisible: PropTypes.bool,
+  items: PropTypes.array,
+  lastItemVisible: PropTypes.bool,
+  LeftArrow: child,
+  onScroll: PropTypes.func,
+  RightArrow: child,
+}
+ScrollMenu.defaultProps = {
+  firstItemVisible: true,
+  items: [],
+  LeftArrow: null,
+  onScroll: () => false,
+  RightArrow: null,
+}
 
 export default ScrollMenu
