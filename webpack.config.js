@@ -1,11 +1,14 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
+const babelConfig = require('./babel.config.js')
+
 const common = (env) => ({
   mode: env.production ? 'production' : 'development',
   devtool: env.production ? 'none' : 'source-map',
 
   entry: path.resolve(__dirname, 'src', 'index.js'),
+  watch: env.development,
 
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -49,7 +52,11 @@ const common = (env) => ({
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            configFile: path.resolve(__dirname, 'babel.config.js'),
+            plugins: [...babelConfig.plugins],
+            presets: [
+              ...babelConfig.presets,
+              (env.production && 'minify') || false,
+            ].filter(Boolean),
             sourceMaps: env.development ? 'both' : undefined,
           },
         },
@@ -57,6 +64,8 @@ const common = (env) => ({
     ],
   },
 })
+
+console.log(babelConfig)
 
 module.exports = function (env = {}) {
   return [

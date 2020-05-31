@@ -170,6 +170,7 @@ const ScrollMenu = ({
       const { selector, cb = () => false } = task
 
       const item = document.querySelector(selector)
+      console.log(item)
       item &&
         item.scrollIntoView({
           behavior: isMounted ? 'smooth' : 'auto',
@@ -283,12 +284,36 @@ const ScrollMenu = ({
 
   function scrollLeft() {
     const itemsVisibility = Object.entries(observed)
-    const firstVisible = itemsVisibility.findIndex((el) => el[1])
-    const next = firstVisible && itemsVisibility[firstVisible - 1]
+    const firstVisibleIndex = itemsVisibility.findIndex((el) => el[1])
 
-    const elem = next && document.querySelector(`[data-key="${next[0]}"`)
+    const isOdd = visibleItems.length % 2
 
-    elem && elem.scrollIntoView({ behavior: 'smooth', inline: 'end' })
+    const prevItemIndex = firstVisibleIndex - Math.ceil(visibleItems.length / 2)
+    const prevItem = itemsVisibility[prevItemIndex]
+    const prevItemId = prevItem && prevItem[0]
+
+    const prevSelector =
+      prevItemId && isOdd
+        ? `[data-key="${prevItemId}"]`
+        : `[data-separator="${prevItemId}"]`
+
+    console.log({
+      prevItemIndex,
+      itemsVisibility,
+      firstVisibleIndex,
+      prevSelector,
+    })
+
+    if (prevSelector && !scrollQueue.find((el) => el.id === prevItemId)) {
+      setScrollQueue((q) =>
+        q.concat({
+          id: prevItemId,
+          index: prevItemIndex,
+          direction: 'left',
+          selector: prevSelector,
+        }),
+      )
+    }
   }
 
   function scrollHandler() {
