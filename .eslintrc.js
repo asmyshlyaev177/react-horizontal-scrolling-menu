@@ -8,6 +8,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest-playwright/recommended',
   ],
   globals: {
     Atomics: 'readonly',
@@ -20,7 +22,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'jsx-a11y'],
+  plugins: ['jest', 'react', 'react-hooks', 'jsx-a11y'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
