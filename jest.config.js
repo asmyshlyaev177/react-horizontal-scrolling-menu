@@ -2,6 +2,18 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+  preset: 'jest-playwright-preset',
+  coverageDirectory: 'coverage',
+  globals: {
+    baseUrl: 'http://localhost:3000',
+  },
+  testMatch: ['**/tests/**/*.test.[jt]s?(x)'],
+  transform: {
+    '^.+\\.[t|j]sx?$': 'babel-jest',
+  },
+  transformIgnorePatterns: ['/node_modules/'],
+  verbose: true,
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -21,7 +33,6 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -49,9 +60,6 @@ module.exports = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  globals: {
-    baseUrl: 'http://localhost:3000',
-  },
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: undefined,
@@ -91,7 +99,6 @@ module.exports = {
 
   // A preset that is used as a base for Jest's configuration
   // preset: undefined,
-  preset: 'jest-playwright-preset',
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -141,7 +148,6 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/tests/**/*.[jt]s?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -164,18 +170,13 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  transform: {
-    '^.+\\.[t|j]sx?$': 'babel-jest',
-  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: ['/node_modules/'],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
