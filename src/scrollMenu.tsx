@@ -34,55 +34,34 @@ interface DragHistoryEntry {
 export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   public static defaultProps: MenuProps = defaultProps;
 
-  private ref: RefObject;
-  private menuWrapper: Ref;
-  private menuInner: Ref;
-  private mounted: boolean;
-  private needUpdate: boolean;
-  private allItemsWidth: number;
-  private menuPos: number;
-  private menuWidth: number;
-  private wWidth: number;
-  private firstPageOffset: number;
-  private lastPageOffset: number;
-  private lastTranslateUpdate: number;
-  private menuItems: MenuItems;
+  private ref: RefObject = {};
+  private menuWrapper: Ref = null;
+  private menuInner: Ref = null;
+  private mounted = false;
+  private needUpdate = false;
+  private allItemsWidth = 0;
+  private menuPos = 0;
+  private menuWidth = 0;
+  private wWidth = 0;
+  private firstPageOffset = 0;
+  private lastPageOffset = 0;
+  private lastTranslateUpdate = 0;
+  private menuItems: MenuItems = [];
   private selected: string;
 
   /** timers for setTimeout if RAF not supported */
-  private onLoadTimer: any;
-  private rafTimer: any;
-  private resizeTimer: any;
-  private frameId: any;
+  private onLoadTimer: any = 0;
+  private rafTimer: any = 0;
+  private resizeTimer: any = 0;
+  private frameId: any = 0;
 
-  private data: JSX.Element[] | null;
+  private data: JSX.Element[] | null = null;
 
-  private dragHistory: DragHistoryEntry[];
+  private dragHistory: DragHistoryEntry[] = [];
 
   constructor(props: MenuProps) {
     super(props);
-    this.ref = {};
-    this.menuWrapper = null;
-    this.menuInner = null;
-    this.mounted = false;
-    this.needUpdate = false;
-    this.allItemsWidth = 0;
-    this.menuPos = 0;
-    this.menuWidth = 0;
-    this.wWidth = 0;
-    this.firstPageOffset = 0;
-    this.lastPageOffset = 0;
-    this.lastTranslateUpdate = 0;
-    this.menuItems = [];
     this.selected = String(props.selected) || '';
-
-    this.onLoadTimer = 0;
-    this.rafTimer = 0;
-    this.resizeTimer = 0;
-    this.frameId = 0;
-
-    this.data = null;
-    this.dragHistory = [];
   }
 
   public state = {
