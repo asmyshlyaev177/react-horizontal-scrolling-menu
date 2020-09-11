@@ -22,10 +22,10 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['jest', 'react', 'react-hooks', 'jsx-a11y'],
+  plugins: ['@babel', 'jest', 'react', 'react-hooks', 'jsx-a11y'],
   rules: {
     indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
+    //'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'react-hooks/rules-of-hooks': 'error',
