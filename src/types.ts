@@ -36,6 +36,7 @@ interface MenuProps {
   innerWrapperStyle: CSSProperties;
   wheel: boolean;
   xPoint: number;
+  disableTabindex: boolean;
   rtl: boolean;
 }
 

@@ -104,6 +104,7 @@ const defaultProps: MenuProps = {
   wheel: true,
   /** this not used */
   xPoint: 0,
+  disableTabindex: false,
   /** for rtl languages */
   rtl: false,
 };
