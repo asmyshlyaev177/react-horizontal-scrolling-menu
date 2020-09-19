@@ -85,6 +85,7 @@ interface InnerWrapperProps {
   itemClassActive: string;
   inertiaScrolling: boolean;
   useButtonRole: boolean;
+  disableTabindex: boolean;
   rtl: boolean;
 }
 
@@ -138,7 +139,7 @@ export class InnerWrapper extends React.PureComponent<
   public setMenuInnerRef = (value: HTMLDivElement | null): Void => {
     const { setMenuInnerRef } = this.props;
     setMenuInnerRef({ menuInner: { key: 'menuInner', elem: value } });
-  };
+  }
 
   /** set ref for menuItems */
   public setRef = (
@@ -149,13 +150,13 @@ export class InnerWrapper extends React.PureComponent<
   ): Void => {
     const { setRef } = this.props;
     setRef({ [key]: { index, key: elKey, elem: value } });
-  };
+  }
 
   /** check if menuItem active */
   public static isElementActive = (
     itemId: string | number | null,
     selected: string | number,
-  ): boolean => String(itemId) === String(selected);
+  ): boolean => String(itemId) === String(selected)
 
   /** make array of menuItems */
   public static setItems = (
@@ -174,7 +175,7 @@ export class InnerWrapper extends React.PureComponent<
       return React.cloneElement(el, props);
     });
     return items;
-  };
+  }
 
   public static forwardClickHandler = (
     key: any,
@@ -185,7 +186,7 @@ export class InnerWrapper extends React.PureComponent<
   ) => (): Void => {
     onClick();
     selectItem(key);
-  };
+  }
 
   public render() {
     const {
@@ -200,6 +201,7 @@ export class InnerWrapper extends React.PureComponent<
       itemClassActive,
       inertiaScrolling,
       useButtonRole,
+      disableTabindex,
       rtl,
     } = this.props;
 
@@ -231,7 +233,7 @@ export class InnerWrapper extends React.PureComponent<
             key={'menuItem-' + Item.key}
             style={itemStyle}
             onClick={Item.props.onClick()}
-            tabIndex={0}
+            tabIndex={disableTabindex ? undefined : 0}
             role={useButtonRole ? 'button' : undefined}
           >
             {Item}

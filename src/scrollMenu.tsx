@@ -200,7 +200,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       firstItemVisible,
       lastItemVisible,
     } = this.checkFirstLastItemVisibility({ translate });
-    const { onFirstItemVisible, onLastItemVisible } = this.props
+    const { onFirstItemVisible, onLastItemVisible } = this.props;
     if (firstItemVisible) { onFirstItemVisible(); }
     if (lastItemVisible) { onLastItemVisible(); }
 
@@ -332,7 +332,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       translate: translateProp,
       scrollToSelected,
       alignCenter,
-      hideSingleArrow
+      hideSingleArrow,
     } = this.props;
     const { translate: translateState } = this.state;
     if (!data || !data.length) {
@@ -1102,6 +1102,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
       useButtonRole,
       wrapperClass,
       wrapperStyle,
+      disableTabindex,
       rtl,
     } = this.props;
     const {
@@ -1150,6 +1151,7 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
           onTouchMove={this.handleDrag}
         >
           <InnerWrapper
+            disableTabindex={disableTabindex}
             data={data}
             translate={translate}
             dragging={dragging}

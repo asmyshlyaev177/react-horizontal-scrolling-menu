@@ -15,8 +15,8 @@
 
 ### Sorry, don't have much time to fix existing bugs, have full-time job and life, but working on v2 on free time, it's on early stages for now.
 
-This is a horizontal scrolling menu component for React. 
-Menu component has adaptive width, just set width for parent container. 
+This is a horizontal scrolling menu component for React.
+Menu component has adaptive width, just set width for parent container.
 Items width will be determined from CSS styles.
 
 **Note:** I don't have much time for project support. Any help is appreciated.
@@ -188,6 +188,7 @@ scrollBy | Number | How many menu items to scroll, 0 for all visible | false | 0
 inertiaScrolling | Boolean | Use inertia for scrolling, duration depends on transition and slowdown | false | false
 inertiaScrollingSlowdown | Float Number | Slow down factor for inertia scrolling | false | 0.25
 useButtonRole | Boolean | Adding role="button" to every item | false | true
+disableTabindex | Boolean | Removing tabindex="0" | false | false
 rtl | Boolean | Reverse the scroll direction (component should have a parent with dir="rtl" in the DOM tree | false | false
 
 ## Programmaticaly change things
