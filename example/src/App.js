@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 
 import ScrollMenu from 'react-horizontal-scrolling-menu'
 
-const getId = (index) => `test${index}`
+const elemPrefix = 'test'
+const getId = (index) => `${elemPrefix}${index}`
+const getIndex = (id = '') => {
+  const result = id.match(new RegExp(elemPrefix + '([0-9]*)'))
+  return (result && +result[1]) || 0
+}
 
 const items = Array(20)
   .fill(0)
@@ -11,16 +16,22 @@ const items = Array(20)
 function App() {
   const [selected, setSelected] = useState([])
 
+  const menuItems = [
+    <div style={{ width: '150px' }} key="before" />,
+    ...items.map(({ id }) => (
+      <Card
+        id={id}
+        key={id}
+        onClick={(ev) => clickHandler(id, ev)}
+        selected={!!selected.find((el) => el === id)}
+      />
+    )),
+    <div style={{ width: '150px' }} key="after" />,
+  ]
+
   return (
     <ScrollMenu
-      items={items.map(({ id }) => (
-        <Card
-          id={id}
-          key={id}
-          onClick={(ev) => clickHandler(id, ev)}
-          selected={!!selected.find((el) => el === id)}
-        />
-      ))}
+      items={menuItems}
       LeftArrow={LeftArrow}
       RightArrow={RightArrow}
     />
@@ -39,7 +50,7 @@ function App() {
 
 export default App
 
-function Card({ id, onClick, selected, visible }) {
+function Card({ id, onClick, selected, isVisible }) {
   return (
     <div
       onClick={onClick}
@@ -53,7 +64,7 @@ function Card({ id, onClick, selected, visible }) {
     >
       <div className="card">
         <div>{id}</div>
-        <div>visible: {JSON.stringify(!!visible)}</div>
+        <div>visible: {JSON.stringify(!!isVisible)}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div
@@ -66,10 +77,25 @@ function Card({ id, onClick, selected, visible }) {
   )
 }
 
-function LeftArrow({ scrollLeft: onClick, visibleItems = [] }) {
+function LeftArrow({ refs, visibleItems = [] }) {
   const visible = visibleItems.length
     ? !visibleItems.includes(items[0].id)
     : false
+
+  //console.log(visibleItems)
+  const onClick = () => {
+    const firstVisible = visibleItems[0] || ''
+    const nextIndex = getIndex(firstVisible) - 1
+    const nextItem = getId((nextIndex >= 0 && nextIndex) || 0)
+
+    const itemToScroll = refs[nextItem].current
+    if (itemToScroll) {
+      itemToScroll.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'end',
+      })
+    }
+  }
 
   return (
     <div
@@ -91,10 +117,26 @@ function LeftArrow({ scrollLeft: onClick, visibleItems = [] }) {
   )
 }
 
-function RightArrow({ scrollLeft: onClick, visibleItems = [] }) {
+function RightArrow({ refs, visibleItems = [] }) {
   const visible = visibleItems.length
     ? !visibleItems.includes(items.slice(-1)[0].id)
     : true
+
+  const onClick = () => {
+    const lastVisible = visibleItems.slice(-1)[0] || ''
+    const nextIndex = getIndex(lastVisible) + 1
+    const nextItem = getId(
+      (nextIndex < items.length && nextIndex) || nextIndex - 1,
+    )
+
+    const itemToScroll = refs[nextItem].current
+    if (itemToScroll) {
+      itemToScroll.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'start',
+      })
+    }
+  }
 
   return (
     <div
