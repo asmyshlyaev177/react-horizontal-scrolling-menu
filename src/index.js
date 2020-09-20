@@ -1,18 +1,14 @@
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-
-import { child, children } from './propTypes'
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-// TODO: Idea
-// https://codesandbox.io/s/horizontal-scroll-usestate-nlkyt?from-embed=&file=/src/horizontal-scroll.js:709-720
+import { child, children } from './propTypes'
+import useIntersectionObserver from './useIntersectionObserver'
+import useIsMounted from './useIsMounted'
 
-const threshold = [0, 1]
+const rootMargin = '1px'
+const threshold = [0, 0.95]
 
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
@@ -48,192 +44,117 @@ const Container = ({ children }) => (
 Container.displayName = 'Container'
 Container.propTypes = { children }
 
-const MenuItems = ({ children, visibleItems = [] }) => {
+const MenuItems = ({ children, refs = {}, visibleItems = [] }) => {
+  console.log(visibleItems)
   return React.Children.map(children, (child) => (
     <>
-      <div data-key={child.props.id} key={child.props.id}>
-        {React.cloneElement(
-          child,
-          {
-            ...child.props,
-            visible: visibleItems.includes(child.props.id),
-          },
-          [child.children],
-        )}
-      </div>
-      <div
-        data-separator={child.props.id}
-        key={'separator ' + child.props.id}
+      <Item
+        child={child}
+        id={child?.props?.id}
+        isVisible={visibleItems.includes(child?.props?.id)}
+        refs={refs}
       />
+      <Separator id={child?.props?.id + '-separator'} refs={refs} />
     </>
   ))
 }
 MenuItems.displayName = 'MenuItems'
 
+function Item({ child, id, isVisible, refs = {} }) {
+  const ref = useRef(null)
+  refs[id] = ref
+
+  return (
+    <div data-key={id} key={id} ref={ref}>
+      {React.cloneElement(
+        child,
+        {
+          ...child.props,
+          refs,
+          visible: isVisible,
+        },
+        [child.children],
+      )}
+    </div>
+  )
+}
+
+function Separator({ id, refs = {} }) {
+  const ref = useRef(null)
+  refs[id] = ref
+
+  return <div data-separator={id} key={id} ref={ref} />
+}
+
 const ScrollMenu = ({
-  firstItemVisible: firstItemVisibleInitial = true,
   items: menuItems = [],
-  lastItemVisible: lastItemVisibleInitial = false,
   LeftArrow,
   onScroll = () => false,
   RightArrow,
 }) => {
-  const [isMounted, setIsMounted] = useState(false)
-
   const root = useRef(null)
-  const observer = useRef(false)
-  const [observed, setObserved] = useState({})
-  const [mockWidth, setMockWidth] = useState('0')
-
+  const [refs] = useState({})
+  const visibility = useRef({})
   const [visibleItems, setVisibleItems] = useState([])
-  const [firstItemVisible, setFirstItemVisible] = useState(
-    firstItemVisibleInitial,
-  )
-  const [lastItemVisible, setLastItemVisible] = useState(lastItemVisibleInitial)
 
-  const getVisibility = useCallback((observed) => {
-    const items = Object.entries(observed)
-    const visibleItems = items.filter((el) => el[1]).map((el) => el[0])
+  const cb = (entries) => {
+    const updated = entries.reduce((acc, entry) => {
+      const { intersectionRatio, target } = entry
 
-    const firstItemVisible = !!(
-      items.length && visibleItems.includes(items[0][0])
-    )
-    const lastItemVisible = !!(
-      items.length && visibleItems.includes(items.slice(-1)[0][0])
-    )
+      const key = target.getAttribute('data-key')
+      acc[key] = intersectionRatio === 1
+      return acc
+    }, {})
 
-    return { items, visibleItems, firstItemVisible, lastItemVisible }
-  }, [])
-  const [scrollQueue, setScrollQueue] = useState([])
+    visibility.current = { ...visibility.current, ...updated }
 
-  const cb = useCallback(
-    (entries) => {
-      const _observed = entries.reduce(
-        (acc, entry) => {
-          const { intersectionRatio, target } = entry
-          const key = target.getAttribute('data-key')
-          acc[key] = intersectionRatio === 1
-          return acc
-        },
-        { ...observed },
-      )
+    setVisibleItems((visible) => {
+      const newVisible = Object.entries(visibility.current)
+        .filter((el) => el[0] !== 'null' && el[1])
+        .map((el) => el[0])
 
-      const {
-        firstItemVisible,
-        lastItemVisible,
-        visibleItems: _visibleItems,
-      } = getVisibility(_observed)
+      return JSON.stringify(newVisible) !== JSON.stringify(visible)
+        ? newVisible
+        : visible
+    })
+  }
 
-      if (JSON.stringify(visibleItems) !== JSON.stringify(_visibleItems)) {
-        setVisibleItems(_visibleItems)
-      }
-      setFirstItemVisible(firstItemVisible)
-      setLastItemVisible(lastItemVisible)
-      if (JSON.stringify(observed) !== JSON.stringify(_observed)) {
-        setObserved(_observed)
-      }
-    },
-    [getVisibility, observed, visibleItems],
-  )
-
-  useEffect(() => {
-    if (root.current) {
-      observer.current && observer.current.disconnect()
-
-      observer.current = new IntersectionObserver(cb, {
-        root: root.current,
-        threshold,
-      })
-    }
-
-    return () => {
-      observer.current && observer.current.disconnect()
-    }
+  useIntersectionObserver({
+    cb,
+    elems: Object.values(refs)
+      .map((el) => el.current)
+      .filter(Boolean),
+    options: { root: root.current, rootMargin, threshold },
   })
 
-  useEffect(() => {
-    const { current: observerFn } = observer
-
-    const elems = document.querySelectorAll('[data-key]')
-
-    if (elems && observer.current) {
-      elems.forEach((elem) => observerFn.observe(elem))
-    }
-
-    return () => {
-      elems && observerFn && elems.forEach((elem) => observerFn.unobserve(elem))
-    }
-  })
-
-  const performScroll = useCallback(
-    (task) => {
-      const { selector, cb = () => false } = task
-
-      const item = document.querySelector(selector)
-      item &&
-        item.scrollIntoView({
-          behavior: isMounted ? 'smooth' : 'auto',
-          inline: 'center',
-        })
-
-      cb()
-    },
-    [isMounted],
-  )
-
-  // useRef for scrollQueue ?
-  useEffect(() => {
-    if (scrollQueue.length) {
-      const task = scrollQueue[0]
-      setScrollQueue((q) => q.filter((el) => el !== task))
-      performScroll(task)
-    }
-  }, [isMounted, performScroll, scrollQueue])
-
-  // align to center on first mount
-  useEffect(() => {
-    if (!isMounted && visibleItems.length) {
-      const isOdd = visibleItems.length % 2
-      const itemId = visibleItems[Math.ceil(visibleItems.length / 2) - 1]
-      const itemInCenter = isOdd
-        ? `[data-key="${itemId}"`
-        : `[data-separator="${itemId}"`
-
-      const firstItem = document.querySelector(`[data-key="${visibleItems[0]}"`)
-      const firstItemWidth =
-        (firstItem && firstItem.getBoundingClientRect().width) / 2 || 0
-      setMockWidth(`${firstItemWidth}px`)
-
-      if (!scrollQueue.find((el) => el.id === itemId)) {
-        setScrollQueue((q) =>
-          q.concat({
-            id: itemId,
-            selector: itemInCenter,
-            cb: () => setIsMounted(true),
-          }),
-        )
-      }
-    }
-  }, [isMounted, observed, scrollQueue, visibleItems])
+  useIsMounted()
 
   return (
     <div
       onScroll={scrollHandler}
       onWheel={wheelHandler}
-      style={{ display: 'flex', opacity: +isMounted }}
+      style={{ display: 'flex', opacity: 1 }}
     >
       {LeftArrow && (
-        <LeftArrow onClick={scrollLeft} visible={!firstItemVisible} />
+        <LeftArrow
+          refs={refs}
+          scrollLeft={scrollLeft}
+          visibleItems={visibleItems}
+        />
       )}
       <ScrollContainer ref={root}>
         <Container>
-          <div style={{ width: mockWidth }} />
-          <MenuItems visibleItems={visibleItems}>{menuItems}</MenuItems>
-          <div style={{ width: mockWidth }} />
+          <MenuItems refs={refs} visibleItems={visibleItems}>
+            {menuItems}
+          </MenuItems>
         </Container>
       </ScrollContainer>
       {RightArrow && (
-        <RightArrow onClick={scrollRight} visible={!lastItemVisible} />
+        <RightArrow
+          refs={refs}
+          scrollRight={scrollRight}
+          visibleItems={visibleItems}
+        />
       )}
     </div>
   )
@@ -247,93 +168,42 @@ const ScrollMenu = ({
   }
 
   function scrollRight() {
-    const itemsVisibility = Object.entries(observed)
-    const lastVisible = visibleItems.slice(-1)[0]
-    const lastVisibleIndex = itemsVisibility.findIndex(
-      (el) => el[0] === lastVisible,
-    )
-    // TODO: hook for handle prev/next index
-
-    const isOdd = visibleItems.length % 2
-
-    const nextItemIndex = lastVisibleIndex + Math.ceil(visibleItems.length / 2)
-    const nextItem = itemsVisibility[nextItemIndex]
-    const nextItemId = nextItem && nextItem[0]
-
-    const nextSelector =
-      nextItemId && isOdd
-        ? `[data-key="${nextItemId}"`
-        : `[data-separator="${nextItemId}"`
-
-    if (nextSelector && !scrollQueue.find((el) => el.id === nextItemId)) {
-      // TODO: if queue not empty increase step in existing entry
-      // don't create a new one
-      setScrollQueue((q) =>
-        q.concat({
-          id: nextItemId,
-          index: nextItemIndex,
-          direction: 'right',
-          selector: nextSelector,
-        }),
-      )
-    }
+    // const itemsVisibility = Object.entries(observed)
+    // const lastVisible = visibleItems.slice(-1)[0]
+    // const lastVisibleIndex = itemsVisibility.findIndex(
+    //   (el) => el[0] === lastVisible,
+    // )
+    // // TODO: hook for handle prev/next index
+    // const isOdd = visibleItems.length % 2
+    // const nextItemIndex = lastVisibleIndex + Math.ceil(visibleItems.length / 2)
+    // const nextItem = itemsVisibility[nextItemIndex]
+    // const nextItemId = nextItem && nextItem[0]
+    // const nextSelector =
+    //   nextItemId && isOdd
+    //     ? `[data-key="${nextItemId}"`
+    //     : `[data-separator="${nextItemId}"`
+    // if (nextSelector && !scrollQueue.find((el) => el.id === nextItemId)) {
+    //   // TODO: if queue not empty increase step in existing entry
+    //   // don't create a new one
+    //   setScrollQueue((q) =>
+    //     q.concat({
+    //       id: nextItemId,
+    //       index: nextItemIndex,
+    //       direction: 'right',
+    //       selector: nextSelector,
+    //     }),
+    //   )
+    // }
   }
 
-  function scrollLeft() {
-    const itemsVisibility = Object.entries(observed)
-    const firstVisibleIndex = itemsVisibility.findIndex((el) => el[1])
-
-    const isOdd = visibleItems.length % 2
-
-    const prevItemIndex =
-      firstVisibleIndex -
-      Math.ceil(visibleItems.length / 2) -
-      ((!isOdd && 1) || 0)
-    const prevItem = itemsVisibility[prevItemIndex]
-    const prevItemId = prevItem && prevItem[0]
-
-    const prevSelector =
-      prevItemId && isOdd
-        ? `[data-key="${prevItemId}"]`
-        : `[data-separator="${prevItemId}"]`
-
-    if (prevSelector && !scrollQueue.find((el) => el.id === prevItemId)) {
-      setScrollQueue((q) =>
-        q.concat({
-          id: prevItemId,
-          index: prevItemIndex,
-          direction: 'left',
-          selector: prevSelector,
-        }),
-      )
-    }
-  }
+  function scrollLeft() {}
 
   function scrollHandler() {
     onScroll({
-      firstItemVisible,
-      lastItemVisible,
       visibleItems,
-      position: root.current && root.current.scrollLeft,
+      position: root.current?.scrollLeft,
     })
   }
-}
-
-ScrollMenu.displayName = 'ScrollMenu'
-ScrollMenu.propTypes = {
-  firstItemVisible: PropTypes.bool,
-  items: PropTypes.array,
-  lastItemVisible: PropTypes.bool,
-  LeftArrow: child,
-  onScroll: PropTypes.func,
-  RightArrow: child,
-}
-ScrollMenu.defaultProps = {
-  firstItemVisible: true,
-  items: [],
-  LeftArrow: null,
-  onScroll: () => false,
-  RightArrow: null,
 }
 
 export default ScrollMenu
