@@ -7,8 +7,9 @@ import { child, children } from './propTypes'
 import useIntersectionObserver from './useIntersectionObserver'
 import useIsMounted from './useIsMounted'
 
-const rootMargin = '1px'
-const threshold = [0, 0.95]
+const rootMargin = '5px'
+const threshold = [0, 1]
+const ratio = 0.95
 
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
@@ -44,34 +45,53 @@ const Container = ({ children }) => (
 Container.displayName = 'Container'
 Container.propTypes = { children }
 
+const getChildId = (el) => el?.props?.id
+const isMenuItem = (el) => !!getChildId(el)
+const notLastItem = (itemIndex, totalItemsCount) =>
+  itemIndex < totalItemsCount - 1
+
 const MenuItems = ({ children, refs = {}, visibleItems = [] }) => {
-  console.log(visibleItems)
-  return React.Children.map(children, (child) => (
-    <>
-      <Item
-        child={child}
-        id={child?.props?.id}
-        isVisible={visibleItems.includes(child?.props?.id)}
-        refs={refs}
-      />
-      <Separator id={child?.props?.id + '-separator'} refs={refs} />
-    </>
-  ))
+  const childrenCount = React.Children.toArray(children).filter(isMenuItem)
+    .length
+
+  return React.Children.map(children, (child, childIndex) => {
+    const id = getChildId(child)
+    const separatorId = id + '-separator'
+
+    return id ? (
+      <>
+        <Item
+          child={child}
+          id={id}
+          key={'menuItem__' + id}
+          isVisible={visibleItems.includes(id)}
+          refs={refs}
+        />
+        {notLastItem(childIndex, childrenCount) && (
+          <Separator id={separatorId} refs={refs} key={separatorId} />
+        )}
+      </>
+    ) : (
+      child
+    )
+  })
 }
+
 MenuItems.displayName = 'MenuItems'
 
 function Item({ child, id, isVisible, refs = {} }) {
   const ref = useRef(null)
   refs[id] = ref
 
+  // TODO: try renderProps instead of clone ???
   return (
-    <div data-key={id} key={id} ref={ref}>
+    <div data-key={id} ref={ref}>
       {React.cloneElement(
         child,
         {
           ...child.props,
           refs,
-          visible: isVisible,
+          isVisible,
         },
         [child.children],
       )}
@@ -83,12 +103,12 @@ function Separator({ id, refs = {} }) {
   const ref = useRef(null)
   refs[id] = ref
 
-  return <div data-separator={id} key={id} ref={ref} />
+  return <div data-key={id} ref={ref} />
 }
 
 const ScrollMenu = ({
-  items: menuItems = [],
-  LeftArrow,
+  items: menuItems = [], // TODO: change to children ???
+  LeftArrow, // TODO: try renderProps ???
   onScroll = () => false,
   RightArrow,
 }) => {
@@ -97,16 +117,41 @@ const ScrollMenu = ({
   const visibility = useRef({})
   const [visibleItems, setVisibleItems] = useState([])
 
+  const items = Object.entries(refs)
+  const firstVisibleItem = visibleItems[0] || ''
+  const lastVisibleItem = visibleItems.slice(-1)[0] || ''
+  const visibleItemsPrev =
+    (firstVisibleItem &&
+      items
+        .slice(
+          0,
+          items.findIndex((i) => i[0] === firstVisibleItem),
+        )
+        .map((el) => el[0])) ||
+    []
+  const visibleItemsNext =
+    (lastVisibleItem &&
+      items
+        .slice(items.findIndex((i) => i[0] === lastVisibleItem) + 1)
+        .map((el) => el[0])) ||
+    []
+  console.log({
+    visibleItemsPrev,
+    visibleItemsNext,
+  })
+
   const cb = (entries) => {
     const updated = entries.reduce((acc, entry) => {
       const { intersectionRatio, target } = entry
 
       const key = target.getAttribute('data-key')
-      acc[key] = intersectionRatio === 1
+      acc[key] = intersectionRatio >= ratio
       return acc
     }, {})
 
     visibility.current = { ...visibility.current, ...updated }
+
+    //console.log(entries)
 
     setVisibleItems((visible) => {
       const newVisible = Object.entries(visibility.current)
@@ -127,6 +172,8 @@ const ScrollMenu = ({
     options: { root: root.current, rootMargin, threshold },
   })
 
+  // TODO: recheck
+  // use onMounted cb for align center or set position
   useIsMounted()
 
   return (
@@ -160,9 +207,6 @@ const ScrollMenu = ({
   )
 
   function wheelHandler() {
-    // TODO: use debounce
-    // create invisible vertical container with scroll
-    // https://codesandbox.io/s/horizontal-scroll-usestate-nlkyt?from-embed=&file=/src/horizontal-scroll.js
     //const { deltaY } = event;
     //deltaY > 0 ? scrollRight() : scrollLeft();
   }
@@ -182,18 +226,6 @@ const ScrollMenu = ({
     //   nextItemId && isOdd
     //     ? `[data-key="${nextItemId}"`
     //     : `[data-separator="${nextItemId}"`
-    // if (nextSelector && !scrollQueue.find((el) => el.id === nextItemId)) {
-    //   // TODO: if queue not empty increase step in existing entry
-    //   // don't create a new one
-    //   setScrollQueue((q) =>
-    //     q.concat({
-    //       id: nextItemId,
-    //       index: nextItemIndex,
-    //       direction: 'right',
-    //       selector: nextSelector,
-    //     }),
-    //   )
-    // }
   }
 
   function scrollLeft() {}
