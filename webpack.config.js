@@ -28,10 +28,10 @@ const common = (env) => ({
     },
   },
 
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'dist'),
-  //   hot: true,
-  // },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    hot: true,
+  },
 
   resolve: {
     alias: {
