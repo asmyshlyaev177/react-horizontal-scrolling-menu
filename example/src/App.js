@@ -16,25 +16,19 @@ const items = Array(20)
 function App() {
   const [selected, setSelected] = useState([])
 
-  const menuItems = [
-    <div style={{ width: '150px' }} key="before" />,
-    ...items.map(({ id }) => (
-      <Card
-        id={id}
-        key={id}
-        onClick={(ev) => clickHandler(id, ev)}
-        selected={!!selected.find((el) => el === id)}
-      />
-    )),
-    <div style={{ width: '150px' }} key="after" />,
-  ]
-
   return (
-    <ScrollMenu
-      items={menuItems}
-      LeftArrow={LeftArrow}
-      RightArrow={RightArrow}
-    />
+    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+      <div style={{ width: '150px' }} key="before" />
+      {items.map(({ id }) => (
+        <Card
+          id={id}
+          key={id}
+          onClick={(ev) => clickHandler(id, ev)}
+          selected={!!selected.find((el) => el === id)}
+        />
+      ))}
+      <div style={{ width: '150px' }} key="after" />
+    </ScrollMenu>
   )
 
   function clickHandler(id, ev) {
