@@ -64,7 +64,7 @@ const MenuItems = ({ children, refs = {}, visibleItems = [] }) => {
           child={child}
           id={id}
           key={'menuItem__' + id}
-          isVisible={visibleItems.includes(id)}
+          isVisible={!visibleItems.length || visibleItems.includes(id)}
           refs={refs}
         />
         {notLastItem(childIndex, childrenCount) && (
@@ -83,7 +83,6 @@ function Item({ child, id, isVisible, refs = {} }) {
   const ref = useRef(null)
   refs[id] = ref
 
-  // TODO: try renderProps instead of clone ???
   return (
     <div data-key={id} ref={ref}>
       {React.cloneElement(
@@ -107,7 +106,7 @@ function Separator({ id, refs = {} }) {
 }
 
 const ScrollMenu = ({
-  items: menuItems = [], // TODO: change to children ???
+  children: menuItems,
   LeftArrow, // TODO: try renderProps ???
   onScroll = () => false,
   RightArrow,
@@ -135,10 +134,19 @@ const ScrollMenu = ({
         .slice(items.findIndex((i) => i[0] === lastVisibleItem) + 1)
         .map((el) => el[0])) ||
     []
-  console.log({
-    visibleItemsPrev,
-    visibleItemsNext,
-  })
+
+  // TODO: recheck
+  // use onMounted cb for align center or set position
+  useIsMounted()
+  const [loadComplete, setLoadComplete] = React.useState(false)
+  React.useEffect(() => {
+    if (visibleItems.length && !loadComplete) {
+      // onMount()
+      setLoadComplete(true)
+    }
+  }, [visibleItems, loadComplete]) // loadComplete ??
+  // TODO: return loadComplete flag to arrows and items
+  console.log({ loadComplete, refs, visibleItems })
 
   const cb = (entries) => {
     const updated = entries.reduce((acc, entry) => {
@@ -151,7 +159,7 @@ const ScrollMenu = ({
 
     visibility.current = { ...visibility.current, ...updated }
 
-    //console.log(entries)
+    console.log(entries.length)
 
     setVisibleItems((visible) => {
       const newVisible = Object.entries(visibility.current)
@@ -171,10 +179,6 @@ const ScrollMenu = ({
       .filter(Boolean),
     options: { root: root.current, rootMargin, threshold },
   })
-
-  // TODO: recheck
-  // use onMounted cb for align center or set position
-  useIsMounted()
 
   return (
     <div
