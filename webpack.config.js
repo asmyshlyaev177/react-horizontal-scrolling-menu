@@ -68,13 +68,20 @@ module.exports = function (env = {}) {
       },
     }),
 
-    (env.production &&
-      merge(common(env), {
-        output: {
-          filename: 'index.umd.js',
-          libraryTarget: 'umd',
-        },
-      })) ||
-      false,
+    // TODO: when webpack support esm
+    // "module": "dist/index.mjs",
+    // merge(common(env), {
+    //   output: {
+    //     filename: 'index.mjs',
+    //     libraryTarget: 'var',
+    //   },
+    // }),
+
+    merge(common(env), {
+      output: {
+        filename: 'index.umd.js',
+        libraryTarget: 'umd',
+      },
+    }),
   ].filter(Boolean)
 }
