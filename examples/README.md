@@ -2300,7 +2300,7 @@ Now offers a zero-configuration single-command deployment. You can use `Vercel` 
 4. Run `vercel` from the root directory and fill the questions. You will see a **vercel.app** URL in your output like this:
 
     ```
-    > Ready! https://your-project-name.vercel.app (copied to clipboard)
+    > Production: https://your-project-name.vercel.app [copied to clipboard]
     ```
 
     Paste that URL into your browser when the build is complete, and you will see your deployed app.
