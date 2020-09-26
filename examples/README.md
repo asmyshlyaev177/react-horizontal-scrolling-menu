@@ -89,7 +89,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [GitHub Pages](#github-pages)
   - [Heroku](#heroku)
   - [Netlify](#netlify)
-  - [Now](#now)
+  - [Vercel](#vercel)
   - [S3 and CloudFront](#s3-and-cloudfront)
   - [Surge](#surge)
 - [Advanced Configuration](#advanced-configuration)
@@ -2287,25 +2287,25 @@ To support `pushState`, make sure to create a `public/_redirects` file with the 
 
 When you build the project, Create React App will place the `public` folder contents into the build output.
 
-### [Now](https://zeit.co/now)
+### [Vercel](https://vercel.com/)
 
-Now offers a zero-configuration single-command deployment. You can use `now` to deploy your app for free.
+Now offers a zero-configuration single-command deployment. You can use `Vercel` to deploy your app for free.
 
-1. Install the `now` command-line tool either via the recommended [desktop tool](https://zeit.co/download) or via node with `npm install -g now`.
+1. Install the `Vercel` via npm with `npm install -g vercel` or via yarn with `yarn global add vercel`.
 
-2. Build your app by running `npm run build`.
+2. Go to the project directory.
 
-3. Move into the build directory by running `cd build`.
+3. Run `vercel login` to login into your Vercel account.
 
-4. Run `now --name your-project-name` from within the build directory. You will see a **now.sh** URL in your output like this:
+4. Run `vercel` from the root directory and fill the questions. You will see a **vercel.app** URL in your output like this:
 
     ```
-    > Ready! https://your-project-name-tpspyhtdtk.now.sh (copied to clipboard)
+    > Production: https://your-project-name.vercel.app [copied to clipboard]
     ```
 
     Paste that URL into your browser when the build is complete, and you will see your deployed app.
 
-Details are available in [this article.](https://zeit.co/blog/unlimited-static)
+Details are available in [this article.](https://vercel.com/docs/build-step)
 
 ### [S3](https://aws.amazon.com/s3) and [CloudFront](https://aws.amazon.com/cloudfront/)
 
