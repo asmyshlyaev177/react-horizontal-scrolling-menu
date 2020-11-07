@@ -6,7 +6,7 @@ const elemPrefix = 'test'
 const getId = (index) => `${elemPrefix}${index}`
 const getIndex = (id = '') => {
   const result = id.match(new RegExp(elemPrefix + '([0-9]*)'))
-  return (result && +result[1]) || 0
+  return +result[1]
 }
 
 const items = Array(20)
@@ -18,23 +18,19 @@ function App() {
 
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-      <div style={{ width: '150px' }} key="before" />
       {items.map(({ id }) => (
         <Card
           id={id}
           key={id}
-          onClick={(ev) => clickHandler(id, ev)}
+          onClick={(ev) => toggle(id, ev)}
           selected={!!selected.find((el) => el === id)}
         />
       ))}
-      <div style={{ width: '150px' }} key="after" />
     </ScrollMenu>
   )
 
-  function clickHandler(id, ev) {
+  function toggle(id) {
     const isSelected = selected.find((el) => el === id)
-
-    //ev.target.scrollIntoView({ behavior: 'smooth', inline: 'center' })
 
     setSelected((selected) =>
       isSelected ? selected.filter((el) => el !== id) : selected.concat(id),
@@ -42,7 +38,81 @@ function App() {
   }
 }
 
-export default App
+function LeftArrow({ refs, visibleItems: visibleItemsWithSeparators }) {
+  const visibleItems = visibleItemsWithSeparators.filter(
+    (el) => !el.includes('separator'),
+  )
+  const isFirstItemVisible = visibleItems.includes(items[0].id)
+
+  const onClick = () => {
+    const firstVisibleItem = visibleItems[0] || ''
+
+    const firstVisibleIndex = getIndex(firstVisibleItem)
+    const prevItem = items.find((el) => el.id === getId(firstVisibleIndex - 1))
+
+    const itemToScroll = refs[prevItem?.id]?.current
+    if (itemToScroll) {
+      itemToScroll.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'end',
+      })
+    }
+  }
+
+  return (
+    <Arrow disabled={isFirstItemVisible} onClick={onClick}>
+      Left
+    </Arrow>
+  )
+}
+
+function RightArrow({ refs, visibleItems: visibleItemsWithSeparators }) {
+  const visibleItems = visibleItemsWithSeparators.filter(
+    (el) => !el.includes('separator'),
+  )
+  const isLastItemVisible = visibleItems.includes(items.slice(-1)[0].id)
+
+  const onClick = () => {
+    const lastVisibleItem = visibleItems.slice(-1)[0] || ''
+
+    const lastVisibleIndex = getIndex(lastVisibleItem)
+    const nextItem = items.find((el) => el.id === getId(lastVisibleIndex + 1))
+
+    const itemToScroll = refs[nextItem?.id]?.current
+    if (itemToScroll) {
+      itemToScroll.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'start',
+      })
+    }
+  }
+
+  return (
+    <Arrow disabled={isLastItemVisible} onClick={onClick}>
+      Right
+    </Arrow>
+  )
+}
+
+function Arrow({ children, disabled, onClick }) {
+  return (
+    <div
+      disabled={disabled}
+      onClick={onClick}
+      style={{
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        right: '1%',
+        opacity: disabled ? '0' : '1',
+        userSelect: 'none',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 function Card({ id, onClick, selected, isVisible }) {
   return (
@@ -71,83 +141,4 @@ function Card({ id, onClick, selected, isVisible }) {
   )
 }
 
-function LeftArrow({ refs, visibleItems = [] }) {
-  const visible = visibleItems.length
-    ? !visibleItems.includes(items[0].id)
-    : false
-
-  //console.log(visibleItems)
-  const onClick = () => {
-    const firstVisible = visibleItems[0] || ''
-    const nextIndex = getIndex(firstVisible) - 1
-    const nextItem = getId((nextIndex >= 0 && nextIndex) || 0)
-
-    const itemToScroll = refs[nextItem].current
-    if (itemToScroll) {
-      itemToScroll.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'end',
-      })
-    }
-  }
-
-  return (
-    <div
-      disabled={!visible}
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        left: '1%',
-        opacity: visible ? '1' : '0',
-        userSelect: 'none',
-        zIndex: visible ? 10 : -1,
-      }}
-    >
-      Left
-    </div>
-  )
-}
-
-function RightArrow({ refs, visibleItems = [] }) {
-  const visible = visibleItems.length
-    ? !visibleItems.includes(items.slice(-1)[0].id)
-    : true
-
-  const onClick = () => {
-    const lastVisible = visibleItems.slice(-1)[0] || ''
-    const nextIndex = getIndex(lastVisible) + 1
-    const nextItem = getId(
-      (nextIndex < items.length && nextIndex) || nextIndex - 1,
-    )
-
-    const itemToScroll = refs[nextItem].current
-    if (itemToScroll) {
-      itemToScroll.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'start',
-      })
-    }
-  }
-
-  return (
-    <div
-      disabled={!visible}
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        right: '1%',
-        opacity: visible ? '1' : '0',
-        userSelect: 'none',
-        zIndex: visible ? 10 : -1,
-      }}
-    >
-      Right
-    </div>
-  )
-}
+export default App

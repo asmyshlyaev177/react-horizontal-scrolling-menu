@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
-import { child, children } from './propTypes'
+import { children } from './propTypes'
 import useIntersectionObserver from './useIntersectionObserver'
 import useIsMounted from './useIsMounted'
 
@@ -11,8 +11,83 @@ const rootMargin = '5px'
 const threshold = [0, 1]
 const ratio = 0.95
 
+const ScrollMenu = ({
+  children: menuItems,
+  LeftArrow,
+  onInit = () => false,
+  onScroll = () => false,
+  RightArrow,
+}) => {
+  const root = useRef()
+  const [refs] = useState({})
+  const visibility = useRef({})
+  const [visibleItems, setVisibleItems] = useState([])
+
+  useIsMounted()
+  const [loadComplete, setLoadComplete] = React.useState(false)
+
+  useEffect(() => {
+    if (visibleItems.length && !loadComplete) {
+      onInit({ refs, visibleItems, scrollContainer: root.current })
+      setLoadComplete(true)
+    }
+  }, [visibleItems, onInit, loadComplete, refs])
+
+  const cb = (entries) => {
+    const updated = entries.reduce((acc, entry) => {
+      const { intersectionRatio, target } = entry
+
+      const key = target.getAttribute('data-key')
+      acc[key] = intersectionRatio >= ratio
+      return acc
+    }, {})
+
+    visibility.current = { ...visibility.current, ...updated }
+
+    setVisibleItems((visible) => {
+      const newVisible = Object.entries(visibility.current)
+        .filter((el) => el[0] !== 'null' && el[1])
+        .map((el) => el[0])
+
+      return JSON.stringify(newVisible) !== JSON.stringify(visible)
+        ? newVisible
+        : visible
+    })
+  }
+
+  useIntersectionObserver({
+    cb,
+    elems: Object.values(refs)
+      .map((el) => el.current)
+      .filter(Boolean),
+    options: { root: root.current, rootMargin, threshold },
+  })
+
+  return (
+    <div onScroll={scrollHandler} style={{ display: 'flex', opacity: 1 }}>
+      {LeftArrow && <LeftArrow refs={refs} visibleItems={visibleItems} />}
+      <ScrollContainer ref={root}>
+        <Container>
+          <MenuItems refs={refs} visibleItems={visibleItems}>
+            {menuItems}
+          </MenuItems>
+        </Container>
+      </ScrollContainer>
+      {RightArrow && <RightArrow refs={refs} visibleItems={visibleItems} />}
+    </div>
+  )
+
+  function scrollHandler() {
+    onScroll({
+      visibleItems,
+      position: root.current?.scrollLeft,
+    })
+  }
+}
+
 const ScrollContainer = forwardRef(({ children }, ref) => (
   <div
+    className="scroll-container"
     ref={ref}
     style={{
       display: 'flex',
@@ -32,6 +107,7 @@ ScrollContainer.propTypes = {
 
 const Container = ({ children }) => (
   <div
+    className="container"
     style={{
       display: 'flex',
       height: 'auto',
@@ -103,143 +179,6 @@ function Separator({ id, refs = {} }) {
   refs[id] = ref
 
   return <div data-key={id} ref={ref} />
-}
-
-const ScrollMenu = ({
-  children: menuItems,
-  LeftArrow, // TODO: try renderProps ???
-  onScroll = () => false,
-  RightArrow,
-}) => {
-  const root = useRef(null)
-  const [refs] = useState({})
-  const visibility = useRef({})
-  const [visibleItems, setVisibleItems] = useState([])
-
-  const items = Object.entries(refs)
-  const firstVisibleItem = visibleItems[0] || ''
-  const lastVisibleItem = visibleItems.slice(-1)[0] || ''
-  const visibleItemsPrev =
-    (firstVisibleItem &&
-      items
-        .slice(
-          0,
-          items.findIndex((i) => i[0] === firstVisibleItem),
-        )
-        .map((el) => el[0])) ||
-    []
-  const visibleItemsNext =
-    (lastVisibleItem &&
-      items
-        .slice(items.findIndex((i) => i[0] === lastVisibleItem) + 1)
-        .map((el) => el[0])) ||
-    []
-
-  // TODO: recheck
-  // use onMounted cb for align center or set position
-  useIsMounted()
-  const [loadComplete, setLoadComplete] = React.useState(false)
-  React.useEffect(() => {
-    if (visibleItems.length && !loadComplete) {
-      // onMount()
-      setLoadComplete(true)
-    }
-  }, [visibleItems, loadComplete]) // loadComplete ??
-  // TODO: return loadComplete flag to arrows and items
-  console.log({ loadComplete, refs, visibleItems })
-
-  const cb = (entries) => {
-    const updated = entries.reduce((acc, entry) => {
-      const { intersectionRatio, target } = entry
-
-      const key = target.getAttribute('data-key')
-      acc[key] = intersectionRatio >= ratio
-      return acc
-    }, {})
-
-    visibility.current = { ...visibility.current, ...updated }
-
-    console.log(entries.length)
-
-    setVisibleItems((visible) => {
-      const newVisible = Object.entries(visibility.current)
-        .filter((el) => el[0] !== 'null' && el[1])
-        .map((el) => el[0])
-
-      return JSON.stringify(newVisible) !== JSON.stringify(visible)
-        ? newVisible
-        : visible
-    })
-  }
-
-  useIntersectionObserver({
-    cb,
-    elems: Object.values(refs)
-      .map((el) => el.current)
-      .filter(Boolean),
-    options: { root: root.current, rootMargin, threshold },
-  })
-
-  return (
-    <div
-      onScroll={scrollHandler}
-      onWheel={wheelHandler}
-      style={{ display: 'flex', opacity: 1 }}
-    >
-      {LeftArrow && (
-        <LeftArrow
-          refs={refs}
-          scrollLeft={scrollLeft}
-          visibleItems={visibleItems}
-        />
-      )}
-      <ScrollContainer ref={root}>
-        <Container>
-          <MenuItems refs={refs} visibleItems={visibleItems}>
-            {menuItems}
-          </MenuItems>
-        </Container>
-      </ScrollContainer>
-      {RightArrow && (
-        <RightArrow
-          refs={refs}
-          scrollRight={scrollRight}
-          visibleItems={visibleItems}
-        />
-      )}
-    </div>
-  )
-
-  function wheelHandler() {
-    //const { deltaY } = event;
-    //deltaY > 0 ? scrollRight() : scrollLeft();
-  }
-
-  function scrollRight() {
-    // const itemsVisibility = Object.entries(observed)
-    // const lastVisible = visibleItems.slice(-1)[0]
-    // const lastVisibleIndex = itemsVisibility.findIndex(
-    //   (el) => el[0] === lastVisible,
-    // )
-    // // TODO: hook for handle prev/next index
-    // const isOdd = visibleItems.length % 2
-    // const nextItemIndex = lastVisibleIndex + Math.ceil(visibleItems.length / 2)
-    // const nextItem = itemsVisibility[nextItemIndex]
-    // const nextItemId = nextItem && nextItem[0]
-    // const nextSelector =
-    //   nextItemId && isOdd
-    //     ? `[data-key="${nextItemId}"`
-    //     : `[data-separator="${nextItemId}"`
-  }
-
-  function scrollLeft() {}
-
-  function scrollHandler() {
-    onScroll({
-      visibleItems,
-      position: root.current?.scrollLeft,
-    })
-  }
 }
 
 export default ScrollMenu
