@@ -6,7 +6,7 @@
         "jsdoc": "^3.6.3",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
-        "react-horizontal-scrolling-menu": "^0.7.7",
+        "react-horizontal-scrolling-menu": "^0.7.9",
         "react-scripts": "^3.3.0"
     },
     "scripts": {
