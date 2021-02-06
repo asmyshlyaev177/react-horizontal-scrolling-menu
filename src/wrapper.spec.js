@@ -12,7 +12,7 @@ describe('wrappers and styles', () => {
   it('set correct innerStyle', () => {
     let style, result;
     result = {
-      width: '990000px',
+      whiteSpace: 'nowrap',
       transform: 'translate3d(10px, 0, 0)',
       transition: 'transform 0s',
     };

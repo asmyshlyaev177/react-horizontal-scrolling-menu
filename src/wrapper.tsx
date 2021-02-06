@@ -62,7 +62,7 @@ export const innerStyle = ({
     transition:
       `transform ${dragging || !mounted ? '0' : transition}s` +
       (inertiaScrolling ? ' ease-out' : ''),
-    width: '990000px',
+    whiteSpace: 'nowrap',
   };
 };
 
