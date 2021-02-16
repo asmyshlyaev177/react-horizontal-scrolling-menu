@@ -38,6 +38,7 @@ interface MenuProps {
   xPoint: number;
   disableTabindex: boolean;
   rtl: boolean;
+  customLastItemVisibleNumber: number;
 }
 
 type Ref = HTMLDivElement|HTMLElement|null;

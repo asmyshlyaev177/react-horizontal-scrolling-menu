@@ -254,13 +254,17 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
     translate?: number;
   }): { firstItemVisible: boolean; lastItemVisible: boolean } => {
     const { menuItems } = this;
-
+    const { customLastItemVisibleNumber } = this.props;
     let firstItemVisible = true;
     let lastItemVisible = false;
     if (menuItems) {
       const visibleItems = this.getVisibleItems({ offset: translate });
       firstItemVisible = visibleItems.includes(menuItems[0]);
-      lastItemVisible = visibleItems.includes(menuItems.slice(-1)[0]);
+      if (customLastItemVisibleNumber) {
+        lastItemVisible = visibleItems.includes(
+          menuItems.slice(-customLastItemVisibleNumber)[0],
+        );
+      } else lastItemVisible = visibleItems.includes(menuItems.slice(-1)[0]);
     }
 
     return { firstItemVisible, lastItemVisible };

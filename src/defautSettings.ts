@@ -49,6 +49,7 @@ const defaultProps: MenuProps = {
   arrowRight: null,
   /** when drag item and mouse button mouseup choose menu item under cursor  */
   clickWhenDrag: false,
+  customLastItemVisibleNumber: 0,
   /** enable/disable dragging with mouse */
   /** array of MenuItem elements */
   data: [],
