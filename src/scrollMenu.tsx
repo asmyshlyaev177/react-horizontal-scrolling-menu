@@ -715,6 +715,11 @@ export class ScrollMenu extends React.Component<MenuProps, MenuState> {
   ): number => {
     const { scrollBy, rtl } = this.props;
 
+    // If empty visibleItems is accidentally passed, just return the current offset.
+    if (visibleItems.length === 0) {
+      return rtl ? this.menuPos + this.menuWidth : this.state.translate - this.menuPos;
+    }
+
     const nextItemIndex = scrollBy
       ? visibleItems[0][1].index + scrollBy
       : rtl ? this.getPrevItem(
