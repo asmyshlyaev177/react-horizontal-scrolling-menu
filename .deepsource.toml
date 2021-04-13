@@ -1,6 +1,15 @@
 version = 1
 
-test_patterns = ["*.(spec|spec).(j|t)sx?"]
+test_patterns = [
+    "*.spec.js",
+    "*.spec.jsx",
+    "*.spec.ts",
+    "*.spec.tsx",
+    "*.test.js",
+    "*.test.jsx",
+    "*.test.ts",
+    "*.test.tsx",
+]
 
 exclude_patterns = [
     "__mocks__",
