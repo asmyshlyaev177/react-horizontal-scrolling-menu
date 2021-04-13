@@ -1,0 +1,17 @@
+version = 1
+
+test_patterns = ["*.(spec|spec).(j|t)sx?"]
+
+exclude_patterns = [
+    "__mocks__",
+    "scripts",
+    "dist",
+    "build"
+]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["react"]
