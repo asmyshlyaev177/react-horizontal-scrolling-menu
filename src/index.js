@@ -20,11 +20,16 @@ const ScrollMenu = ({
 }) => {
   const root = useRef()
   const [refs] = useState({})
-  const visibility = useRef({})
-  const [visibleItems, setVisibleItems] = useState([])
 
   useIsMounted()
   const [loadComplete, setLoadComplete] = React.useState(false)
+
+  const visibleItems = useIntersectionObserver({
+    elems: Object.values(refs)
+      .map((el) => el.current)
+      .filter(Boolean),
+    options: { ratio, root: root.current, rootMargin, threshold },
+  })
 
   useEffect(() => {
     if (visibleItems.length && !loadComplete) {
@@ -33,38 +38,8 @@ const ScrollMenu = ({
     }
   }, [visibleItems, onInit, loadComplete, refs])
 
-  const cb = (entries) => {
-    const updated = entries.reduce((acc, entry) => {
-      const { intersectionRatio, target } = entry
-
-      const key = target.getAttribute('data-key')
-      acc[key] = intersectionRatio >= ratio
-      return acc
-    }, {})
-
-    visibility.current = { ...visibility.current, ...updated }
-
-    setVisibleItems((visible) => {
-      const newVisible = Object.entries(visibility.current)
-        .filter((el) => el[0] !== 'null' && el[1])
-        .map((el) => el[0])
-
-      return JSON.stringify(newVisible) !== JSON.stringify(visible)
-        ? newVisible
-        : visible
-    })
-  }
-
-  useIntersectionObserver({
-    cb,
-    elems: Object.values(refs)
-      .map((el) => el.current)
-      .filter(Boolean),
-    options: { root: root.current, rootMargin, threshold },
-  })
-
   return (
-    <div onScroll={scrollHandler} style={{ display: 'flex', opacity: 1 }}>
+    <div onScroll={scrollHandler} style={{ display: 'flex' }}>
       {LeftArrow && <LeftArrow refs={refs} visibleItems={visibleItems} />}
       <ScrollContainer ref={root}>
         <Container>
@@ -126,7 +101,7 @@ const isMenuItem = (el) => !!getChildId(el)
 const notLastItem = (itemIndex, totalItemsCount) =>
   itemIndex < totalItemsCount - 1
 
-const MenuItems = ({ children, refs = {}, visibleItems = [] }) => {
+const MenuItems = ({ children, refs = {}, visibleItems }) => {
   const childrenCount = React.Children.toArray(children).filter(isMenuItem)
     .length
 
