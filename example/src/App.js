@@ -18,7 +18,13 @@ function App() {
 
   // TODO: can use items without id for padding
   return (
-    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+    <ScrollMenu
+      LeftArrow={LeftArrow}
+      RightArrow={RightArrow}
+      onInit={({ scrollContainer }) => {
+        // scrollContainer.scrollLeft = 475
+      }}
+    >
       {items.map(({ id }) => (
         <Card
           id={id}

@@ -2,7 +2,7 @@ import React from 'react'
 
 const useIntersection = ({ elems = [], options = {} } = {}) => {
   const visibility = React.useRef({})
-  const [visibleItems, setVisibleItems] = React.useState([])
+  const [allItems, setAllItems] = React.useState([])
   const observer = React.useRef()
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ const useIntersection = ({ elems = [], options = {} } = {}) => {
 
       visibility.current = { ...visibility.current, ...updated }
 
-      setVisibleItems((visible) =>
+      setAllItems((visible) =>
         JSON.stringify(visibility.current) !== JSON.stringify(visible)
           ? visibility.current
           : visible,
@@ -33,7 +33,7 @@ const useIntersection = ({ elems = [], options = {} } = {}) => {
     }
   }, [elems, options])
 
-  return visibleItems
+  return allItems
 }
 
 export default useIntersection

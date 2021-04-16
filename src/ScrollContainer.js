@@ -23,20 +23,4 @@ ScrollContainer.propTypes = {
   children,
 }
 
-const Container = ({ children }) => (
-  <div
-    className="react-horizontal-scroll-menu--container"
-    style={{
-      display: 'flex',
-      height: 'auto',
-      position: 'relative',
-      width: 'max-content',
-    }}
-  >
-    {children}
-  </div>
-)
-Container.displayName = 'Container'
-Container.propTypes = { children }
-
-export { Container, ScrollContainer }
+export default ScrollContainer
