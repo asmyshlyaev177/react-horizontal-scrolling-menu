@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import React from 'react'
 // import PropTypes from 'prop-types'
 
-import { children } from './propTypes'
+import { Container, ScrollContainer } from './container'
 import useIntersectionObserver from './useIntersectionObserver'
 import useIsMounted from './useIsMounted'
 
@@ -18,20 +18,36 @@ const ScrollMenu = ({
   onScroll = () => false,
   RightArrow,
 }) => {
-  const root = useRef()
-  const [refs] = useState({})
+  const root = React.useRef()
+  const [refs] = React.useState({})
 
   useIsMounted()
   const [loadComplete, setLoadComplete] = React.useState(false)
 
-  const visibleItems = useIntersectionObserver({
+  const allItems = useIntersectionObserver({
     elems: Object.values(refs)
       .map((el) => el.current)
       .filter(Boolean),
     options: { ratio, root: root.current, rootMargin, threshold },
   })
 
-  useEffect(() => {
+  const visibleItems = Object.entries(allItems)
+    .filter((el) => el?.[0] && el?.[1])
+    .map((el) => el?.[0])
+
+  // TODO: pass object with some API instean of visibleItems
+  // e.g. itemsObject(visibleItems, allItems)
+  // getVisibleItems(), isFirstVisible, isLastVisible,
+  // nextItem(1, repeatFromStart), prevItem(1),
+  // nextScreen(), prevScreen(),
+  // getFirstVisible, getCenterVisible, getLastVisible
+
+  // TODO: hide scrollbar
+  // https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
+
+  // TODO: mouse wheel scroll
+  // https://stackoverflow.com/questions/2346958/how-to-do-a-horizontal-scroll-on-mouse-wheel-scroll
+  React.useEffect(() => {
     if (visibleItems.length && !loadComplete) {
       onInit({ refs, visibleItems, scrollContainer: root.current })
       setLoadComplete(true)
@@ -60,42 +76,6 @@ const ScrollMenu = ({
   }
 }
 
-const ScrollContainer = forwardRef(({ children }, ref) => (
-  <div
-    className="scroll-container"
-    ref={ref}
-    style={{
-      display: 'flex',
-      height: 'max-content',
-      overflowY: 'hidden',
-      position: 'relative',
-      width: '100%',
-    }}
-  >
-    {children}
-  </div>
-))
-ScrollContainer.displayName = 'ScrollContainer'
-ScrollContainer.propTypes = {
-  children,
-}
-
-const Container = ({ children }) => (
-  <div
-    className="container"
-    style={{
-      display: 'flex',
-      height: 'auto',
-      position: 'relative',
-      width: 'max-content',
-    }}
-  >
-    {children}
-  </div>
-)
-Container.displayName = 'Container'
-Container.propTypes = { children }
-
 const getChildId = (el) => el?.props?.id
 const isMenuItem = (el) => !!getChildId(el)
 const notLastItem = (itemIndex, totalItemsCount) =>
@@ -112,6 +92,7 @@ const MenuItems = ({ children, refs = {}, visibleItems }) => {
     return id ? (
       <>
         <Item
+          className="react-horizontal-scroll-menu--menu-items"
           child={child}
           id={id}
           key={'menuItem__' + id}
@@ -127,15 +108,14 @@ const MenuItems = ({ children, refs = {}, visibleItems }) => {
     )
   })
 }
-
 MenuItems.displayName = 'MenuItems'
 
 function Item({ child, id, isVisible, refs = {} }) {
-  const ref = useRef(null)
+  const ref = React.useRef(null)
   refs[id] = ref
 
   return (
-    <div data-key={id} ref={ref}>
+    <div className="react-horizontal-scroll-menu--item" data-key={id} ref={ref}>
       {React.cloneElement(
         child,
         {
@@ -150,10 +130,16 @@ function Item({ child, id, isVisible, refs = {} }) {
 }
 
 function Separator({ id, refs = {} }) {
-  const ref = useRef(null)
+  const ref = React.useRef(null)
   refs[id] = ref
 
-  return <div data-key={id} ref={ref} />
+  return (
+    <div
+      className="react-horizontal-scroll-menu--separator"
+      data-key={id}
+      ref={ref}
+    />
+  )
 }
 
 export default ScrollMenu

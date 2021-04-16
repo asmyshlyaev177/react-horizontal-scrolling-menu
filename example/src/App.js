@@ -16,6 +16,7 @@ const items = Array(20)
 function App() {
   const [selected, setSelected] = useState([])
 
+  // TODO: can use items without id for padding
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
       {items.map(({ id }) => (

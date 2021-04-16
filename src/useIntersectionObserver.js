@@ -3,42 +3,36 @@ import React from 'react'
 const useIntersection = ({ elems = [], options = {} } = {}) => {
   const visibility = React.useRef({})
   const [visibleItems, setVisibleItems] = React.useState([])
-
-  const cb = (entries) => {
-    const updated = entries.reduce((acc, entry) => {
-      const { intersectionRatio, target } = entry
-
-      const key = target.getAttribute('data-key')
-      acc[key] = intersectionRatio >= options.ratio
-      return acc
-    }, {})
-
-    visibility.current = { ...visibility.current, ...updated }
-
-    setVisibleItems((visible) => {
-      const newVisible = Object.entries(visibility.current)
-        .filter((el) => el[0] !== 'null' && el[1])
-        .map((el) => el[0])
-
-      return JSON.stringify(newVisible) !== JSON.stringify(visible)
-        ? newVisible
-        : visible
-    })
-  }
+  const observer = React.useRef()
 
   React.useEffect(() => {
-    if (elems.length && typeof IntersectionObserver === 'function') {
-      const observer = new IntersectionObserver(cb, options)
-      elems.forEach((elem) => observer.observe(elem))
+    const cb = (entries) => {
+      const updated = entries.reduce((acc, entry) => {
+        const { intersectionRatio, target } = entry
 
-      return () => {
-        observer.disconnect()
-      }
+        const key = target.getAttribute('data-key')
+        // TODO: return intersectionRatio too ???
+        acc[key] = intersectionRatio >= options.ratio
+        return acc
+      }, {})
+
+      visibility.current = { ...visibility.current, ...updated }
+
+      setVisibleItems((visible) =>
+        JSON.stringify(visibility.current) !== JSON.stringify(visible)
+          ? visibility.current
+          : visible,
+      )
     }
-  }, [elems, options.threshold, options.root, options.rootMargin])
+    observer.current = observer.current || new IntersectionObserver(cb, options)
+    elems.forEach((elem) => observer.current.observe(elem))
 
-  // TODO: return object with some API
-  // e.g. itemsObject(visibleItems)
+    return () => {
+      observer.current.disconnect()
+      observer.current = null
+    }
+  }, [elems, options])
+
   return visibleItems
 }
 
