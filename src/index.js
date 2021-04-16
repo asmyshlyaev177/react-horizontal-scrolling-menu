@@ -3,7 +3,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import { Container, ScrollContainer } from './container'
+import ScrollContainer from './ScrollContainer'
+import MenuItems from './MenuItems'
 import useIntersectionObserver from './useIntersectionObserver'
 import useIsMounted from './useIsMounted'
 
@@ -38,8 +39,8 @@ const ScrollMenu = ({
   // TODO: pass object with some API instean of visibleItems
   // e.g. itemsObject(visibleItems, allItems)
   // getVisibleItems(), isFirstVisible, isLastVisible,
-  // nextItem(1, repeatFromStart), prevItem(1),
   // nextScreen(), prevScreen(),
+  // nextItem(1, repeatFromStart), prevItem(1),
   // getFirstVisible, getCenterVisible, getLastVisible
 
   // TODO: hide scrollbar
@@ -47,9 +48,10 @@ const ScrollMenu = ({
 
   // TODO: mouse wheel scroll
   // https://stackoverflow.com/questions/2346958/how-to-do-a-horizontal-scroll-on-mouse-wheel-scroll
+  // https://codepen.io/tanin13/pen/JjoPdBy
   React.useEffect(() => {
     if (visibleItems.length && !loadComplete) {
-      onInit({ refs, visibleItems, scrollContainer: root.current })
+      onInit({ refs, visibleItems, scrollContainer: root.current || {} })
       setLoadComplete(true)
     }
   }, [visibleItems, onInit, loadComplete, refs])
@@ -58,11 +60,9 @@ const ScrollMenu = ({
     <div onScroll={scrollHandler} style={{ display: 'flex' }}>
       {LeftArrow && <LeftArrow refs={refs} visibleItems={visibleItems} />}
       <ScrollContainer ref={root}>
-        <Container>
-          <MenuItems refs={refs} visibleItems={visibleItems}>
-            {menuItems}
-          </MenuItems>
-        </Container>
+        <MenuItems refs={refs} visibleItems={visibleItems}>
+          {menuItems}
+        </MenuItems>
       </ScrollContainer>
       {RightArrow && <RightArrow refs={refs} visibleItems={visibleItems} />}
     </div>
@@ -74,72 +74,6 @@ const ScrollMenu = ({
       position: root.current?.scrollLeft,
     })
   }
-}
-
-const getChildId = (el) => el?.props?.id
-const isMenuItem = (el) => !!getChildId(el)
-const notLastItem = (itemIndex, totalItemsCount) =>
-  itemIndex < totalItemsCount - 1
-
-const MenuItems = ({ children, refs = {}, visibleItems }) => {
-  const childrenCount = React.Children.toArray(children).filter(isMenuItem)
-    .length
-
-  return React.Children.map(children, (child, childIndex) => {
-    const id = getChildId(child)
-    const separatorId = id + '-separator'
-
-    return id ? (
-      <>
-        <Item
-          className="react-horizontal-scroll-menu--menu-items"
-          child={child}
-          id={id}
-          key={'menuItem__' + id}
-          isVisible={!visibleItems.length || visibleItems.includes(id)}
-          refs={refs}
-        />
-        {notLastItem(childIndex, childrenCount) && (
-          <Separator id={separatorId} refs={refs} key={separatorId} />
-        )}
-      </>
-    ) : (
-      child
-    )
-  })
-}
-MenuItems.displayName = 'MenuItems'
-
-function Item({ child, id, isVisible, refs = {} }) {
-  const ref = React.useRef(null)
-  refs[id] = ref
-
-  return (
-    <div className="react-horizontal-scroll-menu--item" data-key={id} ref={ref}>
-      {React.cloneElement(
-        child,
-        {
-          ...child.props,
-          refs,
-          isVisible,
-        },
-        [child.children],
-      )}
-    </div>
-  )
-}
-
-function Separator({ id, refs = {} }) {
-  const ref = React.useRef(null)
-  refs[id] = ref
-
-  return (
-    <div
-      className="react-horizontal-scroll-menu--separator"
-      data-key={id}
-      ref={ref}
-    />
-  )
 }
 
 export default ScrollMenu
