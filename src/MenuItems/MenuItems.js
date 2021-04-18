@@ -8,7 +8,7 @@ const isMenuItem = (el) => !!getChildId(el)
 const notLastItem = (itemIndex, totalItemsCount) =>
   itemIndex < totalItemsCount - 1
 
-const MenuItems = ({ children, refs = {}, visibleItems }) => {
+const MenuItems = ({ children, refs = {}, isItemVisible }) => {
   const childrenCount = React.Children.toArray(children).filter(isMenuItem)
     .length
 
@@ -23,7 +23,7 @@ const MenuItems = ({ children, refs = {}, visibleItems }) => {
           child={child}
           id={id}
           key={'menuItem__' + id}
-          isVisible={!visibleItems.length || visibleItems.includes(id)}
+          isVisible={isItemVisible(id)}
           refs={refs}
         />
         {notLastItem(childIndex, childrenCount) && (

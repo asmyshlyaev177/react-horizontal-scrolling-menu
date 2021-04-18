@@ -4,66 +4,84 @@ import ScrollMenu from 'react-horizontal-scrolling-menu'
 
 const elemPrefix = 'test'
 const getId = (index) => `${elemPrefix}${index}`
-const getIndex = (id = '') => {
-  const result = id.match(new RegExp(elemPrefix + '([0-9]*)'))
-  return +result[1]
-}
 
-const items = Array(20)
-  .fill(0)
-  .map((_, ind) => ({ id: getId(ind) }))
+const getItems = () =>
+  Array(20)
+    .fill(0)
+    .map((_, ind) => ({ id: getId(ind) }))
 
 function App() {
+  const [items, setItems] = useState(getItems)
   const [selected, setSelected] = useState([])
+  const [position, setPosition] = useState(300)
+  const [mounted, setMounted] = useState(false)
 
-  // TODO: can use items without id for padding
-  return (
-    <ScrollMenu
-      LeftArrow={LeftArrow}
-      RightArrow={RightArrow}
-      onInit={({ scrollContainer }) => {
-        // scrollContainer.scrollLeft = 475
-      }}
-    >
-      {items.map(({ id }) => (
-        <Card
-          id={id}
-          key={id}
-          onClick={(ev) => toggle(id, ev)}
-          selected={!!selected.find((el) => el === id)}
-        />
-      ))}
-    </ScrollMenu>
-  )
+  function savePosition({ scrollContainer }) {
+    setPosition(scrollContainer.scrollLeft)
+  }
 
-  function toggle(id) {
+  React.useEffect(() => {
+    setTimeout(() => {
+      const newItems = items.concat(
+        Array(5)
+          .fill(0)
+          .map((_, ind) => ({ id: getId(items.length + ind) })),
+      )
+      console.log('push new items')
+      setItems(newItems)
+    }, 3000)
+  }, [])
+
+  const toggleSelected = (id) => {
     const isSelected = selected.find((el) => el === id)
 
-    setSelected((selected) =>
-      isSelected ? selected.filter((el) => el !== id) : selected.concat(id),
+    setSelected((currentSelected) =>
+      isSelected
+        ? currentSelected.filter((el) => el !== id)
+        : currentSelected.concat(id),
     )
   }
+
+  // console.log({ mounted })
+  // NOTE: can use items without id for padding
+  return (
+    <div style={{ opacity: +mounted }}>
+      <ScrollMenu
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        onInit={({ scrollContainer }) => {
+          scrollContainer.scrollLeft = position
+          setMounted(true)
+        }}
+        onScroll={savePosition}
+      >
+        {items.map(({ id }) => (
+          <Card
+            id={id}
+            key={id}
+            onClick={(ev) => toggleSelected(id, ev)}
+            selected={!!selected.find((el) => el === id)}
+          />
+        ))}
+      </ScrollMenu>
+    </div>
+  )
 }
 
-function LeftArrow({ refs, visibleItems: visibleItemsWithSeparators }) {
-  const visibleItems = visibleItemsWithSeparators.filter(
-    (el) => !el.includes('separator'),
-  )
-  const isFirstItemVisible = visibleItems.includes(items[0].id)
-
+function LeftArrow({ getPrevItem, isFirstItemVisible }) {
   const onClick = () => {
-    const firstVisibleItem = visibleItems[0] || ''
+    const prevItem = getPrevItem()?.entry?.target
 
-    const firstVisibleIndex = getIndex(firstVisibleItem)
-    const prevItem = items.find((el) => el.id === getId(firstVisibleIndex - 1))
+    // NOTE: can scroll to last item if start reached
+    // const lastItem = allItems?.slice(-1)?.[0]?.entry?.target
+    // const item = prevItem || lastItem
 
-    const itemToScroll = refs[prevItem?.id]?.current
-    if (itemToScroll) {
-      itemToScroll.scrollIntoView({
+    const item = prevItem
+    item &&
+      item.scrollIntoView({
         behavior: 'smooth',
         inline: 'end',
       })
-    }
   }
 
   return (
@@ -73,25 +91,20 @@ function LeftArrow({ refs, visibleItems: visibleItemsWithSeparators }) {
   )
 }
 
-function RightArrow({ refs, visibleItems: visibleItemsWithSeparators }) {
-  const visibleItems = visibleItemsWithSeparators.filter(
-    (el) => !el.includes('separator'),
-  )
-  const isLastItemVisible = visibleItems.includes(items.slice(-1)[0].id)
-
+function RightArrow({ getNextItem, isLastItemVisible }) {
   const onClick = () => {
-    const lastVisibleItem = visibleItems.slice(-1)[0] || ''
+    const nextItem = getNextItem()?.entry?.target
 
-    const lastVisibleIndex = getIndex(lastVisibleItem)
-    const nextItem = items.find((el) => el.id === getId(lastVisibleIndex + 1))
+    // NOTE: can scroll to first item if end reached
+    // const firstItem = allItems?.[0]?.entry?.target
+    // const item = nextItem || firstItem
 
-    const itemToScroll = refs[nextItem?.id]?.current
-    if (itemToScroll) {
-      itemToScroll.scrollIntoView({
+    const item = nextItem
+    item &&
+      item.scrollIntoView({
         behavior: 'smooth',
         inline: 'start',
       })
-    }
   }
 
   return (
