@@ -2,7 +2,6 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  preset: 'jest-playwright-preset',
   coverageDirectory: 'coverage',
   globals: {
     baseUrl: 'http://localhost:3000',
