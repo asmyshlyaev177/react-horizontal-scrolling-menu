@@ -1,39 +1,47 @@
 import React from 'react'
 
-const useIntersection = ({ elems = [], options = {} } = {}) => {
-  const visibility = React.useRef({})
+import { getNodesFromRefs } from './helpers'
+
+const useIntersection = ({ refs = {}, options = {} }) => {
+  const elements = getNodesFromRefs(refs)
   const [allItems, setAllItems] = React.useState([])
+  const [init, setInit] = React.useState(false)
   const observer = React.useRef()
 
-  React.useEffect(() => {
-    const cb = (entries) => {
-      const updated = entries.reduce((acc, entry) => {
-        const { intersectionRatio, target } = entry
+  // console.count('observer')
 
-        const key = target.getAttribute('data-key')
-        // TODO: return intersectionRatio too ???
-        acc[key] = intersectionRatio >= options.ratio
-        return acc
-      }, {})
+  const cb = (entries) => {
+    // console.count('observer CB')
+    const newVisible = entries.reduce((acc, entry) => {
+      const key = entry.target.getAttribute('data-key')
+      acc[key] = {
+        key,
+        visible: entry.intersectionRatio >= options.ratio,
+        entry,
+      }
+      return acc
+    }, {})
 
-      visibility.current = { ...visibility.current, ...updated }
+    setAllItems((visible) =>
+      JSON.stringify(newVisible) !== JSON.stringify(visible)
+        ? newVisible
+        : visible,
+    )
+    setInit(true)
+  }
 
-      setAllItems((visible) =>
-        JSON.stringify(visibility.current) !== JSON.stringify(visible)
-          ? visibility.current
-          : visible,
-      )
-    }
+  React.useLayoutEffect(() => {
+    // console.log('observer useEffect')
     observer.current = observer.current || new IntersectionObserver(cb, options)
-    elems.forEach((elem) => observer.current.observe(elem))
+    elements.forEach((elem) => observer.current.observe(elem))
 
     return () => {
       observer.current.disconnect()
       observer.current = null
     }
-  }, [elems, options])
+  }, [elements, options])
 
-  return allItems
+  return { allItems, init }
 }
 
 export default useIntersection
