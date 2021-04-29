@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    es2020: true,
     node: true,
   },
   extends: [
@@ -24,7 +25,7 @@ module.exports = {
   plugins: ['@babel', 'jest', 'react', 'react-hooks', 'jsx-a11y'],
   rules: {
     indent: ['error', 2],
-    //'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'react-hooks/rules-of-hooks': 'error',
