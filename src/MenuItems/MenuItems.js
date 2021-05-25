@@ -3,16 +3,11 @@ import React from 'react'
 import Separator from './Separator'
 import Item from './Item'
 
+// TODO: to helpers
 const getChildId = (el) => el?.props?.id
-const isMenuItem = (el) => !!getChildId(el)
-const notLastItem = (itemIndex, totalItemsCount) =>
-  itemIndex < totalItemsCount - 1
 
-const MenuItems = ({ children, refs = {}, isItemVisible }) => {
-  const childrenCount = React.Children.toArray(children).filter(isMenuItem)
-    .length
-
-  return React.Children.map(children, (child, childIndex) => {
+const MenuItems = ({ children, refs = {}, isItemVisible, isLastItem }) => {
+  return React.Children.map(children, (child) => {
     const id = getChildId(child)
     const separatorId = id + '-separator'
 
@@ -26,7 +21,7 @@ const MenuItems = ({ children, refs = {}, isItemVisible }) => {
           isVisible={isItemVisible(id)}
           refs={refs}
         />
-        {notLastItem(childIndex, childrenCount) && (
+        {!isLastItem(id) && (
           <Separator id={separatorId} refs={refs} key={separatorId} />
         )}
       </>

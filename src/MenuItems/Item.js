@@ -11,7 +11,6 @@ function Item({ child, id, isVisible, refs = {} }) {
         child,
         {
           ...child.props,
-          refs,
           isVisible,
         },
         [child.children],

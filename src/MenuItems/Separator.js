@@ -5,6 +5,7 @@ function Separator({ id, refs = {} }) {
   const ref = React.useRef(null)
   refs[id] = ref
 
+  // TODO: check class names, maybe import from config
   return (
     <div
       className="react-horizontal-scroll-menu--separator"

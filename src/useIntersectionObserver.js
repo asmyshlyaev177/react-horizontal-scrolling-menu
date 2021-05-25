@@ -13,6 +13,7 @@ const useIntersection = ({ refs = {}, options = {} }) => {
   const cb = (entries) => {
     // console.count('observer CB')
     const newVisible = entries.reduce((acc, entry) => {
+      // TODO: move data-key to config
       const key = entry.target.getAttribute('data-key')
       acc[key] = {
         key,
