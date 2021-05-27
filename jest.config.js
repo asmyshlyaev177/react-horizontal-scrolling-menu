@@ -6,7 +6,7 @@ module.exports = {
   globals: {
     baseUrl: 'http://localhost:3000',
   },
-  testMatch: ['**/tests/**/*.test.[jt]s?(x)'],
+  roots: ['src'],
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
