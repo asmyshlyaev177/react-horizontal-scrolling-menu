@@ -1,0 +1,66 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "es2020": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@babel",
+    "jest",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "unicorn"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "usetabs": false,
+        "parser": "babel",
+        "printWidth": 80
+      },
+      {
+        "usePrettierrc": false
+      }
+    ],
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}
