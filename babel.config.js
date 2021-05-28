@@ -1,7 +1,8 @@
 module.exports = {
-  presets: [
-    '@babel/preset-react',
-    ['@babel/preset-env', { targets: { node: 'current' } }],
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    'transform-react-remove-prop-types',
+    'dynamic-import-node',
   ],
-  plugins: ['transform-react-remove-prop-types', 'dynamic-import-node'],
 }

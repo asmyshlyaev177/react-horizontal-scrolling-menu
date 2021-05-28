@@ -6,6 +6,7 @@
   "license": "ISC",
   "main": "dist/index.cjs.js",
   "browser": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
@@ -14,6 +15,8 @@
     "build": "webpack --env.production --mode production",
     "dev": "webpack --end.development --watch --mode development",
     "test": "jest",
+    "rollup:build": "rollup -c",
+    "rollup:dev": "rollup -c w",
     "pretest": "npm run build"
   },
   "keywords": [
@@ -30,8 +33,7 @@
     "last 5 FirefoxAndroid versions",
     "Firefox ESR",
     "last 3 Safari major versions",
-    "last 2 iOS major versions",
-    "maintained node versions"
+    "last 2 iOS major versions"
   ],
   "dependencies": {},
   "devDependencies": {
@@ -40,10 +42,13 @@
     "@babel/eslint-plugin": "^7.11.5",
     "@babel/plugin-external-helpers": "^7.10.4",
     "@babel/plugin-transform-react-display-name": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.14.3",
     "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
-    "@rollup/plugin-commonjs": "^11.1.0",
-    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@babel/preset-react": "^7.13.13",
+    "@babel/runtime": "^7.14.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "babel-jest": "^26.3.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
@@ -63,6 +68,9 @@
     "lint-staged": "^10.2.2",
     "prettier": "^2.3.0",
     "prop-types": "^15.7.2",
+    "rollup": "^2.50.2",
+    "rollup-plugin-ignore": "^1.0.9",
+    "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
