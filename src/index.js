@@ -22,7 +22,6 @@ const ScrollMenu = ({
   onScroll = () => false,
   RightArrow,
 }) => {
-  debugger
   const root = React.useRef()
   // TODO: use Map() ?
   const [refs] = React.useState({})
