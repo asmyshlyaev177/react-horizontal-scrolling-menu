@@ -33,6 +33,11 @@ export default [
       name: 'react-horizontal-scrolling-menu',
       file: pkg.browser,
       format: 'umd',
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
+      },
     },
     plugins,
     external,

@@ -29,6 +29,5 @@ const MenuItems = ({ children, refs = {}, isLastItem }) => {
     )
   })
 }
-MenuItems.displayName = 'MenuItems'
 
 export default MenuItems

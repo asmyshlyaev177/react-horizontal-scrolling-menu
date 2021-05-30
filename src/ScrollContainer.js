@@ -3,9 +3,9 @@ import React from 'react'
 import { rootClassName, scrollContainerClassName } from './constants'
 
 const className = `${rootClassName}--${scrollContainerClassName}`
-// import { children } from './propTypes'
 
 // TODO: use css ???
+/* eslint-disable-next-line react/display-name */
 const ScrollContainer = React.forwardRef(({ children }, ref) => (
   <div
     className={className}
@@ -21,7 +21,6 @@ const ScrollContainer = React.forwardRef(({ children }, ref) => (
     {children}
   </div>
 ))
-ScrollContainer.displayName = 'ScrollContainer'
 // ScrollContainer.propTypes = {
 //   children,
 // }
