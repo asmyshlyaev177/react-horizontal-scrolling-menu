@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { getNodesFromRefs } from './helpers'
-import CustomMap from './CustomMap'
+import throttle from 'lodash/throttle'
 
-const useIntersection = ({ refs = {}, options = {} }) => {
+import { getNodesFromRefs } from './helpers'
+
+const useIntersection = ({ items, refs = {}, options = {} }) => {
   const elements = getNodesFromRefs(refs)
-  const [allItems] = React.useState(new CustomMap())
   const [init, setInit] = React.useState(false)
   const observer = React.useRef()
 
@@ -13,12 +13,12 @@ const useIntersection = ({ refs = {}, options = {} }) => {
 
   const [visibleItems, setVisibleItems] = React.useState([])
 
-  const ioCb = React.useCallback(
+  const ioCb = throttle(
     (entries) => {
       entries.forEach((entry) => {
         const key = entry.target?.dataset?.key
 
-        allItems.set(key, {
+        items.set(key, {
           key,
           visible: entry.intersectionRatio >= options.ratio,
           entry,
@@ -26,6 +26,7 @@ const useIntersection = ({ refs = {}, options = {} }) => {
       })
 
       setVisibleItems((items) => {
+        // console.count('observer cb')
         const newVisibleItems = entries
           .filter((el) => el.intersectionRatio > options.ratio)
           .map((el) => el.target.dataset?.key)
@@ -38,9 +39,9 @@ const useIntersection = ({ refs = {}, options = {} }) => {
 
       setInit(true)
     },
-    [allItems, options]
+    250,
+    { trailing: true }
   )
-  // console.log(allItems)
 
   React.useLayoutEffect(() => {
     observer.current = new IntersectionObserver(ioCb, options)
@@ -52,7 +53,7 @@ const useIntersection = ({ refs = {}, options = {} }) => {
     }
   }, [ioCb, elements, options])
 
-  return { allItems, init, visibleItems }
+  return { init, visibleItems }
 }
 
 export default useIntersection

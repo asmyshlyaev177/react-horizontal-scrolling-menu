@@ -71,6 +71,7 @@
     "jest": "^27.0.1",
     "jest-dev-server": "^4.4.0",
     "lint-staged": "^10.2.2",
+    "lodash": "^4.17.21",
     "prettier": "^2.3.0",
     "prop-types": "^15.7.2",
     "rollup": "^2.50.2",

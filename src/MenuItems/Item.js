@@ -2,17 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { rootClassName, itemClassName } from '../constants'
+const className = `${rootClassName}--${itemClassName}`
 
 function Item({ children, id, refs = {} }) {
   const ref = React.useRef(null)
   refs[id] = ref
 
   return (
-    <div
-      className={`${rootClassName}--${itemClassName}`}
-      data-key={id}
-      ref={ref}
-    >
+    <div className={className} data-key={id} ref={ref}>
       {children}
     </div>
   )

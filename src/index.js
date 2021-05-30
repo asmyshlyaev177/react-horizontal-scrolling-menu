@@ -6,7 +6,8 @@ import ScrollContainer from './ScrollContainer'
 import MenuItems from './MenuItems'
 import useIntersectionObserver from './useIntersectionObserver'
 import useItemsChanged from './useItemsChanged'
-import useApi from './useApi'
+import createApi from './createApi'
+import CustomMap from './CustomMap'
 
 import { VisibilityContext } from './context'
 
@@ -21,12 +22,10 @@ const ScrollMenu = ({
   onScroll = () => false,
   RightArrow,
 }) => {
+  debugger
   const root = React.useRef()
   // TODO: use Map() ?
   const [refs] = React.useState({})
-
-  // NOTE: hack for detect when items added/removed dynamicaly
-  const itemsChanged = useItemsChanged(children, refs)
 
   const options = React.useMemo(
     () => ({
@@ -38,12 +37,13 @@ const ScrollMenu = ({
     []
   )
 
+  // NOTE: hack for detect when items added/removed dynamicaly
+  const itemsChanged = useItemsChanged(children, refs)
+
   // console.count('main rerender')
-  const {
-    allItems,
-    init: observerInit,
-    visibleItems,
-  } = useIntersectionObserver({
+  const items = React.useRef(new CustomMap())
+  const { init: observerInit, visibleItems } = useIntersectionObserver({
+    items: items.current,
     refs,
     options,
     itemsChanged,
@@ -54,7 +54,10 @@ const ScrollMenu = ({
   const scrollContainer = root?.current
   const rendered = scrollContainer && observerInit
 
-  const api = useApi(allItems, visibleItems)
+  const api = React.useMemo(
+    () => createApi(items.current, visibleItems),
+    [visibleItems]
+  )
 
   const publicApi = React.useMemo(
     () => ({
