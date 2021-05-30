@@ -17,7 +17,10 @@ function Item({ children, id, refs = {} }) {
 Item.propTypes = {
   id: PropTypes.string.isRequired,
   refs: PropTypes.object,
-  children: PropTypes.any,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, PropTypes.node])),
+    PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
+  ]),
 }
 
 export default React.memo(Item)
