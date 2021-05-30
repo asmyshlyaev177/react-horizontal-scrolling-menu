@@ -55,6 +55,10 @@ const common = (env) => ({
           },
         },
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
 })
