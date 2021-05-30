@@ -16,11 +16,11 @@
     "link:lib": "yarn link && cd example && yarn link react-horizontal-scrolling-menu",
     "link:install": "yarn install && cd example && yarn install",
     "link:unlink": "yarn unlink;exit 0 && cd example && yarn unlink;exit 0",
-    "build": "webpack --env.production --mode production",
+    "build": "webpack --mode production",
     "dev": "webpack --watch --mode development",
     "test": "jest",
     "rollup:build": "rollup -c rollup.config.js",
-    "rollup:dev": "rollup -c rollup.config.js w"
+    "rollup:dev": "rollup -c rollup.config.js -w"
   },
   "keywords": [
     "react",
@@ -82,7 +82,10 @@
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "^15.x || ^16.x || ^17.x",
+    "react-dom": "^15.x || ^16.x || ^17.x"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
