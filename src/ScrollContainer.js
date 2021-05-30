@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { children } from './propTypes'
+// import { children } from './propTypes'
 
 // TODO: use css ???
 const ScrollContainer = React.forwardRef(({ children }, ref) => (
@@ -19,8 +19,8 @@ const ScrollContainer = React.forwardRef(({ children }, ref) => (
   </div>
 ))
 ScrollContainer.displayName = 'ScrollContainer'
-ScrollContainer.propTypes = {
-  children,
-}
+// ScrollContainer.propTypes = {
+//   children,
+// }
 
 export default ScrollContainer

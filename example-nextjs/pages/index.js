@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import styles from '../styles/Home.module.css'
 
-import ScrollMenu from 'react-horizontal-scrolling-menu'
+import { ScrollMenu } from 'react-horizontal-scrolling-menu'
 
 const elemPrefix = 'test'
 const getId = (index) => `${elemPrefix}${index}`
@@ -28,7 +28,7 @@ export default function Home() {
       const newItems = items.concat(
         Array(5)
           .fill(0)
-          .map((_, ind) => ({ id: getId(items.length + ind) })),
+          .map((_, ind) => ({ id: getId(items.length + ind) }))
       )
       console.log('push new items')
       setItems(newItems)
@@ -41,7 +41,7 @@ export default function Home() {
     setSelected((currentSelected) =>
       isSelected
         ? currentSelected.filter((el) => el !== id)
-        : currentSelected.concat(id),
+        : currentSelected.concat(id)
     )
   }
 
