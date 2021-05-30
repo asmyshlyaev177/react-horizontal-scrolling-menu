@@ -58,7 +58,8 @@ function App() {
       >
         {items.map(({ id }) => (
           <Card
-            id={id}
+            title={id}
+            data-id={id}
             key={id}
             onClick={() => toggleSelected(id)}
             selected={!!selected.find((el) => el === id)}
@@ -139,7 +140,7 @@ function Arrow({ children, disabled, onClick }) {
   );
 }
 
-function Card({ id, onClick, selected }) {
+function Card({ id, onClick, selected , title}) {
   const { isItemVisible } = React.useContext(VisibilityContext)
 
 
@@ -155,7 +156,7 @@ function Card({ id, onClick, selected }) {
       tabIndex="0"
     >
       <div className="card">
-        <div>{id}</div>
+        <div>{title}</div>
         <div>visible: {JSON.stringify(!!isItemVisible(id))}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
