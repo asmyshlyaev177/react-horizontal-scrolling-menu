@@ -23,14 +23,7 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": [
-    "@babel",
-    "jest",
-    "react",
-    "react-hooks",
-    "jsx-a11y",
-    "unicorn"
-  ],
+  "plugins": ["@babel", "jest", "react", "react-hooks", "jsx-a11y", "unicorn"],
   "rules": {
     "prettier/prettier": [
       "warn",
@@ -48,18 +41,9 @@
     ],
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "never"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }

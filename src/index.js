@@ -5,49 +5,68 @@ import React from 'react'
 import ScrollContainer from './ScrollContainer'
 import MenuItems from './MenuItems'
 import useIntersectionObserver from './useIntersectionObserver'
-// import useIsMounted from './useIsMounted'
 import useItemsChanged from './useItemsChanged'
 import useApi from './useApi'
+
+import { VisibilityContext } from './context'
 
 const rootMargin = '5px'
 const threshold = [0, 1]
 const ratio = 0.95
 
 const ScrollMenu = ({
-  children: menuItems,
+  children,
   LeftArrow,
   onInit = () => false,
   onScroll = () => false,
   RightArrow,
 }) => {
   const root = React.useRef()
+  // TODO: use Map() ?
   const [refs] = React.useState({})
 
-  // useIsMounted()
-
   // NOTE: hack for detect when items added/removed dynamicaly
-  const itemsChanged = useItemsChanged(menuItems, refs)
+  const itemsChanged = useItemsChanged(children, refs)
 
-  const { allItems, init: observerInit } = useIntersectionObserver({
+  const options = React.useMemo(
+    () => ({
+      ratio,
+      root: root.current,
+      rootMargin,
+      threshold,
+    }),
+    []
+  )
+
+  // console.count('main rerender')
+  const {
+    allItems,
+    init: observerInit,
+    visibleItems,
+  } = useIntersectionObserver({
     refs,
-    options: { ratio, root: root.current, rootMargin, threshold },
+    options,
     itemsChanged,
   })
-
-  // console.log(Object.values(allItems).length)
 
   const [initComplete, setInitComplete] = React.useState(false)
 
   const scrollContainer = root?.current
   const rendered = scrollContainer && observerInit
 
-  const publicApi = {
-    ...useApi(allItems),
-    observerInit,
-    initComplete,
-    rendered,
-    scrollContainer,
-  }
+  const api = useApi(allItems, visibleItems)
+
+  const publicApi = React.useMemo(
+    () => ({
+      ...api,
+      observerInit,
+      initComplete,
+      rendered,
+      scrollContainer,
+      visibleItems,
+    }),
+    [api, observerInit, initComplete, rendered, scrollContainer, visibleItems]
+  )
 
   // TODO: hide scrollbar
   // https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
@@ -68,13 +87,15 @@ const ScrollMenu = ({
 
   return (
     <div onScroll={scrollHandler} style={{ display: 'flex' }}>
-      {LeftArrow && <LeftArrow {...publicApi} />}
-      <ScrollContainer ref={root}>
-        <MenuItems refs={refs} {...publicApi}>
-          {menuItems}
-        </MenuItems>
-      </ScrollContainer>
-      {RightArrow && <RightArrow {...publicApi} />}
+      <VisibilityContext.Provider value={publicApi}>
+        {(LeftArrow && <LeftArrow />) || null}
+        <ScrollContainer ref={root}>
+          <MenuItems refs={refs} isLastItem={publicApi.isLastItem}>
+            {children}
+          </MenuItems>
+        </ScrollContainer>
+        {(RightArrow && <RightArrow />) || null}
+      </VisibilityContext.Provider>
     </div>
   )
 
@@ -83,4 +104,6 @@ const ScrollMenu = ({
   }
 }
 
-export default ScrollMenu
+// export default ScrollMenu
+
+export { ScrollMenu, VisibilityContext }

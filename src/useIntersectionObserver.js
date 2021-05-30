@@ -1,48 +1,58 @@
 import React from 'react'
 
 import { getNodesFromRefs } from './helpers'
+import CustomMap from './CustomMap'
 
 const useIntersection = ({ refs = {}, options = {} }) => {
   const elements = getNodesFromRefs(refs)
-  const [allItems, setAllItems] = React.useState([])
+  const [allItems] = React.useState(new CustomMap())
   const [init, setInit] = React.useState(false)
   const observer = React.useRef()
 
   // console.count('observer')
 
-  const cb = (entries) => {
-    // console.count('observer CB')
-    const newVisible = entries.reduce((acc, entry) => {
-      // TODO: move data-key to config
-      const key = entry.target.getAttribute('data-key')
-      acc[key] = {
-        key,
-        visible: entry.intersectionRatio >= options.ratio,
-        entry,
-      }
-      return acc
-    }, {})
+  const [visibleItems, setVisibleItems] = React.useState([])
 
-    setAllItems((visible) =>
-      JSON.stringify(newVisible) !== JSON.stringify(visible)
-        ? newVisible
-        : visible,
-    )
-    setInit(true)
-  }
+  const ioCb = React.useCallback(
+    (entries) => {
+      entries.forEach((entry) => {
+        const key = entry.target?.dataset?.key
+
+        allItems.set(key, {
+          key,
+          visible: entry.intersectionRatio >= options.ratio,
+          entry,
+        })
+      })
+
+      setVisibleItems((items) => {
+        const newVisibleItems = entries
+          .filter((el) => el.intersectionRatio > options.ratio)
+          .map((el) => el.target.dataset?.key)
+          .filter(Boolean)
+        if (JSON.stringify(items) !== JSON.stringify(newVisibleItems)) {
+          return newVisibleItems
+        }
+        return items
+      })
+
+      setInit(true)
+    },
+    [allItems, options]
+  )
+  // console.log(allItems)
 
   React.useLayoutEffect(() => {
-    // console.log('observer useEffect')
-    observer.current = observer.current || new IntersectionObserver(cb, options)
+    observer.current = new IntersectionObserver(ioCb, options)
     elements.forEach((elem) => observer.current.observe(elem))
 
     return () => {
       observer.current.disconnect()
       observer.current = null
     }
-  }, [elements, options])
+  }, [ioCb, elements, options])
 
-  return { allItems, init }
+  return { allItems, init, visibleItems }
 }
 
 export default useIntersection

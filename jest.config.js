@@ -10,6 +10,19 @@ module.exports = {
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
+  coveragePathIgnorePatterns: [
+    'spec.js',
+    'test.js',
+    'service-worker',
+    'coverage',
+    'cypress',
+    'cypress-coverage',
+  ],
+  moduleDirectories: ['node_modules'],
+  // NOTE: hack for search peerDeps as React in example folder
+  modulePaths: ['<rootDir>/example/node_modules'],
+  setupFilesAfterEnv: ['<rootDir>/jest.init.js'],
+  testEnvironment: 'jsdom',
   transformIgnorePatterns: ['/node_modules/'],
   verbose: true,
 
