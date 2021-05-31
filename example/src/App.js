@@ -96,11 +96,10 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { getNextItem, isLastItemVisible, ...rest } = React.useContext(VisibilityContext)
+  const { getNextItem, isLastItemVisible } = React.useContext(VisibilityContext)
 
 
   const onClick = () => {
-    // console.log({...rest, getNextItem })
     const nextItem = getNextItem()?.entry?.target;
 
     // NOTE: can scroll to first item if end reached

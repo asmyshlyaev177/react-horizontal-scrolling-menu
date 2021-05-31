@@ -1,6 +1,26 @@
+// TODO: rename to ItemsMap
 class CustomMap extends Map {
   toArr() {
     return [...this]
+  }
+
+  // TODO: tests
+  onlyDigits(value) {
+    return String(value).replace(/[^0-9.]/g, '')
+  }
+
+  sort(arr = []) {
+    return arr.sort((a, b) => +this.onlyDigits(a[0]) - +this.onlyDigits(b[0]))
+  }
+
+  set(key, val) {
+    if (Array.isArray(key)) {
+      this.sort(key).forEach((el) => {
+        super.set(el[0], el[1])
+      })
+    } else {
+      super.set(key, val)
+    }
   }
 
   first() {
@@ -27,14 +47,14 @@ class CustomMap extends Map {
     const arr = this.toArr()
     const current = arr.findIndex((el) => el[0] === item || el[1] === item)
 
-    return current !== -1 ? arr[current - 1] : undefined
+    return current !== -1 ? arr[current - 1]?.[1] : undefined
   }
 
   next(item) {
     const arr = this.toArr()
     const current = arr.findIndex((el) => el[0] === item || el[1] === item)
 
-    return current !== -1 ? arr[current + 1] : undefined
+    return current !== -1 ? arr[current + 1]?.[1] : undefined
   }
 }
 

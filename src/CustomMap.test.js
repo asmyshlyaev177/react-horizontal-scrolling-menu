@@ -4,27 +4,56 @@ describe('CustomMap', () => {
   const data = [
     ['test1', 1],
     ['test2', 2],
-    ['test3', 3],
+    ['test2.2', 3],
+    ['test3', 4],
   ]
 
-  test('set and get', () => {
-    const map = new CustomMap()
+  describe('set and get', () => {
+    test('set single value and get', () => {
+      const map = new CustomMap()
 
-    data.forEach(([key, value]) => {
-      map.set(key, value)
-    })
-    data.forEach(([key, value]) => {
-      expect(map.get(key)).toEqual(value)
+      data.forEach(([key, value]) => {
+        map.set(key, value)
+      })
+      data.forEach(([key, value]) => {
+        expect(map.get(key)).toEqual(value)
+      })
+
+      data.forEach(([key, value]) => {
+        map.set(key, value)
+      })
+      data.forEach(([key, value]) => {
+        expect(map.get(key)).toEqual(value)
+      })
+
+      expect([...map]).toEqual(data)
     })
 
-    data.forEach(([key, value]) => {
-      map.set(key, value)
-    })
-    data.forEach(([key, value]) => {
-      expect(map.get(key)).toEqual(value)
-    })
+    describe('sort and set array of values and get', () => {
+      test('sorted array', () => {
+        const map = new CustomMap()
 
-    expect([...map]).toEqual(data)
+        map.set(data)
+
+        data.forEach(([key, value]) => {
+          expect(map.get(key)).toEqual(value)
+        })
+
+        expect([...map]).toEqual(data)
+      })
+
+      test('unsorted array', () => {
+        const map = new CustomMap()
+
+        map.set(data.reverse())
+
+        data.forEach(([key, value]) => {
+          expect(map.get(key)).toEqual(value)
+        })
+
+        expect([...map]).toEqual(data)
+      })
+    })
   })
 
   test('first element', () => {
@@ -95,7 +124,7 @@ describe('CustomMap', () => {
 
         const item = 'test2'
 
-        expect(map.prev(item)).toEqual(['test1', 1])
+        expect(map.prev(item)).toEqual(1)
       })
 
       test('does not have prev item', () => {
@@ -136,7 +165,7 @@ describe('CustomMap', () => {
 
         const item = 2
 
-        expect(map.prev(item)).toEqual(['test1', 1])
+        expect(map.prev(item)).toEqual(1)
       })
 
       test('does not have prev item', () => {
@@ -164,7 +193,7 @@ describe('CustomMap', () => {
 
         const item = 'test2'
 
-        expect(map.next(item)).toEqual(['test3', 3])
+        expect(map.next(item)).toEqual(3)
       })
 
       test('does not have next item', () => {
@@ -205,7 +234,7 @@ describe('CustomMap', () => {
 
         const item = 2
 
-        expect(map.next(item)).toEqual(['test3', 3])
+        expect(map.next(item)).toEqual(3)
       })
 
       test('does not have next item', () => {
@@ -215,7 +244,7 @@ describe('CustomMap', () => {
           map.set(key, value)
         })
 
-        const item = 3
+        const item = data.slice(-1)[0]
 
         expect(map.next(item)).toEqual()
       })
