@@ -10,32 +10,41 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
 
   // console.count('observer')
 
+  // console.log(refs, elements)
+  // TODO: class for visibleItems ??
   const [visibleItems, setVisibleItems] = React.useState([])
 
   const ioCb = throttle(
     (entries) => {
-      // TODO: pass array and set all items ?
-      entries.forEach((entry) => {
+      const newItems = [...entries].map((entry) => {
         const key = entry.target?.dataset?.key
+        const index = String(entry.target?.dataset?.index)
 
-        items.set(key, {
-          key,
-          visible: entry.intersectionRatio >= options.ratio,
-          entry,
-        })
+        // TODO: some class/helper for parse entries to items
+        return [
+          index,
+          {
+            index,
+            key,
+            entry,
+            visible: entry.intersectionRatio >= options.ratio,
+          },
+        ]
       })
+      // console.log(newItems)
+      items.set(newItems)
 
-      setVisibleItems((items) => {
+      setVisibleItems((currentVisible) => {
         // console.count('observer cb')
-        const newVisibleItems = entries
-          .filter((el) => el.intersectionRatio > options.ratio)
-          .map((el) => el.target.dataset?.key)
-          .filter(Boolean)
-        // console.log(newVisibleItems, entries)
-        if (JSON.stringify(items) !== JSON.stringify(newVisibleItems)) {
+        const newVisibleItems = items
+          .filter((el) => el[1].visible)
+          .map((el) => el[1].index)
+        if (
+          JSON.stringify(currentVisible) !== JSON.stringify(newVisibleItems)
+        ) {
           return newVisibleItems
         }
-        return items
+        return currentVisible
       })
     },
     250,

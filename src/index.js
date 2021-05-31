@@ -24,8 +24,7 @@ const ScrollMenu = ({
   RightArrow,
 }) => {
   const scrollContainerRef = React.useRef()
-  // TODO: use Map() ? rename to MenuItemsRefs ?
-  const [refs] = React.useState({})
+  const [menuItemsRefs] = React.useState({})
 
   const options = React.useMemo(
     () => ({
@@ -38,25 +37,29 @@ const ScrollMenu = ({
   )
 
   // NOTE: hack for detect when items added/removed dynamicaly
-  const itemsChanged = useItemsChanged(children, refs)
+  const itemsChanged = useItemsChanged(children, menuItemsRefs)
 
   // console.count('main rerender')
-  const items = React.useRef(new CustomMap())
+  const items = React.useRef(new CustomMap()).current
   const { visibleItems } = useIntersectionObserver({
-    items: items.current,
-    refs,
+    items,
+    refs: menuItemsRefs,
     options,
     itemsChanged,
   })
+  // console.log(items)
+  // console.log(visibleItems)
 
   const initComplete = useIsMounted(() => onInit(publicApi))
 
   const api = React.useMemo(
-    () => createApi(items.current, visibleItems),
-    [visibleItems]
+    () => createApi(items, visibleItems),
+    [visibleItems, items]
   )
+  // console.log(api)
 
   const publicApi = React.useMemo(
+    // TODO: pass items
     () => ({
       ...api,
       initComplete,
@@ -65,6 +68,9 @@ const ScrollMenu = ({
     }),
     [api, initComplete, visibleItems]
   )
+
+  // console.log(publicApi)
+  // console.log(items)
 
   // TODO: hide scrollbar
   // https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
@@ -78,9 +84,7 @@ const ScrollMenu = ({
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
         <ScrollContainer ref={scrollContainerRef}>
-          <MenuItems refs={refs} isLastItem={publicApi.isLastItem}>
-            {children}
-          </MenuItems>
+          <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
         </ScrollContainer>
         {(RightArrow && <RightArrow />) || null}
       </VisibilityContext.Provider>
@@ -91,7 +95,5 @@ const ScrollMenu = ({
     onScroll(publicApi)
   }
 }
-
-// export default ScrollMenu
 
 export { ScrollMenu, VisibilityContext }
