@@ -6,6 +6,7 @@ import ScrollContainer from './ScrollContainer'
 import MenuItems from './MenuItems'
 import useIntersectionObserver from './useIntersectionObserver'
 import useItemsChanged from './useItemsChanged'
+import useIsMounted from './useIsMounted'
 import createApi from './createApi'
 import CustomMap from './CustomMap'
 
@@ -22,14 +23,14 @@ const ScrollMenu = ({
   onScroll = () => false,
   RightArrow,
 }) => {
-  const root = React.useRef()
-  // TODO: use Map() ?
+  const scrollContainerRef = React.useRef()
+  // TODO: use Map() ? rename to MenuItemsRefs ?
   const [refs] = React.useState({})
 
   const options = React.useMemo(
     () => ({
       ratio,
-      root: root.current,
+      root: scrollContainerRef.current,
       rootMargin,
       threshold,
     }),
@@ -41,17 +42,14 @@ const ScrollMenu = ({
 
   // console.count('main rerender')
   const items = React.useRef(new CustomMap())
-  const { init: observerInit, visibleItems } = useIntersectionObserver({
+  const { visibleItems } = useIntersectionObserver({
     items: items.current,
     refs,
     options,
     itemsChanged,
   })
 
-  const [initComplete, setInitComplete] = React.useState(false)
-
-  const scrollContainer = root?.current
-  const rendered = scrollContainer && observerInit
+  const initComplete = useIsMounted(() => onInit(publicApi))
 
   const api = React.useMemo(
     () => createApi(items.current, visibleItems),
@@ -61,13 +59,11 @@ const ScrollMenu = ({
   const publicApi = React.useMemo(
     () => ({
       ...api,
-      observerInit,
       initComplete,
-      rendered,
-      scrollContainer,
+      scrollContainer: scrollContainerRef,
       visibleItems,
     }),
-    [api, observerInit, initComplete, rendered, scrollContainer, visibleItems]
+    [api, initComplete, visibleItems]
   )
 
   // TODO: hide scrollbar
@@ -77,21 +73,11 @@ const ScrollMenu = ({
   // https://stackoverflow.com/questions/2346958/how-to-do-a-horizontal-scroll-on-mouse-wheel-scroll
   // https://codepen.io/tanin13/pen/JjoPdBy
 
-  // console.log({ rendered, observerInit, initComplete, root })
-
-  React.useEffect(() => {
-    if (rendered && !initComplete) {
-      console.log('onInit', publicApi)
-      onInit(publicApi)
-      setInitComplete(true)
-    }
-  }, [initComplete, onInit, publicApi, rendered])
-
   return (
     <div onScroll={scrollHandler} style={{ display: 'flex' }}>
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
-        <ScrollContainer ref={root}>
+        <ScrollContainer ref={scrollContainerRef}>
           <MenuItems refs={refs} isLastItem={publicApi.isLastItem}>
             {children}
           </MenuItems>
