@@ -2,9 +2,11 @@
 
 const createApi = (items, visibleItems) => {
   const visibleItemsWithoutSeparators = visibleItems.filter(
-    (el) => !/-separator/.test(String(el?.key))
+    (el) => !/-separator/.test(String(el))
   )
 
+  // TODO: wrong(or not guranteed) order for items/separators in CustomMap
+  // so need to adjust it
   const isFirstItemVisible = !!items.first()?.visible
   const isLastItemVisible = !!items.last()?.visible
 

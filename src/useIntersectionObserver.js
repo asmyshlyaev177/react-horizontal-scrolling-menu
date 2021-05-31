@@ -6,7 +6,6 @@ import { getNodesFromRefs } from './helpers'
 
 const useIntersection = ({ items, refs = {}, options = {} }) => {
   const elements = getNodesFromRefs(refs)
-  const [init, setInit] = React.useState(false)
   const observer = React.useRef()
 
   // console.count('observer')
@@ -15,6 +14,7 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
 
   const ioCb = throttle(
     (entries) => {
+      // TODO: pass array and set all items ?
       entries.forEach((entry) => {
         const key = entry.target?.dataset?.key
 
@@ -31,13 +31,12 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
           .filter((el) => el.intersectionRatio > options.ratio)
           .map((el) => el.target.dataset?.key)
           .filter(Boolean)
+        // console.log(newVisibleItems, entries)
         if (JSON.stringify(items) !== JSON.stringify(newVisibleItems)) {
           return newVisibleItems
         }
         return items
       })
-
-      setInit(true)
     },
     250,
     { trailing: true }
@@ -53,7 +52,7 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
     }
   }, [ioCb, elements, options])
 
-  return { init, visibleItems }
+  return { visibleItems }
 }
 
 export default useIntersection

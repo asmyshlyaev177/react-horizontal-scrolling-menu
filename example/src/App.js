@@ -18,20 +18,20 @@ function App() {
   const [mounted, setMounted] = React.useState(false);
 
   function savePosition({ scrollContainer }) {
-    setPosition(scrollContainer.scrollLeft);
+    setPosition(scrollContainer.current.scrollLeft);
   }
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      const newItems = items.concat(
-        Array(5)
-          .fill(0)
-          .map((_, ind) => ({ id: getId(items.length + ind) }))
-      );
-      console.log("push new items");
-      setItems(newItems);
-    }, 3000);
-  }, []);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     const newItems = items.concat(
+  //       Array(5)
+  //         .fill(0)
+  //         .map((_, ind) => ({ id: getId(items.length + ind) }))
+  //     );
+  //     console.log("push new items");
+  //     setItems(newItems);
+  //   }, 3000);
+  // }, []);
 
   const toggleSelected = (id) => {
     const isSelected = selected.find((el) => el === id);
@@ -51,7 +51,7 @@ function App() {
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         onInit={({ scrollContainer }) => {
-          scrollContainer.scrollLeft = position;
+          scrollContainer.current.scrollLeft = position;
           setMounted(true);
         }}
         onScroll={savePosition}
@@ -96,15 +96,18 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { getNextItem, isLastItemVisible } = React.useContext(VisibilityContext)
+  const { getNextItem, isLastItemVisible, ...rest } = React.useContext(VisibilityContext)
+
 
   const onClick = () => {
+    // console.log({...rest, getNextItem })
     const nextItem = getNextItem()?.entry?.target;
 
     // NOTE: can scroll to first item if end reached
     // const firstItem = allItems?.[0]?.entry?.target
     // const item = nextItem || firstItem
 
+    // console.log(nextItem)
     const item = nextItem;
     item &&
       item.scrollIntoView({
@@ -140,7 +143,8 @@ function Arrow({ children, disabled, onClick }) {
   );
 }
 
-function Card({ id, onClick, selected , title}) {
+function Card({ onClick, selected, title, ...rest }) {
+  const id = rest['data-id']
   const { isItemVisible } = React.useContext(VisibilityContext)
 
 
