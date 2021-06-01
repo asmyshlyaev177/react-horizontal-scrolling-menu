@@ -82,10 +82,6 @@ function ScrollMenu({
   // TODO: hide scrollbar
   // https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
 
-  // TODO: mouse wheel scroll
-  // https://stackoverflow.com/questions/2346958/how-to-do-a-horizontal-scroll-on-mouse-wheel-scroll
-  // https://codepen.io/tanin13/pen/JjoPdBy
-
   const onWheelHandler = React.useCallback(
     (ev) => onWheel(publicApi, ev),
     [onWheel, publicApi]

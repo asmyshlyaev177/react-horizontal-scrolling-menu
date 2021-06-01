@@ -3,6 +3,9 @@ import React from "react";
 
 import throttle from 'lodash/throttle'
 
+// NOTE: hide scrollbar
+// import './hideScrollbar.css'
+
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
 function throttleFn(fn) {
