@@ -15,11 +15,14 @@ jest.mock('./Separator', () => ({ id, index, key, refs }) => (
 ))
 
 const items = ['test1', 'test2']
-const children = items.map((item) => (
-  <div data-testid={item} key={item} data-id={item}>
-    {item}
-  </div>
-))
+const children = items.map((item) => {
+  const itemId = { itemId: item }
+  return (
+    <div data-testid={item} key={item} {...itemId}>
+      {item}
+    </div>
+  )
+})
 
 const setup = (props = {}) => {
   return render(<MenuItems {...props}>{children}</MenuItems>)

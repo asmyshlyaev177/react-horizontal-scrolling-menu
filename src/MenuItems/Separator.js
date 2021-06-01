@@ -16,7 +16,7 @@ function Separator({ id, index, refs = {} }) {
 Separator.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  refs: PropTypes.object,
+  refs: PropTypes.object.isRequired,
 }
 
 export default React.memo(Separator)

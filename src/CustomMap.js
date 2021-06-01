@@ -4,7 +4,6 @@ class CustomMap extends Map {
     return [...this]
   }
 
-  // TODO: tests
   onlyDigits(value) {
     return String(value).replace(/[^0-9.]/g, '')
   }

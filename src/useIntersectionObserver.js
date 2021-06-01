@@ -41,6 +41,7 @@ function useIntersection({
 
     setVisibleItems((currentVisible) => {
       // console.count('observer cb')
+      // TODO: helpers to get visibleItems
       const newVisibleItems = items
         .filter((el) => el[1].visible)
         .map((el) => el[1].key)

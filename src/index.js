@@ -9,31 +9,29 @@ import useItemsChanged from './useItemsChanged'
 import useIsMounted from './useIsMounted'
 import createApi from './createApi'
 import CustomMap from './CustomMap'
+import { observerOptions as defaultObserverOptions } from './settings'
 
 import { VisibilityContext } from './context'
 
-const rootMargin = '5px'
-const threshold = [0, 1]
-const ratio = 0.95
-
 function ScrollMenu({
-  children,
   LeftArrow,
+  RightArrow,
+  children,
   onInit = () => false,
   onScroll = () => false,
-  RightArrow,
+  options = {},
   throttle,
 }) {
   const scrollContainerRef = React.useRef()
   const [menuItemsRefs] = React.useState({})
 
-  const options = React.useMemo(
+  const observerOptions = React.useMemo(
     () => ({
-      ratio,
+      ...defaultObserverOptions,
+      ...options,
       root: scrollContainerRef.current,
-      rootMargin,
-      threshold,
     }),
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
     []
   )
 
@@ -44,9 +42,9 @@ function ScrollMenu({
   const items = React.useRef(new CustomMap()).current
   const { visibleItems } = useIntersectionObserver({
     items,
-    refs: menuItemsRefs,
-    options,
     itemsChanged,
+    options: observerOptions,
+    refs: menuItemsRefs,
     throttle,
   })
   // console.log(items)
@@ -65,10 +63,16 @@ function ScrollMenu({
     () => ({
       ...api,
       initComplete,
+      items,
       scrollContainer: scrollContainerRef,
       visibleItems,
     }),
-    [api, initComplete, visibleItems]
+    [api, initComplete, items, visibleItems]
+  )
+
+  const scrollHandler = React.useCallback(
+    () => onScroll(publicApi),
+    [onScroll, publicApi]
   )
 
   // console.log(publicApi)
@@ -82,20 +86,19 @@ function ScrollMenu({
   // https://codepen.io/tanin13/pen/JjoPdBy
 
   return (
-    <div onScroll={scrollHandler} style={{ display: 'flex' }}>
+    <div style={{ display: 'flex' }}>
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
-        <ScrollContainer scrollRef={scrollContainerRef}>
+        <ScrollContainer
+          onScroll={scrollHandler}
+          scrollRef={scrollContainerRef}
+        >
           <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
         </ScrollContainer>
         {(RightArrow && <RightArrow />) || null}
       </VisibilityContext.Provider>
     </div>
   )
-
-  function scrollHandler() {
-    onScroll(publicApi)
-  }
 }
 
 export { ScrollMenu, VisibilityContext }

@@ -23,9 +23,7 @@ function App() {
   const [position, setPosition] = React.useState(300);
   const [mounted, setMounted] = React.useState(false);
 
-  function savePosition({ scrollContainer }) {
-    setPosition(scrollContainer.current.scrollLeft);
-  }
+  
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -49,24 +47,29 @@ function App() {
     );
   };
 
-  // console.log({ mounted })
+  const onInit = React.useCallback(({ scrollContainer }) => {
+    scrollContainer.current.scrollLeft = position;
+    setMounted(true);
+  }, [position]);
+
+  const savePosition = React.useCallback(throttle(({ scrollContainer }) => {
+    setPosition(scrollContainer.current.scrollLeft)
+  }, 500), []);
+
   // NOTE: can use items without id for padding
   return (
     <div style={{ opacity: +mounted }}>
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
-        onInit={({ scrollContainer }) => {
-          scrollContainer.current.scrollLeft = position;
-          setMounted(true);
-        }}
+        onInit={onInit}
         throttle={throttleFn}
         onScroll={savePosition}
       >
         {items.map(({ id }) => (
           <Card
             title={id}
-            data-id={id}
+            itemId={id} // NOTE: itemId is required for track items
             key={id}
             onClick={() => toggleSelected(id)}
             selected={!!selected.find((el) => el === id)}
@@ -84,7 +87,7 @@ function LeftArrow() {
     const prevItem = getPrevItem()?.entry?.target;
 
     // NOTE: can scroll to last item if start reached
-    // const lastItem = allItems?.slice(-1)?.[0]?.entry?.target
+    // const lastItem = items.last()?.entry?.target
     // const item = prevItem || lastItem
 
     const item = prevItem;
@@ -110,10 +113,9 @@ function RightArrow() {
     const nextItem = getNextItem()?.entry?.target;
 
     // NOTE: can scroll to first item if end reached
-    // const firstItem = allItems?.[0]?.entry?.target
+    // const firstItem = items.first()?.entry?.target
     // const item = nextItem || firstItem
 
-    // console.log(nextItem)
     const item = nextItem;
     item &&
       item.scrollIntoView({
@@ -149,8 +151,7 @@ function Arrow({ children, disabled, onClick }) {
   );
 }
 
-function Card({ onClick, selected, title, ...rest }) {
-  const id = rest['data-id']
+function Card({ onClick, selected, title, itemId }) {
   const { isItemVisible } = React.useContext(VisibilityContext)
 
 
@@ -167,7 +168,7 @@ function Card({ onClick, selected, title, ...rest }) {
     >
       <div className="card">
         <div>{title}</div>
-        <div>visible: {JSON.stringify(!!isItemVisible(id))}</div>
+        <div>visible: {JSON.stringify(!!isItemVisible(itemId))}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div
