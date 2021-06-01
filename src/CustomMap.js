@@ -10,7 +10,9 @@ class CustomMap extends Map {
   }
 
   sort(arr = []) {
-    return arr.sort((a, b) => +this.onlyDigits(a[0]) - +this.onlyDigits(b[0]))
+    return arr.sort(
+      (a, b) => +this.onlyDigits(a[1].index) - +this.onlyDigits(b[1].index)
+    )
   }
 
   set(key, val) {

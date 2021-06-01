@@ -11,7 +11,6 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
   // console.count('observer')
 
   // console.log(refs, elements)
-  // TODO: class for visibleItems ??
   const [visibleItems, setVisibleItems] = React.useState([])
 
   const ioCb = throttle(
@@ -22,7 +21,7 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
 
         // TODO: some class/helper for parse entries to items
         return [
-          index,
+          key,
           {
             index,
             key,
@@ -38,7 +37,7 @@ const useIntersection = ({ items, refs = {}, options = {} }) => {
         // console.count('observer cb')
         const newVisibleItems = items
           .filter((el) => el[1].visible)
-          .map((el) => el[1].index)
+          .map((el) => el[1].key)
         if (
           JSON.stringify(currentVisible) !== JSON.stringify(newVisibleItems)
         ) {

@@ -2,7 +2,7 @@
 
 const createApi = (items, visibleItems) => {
   const visibleItemsWithoutSeparators = visibleItems.filter(
-    (el) => !/\./.test(String(el))
+    (el) => !/separator/.test(String(el))
   )
 
   // console.log(visibleItemsWithoutSeparators)
@@ -31,9 +31,9 @@ const createApi = (items, visibleItems) => {
 
   const isItemVisible = (id) => !!getItemById(id)?.visible
 
-  const getPrevItem = () => items.prev(firstVisibleItem?.index)
+  const getPrevItem = () => items.prev(firstVisibleItem?.key)
 
-  const getNextItem = () => items.next(lastVisibleItem?.index)
+  const getNextItem = () => items.next(lastVisibleItem?.key)
 
   // TODO: on first render every item is last item, so no separators get rendered
   const isLastItem = (id) => items.last() === getItemById(id)
