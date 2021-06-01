@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Separator from './Separator'
 import Item from './Item'
@@ -7,8 +8,7 @@ function MenuItems({ children, refs = {} }) {
   const itemsCount = React.Children.count(children)
 
   return React.Children.map(children, (child, index) => {
-    // TODO: rename to dataId ?
-    const id = child?.props?.['data-id']
+    const id = child?.props?.itemId
     const separatorId = id + '-separator'
     const isLastItem = index + 1 === itemsCount
 
@@ -27,6 +27,13 @@ function MenuItems({ children, refs = {} }) {
       </>
     )
   })
+}
+MenuItems.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, PropTypes.node])),
+    PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
+  ]).isRequired,
+  refs: PropTypes.object.isRequired,
 }
 
 export default MenuItems

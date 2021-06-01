@@ -5,10 +5,11 @@ import { rootClassName, scrollContainerClassName } from './constants'
 
 const className = `${rootClassName}--${scrollContainerClassName}`
 
-function ScrollContainer({ children, scrollRef }) {
+function ScrollContainer({ children, onScroll, scrollRef }) {
   return (
     <div
       className={className}
+      onScroll={onScroll}
       ref={scrollRef}
       style={{
         display: 'flex',
@@ -24,6 +25,7 @@ function ScrollContainer({ children, scrollRef }) {
 }
 ScrollContainer.propTypes = {
   children: PropTypes.any.isRequired,
+  onScroll: PropTypes.func,
   scrollRef: PropTypes.object.isRequired,
 }
 

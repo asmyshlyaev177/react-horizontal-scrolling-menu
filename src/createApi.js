@@ -1,5 +1,4 @@
-// import React from 'react'
-
+// TODO: tests
 function createApi(items, visibleItems) {
   const visibleItemsWithoutSeparators = visibleItems.filter(
     (el) => !/separator/.test(String(el))
@@ -38,7 +37,7 @@ function createApi(items, visibleItems) {
   // TODO: on first render every item is last item, so no separators get rendered
   const isLastItem = (id) => items.last() === getItemById(id)
 
-  const result = {
+  return {
     centerVisibleItem,
     firstVisibleItem,
     getItemById,
@@ -52,8 +51,6 @@ function createApi(items, visibleItems) {
     lastVisibleItem,
     visibleItemsWithoutSeparators,
   }
-
-  return result
 }
 
 export default createApi
