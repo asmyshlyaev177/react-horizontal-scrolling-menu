@@ -1,6 +1,6 @@
 // import React from 'react'
 
-const createApi = (items, visibleItems) => {
+function createApi(items, visibleItems) {
   const visibleItemsWithoutSeparators = visibleItems.filter(
     (el) => !/separator/.test(String(el))
   )

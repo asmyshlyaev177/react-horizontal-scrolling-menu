@@ -3,7 +3,7 @@ import React from 'react'
 import Separator from './Separator'
 import Item from './Item'
 
-const MenuItems = ({ children, refs = {} }) => {
+function MenuItems({ children, refs = {} }) {
   const itemsCount = React.Children.count(children)
 
   return React.Children.map(children, (child, index) => {
