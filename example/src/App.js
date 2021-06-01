@@ -1,7 +1,13 @@
 import React from "react";
 // import React from '../node_modules/react'
 
+import throttle from 'lodash/throttle'
+
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+
+function throttleFn(fn) {
+  return throttle(fn, 150)
+}
 
 const elemPrefix = "test";
 const getId = (index) => `${elemPrefix}${index}`;
@@ -21,17 +27,17 @@ function App() {
     setPosition(scrollContainer.current.scrollLeft);
   }
 
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     const newItems = items.concat(
-  //       Array(5)
-  //         .fill(0)
-  //         .map((_, ind) => ({ id: getId(items.length + ind) }))
-  //     );
-  //     console.log("push new items");
-  //     setItems(newItems);
-  //   }, 3000);
-  // }, []);
+  React.useEffect(() => {
+    setTimeout(() => {
+      const newItems = items.concat(
+        Array(5)
+          .fill(0)
+          .map((_, ind) => ({ id: getId(items.length + ind) }))
+      );
+      console.log("push new items");
+      setItems(newItems);
+    }, 3000);
+  }, []);
 
   const toggleSelected = (id) => {
     const isSelected = selected.find((el) => el === id);
@@ -54,6 +60,7 @@ function App() {
           scrollContainer.current.scrollLeft = position;
           setMounted(true);
         }}
+        throttle={throttleFn}
         onScroll={savePosition}
       >
         {items.map(({ id }) => (

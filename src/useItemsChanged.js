@@ -1,6 +1,6 @@
 import React from 'react'
 
-const useItemsChanged = (menuItems, refs) => {
+function useItemsChanged(menuItems, refs) {
   const [hash, setHash] = React.useState('')
 
   React.useLayoutEffect(() => {

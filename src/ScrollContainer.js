@@ -5,13 +5,11 @@ import { rootClassName, scrollContainerClassName } from './constants'
 
 const className = `${rootClassName}--${scrollContainerClassName}`
 
-// TODO: use css ???
-/* eslint-disable-next-line react/display-name */
-const ScrollContainer = React.forwardRef(({ children }, ref) => {
+function ScrollContainer({ children, scrollRef }) {
   return (
     <div
       className={className}
-      ref={ref}
+      ref={scrollRef}
       style={{
         display: 'flex',
         height: 'max-content',
@@ -23,9 +21,10 @@ const ScrollContainer = React.forwardRef(({ children }, ref) => {
       {children}
     </div>
   )
-})
+}
 ScrollContainer.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.any.isRequired,
+  scrollRef: PropTypes.object.isRequired,
 }
 
 export default ScrollContainer

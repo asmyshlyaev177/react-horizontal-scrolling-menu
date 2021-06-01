@@ -16,13 +16,14 @@ const rootMargin = '5px'
 const threshold = [0, 1]
 const ratio = 0.95
 
-const ScrollMenu = ({
+function ScrollMenu({
   children,
   LeftArrow,
   onInit = () => false,
   onScroll = () => false,
   RightArrow,
-}) => {
+  throttle,
+}) {
   const scrollContainerRef = React.useRef()
   const [menuItemsRefs] = React.useState({})
 
@@ -46,6 +47,7 @@ const ScrollMenu = ({
     refs: menuItemsRefs,
     options,
     itemsChanged,
+    throttle,
   })
   // console.log(items)
   // console.log(visibleItems)
@@ -83,7 +85,7 @@ const ScrollMenu = ({
     <div onScroll={scrollHandler} style={{ display: 'flex' }}>
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
-        <ScrollContainer ref={scrollContainerRef}>
+        <ScrollContainer scrollRef={scrollContainerRef}>
           <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
         </ScrollContainer>
         {(RightArrow && <RightArrow />) || null}
