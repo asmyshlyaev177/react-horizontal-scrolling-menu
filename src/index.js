@@ -19,6 +19,7 @@ function ScrollMenu({
   children,
   onInit = () => false,
   onScroll = () => false,
+  onWheel = () => false,
   options = {},
   throttle,
 }) {
@@ -85,8 +86,13 @@ function ScrollMenu({
   // https://stackoverflow.com/questions/2346958/how-to-do-a-horizontal-scroll-on-mouse-wheel-scroll
   // https://codepen.io/tanin13/pen/JjoPdBy
 
+  const onWheelHandler = React.useCallback(
+    (ev) => onWheel(publicApi, ev),
+    [onWheel, publicApi]
+  )
+
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex' }} onWheel={onWheelHandler}>
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
         <ScrollContainer

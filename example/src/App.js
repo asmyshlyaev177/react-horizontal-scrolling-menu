@@ -17,6 +17,38 @@ const getItems = () =>
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
+  const onWheel = throttle((api, ev) => {
+    // NOTE: no good standart way to distinguish touchpad scrolling gestures
+    // but can assume that gesture will affect X axis, mouse scroll only Y axis 
+    // of if deltaY too small probably is it touchpad
+    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15
+
+    if (isThouchpad) { 
+      ev.stopPropagation()
+      return false
+    }
+
+    if (ev.deltaY < 0) {
+      const item = api.getNextItem()?.entry?.target;
+
+      if (item) {
+        window.requestAnimationFrame(() => item.scrollIntoView({
+          behavior: "smooth",
+          inline: "start",
+        }));
+      }
+    } else if (ev.deltaY > 0) {
+      const item = api.getPrevItem()?.entry?.target;
+
+      if (item) {
+        window.requestAnimationFrame(() => item.scrollIntoView({
+          behavior: "smooth",
+          inline: "end",
+        }))
+      }
+    }
+  }, 250)
+
 function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
@@ -65,6 +97,7 @@ function App() {
         onInit={onInit}
         throttle={throttleFn}
         onScroll={savePosition}
+        onWheel={onWheel}
       >
         {items.map(({ id }) => (
           <Card
