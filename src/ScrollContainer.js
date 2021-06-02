@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { rootClassName, scrollContainerClassName } from './constants'
-
-const className = `${rootClassName}--${scrollContainerClassName}`
+import { scrollContainerClassName } from './constants'
 
 function ScrollContainer({ children, onScroll, scrollRef }) {
   return (
     <div
-      className={className}
+      className={scrollContainerClassName}
       onScroll={onScroll}
       ref={scrollRef}
       style={{

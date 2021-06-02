@@ -1,6 +1,6 @@
-import CustomMap from './CustomMap'
+import ItemsMap from './ItemsMap'
 
-describe('CustomMap', () => {
+describe('ItemsMap', () => {
   const data = [
     ['test1', { index: 0, key: 'test1' }],
     ['test2', { index: 1, key: 'test2' }],
@@ -9,7 +9,7 @@ describe('CustomMap', () => {
 
   describe('set and get', () => {
     test('set single value and get', () => {
-      const map = new CustomMap()
+      const map = new ItemsMap()
 
       data.forEach(([key, value]) => {
         map.set(key, value)
@@ -30,7 +30,7 @@ describe('CustomMap', () => {
 
     describe('sort and set array of values and get', () => {
       test('sorted array', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         map.set(data)
 
@@ -42,7 +42,7 @@ describe('CustomMap', () => {
       })
 
       test('unsorted array', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         map.set(data.reverse())
 
@@ -56,7 +56,7 @@ describe('CustomMap', () => {
   })
 
   test('first element', () => {
-    const map = new CustomMap()
+    const map = new ItemsMap()
 
     data.forEach(([key, value]) => {
       map.set(key, value)
@@ -68,7 +68,7 @@ describe('CustomMap', () => {
   })
 
   test('last element', () => {
-    const map = new CustomMap()
+    const map = new ItemsMap()
 
     data.forEach(([key, value]) => {
       map.set(key, value)
@@ -81,7 +81,7 @@ describe('CustomMap', () => {
   })
 
   test('filter', () => {
-    const map = new CustomMap()
+    const map = new ItemsMap()
 
     data.forEach(([key, value]) => {
       map.set(key, value)
@@ -91,7 +91,7 @@ describe('CustomMap', () => {
   })
 
   test('findIndex', () => {
-    const map = new CustomMap()
+    const map = new ItemsMap()
 
     data.forEach(([key, value]) => {
       map.set(key, value)
@@ -102,7 +102,7 @@ describe('CustomMap', () => {
   })
 
   test('find', () => {
-    const map = new CustomMap()
+    const map = new ItemsMap()
 
     data.forEach(([key, value]) => {
       map.set(key, value)
@@ -115,7 +115,7 @@ describe('CustomMap', () => {
   describe('prev"ious item', () => {
     describe('by key', () => {
       test('have previous item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -127,7 +127,7 @@ describe('CustomMap', () => {
       })
 
       test('does not have prev item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -140,7 +140,7 @@ describe('CustomMap', () => {
     })
 
     test('invalid item', () => {
-      const map = new CustomMap()
+      const map = new ItemsMap()
 
       data.forEach(([key, value]) => {
         map.set(key, value)
@@ -156,7 +156,7 @@ describe('CustomMap', () => {
 
     describe('by value', () => {
       test('have previous item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -168,7 +168,7 @@ describe('CustomMap', () => {
       })
 
       test('does not have prev item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -184,7 +184,7 @@ describe('CustomMap', () => {
   describe('next item', () => {
     describe('by key', () => {
       test('have previous item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -196,7 +196,7 @@ describe('CustomMap', () => {
       })
 
       test('does not have next item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -209,7 +209,7 @@ describe('CustomMap', () => {
     })
 
     test('invalid item', () => {
-      const map = new CustomMap()
+      const map = new ItemsMap()
 
       data.forEach(([key, value]) => {
         map.set(key, value)
@@ -225,7 +225,7 @@ describe('CustomMap', () => {
 
     describe('by value', () => {
       test('have next item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)
@@ -237,7 +237,7 @@ describe('CustomMap', () => {
       })
 
       test('does not have next item', () => {
-        const map = new CustomMap()
+        const map = new ItemsMap()
 
         data.forEach(([key, value]) => {
           map.set(key, value)

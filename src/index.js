@@ -8,7 +8,7 @@ import useIntersectionObserver from './useIntersectionObserver'
 import useItemsChanged from './useItemsChanged'
 import useIsMounted from './useIsMounted'
 import createApi from './createApi'
-import CustomMap from './CustomMap'
+import ItemsMap from './ItemsMap'
 import { observerOptions as defaultObserverOptions } from './settings'
 
 import { VisibilityContext } from './context'
@@ -40,7 +40,7 @@ function ScrollMenu({
   const itemsChanged = useItemsChanged(children, menuItemsRefs)
 
   // console.count('main rerender')
-  const items = React.useRef(new CustomMap()).current
+  const items = React.useRef(new ItemsMap()).current
   const { visibleItems } = useIntersectionObserver({
     items,
     itemsChanged,
@@ -87,6 +87,7 @@ function ScrollMenu({
     [onWheel, publicApi]
   )
 
+  // TODO: className for outerWrapper
   return (
     <div style={{ display: 'flex' }} onWheel={onWheelHandler}>
       <VisibilityContext.Provider value={publicApi}>
