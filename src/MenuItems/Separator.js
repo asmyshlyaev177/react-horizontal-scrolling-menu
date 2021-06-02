@@ -1,15 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { rootClassName, separatorClassName } from '../constants'
-export const className = `${rootClassName}--${separatorClassName}`
+import { separatorClassName } from '../constants'
 
 function Separator({ id, index, refs = {} }) {
   const ref = React.useRef(null)
   refs[+index] = ref
 
   return (
-    <div className={className} data-key={id} data-index={index} ref={ref} />
+    <div
+      className={separatorClassName}
+      data-key={id}
+      data-index={index}
+      ref={ref}
+    />
   )
 }
 

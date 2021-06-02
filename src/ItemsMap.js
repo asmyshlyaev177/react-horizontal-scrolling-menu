@@ -1,5 +1,4 @@
-// TODO: rename to ItemsMap
-class CustomMap extends Map {
+class ItemsMap extends Map {
   toArr() {
     return [...this]
   }
@@ -59,4 +58,4 @@ class CustomMap extends Map {
   }
 }
 
-export default CustomMap
+export default ItemsMap
