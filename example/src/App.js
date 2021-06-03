@@ -32,30 +32,16 @@ const getItems = () =>
     }
 
     if (ev.deltaY < 0) {
-      const item = api.getNextItem()?.entry?.target;
-
-      if (item) {
-        window.requestAnimationFrame(() => item.scrollIntoView({
-          behavior: "smooth",
-          inline: "start",
-        }));
-      }
+      api.scrollNext()
     } else if (ev.deltaY > 0) {
-      const item = api.getPrevItem()?.entry?.target;
-
-      if (item) {
-        window.requestAnimationFrame(() => item.scrollIntoView({
-          behavior: "smooth",
-          inline: "end",
-        }))
-      }
+      api.scrollPrev()
     }
   }, 250)
 
 function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
-  const [position, setPosition] = React.useState(300);
+  const [position, setPosition] = React.useState(0);
   const [mounted, setMounted] = React.useState(false);
 
   
@@ -117,51 +103,20 @@ function App() {
 }
 
 function LeftArrow() {
-  const { getPrevItem, isFirstItemVisible } = React.useContext(VisibilityContext)
-
-  const onClick = () => {
-    const prevItem = getPrevItem()?.entry?.target;
-
-    // NOTE: can scroll to last item if start reached
-    // const lastItem = items.last()?.entry?.target
-    // const item = prevItem || lastItem
-
-    const item = prevItem;
-    item &&
-      item.scrollIntoView({
-        behavior: "smooth",
-        inline: "end",
-      });
-  };
+  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={onClick}>
+    <Arrow disabled={isFirstItemVisible} onClick={scrollPrev}>
       Left
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { getNextItem, isLastItemVisible } = React.useContext(VisibilityContext)
-
-
-  const onClick = () => {
-    const nextItem = getNextItem()?.entry?.target;
-
-    // NOTE: can scroll to first item if end reached
-    // const firstItem = items.first()?.entry?.target
-    // const item = nextItem || firstItem
-
-    const item = nextItem;
-    item &&
-      item.scrollIntoView({
-        behavior: "smooth",
-        inline: "start",
-      });
-  };
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={onClick}>
+    <Arrow disabled={isLastItemVisible} onClick={scrollNext}>
       Right
     </Arrow>
   );
