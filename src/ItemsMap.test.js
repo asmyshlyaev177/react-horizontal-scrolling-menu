@@ -90,6 +90,22 @@ describe('ItemsMap', () => {
     expect(map.filter((el) => el[1] === data[0][1])).toEqual([data[0]])
   })
 
+  test('getVisible', () => {
+    const map = new ItemsMap()
+
+    const dataWithVisible = data.map((el, ind) => [
+      el[0],
+      { ...el[1], visible: ind < 2 },
+    ])
+    dataWithVisible.forEach(([key, value]) => {
+      map.set(key, value)
+    })
+
+    expect(map.getVisible()).toEqual(
+      dataWithVisible.filter((el) => el[1].visible)
+    )
+  })
+
   test('findIndex', () => {
     const map = new ItemsMap()
 
