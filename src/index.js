@@ -51,6 +51,7 @@ function ScrollMenu({
   // console.log(items)
   // console.log(visibleItems)
 
+  // TODO: it fires before have any visible items
   const initComplete = useIsMounted(() => onInit(publicApi))
 
   const api = useCreateApi(items, visibleItems)

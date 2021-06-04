@@ -35,6 +35,7 @@ function useCreateApi(items, visibleItems) {
     () => !!(visibleItemsWithoutSeparators % 2),
     [visibleItemsWithoutSeparators]
   )
+
   const centerVisibleItem = React.useMemo(
     () =>
       isOdd
@@ -43,9 +44,16 @@ function useCreateApi(items, visibleItems) {
               Math.floor(visibleItemsWithoutSeparators.length / 2)
             ]
           )
-        : items.get(visibleItems[Math.ceil(visibleItems.length / 2) - 1]),
+        : items.get(visibleItems[Math.ceil(visibleItems.length / 2 - 1)]),
     [isOdd, items, visibleItems, visibleItemsWithoutSeparators]
   )
+  // console.log({
+  //   centerVisibleItem,
+  //   items,
+  //   visibleItems,
+  //   visibleItemsWithoutSeparators,
+  //   isOdd,
+  // })
 
   // console.log(items)
   const getItemById = React.useCallback(
@@ -78,9 +86,7 @@ function useCreateApi(items, visibleItems) {
   )
 
   const scrollToItem = React.useCallback(
-    (menuItem, behavior = 'smooth', inline = 'end') => {
-      const item = menuItem?.entry?.target
-
+    (item, behavior = 'smooth', inline = 'end') => {
       if (item) {
         window &&
           window.requestAnimationFrame(() =>
@@ -95,11 +101,11 @@ function useCreateApi(items, visibleItems) {
   )
 
   const scrollPrev = React.useCallback(() => {
-    scrollToItem(getPrevItem(), 'smooth', 'end')
+    scrollToItem(getPrevItem()?.entry?.target, 'smooth', 'end')
   }, [getPrevItem, scrollToItem])
 
   const scrollNext = React.useCallback(() => {
-    scrollToItem(getNextItem(), 'smooth', 'start')
+    scrollToItem(getNextItem()?.entry?.target, 'smooth', 'start')
   }, [getNextItem, scrollToItem])
 
   // TODO: sliding window
@@ -120,6 +126,7 @@ function useCreateApi(items, visibleItems) {
     lastVisibleItem,
     scrollNext,
     scrollPrev,
+    scrollToItem,
     visibleItemsWithoutSeparators,
   }
 }
