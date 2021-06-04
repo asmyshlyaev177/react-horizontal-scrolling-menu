@@ -14,6 +14,7 @@
 [Demo on Codesandbox](https://codesandbox.io/s/lpjol1opmq)
 
 ### Please help me to test [A new version](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/137) <---
+`react-horizontal-scrolling-menu@2.0.0-beta.1`
 
 This is a horizontal scrolling menu component for React.
 Menu component has adaptive width, just set width for parent container.
