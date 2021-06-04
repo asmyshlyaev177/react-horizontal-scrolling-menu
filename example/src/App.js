@@ -77,7 +77,6 @@ function App() {
     setPosition(scrollContainer.current.scrollLeft)
   }, 500), []);
 
-  // NOTE: can use items without id for padding
   return (
     <div style={{ opacity: +mounted }}>
       <ScrollMenu

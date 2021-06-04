@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "author": "asmyshlyaev177",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
@@ -16,10 +16,10 @@
     "link:lib": "yarn link && cd example && yarn link react-horizontal-scrolling-menu",
     "link:install": "yarn install && cd example && yarn install",
     "link:unlink": "yarn unlink;exit 0 && cd example && yarn unlink;exit 0",
-    "build": "webpack --mode production",
+    "webpack:build": "webpack --mode production",
     "dev": "webpack --watch --mode development",
     "test": "jest",
-    "rollup:build": "rollup -c rollup.config.js",
+    "build": "rollup -c rollup.config.js",
     "rollup:dev": "rollup -c rollup.config.js -w"
   },
   "keywords": [
