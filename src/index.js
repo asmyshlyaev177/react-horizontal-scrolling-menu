@@ -21,7 +21,6 @@ function ScrollMenu({
   onScroll = () => false,
   onWheel = () => false,
   options = {},
-  throttle,
 }) {
   const scrollContainerRef = React.useRef()
   const [menuItemsRefs] = React.useState({})
@@ -46,7 +45,6 @@ function ScrollMenu({
     itemsChanged,
     options: observerOptions,
     refs: menuItemsRefs,
-    throttle,
   })
   // console.log(items)
   // console.log(visibleItems)

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 
 import Separator from './Separator'
 import Item from './Item'
+import { id as itemId } from '../constants'
 
 function MenuItems({ children, refs = {} }) {
   const itemsCount = React.Children.count(children)
 
   return React.Children.map(children, (child, index) => {
-    const id = child?.props?.itemId
+    const id = child?.props?.[itemId]
     const separatorId = id + '-separator'
     const isLastItem = index + 1 === itemsCount
 
