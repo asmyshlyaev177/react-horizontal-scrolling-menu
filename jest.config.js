@@ -18,6 +18,14 @@ module.exports = {
     'cypress',
     'cypress-coverage',
   ],
+  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!<rootDir>/node_modules/'],
+  coverageThreshold: {
+    global: {
+      lines: 10,
+      statements: 10,
+    },
+  },
+  collectCoverage: true,
   moduleDirectories: ['node_modules'],
   // NOTE: hack for search peerDeps as React in example folder
   modulePaths: ['<rootDir>/example/node_modules'],

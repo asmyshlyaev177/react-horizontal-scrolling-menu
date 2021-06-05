@@ -7,7 +7,7 @@ import MenuItems from './MenuItems'
 import useIntersectionObserver from './useIntersectionObserver'
 import useItemsChanged from './useItemsChanged'
 import useIsMounted from './useIsMounted'
-import useCreateApi from './useCreateApi'
+import createApi from './createApi'
 import ItemsMap from './ItemsMap'
 import { observerOptions as defaultObserverOptions } from './settings'
 
@@ -52,7 +52,10 @@ function ScrollMenu({
   // TODO: it fires before have any visible items
   const initComplete = useIsMounted(() => onInit(publicApi))
 
-  const api = useCreateApi(items, visibleItems)
+  const api = React.useMemo(
+    () => createApi(items, visibleItems),
+    [items, visibleItems]
+  )
 
   const publicApi = React.useMemo(
     () => ({
