@@ -19,3 +19,15 @@ export function observerEntriesToItems(entries, options) {
     ]
   })
 }
+
+export function scrollToItem(item, behavior = 'smooth', inline = 'end') {
+  if (item) {
+    window &&
+      window.requestAnimationFrame(() =>
+        item.scrollIntoView({
+          behavior,
+          inline,
+        })
+      )
+  }
+}

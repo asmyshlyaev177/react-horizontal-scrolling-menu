@@ -62,6 +62,7 @@ function useIntersection({ items, itemsChanged, refs = {}, options = {} }) {
     elements.forEach((elem) => observer.current.observe(elem))
 
     return () => {
+      clearTimeout(throttleTimer.current)
       observer.current.disconnect()
       observer.current = null
     }
