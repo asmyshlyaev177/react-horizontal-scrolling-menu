@@ -47,15 +47,7 @@ function useCreateApi(items, visibleItems) {
         : items.get(visibleItems[Math.ceil(visibleItems.length / 2 - 1)]),
     [isOdd, items, visibleItems, visibleItemsWithoutSeparators]
   )
-  // console.log({
-  //   centerVisibleItem,
-  //   items,
-  //   visibleItems,
-  //   visibleItemsWithoutSeparators,
-  //   isOdd,
-  // })
 
-  // console.log(items)
   const getItemById = React.useCallback(
     (id) => items.find((el) => el[1].key === String(id))?.[1],
     [items]

@@ -1,18 +1,10 @@
 import React from 'react'
 
-import { getNodesFromRefs } from './helpers'
+import { getNodesFromRefs, observerEntriesToItems } from './helpers'
 
-function defaultThrottle(fn) {
-  return fn
-}
+// import usePrevious from './usePrevious'
 
-function useIntersection({
-  items,
-  refs = {},
-  options = {},
-  throttle = defaultThrottle,
-}) {
-  const elements = getNodesFromRefs(refs)
+function useIntersection({ items, itemsChanged, refs = {}, options = {} }) {
   const observer = React.useRef()
 
   // console.count('observer')
@@ -20,39 +12,52 @@ function useIntersection({
   // console.log(refs, elements)
   const [visibleItems, setVisibleItems] = React.useState([])
 
-  const ioCb = throttle((entries) => {
-    const newItems = [...entries].map((entry) => {
-      const key = entry.target?.dataset?.key
-      const index = String(entry.target?.dataset?.index)
+  const throttleTimer = React.useRef()
 
-      // TODO: some class/helper for parse entries to items
-      return [
-        key,
-        {
-          index,
-          key,
-          entry,
-          visible: entry.intersectionRatio >= options.ratio,
-        },
-      ]
-    })
-    // console.log(newItems)
-    items.set(newItems)
+  const ioCb = React.useCallback(
+    (entries) => {
+      const newItems = observerEntriesToItems(entries, options)
+      // console.count('CB')
+      // console.log(items)
+      items.set(newItems)
+      // console.log(
+      //   items
+      //     .toArr()
+      //     .filter((el) => el[1].visible)
+      //     .map((el) => el[0])
+      // )
 
-    setVisibleItems((currentVisible) => {
-      // console.count('observer cb')
-      // TODO: helpers to get visibleItems
-      const newVisibleItems = items
-        .filter((el) => el[1].visible)
-        .map((el) => el[1].key)
-      if (JSON.stringify(currentVisible) !== JSON.stringify(newVisibleItems)) {
-        return newVisibleItems
-      }
-      return currentVisible
-    })
-  })
+      clearTimeout(throttleTimer.current)
+      throttleTimer.current = setTimeout(
+        () =>
+          window &&
+          window.requestAnimationFrame(() => {
+            // console.count('setVisible')
+            setVisibleItems((currentVisible) => {
+              // console.count('observer cb')
+              const newVisibleItems = items.getVisible().map((el) => el[1].key)
+              // console.log({ currentVisible, newVisibleItems })
+              if (
+                JSON.stringify(currentVisible) !==
+                JSON.stringify(newVisibleItems)
+              ) {
+                return newVisibleItems
+              }
+              return currentVisible
+            })
+          }),
+        options.throttle
+      )
+    },
+    [items, options]
+  )
+
+  // const prev = usePrevious(itemsChanged)
+  // console.log(itemsChanged === prev, itemsChanged)
 
   React.useLayoutEffect(() => {
+    // console.count('effect')
+    const elements = getNodesFromRefs(refs)
     observer.current = new IntersectionObserver(ioCb, options)
     elements.forEach((elem) => observer.current.observe(elem))
 
@@ -60,7 +65,7 @@ function useIntersection({
       observer.current.disconnect()
       observer.current = null
     }
-  }, [ioCb, elements, options])
+  }, [ioCb, itemsChanged, options, refs])
 
   return { visibleItems }
 }

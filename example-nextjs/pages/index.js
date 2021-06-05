@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import styles from '../styles/Home.module.css'
 
-import { ScrollMenu } from 'react-horizontal-scrolling-menu'
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu'
 
 const elemPrefix = 'test'
 const getId = (index) => `${elemPrefix}${index}`
@@ -17,7 +17,6 @@ export default function Home() {
   const [items, setItems] = React.useState(getItems)
   const [selected, setSelected] = React.useState([])
   const [position, setPosition] = React.useState(300)
-  const [mounted, setMounted] = React.useState(false)
 
   function savePosition({ scrollContainer }) {
     setPosition(scrollContainer.scrollLeft)
@@ -58,19 +57,19 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <div style={{ opacity: +mounted, width: '90vw' }}>
+        <div style={{ width: '90vw' }}>
           <ScrollMenu
             LeftArrow={LeftArrow}
             RightArrow={RightArrow}
             onInit={({ scrollContainer }) => {
-              scrollContainer.scrollLeft = position
-              setMounted(true)
+              scrollContainer.current.scrollLeft = position
             }}
             onScroll={savePosition}
           >
             {items.map(({ id }) => (
               <Card
                 id={id}
+                itemId={id}
                 key={id}
                 onClick={(ev) => toggleSelected(id, ev)}
                 selected={!!selected.find((el) => el === id)}
@@ -126,47 +125,21 @@ export default function Home() {
   )
 }
 
-function LeftArrow({ getPrevItem, isFirstItemVisible }) {
-  const onClick = () => {
-    const prevItem = getPrevItem()?.entry?.target
-
-    // NOTE: can scroll to last item if start reached
-    // const lastItem = allItems?.slice(-1)?.[0]?.entry?.target
-    // const item = prevItem || lastItem
-
-    const item = prevItem
-    item &&
-      item.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'end',
-      })
-  }
+function LeftArrow() {
+  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={onClick}>
+    <Arrow disabled={isFirstItemVisible} onClick={scrollPrev}>
       Left
     </Arrow>
   )
 }
 
-function RightArrow({ getNextItem, isLastItemVisible }) {
-  const onClick = () => {
-    const nextItem = getNextItem()?.entry?.target
-
-    // NOTE: can scroll to first item if end reached
-    // const firstItem = allItems?.[0]?.entry?.target
-    // const item = nextItem || firstItem
-
-    const item = nextItem
-    item &&
-      item.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'start',
-      })
-  }
+function RightArrow() {
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={onClick}>
+    <Arrow disabled={isLastItemVisible} onClick={scrollNext}>
       Right
     </Arrow>
   )
@@ -174,7 +147,7 @@ function RightArrow({ getNextItem, isLastItemVisible }) {
 
 function Arrow({ children, disabled, onClick }) {
   return (
-    <div
+    <button
       disabled={disabled}
       onClick={onClick}
       style={{
@@ -183,17 +156,17 @@ function Arrow({ children, disabled, onClick }) {
         flexDirection: 'column',
         justifyContent: 'center',
         right: '1%',
-        opacity: disabled ? '0' : '1',
         userSelect: 'none',
-        width: '5vw',
       }}
     >
       {children}
-    </div>
+    </button>
   )
 }
 
-function Card({ id, onClick, selected, isVisible }) {
+function Card({ onClick, selected, title, itemId }) {
+  const { isItemVisible } = React.useContext(VisibilityContext)
+
   return (
     <div
       onClick={onClick}
@@ -206,8 +179,8 @@ function Card({ id, onClick, selected, isVisible }) {
       tabIndex="0"
     >
       <div className="card">
-        <div>{id}</div>
-        <div>visible: {JSON.stringify(!!isVisible)}</div>
+        <div>{title}</div>
+        <div>visible: {JSON.stringify(!!isItemVisible(itemId))}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div

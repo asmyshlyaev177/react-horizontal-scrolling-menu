@@ -8,9 +8,6 @@ import throttle from 'lodash/throttle'
 
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
-function throttleFn(fn) {
-  return throttle(fn, 150)
-}
 
 const elemPrefix = "test";
 const getId = (index) => `${elemPrefix}${index}`;
@@ -42,7 +39,6 @@ function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
   const [position, setPosition] = React.useState(0);
-  const [mounted, setMounted] = React.useState(false);
 
   
 
@@ -70,7 +66,6 @@ function App() {
 
   const onInit = React.useCallback(({ scrollContainer }) => {
     scrollContainer.current.scrollLeft = position;
-    setMounted(true);
   }, [position]);
 
   const savePosition = React.useCallback(throttle(({ scrollContainer }) => {
@@ -78,12 +73,11 @@ function App() {
   }, 500), []);
 
   return (
-    <div style={{ opacity: +mounted }}>
+    <div >
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         onInit={onInit}
-        throttle={throttleFn}
         onScroll={savePosition}
         onWheel={onWheel}
       >
