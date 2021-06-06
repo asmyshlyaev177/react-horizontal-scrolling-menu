@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { id as itemId } from './constants'
+import { id as itemId } from '../constants'
 
 function useItemsChanged(menuItems, refs) {
   const [hash, setHash] = React.useState('')

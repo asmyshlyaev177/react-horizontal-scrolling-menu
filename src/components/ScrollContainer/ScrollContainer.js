@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { scrollContainerClassName } from './constants'
+import { scrollContainerClassName } from '../../constants'
 
 // TODO: pass initialPosition ??
 function ScrollContainer({ children, onScroll, scrollRef }) {

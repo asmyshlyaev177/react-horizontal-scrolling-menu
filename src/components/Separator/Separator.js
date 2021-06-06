@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { separatorClassName } from '../constants'
+import { separatorClassName } from '../../constants'
 
 function Separator({ id, index, refs = {} }) {
   const ref = React.useRef(null)
