@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getNodesFromRefs, observerEntriesToItems } from './helpers'
+import { getNodesFromRefs, observerEntriesToItems } from '../helpers'
 
 // import usePrevious from './usePrevious'
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Separator from './Separator'
-import Item from './Item'
-import { id as itemId } from '../constants'
+import Separator from '../Separator'
+import Item from '../Item'
+import { id as itemId } from '../../constants'
 
 function MenuItems({ children, refs = {} }) {
   const itemsCount = React.Children.count(children)

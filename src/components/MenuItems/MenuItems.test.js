@@ -2,13 +2,13 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import MenuItems from './MenuItems'
 
-jest.mock('./Item', () => ({ id, index, refs }) => (
+jest.mock('../Item', () => ({ id, index, refs }) => (
   <div id={id} index={index} refs={JSON.stringify(refs)}>
     Separator
   </div>
 ))
 
-jest.mock('./Separator', () => ({ id, index, key, refs }) => (
+jest.mock('../Separator', () => ({ id, index, key, refs }) => (
   <div id={id} index={index} refs={JSON.stringify(refs)} key={key}>
     Separator
   </div>

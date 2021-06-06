@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { itemClassName } from '../constants'
+import { itemClassName } from '../../constants'
 
 function Item({ children, id, index, refs = {} }) {
   const ref = React.useRef(null)
