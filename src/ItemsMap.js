@@ -57,6 +57,7 @@ class ItemsMap extends Map {
     return current !== -1 ? arr[current + 1]?.[1] : undefined
   }
 
+  // TODO: .map(el => el[1])
   getVisible() {
     return this.filter((el) => el[1].visible)
   }
