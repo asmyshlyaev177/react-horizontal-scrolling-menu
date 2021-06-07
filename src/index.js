@@ -2,6 +2,8 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import './styles.css'
+
 import ScrollContainer from './components/ScrollContainer'
 import MenuItems from './components/MenuItems'
 import useIntersectionObserver from './hooks/useIntersectionObserver'
@@ -10,6 +12,8 @@ import useIsMounted from './hooks/useIsMounted'
 import createApi from './createApi'
 import ItemsMap from './ItemsMap'
 import { observerOptions as defaultObserverOptions } from './settings'
+
+import * as constants from './constants'
 
 import { VisibilityContext } from './context'
 
@@ -84,9 +88,8 @@ function ScrollMenu({
     [onWheel, publicApi]
   )
 
-  // TODO: className for outerWrapper
   return (
-    <div style={{ display: 'flex' }} onWheel={onWheelHandler}>
+    <div className={constants.wrapperClassName} onWheel={onWheelHandler}>
       <VisibilityContext.Provider value={publicApi}>
         {(LeftArrow && <LeftArrow />) || null}
         <ScrollContainer
@@ -101,4 +104,4 @@ function ScrollMenu({
   )
 }
 
-export { ScrollMenu, VisibilityContext }
+export { constants, ScrollMenu, VisibilityContext }

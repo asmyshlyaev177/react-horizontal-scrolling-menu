@@ -1,0 +1,16 @@
+.react-horizontal-scrolling-menu--wrapper {
+  display: flex;
+}
+
+.react-horizontal-scrolling-menu--scroll-container {
+  display: flex;
+  height: max-content;
+  overflow-y: hidden;
+  position: relative;
+  width: 100%;
+}
+
+:export {
+  wrapper: react-horizontal-scrolling-menu--wrapper;
+  container: react-horizontal-scrolling-menu--scroll-container;
+}

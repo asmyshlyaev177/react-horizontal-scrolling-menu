@@ -17,10 +17,10 @@
     "link:install": "yarn install && cd example && yarn install",
     "link:unlink": "yarn unlink;exit 0 && cd example && yarn unlink;exit 0",
     "webpack:build": "webpack --mode production",
-    "dev": "webpack --watch --mode development",
+    "webpack:dev": "webpack --watch --mode development",
     "test": "jest",
-    "build": "rollup -c rollup.config.js",
-    "rollup:dev": "rollup -c rollup.config.js -w"
+    "dev": "rollup -c rollup.config.js -w",
+    "build": "rollup -c rollup.config.js"
   },
   "keywords": [
     "react",
@@ -72,10 +72,13 @@
     "jest": "^27.0.1",
     "jest-dev-server": "^4.4.0",
     "lint-staged": "^10.2.2",
+    "node-sass": "^6.0.0",
+    "postcss": "^8.3.0",
     "prettier": "^2.3.0",
     "prop-types": "^15.7.2",
     "rollup": "^2.50.2",
     "rollup-plugin-ignore": "^1.0.9",
+    "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.2",
     "style-loader": "^2.0.0",
