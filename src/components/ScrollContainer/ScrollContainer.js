@@ -10,13 +10,6 @@ function ScrollContainer({ children, onScroll, scrollRef }) {
       className={scrollContainerClassName}
       onScroll={onScroll}
       ref={scrollRef}
-      style={{
-        display: 'flex',
-        height: 'max-content',
-        overflowY: 'hidden',
-        position: 'relative',
-        width: '100%',
-      }}
     >
       {children}
     </div>

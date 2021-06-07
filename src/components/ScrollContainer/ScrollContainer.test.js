@@ -7,19 +7,13 @@ const setup = (props = {}) => {
 }
 
 describe('ScrollContainer', () => {
-  test('classNames and styles', () => {
+  test('classNames', () => {
     const scrollRef = { current: undefined }
     const { container } = setup({ scrollRef })
 
     expect(container.firstChild).toHaveClass(
       'react-horizontal-scrolling-menu--scroll-container'
     )
-    expect(container.firstChild).toHaveStyle({
-      display: 'flex',
-      overflowY: 'hidden',
-      position: 'relative',
-      width: '100%',
-    })
   })
 
   test('should render children and use ref', () => {

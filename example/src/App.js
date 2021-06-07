@@ -8,7 +8,6 @@ import throttle from 'lodash/throttle'
 
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
-
 const elemPrefix = "test";
 const getId = (index) => `${elemPrefix}${index}`;
 
@@ -73,7 +72,7 @@ function App() {
   }, 500), []);
 
   return (
-    <div >
+    <div className="example">
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}

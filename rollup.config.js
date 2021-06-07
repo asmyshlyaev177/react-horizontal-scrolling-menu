@@ -1,8 +1,10 @@
+// import path from 'path'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
 import ignore from 'rollup-plugin-ignore'
 import { terser } from 'rollup-plugin-terser'
+import postcss from 'rollup-plugin-postcss'
 import pkg from './package.json'
 
 const input = 'src/index.js'
@@ -22,6 +24,12 @@ const plugins = [
     babelHelpers: 'runtime',
   }),
   commonjs(),
+  postcss({
+    // extract: true,
+    // extract: path.resolve('dist/style.css'),
+    modules: false,
+    use: ['sass'],
+  }),
   terser(),
 ]
 
