@@ -57,7 +57,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <div style={{ width: '90vw' }}>
+        <div style={{ width: '100%' }}>
           <ScrollMenu
             LeftArrow={LeftArrow}
             RightArrow={RightArrow}
@@ -70,42 +70,13 @@ export default function Home() {
               <Card
                 id={id}
                 itemId={id}
+                title={id}
                 key={id}
                 onClick={(ev) => toggleSelected(id, ev)}
                 selected={!!selected.find((el) => el === id)}
               />
             ))}
           </ScrollMenu>
-        </div>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
         </div>
       </main>
 
@@ -167,20 +138,13 @@ function Arrow({ children, disabled, onClick }) {
 function Card({ onClick, selected, title, itemId }) {
   const { isItemVisible } = React.useContext(VisibilityContext)
 
+  const visible = isItemVisible(itemId)
+
   return (
-    <div
-      onClick={onClick}
-      style={{
-        border: '1px solid',
-        display: 'inline-block',
-        margin: '0 10px',
-        width: '160px',
-      }}
-      tabIndex="0"
-    >
-      <div className="card">
+    <div className={styles.card} onClick={onClick} tabIndex="0">
+      <div style={{ backgroundColor: visible ? 'white' : 'grey' }}>
         <div>{title}</div>
-        <div>visible: {JSON.stringify(!!isItemVisible(itemId))}</div>
+        <div>visible: {JSON.stringify(visible)}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div
