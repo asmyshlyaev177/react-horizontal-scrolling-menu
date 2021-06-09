@@ -1,13 +1,12 @@
-// import path from 'path'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import { babel } from '@rollup/plugin-babel'
 import ignore from 'rollup-plugin-ignore'
 import { terser } from 'rollup-plugin-terser'
 import postcss from 'rollup-plugin-postcss'
+import typescript from '@rollup/plugin-typescript'
 import pkg from './package.json'
 
-const input = 'src/index.js'
+const input = 'src/index.tsx'
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
@@ -19,17 +18,13 @@ const plugins = [
   resolve({
     include: ['node_modules/**'],
   }),
-  babel({
-    exclude: 'node_modules/**',
-    babelHelpers: 'runtime',
-  }),
+  typescript({ sourceMap: true, tsconfig: './tsconfig.json' }),
   commonjs(),
   postcss({
-    // extract: true,
-    // extract: path.resolve('dist/style.css'),
     modules: false,
     use: ['sass'],
   }),
+
   terser(),
 ]
 

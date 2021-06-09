@@ -6,11 +6,17 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^15.12.2",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-horizontal-scrolling-menu": "link:../.",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "typescript": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,5 +39,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "ts-migrate": "^0.1.19"
+  }
 }
