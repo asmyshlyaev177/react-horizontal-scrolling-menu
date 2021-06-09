@@ -2,14 +2,23 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+  preset: 'ts-jest',
   coverageDirectory: 'coverage',
   globals: {
     baseUrl: 'http://localhost:3000',
   },
   roots: ['src'],
+  testMatch: [
+    '**/__tests__/**/*.+(ts|tsx|js)',
+    '**/?(*.)+(spec|test).+(ts|tsx|js)',
+  ],
   transform: {
-    '^.+\\.[t|j]sx?$': 'babel-jest',
+    '^.+\\.ts?$': 'ts-jest',
   },
+  transformIgnorePatterns: ['/node_modules/'],
+  // transform: {
+  //   '^.+\\.[t|j]sx?$': 'babel-jest',
+  // },
   coveragePathIgnorePatterns: [
     'spec.js',
     'test.js',
@@ -25,13 +34,13 @@ module.exports = {
       statements: 10,
     },
   },
-  collectCoverage: true,
+  // collectCoverage: true,
   moduleDirectories: ['node_modules'],
   // NOTE: hack for search peerDeps as React in example folder
   modulePaths: ['<rootDir>/example/node_modules'],
   setupFilesAfterEnv: ['<rootDir>/jest.init.js'],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['/node_modules/'],
+
   verbose: true,
 
   // All imported modules in your tests should be mocked automatically

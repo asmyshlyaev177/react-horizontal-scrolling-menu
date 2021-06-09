@@ -10,12 +10,14 @@
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -23,16 +25,22 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["@babel", "jest", "react", "react-hooks", "jsx-a11y", "unicorn"],
+  "plugins": [
+    "@typescript-eslint",
+    "jest",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "unicorn"
+  ],
   "rules": {
     "prettier/prettier": [
       "warn",
       {
-        "semi": false,
         "singleQuote": true,
         "tabWidth": 2,
         "usetabs": false,
-        "parser": "babel",
+        "parser": "babel-ts",
         "printWidth": 80
       },
       {
@@ -41,18 +49,35 @@
     ],
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
-    "overrides": [
+  "overrides": [
     {
-      "files": ["*.test.js"],
+      "files": [
+        "*.test.js",
+        "*.test.ts",
+        "*.test.jsx",
+        "*.test.tsx"
+      ],
       "rules": {
         "react/display-name": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/no-children-prop": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
       }
     }
   ]
