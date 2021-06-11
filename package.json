@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "author": "asmyshlyaev177",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
