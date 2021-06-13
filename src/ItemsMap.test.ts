@@ -1,5 +1,5 @@
 import ItemsMap from './ItemsMap';
-import { Item } from './types';
+import { IOItem } from './types';
 
 describe('ItemsMap', () => {
   const data: any[] = [
@@ -77,7 +77,7 @@ describe('ItemsMap', () => {
 
     expect(map.last()).toEqual(data.slice(-1)[0][1]);
 
-    map.set('newLast', 'last' as unknown as Item);
+    map.set('newLast', 'last' as unknown as IOItem);
     expect(map.last()).toEqual('last');
   });
 
@@ -88,7 +88,7 @@ describe('ItemsMap', () => {
       map.set(key, value);
     });
 
-    expect(map.filter((el: Item) => el[1] === data[0][1])).toEqual([data[0]]);
+    expect(map.filter((el) => el[1] === data[0][1])).toEqual([data[0]]);
   });
 
   test('getVisible', () => {
@@ -114,8 +114,8 @@ describe('ItemsMap', () => {
       map.set(key, value);
     });
 
-    expect(map.findIndex((el: Item) => el[0] === 'test1')).toEqual(0);
-    expect(map.findIndex((el: Item) => el[0] === 'test2')).toEqual(1);
+    expect(map.findIndex((el) => el[0] === 'test1')).toEqual(0);
+    expect(map.findIndex((el) => el[0] === 'test2')).toEqual(1);
   });
 
   test('find', () => {
@@ -125,8 +125,8 @@ describe('ItemsMap', () => {
       map.set(key, value);
     });
 
-    expect(map.find((el: Item) => el[1] === data[0][1])).toEqual(data[0]);
-    expect(map.find((el: Item) => el[0] === 'test1')).toEqual(data[0]);
+    expect(map.find((el) => el[1] === data[0][1])).toEqual(data[0]);
+    expect(map.find((el) => el[0] === 'test1')).toEqual(data[0]);
   });
 
   describe('prev"ious item', () => {
