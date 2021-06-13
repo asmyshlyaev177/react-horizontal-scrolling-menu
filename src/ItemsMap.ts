@@ -1,6 +1,6 @@
 import { IOItem, Item } from './types';
 
-class ItemsMap extends Map {
+class ItemsMap extends Map<string, IOItem> {
   public toArr(): Item[] {
     return [...this];
   }
@@ -14,13 +14,13 @@ class ItemsMap extends Map {
     );
   }
 
-  public set(key: Array<Item> | string, val?: Item) {
+  set(key: Array<Item> | string, val?: IOItem): this {
     if (Array.isArray(key)) {
       this.sort(key).forEach((el) => {
         super.set(el[0], el[1]);
       });
     } else {
-      super.set(key, val);
+      super.set(key, val!);
     }
     return this;
   }
@@ -31,17 +31,21 @@ class ItemsMap extends Map {
     return this.toArr().slice(-1)?.[0]?.[1];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public filter(fn: any) {
-    return this.toArr().filter(fn);
+  public filter(
+    predicate: (value: Item, index: number, array: Item[]) => boolean
+  ): Item[] {
+    return this.toArr().filter(predicate);
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public find(fn: any): Item | undefined {
-    return this.toArr().find(fn);
+  public find(
+    predicate: (value: Item, index: number, obj: Item[]) => boolean
+  ): Item | undefined {
+    return this.toArr().find(predicate);
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public findIndex(fn: any) {
-    return this.toArr().findIndex(fn);
+
+  public findIndex(
+    predicate: (value: Item, index: number, obj: Item[]) => unknown
+  ): number {
+    return this.toArr().findIndex(predicate);
   }
   public prev(item: string | IOItem): IOItem | undefined {
     const arr = this.toArr();
@@ -55,7 +59,7 @@ class ItemsMap extends Map {
   }
   // TODO: .map(el => el[1])
   public getVisible() {
-    return this.filter((el: Item) => el[1].visible);
+    return this.filter((value: Item) => value[1].visible);
   }
 }
 export default ItemsMap;

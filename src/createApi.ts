@@ -1,7 +1,7 @@
 import { scrollToItem } from './helpers';
 import ItemsMap from './ItemsMap';
 
-import { visibleItems, Item } from './types';
+import { visibleItems } from './types';
 
 export default function createApi(
   items: ItemsMap,
@@ -28,10 +28,10 @@ export default function createApi(
   //   : items.get(visibleItems[Math.ceil(visibleItems.length / 2 - 1)])
 
   const getItemById = (id: string) =>
-    items.find((el: Item) => el[1].key === String(id))?.[1];
+    items.find((value) => value[1].key === String(id))?.[1];
 
   const getItemByIndex = (index: number) =>
-    items.find((el: Item) => String(el[1].index) === String(index))?.[1];
+    items.find((el) => String(el[1].index) === String(index))?.[1];
 
   const isItemVisible = (id: string) => Boolean(getItemById(id)?.visible);
 
