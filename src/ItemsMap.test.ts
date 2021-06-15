@@ -131,6 +131,7 @@ describe('ItemsMap', () => {
 
   describe('prev"ious item', () => {
     describe('by key', () => {
+      // eslint-disable-next-line radar/no-duplicate-string
       test('have previous item', () => {
         const map = new ItemsMap();
 
@@ -177,7 +178,7 @@ describe('ItemsMap', () => {
           map.set(key, value);
         });
 
-        const item = 'test2';
+        const item = data[1][1];
 
         expect(map.prev(item)).toEqual(data[0][1]);
       });
@@ -189,7 +190,7 @@ describe('ItemsMap', () => {
           map.set(key, value);
         });
 
-        const item = 'test1';
+        const item = 'abcd';
 
         expect(map.prev(item)).toEqual(undefined);
       });
@@ -244,7 +245,7 @@ describe('ItemsMap', () => {
           map.set(key, value);
         });
 
-        const item = 'test2';
+        const item = data[1][1];
 
         expect(map.next(item)).toEqual(data[2][1]);
       });

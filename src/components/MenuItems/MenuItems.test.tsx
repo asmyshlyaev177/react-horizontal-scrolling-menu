@@ -10,6 +10,7 @@ jest.mock('../Item', () => ({ id, index, refs }: ItemProps) => (
   </div>
 ));
 
+// eslint-disable-next-line radar/no-identical-functions
 jest.mock('../Separator', () => ({ id, index, refs }: SeparatorProps) => (
   <div id={id} data-index={index} data-refs={refs}>
     Separator
