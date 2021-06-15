@@ -106,6 +106,7 @@ describe('createApi', () => {
       expect(createApi(items).getItemById('test2')).toEqual(nodes[2]);
     });
 
+    // eslint-disable-next-line radar/no-duplicate-string
     test('item not exist', () => {
       const { items } = setup([0.1, 1, 0.9]);
 

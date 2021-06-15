@@ -12,11 +12,12 @@ export type Props = {
 };
 
 function MenuItems({ children, refs }: Props): JSX.Element {
-  const itemsCount = React.Children.count(children);
+  const childArray = React.Children.toArray(children).filter(Boolean);
+  const itemsCount = childArray.length;
 
   return (
     <>
-      {React.Children.toArray(children).map((child: any, index: number) => {
+      {childArray.map((child: any, index: number) => {
         const id = child?.props?.[itemId];
         const separatorId = id + '-separator';
         const isLastItem = index + 1 === itemsCount;
@@ -33,7 +34,7 @@ function MenuItems({ children, refs }: Props): JSX.Element {
               index={index + 0.1}
             />
           ),
-        ].filter(Boolean);
+        ];
       })}
     </>
   );
