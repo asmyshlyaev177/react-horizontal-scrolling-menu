@@ -1,18 +1,26 @@
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import ignore from 'rollup-plugin-ignore'
-import { terser } from 'rollup-plugin-terser'
-import postcss from 'rollup-plugin-postcss'
-import typescript from '@rollup/plugin-typescript'
-import pkg from './package.json'
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import ignore from 'rollup-plugin-ignore';
+import { terser } from 'rollup-plugin-terser';
+import postcss from 'rollup-plugin-postcss';
+import sourcemaps from 'rollup-plugin-sourcemaps';
+import typescript from '@rollup/plugin-typescript';
+import pkg from './package.json';
 
-const input = 'src/index.tsx'
+const input = 'src/index.tsx';
+
+const watch = process.env.ROLLUP_WATCH;
+const sourcemap = watch;
+const clearScreen = { watch: { clearScreen: false } };
+
+// TODO: typescript doesn't work with react-error-overlay
+// https://github.com/facebook/create-react-app/issues/7082
 
 const external = [
   ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
   (id) => /^react$|^react-dom$|^@babel\/runtime/.test(id),
-]
+];
 const plugins = [
   ignore(['fs', 'net', 'react', 'react-dom', 'prop-types', 'PropTypes']),
   resolve({
@@ -25,8 +33,9 @@ const plugins = [
     use: ['sass'],
   }),
 
-  terser(),
-]
+  watch && sourcemaps(),
+  !watch && terser(),
+].filter(Boolean);
 
 export default [
   // browser-friendly UMD build
@@ -36,6 +45,7 @@ export default [
       name: 'react-horizontal-scrolling-menu',
       file: pkg.browser,
       format: 'umd',
+      sourcemap,
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
@@ -44,6 +54,7 @@ export default [
     },
     plugins,
     external,
+    ...clearScreen,
   },
 
   // CommonJS (for Node) and ES module (for bundlers) build.
@@ -57,8 +68,9 @@ export default [
     plugins,
     external,
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' },
+      { file: pkg.main, format: 'cjs', sourcemap },
+      { file: pkg.module, format: 'es', sourcemap },
     ],
+    ...clearScreen,
   },
-]
+];
