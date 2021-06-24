@@ -31,12 +31,14 @@ export function observerEntriesToItems(
 export function scrollToItem(
   item: Element,
   behavior: ScrollBehavior = 'smooth',
-  inline: ScrollLogicalPosition = 'end'
+  inline: ScrollLogicalPosition = 'end',
+  block: ScrollLogicalPosition = 'nearest'
 ) {
   if (item) {
     window &&
       window.requestAnimationFrame(() =>
         item.scrollIntoView({
+          block,
           behavior,
           inline,
         })

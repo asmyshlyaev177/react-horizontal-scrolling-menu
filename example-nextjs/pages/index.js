@@ -1,25 +1,25 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import React from 'react'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import React from 'react';
+import styles from '../styles/Home.module.css';
 
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu'
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
-const elemPrefix = 'test'
-const getId = (index) => `${elemPrefix}${index}`
+const elemPrefix = 'test';
+const getId = (index) => `${elemPrefix}${index}`;
 
 const getItems = () =>
   Array(20)
     .fill(0)
-    .map((_, ind) => ({ id: getId(ind) }))
+    .map((_, ind) => ({ id: getId(ind) }));
 
 export default function Home() {
-  const [items, setItems] = React.useState(getItems)
-  const [selected, setSelected] = React.useState([])
-  const [position, setPosition] = React.useState(300)
+  const [items, setItems] = React.useState(getItems);
+  const [selected, setSelected] = React.useState([]);
+  const [position, setPosition] = React.useState(300);
 
   function savePosition({ scrollContainer }) {
-    setPosition(scrollContainer.scrollLeft)
+    setPosition(scrollContainer.scrollLeft);
   }
 
   React.useEffect(() => {
@@ -28,21 +28,21 @@ export default function Home() {
         Array(5)
           .fill(0)
           .map((_, ind) => ({ id: getId(items.length + ind) }))
-      )
-      console.log('push new items')
-      setItems(newItems)
-    }, 3000)
-  }, [])
+      );
+      console.log('push new items');
+      setItems(newItems);
+    }, 3000);
+  }, []);
 
   const toggleSelected = (id) => {
-    const isSelected = selected.find((el) => el === id)
+    const isSelected = selected.find((el) => el === id);
 
     setSelected((currentSelected) =>
       isSelected
         ? currentSelected.filter((el) => el !== id)
         : currentSelected.concat(id)
-    )
-  }
+    );
+  };
 
   return (
     <div className={styles.container}>
@@ -62,7 +62,7 @@ export default function Home() {
             LeftArrow={LeftArrow}
             RightArrow={RightArrow}
             onInit={({ scrollContainer }) => {
-              scrollContainer.current.scrollLeft = position
+              scrollContainer.current.scrollLeft = position;
             }}
             onScroll={savePosition}
           >
@@ -72,7 +72,7 @@ export default function Home() {
                 itemId={id}
                 title={id}
                 key={id}
-                onClick={(ev) => toggleSelected(id, ev)}
+                onClick={(ev) => toggleSelected(id)}
                 selected={!!selected.find((el) => el === id)}
               />
             ))}
@@ -93,27 +93,28 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
+  const { isFirstItemVisible, scrollPrev } =
+    React.useContext(VisibilityContext);
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={scrollPrev}>
+    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
       Left
     </Arrow>
-  )
+  );
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={scrollNext}>
-      Right
+    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
+      Right)
     </Arrow>
-  )
+  );
 }
 
 function Arrow({ children, disabled, onClick }) {
@@ -132,13 +133,13 @@ function Arrow({ children, disabled, onClick }) {
     >
       {children}
     </button>
-  )
+  );
 }
 
 function Card({ onClick, selected, title, itemId }) {
-  const { isItemVisible } = React.useContext(VisibilityContext)
+  const { isItemVisible } = React.useContext(VisibilityContext);
 
-  const visible = isItemVisible(itemId)
+  const visible = isItemVisible(itemId);
 
   return (
     <div className={styles.card} onClick={onClick} tabIndex="0">
@@ -154,5 +155,5 @@ function Card({ onClick, selected, title, itemId }) {
         }}
       />
     </div>
-  )
+  );
 }

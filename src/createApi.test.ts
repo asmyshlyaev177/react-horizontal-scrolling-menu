@@ -209,15 +209,22 @@ describe('createApi', () => {
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, {
         behavior: 'smooth',
+        block: 'nearest',
         inline: 'end',
       });
 
-      createApi(items, visibleItems).scrollToItem(item, 'auto', 'start');
+      createApi(items, visibleItems).scrollToItem(
+        item,
+        'auto',
+        'start',
+        'start'
+      );
 
       await new Promise((res) => setTimeout(res, 500));
       expect(scrollIntoView).toHaveBeenCalledTimes(2);
       expect(scrollIntoView).toHaveBeenNthCalledWith(2, {
         behavior: 'auto',
+        block: 'start',
         inline: 'start',
       });
     });
@@ -241,6 +248,7 @@ describe('createApi', () => {
       expect(nodes[0].entry.target.scrollIntoView).toHaveBeenCalledTimes(1);
       expect(nodes[0].entry.target.scrollIntoView).toHaveBeenNthCalledWith(1, {
         behavior: 'smooth',
+        block: 'nearest',
         inline: 'end',
       });
     });
@@ -267,6 +275,7 @@ describe('createApi', () => {
       expect(nodes[2].entry.target.scrollIntoView).toHaveBeenCalledTimes(1);
       expect(nodes[2].entry.target.scrollIntoView).toHaveBeenNthCalledWith(1, {
         behavior: 'smooth',
+        block: 'nearest',
         inline: 'start',
       });
     });

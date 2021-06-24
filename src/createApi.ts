@@ -42,14 +42,22 @@ export default function createApi(
 
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
-  const scrollPrev = (): void => {
+  const scrollPrev = (
+    behavior: ScrollBehavior = 'smooth',
+    inline: ScrollLogicalPosition = 'end',
+    block: ScrollLogicalPosition = 'nearest'
+  ): void => {
     const element = getPrevItem()?.entry?.target;
-    element && scrollToItem(element, 'smooth', 'end');
+    element && scrollToItem(element, behavior, inline, block);
   };
 
-  const scrollNext = (): void => {
+  const scrollNext = (
+    behavior: ScrollBehavior = 'smooth',
+    inline: ScrollLogicalPosition = 'start',
+    block: ScrollLogicalPosition = 'nearest'
+  ): void => {
     const element = getNextItem()?.entry?.target;
-    element && scrollToItem(element, 'smooth', 'start');
+    element && scrollToItem(element, behavior, inline, block);
   };
 
   // TODO: sliding window

@@ -73,7 +73,7 @@ function App() {
   }, 500), []);
 
   return (
-    <div className="example">
+    <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
@@ -99,7 +99,7 @@ function LeftArrow() {
   const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={scrollPrev}>
+    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
       Left
     </Arrow>
   );
@@ -109,7 +109,7 @@ function RightArrow() {
   const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={scrollNext}>
+    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
       Right
     </Arrow>
   );
