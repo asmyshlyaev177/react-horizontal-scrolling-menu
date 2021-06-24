@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle'
 // NOTE: hide scrollbar
 // import './hideScrollbar.css'
 
-import { ScrollMenu, VisibilityContext, VisibilityContextTypes } from "react-horizontal-scrolling-menu";
+import { ScrollMenu, VisibilityContext, api } from "react-horizontal-scrolling-menu";
 
 const elemPrefix = "test";
 const getId = (index: any) => `${elemPrefix}${index}`;
@@ -54,7 +54,7 @@ function App() {
 
   const isItemSelected = (id: string): boolean => !!selected.find((el) => el === id);
 
-  const handleClick = (id: string) => ({ getItemById, scrollToItem }: VisibilityContextTypes) => {
+  const handleClick = (id: string) => ({ getItemById, scrollToItem }: ReturnType<typeof api>) => {
     const itemSelected = isItemSelected(id)
 
     setSelected((currentSelected: string[]) =>

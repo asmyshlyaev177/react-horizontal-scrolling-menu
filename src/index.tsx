@@ -15,7 +15,7 @@ import { observerOptions as defaultObserverOptions } from './settings';
 
 import * as constants from './constants';
 
-import { VisibilityContext, VisibilityContextTypes } from './context';
+import { VisibilityContext } from './context';
 
 interface Props {
   LeftArrow: React.ElementType;
@@ -114,4 +114,5 @@ function ScrollMenu({
   );
 }
 
-export { constants, ScrollMenu, VisibilityContext, VisibilityContextTypes };
+const api = createApi;
+export { constants, ScrollMenu, VisibilityContext, api };
