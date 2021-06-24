@@ -1,11 +1,12 @@
-const path = require('path')
-const merge = require('webpack-merge')
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const merge = require('webpack-merge').merge;
 
 const common = (env) => ({
   mode: env.production ? 'production' : 'development',
-  devtool: env.production ? 'none' : 'source-map',
+  devtool: 'inline-source-map',
 
-  entry: path.resolve(__dirname, 'src', 'index.js'),
+  entry: path.resolve(__dirname, 'src', 'index'),
   watch: env.development,
 
   output: {
@@ -39,29 +40,46 @@ const common = (env) => ({
       'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom'),
     },
     symlinks: false,
+    extensions: ['.tsx', '.ts', '.js', 'jsx'],
   },
 
   module: {
     rules: [
+      // {
+      //   test: /\.m?jsx?$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //     options: {
+      //       cacheDirectory: true,
+      //       configFile: path.resolve(__dirname, 'babel.config.js'),
+      //       sourceMaps: env.development ? 'both' : undefined,
+      //     },
+      //   },
+      // },
+
       {
-        test: /\.m?jsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-            configFile: path.resolve(__dirname, 'babel.config.js'),
-            sourceMaps: env.development ? 'both' : undefined,
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                outDir: './dist',
+              },
+            },
           },
-        },
+        ],
+        exclude: /node_modules/,
       },
+
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
     ],
   },
-})
+});
 
 module.exports = function (env = {}) {
   return [
@@ -87,5 +105,5 @@ module.exports = function (env = {}) {
         libraryTarget: 'umd',
       },
     }),
-  ].filter(Boolean)
-}
+  ].filter(Boolean);
+};
