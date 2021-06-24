@@ -65,6 +65,7 @@ const common = (env) => ({
             loader: 'ts-loader',
             options: {
               compilerOptions: {
+                declarationMap: true,
                 outDir: './dist',
               },
             },
