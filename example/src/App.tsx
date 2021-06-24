@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle'
 // NOTE: hide scrollbar
 // import './hideScrollbar.css'
 
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import { ScrollMenu, VisibilityContext, VisibilityContextTypes } from "react-horizontal-scrolling-menu";
 
 const elemPrefix = "test";
 const getId = (index: any) => `${elemPrefix}${index}`;
@@ -35,7 +35,7 @@ const onWheel = throttle((api: any, ev: any) => {
 
 function App() {
   const [items, setItems] = React.useState(getItems);
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
   React.useEffect(() => {
@@ -52,15 +52,22 @@ function App() {
     }
   }, [items]);
 
-  const toggleSelected = (id: any) => {
-    const isSelected = selected.find((el) => el === id);
+  const isItemSelected = (id: string): boolean => !!selected.find((el) => el === id);
 
-    setSelected((currentSelected) =>
-      isSelected
+  const handleClick = (id: string) => ({ getItemById, scrollToItem }: VisibilityContextTypes) => {
+    const itemSelected = isItemSelected(id)
+
+    setSelected((currentSelected: string[]) =>
+      itemSelected
         ? currentSelected.filter((el) => el !== id)
         : currentSelected.concat(id)
     );
-  };
+
+    if (!itemSelected) {
+      // NOTE: center item on select
+      scrollToItem(getItemById(id)?.entry?.target, 'smooth', 'center', 'nearest')
+    }
+  }
 
   const onInit = React.useCallback(({ scrollContainer }) => {
     scrollContainer.current.scrollLeft = position;
@@ -86,8 +93,8 @@ function App() {
             title={id}
             itemId={id} // NOTE: itemId is required for track items
             key={id}
-            onClick={() => toggleSelected(id)}
-            selected={!!selected.find((el) => el === id)}
+            onClick={handleClick(id)}
+            selected={isItemSelected(id)}
           />
         ))}
       </ScrollMenu>
@@ -145,12 +152,11 @@ function Card({
   title,
   itemId
 }: any) {
-  const { isItemVisible } = React.useContext(VisibilityContext)
-
+  const visibility = React.useContext(VisibilityContext)
 
   return (
     <div
-      onClick={onClick}
+      onClick={() => onClick(visibility)}
       style={{
         border: "1px solid",
         display: "inline-block",
@@ -161,7 +167,7 @@ function Card({
     >
       <div className="card">
         <div>{title}</div>
-        <div>visible: {JSON.stringify(!!isItemVisible(itemId))}</div>
+        <div>visible: {JSON.stringify(!!visibility.isItemVisible(itemId))}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div

@@ -29,7 +29,7 @@ export function observerEntriesToItems(
   });
 }
 export function scrollToItem(
-  item: Element,
+  item?: Element,
   behavior: ScrollBehavior = 'smooth',
   inline: ScrollLogicalPosition = 'end',
   block: ScrollLogicalPosition = 'nearest'
