@@ -15,7 +15,7 @@ import { observerOptions as defaultObserverOptions } from './settings';
 
 import * as constants from './constants';
 
-import { VisibilityContext } from './context';
+import { VisibilityContext, VisibilityContextTypes } from './context';
 
 interface Props {
   LeftArrow: React.ElementType;
@@ -24,7 +24,7 @@ interface Props {
   onInit: Function;
   onScroll: Function;
   onWheel: Function;
-  options?: typeof defaultObserverOptions;
+  options?: Partial<typeof defaultObserverOptions>;
 }
 
 function ScrollMenu({
@@ -114,4 +114,4 @@ function ScrollMenu({
   );
 }
 
-export { constants, ScrollMenu, VisibilityContext };
+export { constants, ScrollMenu, VisibilityContext, VisibilityContextTypes };

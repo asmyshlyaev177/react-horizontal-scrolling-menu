@@ -2,6 +2,8 @@ import React from 'react';
 
 import createApi from './createApi';
 
-type context = ReturnType<typeof createApi>;
+export type VisibilityContextTypes = ReturnType<typeof createApi>;
 
-export const VisibilityContext = React.createContext<context>({} as context);
+export const VisibilityContext = React.createContext<VisibilityContextTypes>(
+    {} as VisibilityContextTypes
+);
