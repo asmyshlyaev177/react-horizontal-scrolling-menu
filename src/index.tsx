@@ -24,7 +24,7 @@ interface Props {
   onInit: Function;
   onScroll: Function;
   onWheel: Function;
-  options?: object;
+  options?: typeof defaultObserverOptions;
 }
 
 function ScrollMenu({
@@ -34,7 +34,7 @@ function ScrollMenu({
   onInit = () => false,
   onScroll = () => false,
   onWheel = () => false,
-  options = {},
+  options = defaultObserverOptions,
 }: Props): JSX.Element {
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<{}>({});
