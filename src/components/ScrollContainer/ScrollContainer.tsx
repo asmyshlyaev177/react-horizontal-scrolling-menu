@@ -3,7 +3,7 @@ import React from 'react';
 import { scrollContainerClassName } from '../../constants';
 
 export type Props = {
-  children?: React.ReactChild | React.ReactChild[];
+  children?: React.ReactNode;
   onScroll?: VoidFunction;
   scrollRef: React.Ref<HTMLDivElement>;
 };

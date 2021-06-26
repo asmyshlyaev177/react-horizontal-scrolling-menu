@@ -20,7 +20,7 @@ import { VisibilityContext } from './context';
 interface Props {
   LeftArrow: React.ElementType;
   RightArrow: React.ElementType;
-  children: React.ReactChild | React.ReactChild[];
+  children: React.ReactNode;
   onInit: Function;
   onScroll: Function;
   onWheel: Function;

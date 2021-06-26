@@ -88,15 +88,17 @@ function App() {
         onScroll={savePosition}
         onWheel={onWheel}
       >
-        {items.map(({ id }) => (
-          <Card
-            title={id}
-            itemId={id} // NOTE: itemId is required for track items
-            key={id}
-            onClick={handleClick(id)}
-            selected={isItemSelected(id)}
-          />
+        {items.map(({ id }, ind) => (
+          ind !== 5 ?
+            <Card
+              title={id}
+              itemId={id} // NOTE: itemId is required for track items
+              key={id}
+              onClick={handleClick(id)}
+              selected={isItemSelected(id)}
+            /> : (<><div key="test555" data-itemId="test555">test</div></>)
         ))}
+
       </ScrollMenu>
     </div>
   );
