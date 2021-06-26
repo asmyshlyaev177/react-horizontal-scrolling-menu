@@ -7,7 +7,7 @@ export type Props = {
   id: string;
   index: number;
   refs: Refs;
-  children?: React.ReactChild | React.ReactChild[];
+  children?: React.ReactNode;
 };
 
 function Item({ children, id, index, refs }: Props) {
