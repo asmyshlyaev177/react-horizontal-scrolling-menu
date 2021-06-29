@@ -4,12 +4,16 @@ import { scrollContainerClassName } from '../../constants';
 
 export type Props = {
   children?: React.ReactNode;
-  onScroll?: VoidFunction;
+  onScroll?: (event: React.UIEvent) => void;
   scrollRef: React.Ref<HTMLDivElement>;
 };
 
 // TODO: pass initialPosition ??
-function ScrollContainer({ children, onScroll, scrollRef }: Props) {
+function ScrollContainer({
+  children,
+  onScroll = () => false,
+  scrollRef,
+}: Props) {
   return (
     <div
       className={scrollContainerClassName}

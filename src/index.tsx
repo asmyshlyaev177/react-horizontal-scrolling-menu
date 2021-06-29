@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types'
 
 import './styles.css';
@@ -9,7 +9,7 @@ import MenuItems from './components/MenuItems';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
 import useIsMounted from './hooks/useIsMounted';
-import createApi from './createApi';
+import createApi, { publicApiType } from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
 
@@ -22,8 +22,8 @@ interface Props {
   RightArrow: React.ElementType;
   children: React.ReactNode;
   onInit: Function;
-  onScroll: Function;
-  onWheel: Function;
+  onScroll: (api: publicApiType, ev: React.UIEvent) => void;
+  onWheel: (api: publicApiType, ev: React.WheelEvent) => void;
   options?: Partial<typeof defaultObserverOptions>;
 }
 
@@ -71,7 +71,7 @@ function ScrollMenu({
     [items, visibleItems]
   );
 
-  const publicApi = React.useMemo(
+  const publicApi: publicApiType = React.useMemo(
     () => ({
       ...api,
       initComplete,
@@ -83,18 +83,15 @@ function ScrollMenu({
   );
 
   const scrollHandler = React.useCallback(
-    () => onScroll(publicApi),
+    (event: React.UIEvent) => onScroll(publicApi, event),
     [onScroll, publicApi]
   );
 
   // console.log(publicApi)
   // console.log(items)
 
-  // TODO: hide scrollbar
-  // https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll
-
   const onWheelHandler = React.useCallback(
-    (ev: SyntheticEvent) => onWheel(publicApi, ev),
+    (ev: React.WheelEvent) => onWheel(publicApi, ev),
     [onWheel, publicApi]
   );
 
@@ -114,5 +111,4 @@ function ScrollMenu({
   );
 }
 
-const api = createApi;
-export { constants, ScrollMenu, VisibilityContext, api };
+export { constants, ScrollMenu, VisibilityContext };
