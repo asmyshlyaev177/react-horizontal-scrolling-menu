@@ -2,8 +2,11 @@ import React from "react";
 
 import throttle from 'lodash/throttle'
 
-// NOTE: hide scrollbar
+// NOTE: hide scrollbar on menu component
 // import './hideScrollbar.css'
+
+// NOTE: prevent scrolling on main page
+import useHideBodyScroll from './useHideBodyScroll'
 
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
@@ -18,10 +21,6 @@ const getItems = () =>
     .map((_, ind) => ({ id: getId(ind) }));
 
 const onWheel = (apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void => {
-  // ev.preventDefault()
-  // ev.stopPropagation()
-  // console.log(ev)
-
   // NOTE: no good standart way to distinguish touchpad scrolling gestures
   // but can assume that gesture will affect X axis, mouse scroll only Y axis 
   // of if deltaY too small probably is it touchpad
@@ -85,32 +84,42 @@ function App() {
     throttle(
       ({
         scrollContainer
-      }: scrollVisibilityApiType) => {
+      }: scrollVisibilityApiType, event) =>
         !!scrollContainer.current && setPosition(scrollContainer.current.scrollLeft)
-      }, 500
+      , 500
     ), []
   );
 
-  return (
-    <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
-      <ScrollMenu
-        LeftArrow={LeftArrow}
-        RightArrow={RightArrow}
-        onInit={onInit}
-        onScroll={savePosition}
-        onWheel={onWheel}
-      >
-        {items.map(({ id }) => (
-          <Card
-            title={id}
-            itemId={id} // NOTE: itemId is required for track items
-            key={id}
-            onClick={handleClick(id)}
-            selected={isItemSelected(id)}
-          />)
-        )}
+  const { hideScroll, showScroll } = useHideBodyScroll()
 
-      </ScrollMenu>
+  return (
+    <div
+      className="example" style={{ height: '200vh', paddingTop: '200px' }}
+
+    >
+      <div
+        onMouseEnter={hideScroll}
+        onMouseLeave={showScroll}
+      >
+        <ScrollMenu
+          LeftArrow={LeftArrow}
+          RightArrow={RightArrow}
+          onInit={onInit}
+          onScroll={savePosition}
+          onWheel={onWheel}
+        >
+          {items.map(({ id }) => (
+            <Card
+              title={id}
+              itemId={id} // NOTE: itemId is required for track items
+              key={id}
+              onClick={handleClick(id)}
+              selected={isItemSelected(id)}
+            />)
+          )}
+
+        </ScrollMenu></div>
+
     </div>
   );
 }
