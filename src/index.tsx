@@ -91,7 +91,7 @@ function ScrollMenu({
   // console.log(items)
 
   const onWheelHandler = React.useCallback(
-    (ev: React.WheelEvent) => onWheel(publicApi, ev),
+    (event: React.WheelEvent) => onWheel(publicApi, event),
     [onWheel, publicApi]
   );
 
