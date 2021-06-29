@@ -76,3 +76,10 @@ export default function createApi(
     visibleItemsWithoutSeparators,
   };
 }
+
+export interface publicApiType extends ReturnType<typeof createApi> {
+  initComplete: boolean;
+  items: ItemsMap;
+  scrollContainer: React.RefObject<HTMLElement | null>;
+  visibleItems: visibleItems;
+}

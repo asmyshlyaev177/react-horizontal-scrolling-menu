@@ -5,17 +5,23 @@ import throttle from 'lodash/throttle'
 // NOTE: hide scrollbar
 // import './hideScrollbar.css'
 
-import { ScrollMenu, VisibilityContext, api } from "react-horizontal-scrolling-menu";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+
+type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>
 
 const elemPrefix = "test";
-const getId = (index: any) => `${elemPrefix}${index}`;
+const getId = (index: number) => `${elemPrefix}${index}`;
 
 const getItems = () =>
   Array(20)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
-const onWheel = throttle((api: any, ev: any) => {
+const onWheel = (apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void => {
+  // ev.preventDefault()
+  // ev.stopPropagation()
+  // console.log(ev)
+
   // NOTE: no good standart way to distinguish touchpad scrolling gestures
   // but can assume that gesture will affect X axis, mouse scroll only Y axis 
   // of if deltaY too small probably is it touchpad
@@ -23,15 +29,15 @@ const onWheel = throttle((api: any, ev: any) => {
 
   if (isThouchpad) {
     ev.stopPropagation()
-    return false
+    return
   }
 
   if (ev.deltaY < 0) {
-    api.scrollNext()
+    apiObj.scrollNext()
   } else if (ev.deltaY > 0) {
-    api.scrollPrev()
+    apiObj.scrollPrev()
   }
-}, 250)
+}
 
 function App() {
   const [items, setItems] = React.useState(getItems);
@@ -54,7 +60,7 @@ function App() {
 
   const isItemSelected = (id: string): boolean => !!selected.find((el) => el === id);
 
-  const handleClick = (id: string) => ({ getItemById, scrollToItem }: ReturnType<typeof api>) => {
+  const handleClick = (id: string) => ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
     const itemSelected = isItemSelected(id)
 
     setSelected((currentSelected: string[]) =>
@@ -69,15 +75,21 @@ function App() {
     }
   }
 
-  const onInit = React.useCallback(({ scrollContainer }) => {
-    scrollContainer.current.scrollLeft = position;
+  const onInit = React.useCallback(({ scrollContainer }: scrollVisibilityApiType) => {
+    if (!!scrollContainer.current) {
+      scrollContainer.current.scrollLeft = position;
+    }
   }, [position]);
 
-  const savePosition = React.useCallback(throttle(({
-    scrollContainer
-  }: any) => {
-    setPosition(scrollContainer.current.scrollLeft)
-  }, 500), []);
+  const savePosition = React.useCallback(
+    throttle(
+      ({
+        scrollContainer
+      }: scrollVisibilityApiType) => {
+        !!scrollContainer.current && setPosition(scrollContainer.current.scrollLeft)
+      }, 500
+    ), []
+  );
 
   return (
     <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
@@ -88,16 +100,15 @@ function App() {
         onScroll={savePosition}
         onWheel={onWheel}
       >
-        {items.map(({ id }, ind) => (
-          ind !== 5 ?
-            <Card
-              title={id}
-              itemId={id} // NOTE: itemId is required for track items
-              key={id}
-              onClick={handleClick(id)}
-              selected={isItemSelected(id)}
-            /> : (<><div key="test555" data-itemId="test555">test</div></>)
-        ))}
+        {items.map(({ id }) => (
+          <Card
+            title={id}
+            itemId={id} // NOTE: itemId is required for track items
+            key={id}
+            onClick={handleClick(id)}
+            selected={isItemSelected(id)}
+          />)
+        )}
 
       </ScrollMenu>
     </div>
@@ -128,7 +139,11 @@ function Arrow({
   children,
   disabled,
   onClick
-}: any) {
+}: {
+  children: React.ReactNode,
+  disabled: boolean,
+  onClick: VoidFunction
+}) {
   return (
     <button
       disabled={disabled}
@@ -153,7 +168,13 @@ function Card({
   selected,
   title,
   itemId
-}: any) {
+}: {
+  disabled?: boolean,
+  onClick: Function,
+  selected: boolean,
+  title: string,
+  itemId: string
+}) {
   const visibility = React.useContext(VisibilityContext)
 
   return (
