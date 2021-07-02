@@ -1,5 +1,5 @@
-import Separator, { Props } from './Separator';
+import Separator, { Props as _Props } from './Separator';
 
-export { Props };
+export type Props = _Props;
 
 export default Separator;
