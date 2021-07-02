@@ -1,5 +1,5 @@
-import Item, { Props } from './Item';
+import Item, { Props as _Props } from './Item';
 
-export { Props };
+export type Props = _Props;
 
 export default Item;

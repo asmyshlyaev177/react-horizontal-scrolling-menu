@@ -1,5 +1,5 @@
-import MenuItems, { Props } from './MenuItems';
+import MenuItems, { Props as _Props } from './MenuItems';
 
-export { Props };
+export type Props = _Props;
 
 export default MenuItems;
