@@ -37,7 +37,7 @@ module.exports = {
   // collectCoverage: true,
   moduleDirectories: ['node_modules'],
   // NOTE: hack for search peerDeps as React in example folder
-  modulePaths: ['<rootDir>/example/node_modules'],
+  modulePaths: ['<rootDir>/example-nextjs/node_modules'],
   setupFilesAfterEnv: ['<rootDir>/jest.init.js'],
   testEnvironment: 'jsdom',
 
@@ -212,4 +212,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-}
+};

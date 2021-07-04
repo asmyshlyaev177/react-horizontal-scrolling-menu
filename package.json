@@ -13,14 +13,11 @@
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
   },
   "scripts": {
-    "link:all": "yarn link:unlink && yarn link:lib && yarn link:install",
-    "link:lib": "yarn link && cd example && yarn link react-horizontal-scrolling-menu",
-    "link:install": "yarn install && cd example && yarn install",
-    "link:unlink": "yarn unlink;exit 0 && cd example && yarn unlink;exit 0",
     "test": "jest",
     "dev": "rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
-    "build": "rm -rf dist && rollup -c rollup.config.js"
+    "build": "rm -rf dist && rollup -c rollup.config.js",
+    "example": "cd example-nextjs && yarn dev"
   },
   "keywords": [
     "react",
