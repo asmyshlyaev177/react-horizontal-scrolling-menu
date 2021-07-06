@@ -3,9 +3,10 @@ import React from 'react';
 import throttle from 'lodash/throttle';
 
 // NOTE: prevent scrolling on main page
-import useHideBodyScroll from './useHideBodyScroll';
+import useHideBodyScroll from '../helpers/useHideBodyScroll';
 
-import useDrag from './useDrag';
+// NOTE drag with mouse
+import useDrag from '../helpers/useDrag';
 
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
@@ -75,23 +76,23 @@ function App() {
       });
 
   const handleClick =
-    (id: string) =>
+    (itemId: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
       if (dragging) {
         return false;
       }
-      const itemSelected = isItemSelected(id);
+      const itemSelected = isItemSelected(itemId);
 
       setSelected((currentSelected: string[]) =>
         itemSelected
-          ? currentSelected.filter((el) => el !== id)
-          : currentSelected.concat(id)
+          ? currentSelected.filter((el) => el !== itemId)
+          : currentSelected.concat(itemId)
       );
 
       if (!itemSelected) {
         // NOTE: center item on select
         scrollToItem(
-          getItemById(id)?.entry?.target,
+          getItemById(itemId)?.entry?.target,
           'smooth',
           'center',
           'nearest'
@@ -124,26 +125,28 @@ function App() {
   return (
     <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
       <div onMouseEnter={hideScroll} onMouseLeave={showScroll}>
-        <ScrollMenu
-          LeftArrow={LeftArrow}
-          RightArrow={RightArrow}
-          onInit={onInit}
-          onScroll={savePosition}
-          onWheel={onWheel}
-          onMouseDown={() => (ev) => dragStart(ev)}
-          onMouseUp={() => () => dragStop()}
-          onMouseMove={handleDrag}
-        >
-          {items.map(({ id }) => (
-            <Card
-              title={id}
-              itemId={id} // NOTE: itemId is required for track items
-              key={id}
-              onClick={handleClick(id)}
-              selected={isItemSelected(id)}
-            />
-          ))}
-        </ScrollMenu>
+        <div onMouseLeave={dragStop}>
+          <ScrollMenu
+            LeftArrow={LeftArrow}
+            RightArrow={RightArrow}
+            onInit={onInit}
+            onScroll={savePosition}
+            onWheel={onWheel}
+            onMouseDown={() => (ev) => dragStart(ev)}
+            onMouseUp={() => dragStop}
+            onMouseMove={handleDrag}
+          >
+            {items.map(({ id }) => (
+              <Card
+                title={id}
+                itemId={id} // NOTE: itemId is required for track items
+                key={id}
+                onClick={handleClick(id)}
+                selected={isItemSelected(id)}
+              />
+            ))}
+          </ScrollMenu>
+        </div>
       </div>
     </div>
   );
@@ -245,4 +248,15 @@ function Card({
   );
 }
 
-export default App;
+// TODO: nextjs complains about useLayoutEffect
+const Wrapper = () => {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted ? <App /> : null;
+};
+
+export default Wrapper;
