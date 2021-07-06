@@ -5,6 +5,8 @@ import throttle from 'lodash/throttle';
 // NOTE: prevent scrolling on main page
 import useHideBodyScroll from './useHideBodyScroll';
 
+import useDrag from './useDrag';
+
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
@@ -60,9 +62,24 @@ function App() {
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
+  const { dragStart, dragStop, dragMove, dragging } = useDrag();
+
+  const handleDrag =
+    ({ scrollContainer }: scrollVisibilityApiType) =>
+    (ev: React.MouseEvent) =>
+      dragMove(ev, (newPos) => {
+        if (scrollContainer.current) {
+          const currentScroll = scrollContainer.current.scrollLeft;
+          scrollContainer.current.scrollLeft = currentScroll + newPos;
+        }
+      });
+
   const handleClick =
     (id: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
+      if (dragging) {
+        return false;
+      }
       const itemSelected = isItemSelected(id);
 
       setSelected((currentSelected: string[]) =>
@@ -113,6 +130,9 @@ function App() {
           onInit={onInit}
           onScroll={savePosition}
           onWheel={onWheel}
+          onMouseDown={() => (ev) => dragStart(ev)}
+          onMouseUp={() => () => dragStop()}
+          onMouseMove={handleDrag}
         >
           {items.map(({ id }) => (
             <Card
@@ -204,6 +224,7 @@ function Card({
         display: 'inline-block',
         margin: '0 10px',
         width: '160px',
+        userSelect: 'none',
       }}
       tabIndex={0}
     >
