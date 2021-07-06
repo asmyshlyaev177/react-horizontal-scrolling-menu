@@ -25,6 +25,9 @@ interface Props {
   onScroll: (api: publicApiType, ev: React.UIEvent) => void;
   onWheel: (api: publicApiType, ev: React.WheelEvent) => void;
   options?: Partial<typeof defaultObserverOptions>;
+  onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
+  onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
+  onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
 }
 
 function ScrollMenu({
@@ -32,11 +35,14 @@ function ScrollMenu({
   RightArrow,
   children,
   onInit = () => false,
+  onMouseDown,
+  onMouseUp,
+  onMouseMove,
   onScroll = () => false,
   onWheel = () => false,
   options = defaultObserverOptions,
 }: Props): JSX.Element {
-  const scrollContainerRef = React.useRef(null);
+  const scrollContainerRef = React.useRef(null as unknown as HTMLDivElement);
   const [menuItemsRefs] = React.useState<{}>({});
 
   const observerOptions = React.useMemo(
@@ -96,7 +102,14 @@ function ScrollMenu({
   );
 
   return (
-    <div className={constants.wrapperClassName} onWheel={onWheelHandler}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      className={constants.wrapperClassName}
+      onWheel={onWheelHandler}
+      onMouseDown={onMouseDown?.(publicApi)}
+      onMouseUp={onMouseUp?.(publicApi)}
+      onMouseMove={onMouseMove?.(publicApi)}
+    >
       <VisibilityContext.Provider value={publicApi}>
         <LeftArrow />
         <ScrollContainer
