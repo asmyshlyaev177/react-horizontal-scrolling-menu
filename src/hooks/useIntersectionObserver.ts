@@ -18,8 +18,8 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
 
   const [visibleItems, setVisibleItems] = React.useState<visibleItems>([]);
 
-  const throttleTimer: { current: NodeJS.Timeout } = React.useRef(
-    setTimeout(() => false)
+  const throttleTimer: { current: number } = React.useRef(
+    +setTimeout(() => false, 0)
   );
 
   const ioCb = React.useCallback(
@@ -27,11 +27,10 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
       const newItems = observerEntriesToItems(entries, options);
       items.set(newItems);
 
-      clearTimeout(throttleTimer.current);
-      throttleTimer.current = setTimeout(
+      global.clearTimeout(throttleTimer.current);
+      throttleTimer.current = +setTimeout(
         () =>
-          window &&
-          window.requestAnimationFrame(() => {
+          global.requestAnimationFrame(() => {
             setVisibleItems((currentVisible) => {
               const newVisibleItems = items
                 .getVisible()

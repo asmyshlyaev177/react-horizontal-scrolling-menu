@@ -26,8 +26,10 @@ module.exports = {
     'coverage',
     'cypress',
     'cypress-coverage',
+    'dist',
+    'node_modules',
   ],
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!<rootDir>/node_modules/'],
+  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
   coverageThreshold: {
     global: {
       lines: 10,
