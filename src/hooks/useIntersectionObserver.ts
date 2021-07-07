@@ -12,7 +12,6 @@ interface Props {
   refs: Refs;
 }
 
-// TODO: tests
 function useIntersection({ items, itemsChanged, refs, options }: Props) {
   const observer: { current?: IntersectionObserver } = React.useRef();
 
