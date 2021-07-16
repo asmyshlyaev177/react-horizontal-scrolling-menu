@@ -18,7 +18,7 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
   const [visibleItems, setVisibleItems] = React.useState<visibleItems>([]);
 
   const throttleTimer: { current: number } = React.useRef(
-    +setTimeout(() => false, 0)
+    +setTimeout(() => void 0, 0)
   );
 
   const ioCb = React.useCallback(
