@@ -28,6 +28,7 @@ interface Props {
   onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
+  wrapperClassName?: string;
 }
 
 function ScrollMenu({
@@ -41,6 +42,7 @@ function ScrollMenu({
   onScroll = (): void => void 0,
   onWheel = (): void => void 0,
   options = defaultObserverOptions,
+  wrapperClassName = '',
 }: Props): JSX.Element {
   const scrollContainerRef = React.useRef(null as unknown as HTMLDivElement);
   const [menuItemsRefs] = React.useState<{}>({});
@@ -51,14 +53,12 @@ function ScrollMenu({
       ...options,
       root: scrollContainerRef.current,
     }),
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    []
+    [options]
   );
 
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, menuItemsRefs);
 
-  // console.count('main rerender')
   const items = React.useRef(new ItemsMap()).current;
   const { visibleItems } = useIntersectionObserver({
     items,
@@ -66,8 +66,6 @@ function ScrollMenu({
     options: observerOptions,
     refs: menuItemsRefs,
   });
-  // console.log(items)
-  // console.log(visibleItems)
 
   // TODO: it fires before have any visible items
   const initComplete = useIsMounted(() => onInit(publicApi));
@@ -93,9 +91,6 @@ function ScrollMenu({
     [onScroll, publicApi]
   );
 
-  // console.log(publicApi)
-  // console.log(items)
-
   const onWheelHandler = React.useCallback(
     (event: React.WheelEvent) => onWheel(publicApi, event),
     [onWheel, publicApi]
@@ -104,7 +99,7 @@ function ScrollMenu({
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
-      className={constants.wrapperClassName}
+      className={`${constants.wrapperClassName} ${wrapperClassName}`}
       onWheel={onWheelHandler}
       onMouseDown={onMouseDown?.(publicApi)}
       onMouseUp={onMouseUp?.(publicApi)}

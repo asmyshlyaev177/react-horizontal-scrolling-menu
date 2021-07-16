@@ -153,21 +153,41 @@ function App() {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } =
+  const { isFirstItemVisible, scrollPrev, visibleItemsWithoutSeparators } =
     React.useContext(VisibilityContext);
 
+  const [disabled, setDisabled] = React.useState(
+    !visibleItemsWithoutSeparators.length && isFirstItemVisible
+  );
+  React.useEffect(() => {
+    // NOTE: detect if whole component visible
+    if (visibleItemsWithoutSeparators.length) {
+      setDisabled(isFirstItemVisible);
+    }
+  }, [isFirstItemVisible, visibleItemsWithoutSeparators]);
+
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+    <Arrow disabled={disabled} onClick={() => scrollPrev()}>
       Left
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
+  const { isLastItemVisible, scrollNext, visibleItemsWithoutSeparators } =
+    React.useContext(VisibilityContext);
+
+  const [disabled, setDisabled] = React.useState(
+    !visibleItemsWithoutSeparators.length && isLastItemVisible
+  );
+  React.useEffect(() => {
+    if (visibleItemsWithoutSeparators.length) {
+      setDisabled(isLastItemVisible);
+    }
+  }, [isLastItemVisible, visibleItemsWithoutSeparators]);
 
   return (
-    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
+    <Arrow disabled={disabled} onClick={() => scrollNext()}>
       Right
     </Arrow>
   );
@@ -220,7 +240,9 @@ function Card({
   return (
     <div
       onClick={() => onClick(visibility)}
-      onKeyDown={() => onClick(visibility)}
+      onKeyDown={(ev) => {
+        ev.code === 'Enter' && onClick(visibility);
+      }}
       role="button"
       style={{
         border: '1px solid',
