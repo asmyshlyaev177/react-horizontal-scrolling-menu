@@ -33,11 +33,9 @@ export default function useDrag() {
         setDragging(true);
       }
 
-      setPosition(ev.clientX);
-      setDiff(newDiff);
-
-      // console.log({ dragging, newDiff, movedEnough });
       if (dragging && movedEnough) {
+        setPosition(ev.clientX);
+        setDiff(newDiff);
         cb(newDiff);
       }
     },
