@@ -21,7 +21,7 @@ interface Props {
   LeftArrow: React.ElementType;
   RightArrow: React.ElementType;
   children: React.ReactNode;
-  onInit: Function;
+  onInit: (api: publicApiType) => void;
   onScroll: (api: publicApiType, ev: React.UIEvent) => void;
   onWheel: (api: publicApiType, ev: React.WheelEvent) => void;
   options?: Partial<typeof defaultObserverOptions>;
@@ -34,12 +34,12 @@ function ScrollMenu({
   LeftArrow,
   RightArrow,
   children,
-  onInit = () => false,
+  onInit = (): void => void 0,
   onMouseDown,
   onMouseUp,
   onMouseMove,
-  onScroll = () => false,
-  onWheel = () => false,
+  onScroll = (): void => void 0,
+  onWheel = (): void => void 0,
   options = defaultObserverOptions,
 }: Props): JSX.Element {
   const scrollContainerRef = React.useRef(null as unknown as HTMLDivElement);

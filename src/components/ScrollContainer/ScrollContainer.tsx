@@ -11,7 +11,7 @@ export type Props = {
 // TODO: pass initialPosition ??
 function ScrollContainer({
   children,
-  onScroll = () => false,
+  onScroll = () => void 0,
   scrollRef,
 }: Props) {
   return (

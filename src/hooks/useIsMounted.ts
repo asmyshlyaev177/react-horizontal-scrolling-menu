@@ -1,6 +1,6 @@
 import React from 'react';
 
-function useIsMounted(cb = () => false): boolean {
+function useIsMounted(cb = (): void => void 0): boolean {
   const [mounted, setMounted] = React.useState(false);
 
   React.useLayoutEffect(() => {
