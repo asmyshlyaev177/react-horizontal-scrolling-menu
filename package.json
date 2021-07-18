@@ -13,12 +13,18 @@
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
   },
   "scripts": {
-    "test": "jest",
+    "test:unit": "jest",
+    "test:e2e": "run-p -r demo:test cypress:run-with-wait",
+    "cypress:run-with-wait": "run-s wait cypress:run",
+    "cypress:run": "cypress run",
     "dev": "rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
     "build": "rm -rf dist && rollup -c rollup.config.js",
     "example": "cd example-nextjs && yarn install && yarn dev",
-    "demo": "run-p dev example"
+    "example:test": "cd example-nextjs && yarn install && NEXT_PUBLIC_IS_TEST=true yarn dev",
+    "wait": "wait-on http://localhost:3000 && sleep 10",
+    "demo": "run-p dev example",
+    "demo:test": "run-s build example:test"
   },
   "keywords": [
     "react",
@@ -50,8 +56,11 @@
     "@typescript-eslint/parser": "^4.26.1",
     "browserslist": "^4.12.0",
     "css-loader": "^5.2.6",
+    "cypress": "^7.7.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-disable": "^2.0.1",
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.4.0",
@@ -77,6 +86,7 @@
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.2",
+    "wait-on": "^6.0.0",
     "webpack": "^5.40.0",
     "webpack-cli": "^4.7.2",
     "webpack-merge": "^5.8.0"
