@@ -14,12 +14,10 @@ export default function useDrag() {
 
   const dragStop = React.useCallback(
     () =>
-      window.requestAnimationFrame(() =>
-        setTimeout(() => {
-          setDragging(false);
-          setClicked(false);
-        }, 0)
-      ),
+      window.requestAnimationFrame(() => {
+        setDragging(false);
+        setClicked(false);
+      }),
     []
   );
 

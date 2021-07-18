@@ -10,6 +10,8 @@ import useDrag from '../helpers/useDrag';
 
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
+const isTest = process?.env?.NEXT_PUBLIC_IS_TEST;
+
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 const elemPrefix = 'test';
@@ -46,19 +48,19 @@ function App() {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
-  React.useEffect(() => {
-    if (items.length < 25) {
-      setTimeout(() => {
-        const newItems = items.concat(
-          Array(5)
-            .fill(0)
-            .map((_, ind) => ({ id: getId(items.length + ind) }))
-        );
-        console.log('push new items');
-        setItems(newItems);
-      }, 3000);
-    }
-  }, [items]);
+  // React.useEffect(() => {
+  //   if (items.length < 25) {
+  //     setTimeout(() => {
+  //       const newItems = items.concat(
+  //         Array(5)
+  //           .fill(0)
+  //           .map((_, ind) => ({ id: getId(items.length + ind) }))
+  //       );
+  //       console.log('push new items');
+  //       setItems(newItems);
+  //     }, 3000);
+  //   }
+  // }, [items]);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
@@ -167,7 +169,10 @@ function LeftArrow() {
   }, [isFirstItemVisible, visibleItemsWithoutSeparators]);
 
   return (
-    <Arrow disabled={disabled} onClick={() => scrollPrev()}>
+    <Arrow
+      disabled={disabled}
+      onClick={() => scrollPrev(isTest ? 'auto' : 'smooth')}
+    >
       Left
     </Arrow>
   );
@@ -187,7 +192,10 @@ function RightArrow() {
   }, [isLastItemVisible, visibleItemsWithoutSeparators]);
 
   return (
-    <Arrow disabled={disabled} onClick={() => scrollNext()}>
+    <Arrow
+      disabled={disabled}
+      onClick={() => scrollNext(isTest ? 'auto' : 'smooth')}
+    >
       Right
     </Arrow>
   );

@@ -10,6 +10,7 @@
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:jest/recommended",
+    "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:radar/recommended"
@@ -26,8 +27,11 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
+  "processor": "disable/disable",
   "plugins": [
     "@typescript-eslint",
+    "disable",
+    "cypress",
     "jest",
     "react",
     "react-hooks",
@@ -81,6 +85,23 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-non-null-assertion": "off"
       }
+    },
+    {
+      "files": [
+        "*.spec.js",
+        "*.spec.ts"
+      ],
+      "settings": {
+        "disable/plugins": ["jest"]
+      },
+      "rules": {
+        "jest/valid-expect-in-promise": "off",
+        "jest/expect-expect" : "off",
+        "jest/valid-expect" : "off",
+        "cypress/no-unnecessary-waiting": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
     }
+    
   ]
 }
