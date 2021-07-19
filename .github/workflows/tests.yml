@@ -32,19 +32,22 @@ jobs:
             ${{ runner.os }}-yarn-
       
       - run: yarn install --immutable
-      - run: cd example-nodejs && yarn install
+      - run: cd example-nextjs && yarn install --immutable
       
-  cypress-run:
+   
+  jest:
     needs: build
     runs-on: ubuntu-20.04
     container: cypress/included:6.2.0
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
       - name: Unit tests
         run: yarn test
     
+  cypress:
+    needs: build
+    runs-on: ubuntu-20.04
+    container: cypress/included:6.2.0
+    steps:
       - name: E2E tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
