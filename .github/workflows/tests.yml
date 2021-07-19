@@ -41,7 +41,7 @@ jobs:
         run: yarn test:unit
         
       - name: E2E tests
-      - uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -50,6 +50,7 @@ jobs:
 #           start: yarn install --immutable
           command: yarn test:e2e
 
+      - name: E2E artifacts upload
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
