@@ -59,8 +59,10 @@ jobs:
       
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
         with:
           env: true
+          install-command: yarn install --immutable 
           start: yarn install --immutable && yarn build && yarn demo:test
           command: yarn test:e2e
 
