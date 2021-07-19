@@ -3,8 +3,8 @@ const items: string[] = Array(20)
   .map((_el, index) => `test${index}`);
 
 const visibleItemsCount = 3;
-const waitShort = 50;
-const waitLong = 300;
+const waitShort = 30;
+const waitLong = 70;
 
 type direction = 'Left' | 'Right';
 
@@ -18,7 +18,7 @@ describe('Scrolling menu', () => {
       length: visibleItemsCount,
     });
 
-    cy.visit('/').wait(waitLong);
+    cy.visit('/').wait(waitLong * 3);
 
     checkArrow({ cy, direction: 'Left', visible: false });
     checkArrow({ cy, direction: 'Right', visible: true });
