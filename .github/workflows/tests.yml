@@ -1,0 +1,54 @@
+name: Tests
+on:
+  push:
+    branches: [v2]
+  pull_request:
+    branches: [v2]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile
+      - run: cd example-nodejs && yarn install
+      
+  cypress-run:
+    runs-on: ubuntu-20.04
+    container: cypress/included:6.2.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Unit tests
+        run: yarn test
+    
+      - name: E2E tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: cypress-io/github-action@v2
+        with:
+          env: true
+          start: yarn demo:test
+          command: yarn test:e2e
+
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
