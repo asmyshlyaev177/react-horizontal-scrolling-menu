@@ -33,20 +33,19 @@ jobs:
             ${{ runner.os }}-yarn-
             
       - name: Install
-      - run: yarn install --immutable
-      - run: cd example-nextjs && yarn install --immutable
+        run: yarn install --immutable && cd example-nextjs && yarn install --immutable
       
       - name: Unit tests
-      - run: yarn test
+        run: yarn test
       
-      - name: E2E tests
-      - uses: cypress-io/github-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          env: true
-          start: yarn demo:test
-          command: yarn test:e2e
+#       - name: E2E tests
+#       - uses: cypress-io/github-action@v2
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           env: true
+#           start: yarn demo:test
+#           command: yarn test:e2e
 
 #       - name: Upload cypress screenshots
 #       - uses: actions/upload-artifact@v1
