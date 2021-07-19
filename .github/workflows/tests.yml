@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       
-      - run: yarn install --immutable --immutable-cache
+      - run: yarn install --immutable
       - run: cd example-nodejs && yarn install
       
   cypress-run:
