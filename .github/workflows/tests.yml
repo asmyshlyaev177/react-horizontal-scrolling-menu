@@ -61,7 +61,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           env: true
-          start: yarn demo:test
+          start: yarn install --immutable && yarn build && yarn demo:test
           command: yarn test:e2e
 
 #       - uses: actions/upload-artifact@v1
