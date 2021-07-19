@@ -47,12 +47,14 @@ jobs:
           start: yarn demo:test
           command: yarn test:e2e
 
+      - name: Upload cypress screenshots
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       # Test run video was always captured, so this action uses "always()" condition
+      - name: Upload cypress videos
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
