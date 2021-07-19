@@ -20,8 +20,8 @@
     "dev": "rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
     "build": "rm -rf dist && rollup -c rollup.config.js",
-    "example": "cd example-nextjs && yarn install && yarn dev",
-    "example:test": "cd example-nextjs && yarn install && NEXT_PUBLIC_IS_TEST=true yarn dev",
+    "example": "cd example-nextjs && yarn dev",
+    "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true yarn dev",
     "wait": "wait-on http://localhost:3000 && sleep 10",
     "demo": "run-p dev example",
     "demo:test": "run-s build example:test"
