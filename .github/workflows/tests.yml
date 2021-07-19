@@ -33,10 +33,34 @@ jobs:
             ${{ runner.os }}-yarn-
             
       - name: Install
-        run: yarn install --immutable && cd example-nextjs && yarn install --immutable
+        run: |
+          yarn install --immutable
+          cd example-nextjs && yarn install --immutable
       
       - name: Unit tests
         run: yarn test:unit
+        
+      - name: E2E tests
+      - uses: cypress-io/github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          env: true
+          install-command: yarn install --immutable 
+#           start: yarn install --immutable
+          command: yarn test:e2e
+
+#       - uses: actions/upload-artifact@v1
+#         if: failure()
+#         with:
+#           name: cypress-screenshots
+#           path: cypress/screenshots
+#       # Test run video was always captured, so this action uses "always()" condition
+#       - uses: actions/upload-artifact@v1
+#         if: failure()
+#         with:
+#           name: cypress-videos
+#           path: cypress/videos
       
    
 #   jest:
@@ -48,23 +72,23 @@ jobs:
 #       - run: yarn install
 #       - run: yarn test
     
-  cypress:
-    needs: build
-    runs-on: ubuntu-20.04
-    container: cypress/included:7.7.0
-    steps:
-      - uses: actions/checkout@v2
-        name: E2E tests
-      - uses: cypress-io/github-action@v2
+#   cypress:
+#     needs: build
+#     runs-on: ubuntu-20.04
+#     container: cypress/included:7.7.0
+#     steps:
+#       - uses: actions/checkout@v2
+#         name: E2E tests
+#       - uses: cypress-io/github-action@v2
       
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-        with:
-          env: true
-          install-command: yarn install --immutable 
-          start: yarn install --immutable && yarn build && yarn demo:test
-          command: yarn test:e2e
+#         with:
+#           env: true
+#           install-command: yarn install --immutable 
+#           start: yarn install --immutable && yarn build && yarn demo:test
+#           command: yarn test:e2e
 
 #       - uses: actions/upload-artifact@v1
 #         if: failure()
