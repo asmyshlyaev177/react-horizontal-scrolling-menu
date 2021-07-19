@@ -49,8 +49,7 @@ jobs:
           install-command: yarn install --immutable 
 #           start: yarn install --immutable
           command: yarn test:e2e
-
-      - name: E2E artifacts upload
+          
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
