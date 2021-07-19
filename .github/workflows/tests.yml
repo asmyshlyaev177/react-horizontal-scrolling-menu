@@ -38,6 +38,7 @@ jobs:
       - name: Unit tests
       - run: yarn test
       
+      - name: E2E tests
       - uses: cypress-io/github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
