@@ -23,6 +23,7 @@ jobs:
       - run: cd example-nodejs && yarn install
       
   cypress-run:
+    needs: build
     runs-on: ubuntu-20.04
     container: cypress/included:6.2.0
     steps:
