@@ -32,6 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
             
+      - name: Install
       - run: yarn install --immutable
       - run: cd example-nextjs && yarn install --immutable
       
@@ -47,19 +48,19 @@ jobs:
           start: yarn demo:test
           command: yarn test:e2e
 
-      - name: Upload cypress screenshots
-      - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      # Test run video was always captured, so this action uses "always()" condition
-      - name: Upload cypress videos
-      - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-videos
-          path: cypress/videos
+#       - name: Upload cypress screenshots
+#       - uses: actions/upload-artifact@v1
+#         if: failure()
+#         with:
+#           name: cypress-screenshots
+#           path: cypress/screenshots
+#       # Test run video was always captured, so this action uses "always()" condition
+#       - name: Upload cypress videos
+#       - uses: actions/upload-artifact@v1
+#         if: failure()
+#         with:
+#           name: cypress-videos
+#           path: cypress/videos
       
    
 #   jest:
