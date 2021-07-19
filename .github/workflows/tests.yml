@@ -38,8 +38,25 @@ jobs:
       - name: Unit tests
         run: yarn test:unit
       
-      - name: E2E tests
+   
+#   jest:
+#     needs: build
+#     runs-on: ubuntu-20.04
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Unit tests
+#       - run: yarn install
+#       - run: yarn test
+    
+  cypress:
+    needs: build
+    runs-on: ubuntu-20.04
+    container: cypress/included:7.7.0
+    steps:
+      - uses: actions/checkout@v2
       - uses: cypress-io/github-action@v2
+      - name: E2E tests
+      
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -58,41 +75,3 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-      
-   
-#   jest:
-#     needs: build
-#     runs-on: ubuntu-20.04
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Unit tests
-#       - run: yarn install
-#       - run: yarn test
-    
-#   cypress:
-#     needs: build
-#     runs-on: ubuntu-20.04
-#     container: cypress/included:7.7.0
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: cypress-io/github-action@v2
-#       - name: E2E tests
-      
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           env: true
-#           start: yarn demo:test
-#           command: yarn test:e2e
-
-#       - uses: actions/upload-artifact@v1
-#         if: failure()
-#         with:
-#           name: cypress-screenshots
-#           path: cypress/screenshots
-#       # Test run video was always captured, so this action uses "always()" condition
-#       - uses: actions/upload-artifact@v1
-#         if: failure()
-#         with:
-#           name: cypress-videos
-#           path: cypress/videos
