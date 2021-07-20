@@ -2,6 +2,7 @@
   "name": "example-nextjs",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -16,7 +17,9 @@
     "react-horizontal-scrolling-menu": "link:../."
   },
   "devDependencies": {
+    "@types/gh-pages": "^3",
     "@types/react": "^17.0.13",
+    "gh-pages": "^3.2.3",
     "typescript": "^4.3.5"
   }
 }
