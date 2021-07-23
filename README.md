@@ -6,6 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/asmyshlyaev177/react-horizontal-scrolling-menu/badge.svg?branch=main)](https://coveralls.io/github/asmyshlyaev177/react-horizontal-scrolling-menu?branch=main)
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
 [![codebeat badge](https://codebeat.co/badges/ac1ad321-e730-45de-92de-10b9a0e74cf9)](https://codebeat.co/projects/github-com-asmyshlyaev177-react-horizontal-scrolling-menu-main)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&amp;utm_campaign=Badge_Grade)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=asmyshlyaev177%40gmail%2ecom&lc=US&item_name=asmyshlyaev177&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
