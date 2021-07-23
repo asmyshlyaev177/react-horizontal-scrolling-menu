@@ -2,10 +2,10 @@
 
 ![example](/sample.gif)
 
-[![Build Status](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu.svg?branch=master)](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu)
-[![Coverage Status](https://coveralls.io/repos/github/asmyshlyaev177/react-horizontal-scrolling-menu/badge.svg?branch=master)](https://coveralls.io/github/asmyshlyaev177/react-horizontal-scrolling-menu?branch=master)
+[![Build Status](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu.svg?branch=main)](https://travis-ci.org/asmyshlyaev177/react-horizontal-scrolling-menu)
+[![Coverage Status](https://coveralls.io/repos/github/asmyshlyaev177/react-horizontal-scrolling-menu/badge.svg?branch=main)](https://coveralls.io/github/asmyshlyaev177/react-horizontal-scrolling-menu?branch=main)
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
-[![codebeat badge](https://codebeat.co/badges/2457d520-3d0f-4f70-b563-842d9574ebc6)](https://codebeat.co/projects/github-com-asmyshlyaev177-react-horizontal-scrolling-menu-master)
+[![codebeat badge](https://codebeat.co/badges/ac1ad321-e730-45de-92de-10b9a0e74cf9)](https://codebeat.co/projects/github-com-asmyshlyaev177-react-horizontal-scrolling-menu-main)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=asmyshlyaev177%40gmail%2ecom&lc=US&item_name=asmyshlyaev177&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
