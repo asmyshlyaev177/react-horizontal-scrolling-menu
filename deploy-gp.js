@@ -8,6 +8,7 @@
 import path from 'path';
 import fs from 'fs';
 import { execSync } from 'child_process';
+import ghpages from 'gh-pages';
 
 const rootPath = path.resolve(__dirname, './');
 const examplePath = path.normalize(path.resolve(rootPath, 'example-nextjs'));
@@ -36,9 +37,14 @@ const updatePackageJson = (examplePath) => {
 const deploy = (path) => {
   process.chdir(path);
   execSync('yarn install', { cwd: path });
-  execSync('npx next build && npx next export -o dist', { cws: path });
-  execSync('yarn add -D gh-pages', { cws: path });
-  //   execSync('npx gh-pages -d dist', { cws: path });
+  execSync('NODE_ENV=production npx next build', { cws: path });
+  execSync('NODE_ENV=production npx next export -o dist', { cws: path });
+
+  // github pages ignore folders with staring with _ like _next
+  // this file tell jekyll don't ignore it
+  execSync('touch dist/.nojekyll', { cws: path });
+
+  ghpages.publish('dist', { dotfiles: true });
 
   return path;
 };
