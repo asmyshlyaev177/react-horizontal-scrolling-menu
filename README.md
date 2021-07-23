@@ -11,7 +11,7 @@
 
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
-[Demo on Codesandbox](https://codesandbox.io/s/lpjol1opmq)
+[Demo on Codesandbox](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-d8m29?file=/src/index.tsx)
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 

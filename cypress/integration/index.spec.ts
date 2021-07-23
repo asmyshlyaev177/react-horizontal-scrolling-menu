@@ -3,8 +3,8 @@ const items: string[] = Array(20)
   .map((_el, index) => `test${index}`);
 
 const visibleItemsCount = 3;
-const waitShort = 30;
-const waitLong = 70;
+const waitShort = 90;
+const waitLong = 250;
 
 type direction = 'Left' | 'Right';
 

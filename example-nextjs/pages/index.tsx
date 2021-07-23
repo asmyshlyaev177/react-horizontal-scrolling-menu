@@ -77,7 +77,7 @@ function App() {
         }
       });
 
-  const handleClick =
+  const handleItemClick =
     (itemId: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
       if (dragging) {
@@ -102,7 +102,7 @@ function App() {
       }
     };
 
-  const onInit = React.useCallback(
+  const restorePosition = React.useCallback(
     ({ scrollContainer }: scrollVisibilityApiType) => {
       if (scrollContainer.current) {
         scrollContainer.current.scrollLeft = position;
@@ -131,7 +131,7 @@ function App() {
           <ScrollMenu
             LeftArrow={LeftArrow}
             RightArrow={RightArrow}
-            onInit={onInit}
+            onInit={restorePosition}
             onScroll={savePosition}
             onWheel={onWheel}
             onMouseDown={() => (ev) => dragStart(ev)}
@@ -143,7 +143,7 @@ function App() {
                 title={id}
                 itemId={id} // NOTE: itemId is required for track items
                 key={id}
-                onClick={handleClick(id)}
+                onClick={handleItemClick(id)}
                 selected={isItemSelected(id)}
               />
             ))}
