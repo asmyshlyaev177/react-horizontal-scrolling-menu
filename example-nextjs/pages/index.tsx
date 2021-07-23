@@ -44,7 +44,7 @@ const onWheel = (
 };
 
 function App() {
-  const [items, setItems] = React.useState(getItems);
+  const [items] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
@@ -80,6 +80,7 @@ function App() {
   const handleItemClick =
     (itemId: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
+      console.log('item click', itemId);
       if (dragging) {
         return false;
       }
@@ -125,29 +126,31 @@ function App() {
   const { hideScroll, showScroll } = useHideBodyScroll();
 
   return (
-    <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
-      <div onMouseEnter={hideScroll} onMouseLeave={showScroll}>
-        <div onMouseLeave={dragStop}>
-          <ScrollMenu
-            LeftArrow={LeftArrow}
-            RightArrow={RightArrow}
-            onInit={restorePosition}
-            onScroll={savePosition}
-            onWheel={onWheel}
-            onMouseDown={() => (ev) => dragStart(ev)}
-            onMouseUp={() => dragStop}
-            onMouseMove={handleDrag}
-          >
-            {items.map(({ id }) => (
-              <Card
-                title={id}
-                itemId={id} // NOTE: itemId is required for track items
-                key={id}
-                onClick={handleItemClick(id)}
-                selected={isItemSelected(id)}
-              />
-            ))}
-          </ScrollMenu>
+    <div>
+      <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
+        <div onMouseEnter={hideScroll} onMouseLeave={showScroll}>
+          <div onMouseLeave={dragStop}>
+            <ScrollMenu
+              LeftArrow={LeftArrow}
+              RightArrow={RightArrow}
+              onInit={restorePosition}
+              onScroll={savePosition}
+              onWheel={onWheel}
+              onMouseDown={() => (ev) => dragStart(ev)}
+              onMouseUp={() => dragStop}
+              onMouseMove={handleDrag}
+            >
+              {items.map(({ id }) => (
+                <Card
+                  title={id}
+                  itemId={id} // NOTE: itemId is required for track items
+                  key={id}
+                  onClick={handleItemClick(id)}
+                  selected={isItemSelected(id)}
+                />
+              ))}
+            </ScrollMenu>
+          </div>
         </div>
       </div>
     </div>
