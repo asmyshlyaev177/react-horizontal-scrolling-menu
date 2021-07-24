@@ -57,7 +57,7 @@ class ItemsMap extends Map<string, IOItem> {
     const current = arr.findIndex((el) => el[0] === item || el[1] === item);
     return current !== -1 ? arr[current + 1]?.[1] : undefined;
   }
-  // TODO: .map(el => el[1])
+
   public getVisible() {
     return this.filter((value: Item) => value[1].visible);
   }

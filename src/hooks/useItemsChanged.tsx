@@ -6,7 +6,9 @@ function useItemsChanged(menuItems: React.ReactNode, refs: object): string {
   const [hash, setHash] = React.useState<string>('');
 
   React.useLayoutEffect(() => {
-    const newHash = (menuItems ? React.Children.toArray(menuItems) : [])
+    const newHash = (
+      menuItems ? React.Children.toArray(menuItems).filter(Boolean) : []
+    )
       .map((c) => (c as JSX.Element)?.props?.[itemId])
       .filter(Boolean)
       .join('');
