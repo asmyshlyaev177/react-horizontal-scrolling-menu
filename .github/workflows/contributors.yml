@@ -1,7 +1,7 @@
 name: Add contributors
 on:
   schedule:
-    - cron:  '1 15 * * *'
+    - cron:  '1 15 1 * *'
   workflow_dispatch:
     inputs:
       name:
