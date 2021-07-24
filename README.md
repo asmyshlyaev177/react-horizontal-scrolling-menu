@@ -201,36 +201,3 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 4 Update readme and example(if needed)
 
 5 Make commit and Pull Request
-
-## Contributors
-
-<table>
-<tr>
-    <td align="center" style="word-wrap: break-word; width: 105.0; height: 105.0">
-        <a href=https://github.com/asmyshlyaev177>
-            <img src=https://avatars.githubusercontent.com/u/19854148?v=4 width="70;"  alt=Aleksandr Smyshliaev/>
-            <br />
-            <sub style="font-size:12px"><b>Aleksandr Smyshliaev</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 105.0; height: 105.0">
-        <a href=https://github.com/phamthanhtrungg>
-            <img src=https://avatars.githubusercontent.com/u/31823932?v=4 width="70;"  alt=Phạm Thành Trung/>
-            <br />
-            <sub style="font-size:12px"><b>Phạm Thành Trung</b></sub>
-        </a>
-    </td>
-</tr>
-</table>
-
-
-Thanks goes to these wonderful people for participation in V1 development and many others:
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars2.githubusercontent.com/u/19995201?v=4" width="70px;" alt="Federico D. Ferrari"/><br /><sub><b>Federico D. Ferrari</b></sub>](https://github.com/fdferrari)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fdferrari "Code") | [<img src="https://avatars0.githubusercontent.com/u/17786035?v=4" width="70px;" alt="Alex Oxrud"/><br /><sub><b>Alex Oxrud</b></sub>](https://www.alexoxrud.com)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Code") [📖](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=aoxrud-ww "Documentation") | [<img src="https://avatars2.githubusercontent.com/u/3169150?v=4" width="70px;" alt="Francisco"/><br /><sub><b>Francisco</b></sub>](https://github.com/fyanezv)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fyanezv "Code") [⚠️](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=fyanezv "Tests") | [<img src="https://avatars3.githubusercontent.com/u/13507950?v=4" width="70px;" alt="entkenntnis"/><br /><sub><b>entkenntnis</b></sub>](https://github.com/Entkenntnis)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=Entkenntnis "Code") [📖](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=Entkenntnis "Documentation") | [<img src="https://avatars3.githubusercontent.com/u/5212540?v=4" width="70px;" alt="Brandon Apanui"/><br /><sub><b>Brandon Apanui</b></sub>](https://github.com/FrogOnAStool)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=FrogOnAStool "Code") | [<img src="https://avatars1.githubusercontent.com/u/13350594?v=4" width="70px;" alt="Yevhenii Melikov"/><br /><sub><b>Yevhenii Melikov</b></sub>](https://github.com/YevheniiMelikov)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=YevheniiMelikov "Code") | [<img src="https://avatars0.githubusercontent.com/u/5160933?v=4" width="70px;" alt="Burak Targaç"/><br /><sub><b>Burak Targaç</b></sub>](https://www.buraktargac.com)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=btargac "Code") |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://avatars1.githubusercontent.com/u/23221619?v=4" width="70px;" alt="Bogdan"/><br /><sub><b>Bogdan</b></sub>](https://github.com/BogdanVolna)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=BogdanVolna "Code") [⚠️](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=BogdanVolna "Tests") | [<img src="https://avatars1.githubusercontent.com/u/159949?v=4" width="70px;" alt="Rob Gordon"/><br /><sub><b>Rob Gordon</b></sub>](https://github.com/rob-gordon)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=rob-gordon "Code") | [<img src="https://avatars2.githubusercontent.com/u/1753208?v=4" width="70px;" alt="Denis Lukov"/><br /><sub><b>Denis Lukov</b></sub>](https://github.com/NeXTs)<br />[💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=NeXTs "Code") | [<img src="https://avatars1.githubusercontent.com/u/7907966?v=4" width="70px;" alt="Gustavo Ribeiro"/><br /><sub><b>Gustavo Ribeiro</b></sub>](https://medium.com/@gstvribs)<br />[🐛](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues?q=author%3Agstvribs "Bug reports") [💻](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=gstvribs "Code") [⚠️](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=gstvribs "Tests") | [<img src="https://avatars3.githubusercontent.com/u/16056918?v=4" width="70px;" alt="Dragoș Străinu"/><br /><sub><b>Dragoș Străinu</b></sub>](https://strdr4605.github.io)<br />[📖](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commits?author=strdr4605 "Documentation") [🤔](#ideas-strdr4605 "Ideas, Planning, & Feedback") [🌍](#translation-strdr4605 "Translation") |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
