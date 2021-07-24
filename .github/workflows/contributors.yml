@@ -2,6 +2,12 @@ name: Add contributors
 on:
   schedule:
     - cron:  '1 15 * * *'
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Update contributors'
+        required: false
+        default: 'Thank all'
 # push:
 #   branches:
 #     - main
