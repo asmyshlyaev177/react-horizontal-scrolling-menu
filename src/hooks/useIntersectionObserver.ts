@@ -51,12 +51,14 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
 
   React.useLayoutEffect(() => {
     const elements = getNodesFromRefs(refs);
-    observer.current = new IntersectionObserver(ioCb, options);
-    elements.forEach((elem) => observer.current?.observe(elem!));
+    const observerInstance =
+      observer.current || new IntersectionObserver(ioCb, options);
+    observer.current = observerInstance;
+    elements.forEach((elem) => observerInstance.observe(elem));
 
     return () => {
       clearTimeout(throttleTimer.current);
-      observer.current?.disconnect();
+      observerInstance.disconnect();
       observer.current = undefined;
     };
   }, [ioCb, itemsChanged, options, refs]);

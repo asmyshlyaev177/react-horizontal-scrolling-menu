@@ -17,6 +17,8 @@ import * as constants from './constants';
 
 import { VisibilityContext } from './context';
 
+import { Refs } from './types';
+
 interface Props {
   LeftArrow: React.ElementType;
   RightArrow: React.ElementType;
@@ -44,8 +46,8 @@ function ScrollMenu({
   options = defaultObserverOptions,
   wrapperClassName = '',
 }: Props): JSX.Element {
-  const scrollContainerRef = React.useRef(null as unknown as HTMLDivElement);
-  const [menuItemsRefs] = React.useState<{}>({});
+  const scrollContainerRef = React.useRef(null);
+  const [menuItemsRefs] = React.useState<Refs>({});
 
   const observerOptions = React.useMemo(
     () => ({
