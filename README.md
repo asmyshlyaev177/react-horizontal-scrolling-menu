@@ -29,7 +29,7 @@ Possible set default position on initialization.
 ## Quick start
 
 ```bash
-yrn install react-horizontal-scrolling-menu
+yarn add react-horizontal-scrolling-menu
 ```
 In project:
 ```javascript
