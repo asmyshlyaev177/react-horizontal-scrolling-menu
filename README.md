@@ -204,6 +204,25 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 
 ## Contributors
 
+<table>
+<tr>
+    <td align="center" style="word-wrap: break-word; width: 105.0; height: 105.0">
+        <a href=https://github.com/asmyshlyaev177>
+            <img src=https://avatars.githubusercontent.com/u/19854148?v=4 width="70;"  alt=Aleksandr Smyshliaev/>
+            <br />
+            <sub style="font-size:12px"><b>Aleksandr Smyshliaev</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 105.0; height: 105.0">
+        <a href=https://github.com/phamthanhtrungg>
+            <img src=https://avatars.githubusercontent.com/u/31823932?v=4 width="70;"  alt=Phạm Thành Trung/>
+            <br />
+            <sub style="font-size:12px"><b>Phạm Thành Trung</b></sub>
+        </a>
+    </td>
+</tr>
+</table>
+
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
