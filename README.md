@@ -223,7 +223,8 @@ Any contribution and correction appreciated. Just fork repo, commit and make PR,
 </tr>
 </table>
 
-Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+Thanks goes to these wonderful people for participation in V1 development and many others:
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
