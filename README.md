@@ -3,6 +3,7 @@
 ![example](/sample.gif)
 
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
+[![Tests](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/tests.yml)
 [![codebeat badge](https://codebeat.co/badges/ac1ad321-e730-45de-92de-10b9a0e74cf9)](https://codebeat.co/projects/github-com-asmyshlyaev177-react-horizontal-scrolling-menu-main)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&amp;utm_campaign=Badge_Grade)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
