@@ -3,10 +3,10 @@ import React from 'react';
 import Separator from '../Separator';
 import Item from '../Item';
 import { id as itemId } from '../../constants';
-import { Refs } from '../../types';
+import { ItemType, Refs } from '../../types';
 
 export type Props = {
-  children?: React.ReactNode;
+  children?: ItemType | ItemType[];
   refs: Refs;
 };
 

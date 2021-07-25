@@ -12,6 +12,11 @@ export interface Refs {
   [key: string]: React.MutableRefObject<HTMLElement | null>;
 }
 
+type ItemProps = {
+  itemId: string;
+};
+export type ItemType = React.ReactElement<ItemProps>;
+
 // export interface IOEntry extends Omit<IntersectionObserverEntry, 'target'> {
 //     readonly target: any;
 // }
