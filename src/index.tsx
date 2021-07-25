@@ -17,12 +17,12 @@ import * as constants from './constants';
 
 import { VisibilityContext } from './context';
 
-import { Refs } from './types';
+import { ItemType, Refs } from './types';
 
 interface Props {
   LeftArrow: React.ElementType;
   RightArrow: React.ElementType;
-  children: React.ReactNode;
+  children: ItemType | ItemType[];
   onInit: (api: publicApiType) => void;
   onScroll: (api: publicApiType, ev: React.UIEvent) => void;
   onWheel: (api: publicApiType, ev: React.WheelEvent) => void;

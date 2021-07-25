@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { id as itemId } from '../constants';
+import { ItemType } from '../types';
 
-function useItemsChanged(menuItems: React.ReactNode, refs: object): string {
+function useItemsChanged(
+  menuItems: ItemType | ItemType[],
+  refs: object
+): string {
   const [hash, setHash] = React.useState<string>('');
 
   React.useLayoutEffect(() => {
