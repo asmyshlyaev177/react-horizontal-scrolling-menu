@@ -1,0 +1,14 @@
+name: "My CodeQL config"
+
+paths:
+  - src 
+paths-ignore: 
+  - src/node_modules
+  - '**/*.test.js'
+  - '**/*.test.jsx'
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.js'
+  - '**/*.spec.jsx'
+  - '**/*.spec.ts'
+  - '**/*.spec.tsx'
