@@ -131,7 +131,7 @@ function Card({
 export default App;
 ```
 
-Check out Example for ifo how to implement more features.
+Check out Example in `example-nextjs` folder for info how to implement more features like mouse drag or disable body scroll.
 
 ## Example
 You can clone repository and run demo project from *example-nextjs* folder.
