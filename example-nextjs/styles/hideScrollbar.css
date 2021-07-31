@@ -6,10 +6,3 @@
 -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-
-/* increase specificity for override styles */
-/* .example .react-horizontal-scrolling-menu--scroll-container { */
-/*   width: 99%; */
-/* } */
-
-
