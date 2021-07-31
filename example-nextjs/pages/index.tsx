@@ -8,6 +8,8 @@ import useHideBodyScroll from '../helpers/useHideBodyScroll';
 // NOTE drag with mouse
 import useDrag from '../helpers/useDrag';
 
+// NOTE hide scrollbar in _app.js
+
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 const isTest = process?.env?.NEXT_PUBLIC_IS_TEST;
