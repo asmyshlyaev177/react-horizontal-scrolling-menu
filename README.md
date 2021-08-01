@@ -149,12 +149,12 @@ Prop | Signature
 ------------ | -------------
 LeftArrow | React component for left arrow
 RightArrow | React component for right arrow 
-onWheel | (VisibilityContext, event) => void
-onScroll | (VisibilityContext, event) => void
-onInit | (VisibilityContext) => void
-onMouseDown |(VisibilityContext) => (React.MouseEventHandler) => void
-onMouseUp | (VisibilityContext) => (React.MouseEventHandler) => void
-onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void
+onWheel | (VisibilityContext, event) => void. Here is a [Demo](https://jinno.io/app/25/onWheel?source=react-horizontal-scrolling-menu)
+onScroll | (VisibilityContext, event) => void. Here is a [Demo](https://jinno.io/app/25/onScroll?source=react-horizontal-scrolling-menu)
+onInit | (VisibilityContext) => void. Here is a [Demo](https://jinno.io/app/25/onInit?source=react-horizontal-scrolling-menu)
+onMouseDown |(VisibilityContext) => (React.MouseEventHandler) => void. Here is a [Demo](https://jinno.io/app/25/onMouseDown?source=react-horizontal-scrolling-menu)
+onMouseUp | (VisibilityContext) => (React.MouseEventHandler) => void. Here is a [Demo](https://jinno.io/app/25/onMouseUp?source=react-horizontal-scrolling-menu)
+onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void. Here is a [Demo](https://jinno.io/app/25/onMouseMove?source=react-horizontal-scrolling-menu)
 
 ### VisibilityContext
 
