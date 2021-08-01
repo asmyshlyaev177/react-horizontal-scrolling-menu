@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { separatorClassName } from '../../constants';
-import { Refs } from '../../types';
+import type { Refs } from '../../types';
 
 export type Props = {
   id: string;

@@ -15,15 +15,15 @@ import * as constants from './constants';
 
 import { VisibilityContext } from './context';
 
-import { ItemType, Refs } from './types';
+import type { ItemType, Refs } from './types';
 
 interface Props {
-  LeftArrow: React.ElementType;
-  RightArrow: React.ElementType;
+  LeftArrow?: React.FC;
+  RightArrow?: React.FC;
   children: ItemType | ItemType[];
-  onInit: (api: publicApiType) => void;
-  onScroll: (api: publicApiType, ev: React.UIEvent) => void;
-  onWheel: (api: publicApiType, ev: React.WheelEvent) => void;
+  onInit?: (api: publicApiType) => void;
+  onScroll?: (api: publicApiType, ev: React.UIEvent) => void;
+  onWheel?: (api: publicApiType, ev: React.WheelEvent) => void;
   options?: Partial<typeof defaultObserverOptions>;
   onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
@@ -106,14 +106,14 @@ function ScrollMenu({
       onMouseMove={onMouseMove?.(publicApi)}
     >
       <VisibilityContext.Provider value={publicApi}>
-        <LeftArrow />
+        {LeftArrow ? <LeftArrow /> : null}
         <ScrollContainer
           onScroll={scrollHandler}
           scrollRef={scrollContainerRef}
         >
           <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
         </ScrollContainer>
-        <RightArrow />
+        {RightArrow ? <RightArrow /> : null}
       </VisibilityContext.Provider>
     </div>
   );

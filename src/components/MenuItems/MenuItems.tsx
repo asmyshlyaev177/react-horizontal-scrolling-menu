@@ -3,7 +3,7 @@ import React from 'react';
 import Separator from '../Separator';
 import Item from '../Item';
 import { id as itemId } from '../../constants';
-import { ItemType, Refs } from '../../types';
+import type { ItemType, Refs } from '../../types';
 
 export type Props = {
   children?: ItemType | ItemType[];
