@@ -1,5 +1,5 @@
 import ItemsMap from './ItemsMap';
-import { IOItem } from './types';
+import type { IOItem } from './types';
 
 describe('ItemsMap', () => {
   const data: any[] = [

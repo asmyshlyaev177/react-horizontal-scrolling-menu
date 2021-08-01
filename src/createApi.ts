@@ -1,7 +1,7 @@
 import { scrollToItem } from './helpers';
 import ItemsMap from './ItemsMap';
 
-import { visibleItems } from './types';
+import type { visibleItems } from './types';
 
 export default function createApi(
   items: ItemsMap,

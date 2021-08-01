@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
-import { Item, Refs, visibleItems } from '../types';
+import type { Item, Refs, visibleItems } from '../types';
 import { observerOptions } from '../settings';
 import ItemsMap from '../ItemsMap';
 

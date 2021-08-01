@@ -1,4 +1,4 @@
-import { Refs, Item } from './types';
+import type { Refs, Item } from './types';
 import { observerOptions } from './settings';
 
 export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {

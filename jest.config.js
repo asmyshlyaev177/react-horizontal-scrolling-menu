@@ -43,6 +43,10 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.init.js'],
   testEnvironment: 'jsdom',
 
+  moduleNameMapper: {
+    '\\.(css|less)$': '<rootDir>/styleMock.js',
+  },
+
   verbose: true,
 
   // All imported modules in your tests should be mocked automatically

@@ -1,4 +1,4 @@
-import { IOItem, Item } from './types';
+import type { IOItem, Item } from './types';
 
 class ItemsMap extends Map<string, IOItem> {
   public toArr(): Item[] {

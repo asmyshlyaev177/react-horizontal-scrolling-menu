@@ -5,7 +5,10 @@ import useIntersectionObserver from './useIntersectionObserver';
 
 import ItemsMap from '../ItemsMap';
 import { observerOptions } from '../settings';
-import { Item, Refs } from '../types';
+import type { Refs, Item } from '../types';
+
+import { MockedObserver, traceMethodCalls } from '../testUtils';
+import type { IntersectionObserverCB } from '../testUtils';
 
 import { mocked } from 'ts-jest/utils';
 
@@ -16,54 +19,6 @@ jest.mock('../helpers', () => ({
   observerEntriesToItems: jest.fn(),
 }));
 
-type CB = (arg1: IntersectionObserverEntry[]) => void;
-class MockedObserver {
-  cb: CB;
-  options: IntersectionObserverInit;
-  elements: HTMLElement[];
-
-  constructor(cb: CB, options: IntersectionObserverInit) {
-    this.cb = cb;
-    this.options = options;
-    this.elements = [];
-  }
-
-  unobserve(elem: HTMLElement): void {
-    this.elements = this.elements.filter((en) => en !== elem);
-  }
-
-  observe(elem: HTMLElement): void {
-    this.elements = [...new Set(this.elements.concat(elem))];
-  }
-
-  disconnect(): void {
-    this.elements = [];
-  }
-
-  fire(arr: IntersectionObserverEntry[]): void {
-    this.cb(arr);
-  }
-}
-
-function traceMethodCalls(obj: object | Function, calls: any = {}) {
-  const handler: ProxyHandler<object | Function> = {
-    get(target, propKey, receiver) {
-      const targetValue = Reflect.get(target, propKey, receiver);
-      if (typeof targetValue === 'function') {
-        return function (...args: any[]) {
-          calls[propKey] = (calls[propKey] || []).concat(args);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          return targetValue.apply(this, args);
-        };
-      } else {
-        return targetValue;
-      }
-    },
-  };
-  return new Proxy(obj, handler);
-}
-
 describe('useIntersectionObserver', () => {
   let observer: any;
   let mockedObserverCalls: { [k: string]: any } = {};
@@ -73,7 +28,7 @@ describe('useIntersectionObserver', () => {
       value: jest
         .fn()
         .mockImplementation(function TrackMock(
-          cb: CB,
+          cb: IntersectionObserverCB,
           options: IntersectionObserverInit
         ) {
           observer = traceMethodCalls(

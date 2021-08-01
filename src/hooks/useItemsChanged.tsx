@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { id as itemId } from '../constants';
-import { ItemType } from '../types';
+import type { ItemType } from '../types';
 
 function useItemsChanged(
   menuItems: ItemType | ItemType[],
