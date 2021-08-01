@@ -189,16 +189,4 @@ My first npm project. Sorry for my english.
 
 Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
 
-## Contributing
-1 Fork the repo:
-  * Run `yarn install` in root folder
-  * Run `yarn demo` for compile library and demo project
-
-2 Write code! Add some feature or fix bug.
-
-3 Check that all tests passed and add tests for your code.
-  * You can use `yarn test --watch` for run tests in watch mode
-
-4 Update readme and example(if needed)
-
-5 Make commit and Pull Request
+## [Contributing](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CONTRIBUTING.md)
