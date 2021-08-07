@@ -160,22 +160,12 @@ function App() {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev, visibleItemsWithoutSeparators } =
+  const { isFirstItemVisible, scrollPrev } =
     React.useContext(VisibilityContext);
-
-  const [disabled, setDisabled] = React.useState(
-    !visibleItemsWithoutSeparators.length && isFirstItemVisible
-  );
-  React.useEffect(() => {
-    // NOTE: detect if whole component visible
-    if (visibleItemsWithoutSeparators.length) {
-      setDisabled(isFirstItemVisible);
-    }
-  }, [isFirstItemVisible, visibleItemsWithoutSeparators]);
 
   return (
     <Arrow
-      disabled={disabled}
+      disabled={isFirstItemVisible}
       onClick={() => scrollPrev(isTest ? 'auto' : 'smooth')}
     >
       Left
@@ -184,21 +174,11 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext, visibleItemsWithoutSeparators } =
-    React.useContext(VisibilityContext);
-
-  const [disabled, setDisabled] = React.useState(
-    !visibleItemsWithoutSeparators.length && isLastItemVisible
-  );
-  React.useEffect(() => {
-    if (visibleItemsWithoutSeparators.length) {
-      setDisabled(isLastItemVisible);
-    }
-  }, [isLastItemVisible, visibleItemsWithoutSeparators]);
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
 
   return (
     <Arrow
-      disabled={disabled}
+      disabled={isLastItemVisible}
       onClick={() => scrollNext(isTest ? 'auto' : 'smooth')}
     >
       Right
