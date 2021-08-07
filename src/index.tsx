@@ -53,7 +53,8 @@ function ScrollMenu({
       ...options,
       root: scrollContainerRef.current,
     }),
-    [options]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [options, scrollContainerRef.current]
   );
 
   // NOTE: hack for detect when items added/removed dynamicaly
