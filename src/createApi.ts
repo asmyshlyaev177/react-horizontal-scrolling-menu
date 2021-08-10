@@ -11,9 +11,6 @@ export default function createApi(
     (el) => !/separator/.test(String(el))
   );
 
-  // console.log(visibleItemsWithoutSeparators)
-
-  // so need to adjust it
   const isFirstItemVisible = !!items.first()?.visible;
   const isLastItemVisible = !!items.last()?.visible;
 
@@ -33,7 +30,7 @@ export default function createApi(
   const getItemByIndex = (index: number) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
-  const isItemVisible = (id: string) => Boolean(getItemById(id)?.visible);
+  const isItemVisible = (id: string) => getItemById(id)?.visible;
 
   const getPrevItem = () => items.prev(items.getVisible()?.[0]?.[1]);
 
