@@ -106,7 +106,7 @@ function App() {
     };
 
   const restorePosition = React.useCallback(
-    ({ scrollContainer }: scrollVisibilityApiType) => {
+    ({ scrollContainer, ...rest }: scrollVisibilityApiType) => {
       if (scrollContainer.current) {
         scrollContainer.current.scrollLeft = position;
       }
@@ -160,12 +160,14 @@ function App() {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } =
+  const { initComplete, isFirstItemVisible, scrollPrev } =
     React.useContext(VisibilityContext);
 
+  // NOTE initComplete is a hack for  prevent blinking on init
+  // Can get visibility of item only after it's rendered
   return (
     <Arrow
-      disabled={isFirstItemVisible}
+      disabled={!initComplete || (initComplete && isFirstItemVisible)}
       onClick={() => scrollPrev(isTest ? 'auto' : 'smooth')}
     >
       Left
@@ -174,11 +176,12 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
+  const { initComplete, isLastItemVisible, scrollNext } =
+    React.useContext(VisibilityContext);
 
   return (
     <Arrow
-      disabled={isLastItemVisible}
+      disabled={initComplete && isLastItemVisible}
       onClick={() => scrollNext(isTest ? 'auto' : 'smooth')}
     >
       Right
@@ -228,7 +231,9 @@ function Card({
 }) {
   const visibility = React.useContext(VisibilityContext);
 
-  const visible = visibility.isItemVisible(itemId);
+  const visible =
+    !visibility.initComplete ||
+    (visibility.initComplete && visibility.isItemVisible(itemId));
 
   return (
     <div
@@ -245,8 +250,9 @@ function Card({
         userSelect: 'none',
       }}
       tabIndex={0}
+      className="card"
     >
-      <div className="card">
+      <div>
         <div>{title}</div>
         <div style={{ backgroundColor: visible ? 'transparent' : 'gray' }}>
           visible: {JSON.stringify(visible)}

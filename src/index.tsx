@@ -68,15 +68,18 @@ function ScrollMenu({
     refs: menuItemsRefs,
   });
 
-  // TODO: it fires before have any visible items
-  const initComplete = useIsMounted(() => onInit(publicApi));
+  const publicApi = React.useRef<publicApiType>({} as publicApiType);
+
+  const onInitFired = useIsMounted(() => onInit(publicApi.current));
+
+  const initComplete = Boolean(onInitFired && !!visibleItems.length);
 
   const api = React.useMemo(
     () => createApi(items, visibleItems),
     [items, visibleItems]
   );
 
-  const publicApi: publicApiType = React.useMemo(
+  publicApi.current = React.useMemo(
     () => ({
       ...api,
       initComplete,
@@ -88,12 +91,12 @@ function ScrollMenu({
   );
 
   const scrollHandler = React.useCallback(
-    (event: React.UIEvent) => onScroll(publicApi, event),
+    (event: React.UIEvent) => onScroll(publicApi.current, event),
     [onScroll, publicApi]
   );
 
   const onWheelHandler = React.useCallback(
-    (event: React.WheelEvent) => onWheel(publicApi, event),
+    (event: React.WheelEvent) => onWheel(publicApi.current, event),
     [onWheel, publicApi]
   );
 
@@ -102,11 +105,11 @@ function ScrollMenu({
     <div
       className={`${constants.wrapperClassName} ${wrapperClassName}`}
       onWheel={onWheelHandler}
-      onMouseDown={onMouseDown?.(publicApi)}
-      onMouseUp={onMouseUp?.(publicApi)}
-      onMouseMove={onMouseMove?.(publicApi)}
+      onMouseDown={onMouseDown?.(publicApi.current)}
+      onMouseUp={onMouseUp?.(publicApi.current)}
+      onMouseMove={onMouseMove?.(publicApi.current)}
     >
-      <VisibilityContext.Provider value={publicApi}>
+      <VisibilityContext.Provider value={publicApi.current}>
         {LeftArrow ? <LeftArrow /> : null}
         <ScrollContainer
           onScroll={scrollHandler}

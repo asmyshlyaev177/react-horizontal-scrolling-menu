@@ -138,20 +138,16 @@ describe('createApi', () => {
   describe('isItemVisible', () => {
     test('should return visibility', () => {
       const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isItemVisible('test1')).toEqual(
-        false
-      );
-      expect(createApi(items, visibleItems).isItemVisible('test2')).toEqual(
-        true
-      );
+      expect(createApi(items, visibleItems).isItemVisible('test1')).toBeFalsy();
+      expect(
+        createApi(items, visibleItems).isItemVisible('test2')
+      ).toBeTruthy();
     });
 
     test('item not exist', () => {
       const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isItemVisible('test3')).toEqual(
-        false
-      );
-      expect(createApi(items, visibleItems).isItemVisible('')).toEqual(false);
+      expect(createApi(items, visibleItems).isItemVisible('test3')).toBeFalsy();
+      expect(createApi(items, visibleItems).isItemVisible('')).toBeFalsy();
     });
   });
 
