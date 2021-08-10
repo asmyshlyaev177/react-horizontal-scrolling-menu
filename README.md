@@ -11,7 +11,12 @@
 
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
-[Demo on Codesandbox](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-d8m29?file=/src/index.tsx)
+[Basic example](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-example-swg0y?file=/src/index.tsx)
+
+[Click and select items](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-item-selection-and-click-0oze7?file=/src/index.tsx)
+
+[Full Demo](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-d8m29?file=/src/index.tsx)
+
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
