@@ -171,6 +171,7 @@ getItemById | itemId => IOItem \| undefined
 getItemByIndex | index => IOItem \| undefined
 getNextItem | () => IOItem \| undefined)
 getPrevItem | () => IOItem \| undefined
+initComplete | boolean
 isFirstItemVisible | boolean
 isItemVisible | itemId => boolean
 isLastItem | boolean
@@ -183,7 +184,6 @@ initComplete | boolean
 items | ItemsMap class instance
 scrollContainer | Ref<OuterContainer>
 visibleItems | ['item1', 'item1-separator', 'item2']
-wrapperClassName | 'custom-wrapper-class'
 
 ## Browser support
 * Browser must support **IntersectionObserver API**, **Element.scrollIntoView**  and **requestAnimationFrame** or use polyfills.
