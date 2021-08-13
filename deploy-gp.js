@@ -49,6 +49,8 @@ const deploy = (path) => {
   return path;
 };
 
+// for testing purposes
+
 const restorePackageJson = (examplePath) => {
   const examplePackageJsonPath = path.resolve(examplePath, 'package.json');
   const examplePackageJsonContent = parseFile(examplePackageJsonPath);
