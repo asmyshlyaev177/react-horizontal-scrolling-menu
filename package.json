@@ -25,6 +25,10 @@
     "wait": "wait-on http://localhost:3000 && sleep 10",
     "demo": "run-p dev example",
     "demo:test": "run-s build example:test",
+    "commit": "cz",
+    "release": "standard-version",
+    "cz-install": "commitizen init cz-conventional-changelog --dev --exact --yarn",
+    "cz-husky-init": "husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
     "deploy-gp": "babel-node deploy-gp.js"
   },
   "keywords": [
@@ -49,6 +53,8 @@
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^8.2.1",
@@ -67,8 +73,10 @@
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "browserslist": "^4.12.0",
+    "commitizen": "^4.2.4",
     "css-loader": "^5.2.6",
     "cypress": "^8.0.0",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
@@ -81,6 +89,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-unicorn": "^32.0.1",
     "gh-pages": "^3.2.3",
+    "husky": "^7.0.1",
     "jest": "^27.0.1",
     "jest-dev-server": "^4.4.0",
     "lint-staged": "^10.2.2",
@@ -95,6 +104,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.2",
+    "standard-version": "^9.3.1",
     "style-loader": "^2.0.0",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
@@ -125,5 +135,10 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
