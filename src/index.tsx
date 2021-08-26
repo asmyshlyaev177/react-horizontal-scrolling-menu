@@ -17,9 +17,11 @@ import { VisibilityContext } from './context';
 
 import type { ItemType, Refs } from './types';
 
+type ArrowType = React.FC | React.ReactNode;
+
 interface Props {
-  LeftArrow?: React.FC;
-  RightArrow?: React.FC;
+  LeftArrow?: ArrowType;
+  RightArrow?: ArrowType;
   children: ItemType | ItemType[];
   onInit?: (api: publicApiType) => void;
   onScroll?: (api: publicApiType, ev: React.UIEvent) => void;
@@ -32,8 +34,8 @@ interface Props {
 }
 
 function ScrollMenu({
-  LeftArrow,
-  RightArrow,
+  LeftArrow: _LeftArrow,
+  RightArrow: _RightArrow,
   children,
   onInit = (): void => void 0,
   onMouseDown,
@@ -100,6 +102,15 @@ function ScrollMenu({
     [onWheel, publicApi]
   );
 
+  const LeftArrow =
+    (React.isValidElement(_LeftArrow) && _LeftArrow) ||
+    (typeof _LeftArrow === 'function' && <_LeftArrow />) ||
+    null;
+  const RightArrow =
+    (React.isValidElement(_RightArrow) && _RightArrow) ||
+    (typeof _RightArrow === 'function' && <_RightArrow />) ||
+    null;
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -110,14 +121,14 @@ function ScrollMenu({
       onMouseMove={onMouseMove?.(publicApi.current)}
     >
       <VisibilityContext.Provider value={publicApi.current}>
-        {LeftArrow ? <LeftArrow /> : null}
+        {LeftArrow}
         <ScrollContainer
           onScroll={scrollHandler}
           scrollRef={scrollContainerRef}
         >
           <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
         </ScrollContainer>
-        {RightArrow ? <RightArrow /> : null}
+        {RightArrow}
       </VisibilityContext.Provider>
     </div>
   );
