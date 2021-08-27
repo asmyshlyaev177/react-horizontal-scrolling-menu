@@ -18,6 +18,8 @@
 
 [Click and select multiple items](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-item-selection-and-click-0oze7?file=/src/index.tsx)
 
+[Scroll by 1 item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-scroll-one-item-6hn8q?file=/src/index.tsx)
+
 [Full Demo](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-d8m29?file=/src/index.tsx)
 
 
