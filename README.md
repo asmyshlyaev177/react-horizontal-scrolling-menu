@@ -192,7 +192,7 @@ scrollContainer | Ref<OuterContainer>
 visibleItems | ['item1', 'item1-separator', 'item2']
 
 ## Browser support
-* Browser must support **IntersectionObserver API**, **Element.scrollIntoView**  and **requestAnimationFrame** or use polyfills.
+* Browser must support **IntersectionObserver API**, [**Element.scrollIntoView for Safari**](https://github.com/iamdustan/smoothscroll)  and **requestAnimationFrame** or use polyfills.
 * Only modern browsers, no IE or smart toasters
 
 ## About
