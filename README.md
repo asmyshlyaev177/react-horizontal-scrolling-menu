@@ -161,6 +161,7 @@ Prop | Signature
 ------------ | -------------
 LeftArrow | React component for left arrow
 RightArrow | React component for right arrow 
+wrapperClassname | Style the outer-most div
 onWheel | (VisibilityContext, event) => void
 onScroll | (VisibilityContext, event) => void
 onInit | (VisibilityContext) => void
