@@ -1,3 +1,5 @@
+import '../helpers/safari-polyfill';
+
 import React from 'react';
 
 import throttle from 'lodash/throttle';
@@ -82,7 +84,6 @@ function App() {
   const handleItemClick =
     (itemId: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
-      console.log('item click', itemId);
       if (dragging) {
         return false;
       }
@@ -106,7 +107,7 @@ function App() {
     };
 
   const restorePosition = React.useCallback(
-    ({ scrollContainer, ...rest }: scrollVisibilityApiType) => {
+    ({ scrollContainer }: scrollVisibilityApiType) => {
       if (scrollContainer.current) {
         scrollContainer.current.scrollLeft = position;
       }
