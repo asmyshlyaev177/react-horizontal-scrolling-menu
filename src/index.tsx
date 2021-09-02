@@ -6,7 +6,6 @@ import ScrollContainer from './components/ScrollContainer';
 import MenuItems from './components/MenuItems';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
-import useIsMounted from './hooks/useIsMounted';
 import createApi, { publicApiType } from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
@@ -72,9 +71,13 @@ function ScrollMenu({
 
   const publicApi = React.useRef<publicApiType>({} as publicApiType);
 
-  const onInitFired = useIsMounted(() => onInit(publicApi.current));
-
-  const initComplete = Boolean(onInitFired && !!visibleItems.length);
+  const initComplete = !!visibleItems.length;
+  React.useEffect(() => {
+    if (initComplete) {
+      onInit(publicApi.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initComplete]);
 
   const api = React.useMemo(
     () => createApi(items, visibleItems),

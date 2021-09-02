@@ -107,10 +107,15 @@ function App() {
     };
 
   const restorePosition = React.useCallback(
-    ({ scrollContainer }: scrollVisibilityApiType) => {
-      if (scrollContainer.current) {
-        scrollContainer.current.scrollLeft = position;
-      }
+    ({
+      scrollContainer,
+      getItemById,
+      scrollToItem,
+    }: scrollVisibilityApiType) => {
+      // NOTE: scroll to item, auto/smooth for animation
+      // scrollToItem(getItemById('test15')?.entry?.target, 'auto');
+      // NOTE: or restore exact position by pixels
+      // scrollContainer.current.scrollLeft = position;
     },
     [position]
   );

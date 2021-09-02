@@ -14,16 +14,6 @@ export default function createApi(
   const isFirstItemVisible = !!items.first()?.visible;
   const isLastItemVisible = !!items.last()?.visible;
 
-  // const isOdd = !!(visibleItemsWithoutSeparators % 2)
-
-  // const centerVisibleItem = isOdd
-  //   ? items.get(
-  //       visibleItemsWithoutSeparators[
-  //         Math.floor(visibleItemsWithoutSeparators.length / 2)
-  //       ]
-  //     )
-  //   : items.get(visibleItems[Math.ceil(visibleItems.length / 2 - 1)])
-
   const getItemById = (id: string) =>
     items.find((value) => value[1].key === String(id))?.[1];
 
@@ -52,10 +42,6 @@ export default function createApi(
     block: ScrollLogicalPosition = 'nearest'
   ): void =>
     scrollToItem(getNextItem()?.entry?.target, behavior, inline, block);
-
-  // TODO: sliding window
-  // const scrollNextCentered = () => {}
-  // const scrollPrevCentered = () => {}
 
   return {
     // centerVisibleItem,
