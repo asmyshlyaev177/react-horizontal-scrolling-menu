@@ -72,12 +72,14 @@ function ScrollMenu({
   const publicApi = React.useRef<publicApiType>({} as publicApiType);
 
   const initComplete = !!visibleItems.length;
+  const [onInitFired, setOnInitFired] = React.useState(false);
   React.useEffect(() => {
-    if (initComplete) {
+    if (initComplete && !onInitFired) {
+      setOnInitFired(true);
       onInit(publicApi.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initComplete]);
+  }, [initComplete, onInitFired]);
 
   const api = React.useMemo(
     () => createApi(items, visibleItems),
