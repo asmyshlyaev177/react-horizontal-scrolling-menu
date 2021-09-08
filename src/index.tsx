@@ -15,6 +15,7 @@ import * as constants from './constants';
 import { VisibilityContext } from './context';
 
 import type { ItemType, Refs } from './types';
+import { getElementOrConstructor } from './helpers';
 
 type ArrowType = React.FC | React.ReactNode;
 
@@ -45,6 +46,9 @@ function ScrollMenu({
   options = defaultObserverOptions,
   wrapperClassName = '',
 }: Props): JSX.Element {
+  const LeftArrow = getElementOrConstructor(_LeftArrow);
+  const RightArrow = getElementOrConstructor(_RightArrow);
+
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<Refs>({});
 
@@ -106,15 +110,6 @@ function ScrollMenu({
     (event: React.WheelEvent) => onWheel(publicApi.current, event),
     [onWheel, publicApi]
   );
-
-  const LeftArrow =
-    (React.isValidElement(_LeftArrow) && _LeftArrow) ||
-    (typeof _LeftArrow === 'function' && <_LeftArrow />) ||
-    null;
-  const RightArrow =
-    (React.isValidElement(_RightArrow) && _RightArrow) ||
-    (typeof _RightArrow === 'function' && <_RightArrow />) ||
-    null;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions

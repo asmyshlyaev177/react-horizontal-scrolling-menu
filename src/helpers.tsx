@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Refs, Item } from './types';
 import { observerOptions } from './settings';
 
@@ -45,4 +46,14 @@ export function scrollToItem(
         })
       );
   }
+}
+
+export function getElementOrConstructor(
+  Elem: React.FC | React.ReactNode
+): JSX.Element | null {
+  return (
+    (React.isValidElement(Elem) && Elem) ||
+    (typeof Elem === 'function' && <Elem />) ||
+    null
+  );
 }

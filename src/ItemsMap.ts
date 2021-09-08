@@ -61,5 +61,10 @@ class ItemsMap extends Map<string, IOItem> {
   public getVisible() {
     return this.filter((value: Item) => value[1].visible);
   }
+
+  // TODO: next visible group, prev visible group
+  // with left, center and right items
+  // sliding window
+  // eg. currentItems: {left, center, right}, nextItems: {...}, prevItems: {...}
 }
 export default ItemsMap;
