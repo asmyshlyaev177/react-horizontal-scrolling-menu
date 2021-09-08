@@ -1,0 +1,6 @@
+docs/**
+*.test.ts
+*.test.tsx
+src/**/*.test.ts
+src/**/*.test.tsx
+example-nextjs/**
