@@ -16,6 +16,8 @@
 
 [Select item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-with-select-item-qtxwt?file=/src/index.tsx)
 
+[Drag by mouse](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-drag-by-mouse-o3u2t?file=/src/index.tsx)
+
 [Click and select multiple items](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-item-selection-and-click-0oze7?file=/src/index.tsx)
 
 [Scroll by 1 item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-scroll-one-item-6hn8q?file=/src/index.tsx)
