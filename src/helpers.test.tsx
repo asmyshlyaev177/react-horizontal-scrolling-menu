@@ -6,6 +6,7 @@ import {
   scrollToItem,
 } from './helpers';
 import { observerOptions } from './settings';
+import { IOItem } from './types';
 
 describe('getNodesFromRefs', () => {
   test('should return empty array if refs are null', () => {
@@ -99,7 +100,9 @@ describe('scrollToItem', () => {
     window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
     window.requestAnimationFrame = requestAnimationFrameMock;
 
-    const item = document.createElement('div');
+    const item = {
+      entry: { target: document.createElement('div') },
+    } as unknown as IOItem;
 
     scrollToItem(item);
 
@@ -117,7 +120,10 @@ describe('scrollToItem', () => {
     const requestAnimationFrameMock = jest.fn((fn) => fn?.());
     window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
     window.requestAnimationFrame = requestAnimationFrameMock;
-    const item = document.createElement('div');
+
+    const item = {
+      entry: { target: document.createElement('div') },
+    } as unknown as IOItem;
 
     scrollToItem(item, 'auto', 'center', 'end');
 

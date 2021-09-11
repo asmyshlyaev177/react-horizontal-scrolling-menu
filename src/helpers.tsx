@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Refs, Item } from './types';
+import type { Refs, Item, IOItem } from './types';
 import { observerOptions } from './settings';
 
 export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {
@@ -31,15 +31,18 @@ export function observerEntriesToItems(
   });
 }
 export function scrollToItem(
-  item?: Element,
+  // TODO: remove Element
+  _item?: IOItem | Element,
   behavior: ScrollBehavior = 'smooth',
   inline: ScrollLogicalPosition = 'end',
   block: ScrollLogicalPosition = 'nearest'
 ) {
+  const item = (_item as IOItem)?.entry?.target || _item;
+
   if (item) {
     window &&
       window.requestAnimationFrame(() =>
-        item.scrollIntoView({
+        item!.scrollIntoView({
           block,
           behavior,
           inline,

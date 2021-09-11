@@ -97,12 +97,7 @@ function App() {
 
       if (!itemSelected) {
         // NOTE: center item on select
-        scrollToItem(
-          getItemById(itemId)?.entry?.target,
-          'smooth',
-          'center',
-          'nearest'
-        );
+        scrollToItem(getItemById(itemId), 'smooth', 'center', 'nearest');
       }
     };
 
@@ -113,7 +108,7 @@ function App() {
       scrollToItem,
     }: scrollVisibilityApiType) => {
       // NOTE: scroll to item, auto/smooth for animation
-      // scrollToItem(getItemById('test15')?.entry?.target, 'auto');
+      // scrollToItem(getItemById('test15'), 'auto');
       // NOTE: or restore exact position by pixels
       // scrollContainer.current.scrollLeft = position;
     },
@@ -168,9 +163,9 @@ function App() {
 function LeftArrow() {
   const { initComplete, isFirstItemVisible, scrollPrev } =
     React.useContext(VisibilityContext);
-
   // NOTE initComplete is a hack for  prevent blinking on init
   // Can get visibility of item only after it's rendered
+
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}

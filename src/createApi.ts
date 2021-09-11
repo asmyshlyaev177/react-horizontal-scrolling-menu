@@ -33,15 +33,13 @@ export default function createApi(
     behavior: ScrollBehavior = 'smooth',
     inline: ScrollLogicalPosition = 'end',
     block: ScrollLogicalPosition = 'nearest'
-  ): void =>
-    scrollToItem(getPrevItem()?.entry?.target, behavior, inline, block);
+  ): void => scrollToItem(getPrevItem(), behavior, inline, block);
 
   const scrollNext = (
     behavior: ScrollBehavior = 'smooth',
     inline: ScrollLogicalPosition = 'start',
     block: ScrollLogicalPosition = 'nearest'
-  ): void =>
-    scrollToItem(getNextItem()?.entry?.target, behavior, inline, block);
+  ): void => scrollToItem(getNextItem(), behavior, inline, block);
 
   return {
     // centerVisibleItem,
