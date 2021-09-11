@@ -37,7 +37,7 @@ Component provide context with visible items and helpers.
 
 Possible set default position on initialization.
 
-:star: if you like the project :)
+:star: if you like the project and [![Rate on Openbase](https://badges.openbase.com/js/rating/react-horizontal-scrolling-menu.svg)](https://openbase.com/js/react-horizontal-scrolling-menu?utm_source=embedded&utm_medium=badge&utm_campaign=rate-badge)   :)
 
 ## Quick start
 
