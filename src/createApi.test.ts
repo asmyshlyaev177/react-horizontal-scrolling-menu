@@ -2,6 +2,7 @@ import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
 import { observerOptions } from './settings';
+import { IOItem } from './types';
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
@@ -195,9 +196,11 @@ describe('createApi', () => {
     test('item exists', async () => {
       const { items, visibleItems } = setup([1, 1, 0.3]);
 
-      const item = document.createElement('div');
+      const item = {
+        entry: { target: document.createElement('div') },
+      } as unknown as IOItem;
       const scrollIntoView = jest.fn();
-      item.scrollIntoView = scrollIntoView;
+      item.entry.target.scrollIntoView = scrollIntoView;
 
       createApi(items, visibleItems).scrollToItem(item);
 
@@ -229,7 +232,7 @@ describe('createApi', () => {
       const { items, visibleItems } = setup([1, 1, 0.3]);
 
       expect(() =>
-        createApi(items, visibleItems).scrollToItem(null as unknown as Element)
+        createApi(items, visibleItems).scrollToItem(undefined)
       ).not.toThrow();
     });
   });
