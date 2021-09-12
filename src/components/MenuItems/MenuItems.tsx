@@ -2,7 +2,7 @@ import React from 'react';
 
 import Separator from '../Separator';
 import Item from '../Item';
-import { id as itemId } from '../../constants';
+import { id as itemId, separatorString } from '../../constants';
 import type { ItemType, Refs } from '../../types';
 
 export type Props = {
@@ -18,7 +18,7 @@ function MenuItems({ children, refs }: Props): JSX.Element {
     <>
       {childArray.map((child, index: number) => {
         const id = (child as JSX.Element)?.props?.[itemId];
-        const separatorId = id + '-separator';
+        const separatorId = id + separatorString;
         const isLastItem = index + 1 === itemsCount;
 
         return [
