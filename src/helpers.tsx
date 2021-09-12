@@ -1,5 +1,11 @@
 import React from 'react';
-import type { Refs, Item, IOItem } from './types';
+import type {
+  Refs,
+  Item,
+  IOItem,
+  visibleItems as visibleItemsType,
+} from './types';
+import { separatorString } from './constants';
 import { observerOptions } from './settings';
 
 export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {
@@ -60,3 +66,6 @@ export function getElementOrConstructor(
     null
   );
 }
+
+export const filterSeparators = (items: visibleItemsType): visibleItemsType =>
+  items.filter((item) => !new RegExp(`.*${separatorString}$`).test(item));

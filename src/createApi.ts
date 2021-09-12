@@ -1,4 +1,4 @@
-import { scrollToItem } from './helpers';
+import { filterSeparators, scrollToItem } from './helpers';
 import ItemsMap from './ItemsMap';
 
 import type { visibleItems } from './types';
@@ -7,9 +7,7 @@ export default function createApi(
   items: ItemsMap,
   visibleItems: visibleItems = []
 ) {
-  const visibleItemsWithoutSeparators = visibleItems.filter(
-    (el) => !/separator/.test(String(el))
-  );
+  const visibleItemsWithoutSeparators = filterSeparators(visibleItems);
 
   const isFirstItemVisible = !!items.first()?.visible;
   const isLastItemVisible = !!items.last()?.visible;
