@@ -10,6 +10,7 @@
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=asmyshlyaev177%40gmail%2ecom&lc=US&item_name=asmyshlyaev177&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
+### Examples
 [Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
 [Basic example](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-example-swg0y?file=/src/index.tsx)
@@ -21,6 +22,8 @@
 [Click and select multiple items](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-item-selection-and-click-0oze7?file=/src/index.tsx)
 
 [Scroll by 1 item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-scroll-one-item-6hn8q?file=/src/index.tsx)
+
+[Center item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-center-item-on-scroll-j04vm?file=/src/index.tsx)
 
 [Full Demo](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-d8m29?file=/src/index.tsx)
 
@@ -213,6 +216,7 @@ const { first, center: centerItem, last } = getItemsPos(prevGroup)
 scrollToItem(getItemById(centerItem, 'smooth', 'center'))
 
 ```
+Check out [examples](#examples)
 
 
 ## Browser support
