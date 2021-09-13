@@ -17,6 +17,9 @@ import { VisibilityContext } from './context';
 import type { ItemType, Refs } from './types';
 import { getElementOrConstructor } from './helpers';
 
+import slidingWindow from './slidingWindow';
+import getItemsPos from './getItemsPos';
+
 type ArrowType = React.FC | React.ReactNode;
 
 interface Props {
@@ -134,4 +137,4 @@ function ScrollMenu({
   );
 }
 
-export { constants, ScrollMenu, VisibilityContext };
+export { constants, getItemsPos, slidingWindow, ScrollMenu, VisibilityContext };

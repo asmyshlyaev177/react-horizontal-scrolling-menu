@@ -1,9 +1,14 @@
-import type { IOItem, Item } from './types';
+import type { IOItem, Item, visibleItems as itemsArr } from './types';
 
 class ItemsMap extends Map<string, IOItem> {
   public toArr(): Item[] {
     return [...this];
   }
+
+  public toItemsKeys(): itemsArr {
+    return this.toArr().map((el) => el[0]);
+  }
+
   onlyDigits(value: string | number): string {
     return String(value).replace(/[^0-9.]/g, '');
   }
