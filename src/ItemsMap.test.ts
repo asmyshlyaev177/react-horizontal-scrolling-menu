@@ -54,6 +54,16 @@ describe('ItemsMap', () => {
         expect([...map]).toEqual(data);
       });
     });
+
+    describe('toItemsKeys', () => {
+      test('should return keys of items', () => {
+        const map = new ItemsMap();
+
+        map.set(data);
+
+        expect(map.toItemsKeys()).toEqual(data.map((el) => el[0]));
+      });
+    });
   });
 
   test('first element', () => {

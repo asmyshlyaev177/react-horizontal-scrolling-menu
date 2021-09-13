@@ -193,6 +193,28 @@ items | ItemsMap class instance
 scrollContainer | Ref<OuterContainer>
 visibleItems | ['item1', 'item1-separator', 'item2']
 
+### Other helpers
+
+#### slidingWindow
+Can get previous or next visible group of items with `slidingWindow(allItems: string[], visibleItems: string[])` helper, e.g
+```
+slidingWindow(allItems, visibleItems)
+.prev()
+//.next()
+```
+
+#### getItemsPos
+Can get first, center and last items, e.g.
+```
+const prevGroup = slidingWindow(allItems, visibleItems).prev()
+const { first, center: centerItem, last } = getItemsPos(prevGroup)
+
+// and scroll to center item of previous group of items
+scrollToItem(getItemById(centerItem, 'smooth', 'center'))
+
+```
+
+
 ## Browser support
 * Browser must support **IntersectionObserver API**, [**Element.scrollIntoView for Safari**](https://github.com/magic-akari/seamless-scroll-polyfill)  and **requestAnimationFrame** or use polyfills.
 * Only modern browsers, no IE or smart toasters
