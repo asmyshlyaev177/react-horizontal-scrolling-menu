@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.0.10...v2.1.0) (2021-09-13)
+
+
+### Features
+
+* slidingWindow and getItemsPos helpers ([eeae101](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/eeae101a27aa17d0abd476865c74a8bacc7cdd87))
+
 ### [2.0.10](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.0.9...v2.0.10) (2021-09-11)
 
 
