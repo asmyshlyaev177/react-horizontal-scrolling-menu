@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.1.0...v2.1.1) (2021-09-14)
+
+
+### Bug Fixes
+
+* fix if prev/next group of items in slidingWindow smaller than current one ([93c43c5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/93c43c530ea3a448f391fc2b9a6a6135376a009e))
+
 ## [2.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.0.10...v2.1.0) (2021-09-13)
 
 
