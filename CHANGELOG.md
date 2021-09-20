@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.1.1...v2.2.0) (2021-09-20)
+
+
+### Features
+
+* **classname:** className for Item, Separator and ScrollContainer ([0e925a2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/0e925a234ed44532a4098e361679d969d72b464f))
+
 ### [2.1.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.1.0...v2.1.1) (2021-09-14)
 
 
