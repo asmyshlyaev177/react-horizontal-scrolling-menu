@@ -1,23 +1,38 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import ScrollContainer, { Props } from './ScrollContainer';
+import { scrollContainerClassName } from '../../constants';
 
-const setup = ({ scrollRef, onScroll }: Props) => {
+const setup = ({ className, scrollRef, onScroll }: Props) => {
   return render(
-    <ScrollContainer onScroll={onScroll} scrollRef={scrollRef}>
+    <ScrollContainer
+      className={className}
+      onScroll={onScroll}
+      scrollRef={scrollRef}
+    >
       Child
     </ScrollContainer>
   );
 };
 
 describe('ScrollContainer', () => {
-  test('classNames', () => {
-    const scrollRef: React.Ref<HTMLDivElement> = { current: null };
-    const { container } = setup({ scrollRef });
+  describe('className', () => {
+    test('default', () => {
+      const scrollRef: React.Ref<HTMLDivElement> = { current: null };
+      const { container } = setup({ scrollRef });
 
-    expect(container.firstChild).toHaveClass(
-      'react-horizontal-scrolling-menu--scroll-container'
-    );
+      expect(container.firstChild).toHaveClass(scrollContainerClassName);
+    });
+
+    test('custom', () => {
+      const className = 'test123';
+
+      const scrollRef: React.Ref<HTMLDivElement> = { current: null };
+      const { container } = setup({ className, scrollRef });
+
+      expect(container.firstChild).toHaveClass(scrollContainerClassName);
+      expect(container.firstChild).toHaveClass(className);
+    });
   });
 
   test('should render children and use ref', () => {

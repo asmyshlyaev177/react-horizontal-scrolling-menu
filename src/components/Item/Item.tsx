@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { itemClassName } from '../../constants';
 import type { Refs } from '../../types';
 
 export type Props = {
@@ -8,14 +7,15 @@ export type Props = {
   index: number;
   refs: Refs;
   children?: React.ReactNode;
+  className: string;
 };
 
-function Item({ children, id, index, refs }: Props) {
+function Item({ children, className, id, index, refs }: Props) {
   const ref = React.useRef(null);
   refs[index] = ref;
 
   return (
-    <div className={itemClassName} data-key={id} data-index={index} ref={ref}>
+    <div className={className} data-key={id} data-index={index} ref={ref}>
       {children}
     </div>
   );
