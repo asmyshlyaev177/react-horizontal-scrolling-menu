@@ -164,13 +164,16 @@ Prop | Signature
 ------------ | -------------
 LeftArrow | React component for left arrow
 RightArrow | React component for right arrow 
-wrapperClassname | Style the outer-most div
 onWheel | (VisibilityContext, event) => void
 onScroll | (VisibilityContext, event) => void
 onInit | (VisibilityContext) => void
 onMouseDown |(VisibilityContext) => (React.MouseEventHandler) => void
 onMouseUp | (VisibilityContext) => (React.MouseEventHandler) => void
 onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void
+itemClassName | ClassName of Item
+separatorClassName | ClassName of Item's separator
+scrollContainerClassName | ClassName of scrollContainer
+wrapperClassname | ClassName of the outer-most div
 
 ### VisibilityContext
 

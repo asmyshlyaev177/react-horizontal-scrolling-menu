@@ -33,6 +33,9 @@ interface Props {
   onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
+  itemClassName?: string;
+  separatorClassName?: string;
+  scrollContainerClassName?: string;
   wrapperClassName?: string;
 }
 
@@ -47,6 +50,9 @@ function ScrollMenu({
   onScroll = (): void => void 0,
   onWheel = (): void => void 0,
   options = defaultObserverOptions,
+  scrollContainerClassName = '',
+  itemClassName = '',
+  separatorClassName = '',
   wrapperClassName = '',
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
@@ -114,10 +120,15 @@ function ScrollMenu({
     [onWheel, publicApi]
   );
 
+  const wrapperClass: string = React.useMemo(
+    () => `${constants.wrapperClassName} ${wrapperClassName}`,
+    [wrapperClassName]
+  );
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
-      className={`${constants.wrapperClassName} ${wrapperClassName}`}
+      className={wrapperClass}
       onWheel={onWheelHandler}
       onMouseDown={onMouseDown?.(publicApi.current)}
       onMouseUp={onMouseUp?.(publicApi.current)}
@@ -126,10 +137,17 @@ function ScrollMenu({
       <VisibilityContext.Provider value={publicApi.current}>
         {LeftArrow}
         <ScrollContainer
+          className={scrollContainerClassName}
           onScroll={scrollHandler}
           scrollRef={scrollContainerRef}
         >
-          <MenuItems refs={menuItemsRefs}>{children}</MenuItems>
+          <MenuItems
+            refs={menuItemsRefs}
+            itemClassName={itemClassName}
+            separatorClassName={separatorClassName}
+          >
+            {children}
+          </MenuItems>
         </ScrollContainer>
         {RightArrow}
       </VisibilityContext.Provider>
