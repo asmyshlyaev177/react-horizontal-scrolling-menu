@@ -1,4 +1,4 @@
-const items: string[] = Array(20)
+const items: string[] = Array(10)
   .fill(1)
   .map((_el, index) => `test${index}`);
 
@@ -31,19 +31,7 @@ describe('Scrolling menu', () => {
 
     scrollNext({ cy, w });
 
-    scrollNext({ cy, w });
-
-    scrollNext({ cy, w });
-
-    scrollNext({ cy, w });
-
     cy.log('Last items');
-
-    scrollPrev({ cy, w });
-
-    scrollPrev({ cy, w });
-
-    scrollPrev({ cy, w });
 
     scrollPrev({ cy, w });
 
@@ -92,9 +80,9 @@ function checkCards({
   visible: string[];
   after: string[];
 }) {
-  cy.wrap(before).each((id) => checkCard({ id, visible: false }));
-  cy.wrap(visible).each((id) => checkCard({ id, visible: true }));
-  cy.wrap(after).each((id) => checkCard({ id, visible: false }));
+  cy.wrap(before).each((id) => checkCard({ cy, id, visible: false }));
+  cy.wrap(visible).each((id) => checkCard({ cy, id, visible: true }));
+  cy.wrap(after).each((id) => checkCard({ cy, id, visible: false }));
 }
 
 function checkArrow({
@@ -122,20 +110,17 @@ function getArrow({
   return cy.get('button').filter(`:contains("${direction}")`).eq(0);
 }
 
-function checkCard({ id, visible = true, selected = false }) {
+function checkCard({ cy, id, visible = true, selected = false }) {
   return cy
-    .get('.card')
-    .filter(`:contains("${id}")`)
+    .get(`[data-cy=${id}]`)
+    .find('.card-header')
     .should('exist')
-    .then((elem) =>
-      cy
-        .wrap(elem)
-        .invoke('text')
-        .then((text) => {
-          expect(text.includes(`visible: ${visible}`)).to.be.true;
-          expect(text.includes(`selected: ${selected}`)).to.be.true;
-        })
-    );
+    .should(`${visible ? '' : 'not.'}to.be.visible`)
+    .invoke('text')
+    .then((text) => {
+      expect(text.includes(`visible: ${visible}`)).to.be.true;
+      expect(text.includes(`selected: ${selected}`)).to.be.true;
+    });
 }
 
 class SlidingWindow {
