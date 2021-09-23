@@ -57,14 +57,12 @@ describe('ScrollMenu', () => {
     const scrollContainerClassName = 'scroll-class';
     const wrapperClassName = 'wrapper-class';
 
-    const { container, debug } = setup({
+    const { container } = setup({
       itemClassName,
       separatorClassName,
       scrollContainerClassName,
       wrapperClassName,
     });
-
-    debug(container);
 
     const wrapper = container.firstChild as HTMLElement;
     expect(wrapper.getAttribute('class')).toEqual(
