@@ -12,6 +12,8 @@ import { observerOptions as defaultObserverOptions } from './settings';
 
 import * as constants from './constants';
 
+import useOnInitCb from './hooks/useOnInitCb';
+
 import { VisibilityContext } from './context';
 
 import type { ItemType, Refs } from './types';
@@ -74,7 +76,9 @@ function ScrollMenu({
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, menuItemsRefs);
 
-  const items = React.useRef(new ItemsMap()).current;
+  const _items = React.useRef(new ItemsMap());
+  const items = _items.current;
+
   const { visibleItems } = useIntersectionObserver({
     items,
     itemsChanged,
@@ -84,30 +88,26 @@ function ScrollMenu({
 
   const publicApi = React.useRef<publicApiType>({} as publicApiType);
 
-  const initComplete = !!visibleItems.length;
-  const [onInitFired, setOnInitFired] = React.useState(false);
-  React.useEffect(() => {
-    if (initComplete && !onInitFired) {
-      setOnInitFired(true);
-      onInit(publicApi.current);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initComplete, onInitFired]);
+  const mounted = !!visibleItems.length;
+
+  useOnInitCb({
+    cb: () => onInit(publicApi.current),
+    condition: mounted,
+  });
 
   const api = React.useMemo(
     () => createApi(items, visibleItems),
     [items, visibleItems]
   );
-
   publicApi.current = React.useMemo(
     () => ({
       ...api,
-      initComplete,
+      initComplete: mounted,
       items,
       scrollContainer: scrollContainerRef,
       visibleItems,
     }),
-    [api, initComplete, items, visibleItems]
+    [api, mounted, items, visibleItems]
   );
 
   const scrollHandler = React.useCallback(
