@@ -24,7 +24,7 @@ import getItemsPos from './getItemsPos';
 
 type ArrowType = React.FC | React.ReactNode;
 
-interface Props {
+export interface Props {
   LeftArrow?: ArrowType;
   RightArrow?: ArrowType;
   children: ItemType | ItemType[];
