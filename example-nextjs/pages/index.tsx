@@ -22,7 +22,7 @@ const elemPrefix = 'test';
 const getId = (index: number) => `${elemPrefix}${index}`;
 
 const getItems = () =>
-  Array(20)
+  Array(10)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
@@ -238,6 +238,7 @@ function Card({
 
   return (
     <div
+      data-cy={itemId}
       onClick={() => onClick(visibility)}
       onKeyDown={(ev) => {
         ev.code === 'Enter' && onClick(visibility);
@@ -253,7 +254,7 @@ function Card({
       tabIndex={0}
       className="card"
     >
-      <div>
+      <div className="card-header">
         <div>{title}</div>
         <div style={{ backgroundColor: visible ? 'transparent' : 'gray' }}>
           visible: {JSON.stringify(visible)}
