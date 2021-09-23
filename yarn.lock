@@ -2125,9 +2125,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react-hooks@npm:^7.0.0":
-  version: 7.0.1
-  resolution: "@testing-library/react-hooks@npm:7.0.1"
+"@testing-library/react-hooks@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@testing-library/react-hooks@npm:7.0.2"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@types/react": ">=16.9.0"
@@ -2143,7 +2143,7 @@ __metadata:
       optional: true
     react-test-renderer:
       optional: true
-  checksum: 9f7aefee16e6b56c379b91fc0de9c5625957da8ff0c292664f482892ca89e7280dfe1734abf8286aa7cc3f81ad28c457b40513180a079463cff763e678ae5650
+  checksum: 26354a98923c0780494271419c46db01007f2406a4d0615c6d851b1793f591ea4767a05e48be7db8b4ab7591f699e60b8143020669e6d9c949c032f55282f084
   languageName: node
   linkType: hard
 
@@ -3519,7 +3519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-from@npm:1.x, buffer-from@npm:^1.0.0":
+"buffer-from@npm:^1.0.0":
   version: 1.1.1
   resolution: "buffer-from@npm:1.1.1"
   checksum: 540ceb79c4f5bfcadaabbc18324fa84c50dc52905084be7c03596a339cf5a88513bee6831ce9b36ddd046fab09257a7c80686e129d0559a0cfd141da196ad956
@@ -8777,7 +8777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:1.x, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
+"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -10254,7 +10254,7 @@ __metadata:
     "@rollup/plugin-typescript": ^8.2.1
     "@testing-library/jest-dom": ^5.12.0
     "@testing-library/react": ^11.2.7
-    "@testing-library/react-hooks": ^7.0.0
+    "@testing-library/react-hooks": ^7.0.2
     "@types/babel__core": ^7
     "@types/babel__plugin-transform-runtime": ^7
     "@types/babel__preset-env": ^7
@@ -10300,7 +10300,7 @@ __metadata:
     semver: ^7.3.2
     standard-version: ^9.3.1
     style-loader: ^2.0.0
-    ts-jest: ^27.0.3
+    ts-jest: ^27.0.5
     ts-loader: ^9.2.3
     typescript: ^4.3.2
     wait-on: ^6.0.0
@@ -11982,26 +11982,34 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^27.0.3":
-  version: 27.0.3
-  resolution: "ts-jest@npm:27.0.3"
+"ts-jest@npm:^27.0.5":
+  version: 27.0.5
+  resolution: "ts-jest@npm:27.0.5"
   dependencies:
     bs-logger: 0.x
-    buffer-from: 1.x
     fast-json-stable-stringify: 2.x
     jest-util: ^27.0.0
     json5: 2.x
     lodash: 4.x
     make-error: 1.x
-    mkdirp: 1.x
     semver: 7.x
     yargs-parser: 20.x
   peerDependencies:
+    "@babel/core": ">=7.0.0-beta.0 <8"
+    "@types/jest": ^27.0.0
+    babel-jest: ">=27.0.0 <28"
     jest: ^27.0.0
     typescript: ">=3.8 <5.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@types/jest":
+      optional: true
+    babel-jest:
+      optional: true
   bin:
     ts-jest: cli.js
-  checksum: a63f3a8620a16335d745f22377a9cc118129d28a5b122c609a7c6aabbb8048c85733c771a0dd39b136e8a75401473409452bdd3c5b9e3b85317c2e3f3ac03267
+  checksum: 0f7479a6c967f192d9be8bf8ac75498f41cc03964ed7fa6f3ae826080bf8ddb1e2f1e59cda34342a99c44c2fff4b7350019dd4f963fa059af694de4196054576
   languageName: node
   linkType: hard
 
