@@ -25,6 +25,8 @@
 
 [Center item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-center-item-on-scroll-j04vm?file=/src/index.tsx)
 
+[Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
+
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
