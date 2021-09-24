@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.0...v2.3.1) (2021-09-24)
+
+
+### Bug Fixes
+
+* ts types on same level as index, codesandbox doesn't see it otherwise ([27cc26f](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/27cc26fbc59d90b5a95c368f058a139ab40135d0))
+
 ## [2.3.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.2.1...v2.3.0) (2021-09-24)
 
 
