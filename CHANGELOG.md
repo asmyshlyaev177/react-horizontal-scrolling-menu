@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.2.1...v2.3.0) (2021-09-24)
+
+
+### Features
+
+* **onupdate:** onUpdate cb that called every time visibleItems changed ([f4f5dd5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/f4f5dd571c3e0b397c5d6f95e27804d85779e243))
+
 ### [2.2.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.2.0...v2.2.1) (2021-09-23)
 
 ## [2.2.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.1.1...v2.2.0) (2021-09-20)
