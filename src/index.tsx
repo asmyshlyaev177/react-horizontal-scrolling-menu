@@ -13,6 +13,7 @@ import { observerOptions as defaultObserverOptions } from './settings';
 import * as constants from './constants';
 
 import useOnInitCb from './hooks/useOnInitCb';
+import useOnUpdate from './hooks/useOnUpdate';
 
 import { VisibilityContext } from './context';
 
@@ -23,12 +24,12 @@ import slidingWindow from './slidingWindow';
 import getItemsPos from './getItemsPos';
 
 type ArrowType = React.FC | React.ReactNode;
-
 export interface Props {
   LeftArrow?: ArrowType;
   RightArrow?: ArrowType;
   children: ItemType | ItemType[];
   onInit?: (api: publicApiType) => void;
+  onUpdate?: (api: publicApiType) => void;
   onScroll?: (api: publicApiType, ev: React.UIEvent) => void;
   onWheel?: (api: publicApiType, ev: React.WheelEvent) => void;
   options?: Partial<typeof defaultObserverOptions>;
@@ -46,6 +47,7 @@ function ScrollMenu({
   RightArrow: _RightArrow,
   children,
   onInit = (): void => void 0,
+  onUpdate = (): void => void 0,
   onMouseDown,
   onMouseUp,
   onMouseMove,
@@ -90,9 +92,15 @@ function ScrollMenu({
 
   const mounted = !!visibleItems.length;
 
-  useOnInitCb({
+  const onInitCbFired = useOnInitCb({
     cb: () => onInit(publicApi.current),
     condition: mounted,
+  });
+
+  useOnUpdate({
+    cb: () => onUpdate(publicApi.current),
+    condition: onInitCbFired,
+    visibleItems,
   });
 
   const api = React.useMemo(

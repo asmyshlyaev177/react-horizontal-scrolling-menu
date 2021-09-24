@@ -124,10 +124,10 @@ describe('ScrollMenu', () => {
           visibleItems: [],
         })
         .mockReturnValueOnce({
-          visibleItems: defaultItems,
+          visibleItems: defaultItemsWithSeparators,
         })
         .mockReturnValueOnce({
-          visibleItems: defaultItems,
+          visibleItems: defaultItemsWithSeparators,
         });
       const onInit = jest.fn();
 
@@ -143,6 +143,64 @@ describe('ScrollMenu', () => {
       const call = onInit.mock.calls[0][0];
       expect(call.initComplete).toEqual(true);
       // console.log(textContent);
+      const textContent2 = container.firstChild!.textContent;
+      expect(textContent2!.includes('"initComplete":true')).toBeTruthy();
+    });
+  });
+
+  describe('onUpdate', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    test('should fire with publicApi', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onInit = jest.fn();
+      const onUpdate = jest.fn();
+
+      const { container } = setup({ onInit, onUpdate });
+
+      expect(container.firstChild).toBeTruthy();
+
+      expect(onInit).toHaveBeenCalledTimes(1);
+      expect(onUpdate).toHaveBeenCalledTimes(1);
+      const call = onUpdate.mock.calls[0][0];
+      comparePublicApi(call);
+    });
+
+    test('should not fire if init not complete(when visibleItems empty)', () => {
+      (useIntersectionObserver as jest.Mock)
+        .mockReturnValueOnce({
+          visibleItems: [],
+        })
+        .mockReturnValueOnce({
+          visibleItems: [],
+        })
+        .mockReturnValueOnce({
+          visibleItems: defaultItemsWithSeparators,
+        })
+        .mockReturnValueOnce({
+          visibleItems: defaultItemsWithSeparators,
+        });
+      const onInit = jest.fn();
+      const onUpdate = jest.fn();
+
+      const { container, rerender } = setup({ onInit, onUpdate });
+
+      expect(onInit).not.toHaveBeenCalled();
+      expect(onUpdate).not.toHaveBeenCalled();
+      const textContent1 = container.firstChild!.textContent;
+      expect(textContent1!.includes('"initComplete":false')).toBeTruthy();
+
+      setup({ onInit, onUpdate, rerender });
+
+      expect(onInit).toHaveBeenCalledTimes(1);
+      expect(onUpdate).toHaveBeenCalledTimes(1);
+      const call = onUpdate.mock.calls[0][0];
+      comparePublicApi(call);
+      expect(call.initComplete).toEqual(true);
       const textContent2 = container.firstChild!.textContent;
       expect(textContent2!.includes('"initComplete":true')).toBeTruthy();
     });

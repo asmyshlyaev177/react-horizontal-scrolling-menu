@@ -21,24 +21,21 @@ export default function useDrag() {
     []
   );
 
-  const dragMove = React.useCallback(
-    (ev: React.MouseEvent, cb: (newPos: number) => void) => {
-      const newDiff = position - ev.clientX;
+  const dragMove = (ev: React.MouseEvent, cb: (newPos: number) => void) => {
+    const newDiff = position - ev.clientX;
 
-      const movedEnough = Math.abs(newDiff) > 5;
+    const movedEnough = Math.abs(newDiff) > 5;
 
-      if (clicked && movedEnough) {
-        setDragging(true);
-      }
+    if (clicked && movedEnough) {
+      setDragging(true);
+    }
 
-      if (dragging && movedEnough) {
-        setPosition(ev.clientX);
-        setDiff(newDiff);
-        cb(newDiff);
-      }
-    },
-    [clicked, dragging, position]
-  );
+    if (dragging && movedEnough) {
+      setPosition(ev.clientX);
+      setDiff(newDiff);
+      cb(newDiff);
+    }
+  };
 
   return {
     dragStart,
