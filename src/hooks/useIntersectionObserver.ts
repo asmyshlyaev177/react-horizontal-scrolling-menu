@@ -23,8 +23,7 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
 
   const ioCb = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {
-      const newItems = observerEntriesToItems(entries, options);
-      items.set(newItems);
+      items.set(observerEntriesToItems(entries, options));
 
       global.clearTimeout(throttleTimer.current);
       throttleTimer.current = +setTimeout(

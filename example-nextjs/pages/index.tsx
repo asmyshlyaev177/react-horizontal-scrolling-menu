@@ -48,23 +48,22 @@ const onWheel = (
 };
 
 function App() {
-  const [items] = React.useState(getItems);
+  const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
-  // React.useEffect(() => {
-  //   if (items.length < 25) {
-  //     setTimeout(() => {
-  //       const newItems = items.concat(
-  //         Array(5)
-  //           .fill(0)
-  //           .map((_, ind) => ({ id: getId(items.length + ind) }))
-  //       );
-  //       console.log('push new items');
-  //       setItems(newItems);
-  //     }, 3000);
+  // NOTE: for add more items when last item reached
+  // const onUpdate = ({ isLastItemVisible }: scrollVisibilityApiType) => {
+  //   if (isLastItemVisible) {
+  //     const newItems = items.concat(
+  //       Array(5)
+  //         .fill(0)
+  //         .map((_, ind) => ({ id: getId(items.length + ind) }))
+  //     );
+  //     console.log('push new items');
+  //     setItems(newItems);
   //   }
-  // }, [items]);
+  // };
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
@@ -137,6 +136,7 @@ function App() {
               LeftArrow={LeftArrow}
               RightArrow={RightArrow}
               onInit={restorePosition}
+              // onUpdate={onUpdate}
               onScroll={savePosition}
               onWheel={onWheel}
               onMouseDown={() => (ev) => dragStart(ev)}

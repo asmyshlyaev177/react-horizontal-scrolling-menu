@@ -167,6 +167,7 @@ RightArrow | React component for right arrow
 onWheel | (VisibilityContext, event) => void
 onScroll | (VisibilityContext, event) => void
 onInit | (VisibilityContext) => void
+onUpdate | (VisibilityContext) => void
 onMouseDown |(VisibilityContext) => (React.MouseEventHandler) => void
 onMouseUp | (VisibilityContext) => (React.MouseEventHandler) => void
 onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void
