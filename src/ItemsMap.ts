@@ -1,12 +1,22 @@
 import type { IOItem, Item, visibleItems as itemsArr } from './types';
+import { filterSeparators } from './helpers';
 
 class ItemsMap extends Map<string, IOItem> {
   public toArr(): Item[] {
     return [...this];
   }
 
-  public toItemsKeys(): itemsArr {
+  public toItems(): itemsArr {
     return this.toArr().map((el) => el[0]);
+  }
+
+  public toItemsWithoutSeparators(): itemsArr {
+    return filterSeparators(this.toItems());
+  }
+
+  // NOTE: for backward compatibility, to remove
+  public toItemsKeys(): itemsArr {
+    return this.toItems();
   }
 
   onlyDigits(value: string | number): string {
