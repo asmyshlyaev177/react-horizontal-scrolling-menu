@@ -1,11 +1,19 @@
 import ItemsMap from './ItemsMap';
 import type { IOItem } from './types';
+import { separatorString } from './constants';
 
 describe('ItemsMap', () => {
   const data: any[] = [
     ['test1', { index: 0, key: 'test1' }],
     ['test2', { index: 1, key: 'test2' }],
     ['test3', { index: 2, key: 'test3' }],
+  ];
+  const dataWithSeparators: any[] = [
+    ['test1', { index: 0, key: 'test1' }],
+    [`test1${separatorString}`, { index: 0, key: 'test2' }],
+    ['test2', { index: 1, key: 'test3' }],
+    [`test2${separatorString}`, { index: 1, key: 'test4' }],
+    ['test3', { index: 2, key: 'test5' }],
   ];
 
   describe('set and get', () => {
@@ -55,13 +63,23 @@ describe('ItemsMap', () => {
       });
     });
 
-    describe('toItemsKeys', () => {
+    describe('toItems', () => {
       test('should return keys of items', () => {
         const map = new ItemsMap();
 
-        map.set(data);
+        map.set(dataWithSeparators);
 
-        expect(map.toItemsKeys()).toEqual(data.map((el) => el[0]));
+        expect(map.toItems()).toEqual(dataWithSeparators.map((el) => el[0]));
+      });
+    });
+
+    describe('toItemsWithoutSeparators', () => {
+      test('should return keys of items', () => {
+        const map = new ItemsMap();
+
+        map.set(dataWithSeparators);
+
+        expect(map.toItemsWithoutSeparators()).toEqual(data.map((el) => el[0]));
       });
     });
   });
