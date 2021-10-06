@@ -101,6 +101,7 @@ describe('ScrollMenu', () => {
       jest.resetAllMocks();
     });
 
+    // eslint-disable-next-line radar/no-duplicate-string
     test('should fire with publicApi', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue({
         visibleItems: defaultItemsWithSeparators,
@@ -145,6 +146,25 @@ describe('ScrollMenu', () => {
       // console.log(textContent);
       const textContent2 = container.firstChild!.textContent;
       expect(textContent2!.includes('"initComplete":true')).toBeTruthy();
+    });
+  });
+
+  describe('apiRef', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    test('should fire with publicApi', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const apiRef = { current: {} } as React.MutableRefObject<publicApiType>;
+
+      const { container } = setup({ apiRef });
+
+      expect(container.firstChild).toBeTruthy();
+
+      comparePublicApi(apiRef.current);
     });
   });
 

@@ -39,6 +39,7 @@ class ItemsMap extends Map<string, IOItem> {
     }
     return this;
   }
+
   public first(): IOItem | undefined {
     return this.toArr()[0]?.[1];
   }
