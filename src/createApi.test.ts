@@ -42,6 +42,12 @@ describe('createApi', () => {
     jest.clearAllMocks();
   });
 
+  test('visibleItems', () => {
+    const { items, visibleItems } = setup([0.3, 1, 0.7]);
+
+    expect(createApi(items, visibleItems).visibleItems).toEqual(visibleItems);
+  });
+
   test('visibleItemsWithoutSeparators', () => {
     const { items, visibleItems } = setup([0.3, 1, 0.7]);
     const expected = items

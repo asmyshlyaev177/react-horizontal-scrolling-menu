@@ -40,6 +40,7 @@ export interface Props {
   separatorClassName?: string;
   scrollContainerClassName?: string;
   wrapperClassName?: string;
+  apiRef?: React.MutableRefObject<publicApiType>;
 }
 
 function ScrollMenu({
@@ -58,6 +59,7 @@ function ScrollMenu({
   itemClassName = '',
   separatorClassName = '',
   wrapperClassName = '',
+  apiRef = { current: {} as publicApiType },
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
@@ -113,10 +115,11 @@ function ScrollMenu({
       initComplete: mounted,
       items,
       scrollContainer: scrollContainerRef,
-      visibleItems,
     }),
-    [api, mounted, items, visibleItems]
+    [api, mounted, items]
   );
+
+  apiRef.current = publicApi.current;
 
   const scrollHandler = React.useCallback(
     (event: React.UIEvent) => onScroll(publicApi.current, event),

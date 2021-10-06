@@ -51,6 +51,7 @@ export default function createApi(
     scrollNext,
     scrollPrev,
     scrollToItem,
+    visibleItems,
     visibleItemsWithoutSeparators,
   };
 }
