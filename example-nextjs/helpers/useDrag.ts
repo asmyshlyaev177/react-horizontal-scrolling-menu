@@ -4,16 +4,15 @@ export default function useDrag() {
   const [clicked, setClicked] = React.useState(false);
   const [dragging, setDragging] = React.useState(false);
   const [position, setPosition] = React.useState(0);
-  const [diff, setDiff] = React.useState(0);
 
   const dragStart = React.useCallback((ev: React.MouseEvent) => {
     setPosition(ev.clientX);
-    setDiff(0);
     setClicked(true);
   }, []);
 
   const dragStop = React.useCallback(
     () =>
+      // NOTE: need some delay so item under cursor won't be clicked
       window.requestAnimationFrame(() => {
         setDragging(false);
         setClicked(false);
@@ -32,7 +31,6 @@ export default function useDrag() {
 
     if (dragging && movedEnough) {
       setPosition(ev.clientX);
-      setDiff(newDiff);
       cb(newDiff);
     }
   };
@@ -41,11 +39,9 @@ export default function useDrag() {
     dragStart,
     dragStop,
     dragMove,
-    diff,
     dragging,
     position,
     setDragging,
-    setDiff,
     setPosition,
   };
 }

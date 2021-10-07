@@ -75,8 +75,7 @@ function App() {
     (ev: React.MouseEvent) =>
       dragMove(ev, (newPos) => {
         if (scrollContainer.current) {
-          const currentScroll = scrollContainer.current.scrollLeft;
-          scrollContainer.current.scrollLeft = currentScroll + newPos;
+          scrollContainer.current.scrollLeft += newPos;
         }
       });
 
