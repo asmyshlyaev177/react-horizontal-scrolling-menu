@@ -3,10 +3,10 @@ import React from 'react';
 export default function useDrag() {
   const [clicked, setClicked] = React.useState(false);
   const [dragging, setDragging] = React.useState(false);
-  const [position, setPosition] = React.useState(0);
+  const position = React.useRef(0);
 
   const dragStart = React.useCallback((ev: React.MouseEvent) => {
-    setPosition(ev.clientX);
+    position.current = ev.clientX;
     setClicked(true);
   }, []);
 
@@ -21,7 +21,7 @@ export default function useDrag() {
   );
 
   const dragMove = (ev: React.MouseEvent, cb: (newPos: number) => void) => {
-    const newDiff = position - ev.clientX;
+    const newDiff = position.current - ev.clientX;
 
     const movedEnough = Math.abs(newDiff) > 5;
 
@@ -30,7 +30,7 @@ export default function useDrag() {
     }
 
     if (dragging && movedEnough) {
-      setPosition(ev.clientX);
+      position.current = ev.clientX;
       cb(newDiff);
     }
   };
@@ -42,6 +42,5 @@ export default function useDrag() {
     dragging,
     position,
     setDragging,
-    setPosition,
   };
 }
