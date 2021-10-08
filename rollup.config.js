@@ -68,7 +68,7 @@ export default [
     plugins,
     external,
     output: [
-      { file: pkg.main, format: 'cjs', sourcemap },
+      // { file: pkg.main, format: 'cjs', sourcemap },
       { file: pkg.module, format: 'es', sourcemap },
     ],
     ...clearScreen,
