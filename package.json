@@ -51,9 +51,13 @@
   },
   "keywords": [
     "react",
+    "react-component",
     "menu",
+    "navigation",
+    "gallery",
     "horizontal",
     "scroll",
+    "scrolling",
     "scrolling-menu"
   ],
   "browserslist": [
