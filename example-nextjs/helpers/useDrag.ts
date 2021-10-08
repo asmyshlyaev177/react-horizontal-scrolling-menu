@@ -20,7 +20,7 @@ export default function useDrag() {
     []
   );
 
-  const dragMove = (ev: React.MouseEvent, cb: (newPos: number) => void) => {
+  const dragMove = (ev: React.MouseEvent, cb: (posDiff: number) => void) => {
     const newDiff = position.current - ev.clientX;
 
     const movedEnough = Math.abs(newDiff) > 5;
