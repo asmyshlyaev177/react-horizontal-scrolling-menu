@@ -4,7 +4,7 @@
   "author": "asmyshlyaev177",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.umd.js",
   "browser": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "unpkg": "dist/index.umd.js",
@@ -12,6 +12,22 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
+  },
+  "exports": {
+    ".": {
+			"browser": "./dist/index.umd.js",
+      "module": "./dist/index.esm.js",
+      "import": "./dist/index.esm.js",
+			"umd": "./dist/index.umd.js",
+			"require": "./dist/index.umd.js"
+		}
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/types/"
+      ]
+    }
   },
   "scripts": {
     "test:unit": "jest",
@@ -35,9 +51,13 @@
   },
   "keywords": [
     "react",
+    "react-component",
     "menu",
+    "navigation",
+    "gallery",
     "horizontal",
     "scroll",
+    "scrolling",
     "scrolling-menu"
   ],
   "browserslist": [
