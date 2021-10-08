@@ -18,7 +18,7 @@ export default function createApi(
   const getItemByIndex = (index: number) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
-  const isItemVisible = (id: string) => getItemById(id)?.visible;
+  const isItemVisible = (id: string) => visibleItems.includes(id);
 
   const getPrevItem = () => items.prev(items.getVisible()?.[0]?.[1]);
 
@@ -40,7 +40,6 @@ export default function createApi(
   ): void => scrollToItem(getNextItem(), behavior, inline, block);
 
   return {
-    // centerVisibleItem,
     getItemById,
     getItemByIndex,
     getNextItem,
@@ -52,6 +51,7 @@ export default function createApi(
     scrollNext,
     scrollPrev,
     scrollToItem,
+    visibleItems,
     visibleItemsWithoutSeparators,
   };
 }

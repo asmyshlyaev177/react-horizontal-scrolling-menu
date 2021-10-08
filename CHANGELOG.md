@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.3...v2.4.0) (2021-10-06)
+
+
+### Features
+
+* **apiref:** apiRef object for access VisibilityContext from outside of Menu component ([ef9a281](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/ef9a281a22aa5db21e2a2b74d9a768179770af50))
+
+### [2.3.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.2...v2.3.3) (2021-09-26)
+
+### [2.3.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.1...v2.3.2) (2021-09-24)
+
+### [2.3.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.0...v2.3.1) (2021-09-24)
+
+
+### Bug Fixes
+
+* ts types on same level as index, codesandbox doesn't see it otherwise ([27cc26f](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/27cc26fbc59d90b5a95c368f058a139ab40135d0))
+
+## [2.3.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.2.1...v2.3.0) (2021-09-24)
+
+
+### Features
+
+* **onupdate:** onUpdate cb that called every time visibleItems changed ([f4f5dd5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/f4f5dd571c3e0b397c5d6f95e27804d85779e243))
+
 ### [2.2.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.2.0...v2.2.1) (2021-09-23)
 
 ## [2.2.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.1.1...v2.2.0) (2021-09-20)

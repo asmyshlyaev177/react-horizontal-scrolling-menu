@@ -25,6 +25,10 @@
 
 [Center item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-center-item-on-scroll-j04vm?file=/src/index.tsx)
 
+[Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
+
+[apiRef - controling component outside](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-apiref-vdr0d?file=/src/index.tsx)
+
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
@@ -38,7 +42,7 @@ Component provide context with visible items and helpers.
 
 Possible set default position on initialization.
 
-:star: if you like the project and [![Rate on Openbase](https://badges.openbase.com/js/rating/react-horizontal-scrolling-menu.svg)](https://openbase.com/js/react-horizontal-scrolling-menu?utm_source=embedded&utm_medium=badge&utm_campaign=rate-badge)   :)
+:star: if you like the project :)
 
 ## Quick start
 
@@ -167,6 +171,8 @@ RightArrow | React component for right arrow
 onWheel | (VisibilityContext, event) => void
 onScroll | (VisibilityContext, event) => void
 onInit | (VisibilityContext) => void
+apiRef | React.RefObject
+onUpdate | (VisibilityContext) => void
 onMouseDown |(VisibilityContext) => (React.MouseEventHandler) => void
 onMouseUp | (VisibilityContext) => (React.MouseEventHandler) => void
 onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void
@@ -219,7 +225,10 @@ scrollToItem(getItemById(centerItem, 'smooth', 'center'))
 ```
 Check out [examples](#examples)
 
-
+### apiRef
+Can pass Ref object to Menu, current value will assigned as VisibilityContext. But `visibleItems` and some other values can be staled, so better use it only for firing functions like `scrollToItem`.
+See [`apiRef` example](#examples)
+  
 ## Browser support
 * Browser must support **IntersectionObserver API**, [**Element.scrollIntoView for Safari**](https://github.com/magic-akari/seamless-scroll-polyfill)  and **requestAnimationFrame** or use polyfills.
 * Only modern browsers, no IE or smart toasters

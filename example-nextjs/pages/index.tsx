@@ -22,7 +22,7 @@ const elemPrefix = 'test';
 const getId = (index: number) => `${elemPrefix}${index}`;
 
 const getItems = () =>
-  Array(20)
+  Array(10)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
@@ -52,20 +52,6 @@ function App() {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
-  // React.useEffect(() => {
-  //   if (items.length < 25) {
-  //     setTimeout(() => {
-  //       const newItems = items.concat(
-  //         Array(5)
-  //           .fill(0)
-  //           .map((_, ind) => ({ id: getId(items.length + ind) }))
-  //       );
-  //       console.log('push new items');
-  //       setItems(newItems);
-  //     }, 3000);
-  //   }
-  // }, [items]);
-
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
@@ -74,10 +60,9 @@ function App() {
   const handleDrag =
     ({ scrollContainer }: scrollVisibilityApiType) =>
     (ev: React.MouseEvent) =>
-      dragMove(ev, (newPos) => {
+      dragMove(ev, (posDiff) => {
         if (scrollContainer.current) {
-          const currentScroll = scrollContainer.current.scrollLeft;
-          scrollContainer.current.scrollLeft = currentScroll + newPos;
+          scrollContainer.current.scrollLeft += posDiff;
         }
       });
 
@@ -139,7 +124,7 @@ function App() {
               onInit={restorePosition}
               onScroll={savePosition}
               onWheel={onWheel}
-              onMouseDown={() => (ev) => dragStart(ev)}
+              onMouseDown={() => dragStart}
               onMouseUp={() => dragStop}
               onMouseMove={handleDrag}
             >
@@ -238,6 +223,7 @@ function Card({
 
   return (
     <div
+      data-cy={itemId}
       onClick={() => onClick(visibility)}
       onKeyDown={(ev) => {
         ev.code === 'Enter' && onClick(visibility);
@@ -253,7 +239,7 @@ function Card({
       tabIndex={0}
       className="card"
     >
-      <div>
+      <div className="card-header">
         <div>{title}</div>
         <div style={{ backgroundColor: visible ? 'transparent' : 'gray' }}>
           visible: {JSON.stringify(visible)}

@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: cypress/included:8.0.0
+    container: cypress/included:8.4.1
 
     strategy:
       matrix:
