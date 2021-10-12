@@ -48,7 +48,7 @@ const onWheel = (
 };
 
 function App() {
-  const [items, setItems] = React.useState(getItems);
+  const [items] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
@@ -116,14 +116,17 @@ function App() {
   return (
     <div>
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
-        <div>
-          <div>
+        <div onMouseEnter={hideScroll} onMouseLeave={showScroll}>
+          <div onMouseLeave={dragStop}>
             <ScrollMenu
               LeftArrow={LeftArrow}
               RightArrow={RightArrow}
               onInit={restorePosition}
               onScroll={savePosition}
               onWheel={onWheel}
+              onMouseDown={() => dragStart}
+              onMouseUp={() => dragStop}
+              onMouseMove={handleDrag}
             >
               {items.map(({ id }) => (
                 <Card
@@ -135,13 +138,6 @@ function App() {
                 />
               ))}
             </ScrollMenu>
-            <button
-              onClick={() =>
-                setItems((items) => [{ id: String(Math.random()) }, ...items])
-              }
-            >
-              Add to start
-            </button>
           </div>
         </div>
       </div>
@@ -166,10 +162,8 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollNext, items } =
+  const { initComplete, isLastItemVisible, scrollNext } =
     React.useContext(VisibilityContext);
-
-  console.log({ isLastItemVisible, items });
 
   return (
     <Arrow
