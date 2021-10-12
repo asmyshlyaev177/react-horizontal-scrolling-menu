@@ -1,19 +1,28 @@
 import ItemsMap from './ItemsMap';
-import type { IOItem } from './types';
+import type { IOItem, Item } from './types';
 import { separatorString } from './constants';
 
 describe('ItemsMap', () => {
-  const data: any[] = [
-    ['test1', { index: 0, key: 'test1' }],
-    ['test2', { index: 1, key: 'test2' }],
-    ['test3', { index: 2, key: 'test3' }],
+  const data: Item[] = [
+    ['test1', { index: '0', key: 'test1' } as unknown as IOItem],
+    ['test2', { index: '1', key: 'test2' } as unknown as IOItem],
+    ['test3', { index: '2', key: 'test3' } as unknown as IOItem],
   ];
-  const dataWithSeparators: any[] = [
-    ['test1', { index: 0, key: 'test1' }],
-    [`test1${separatorString}`, { index: 0, key: 'test2' }],
-    ['test2', { index: 1, key: 'test3' }],
-    [`test2${separatorString}`, { index: 1, key: 'test4' }],
-    ['test3', { index: 2, key: 'test5' }],
+  const updateDataIndex = (data: Item[]): Item[] =>
+    data.map((el, ind) => [el[0], { ...el[1], index: String(ind) }]);
+
+  const dataWithSeparators: Item[] = [
+    ['test1', { index: '0', key: 'test1' } as unknown as IOItem],
+    [
+      `test1${separatorString}`,
+      { index: '0.1', key: 'test2' } as unknown as IOItem,
+    ],
+    ['test2', { index: '1', key: 'test3' } as unknown as IOItem],
+    [
+      `test2${separatorString}`,
+      { index: '1.1', key: 'test4' } as unknown as IOItem,
+    ],
+    ['test3', { index: '2', key: 'test5' } as unknown as IOItem],
   ];
 
   describe('set and get', () => {
@@ -34,10 +43,10 @@ describe('ItemsMap', () => {
         expect(map.get(key)).toEqual(value);
       });
 
-      expect([...map]).toEqual(data);
+      expect(map.toArr()).toEqual(data);
     });
 
-    describe('sort and set array of values and get', () => {
+    describe('sort and set array of values and get via toArr', () => {
       test('sorted array', () => {
         const map = new ItemsMap();
 
@@ -47,7 +56,7 @@ describe('ItemsMap', () => {
           expect(map.get(key)).toEqual(value);
         });
 
-        expect([...map]).toEqual(data);
+        expect(map.toArr()).toEqual(data);
       });
 
       test('unsorted array', () => {
@@ -59,7 +68,7 @@ describe('ItemsMap', () => {
           expect(map.get(key)).toEqual(value);
         });
 
-        expect([...map]).toEqual(data);
+        expect(map.toArr()).toEqual(data);
       });
     });
 
@@ -84,37 +93,89 @@ describe('ItemsMap', () => {
     });
   });
 
-  test('first element', () => {
-    const map = new ItemsMap();
+  describe('first element', () => {
+    test('should works', () => {
+      const map = new ItemsMap();
 
-    data.forEach(([key, value]) => {
-      map.set(key, value);
+      map.set(data);
+
+      expect(map.first()).toEqual(data[0][1]);
     });
 
-    expect([...map]).toEqual(data);
+    test('after add element to an end', () => {
+      const map = new ItemsMap();
 
-    expect(map.first()).toEqual(data[0][1]);
+      map.set(data);
+      const newItem = [
+        'test4',
+        { index: '3', key: 'test4' } as unknown as IOItem,
+      ] as Item;
+      expect(map.first()).toEqual(data[0][1]);
+
+      map.set([...data, newItem]);
+      expect(map.first()).toEqual(data[0][1]);
+    });
+
+    test('after add element to start', () => {
+      const map = new ItemsMap();
+
+      expect(updateDataIndex(data)).toEqual(data);
+      map.set(data);
+      const newData = updateDataIndex([
+        ['test4', { index: '0', key: 'test4' } as unknown as IOItem],
+        ...data,
+      ]);
+      expect(map.first()).toEqual(data[0][1]);
+
+      map.set(newData);
+      expect(map.first()).toEqual(newData[0][1]);
+    });
   });
 
-  test('last element', () => {
-    const map = new ItemsMap();
+  describe('last element', () => {
+    test('should works', () => {
+      const map = new ItemsMap();
 
-    data.forEach(([key, value]) => {
-      map.set(key, value);
+      map.set(data);
+
+      expect(map.last()).toEqual(data.slice(-1)[0][1]);
     });
 
-    expect(map.last()).toEqual(data.slice(-1)[0][1]);
+    test('after add element to an end', () => {
+      const map = new ItemsMap();
 
-    map.set('newLast', 'last' as unknown as IOItem);
-    expect(map.last()).toEqual('last');
+      map.set(data);
+      const newItem = [
+        'test4',
+        { index: '3', key: 'test4' } as unknown as IOItem,
+      ] as Item;
+      expect(map.last()).toEqual(data.slice(-1)[0][1]);
+
+      map.set([...data, newItem]);
+      expect(map.last()).toEqual(newItem[1]);
+    });
+
+    test('after add element to start', () => {
+      const map = new ItemsMap();
+
+      expect(updateDataIndex(data)).toEqual(data);
+      map.set(data);
+      const newItem = [
+        'test4',
+        { index: '3', key: 'test4' } as unknown as IOItem,
+      ] as Item;
+      const newData: Item[] = [newItem, ...data];
+      expect(map.last()).toEqual(data.slice(-1)[0][1]);
+
+      map.set(newData);
+      expect(map.last()).toEqual(newItem[1]);
+    });
   });
 
   test('filter', () => {
     const map = new ItemsMap();
 
-    data.forEach(([key, value]) => {
-      map.set(key, value);
-    });
+    map.set(data);
 
     expect(map.filter((el) => el[1] === data[0][1])).toEqual([data[0]]);
   });
@@ -122,13 +183,11 @@ describe('ItemsMap', () => {
   test('getVisible', () => {
     const map = new ItemsMap();
 
-    const dataWithVisible = data.map((el, ind) => [
+    const dataWithVisible: Item[] = data.map((el, ind) => [
       el[0],
-      { ...el[1], visible: ind < 2 },
+      { ...el[1], visible: ind < 2 } as unknown as IOItem,
     ]);
-    dataWithVisible.forEach(([key, value]) => {
-      map.set(key, value);
-    });
+    map.set(dataWithVisible);
 
     expect(map.getVisible()).toEqual(
       dataWithVisible.filter((el) => el[1].visible)
@@ -138,9 +197,7 @@ describe('ItemsMap', () => {
   test('findIndex', () => {
     const map = new ItemsMap();
 
-    data.forEach(([key, value]) => {
-      map.set(key, value);
-    });
+    map.set(data);
 
     expect(map.findIndex((el) => el[0] === 'test1')).toEqual(0);
     expect(map.findIndex((el) => el[0] === 'test2')).toEqual(1);
@@ -149,9 +206,7 @@ describe('ItemsMap', () => {
   test('find', () => {
     const map = new ItemsMap();
 
-    data.forEach(([key, value]) => {
-      map.set(key, value);
-    });
+    map.set(data);
 
     expect(map.find((el) => el[1] === data[0][1])).toEqual(data[0]);
     expect(map.find((el) => el[0] === 'test1')).toEqual(data[0]);
@@ -163,34 +218,28 @@ describe('ItemsMap', () => {
       test('have previous item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = 'test2';
+        const key = data[1][0];
 
-        expect(map.prev(item)).toEqual(data[0][1]);
+        expect(map.prev(key)).toEqual(data[0][1]);
       });
 
       test('does not have prev item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = 'test1';
+        const key = data[0][0];
 
-        expect(map.prev(item)).toEqual(undefined);
+        expect(map.prev(key)).toEqual(undefined);
       });
     });
 
     test('invalid item', () => {
       const map = new ItemsMap();
 
-      data.forEach(([key, value]) => {
-        map.set(key, value);
-      });
+      map.set(data);
 
       const item = 'aaa';
 
@@ -202,9 +251,7 @@ describe('ItemsMap', () => {
       test('have previous item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
         const item = data[1][1];
 
@@ -214,11 +261,9 @@ describe('ItemsMap', () => {
       test('does not have prev item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = 'abcd';
+        const item = data[0][1];
 
         expect(map.prev(item)).toEqual(undefined);
       });
@@ -230,34 +275,28 @@ describe('ItemsMap', () => {
       test('have previous item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = 'test2';
+        const key = data[1][0];
 
-        expect(map.next(item)).toEqual(data[2][1]);
+        expect(map.next(key)).toEqual(data[2][1]);
       });
 
       test('does not have next item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = 'test3';
+        const key = data[2][0];
 
-        expect(map.next(item)).toEqual(undefined);
+        expect(map.next(key)).toEqual(undefined);
       });
     });
 
     test('invalid item', () => {
       const map = new ItemsMap();
 
-      data.forEach(([key, value]) => {
-        map.set(key, value);
-      });
+      map.set(data);
 
       const item = 'aaa';
 
@@ -269,9 +308,7 @@ describe('ItemsMap', () => {
       test('have next item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
         const item = data[1][1];
 
@@ -281,11 +318,9 @@ describe('ItemsMap', () => {
       test('does not have next item', () => {
         const map = new ItemsMap();
 
-        data.forEach(([key, value]) => {
-          map.set(key, value);
-        });
+        map.set(data);
 
-        const item = data.slice(-1)[0];
+        const item = data.slice(-1)[0][1];
 
         expect(map.next(item)).toEqual(undefined);
       });

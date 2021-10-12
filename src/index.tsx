@@ -77,11 +77,10 @@ function ScrollMenu({
     [options, scrollContainerRef.current]
   );
 
-  // NOTE: hack for detect when items added/removed dynamicaly
-  const itemsChanged = useItemsChanged(children, menuItemsRefs);
+  const items = React.useRef(new ItemsMap()).current;
 
-  const _items = React.useRef(new ItemsMap());
-  const items = _items.current;
+  // NOTE: hack for detect when items added/removed dynamicaly
+  const itemsChanged = useItemsChanged(children, items);
 
   const { visibleItems } = useIntersectionObserver({
     items,
