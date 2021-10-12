@@ -1,13 +1,13 @@
 import type { IOItem, Item, visibleItems as itemsArr } from './types';
 import { filterSeparators } from './helpers';
 
-class ItemsMap extends Map<string, IOItem> {
-  public toArr(): Item[] {
-    return [...this];
+class ItemsMap extends Map<Item[0], Item[1]> {
+  public toArr() {
+    return this.sort([...this]);
   }
 
   public toItems(): itemsArr {
-    return this.toArr().map((el) => el[0]);
+    return this.toArr().map(([key]) => key);
   }
 
   public toItemsWithoutSeparators(): itemsArr {
@@ -19,20 +19,16 @@ class ItemsMap extends Map<string, IOItem> {
     return this.toItems();
   }
 
-  onlyDigits(value: string | number): string {
-    return String(value).replace(/[^0-9.]/g, '');
-  }
   public sort(arr: Item[]) {
     return arr.sort(
-      (a: Item, b: Item) =>
-        +this.onlyDigits(a[1].index) - +this.onlyDigits(b[1].index)
+      ([, IOItemA], [, IOItemB]) => +IOItemA.index - +IOItemB.index
     );
   }
 
   set(key: Array<Item> | string, val?: IOItem): this {
     if (Array.isArray(key)) {
-      this.sort(key).forEach((el) => {
-        super.set(el[0], el[1]);
+      this.sort(key).forEach(([itemId, ioitem]) => {
+        super.set(itemId, ioitem);
       });
     } else {
       super.set(key, val!);
@@ -65,22 +61,21 @@ class ItemsMap extends Map<string, IOItem> {
   }
   public prev(item: string | IOItem): IOItem | undefined {
     const arr = this.toArr();
-    const current = arr.findIndex((el) => el[0] === item || el[1] === item);
+    const current = arr.findIndex(
+      ([itemId, ioitem]) => itemId === item || ioitem === item
+    );
     return current !== -1 ? arr[current - 1]?.[1] : undefined;
   }
   public next(item: IOItem | string): IOItem | undefined {
     const arr = this.toArr();
-    const current = arr.findIndex((el) => el[0] === item || el[1] === item);
+    const current = arr.findIndex(
+      ([itemId, ioitem]) => itemId === item || ioitem === item
+    );
     return current !== -1 ? arr[current + 1]?.[1] : undefined;
   }
 
   public getVisible() {
     return this.filter((value: Item) => value[1].visible);
   }
-
-  // TODO: next visible group, prev visible group
-  // with left, center and right items
-  // sliding window
-  // eg. currentItems: {left, center, right}, nextItems: {...}, prevItems: {...}
 }
 export default ItemsMap;
