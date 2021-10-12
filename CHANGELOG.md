@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.4.1...v2.4.2) (2021-10-12)
+
+
+### Bug Fixes
+
+* fixed situation when items added at start, need to handle when items removed ([83a484e](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/83a484e76ead6ca2ef231b48ed62298bd11cc3ed)), closes [#164](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/164)
+
 ### [2.4.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.4.0...v2.4.1) (2021-10-08)
 
 ## [2.4.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.3.3...v2.4.0) (2021-10-06)
