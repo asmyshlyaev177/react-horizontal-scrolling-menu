@@ -45,6 +45,8 @@
     "commit": "cz",
     "release": "standard-version",
     "publish": "yarn build && git push --follow-tags origin main && npm publish",
+    "setup-yarn": "yarn cache clean && yarn set version berry && sleep 5 && yarn plugin import typescript",
+    "setup-husky": "husky install",
     "cz-install": "commitizen init cz-conventional-changelog --dev --exact --yarn",
     "cz-husky-init": "husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
     "deploy-gp": "babel-node deploy-gp.js"
@@ -138,8 +140,8 @@
     "webpack-merge": "^5.8.0"
   },
   "peerDependencies": {
-    "react": "^15.x || ^16.x || ^17.x",
-    "react-dom": "^15.x || ^16.x || ^17.x"
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
   },
   "husky": {
     "hooks": {
