@@ -13,5 +13,8 @@ export interface Refs {
 }
 
 export type ItemType = React.ReactElement<{
+  /**
+    Required. id for every item, should be unique
+   */
   itemId: string;
 }>;
