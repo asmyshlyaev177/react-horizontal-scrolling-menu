@@ -29,6 +29,8 @@
 
 [apiRef - controling component outside](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-apiref-vdr0d?file=/src/index.tsx)
 
+[Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
+
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
@@ -227,7 +229,9 @@ Check out [examples](#examples)
 
 ### apiRef
 Can pass Ref object to Menu, current value will assigned as VisibilityContext. But `visibleItems` and some other values can be staled, so better use it only for firing functions like `scrollToItem`.
-See [`apiRef` example](#examples)
+  
+Can get item outside of context directly via ```document.querySelector(`[data-key='${itemId}']`)```.
+See [`apiRef` example and `Add item and scroll to it`](#examples)
   
 ## Browser support
 * Browser must support **IntersectionObserver API**, [**Element.scrollIntoView for Safari**](https://github.com/magic-akari/seamless-scroll-polyfill)  and **requestAnimationFrame** or use polyfills.
