@@ -7,9 +7,9 @@ import type { ItemType } from '../types';
 const getItemsIdFromChildren = (
   children: ItemType | ItemType[] | undefined
 ): string[] =>
-  React.Children.toArray(children).map(
-    (c) => (c as JSX.Element)?.props?.[itemId]
-  );
+  React.Children.toArray(children)
+    .map((c) => (c as JSX.Element)?.props?.[itemId])
+    .filter(Boolean);
 
 function useItemsChanged(
   menuItems: ItemType | ItemType[] | undefined,
