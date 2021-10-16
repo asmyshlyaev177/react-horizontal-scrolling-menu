@@ -2,6 +2,8 @@ import React from 'react';
 import {
   filterSeparators,
   getElementOrConstructor,
+  getItemElementById,
+  getItemElementByIndex,
   getNodesFromRefs,
   observerEntriesToItems,
   scrollToItem,
@@ -135,6 +137,60 @@ describe('scrollToItem', () => {
       block: 'end',
       inline: 'center',
     });
+  });
+});
+
+describe('getItemElementById', () => {
+  test('should return element node when exists', () => {
+    const id = 'test123';
+    document.body.innerHTML = `
+    <div data-key=${id}>${id}</div>
+    <div>other node</div>
+    <div data-key=123 />other2</div>`;
+
+    const result = getItemElementById(id);
+
+    expect(result instanceof HTMLDivElement).toBeTruthy();
+    expect(result?.textContent).toEqual(id);
+  });
+
+  test('should return null when element does not exists', () => {
+    const id = 'test123';
+    document.body.innerHTML = `
+    <div data-key=${id}>${id}</div>
+    <div>other node</div>
+    <div data-key=123 />other2</div>`;
+
+    expect(getItemElementById('test456')).toEqual(null);
+    expect(getItemElementById(456)).toEqual(null);
+    expect(getItemElementById('')).toEqual(null);
+  });
+});
+
+describe('getItemElementByIndex', () => {
+  test('should return element node when exists', () => {
+    const index = '123';
+    document.body.innerHTML = `
+    <div data-index=${index}>${index}</div>
+    <div>other node</div>
+    <div data-key=123 />other2</div>`;
+
+    const result = getItemElementByIndex(index);
+
+    expect(result instanceof HTMLDivElement).toBeTruthy();
+    expect(result?.textContent).toEqual(index);
+  });
+
+  test('should return null when element does not exists', () => {
+    const index = '123';
+    document.body.innerHTML = `
+    <div data-index=${index}>${index}</div>
+    <div>other node</div>
+    <div data-key=123 />other2</div>`;
+
+    expect(getItemElementByIndex('456')).toEqual(null);
+    expect(getItemElementByIndex(456)).toEqual(null);
+    expect(getItemElementByIndex('')).toEqual(null);
   });
 });
 

@@ -188,7 +188,9 @@ wrapperClassname | ClassName of the outer-most div
 Prop | Signature
 -----|----------
 getItemById | itemId => IOItem \| undefined
+getItemElementById | itemId => DOM Element \| null
 getItemByIndex | index => IOItem \| undefined
+getItemElementByIndex | index => DOM Element \| null
 getNextItem | () => IOItem \| undefined)
 getPrevItem | () => IOItem \| undefined
 initComplete | boolean
@@ -229,8 +231,10 @@ Check out [examples](#examples)
 
 ### apiRef
 Can pass Ref object to Menu, current value will assigned as VisibilityContext. But `visibleItems` and some other values can be staled, so better use it only for firing functions like `scrollToItem`.
+
+For scrolling use `apiRef.scrollToItem(apiRef.getItemElementById)` instead of `apiRef.scrollToItem(apiRef.getItemById)`.
   
-Can get item outside of context directly via ```document.querySelector(`[data-key='${itemId}']`)```.
+Can get item outside of context via `apiRef.getItemElementById(id)` or directly via ```document.querySelector(`[data-key='${itemId}']`)```.
 See [`apiRef` example and `Add item and scroll to it`](#examples)
   
 ## Browser support

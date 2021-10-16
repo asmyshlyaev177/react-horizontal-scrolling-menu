@@ -8,3 +8,6 @@ export const scrollContainerClassName = `${rootClassName}--scroll-container`;
 export const wrapperClassName = `${rootClassName}--wrapper`;
 
 export const id = 'itemId';
+
+export const dataKeyAttribute = 'data-key';
+export const dataIndexAttribute = 'data-index';
