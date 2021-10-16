@@ -1,4 +1,9 @@
-import { filterSeparators, scrollToItem } from './helpers';
+import {
+  filterSeparators,
+  scrollToItem,
+  getItemElementById,
+  getItemElementByIndex,
+} from './helpers';
 import ItemsMap from './ItemsMap';
 
 import type { visibleItems } from './types';
@@ -15,7 +20,7 @@ export default function createApi(
   const getItemById = (id: string) =>
     items.find((value) => value[1].key === String(id))?.[1];
 
-  const getItemByIndex = (index: number) =>
+  const getItemByIndex = (index: number | string) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
   const isItemVisible = (id: string) => visibleItems.includes(id);
@@ -41,7 +46,9 @@ export default function createApi(
 
   return {
     getItemById,
+    getItemElementById,
     getItemByIndex,
+    getItemElementByIndex,
     getNextItem,
     getPrevItem,
     isFirstItemVisible,

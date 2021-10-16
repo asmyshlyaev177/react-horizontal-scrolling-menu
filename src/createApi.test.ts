@@ -2,7 +2,12 @@ import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
 import { observerOptions } from './settings';
-import { IOItem } from './types';
+
+import {
+  getItemElementById,
+  getItemElementByIndex,
+  scrollToItem,
+} from './helpers';
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
@@ -62,6 +67,30 @@ describe('createApi', () => {
 
     expect(createApi(items, []).visibleItemsWithoutSeparators).toEqual([]);
     expect(createApi(items, []).visibleItemsWithoutSeparators).toEqual([]);
+  });
+
+  describe('helpers', () => {
+    test('scrollToItem', () => {
+      const { items, visibleItems } = setup([0.7, 0, 0]);
+
+      expect(createApi(items, visibleItems).scrollToItem).toEqual(scrollToItem);
+    });
+
+    test('getItemElementById', () => {
+      const { items, visibleItems } = setup([0.7, 0, 0]);
+
+      expect(createApi(items, visibleItems).getItemElementById).toEqual(
+        getItemElementById
+      );
+    });
+
+    test('getItemElementByIndex', () => {
+      const { items, visibleItems } = setup([0.7, 0, 0]);
+
+      expect(createApi(items, visibleItems).getItemElementByIndex).toEqual(
+        getItemElementByIndex
+      );
+    });
   });
 
   describe('isFirstItemVisible', () => {
@@ -195,51 +224,6 @@ describe('createApi', () => {
       const { items, visibleItems } = setup([1, 0.1, 0.3]);
 
       expect(createApi(items, visibleItems).isLastItem('test1')).toEqual(false);
-    });
-  });
-
-  describe('scrollToItem', () => {
-    test('item exists', async () => {
-      const { items, visibleItems } = setup([1, 1, 0.3]);
-
-      const item = {
-        entry: { target: document.createElement('div') },
-      } as unknown as IOItem;
-      const scrollIntoView = jest.fn();
-      item.entry.target.scrollIntoView = scrollIntoView;
-
-      createApi(items, visibleItems).scrollToItem(item);
-
-      await new Promise((res) => setTimeout(res, 500));
-      expect(scrollIntoView).toHaveBeenCalledTimes(1);
-      expect(scrollIntoView).toHaveBeenNthCalledWith(1, {
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'end',
-      });
-
-      createApi(items, visibleItems).scrollToItem(
-        item,
-        'auto',
-        'start',
-        'start'
-      );
-
-      await new Promise((res) => setTimeout(res, 500));
-      expect(scrollIntoView).toHaveBeenCalledTimes(2);
-      expect(scrollIntoView).toHaveBeenNthCalledWith(2, {
-        behavior: 'auto',
-        block: 'start',
-        inline: 'start',
-      });
-    });
-
-    test('item not exists', () => {
-      const { items, visibleItems } = setup([1, 1, 0.3]);
-
-      expect(() =>
-        createApi(items, visibleItems).scrollToItem(undefined)
-      ).not.toThrow();
     });
   });
 

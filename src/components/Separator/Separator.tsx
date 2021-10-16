@@ -2,6 +2,8 @@ import React from 'react';
 
 import type { Refs } from '../../types';
 
+import { dataKeyAttribute, dataIndexAttribute } from '../../constants';
+
 export type Props = {
   id: string;
   index: number;
@@ -14,7 +16,11 @@ function Separator({ className, id, index, refs }: Props) {
   refs[index] = ref;
 
   return (
-    <div className={className} data-key={id} data-index={index} ref={ref} />
+    <div
+      className={className}
+      {...{ [dataKeyAttribute]: id, [dataIndexAttribute]: index }}
+      ref={ref}
+    />
   );
 }
 

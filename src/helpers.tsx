@@ -7,6 +7,7 @@ import type {
 } from './types';
 import { separatorString } from './constants';
 import { observerOptions } from './settings';
+import { dataKeyAttribute, dataIndexAttribute } from './constants';
 
 export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {
   const result = Object.values(refs)
@@ -56,6 +57,12 @@ export function scrollToItem(
       );
   }
 }
+
+export const getItemElementById = (id: string | number) =>
+  document.querySelector(`[${dataKeyAttribute}='${id}']`);
+
+export const getItemElementByIndex = (id: string | number) =>
+  document.querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(
   Elem: React.FC | React.ReactNode
