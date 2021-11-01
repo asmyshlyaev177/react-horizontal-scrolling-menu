@@ -187,7 +187,7 @@ onMouseMove | (VisibilityContext) => (React.MouseEventHandler) => void
 itemClassName | ClassName of Item
 separatorClassName | ClassName of Item's separator
 scrollContainerClassName | ClassName of scrollContainer
-wrapperClassname | ClassName of the outer-most div
+wrapperClassName | ClassName of the outer-most div
 
 ### VisibilityContext
 
