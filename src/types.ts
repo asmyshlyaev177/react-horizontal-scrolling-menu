@@ -6,7 +6,10 @@ export interface IOItem {
   entry: IntersectionObserverEntry;
   visible: boolean;
 }
-export type Item = [itemId: string, observerEntry: IOItem];
+
+// export type Item = [itemId: string, observerEntry: IOItem];
+// TODO: for support TS < 4
+export type Item = [string, IOItem];
 
 export interface Refs {
   [key: string]: React.MutableRefObject<HTMLElement | null>;
