@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { id as itemId } from '../constants';
+import { id as itemId, separatorString } from '../constants';
 import ItemsMap from '../ItemsMap';
 import type { ItemType } from '../types';
 
@@ -23,16 +23,21 @@ function useItemsChanged(
   );
 
   React.useEffect(() => {
-    setHash(domNodes.filter(Boolean).join(''));
-  }, [domNodes]);
+    const hash = domNodes.filter(Boolean).join('');
 
-  React.useEffect(() => {
     const allItems = items.toItemsWithoutSeparators();
     const removed = allItems.filter((item) => !domNodes.includes(item));
+    removed.forEach((item) => {
+      const isLast = items.last()?.key === item;
+      const lastSeparator = (isLast && items.prev(item)?.key) || '';
 
-    removed.forEach((item) => items.delete(item));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hash]);
+      items.delete(lastSeparator);
+      items.delete(`${item}${separatorString}`);
+      items.delete(item);
+    });
+
+    setHash(hash);
+  }, [domNodes, items]);
 
   return hash;
 }

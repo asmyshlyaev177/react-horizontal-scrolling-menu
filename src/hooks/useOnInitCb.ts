@@ -2,13 +2,10 @@ import React from 'react';
 
 interface Props {
   cb: () => void;
-  condition?: Boolean;
+  condition?: boolean;
 }
 
-function useOnInitCb({ cb, condition: _condition }: Props): Boolean {
-  let condition = _condition;
-  condition ??= true;
-
+function useOnInitCb({ cb, condition }: Props): boolean {
   const [cbFired, setCbFired] = React.useState(false);
 
   React.useEffect(() => {

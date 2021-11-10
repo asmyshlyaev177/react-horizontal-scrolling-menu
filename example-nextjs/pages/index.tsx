@@ -48,7 +48,7 @@ const onWheel = (
 };
 
 function App() {
-  const [items] = React.useState(getItems);
+  const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
 
@@ -93,7 +93,7 @@ function App() {
       scrollToItem,
     }: scrollVisibilityApiType) => {
       // NOTE: scroll to item, auto/smooth for animation
-      // scrollToItem(getItemById('test15'), 'auto');
+      // scrollToItem(getItemById('test7'), 'auto');
       // NOTE: or restore exact position by pixels
       // scrollContainer.current.scrollLeft = position;
     },
@@ -102,16 +102,18 @@ function App() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const savePosition = React.useCallback(
-    throttle(
-      ({ scrollContainer }: scrollVisibilityApiType) =>
-        !!scrollContainer.current &&
-        setPosition(scrollContainer.current.scrollLeft),
-      500
-    ),
+    throttle(({ scrollContainer }: scrollVisibilityApiType) => {
+      !!scrollContainer.current &&
+        setPosition(scrollContainer.current.scrollLeft);
+    }, 500),
     []
   );
 
   const { hideScroll, showScroll } = useHideBodyScroll();
+
+  const handleRemoveLast = React.useCallback(() => {
+    setItems((prev) => prev.slice(0, prev.length - 1));
+  }, []);
 
   return (
     <div>
@@ -138,6 +140,7 @@ function App() {
                 />
               ))}
             </ScrollMenu>
+            <button onClick={handleRemoveLast}>Remove last</button>
           </div>
         </div>
       </div>

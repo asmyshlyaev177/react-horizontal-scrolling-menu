@@ -66,7 +66,13 @@ describe('useItemsChanged', () => {
 
   describe('when child removed', () => {
     test('should remove child from ItemsMap', () => {
-      const childrenKeys = ['child1', 'chidl2', 'child3'];
+      const childrenKeys = [
+        'child1',
+        'child1-separator',
+        'chidl2',
+        'child2-separator',
+        'child3',
+      ];
       const itemsMap = new ItemsMap();
 
       const children = getChildren(childrenKeys);
@@ -79,9 +85,9 @@ describe('useItemsChanged', () => {
       expect(hash).toEqual(childrenKeys.join(''));
 
       childrenKeys.forEach((key) => {
-        itemsMap.set(key, {} as IOItem);
+        itemsMap.set(key, { key } as IOItem);
       });
-      expect(itemsMap.toItemsWithoutSeparators()).toEqual(childrenKeys);
+      expect(itemsMap.toItems()).toEqual(childrenKeys);
 
       const removeFirst = (arr: any[]) => arr.slice(1);
 
@@ -91,12 +97,56 @@ describe('useItemsChanged', () => {
         <TestComponent menuItems={newChildren} items={itemsMap} />
       );
 
-      expect(itemsMap.toItemsWithoutSeparators()).toEqual(
-        removeFirst(childrenKeys)
-      );
+      expect(itemsMap.toItems()).toEqual([
+        'chidl2',
+        'child2-separator',
+        'child3',
+      ]);
 
       const newHash = JSON.parse(utils.getByTestId('hash').textContent!);
       expect(newHash).toEqual(removeFirst(childrenKeys).join(''));
+    });
+
+    test('should remove last item with prev separator', () => {
+      const childrenKeys = [
+        'child1',
+        'child1-separator',
+        'chidl2',
+        'child2-separator',
+        'child3',
+      ];
+      const itemsMap = new ItemsMap();
+
+      const children = getChildren(childrenKeys);
+
+      const utils = render(
+        <TestComponent menuItems={children} items={itemsMap} />
+      );
+
+      const hash = JSON.parse(utils.getByTestId('hash').textContent!);
+      expect(hash).toEqual(childrenKeys.join(''));
+
+      childrenKeys.forEach((key) => {
+        itemsMap.set(key, { key } as IOItem);
+      });
+      expect(itemsMap.toItems()).toEqual(childrenKeys);
+
+      const removeLast = (arr: any[]) => arr.slice(0, -1);
+
+      const newChildren = removeLast(children);
+
+      utils.rerender(
+        <TestComponent menuItems={newChildren} items={itemsMap} />
+      );
+
+      expect(itemsMap.toItems()).toEqual([
+        'child1',
+        'child1-separator',
+        'chidl2',
+      ]);
+
+      const newHash = JSON.parse(utils.getByTestId('hash').textContent!);
+      expect(newHash).toEqual(removeLast(childrenKeys).join(''));
     });
   });
 });

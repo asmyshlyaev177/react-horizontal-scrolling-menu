@@ -142,46 +142,50 @@ function ScrollMenu({
     options: observerOptions,
     refs: menuItemsRefs,
   });
-
-  const publicApi = React.useRef<publicApiType>({} as publicApiType);
-
   const mounted = !!visibleItems.length;
-
-  const onInitCbFired = useOnInitCb({
-    cb: () => onInit(publicApi.current),
-    condition: mounted,
-  });
-
-  useOnUpdate({
-    cb: () => onUpdate(publicApi.current),
-    condition: onInitCbFired,
-    visibleItems,
-  });
 
   const api = React.useMemo(
     () => createApi(items, visibleItems),
-    [items, visibleItems]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [items, visibleItems, itemsChanged]
   );
-  publicApi.current = React.useMemo(
+
+  const getContext = React.useCallback(
     () => ({
       ...api,
       initComplete: mounted,
       items,
+      visibleItems,
       scrollContainer: scrollContainerRef,
     }),
-    [api, mounted, items]
+    [api, mounted, items, visibleItems, scrollContainerRef]
   );
 
-  apiRef.current = publicApi.current;
+  const [context, setContext] = React.useState<publicApiType>(getContext);
+
+  const onInitCbFired = useOnInitCb({
+    cb: () => onInit(context),
+    condition: mounted,
+  });
+
+  useOnUpdate({
+    cb: () => onUpdate(context),
+    condition: onInitCbFired,
+    visibleItems,
+  });
+
+  React.useEffect(() => setContext(getContext()), [getContext]);
+
+  apiRef.current = context;
 
   const scrollHandler = React.useCallback(
-    (event: React.UIEvent) => onScroll(publicApi.current, event),
-    [onScroll, publicApi]
+    (event: React.UIEvent) => onScroll(context, event),
+    [onScroll, context]
   );
 
   const onWheelHandler = React.useCallback(
-    (event: React.WheelEvent) => onWheel(publicApi.current, event),
-    [onWheel, publicApi]
+    (event: React.WheelEvent) => onWheel(context, event),
+    [onWheel, context]
   );
 
   const wrapperClass: string = React.useMemo(
@@ -194,11 +198,11 @@ function ScrollMenu({
     <div
       className={wrapperClass}
       onWheel={onWheelHandler}
-      onMouseDown={onMouseDown?.(publicApi.current)}
-      onMouseUp={onMouseUp?.(publicApi.current)}
-      onMouseMove={onMouseMove?.(publicApi.current)}
+      onMouseDown={onMouseDown?.(context)}
+      onMouseUp={onMouseUp?.(context)}
+      onMouseMove={onMouseMove?.(context)}
     >
-      <VisibilityContext.Provider value={publicApi.current}>
+      <VisibilityContext.Provider value={context}>
         {LeftArrow}
         <ScrollContainer
           className={scrollContainerClassName}
