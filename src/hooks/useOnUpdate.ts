@@ -1,12 +1,10 @@
 import React from 'react';
 
-import usePrevious from './usePrevious';
-
 import { visibleItems as visibleItemsType } from '../types';
 
 interface Props {
   cb: () => void;
-  condition: Boolean;
+  condition: boolean;
   visibleItems: visibleItemsType;
 }
 
@@ -16,14 +14,13 @@ function useOnUpdate({
   visibleItems,
 }: Props): void {
   const currentItemsHash = condition ? JSON.stringify(visibleItems) : '';
-  const prevItemsHash = usePrevious(currentItemsHash);
 
   React.useEffect(() => {
-    if (condition && prevItemsHash !== currentItemsHash) {
+    if (condition && currentItemsHash) {
       cb();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [condition, prevItemsHash, currentItemsHash]);
+  }, [condition, currentItemsHash]);
 }
 
 export default useOnUpdate;

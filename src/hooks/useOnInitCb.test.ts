@@ -4,7 +4,9 @@ import useOnInitCb from './useOnInitCb';
 describe('useOnInitCb', () => {
   test('should fire cb only 1 time', () => {
     const cb = jest.fn();
-    const { result, rerender } = renderHook(() => useOnInitCb({ cb }));
+    const { result, rerender } = renderHook(() =>
+      useOnInitCb({ cb, condition: true })
+    );
 
     expect(cb).toHaveBeenCalledTimes(1);
     expect(result.all).toEqual([false, true]);
