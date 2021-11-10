@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.5.1...v2.5.2) (2021-11-10)
+
+
+### Bug Fixes
+
+* remove separators too when remove items ([079f2c5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/079f2c58839a2275d23f20969d03aaa678ae21e9)), closes [#171](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/171)
+
 ### [2.5.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.5.0...v2.5.1) (2021-11-03)
 
 
