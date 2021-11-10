@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3003",
     "build": "next build",
     "export": "next build && next export -o dist",
     "start": "next start"
