@@ -3,7 +3,7 @@ import React from 'react';
 import throttle from 'lodash/throttle';
 
 // NOTE: prevent scrolling on main page
-import useHideBodyScroll from '../helpers/useHideBodyScroll';
+import usePreventBodyScroll from '../helpers/usePreventBodyScroll';
 
 // NOTE drag with mouse
 import useDrag from '../helpers/useDrag';
@@ -107,7 +107,7 @@ function App() {
     []
   );
 
-  const { hideScroll, showScroll } = useHideBodyScroll();
+  const { disableScroll, enableScroll } = usePreventBodyScroll();
 
   const handleRemoveLast = React.useCallback(() => {
     setItems((prev) => prev.slice(0, prev.length - 1));
@@ -116,7 +116,7 @@ function App() {
   return (
     <div>
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
-        <div onMouseEnter={hideScroll} onMouseLeave={showScroll}>
+        <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <div onMouseLeave={dragStop}>
             <ScrollMenu
               LeftArrow={LeftArrow}
