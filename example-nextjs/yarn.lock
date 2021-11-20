@@ -1160,7 +1160,6 @@ __metadata:
     react: 17.0.2
     react-dom: 17.0.2
     react-horizontal-scrolling-menu: "link:../."
-    seamless-scroll-polyfill: ^1.2.4
     typescript: ^4.3.5
   languageName: unknown
   linkType: soft
@@ -2778,13 +2777,6 @@ fsevents@~2.3.1:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: 2ba121e53e8a438394598612ec9a8f465b39157042f912d2dd5956af643e0d45ec6937ae4eeb0a807d1945b209515263aed12fc3bca95c7a027ec2a54e76b399
-  languageName: node
-  linkType: hard
-
-"seamless-scroll-polyfill@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "seamless-scroll-polyfill@npm:1.2.4"
-  checksum: 22e58530933939026c4f88b725a4c55b13ff39161d2d2c011c027c7ac7d0b3a1de6c01d58d17da207c887061b73a68cd6eea876424c564eea276d9975d5accd2
   languageName: node
   linkType: hard
 

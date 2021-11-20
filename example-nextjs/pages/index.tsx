@@ -1,5 +1,3 @@
-import '../helpers/safari-polyfill';
-
 import React from 'react';
 
 import throttle from 'lodash/throttle';
