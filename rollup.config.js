@@ -13,11 +13,7 @@ const watch = process.env.ROLLUP_WATCH;
 const sourcemap = watch;
 const clearScreen = { watch: { clearScreen: false } };
 
-// TODO: typescript doesn't work with react-error-overlay
-// https://github.com/facebook/create-react-app/issues/7082
-
 const external = [
-  ...Object.keys(pkg.dependencies || {}),
   ...Object.keys(pkg.peerDependencies || {}),
   (id) => /^react$|^react-dom$|^@babel\/runtime/.test(id),
 ];
