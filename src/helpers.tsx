@@ -1,9 +1,13 @@
 import React from 'react';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import type {
   Refs,
   Item,
   IOItem,
+  ItemOrElement,
   visibleItems as visibleItemsType,
+  scrollToItemOptions,
+  CustomScrollBehavior,
 } from './types';
 import { separatorString } from './constants';
 import { observerOptions } from './settings';
@@ -37,26 +41,31 @@ export function observerEntriesToItems(
     ];
   });
 }
-export function scrollToItem(
-  // TODO: remove Element
-  _item?: IOItem | Element,
-  behavior: ScrollBehavior = 'smooth',
-  inline: ScrollLogicalPosition = 'end',
-  block: ScrollLogicalPosition = 'nearest'
-) {
-  const item = (_item as IOItem)?.entry?.target || _item;
 
-  if (item) {
-    window &&
-      window.requestAnimationFrame(() =>
-        item!.scrollIntoView({
-          block,
-          behavior,
-          inline,
-        })
-      );
-  }
+function scrollToItem<T>(
+  item: ItemOrElement,
+  behavior?: ScrollBehavior | CustomScrollBehavior<T>,
+  inline?: ScrollLogicalPosition,
+  block?: ScrollLogicalPosition,
+  rest?: scrollToItemOptions
+): T | Promise<T> | void {
+  const _item = (item as IOItem)?.entry?.target || item;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const _behavior: any = behavior || 'smooth';
+
+  return (
+    _item &&
+    scrollIntoView(_item, {
+      behavior: _behavior,
+      inline: inline || 'end',
+      block: block || 'nearest',
+      duration: 500,
+      ...rest,
+    })
+  );
 }
+
+export { scrollToItem };
 
 export const getItemElementById = (id: string | number) =>
   document.querySelector(`[${dataKeyAttribute}='${id}']`);

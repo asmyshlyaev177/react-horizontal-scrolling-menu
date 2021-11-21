@@ -71,6 +71,9 @@
     "last 3 Safari major versions",
     "last 2 iOS major versions"
   ],
+  "dependencies": {
+    "smooth-scroll-into-view-if-needed": "^1.1.32"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/node": "^7.14.7",

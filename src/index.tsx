@@ -145,7 +145,7 @@ function ScrollMenu({
   const mounted = !!visibleItems.length;
 
   const api = React.useMemo(
-    () => createApi(items, visibleItems),
+    () => createApi(items, visibleItems, scrollContainerRef),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [items, visibleItems, itemsChanged]
   );
