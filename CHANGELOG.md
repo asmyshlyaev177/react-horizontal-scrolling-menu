@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.5.2...v2.6.0) (2021-11-21)
+
+
+### Features
+
+* use smooth-scroll-into-view-if-needed library as polyfill ([c1911ab](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/c1911abee4ac5d701c9b6ec94c0826f82471d1ab)), closes [#174](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/174)
+
 ### [2.5.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.5.1...v2.5.2) (2021-11-10)
 
 
