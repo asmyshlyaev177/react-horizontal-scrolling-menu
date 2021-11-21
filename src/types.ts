@@ -1,3 +1,6 @@
+import type { CustomEasing } from 'smooth-scroll-into-view-if-needed';
+import type { CustomScrollBehaviorCallback } from 'scroll-into-view-if-needed/typings/types';
+
 export type visibleItems = string[];
 
 export interface IOItem {
@@ -21,3 +24,15 @@ export type ItemType = React.ReactElement<{
    */
   itemId: string;
 }>;
+
+export type CustomScrollBehavior<T> =
+  | ScrollBehavior
+  | CustomScrollBehaviorCallback<T>;
+
+export interface scrollToItemOptions {
+  boundary?: HTMLElement | null;
+  duration?: number;
+  ease?: CustomEasing;
+}
+
+export type ItemOrElement = IOItem | Element | undefined;

@@ -10,6 +10,9 @@ import {
 } from './helpers';
 import { observerOptions } from './settings';
 import { IOItem } from './types';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
+jest.mock('smooth-scroll-into-view-if-needed');
 
 describe('getNodesFromRefs', () => {
   test('should return empty array if refs are null', () => {
@@ -97,46 +100,56 @@ describe('observerEntriesToItems', () => {
 });
 
 describe('scrollToItem', () => {
-  test('should scroll to item with default options', () => {
-    const scrollIntoViewMock = jest.fn();
-    const requestAnimationFrameMock = jest.fn((fn) => fn?.());
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-    window.requestAnimationFrame = requestAnimationFrameMock;
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
 
+  test('should scroll to item with default options', () => {
     const item = {
       entry: { target: document.createElement('div') },
     } as unknown as IOItem;
 
-    scrollToItem(item);
-
-    expect(requestAnimationFrameMock).toHaveBeenCalledTimes(1);
-    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
-    expect(scrollIntoViewMock).toHaveBeenNthCalledWith(1, {
+    const options = {
       behavior: 'smooth',
       block: 'nearest',
       inline: 'end',
-    });
+    };
+
+    scrollToItem(item);
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(scrollIntoView).toHaveBeenNthCalledWith(
+      1,
+      item.entry.target,
+      options
+    );
   });
 
-  test('should scroll to item with custom options', async () => {
-    const scrollIntoViewMock = jest.fn();
-    const requestAnimationFrameMock = jest.fn((fn) => fn?.());
-    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
-    window.requestAnimationFrame = requestAnimationFrameMock;
-
+  test('should scroll to item with custom options', () => {
     const item = {
       entry: { target: document.createElement('div') },
     } as unknown as IOItem;
 
-    scrollToItem(item, 'auto', 'center', 'end');
+    const options = {
+      duration: 1000,
+      ease: (t: number) => t / 2,
+      boundary: document.createElement('div'),
+    };
+    scrollToItem(item, 'auto', 'end', 'center', options);
 
-    expect(requestAnimationFrameMock).toHaveBeenCalledTimes(1);
-    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
-    expect(scrollIntoViewMock).toHaveBeenNthCalledWith(1, {
+    expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(scrollIntoView).toHaveBeenNthCalledWith(1, item.entry.target, {
+      ...options,
       behavior: 'auto',
-      block: 'end',
-      inline: 'center',
+      inline: 'end',
+      block: 'center',
     });
+  });
+
+  test('should not scroll if target not provided', () => {
+    scrollToItem(undefined);
+
+    expect(scrollIntoView).not.toHaveBeenCalled();
   });
 });
 

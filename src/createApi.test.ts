@@ -2,12 +2,11 @@ import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
 import { observerOptions } from './settings';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-import {
-  getItemElementById,
-  getItemElementByIndex,
-  scrollToItem,
-} from './helpers';
+jest.mock('smooth-scroll-into-view-if-needed');
+
+import { getItemElementById, getItemElementByIndex } from './helpers';
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
@@ -73,7 +72,17 @@ describe('createApi', () => {
     test('scrollToItem', () => {
       const { items, visibleItems } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).scrollToItem).toEqual(scrollToItem);
+      const boundary = { current: document.createElement('div') };
+      createApi(items, visibleItems, boundary).scrollToItem(
+        document.createElement('div')
+      );
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
+        behavior: 'smooth',
+        inline: 'end',
+        block: 'nearest',
+        boundary: boundary.current,
+      });
     });
 
     test('getItemElementById', () => {
@@ -228,56 +237,56 @@ describe('createApi', () => {
   });
 
   describe('scrollPrev', () => {
-    test('have prev item', async () => {
+    test('have prev item', () => {
       const { items, nodes, visibleItems } = setup([0, 1, 1]);
 
-      createApi(items, visibleItems).scrollPrev();
+      const boundary = { current: document.createElement('div') };
+      createApi(items, visibleItems, boundary).scrollPrev();
 
-      await new Promise((res) => setTimeout(res, 500));
-      expect(nodes[0].entry.target.scrollIntoView).toHaveBeenCalledTimes(1);
-      expect(nodes[0].entry.target.scrollIntoView).toHaveBeenNthCalledWith(1, {
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
         behavior: 'smooth',
         block: 'nearest',
         inline: 'end',
+        duration: undefined,
+        ease: undefined,
+        boundary: boundary.current,
       });
     });
 
-    test('no prev item', async () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 1]);
+    test('no prev item', () => {
+      const { items, visibleItems } = setup([1, 1, 1]);
 
       createApi(items, visibleItems).scrollPrev();
 
-      await new Promise((res) => setTimeout(res, 500));
-      nodes.forEach((n) =>
-        expect(n.entry.target.scrollIntoView).not.toHaveBeenCalled()
-      );
+      expect(scrollIntoView).not.toHaveBeenCalled();
     });
   });
 
   describe('scrollNext', () => {
-    test('have next item', async () => {
+    test('have next item', () => {
       const { items, nodes, visibleItems } = setup([1, 1, 0]);
 
-      createApi(items, visibleItems).scrollNext();
+      const boundary = { current: document.createElement('div') };
+      createApi(items, visibleItems, boundary).scrollNext();
 
-      await new Promise((res) => setTimeout(res, 500));
-      expect(nodes[2].entry.target.scrollIntoView).toHaveBeenCalledTimes(1);
-      expect(nodes[2].entry.target.scrollIntoView).toHaveBeenNthCalledWith(1, {
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
         behavior: 'smooth',
         block: 'nearest',
         inline: 'start',
+        duration: undefined,
+        ease: undefined,
+        boundary: boundary.current,
       });
     });
 
-    test('no next item', async () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 1]);
+    test('no next item', () => {
+      const { items, visibleItems } = setup([1, 1, 1]);
 
       createApi(items, visibleItems).scrollNext();
 
-      await new Promise((res) => setTimeout(res, 500));
-      nodes.forEach((n) =>
-        expect(n.entry.target.scrollIntoView).not.toHaveBeenCalled()
-      );
+      expect(scrollIntoView).not.toHaveBeenCalled();
     });
   });
 });

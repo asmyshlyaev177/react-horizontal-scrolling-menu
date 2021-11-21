@@ -6,11 +6,17 @@ import {
 } from './helpers';
 import ItemsMap from './ItemsMap';
 
-import type { visibleItems } from './types';
+import type {
+  CustomScrollBehavior,
+  ItemOrElement,
+  scrollToItemOptions,
+  visibleItems,
+} from './types';
 
 export default function createApi(
   items: ItemsMap,
-  visibleItems: visibleItems = []
+  visibleItems: visibleItems = [],
+  boundaryElement?: React.MutableRefObject<HTMLElement | null>
 ) {
   const visibleItemsWithoutSeparators = filterSeparators(visibleItems);
 
@@ -32,17 +38,38 @@ export default function createApi(
 
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
-  const scrollPrev = (
-    behavior: ScrollBehavior = 'smooth',
+  const scrollPrev = <T>(
+    behavior: CustomScrollBehavior<T> = 'smooth',
     inline: ScrollLogicalPosition = 'end',
-    block: ScrollLogicalPosition = 'nearest'
-  ): void => scrollToItem(getPrevItem(), behavior, inline, block);
+    block: ScrollLogicalPosition = 'nearest',
+    {
+      duration,
+      ease,
+      boundary = boundaryElement?.current,
+    }: scrollToItemOptions = {}
+  ) =>
+    scrollToItem(getPrevItem(), behavior, inline, block, {
+      boundary,
+      duration,
+      ease,
+    });
 
-  const scrollNext = (
-    behavior: ScrollBehavior = 'smooth',
+  const scrollNext = <T>(
+    behavior: CustomScrollBehavior<T> = 'smooth',
     inline: ScrollLogicalPosition = 'start',
-    block: ScrollLogicalPosition = 'nearest'
-  ): void => scrollToItem(getNextItem(), behavior, inline, block);
+    block: ScrollLogicalPosition = 'nearest',
+    {
+      duration,
+      ease,
+      boundary = boundaryElement?.current,
+    }: scrollToItemOptions = {}
+  ) => {
+    return scrollToItem(getNextItem(), behavior, inline, block, {
+      boundary,
+      duration,
+      ease,
+    });
+  };
 
   return {
     getItemById,
@@ -57,7 +84,17 @@ export default function createApi(
     isLastItemVisible,
     scrollNext,
     scrollPrev,
-    scrollToItem,
+    scrollToItem: <T>(
+      target?: ItemOrElement,
+      behavior?: CustomScrollBehavior<T>,
+      inline?: ScrollLogicalPosition,
+      block?: ScrollLogicalPosition,
+      options?: scrollToItemOptions
+    ) =>
+      scrollToItem(target, behavior, inline, block, {
+        boundary: boundaryElement?.current,
+        ...options,
+      }),
     visibleItems,
     visibleItemsWithoutSeparators,
   };
