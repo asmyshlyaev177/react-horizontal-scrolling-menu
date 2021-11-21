@@ -82,6 +82,7 @@ describe('createApi', () => {
         inline: 'end',
         block: 'nearest',
         boundary: boundary.current,
+        duration: 500,
       });
     });
 
