@@ -171,7 +171,11 @@ function ScrollMenu({
   useOnUpdate({
     cb: () => onUpdate(context),
     condition: onInitCbFired,
-    visibleItems,
+    hash: JSON.stringify(
+      visibleItems
+        .concat(String(context?.isFirstItemVisible))
+        .concat(String(context?.isLastItemVisible))
+    ),
   });
 
   React.useEffect(() => setContext(getContext()), [getContext]);

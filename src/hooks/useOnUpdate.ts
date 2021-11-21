@@ -1,26 +1,18 @@
 import React from 'react';
 
-import { visibleItems as visibleItemsType } from '../types';
-
 interface Props {
-  cb: () => void;
+  cb: Function;
   condition: boolean;
-  visibleItems: visibleItemsType;
+  hash: string;
 }
 
-function useOnUpdate({
-  cb = () => void 0,
-  condition,
-  visibleItems,
-}: Props): void {
-  const currentItemsHash = condition ? JSON.stringify(visibleItems) : '';
-
+function useOnUpdate({ cb = () => void 0, condition, hash }: Props): void {
   React.useEffect(() => {
-    if (condition && currentItemsHash) {
+    if (condition) {
       cb();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [condition, currentItemsHash]);
+  }, [hash, condition]);
 }
 
 export default useOnUpdate;

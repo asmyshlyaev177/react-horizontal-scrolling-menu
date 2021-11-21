@@ -9,7 +9,7 @@ describe('useOnUpdate', () => {
     const condition = true;
 
     const { rerender } = renderHook(useOnUpdate, {
-      initialProps: { cb, condition, visibleItems },
+      initialProps: { cb, condition, hash: JSON.stringify(visibleItems) },
     });
 
     expect(cb).toHaveBeenCalledTimes(1);
@@ -17,7 +17,7 @@ describe('useOnUpdate', () => {
     rerender();
     expect(cb).toHaveBeenCalledTimes(1);
 
-    rerender({ cb, condition, visibleItems: visibleItems2 });
+    rerender({ cb, condition, hash: JSON.stringify(visibleItems2) });
     expect(cb).toHaveBeenCalledTimes(2);
 
     rerender();
@@ -31,7 +31,7 @@ describe('useOnUpdate', () => {
     const condition = false;
 
     const { rerender } = renderHook(useOnUpdate, {
-      initialProps: { cb, condition, visibleItems },
+      initialProps: { cb, condition, hash: JSON.stringify(visibleItems) },
     });
 
     expect(cb).toHaveBeenCalledTimes(0);
@@ -39,7 +39,7 @@ describe('useOnUpdate', () => {
     rerender();
     expect(cb).toHaveBeenCalledTimes(0);
 
-    rerender({ cb, condition, visibleItems: visibleItems2 });
+    rerender({ cb, condition, hash: JSON.stringify(visibleItems2) });
     expect(cb).toHaveBeenCalledTimes(0);
 
     rerender();
