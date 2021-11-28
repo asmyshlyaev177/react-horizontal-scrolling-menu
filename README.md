@@ -222,7 +222,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 ### Transition/Animation
 
 Can use `transitionDuration`, `transitionEase` and `transitionBehavior`
-See [example]{https://codesandbox.io/s/custom-transition-animation-n2pyn}
+See [example](https://codesandbox.io/s/custom-transition-animation-n2pyn)
 
 #### ScrollOptions for scrollToItem, scrollPrev, scrollNext
 
