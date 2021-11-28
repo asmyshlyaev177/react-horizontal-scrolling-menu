@@ -1,6 +1,8 @@
 import React from 'react';
 
 import throttle from 'lodash/throttle';
+import Styler from 'stylefire';
+import { animate } from 'popmotion/dist/popmotion';
 
 // NOTE: prevent scrolling on main page
 import usePreventBodyScroll from '../helpers/usePreventBodyScroll';
@@ -49,6 +51,9 @@ function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
+  const [duration, setDuration] = React.useState(500);
+  const [ease, setEase] = React.useState('noEasing');
+  const [customAnimation, setCustomAnimation] = React.useState(false);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
@@ -127,6 +132,9 @@ function App() {
               onMouseDown={() => dragStart}
               onMouseUp={() => dragStop}
               onMouseMove={handleDrag}
+              transitionDuration={duration}
+              transitionEase={easingFunctions[ease]}
+              transitionBehavior={customAnimation ? scrollBehavior : undefined}
             >
               {items.map(({ id }) => (
                 <Card
@@ -138,6 +146,37 @@ function App() {
                 />
               ))}
             </ScrollMenu>
+            <OptionsWrapper>
+              <OptionItem label="Duration">
+                <input
+                  value={duration}
+                  onChange={(ev) => setDuration(+ev.target.value)}
+                />
+              </OptionItem>
+              <OptionItem label="Ease">
+                <select
+                  name="ease"
+                  id="ease"
+                  value={ease}
+                  onChange={(ev) => setEase(ev.target.value)}
+                >
+                  {Object.entries(easingFunctions).map(([name, fn]) => (
+                    <option value={name} key={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </OptionItem>
+              <OptionItem label="Custom animation">
+                <input
+                  checked={customAnimation}
+                  onChange={(ev) => setCustomAnimation(ev.target.checked)}
+                  type="checkbox"
+                  style={{ width: '20px', height: '20px' }}
+                />
+              </OptionItem>
+            </OptionsWrapper>
+
             <button onClick={handleRemoveLast}>Remove last</button>
           </div>
         </div>
@@ -155,7 +194,7 @@ function LeftArrow() {
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev(isTest ? 'auto' : 'smooth')}
+      onClick={() => scrollPrev(isTest ? 'auto' : undefined)}
     >
       Left
     </Arrow>
@@ -169,7 +208,7 @@ function RightArrow() {
   return (
     <Arrow
       disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext(isTest ? 'auto' : 'smooth')}
+      onClick={() => scrollNext(isTest ? 'auto' : undefined)}
     >
       Right
     </Arrow>
@@ -266,6 +305,65 @@ const Wrapper = () => {
   }, []);
 
   return mounted ? <App /> : null;
+};
+
+export const OptionsWrapper = ({ children }) => (
+  <div style={{ marginTop: '10px', display: 'flex', columnGap: '10px' }}>
+    {children}
+  </div>
+);
+
+export const OptionItem = ({ children, label }) => (
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <label>{label}</label>
+    {children}
+  </div>
+);
+
+const scrollBehavior = (instructions) => {
+  const [{ el, left }] = instructions;
+  const styler = Styler(el);
+
+  animate({
+    from: el.scrollLeft,
+    to: left,
+    type: 'spring',
+    onUpdate: (left) => styler.set('scrollLeft', left),
+  });
+};
+
+const easingFunctions = {
+  noEasing: undefined,
+  // no easing, no acceleration
+  linear: (t) => t,
+  // accelerating from zero velocity
+  easeInQuad: (t) => t * t,
+  // decelerating to zero velocity
+  easeOutQuad: (t) => t * (2 - t),
+  // acceleration until halfway, then deceleration
+  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+  // accelerating from zero velocity
+  easeInCubic: (t) => t * t * t,
+  // decelerating to zero velocity
+  easeOutCubic: (t) => --t * t * t + 1,
+  // acceleration until halfway, then deceleration
+  easeInOutCubic: (t) =>
+    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+  // accelerating from zero velocity
+  easeInQuart: (t) => t * t * t * t,
+  // decelerating to zero velocity
+  easeOutQuart: (t) => 1 - --t * t * t * t,
+  // acceleration until halfway, then deceleration
+  easeInOutQuart: (t) =>
+    t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
+  // accelerating from zero velocity
+  easeInQuint: (t) => t * t * t * t * t,
+  // decelerating to zero velocity
+  easeOutQuint: (t) => 1 + --t * t * t * t * t,
+  // acceleration until halfway, then deceleration
+  easeInOutQuint: (t) =>
+    t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
+  // Source https://gist.github.com/gre/1650294#file-easing-js
 };
 
 export default Wrapper;
