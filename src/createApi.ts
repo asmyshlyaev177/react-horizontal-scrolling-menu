@@ -16,7 +16,12 @@ import type {
 export default function createApi(
   items: ItemsMap,
   visibleItems: visibleItems = [],
-  boundaryElement?: React.MutableRefObject<HTMLElement | null>
+  boundaryElement?: React.MutableRefObject<HTMLElement | null>,
+  transitionOptions?: {
+    duration?: number;
+    ease?: (t: number) => number;
+    behavior: string | Function;
+  }
 ) {
   const visibleItemsWithoutSeparators = filterSeparators(visibleItems);
 
@@ -39,36 +44,55 @@ export default function createApi(
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
   const scrollPrev = <T>(
-    behavior: CustomScrollBehavior<T> = 'smooth',
-    inline: ScrollLogicalPosition = 'end',
-    block: ScrollLogicalPosition = 'nearest',
-    {
-      duration,
-      ease,
-      boundary = boundaryElement?.current,
-    }: scrollToItemOptions = {}
-  ) =>
-    scrollToItem(getPrevItem(), behavior, inline, block, {
-      boundary,
-      duration,
-      ease,
-    });
-
-  const scrollNext = <T>(
-    behavior: CustomScrollBehavior<T> = 'smooth',
-    inline: ScrollLogicalPosition = 'start',
-    block: ScrollLogicalPosition = 'nearest',
+    behavior?: CustomScrollBehavior<T>,
+    inline?: ScrollLogicalPosition,
+    block?: ScrollLogicalPosition,
     {
       duration,
       ease,
       boundary = boundaryElement?.current,
     }: scrollToItemOptions = {}
   ) => {
-    return scrollToItem(getNextItem(), behavior, inline, block, {
-      boundary,
+    const _behavior = (behavior ??
+      transitionOptions?.behavior) as ScrollBehavior;
+
+    return scrollToItem(
+      getPrevItem(),
+      _behavior,
+      inline || 'end',
+      block || 'nearest',
+      {
+        boundary,
+        duration: duration ?? transitionOptions?.duration,
+        ease: ease ?? transitionOptions?.ease,
+      }
+    );
+  };
+
+  const scrollNext = <T>(
+    behavior?: CustomScrollBehavior<T>,
+    inline?: ScrollLogicalPosition,
+    block?: ScrollLogicalPosition,
+    {
       duration,
       ease,
-    });
+      boundary = boundaryElement?.current,
+    }: scrollToItemOptions = {}
+  ) => {
+    const _behavior = (behavior ??
+      transitionOptions?.behavior) as ScrollBehavior;
+
+    return scrollToItem(
+      getNextItem(),
+      _behavior,
+      inline || 'start',
+      block || 'nearest',
+      {
+        boundary,
+        duration: duration ?? transitionOptions?.duration,
+        ease: ease ?? transitionOptions?.ease,
+      }
+    );
   };
 
   return {
@@ -90,11 +114,16 @@ export default function createApi(
       inline?: ScrollLogicalPosition,
       block?: ScrollLogicalPosition,
       options?: scrollToItemOptions
-    ) =>
-      scrollToItem(target, behavior, inline, block, {
+    ) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const _behavior: any = behavior ?? transitionOptions?.behavior;
+      return scrollToItem(target, _behavior, inline, block, {
         boundary: boundaryElement?.current,
         ...options,
-      }),
+        duration: options?.duration ?? transitionOptions?.duration,
+        ease: options?.ease ?? transitionOptions?.ease,
+      });
+    },
     visibleItems,
     visibleItemsWithoutSeparators,
   };

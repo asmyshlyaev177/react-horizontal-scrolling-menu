@@ -46,6 +46,36 @@ export interface Props {
    */
   children: ItemType | ItemType[];
   /**
+    Duration of transition
+   */
+  transitionDuration?: number;
+  /**
+    Ease function for transition
+
+    Example -  t => t*(2-t)
+
+    Full list at https://gist.github.com/gre/1650294#file-easing-js
+   */
+  transitionEase?: (t: number) => number;
+  /**
+    Transition behavior can be 'smooth', 'auto' or custom function
+
+    Example:
+
+    (instructions) => {
+      const [{ el, left }] = instructions;
+      const styler = Styler(el);
+
+      animate({
+        from: el.scrollLeft,
+        to: left,
+        type: 'spring',
+        onUpdate: (left) => styler.set('scrollLeft', left),
+      });
+    }
+   */
+  transitionBehavior?: string | Function;
+  /**
    Callback that fire once on init
    */
   onInit?: (api: publicApiType) => void;
@@ -69,15 +99,15 @@ export interface Props {
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
   /**
-    For add custom className for item 
+    For add custom className for item
    */
   itemClassName?: string;
   /**
-    For add custom className for item separator 
+    For add custom className for item separator
    */
   separatorClassName?: string;
   /**
-    For add custom className for scroll container 
+    For add custom className for scroll container
    */
   scrollContainerClassName?: string;
   /**
@@ -94,13 +124,16 @@ export interface Props {
 
 /**
   See docs and examples at
-  
+
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
 function ScrollMenu({
   LeftArrow: _LeftArrow,
   RightArrow: _RightArrow,
   children,
+  transitionDuration = 500,
+  transitionEase,
+  transitionBehavior,
   onInit = (): void => void 0,
   onUpdate = (): void => void 0,
   onMouseDown,
@@ -145,7 +178,12 @@ function ScrollMenu({
   const mounted = !!visibleItems.length;
 
   const api = React.useMemo(
-    () => createApi(items, visibleItems, scrollContainerRef),
+    () =>
+      createApi(items, visibleItems, scrollContainerRef, {
+        duration: transitionDuration,
+        ease: transitionEase,
+        behavior: transitionBehavior!,
+      }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [items, visibleItems, itemsChanged]
   );

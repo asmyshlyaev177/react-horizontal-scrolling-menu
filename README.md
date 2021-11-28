@@ -40,6 +40,8 @@
 
 [Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
 
+[Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
+
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
 This is a horizontal scrolling menu component for React.
@@ -188,31 +190,56 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | itemClassName            | ClassName of Item                                        |
 | separatorClassName       | ClassName of Item's separator                            |
 | scrollContainerClassName | ClassName of scrollContainer                             |
+| transitionDuration       | Duration of transitions in ms, default 500               |
+| transitionBehavior       | 'smooth' \|'auto' \| customFunction                      |
+| transitionEase           | Ease function, eg t => t\*(2-t)                          |
 | wrapperClassName         | ClassName of the outer-most div                          |
 
 ### VisibilityContext
 
-| Prop                          | Signature                               |
-| ----------------------------- | --------------------------------------- |
-| getItemById                   | itemId => IOItem \| undefined           |
-| getItemElementById            | itemId => DOM Element \| null           |
-| getItemByIndex                | index => IOItem \| undefined            |
-| getItemElementByIndex         | index => DOM Element \| null            |
-| getNextItem                   | () => IOItem \| undefined)              |
-| getPrevItem                   | () => IOItem \| undefined               |
-| initComplete                  | boolean                                 |
-| isFirstItemVisible            | boolean                                 |
-| isItemVisible                 | itemId => boolean                       |
-| isLastItem                    | boolean                                 |
-| isLastItemVisible             | boolean                                 |
-| scrollNext                    | (behavior, inline, block) => void       |
-| scrollPrev                    | (behavior, inline, block) => void       |
-| scrollToItem                  | (item, behavior, inline, block) => void |
-| visibleItemsWithoutSeparators | ['item1', 'item2']                      |
-| initComplete                  | boolean                                 |
-| items                         | ItemsMap class instance                 |
-| scrollContainer               | Ref<OuterContainer>                     |
-| visibleItems                  | ['item1', 'item1-separator', 'item2']   |
+| Prop                          | Signature                                              |
+| ----------------------------- | ------------------------------------------------------ |
+| getItemById                   | itemId => IOItem \| undefined                          |
+| getItemElementById            | itemId => DOM Element \| null                          |
+| getItemByIndex                | index => IOItem \| undefined                           |
+| getItemElementByIndex         | index => DOM Element \| null                           |
+| getNextItem                   | () => IOItem \| undefined)                             |
+| getPrevItem                   | () => IOItem \| undefined                              |
+| initComplete                  | boolean                                                |
+| isFirstItemVisible            | boolean                                                |
+| isItemVisible                 | itemId => boolean                                      |
+| isLastItem                    | boolean                                                |
+| isLastItemVisible             | boolean                                                |
+| scrollNext                    | (behavior, inline, block, ScrollOptions) => void       |
+| scrollPrev                    | (behavior, inline, block, ScrollOptions) => void       |
+| scrollToItem                  | (item, behavior, inline, block, ScrollOptions) => void |
+| visibleItemsWithoutSeparators | ['item1', 'item2']                                     |
+| initComplete                  | boolean                                                |
+| items                         | ItemsMap class instance                                |
+| scrollContainer               | Ref<OuterContainer>                                    |
+| visibleItems                  | ['item1', 'item1-separator', 'item2']                  |
+
+### Transition/Animation
+
+Can use `transitionDuration`, `transitionEase` and `transitionBehavior`
+See [example]{https://codesandbox.io/s/custom-transition-animation-n2pyn}
+
+#### ScrollOptions for scrollToItem, scrollPrev, scrollNext
+
+Will override transition\* options passed to ScrollMenu
+
+```javascript
+{
+  // target,
+  behavior, // 'smooth', 'auto' or custom function
+    // inline,
+    // block,
+    {
+      duration: number, // number in milliseconds
+      ease: (t) => t, // ease function, more https://gist.github.com/gre/1650294#file-easing-js
+    };
+}
+```
 
 ### Other helpers
 

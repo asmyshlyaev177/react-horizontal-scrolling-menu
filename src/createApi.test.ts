@@ -1,3 +1,4 @@
+/* eslint-disable radar/no-duplicate-string */
 import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
@@ -69,20 +70,84 @@ describe('createApi', () => {
   });
 
   describe('helpers', () => {
-    test('scrollToItem', () => {
-      const { items, visibleItems } = setup([0.7, 0, 0]);
+    describe('scrollToItem', () => {
+      test('should call scrollIntoView', () => {
+        const { items, visibleItems } = setup([0.7, 0, 0]);
 
-      const boundary = { current: document.createElement('div') };
-      createApi(items, visibleItems, boundary).scrollToItem(
-        document.createElement('div')
-      );
-      expect(scrollIntoView).toHaveBeenCalledTimes(1);
-      expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
-        behavior: 'smooth',
-        inline: 'end',
-        block: 'nearest',
-        boundary: boundary.current,
-        duration: 500,
+        const boundary = { current: document.createElement('div') };
+        createApi(items, visibleItems, boundary).scrollToItem(
+          document.createElement('div')
+        );
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
+          behavior: 'smooth',
+          inline: 'end',
+          block: 'nearest',
+          boundary: boundary.current,
+          ease: undefined,
+          duration: undefined,
+        });
+      });
+
+      test('with transitionOptions', () => {
+        const { items, visibleItems } = setup([0.7, 0, 0]);
+
+        const boundary = { current: document.createElement('div') };
+        const transitionOptions = {
+          duration: 500,
+          ease: (t: number) => t,
+          behavior: () => false,
+        };
+
+        createApi(
+          items,
+          visibleItems,
+          boundary,
+          transitionOptions
+        ).scrollToItem(document.createElement('div'));
+
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
+          behavior: transitionOptions.behavior,
+          inline: 'end',
+          block: 'nearest',
+          boundary: boundary.current,
+          ease: transitionOptions.ease,
+          duration: transitionOptions.duration,
+        });
+      });
+
+      test('arguments should have priority over transitionOptions', () => {
+        const { items, visibleItems } = setup([0.7, 0, 0]);
+
+        const boundary = { current: document.createElement('div') };
+        const transitionOptions = {
+          duration: 500,
+          ease: (t: number) => t,
+          behavior: () => false,
+        };
+
+        createApi(
+          items,
+          visibleItems,
+          boundary,
+          transitionOptions
+        ).scrollToItem(
+          document.createElement('div'),
+          'auto',
+          'center',
+          'center'
+        );
+
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
+          behavior: 'auto',
+          inline: 'center',
+          block: 'center',
+          boundary: boundary.current,
+          ease: transitionOptions.ease,
+          duration: transitionOptions.duration,
+        });
       });
     });
 
@@ -262,6 +327,54 @@ describe('createApi', () => {
 
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
+
+    test('with transition options', () => {
+      const { items, nodes, visibleItems } = setup([0, 1, 1]);
+
+      const boundary = { current: document.createElement('div') };
+      const transitionOptions = {
+        duration: 500,
+        ease: (t: number) => t,
+        behavior: () => false,
+      };
+      createApi(items, visibleItems, boundary, transitionOptions).scrollPrev();
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
+        behavior: transitionOptions.behavior,
+        block: 'nearest',
+        inline: 'end',
+        duration: transitionOptions.duration,
+        ease: transitionOptions.ease,
+        boundary: boundary.current,
+      });
+    });
+
+    test('arguments should have priority over transitionOptions', () => {
+      const { items, nodes, visibleItems } = setup([0, 1, 1]);
+
+      const boundary = { current: document.createElement('div') };
+      const transitionOptions = {
+        duration: 500,
+        ease: (t: number) => t,
+        behavior: () => false,
+      };
+      createApi(items, visibleItems, boundary, transitionOptions).scrollPrev(
+        'auto',
+        'center',
+        'center'
+      );
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center',
+        duration: transitionOptions.duration,
+        ease: transitionOptions.ease,
+        boundary: boundary.current,
+      });
+    });
   });
 
   describe('scrollNext', () => {
@@ -288,6 +401,54 @@ describe('createApi', () => {
       createApi(items, visibleItems).scrollNext();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    test('with transition options', () => {
+      const { items, nodes, visibleItems } = setup([1, 1, 0]);
+
+      const boundary = { current: document.createElement('div') };
+      const transitionOptions = {
+        duration: 500,
+        ease: (t: number) => t,
+        behavior: () => false,
+      };
+      createApi(items, visibleItems, boundary, transitionOptions).scrollNext();
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
+        behavior: transitionOptions.behavior,
+        block: 'nearest',
+        inline: 'start',
+        duration: transitionOptions.duration,
+        ease: transitionOptions.ease,
+        boundary: boundary.current,
+      });
+    });
+
+    test('arguments should have priority over transitionOptions', () => {
+      const { items, nodes, visibleItems } = setup([1, 1, 0]);
+
+      const boundary = { current: document.createElement('div') };
+      const transitionOptions = {
+        duration: 500,
+        ease: (t: number) => t,
+        behavior: () => false,
+      };
+      createApi(items, visibleItems, boundary, transitionOptions).scrollNext(
+        'auto',
+        'center',
+        'center'
+      );
+
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center',
+        duration: transitionOptions.duration,
+        ease: transitionOptions.ease,
+        boundary: boundary.current,
+      });
     });
   });
 });
