@@ -180,7 +180,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | LeftArrow                | React component for left arrow                           |
 | RightArrow               | React component for right arrow                          |
 | onWheel                  | (VisibilityContext, event) => void                       |
-| onScroll                 | (VisibilityContext, event) => void                       |
+| onScroll                 | (VisibilityContext, event) => void, will fire *before* scroll                       |
 | onInit                   | (VisibilityContext) => void                              |
 | apiRef                   | React.RefObject                                          |
 | onUpdate                 | (VisibilityContext) => void                              |
