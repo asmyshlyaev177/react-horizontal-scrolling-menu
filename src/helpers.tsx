@@ -67,11 +67,15 @@ function scrollToItem<T>(
 
 export { scrollToItem };
 
-export const getItemElementById = (id: string | number) =>
-  document.querySelector(`[${dataKeyAttribute}='${id}']`);
+export const getItemElementById = (
+  id: string | number,
+  parent?: null | HTMLElement
+) => (parent || document).querySelector(`[${dataKeyAttribute}='${id}']`);
 
-export const getItemElementByIndex = (id: string | number) =>
-  document.querySelector(`[${dataIndexAttribute}='${id}']`);
+export const getItemElementByIndex = (
+  id: string | number,
+  parent?: null | HTMLElement
+) => (parent || document).querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(
   Elem: React.FC | React.ReactNode

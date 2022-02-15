@@ -9,6 +9,12 @@ jest.mock('smooth-scroll-into-view-if-needed');
 
 import { getItemElementById, getItemElementByIndex } from './helpers';
 
+jest.mock('./helpers', () => ({
+  ...jest.requireActual('./helpers'),
+  getItemElementById: jest.fn(),
+  getItemElementByIndex: jest.fn(),
+}));
+
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
 
@@ -154,17 +160,19 @@ describe('createApi', () => {
     test('getItemElementById', () => {
       const { items, visibleItems } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).getItemElementById).toEqual(
-        getItemElementById
-      );
+      createApi(items, visibleItems).getItemElementById('test');
+
+      expect(getItemElementById).toHaveBeenCalledTimes(1);
+      expect(getItemElementById).toHaveBeenCalledWith('test', undefined);
     });
 
     test('getItemElementByIndex', () => {
       const { items, visibleItems } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).getItemElementByIndex).toEqual(
-        getItemElementByIndex
-      );
+      createApi(items, visibleItems).getItemElementByIndex('test');
+
+      expect(getItemElementByIndex).toHaveBeenCalledTimes(1);
+      expect(getItemElementByIndex).toHaveBeenCalledWith('test', undefined);
     });
   });
 

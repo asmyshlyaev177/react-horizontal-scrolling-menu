@@ -98,6 +98,9 @@ export interface Props {
   onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
+  onTouchStart?: (arg0: publicApiType) => React.TouchEventHandler;
+  onTouchEnd?: (arg0: publicApiType) => React.TouchEventHandler;
+  onTouchMove?: (arg0: publicApiType) => React.TouchEventHandler;
   /**
     For add custom className for item
    */
@@ -139,6 +142,9 @@ function ScrollMenu({
   onMouseDown,
   onMouseUp,
   onMouseMove,
+  onTouchStart,
+  onTouchEnd,
+  onTouchMove,
   onScroll = (): void => void 0,
   onWheel = (): void => void 0,
   options = defaultObserverOptions,
@@ -243,6 +249,9 @@ function ScrollMenu({
       onMouseDown={onMouseDown?.(context)}
       onMouseUp={onMouseUp?.(context)}
       onMouseMove={onMouseMove?.(context)}
+      onTouchStart={onTouchStart?.(context)}
+      onTouchEnd={onTouchEnd?.(context)}
+      onTouchMove={onTouchMove?.(context)}
     >
       <VisibilityContext.Provider value={context}>
         {LeftArrow}

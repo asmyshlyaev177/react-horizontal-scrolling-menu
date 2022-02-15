@@ -6,7 +6,12 @@ export default function useDrag() {
   const position = React.useRef(0);
 
   const dragStart = React.useCallback((ev: React.MouseEvent) => {
-    position.current = ev.clientX;
+    const { type, touches } = ev;
+    let { clientX } = ev;
+    if (type === 'touchstart') {
+      clientX = touches[0].clientX;
+    }
+    position.current = clientX;
     setClicked(true);
   }, []);
 
@@ -21,16 +26,18 @@ export default function useDrag() {
   );
 
   const dragMove = (ev: React.MouseEvent, cb: (posDiff: number) => void) => {
-    const newDiff = position.current - ev.clientX;
-
+    const { type, touches } = ev;
+    let { clientX } = ev;
+    if (type === 'touchmove') {
+      clientX = touches[0].clientX;
+    }
+    const newDiff = position.current - clientX;
     const movedEnough = Math.abs(newDiff) > 5;
-
     if (clicked && movedEnough) {
       setDragging(true);
     }
-
     if (dragging && movedEnough) {
-      position.current = ev.clientX;
+      position.current = clientX;
       cb(newDiff);
     }
   };

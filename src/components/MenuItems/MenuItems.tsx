@@ -6,6 +6,7 @@ import {
   id as itemId,
   separatorString,
   itemClassName,
+  customClassName,
   separatorClassName,
 } from '../../constants';
 import type { ItemType, Refs } from '../../types';
@@ -39,12 +40,14 @@ function MenuItems({
     <>
       {childArray.map((child, index: number) => {
         const id = (child as JSX.Element)?.props?.[itemId];
+        const customClass = (child as JSX.Element)?.props?.[customClassName];
         const separatorId = id + separatorString;
         const isLastItem = index + 1 === itemsCount;
+        const className = [itemClass, customClass].filter(Boolean).join(' ');
 
         return [
           <Item
-            className={itemClass}
+            className={className}
             id={id}
             key={'menuItem__' + id}
             refs={refs}

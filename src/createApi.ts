@@ -97,9 +97,11 @@ export default function createApi(
 
   return {
     getItemById,
-    getItemElementById,
+    getItemElementById: (id: string | number) =>
+      getItemElementById(id, boundaryElement?.current),
     getItemByIndex,
-    getItemElementByIndex,
+    getItemElementByIndex: (id: string | number) =>
+      getItemElementByIndex(id, boundaryElement?.current),
     getNextItem,
     getPrevItem,
     isFirstItemVisible,
