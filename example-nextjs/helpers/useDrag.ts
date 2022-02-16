@@ -1,11 +1,13 @@
 import React from 'react';
 
+type mouseOrTouchEvent = React.MouseEvent | React.TouchEvent;
+
 export default function useDrag() {
   const [clicked, setClicked] = React.useState(false);
   const [dragging, setDragging] = React.useState(false);
   const position = React.useRef(0);
 
-  const dragStart = React.useCallback((ev: React.MouseEvent) => {
+  const dragStart = React.useCallback((ev: mouseOrTouchEvent) => {
     const { type, touches } = ev;
     let { clientX } = ev;
     if (type === 'touchstart') {
@@ -25,7 +27,7 @@ export default function useDrag() {
     []
   );
 
-  const dragMove = (ev: React.MouseEvent, cb: (posDiff: number) => void) => {
+  const dragMove = (ev: mouseOrTouchEvent, cb: (posDiff: number) => void) => {
     const { type, touches } = ev;
     let { clientX } = ev;
     if (type === 'touchmove') {

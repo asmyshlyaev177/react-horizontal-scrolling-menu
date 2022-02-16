@@ -187,6 +187,9 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void |
 | onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void |
 | onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void |
+| onTouchStart             | (VisibilityContext) => (React.MouseEventHandler) => void |
+| onTouchEnd               | (VisibilityContext) => (React.MouseEventHandler) => void |
+| onTouchMove              | (VisibilityContext) => (React.MouseEventHandler) => void |
 | itemClassName            | ClassName of Item                                        |
 | separatorClassName       | ClassName of Item's separator                            |
 | scrollContainerClassName | ClassName of scrollContainer                             |
