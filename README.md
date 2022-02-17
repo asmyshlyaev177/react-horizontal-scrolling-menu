@@ -32,7 +32,7 @@
 
 [Scroll by 1 item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-scroll-one-item-6hn8q?file=/src/index.tsx)
 
-[Center item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-center-item-on-scroll-j04vm?file=/src/index.tsx)
+[Center items](https://codesandbox.io/s/center-items-on-click-drag-e8cyph?file=/src/index.tsx)
 
 [Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
 
