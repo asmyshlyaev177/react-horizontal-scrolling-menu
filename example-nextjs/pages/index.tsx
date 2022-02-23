@@ -296,7 +296,6 @@ function Card({
   );
 }
 
-// TODO: nextjs complains about useLayoutEffect
 const Wrapper = () => {
   const [mounted, setMounted] = React.useState(false);
 
