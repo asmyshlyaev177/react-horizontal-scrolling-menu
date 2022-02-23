@@ -4,6 +4,7 @@ import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
 import type { Item, Refs, visibleItems } from '../types';
 import { observerOptions } from '../settings';
 import ItemsMap from '../ItemsMap';
+import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
 interface Props {
   items: ItemsMap;
@@ -48,7 +49,7 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
     [items, options]
   );
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const elements = getNodesFromRefs(refs);
     const observerInstance =
       observer.current || new IntersectionObserver(ioCb, options);
