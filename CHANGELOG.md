@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.7.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.7.0...v2.7.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* nextjs complaining about useLayoutEffect ([#191](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/191)) ([b07a2b8](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/b07a2b8abc31f2755092fb26598c01c086002c80))
+
 ## [2.7.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.6.1...v2.7.0) (2021-11-28)
 
 
