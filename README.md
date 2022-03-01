@@ -279,7 +279,7 @@ See [`apiRef` example and `Add item and scroll to it`](#examples)
 
 ## Browser support
 
-- Browser must support **IntersectionObserver API**, [**Element.scrollIntoView for Safari**](https://github.com/magic-akari/seamless-scroll-polyfill) and **requestAnimationFrame** or use polyfills.
+- Browser must support **IntersectionObserver API** and **requestAnimationFrame** or use polyfills.
 - Only modern browsers, no IE or smart toasters
 
 ## About
