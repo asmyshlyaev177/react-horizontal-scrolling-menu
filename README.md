@@ -1,5 +1,7 @@
 # React horizontal scrolling menu
 
+## Stop the war in Ukraine🇺🇦! Stop Putin's aggression!
+
 ![example](/sample.gif)
 
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
