@@ -2,101 +2,110 @@
 const path = require('path');
 const merge = require('webpack-merge').merge;
 
-const common = (env) => ({
-  mode: env.production ? 'production' : 'development',
-  devtool: 'inline-source-map',
+const common = (env) => {
+  const isProduction = !!process.env.production;
+  console.log({ isProduction });
 
-  entry: path.resolve(__dirname, 'src', 'index'),
-  watch: env.development,
+  return {
+    // experiments: {
+    //   outputModule: true,
+    // },
+    mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? false : 'inline-source-map',
 
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    library: 'react-horizontal-scrolling-menu',
-  },
+    entry: path.resolve(__dirname, 'src', 'index'),
+    watch: env.development,
 
-  externals: {
-    react: {
-      root: 'React',
-      commonjs: 'react',
-      commonjs2: 'react',
-      umd: 'react',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      // library: 'react-horizontal-scrolling-menu',
     },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      umd: 'react-dom',
+
+    externals: {
+      react: {
+        root: 'React',
+        commonjs: 'react',
+        commonjs2: 'react',
+        umd: 'react',
+      },
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs: 'react-dom',
+        commonjs2: 'react-dom',
+        umd: 'react-dom',
+      },
     },
-  },
 
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    hot: true,
-  },
-
-  resolve: {
-    alias: {
-      react: path.resolve(__dirname, 'node_modules', 'react'),
-      'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom'),
+    devServer: {
+      contentBase: path.resolve(__dirname, 'dist'),
+      hot: true,
     },
-    symlinks: false,
-    extensions: ['.tsx', '.ts', '.js', 'jsx'],
-  },
 
-  module: {
-    rules: [
-      // {
-      //   test: /\.m?jsx?$/,
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //     options: {
-      //       cacheDirectory: true,
-      //       configFile: path.resolve(__dirname, 'babel.config.js'),
-      //       sourceMaps: env.development ? 'both' : undefined,
-      //     },
-      //   },
-      // },
+    resolve: {
+      alias: {
+        react: path.resolve(__dirname, 'node_modules', 'react'),
+        'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom'),
+      },
+      symlinks: false,
+      extensions: ['.tsx', '.ts', '.js', 'jsx'],
+    },
 
-      {
-        test: /\.tsx?$/,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              compilerOptions: {
-                declarationMap: true,
-                outDir: './dist',
+    module: {
+      rules: [
+        // {
+        //   test: /\.m?jsx?$/,
+        //   exclude: /node_modules/,
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       cacheDirectory: true,
+        //       configFile: path.resolve(__dirname, 'babel.config.js'),
+        //       sourceMaps: env.development ? 'both' : undefined,
+        //     },
+        //   },
+        // },
+
+        {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                compilerOptions: {
+                  declarationMap: true,
+                  outDir: './dist',
+                },
               },
             },
-          },
-        ],
-        exclude: /node_modules/,
-      },
+          ],
+          exclude: /node_modules/,
+        },
 
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-});
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+      ],
+    },
+  };
+};
 
 module.exports = function (env = {}) {
   return [
-    merge(common(env), {
-      output: {
-        filename: 'index.cjs.js',
-        libraryTarget: 'commonjs2',
-      },
-    }),
+    // merge(common(env), {
+    //   output: {
+    //     filename: 'index.cjs.js',
+    //     libraryTarget: 'commonjs2',
+    //   },
+    // }),
 
     // TODO: when webpack support esm
     // "module": "dist/index.mjs",
     // merge(common(env), {
     //   output: {
-    //     filename: 'index.mjs',
-    //     libraryTarget: 'var',
+    //     filename: 'index.esm.js',
+    //     libraryTarget: 'module',
+    //     //libraryTarget: 'var',
     //   },
     // }),
 

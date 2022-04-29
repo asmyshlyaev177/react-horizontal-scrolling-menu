@@ -34,8 +34,7 @@ jobs:
             
       - name: Install
         run: |
-          yarn install --immutable
-          cd example-nextjs && yarn install --immutable
+          yarn setup
       
       - name: Unit tests
         run: yarn test:unit
