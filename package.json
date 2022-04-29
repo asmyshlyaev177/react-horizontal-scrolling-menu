@@ -34,9 +34,11 @@
     "test:e2e": "run-p -r demo:test cypress:run-with-wait",
     "cypress:run-with-wait": "run-s wait cypress:run",
     "cypress:run": "cypress run",
-    "dev": "rollup -c rollup.config.js -w",
+    "dev": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
-    "build": "rm -rf dist && rollup -c rollup.config.js",
+    "kill-rollup": "ps aux | grep rollup | awk '{print $2}' | xargs kill -9 &",
+    "postbuild": "sleep 15 && yarn kill-rollup",
+    "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
     "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true yarn dev",
     "wait": "wait-on http://localhost:3003 && sleep 10",
@@ -45,9 +47,14 @@
     "commit": "cz",
     "release": "standard-version",
     "publish": "yarn test:unit && yarn test:e2e && yarn build && git push --follow-tags origin main && npm publish",
-    "setup-yarn": "yarn cache clean && yarn set version berry && sleep 5 && yarn plugin import typescript",
+    "setup-yarn": "yarn cache clean && yarn set version 1.22.1",
+    "install-deps": "cd example-nextjs && yarn install && cd ../ && yarn install",
     "setup-husky": "husky install",
     "cz-install": "commitizen init cz-conventional-changelog --dev --exact --yarn",
+    "link-example": "yarn link && cd example-nextjs && yarn link react-horizontal-scrolling-menu",
+    "link-react": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../../ && yarn link react && yarn link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
+    "prepare": "yarn link-react",
+    "setup": "yarn setup-yarn && yarn install-deps && yarn setup-husky && yarn cz-install && yarn link-example",
     "cz-husky-init": "husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
     "deploy-gp": "babel-node deploy-gp.js"
   },
@@ -93,14 +100,15 @@
     "@types/babel__preset-env": "^7",
     "@types/gh-pages": "^3",
     "@types/jest": "^26.0.23",
-    "@types/react": "^17.0.9",
-    "@types/react-dom": "^17.0.6",
+    "@types/react": "18.0.0",
+    "@types/react-dom": "18.0.0",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "browserslist": "^4.12.0",
+    "browserslist": "^4.20.3",
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.2.6",
     "cypress": "^8.4.1",
     "cz": "^1.8.2",
@@ -126,7 +134,8 @@
     "postcss": "^8.3.0",
     "prettier": "^2.3.0",
     "prop-types": "^15.7.2",
-    "rollup": "^2.50.2",
+    "react": "^18.1.0",
+    "rollup": "^2.70.2",
     "rollup-plugin-ignore": "^1.0.9",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
@@ -136,15 +145,14 @@
     "style-loader": "^2.0.0",
     "ts-jest": "^27.0.5",
     "ts-loader": "^9.2.3",
-    "typescript": "^4.3.2",
+    "typescript": "4.4.2",
     "wait-on": "^6.0.0",
-    "webpack": "^5.40.0",
+    "webpack": "^5.72.0",
     "webpack-cli": "^4.7.2",
     "webpack-merge": "^5.8.0"
   },
   "peerDependencies": {
-    "react": ">=16.8",
-    "react-dom": ">=16.8"
+    "react": ">=16.8"
   },
   "husky": {
     "hooks": {
@@ -168,5 +176,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  }
+  },
+  "packageManager": "yarn@1.22.1"
 }

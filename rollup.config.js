@@ -9,8 +9,8 @@ import pkg from './package.json';
 
 const input = 'src/index.tsx';
 
-const watch = process.env.ROLLUP_WATCH;
-const sourcemap = watch;
+const isProduction = !process.env.IS_DEVELOPMENT;
+const sourcemap = !isProduction;
 const clearScreen = { watch: { clearScreen: false } };
 
 const external = [
@@ -22,15 +22,15 @@ const plugins = [
   resolve({
     include: ['node_modules/**'],
   }),
-  typescript({ sourceMap: true, tsconfig: './tsconfig.json' }),
+  typescript({ sourceMap: false, tsconfig: './tsconfig.json' }),
   commonjs(),
   postcss({
     modules: false,
     use: ['sass'],
   }),
 
-  watch && sourcemaps(),
-  !watch && terser(),
+  !isProduction && sourcemaps(),
+  isProduction && terser(),
 ].filter(Boolean);
 
 export default [
