@@ -5,6 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import typescript from '@rollup/plugin-typescript';
+import filesize from 'rollup-plugin-filesize';
 import pkg from './package.json';
 
 const input = 'src/index.tsx';
@@ -31,6 +32,7 @@ const plugins = [
 
   !isProduction && sourcemaps(),
   isProduction && terser(),
+  filesize(),
 ].filter(Boolean);
 
 export default [
