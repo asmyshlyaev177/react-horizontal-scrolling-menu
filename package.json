@@ -136,6 +136,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.1.0",
     "rollup": "^2.70.2",
+    "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-ignore": "^1.0.9",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
