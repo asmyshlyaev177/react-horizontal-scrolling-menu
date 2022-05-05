@@ -1,6 +1,6 @@
 # React horizontal scrolling menu
 
-## Stop the war in Ukraine🇺🇦! Stop Putin's aggression!
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://war.ukraine.ua)
 
 ![example](/sample.gif)
 
