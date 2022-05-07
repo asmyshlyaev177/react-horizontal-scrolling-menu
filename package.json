@@ -110,7 +110,7 @@
     "commitizen": "^4.2.4",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.6",
-    "cypress": "^8.4.1",
+    "cypress": "^9.6.0",
     "cz": "^1.8.2",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^7.27.0",
