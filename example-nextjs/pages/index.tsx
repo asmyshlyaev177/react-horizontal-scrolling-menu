@@ -47,6 +47,7 @@ const onWheel = (
   }
 };
 
+// eslint-disable-next-line radar/cognitive-complexity
 function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -124,6 +125,14 @@ function App() {
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <div onMouseLeave={dragStop}>
             <ScrollMenu
+              // ARROWS WITH ADDITIONAL CONTENT
+              // Arrows={<Arrows />}
+              // <>
+              //   <LeftArrow />
+              //   <RightArrow />
+              // </>
+              // }
+              // STANDART ARROWS
               LeftArrow={LeftArrow}
               RightArrow={RightArrow}
               onInit={restorePosition}
@@ -185,6 +194,18 @@ function App() {
   );
 }
 
+function Arrows() {
+  return (
+    <div className="arrows-container">
+      <div className="content">Additional content</div>
+      <div className="arrows">
+        <LeftArrow />
+        <RightArrow />
+      </div>
+    </div>
+  );
+}
+
 function LeftArrow() {
   const { initComplete, isFirstItemVisible, scrollPrev } =
     React.useContext(VisibilityContext);
@@ -195,6 +216,7 @@ function LeftArrow() {
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
       onClick={() => scrollPrev(isTest ? 'auto' : undefined)}
+      className="left"
     >
       Left
     </Arrow>
@@ -209,6 +231,7 @@ function RightArrow() {
     <Arrow
       disabled={initComplete && isLastItemVisible}
       onClick={() => scrollNext(isTest ? 'auto' : undefined)}
+      className="right"
     >
       Right
     </Arrow>
@@ -219,15 +242,18 @@ function Arrow({
   children,
   disabled,
   onClick,
+  className,
 }: {
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
+  className?: String;
 }) {
   return (
     <button
       disabled={disabled}
       onClick={onClick}
+      className={'arrow' + `-${className}`}
       style={{
         cursor: 'pointer',
         display: 'flex',
@@ -306,12 +332,14 @@ const Wrapper = () => {
   return mounted ? <App /> : null;
 };
 
+// eslint-disable-next-line react/prop-types
 export const OptionsWrapper = ({ children }) => (
   <div style={{ marginTop: '10px', display: 'flex', columnGap: '10px' }}>
     {children}
   </div>
 );
 
+// eslint-disable-next-line react/prop-types
 export const OptionItem = ({ children, label }) => (
   <div style={{ display: 'flex', flexDirection: 'column' }}>
     <label>{label}</label>

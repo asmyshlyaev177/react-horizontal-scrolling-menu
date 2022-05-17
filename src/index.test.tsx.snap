@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScrollMenu Children and arrows Arrows 1`] = `
+<div>
+  <div
+    class="react-horizontal-scrolling-menu--wrapper "
+  >
+    <div>
+      <div
+        data-testid="content"
+      >
+        Additional content
+      </div>
+      <div
+        class="left-arrow"
+        data-testid="left-arrow"
+      >
+        {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+      </div>
+      <div
+        class="right-arrow"
+        data-testid="right-arrow"
+      >
+        {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+      </div>
+    </div>
+    <div
+      class="react-horizontal-scrolling-menu--scroll-container scroll-class"
+    >
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="0"
+        data-key="test1"
+      >
+        <div
+          data-testid="test1"
+        >
+          {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+      <div
+        class="react-horizontal-scrolling-menu--separator "
+        data-index="0.1"
+        data-key="test1-separator"
+      />
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="1"
+        data-key="test2"
+      >
+        <div
+          data-testid="test2"
+        >
+          {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ScrollMenu Children and arrows LeftArrow, ScrollContainer, MenuItems, RightArrow 1`] = `
+<div>
+  <div
+    class="react-horizontal-scrolling-menu--wrapper "
+  >
+    <div
+      class="left-arrow"
+      data-testid="left-arrow"
+    >
+      {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+    </div>
+    <div
+      class="react-horizontal-scrolling-menu--scroll-container scroll-class"
+    >
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="0"
+        data-key="test1"
+      >
+        <div
+          data-testid="test1"
+        >
+          {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+      <div
+        class="react-horizontal-scrolling-menu--separator "
+        data-index="0.1"
+        data-key="test1-separator"
+      />
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="1"
+        data-key="test2"
+      >
+        <div
+          data-testid="test2"
+        >
+          {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+    </div>
+    <div
+      class="right-arrow"
+      data-testid="right-arrow"
+    >
+      {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ScrollMenu should render without props 1`] = `
+<div>
+  <div
+    class="react-horizontal-scrolling-menu--wrapper "
+  >
+    <div
+      class="react-horizontal-scrolling-menu--scroll-container "
+    >
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="0"
+        data-key="test1"
+      >
+        <div
+          data-testid="test1"
+        >
+          {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+      <div
+        class="react-horizontal-scrolling-menu--separator "
+        data-index="0.1"
+        data-key="test1-separator"
+      />
+      <div
+        class="react-horizontal-scrolling-menu--item "
+        data-index="1"
+        data-key="test2"
+      >
+        <div
+          data-testid="test2"
+        >
+          {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

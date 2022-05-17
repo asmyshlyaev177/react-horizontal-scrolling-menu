@@ -24,13 +24,14 @@ import slidingWindow from './slidingWindow';
 import getItemsPos from './getItemsPos';
 
 type ArrowType = React.FC | React.ReactNode;
+
 export interface Props {
+  Arrows?: React.ReactNode | React.ReactNode[] | JSX.Element | JSX.Element[];
+
   /**
-   Component for left arrow
+   Arrows components and additional content
 
-   e.g. LeftArrow={Arrow}
-
-   or LeftArrow={<Arrow {...props />}}
+   e.g. Arrows={<><Content/><LeftArrow/><RightArrow/></>}
    */
   LeftArrow?: ArrowType;
   /**
@@ -128,6 +129,7 @@ export interface Props {
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
 function ScrollMenu({
+  Arrows: _Arrows,
   LeftArrow: _LeftArrow,
   RightArrow: _RightArrow,
   children,
@@ -150,6 +152,7 @@ function ScrollMenu({
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
+  const Arrows = React.Children.map(_Arrows, getElementOrConstructor);
 
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<Refs>({});
@@ -245,6 +248,7 @@ function ScrollMenu({
       onMouseMove={onMouseMove?.(context)}
     >
       <VisibilityContext.Provider value={context}>
+        {Arrows}
         {LeftArrow}
         <ScrollContainer
           className={scrollContainerClassName}
