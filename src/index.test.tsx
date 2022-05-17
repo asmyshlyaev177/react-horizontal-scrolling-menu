@@ -1,3 +1,5 @@
+/* eslint-disable radar/no-duplicate-string */
+/* eslint-disable radar/no-identical-functions */
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { ScrollMenu, Props } from '.';
@@ -12,6 +14,7 @@ import { VisibilityContext } from './context';
 jest.mock('./hooks/useIntersectionObserver');
 
 const defaultItems = ['test1', 'test2'];
+// eslint-disable-next-line radar/no-duplicate-string
 const defaultItemsWithSeparators = ['test1', 'item1-separator', 'test2'];
 const scrollContainerClassName = 'scroll-class';
 const getContext = (context: publicApiType) => {
@@ -31,6 +34,23 @@ function Child({ itemId }: { itemId: string }) {
 const defaultChildren = defaultItems.map((itemId) => (
   <Child key={itemId} itemId={itemId} />
 ));
+
+const LArrow = () => {
+  const context = React.useContext(VisibilityContext);
+  return (
+    <div className="left-arrow" data-testid="left-arrow">
+      {JSON.stringify(getContext(context))}
+    </div>
+  );
+};
+const RArrow = () => {
+  const context = React.useContext(VisibilityContext);
+  return (
+    <div className="right-arrow" data-testid="right-arrow">
+      {JSON.stringify(getContext(context))}
+    </div>
+  );
+};
 
 interface SetupProps extends Omit<Props, 'children'> {
   rerender?: Function;
@@ -68,6 +88,7 @@ describe('ScrollMenu', () => {
     const { container } = setup();
 
     expect(container.firstChild).toBeTruthy();
+    expect(container).toMatchSnapshot();
   });
 
   describe('useIntersectionObserver', () => {
@@ -226,172 +247,228 @@ describe('ScrollMenu', () => {
     });
   });
 
-  test('Structure - LeftArrow, ScrollContainer, MenuItems, RightArrow', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const LArrow = () => {
-      const context = React.useContext(VisibilityContext);
-      return (
-        <div className="left-arrow">{JSON.stringify(getContext(context))}</div>
+  describe('Children and arrows', () => {
+    test('LeftArrow, ScrollContainer, MenuItems, RightArrow', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+
+      const { container, getByTestId } = setup({
+        LeftArrow: LArrow,
+        RightArrow: RArrow,
+        scrollContainerClassName,
+      });
+
+      const OuterWrapper = container.getElementsByClassName(
+        constants.wrapperClassName
+      )?.[0];
+      const LeftArrow = getByTestId('left-arrow');
+      const RightArrow = getByTestId('right-arrow');
+      const ScrollContainer = container.getElementsByClassName(
+        constants.scrollContainerClassName
+      )?.[0];
+
+      const context = {
+        initComplete: true,
+        isFirstItemVisible: false,
+        isLastItemVisible: false,
+        visibleItems: ['test1', 'item1-separator', 'test2'],
+        visibleItemsWithoutSeparators: ['test1', 'test2'],
+      };
+
+      expect(ScrollContainer).toHaveClass(scrollContainerClassName);
+      expect(LeftArrow).toHaveClass('left-arrow');
+      expect(JSON.parse(LeftArrow.textContent!)).toEqual(context);
+      expect(RightArrow).toHaveClass('right-arrow');
+      expect(JSON.parse(RightArrow.textContent!)).toEqual(context);
+
+      expect(OuterWrapper).toContainElement(LeftArrow);
+      expect(OuterWrapper).toContainElement(RightArrow);
+      expect(OuterWrapper).toContainElement(ScrollContainer as HTMLElement);
+
+      const MenuItems = ScrollContainer.firstChild!;
+
+      defaultItems.forEach((item) =>
+        expect(MenuItems.textContent).toContain(item)
       );
-    };
-    const RArrow = () => {
-      const context = React.useContext(VisibilityContext);
-      return (
-        <div className="right-arrow">{JSON.stringify(getContext(context))}</div>
+
+      expect(container).toMatchSnapshot();
+    });
+
+    test('Arrows', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+
+      const Arrows = (
+        <div>
+          <div data-testid="content">Additional content</div>
+          <LArrow />
+          <RArrow />
+        </div>
       );
-    };
-    const { container } = setup({
-      LeftArrow: LArrow,
-      RightArrow: RArrow,
-      scrollContainerClassName,
+
+      const { container, getByTestId } = setup({
+        Arrows,
+        scrollContainerClassName,
+      });
+
+      const OuterWrapper = container.getElementsByClassName(
+        constants.wrapperClassName
+      )?.[0];
+      const LeftArrow = getByTestId('left-arrow');
+      const RightArrow = getByTestId('right-arrow');
+      const ScrollContainer = container.getElementsByClassName(
+        constants.scrollContainerClassName
+      )?.[0];
+      const Content = getByTestId('content');
+
+      const context = {
+        initComplete: true,
+        isFirstItemVisible: false,
+        isLastItemVisible: false,
+        visibleItems: ['test1', 'item1-separator', 'test2'],
+        visibleItemsWithoutSeparators: ['test1', 'test2'],
+      };
+
+      expect(ScrollContainer).toHaveClass(scrollContainerClassName);
+      expect(LeftArrow).toHaveClass('left-arrow');
+      expect(JSON.parse(LeftArrow.textContent!)).toEqual(context);
+      expect(RightArrow).toHaveClass('right-arrow');
+      expect(JSON.parse(RightArrow.textContent!)).toEqual(context);
+
+      expect(OuterWrapper).toContainElement(LeftArrow);
+      expect(OuterWrapper).toContainElement(RightArrow);
+      expect(OuterWrapper).toContainElement(ScrollContainer as HTMLElement);
+      expect(OuterWrapper).toContainElement(Content);
+
+      const MenuItems = ScrollContainer.firstChild!;
+
+      defaultItems.forEach((item) =>
+        expect(MenuItems.textContent).toContain(item)
+      );
+
+      expect(container).toMatchSnapshot();
     });
-    const outerWrapper = container.firstChild;
-    expect(outerWrapper).toHaveClass(constants.wrapperClassName);
-    const [LeftArrow, ScrollContainer, RightArrow] = Array.prototype.slice.call(
-      outerWrapper?.childNodes
-    );
-
-    const context = {
-      initComplete: true,
-      isFirstItemVisible: false,
-      isLastItemVisible: false,
-      visibleItems: ['test1', 'item1-separator', 'test2'],
-      visibleItemsWithoutSeparators: ['test1', 'test2'],
-    };
-
-    expect(LeftArrow).toHaveClass('left-arrow');
-    expect(JSON.parse(LeftArrow.textContent)).toEqual(context);
-    expect(RightArrow).toHaveClass('right-arrow');
-    expect(JSON.parse(RightArrow.textContent)).toEqual(context);
-
-    expect(ScrollContainer).toHaveClass(scrollContainerClassName);
-
-    const MenuItems = ScrollContainer.firstChild;
-
-    defaultItems.forEach((item) =>
-      expect(MenuItems.textContent).toContain(item)
-    );
-
-    expect(container.firstChild).toBeTruthy();
   });
 
-  test('should fire onScroll', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const onScroll = jest.fn();
-    const { container } = setup({ onScroll });
+  describe('Events', () => {
+    test('should fire onScroll', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onScroll = jest.fn();
+      const { container } = setup({ onScroll });
 
-    act(() => {
-      fireEvent.scroll(container.firstChild?.firstChild as Element);
-    });
+      act(() => {
+        fireEvent.scroll(container.firstChild?.firstChild as Element);
+      });
 
-    expect(onScroll).toHaveBeenCalledTimes(1);
-    const call = onScroll.mock.calls[0][0];
-    comparePublicApi(call);
-  });
-
-  test('should fire onWheel', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const onWheel = jest.fn();
-    const { container } = setup({ onWheel });
-
-    act(() => {
-      fireEvent.wheel(container.firstChild as Element);
+      expect(onScroll).toHaveBeenCalledTimes(1);
+      const call = onScroll.mock.calls[0][0];
+      comparePublicApi(call);
     });
 
-    expect(onWheel).toHaveBeenCalledTimes(1);
-    const call = onWheel.mock.calls[0][0];
-    comparePublicApi(call);
-  });
+    test('should fire onWheel', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onWheel = jest.fn();
+      const { container } = setup({ onWheel });
 
-  test('should fire onMouseDown', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const onMouseDown = jest.fn();
-    const { container } = setup({ onMouseDown });
+      act(() => {
+        fireEvent.wheel(container.firstChild as Element);
+      });
 
-    act(() => {
-      fireEvent.mouseDown(container.firstChild as Element);
-    });
-
-    expect(onMouseDown).toHaveBeenCalled();
-    const call = onMouseDown.mock.calls[0][0];
-    comparePublicApi(call);
-  });
-
-  test('should fire onMouseUp', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const onMouseUp = jest.fn();
-    const { container } = setup({ onMouseUp });
-
-    act(() => {
-      fireEvent.mouseUp(container.firstChild as Element);
+      expect(onWheel).toHaveBeenCalledTimes(1);
+      const call = onWheel.mock.calls[0][0];
+      comparePublicApi(call);
     });
 
-    expect(onMouseUp).toHaveBeenCalled();
-    const call = onMouseUp.mock.calls[0][0];
-    comparePublicApi(call);
-  });
+    test('should fire onMouseDown', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onMouseDown = jest.fn();
+      const { container } = setup({ onMouseDown });
 
-  test('should fire onMouseMove', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
-    });
-    const onMouseMove = jest.fn();
-    const { container } = setup({ onMouseMove });
+      act(() => {
+        fireEvent.mouseDown(container.firstChild as Element);
+      });
 
-    act(() => {
-      fireEvent.mouseMove(container.firstChild as Element);
-    });
-
-    expect(onMouseMove).toHaveBeenCalled();
-    const call = onMouseMove.mock.calls[0][0];
-    comparePublicApi(call);
-  });
-
-  test('should pass classNames', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleItems: defaultItemsWithSeparators,
+      expect(onMouseDown).toHaveBeenCalled();
+      const call = onMouseDown.mock.calls[0][0];
+      comparePublicApi(call);
     });
 
-    const itemClassName = 'item-class';
-    const separatorClassName = 'sep-class';
-    const wrapperClassName = 'wrapper-class';
+    test('should fire onMouseUp', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onMouseUp = jest.fn();
+      const { container } = setup({ onMouseUp });
 
-    const { container } = setup({
-      itemClassName,
-      separatorClassName,
-      scrollContainerClassName,
-      wrapperClassName,
+      act(() => {
+        fireEvent.mouseUp(container.firstChild as Element);
+      });
+
+      expect(onMouseUp).toHaveBeenCalled();
+      const call = onMouseUp.mock.calls[0][0];
+      comparePublicApi(call);
     });
 
-    const wrapper = container.firstChild as HTMLElement;
-    expect(wrapper.getAttribute('class')).toEqual(
-      `${constants.wrapperClassName} ${wrapperClassName}`
-    );
+    test('should fire onMouseMove', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const onMouseMove = jest.fn();
+      const { container } = setup({ onMouseMove });
 
-    const scrollContainer = wrapper.firstChild as HTMLElement;
-    expect(scrollContainer.getAttribute('class')).toEqual(
-      `${constants.scrollContainerClassName} ${scrollContainerClassName}`
-    );
+      act(() => {
+        fireEvent.mouseMove(container.firstChild as Element);
+      });
 
-    const item = scrollContainer.firstChild as HTMLElement;
-    expect(item.getAttribute('class')).toEqual(
-      `${constants.itemClassName} ${itemClassName}`
-    );
+      expect(onMouseMove).toHaveBeenCalled();
+      const call = onMouseMove.mock.calls[0][0];
+      comparePublicApi(call);
+    });
 
-    const separator = scrollContainer.childNodes[1] as HTMLElement;
-    expect(separator.getAttribute('class')).toEqual(
-      `${constants.separatorClassName} ${separatorClassName}`
-    );
+    test('should pass classNames', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+
+      const itemClassName = 'item-class';
+      const separatorClassName = 'sep-class';
+      const wrapperClassName = 'wrapper-class';
+
+      const { container } = setup({
+        itemClassName,
+        separatorClassName,
+        scrollContainerClassName,
+        wrapperClassName,
+      });
+
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper.getAttribute('class')).toEqual(
+        `${constants.wrapperClassName} ${wrapperClassName}`
+      );
+
+      const scrollContainer = wrapper.firstChild as HTMLElement;
+      expect(scrollContainer.getAttribute('class')).toEqual(
+        `${constants.scrollContainerClassName} ${scrollContainerClassName}`
+      );
+
+      const item = scrollContainer.firstChild as HTMLElement;
+      expect(item.getAttribute('class')).toEqual(
+        `${constants.itemClassName} ${itemClassName}`
+      );
+
+      const separator = scrollContainer.childNodes[1] as HTMLElement;
+      expect(separator.getAttribute('class')).toEqual(
+        `${constants.separatorClassName} ${separatorClassName}`
+      );
+    });
   });
 });
 
