@@ -133,6 +133,8 @@ function App() {
               // </>
               // }
               // STANDART ARROWS
+              Header={<div>Header</div>}
+              Footer={() => <div>Footer</div>}
               LeftArrow={LeftArrow}
               RightArrow={RightArrow}
               onInit={restorePosition}

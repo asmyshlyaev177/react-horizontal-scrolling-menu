@@ -1,7 +1,3 @@
-.react-horizontal-scrolling-menu--wrapper {
-  display: flex;
-}
-
 .react-horizontal-scrolling-menu--scroll-container {
   display: flex;
   height: max-content;
@@ -10,7 +6,17 @@
   width: 100%;
 }
 
-:export {
-  wrapper: react-horizontal-scrolling-menu--wrapper;
-  container: react-horizontal-scrolling-menu--scroll-container;
+/* DRAFT */
+
+.react-horizontal-scrolling-menu--inner-wrapper {
+  display: flex;
+  overflow-y: hidden;
+}
+
+.react-horizontal-scrolling-menu--header, .react-horizontal-scrolling-menu--footer {
+  width: 100%;
+}
+
+.react-horizontal-scrolling-menu--arrow-left, .react-horizontal-scrolling-menu--arrow-right {
+display: flex;
 }
