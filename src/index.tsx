@@ -152,7 +152,7 @@ function ScrollMenu({
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
-  const Arrows = React.Children.map(_Arrows, getElementOrConstructor);
+  const Arrows = getElementOrConstructor(_Arrows);
 
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<Refs>({});
