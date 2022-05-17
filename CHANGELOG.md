@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.7.1...v2.8.0) (2022-05-17)
+
+
+### Features
+
+* arrows prop for use arrows with additional content ([7d53430](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/7d53430a957aaa0ec1db0d8be31a6a41a0beab35)), closes [#197](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/197)
+
+
+### Bug Fixes
+
+* changed target to es2015(es6) since some uglifiers don't support newer ([a6b42e5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/a6b42e5700066ea287763586301afe49150ee2d0))
+
 ### [2.7.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.7.1...v2.7.2) (2022-05-04)
 
 
