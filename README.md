@@ -26,6 +26,8 @@
 
 [Hidden scrollbar and arrows on bottom](https://codesandbox.io/s/no-scrollbar-and-buttons-position-c3kn5?file=/src/index.tsx)
 
+[Arrows with additional content](https://codesandbox.io/s/arrows-with-additional-content-0fhrm3?file=/src/index.tsx)
+
 [Select item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-with-select-item-qtxwt?file=/src/index.tsx)
 
 [Drag by mouse](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-drag-by-mouse-o3u2t?file=/src/index.tsx)
