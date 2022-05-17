@@ -126,7 +126,7 @@ function App() {
           <div onMouseLeave={dragStop}>
             <ScrollMenu
               // ARROWS WITH ADDITIONAL CONTENT
-              // Arrows={<Arrows />}
+              // Arrows={Arrows}
               // <>
               //   <LeftArrow />
               //   <RightArrow />
