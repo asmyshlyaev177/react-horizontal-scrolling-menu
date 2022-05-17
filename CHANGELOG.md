@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.8.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.8.0...v2.8.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* fixed Arrows props can't pass as component ([4a24803](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/4a24803df36118fb8ad302594bcbd9f5411f3c57))
+
 ## [2.8.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.7.1...v2.8.0) (2022-05-17)
 
 
