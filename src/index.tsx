@@ -35,14 +35,6 @@ export interface Props {
    */
   Footer?: ComponentType;
   /**
-   Arrows components and additional content
-   TO REMOVE ARROWS
-
-   e.g. Arrows={<><Content/><LeftArrow/><RightArrow/></>}
-   */
-  Arrows?: ComponentType;
-
-  /**
    Component for left arrow
 
    e.g. LeftArrow={Arrow}
@@ -145,7 +137,6 @@ export interface Props {
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
 function ScrollMenu({
-  Arrows: _Arrows,
   LeftArrow: _LeftArrow,
   RightArrow: _RightArrow,
   children,
@@ -172,7 +163,6 @@ function ScrollMenu({
   const RightArrow = getElementOrConstructor(_RightArrow);
   const Header = getElementOrConstructor(_Header);
   const Footer = getElementOrConstructor(_Footer);
-  const Arrows = getElementOrConstructor(_Arrows);
 
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<Refs>({});
@@ -270,7 +260,6 @@ function ScrollMenu({
       <VisibilityContext.Provider value={context}>
         <div className={constants.headerClassName}>{Header}</div>
         <div className={constants.innerWrapperClassName}>
-          {Arrows}
           <div className={constants.arrowLeftClassName}>{LeftArrow}</div>
           <ScrollContainer
             className={scrollContainerClassName}
