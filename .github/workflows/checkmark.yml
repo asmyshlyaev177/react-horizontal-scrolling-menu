@@ -14,6 +14,6 @@ jobs:
   task-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: asmyshlyaev177/task-completed-checker-action@master
+      - uses: asmyshlyaev177/checker-completed-tasks-action@master
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
