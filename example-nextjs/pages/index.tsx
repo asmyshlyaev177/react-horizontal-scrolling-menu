@@ -125,14 +125,6 @@ function App() {
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <div onMouseLeave={dragStop}>
             <ScrollMenu
-              // ARROWS WITH ADDITIONAL CONTENT
-              // Arrows={Arrows}
-              // <>
-              //   <LeftArrow />
-              //   <RightArrow />
-              // </>
-              // }
-              // STANDART ARROWS
               Header={<div>Header</div>}
               Footer={() => <div>Footer</div>}
               LeftArrow={LeftArrow}
@@ -191,18 +183,6 @@ function App() {
             <button onClick={handleRemoveLast}>Remove last</button>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function Arrows() {
-  return (
-    <div className="arrows-container">
-      <div className="content">Additional content</div>
-      <div className="arrows">
-        <LeftArrow />
-        <RightArrow />
       </div>
     </div>
   );
