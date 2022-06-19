@@ -6,11 +6,14 @@
   width: 100%;
 }
 
-/* DRAFT */
-
 .react-horizontal-scrolling-menu--inner-wrapper {
   display: flex;
   overflow-y: hidden;
+}
+
+.react-horizontal-scrolling-menu--wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
 .react-horizontal-scrolling-menu--header, .react-horizontal-scrolling-menu--footer {
