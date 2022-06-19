@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.0.0...v3.0.1) (2022-06-19)
+
+
+### Bug Fixes
+
+* fixed styles for wrapper ([5755c1d](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/5755c1df7d5b50520371ba7cacd578318aab9485))
+
 ## [3.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.8.2...v3.0.0) (2022-06-19)
 
 
