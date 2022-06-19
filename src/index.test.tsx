@@ -1,5 +1,3 @@
-/* eslint-disable radar/no-duplicate-string */
-/* eslint-disable radar/no-identical-functions */
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { ScrollMenu, Props } from '.';
