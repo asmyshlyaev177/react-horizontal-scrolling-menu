@@ -1,5 +1,3 @@
-/* eslint-disable radar/no-duplicate-string */
-/* eslint-disable radar/no-identical-functions */
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import { ScrollMenu, Props } from '.';
@@ -247,7 +245,7 @@ describe('ScrollMenu', () => {
     });
   });
 
-  describe('Children and arrows', () => {
+  describe('Children, arrows, header and footer', () => {
     test('LeftArrow, ScrollContainer, MenuItems, RightArrow', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue({
         visibleItems: defaultItemsWithSeparators,
@@ -295,52 +293,34 @@ describe('ScrollMenu', () => {
       expect(container).toMatchSnapshot();
     });
 
-    test('Arrows', () => {
+    test('Header and footer', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue({
         visibleItems: defaultItemsWithSeparators,
       });
 
-      const Arrows = (
-        <div>
-          <div data-testid="content">Additional content</div>
-          <LArrow />
-          <RArrow />
-        </div>
-      );
+      const Header = <div data-testid="header">Header</div>;
+      const Footer = <div data-testid="footer">Footer</div>;
 
       const { container, getByTestId } = setup({
-        Arrows,
+        Header,
+        Footer,
         scrollContainerClassName,
       });
 
       const OuterWrapper = container.getElementsByClassName(
         constants.wrapperClassName
       )?.[0];
-      const LeftArrow = getByTestId('left-arrow');
-      const RightArrow = getByTestId('right-arrow');
+
+      const header = getByTestId('header');
+      const footer = getByTestId('footer');
+
       const ScrollContainer = container.getElementsByClassName(
         constants.scrollContainerClassName
       )?.[0];
-      const Content = getByTestId('content');
 
-      const context = {
-        initComplete: true,
-        isFirstItemVisible: false,
-        isLastItemVisible: false,
-        visibleItems: ['test1', 'item1-separator', 'test2'],
-        visibleItemsWithoutSeparators: ['test1', 'test2'],
-      };
-
-      expect(ScrollContainer).toHaveClass(scrollContainerClassName);
-      expect(LeftArrow).toHaveClass('left-arrow');
-      expect(JSON.parse(LeftArrow.textContent!)).toEqual(context);
-      expect(RightArrow).toHaveClass('right-arrow');
-      expect(JSON.parse(RightArrow.textContent!)).toEqual(context);
-
-      expect(OuterWrapper).toContainElement(LeftArrow);
-      expect(OuterWrapper).toContainElement(RightArrow);
-      expect(OuterWrapper).toContainElement(ScrollContainer as HTMLElement);
-      expect(OuterWrapper).toContainElement(Content);
+      expect(OuterWrapper).toContainElement(header);
+      expect(OuterWrapper).toContainElement(footer);
+      expect(OuterWrapper).toContainElement(footer as HTMLElement);
 
       const MenuItems = ScrollContainer.firstChild!;
 
@@ -360,8 +340,12 @@ describe('ScrollMenu', () => {
       const onScroll = jest.fn();
       const { container } = setup({ onScroll });
 
+      const ScrollContainer = container.getElementsByClassName(
+        constants.scrollContainerClassName
+      )?.[0];
+
       act(() => {
-        fireEvent.scroll(container.firstChild?.firstChild as Element);
+        fireEvent.scroll(ScrollContainer);
       });
 
       expect(onScroll).toHaveBeenCalledTimes(1);
@@ -449,22 +433,28 @@ describe('ScrollMenu', () => {
         wrapperClassName,
       });
 
-      const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.getAttribute('class')).toEqual(
+      const Wrapper = container.getElementsByClassName(
+        constants.wrapperClassName
+      )?.[0];
+
+      const ScrollContainer = container.getElementsByClassName(
+        constants.scrollContainerClassName
+      )?.[0];
+
+      expect(Wrapper.getAttribute('class')).toEqual(
         `${constants.wrapperClassName} ${wrapperClassName}`
       );
 
-      const scrollContainer = wrapper.firstChild as HTMLElement;
-      expect(scrollContainer.getAttribute('class')).toEqual(
+      expect(ScrollContainer.getAttribute('class')).toEqual(
         `${constants.scrollContainerClassName} ${scrollContainerClassName}`
       );
 
-      const item = scrollContainer.firstChild as HTMLElement;
+      const item = ScrollContainer.firstChild as HTMLElement;
       expect(item.getAttribute('class')).toEqual(
         `${constants.itemClassName} ${itemClassName}`
       );
 
-      const separator = scrollContainer.childNodes[1] as HTMLElement;
+      const separator = ScrollContainer.childNodes[1] as HTMLElement;
       expect(separator.getAttribute('class')).toEqual(
         `${constants.separatorClassName} ${separatorClassName}`
       );

@@ -23,17 +23,25 @@ import { getElementOrConstructor } from './helpers';
 import slidingWindow from './slidingWindow';
 import getItemsPos from './getItemsPos';
 
-type ArrowType = React.FC | React.ReactNode;
+type ComponentType = React.ReactNode | JSX.Element | React.FC;
 
 export interface Props {
-  Arrows?: React.ReactNode | React.ReactNode[] | JSX.Element | JSX.Element[];
-
   /**
-   Arrows components and additional content
-
-   e.g. Arrows={<><Content/><LeftArrow/><RightArrow/></>}
+   Header component on top, can contain Arrows
    */
-  LeftArrow?: ArrowType;
+  Header?: ComponentType;
+  /**
+   Footer component on bottom, can contain Arrows
+   */
+  Footer?: ComponentType;
+  /**
+   Component for left arrow
+
+   e.g. LeftArrow={Arrow}
+
+   or LeftArrow={<Arrow {...props />}}
+   */
+  LeftArrow?: ComponentType;
   /**
    Component for right arrow
 
@@ -41,7 +49,7 @@ export interface Props {
 
    or RightArrow={<Arrow {...props />}}
    */
-  RightArrow?: ArrowType;
+  RightArrow?: ComponentType;
   /**
     Every child should has unique `itemId` prop
    */
@@ -129,10 +137,11 @@ export interface Props {
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
 function ScrollMenu({
-  Arrows: _Arrows,
   LeftArrow: _LeftArrow,
   RightArrow: _RightArrow,
   children,
+  Header: _Header,
+  Footer: _Footer,
   transitionDuration = 500,
   transitionEase,
   transitionBehavior,
@@ -152,7 +161,8 @@ function ScrollMenu({
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
-  const Arrows = getElementOrConstructor(_Arrows);
+  const Header = getElementOrConstructor(_Header);
+  const Footer = getElementOrConstructor(_Footer);
 
   const scrollContainerRef = React.useRef(null);
   const [menuItemsRefs] = React.useState<Refs>({});
@@ -248,22 +258,25 @@ function ScrollMenu({
       onMouseMove={onMouseMove?.(context)}
     >
       <VisibilityContext.Provider value={context}>
-        {Arrows}
-        {LeftArrow}
-        <ScrollContainer
-          className={scrollContainerClassName}
-          onScroll={scrollHandler}
-          scrollRef={scrollContainerRef}
-        >
-          <MenuItems
-            refs={menuItemsRefs}
-            itemClassName={itemClassName}
-            separatorClassName={separatorClassName}
+        <div className={constants.headerClassName}>{Header}</div>
+        <div className={constants.innerWrapperClassName}>
+          <div className={constants.arrowLeftClassName}>{LeftArrow}</div>
+          <ScrollContainer
+            className={scrollContainerClassName}
+            onScroll={scrollHandler}
+            scrollRef={scrollContainerRef}
           >
-            {children}
-          </MenuItems>
-        </ScrollContainer>
-        {RightArrow}
+            <MenuItems
+              refs={menuItemsRefs}
+              itemClassName={itemClassName}
+              separatorClassName={separatorClassName}
+            >
+              {children}
+            </MenuItems>
+          </ScrollContainer>
+          <div className={constants.arrowRightClassName}>{RightArrow}</div>
+        </div>
+        <div className={constants.footerClassName}>{Footer}</div>
       </VisibilityContext.Provider>
     </div>
   );

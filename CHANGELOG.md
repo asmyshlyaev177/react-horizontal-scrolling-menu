@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.8.2...v3.0.0) (2022-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed Arrows prop
+
+### Features
+
+* header and footer initial implementation ([7d18fd4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/7d18fd4c6d3b5ed7c54a61c043a859b40de61819)), closes [#197](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/197)
+
+
+### Bug Fixes
+
+* removed globalThis ([5d3d82e](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/5d3d82e5412cc84c66b7091f6167e6241173df25))
+
+
+* test for header and footer, removed arrows ([4ae3014](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/4ae30149c673e41c9dd5123bd42e887ef9cebdf0))
+
 ### [2.8.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.8.1...v2.8.2) (2022-05-17)
 
 ### [2.8.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v2.8.0...v2.8.1) (2022-05-17)
