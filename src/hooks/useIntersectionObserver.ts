@@ -26,10 +26,10 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
     (entries: IntersectionObserverEntry[]) => {
       items.set(observerEntriesToItems(entries, options));
 
-      global.clearTimeout(throttleTimer.current);
+      clearTimeout(throttleTimer.current);
       throttleTimer.current = +setTimeout(
         () =>
-          global.requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
             setVisibleItems((currentVisible) => {
               const newVisibleItems = items
                 .getVisible()

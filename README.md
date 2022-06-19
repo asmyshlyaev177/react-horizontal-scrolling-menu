@@ -174,31 +174,32 @@ yarn run demo
 
 ### Helpers and api
 
-Children of main ScrollMenu component can use **VisibilityContext** to access state and callbacks.
+Children of main ScrollMenu component(arrows, fotter, items) can use **VisibilityContext** to access state and callbacks.
 Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ## Properties and callbacks
 
-| Prop                     | Signature                                                         |
-| ------------------------ | ----------------------------------------------------------------- |
-| Arrows                   | React component for arrows and additional content(see an example) |
-| LeftArrow                | React component for left arrow                                    |
-| RightArrow               | React component for right arrow                                   |
-| onWheel                  | (VisibilityContext, event) => void                                |
-| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll     |
-| onInit                   | (VisibilityContext) => void                                       |
-| apiRef                   | React.RefObject                                                   |
-| onUpdate                 | (VisibilityContext) => void                                       |
-| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void          |
-| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void          |
-| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void          |
-| itemClassName            | ClassName of Item                                                 |
-| separatorClassName       | ClassName of Item's separator                                     |
-| scrollContainerClassName | ClassName of scrollContainer                                      |
-| transitionDuration       | Duration of transitions in ms, default 500                        |
-| transitionBehavior       | 'smooth' \|'auto' \| customFunction                               |
-| transitionEase           | Ease function, eg t => t\*(2-t)                                   |
-| wrapperClassName         | ClassName of the outer-most div                                   |
+| Prop                     | Signature                                                     |
+| ------------------------ | ------------------------------------------------------------- |
+| LeftArrow                | React component for left arrow                                |
+| RightArrow               | React component for right arrow                               |
+| Header                   | React component Header                                        |
+| Footer                   | React component Footer                                        |
+| onWheel                  | (VisibilityContext, event) => void                            |
+| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll |
+| onInit                   | (VisibilityContext) => void                                   |
+| apiRef                   | React.RefObject                                               |
+| onUpdate                 | (VisibilityContext) => void                                   |
+| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void      |
+| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void      |
+| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void      |
+| itemClassName            | ClassName of Item                                             |
+| separatorClassName       | ClassName of Item's separator                                 |
+| scrollContainerClassName | ClassName of scrollContainer                                  |
+| transitionDuration       | Duration of transitions in ms, default 500                    |
+| transitionBehavior       | 'smooth' \|'auto' \| customFunction                           |
+| transitionEase           | Ease function, eg t => t\*(2-t)                               |
+| wrapperClassName         | ClassName of the outer-most div                               |
 
 ### VisibilityContext
 
