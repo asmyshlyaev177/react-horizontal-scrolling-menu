@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactChild, ReactFragment, ReactPortal } from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import type {
   Refs,
@@ -9,7 +9,7 @@ import type {
   scrollToItemOptions,
   CustomScrollBehavior,
 } from './types';
-import { separatorString } from './constants';
+import { separatorString, id as itemId } from './constants';
 import { observerOptions } from './settings';
 import { dataKeyAttribute, dataIndexAttribute } from './constants';
 
@@ -85,3 +85,7 @@ export function getElementOrConstructor(
 
 export const filterSeparators = (items: visibleItemsType): visibleItemsType =>
   items.filter((item) => !new RegExp(`.*${separatorString}$`).test(item));
+
+export const getItemId = (item: ReactChild | ReactFragment | ReactPortal) =>
+  (item as JSX.Element)?.props?.[itemId] ||
+  String((item as JSX.Element)?.key || '').replace(/^\.\$/, '');

@@ -4,6 +4,7 @@ import {
   getElementOrConstructor,
   getItemElementById,
   getItemElementByIndex,
+  getItemId,
   getNodesFromRefs,
   observerEntriesToItems,
   scrollToItem,
@@ -248,5 +249,25 @@ describe('filterSeparators', () => {
   test('should return argument if nothing to filter', () => {
     expect(filterSeparators(['test0', 'test1'])).toEqual(['test0', 'test1']);
     expect(filterSeparators([])).toEqual([]);
+  });
+});
+
+describe('getItemId', () => {
+  describe('itemId prop', () => {
+    const id = 'test123';
+    const Elem = (props: { itemId?: string }) => <div {...props}>test</div>;
+
+    it('should return itemId if exists', () => {
+      expect(getItemId(<Elem itemId={id} />)).toEqual(id);
+      expect(getItemId(<Elem itemId={id} key={id} />)).toEqual(id);
+    });
+
+    it('should return key if itemId does not exists', () => {
+      expect(getItemId(<Elem key={id} />)).toEqual(id);
+    });
+
+    it('should return empty string if itemId and key does not exists', () => {
+      expect(getItemId(<Elem />)).toEqual('');
+    });
   });
 });
