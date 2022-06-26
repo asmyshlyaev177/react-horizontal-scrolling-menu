@@ -1,15 +1,13 @@
 import React from 'react';
 
-import { id as itemId, separatorString } from '../constants';
+import { separatorString } from '../constants';
 import ItemsMap from '../ItemsMap';
 import type { ItemType } from '../types';
+import { getItemId } from '../helpers';
 
 const getItemsIdFromChildren = (
   children: ItemType | ItemType[] | undefined
-): string[] =>
-  React.Children.toArray(children)
-    .map((c) => (c as JSX.Element)?.props?.[itemId])
-    .filter(Boolean);
+): string[] => React.Children.toArray(children).map(getItemId).filter(Boolean);
 
 function useItemsChanged(
   menuItems: ItemType | ItemType[] | undefined,
