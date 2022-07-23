@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.1.0...v3.1.1) (2022-07-23)
+
+
+### Bug Fixes
+
+* convert itemId to string ([f7a75b3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/f7a75b3a8ec0dfcc8aaee6656da5d3e06e5cc1d4)), closes [#207](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/207)
+
 ## [3.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.0.1...v3.1.0) (2022-06-26)
 
 
