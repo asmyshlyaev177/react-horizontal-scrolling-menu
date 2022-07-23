@@ -46,6 +46,25 @@ describe('ItemsMap', () => {
       expect(map.toArr()).toEqual(data);
     });
 
+    test('should convert key to string', () => {
+      const map = new ItemsMap();
+      const data: Item[] = [
+        [
+          1 as unknown as string,
+          { index: '0', key: 'test1' } as unknown as IOItem,
+        ],
+        ['2', { index: '1', key: 'test2' } as unknown as IOItem],
+      ];
+
+      data.forEach(([key, value]) => {
+        map.set(key, value);
+      });
+      expect(map.toArr()).toEqual([
+        ['1', { index: '0', key: 'test1' } as unknown as IOItem],
+        ['2', { index: '1', key: 'test2' } as unknown as IOItem],
+      ]);
+    });
+
     describe('sort and set array of values and get via toArr', () => {
       test('sorted array', () => {
         const map = new ItemsMap();

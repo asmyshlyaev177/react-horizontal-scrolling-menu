@@ -28,10 +28,10 @@ class ItemsMap extends Map<Item[0], Item[1]> {
   set(key: Array<Item> | string, val?: IOItem): this {
     if (Array.isArray(key)) {
       this.sort(key).forEach(([itemId, ioitem]) => {
-        super.set(itemId, ioitem);
+        super.set(String(itemId), ioitem);
       });
     } else {
-      super.set(key, val!);
+      super.set(String(key), val!);
     }
     return this;
   }

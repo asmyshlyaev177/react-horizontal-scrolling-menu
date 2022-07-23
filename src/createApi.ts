@@ -34,7 +34,7 @@ export default function createApi(
   const getItemByIndex = (index: number | string) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
-  const isItemVisible = (id: string) => visibleItems.includes(id);
+  const isItemVisible = (id: string) => visibleItems.includes(String(id));
 
   const getPrevItem = () => items.prev(items.getVisible()?.[0]?.[1]);
 
