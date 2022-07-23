@@ -24,7 +24,7 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
     },
     {
       intersectionRatio: 0,
-      target: { dataset: { index: '1', key: 'test2' } },
+      target: { dataset: { index: '1', key: 2 } },
     },
   ].map((el, ind) => ({
     ...el,
@@ -214,7 +214,10 @@ describe('createApi', () => {
 
       expect(createApi(items).getItemById('test1')).toEqual(nodes[0]);
 
-      expect(createApi(items).getItemById('test2')).toEqual(nodes[2]);
+      expect(createApi(items).getItemById('2')).toEqual(nodes[2]);
+      expect(createApi(items).getItemById(2 as unknown as string)).toEqual(
+        nodes[2]
+      );
     });
 
     // eslint-disable-next-line radar/no-duplicate-string
@@ -250,8 +253,9 @@ describe('createApi', () => {
     test('should return visibility', () => {
       const { items, visibleItems } = setup([0.1, 1, 0.9]);
       expect(createApi(items, visibleItems).isItemVisible('test1')).toBeFalsy();
+      expect(createApi(items, visibleItems).isItemVisible('2')).toBeTruthy();
       expect(
-        createApi(items, visibleItems).isItemVisible('test2')
+        createApi(items, visibleItems).isItemVisible(2 as unknown as string)
       ).toBeTruthy();
     });
 
@@ -292,7 +296,10 @@ describe('createApi', () => {
   describe('isLastItem', () => {
     test('item is last', () => {
       const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isLastItem('test2')).toEqual(true);
+      expect(createApi(items, visibleItems).isLastItem('2')).toEqual(true);
+      expect(
+        createApi(items, visibleItems).isLastItem(2 as unknown as string)
+      ).toEqual(true);
     });
 
     test('do not have previous item', () => {

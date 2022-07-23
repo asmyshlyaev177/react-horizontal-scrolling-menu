@@ -255,11 +255,20 @@ describe('filterSeparators', () => {
 describe('getItemId', () => {
   describe('itemId prop', () => {
     const id = 'test123';
-    const Elem = (props: { itemId?: string }) => <div {...props}>test</div>;
+    const Elem = (props: { itemId?: string | number }) => (
+      <div {...props}>test</div>
+    );
 
     it('should return itemId if exists', () => {
       expect(getItemId(<Elem itemId={id} />)).toEqual(id);
       expect(getItemId(<Elem itemId={id} key={id} />)).toEqual(id);
+    });
+
+    it('should work if "id" is number', () => {
+      const id = 123;
+      const expected = String(id);
+      expect(getItemId(<Elem itemId={id} />)).toEqual(expected);
+      expect(getItemId(<Elem itemId={id} key={id} />)).toEqual(expected);
     });
 
     it('should return key if itemId does not exists', () => {

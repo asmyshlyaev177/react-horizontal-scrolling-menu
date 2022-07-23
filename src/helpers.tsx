@@ -27,8 +27,8 @@ export function observerEntriesToItems(
 ): Item[] {
   return [...entries].map((entry) => {
     const target = entry.target as HTMLElement;
-    const key: string = target?.dataset?.key || '';
-    const index = String(target?.dataset?.index || '');
+    const key = String(target?.dataset?.key ?? '');
+    const index = String(target?.dataset?.index ?? '');
 
     return [
       key,
@@ -87,5 +87,7 @@ export const filterSeparators = (items: visibleItemsType): visibleItemsType =>
   items.filter((item) => !new RegExp(`.*${separatorString}$`).test(item));
 
 export const getItemId = (item: ReactChild | ReactFragment | ReactPortal) =>
-  (item as JSX.Element)?.props?.[itemId] ||
-  String((item as JSX.Element)?.key || '').replace(/^\.\$/, '');
+  String(
+    (item as JSX.Element)?.props?.[itemId] ||
+      String((item as JSX.Element)?.key || '').replace(/^\.\$/, '')
+  );
