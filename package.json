@@ -40,7 +40,7 @@
     "postbuild": "sleep 15 && yarn kill-rollup",
     "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
-    "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true yarn dev",
+    "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
     "wait": "wait-on http://localhost:3003 && sleep 10",
     "demo": "run-p dev example",
     "demo:test": "run-s build example:test",
