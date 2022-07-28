@@ -4,3 +4,12 @@ docs/**
 src/**/*.test.ts
 src/**/*.test.tsx
 example-nextjs/**
+
+cypress/**
+coverage/**
+.yarn/**
+.vscode/**
+.husky/**
+.github/**
+types/**
+dist/**
