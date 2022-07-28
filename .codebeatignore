@@ -13,3 +13,5 @@ coverage/**
 .github/**
 types/**
 dist/**
+
+!src/**
