@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
@@ -31,24 +31,34 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-            
+
       - name: Install
         run: |
           yarn setup
-      
+
       - name: Unit tests
-        run: yarn test:unit
-        
+        run: yarn test:unit --coverage --coverageReporters="lcov" && mkdir coverage/lcov && cp coverage/lcov.info coverage/lcov/lcov.info
+
+      - name: Code Climate Test Reporter
+        uses: aktions/codeclimate-test-reporter@v1
+        env:
+          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+          CODECLIMATE_API_HOST: ${{ secrets.CODECLIMATE_API_HOST }}
+        with:
+          codeclimate-test-reporter-url: ${{ secrets.CODECLIMATE_API_HOST }}
+          codeclimate-test-reporter-id: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+          command: after-build
+
       - name: E2E tests
         uses: cypress-io/github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           env: true
-          install-command: yarn install --immutable 
-#           start: yarn install --immutable
+          install-command: yarn install --immutable
+          #           start: yarn install --immutable
           command: yarn test:e2e
-          
+
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
