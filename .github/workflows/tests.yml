@@ -37,17 +37,13 @@ jobs:
           yarn setup
 
       - name: Unit tests
-        run: yarn test:unit --coverage --coverageReporters="lcov" && mkdir coverage/lcov && cp coverage/lcov.info coverage/lcov/lcov.info
+        run: yarn test:unit --coverage --coverageReporters="lcov"
 
-      - name: Code Climate Test Reporter
-        uses: aktions/codeclimate-test-reporter@v1
-        env:
-          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
-          CODECLIMATE_API_HOST: ${{ secrets.CODECLIMATE_API_HOST }}
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
         with:
-          codeclimate-test-reporter-url: ${{ secrets.CODECLIMATE_API_HOST }}
-          codeclimate-test-reporter-id: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
-          command: after-build
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/lcov.info
 
       - name: E2E tests
         uses: cypress-io/github-action@v2
