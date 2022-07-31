@@ -42,6 +42,8 @@
 
 [Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
 
+[RTL](https://codesandbox.io/s/rtl-8lix35?file=/src/index.tsx)
+
 [Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
