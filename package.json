@@ -51,10 +51,9 @@
     "install-deps": "cd example-nextjs && yarn install && cd ../ && yarn install",
     "setup-husky": "husky install",
     "cz-install": "commitizen init cz-conventional-changelog --dev --exact --yarn",
-    "link-example": "yarn link && cd example-nextjs && yarn link react-horizontal-scrolling-menu",
     "link-react": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../../ && yarn link react && yarn link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
     "prepare": "yarn link-react",
-    "setup": "yarn setup-yarn && yarn install-deps && yarn setup-husky && yarn cz-install && yarn link-example",
+    "setup": "yarn setup-yarn && yarn install-deps && yarn setup-husky && yarn cz-install",
     "cz-husky-init": "husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
     "deploy-gp": "babel-node deploy-gp.js"
   },
