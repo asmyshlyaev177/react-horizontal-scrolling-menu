@@ -8,7 +8,7 @@ console.log({ isProd });
 
 module.exports = isProd
   ? {
-      assetPrefix: '/react-horizontal-scrolling-menu/',
-      basePath: '/react-horizontal-scrolling-menu',
-    }
+    assetPrefix: '/react-horizontal-scrolling-menu/',
+    basePath: '/react-horizontal-scrolling-menu',
+  }
   : withTM();
