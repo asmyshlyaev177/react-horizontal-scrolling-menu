@@ -2,6 +2,7 @@
 import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
+import * as helpers from './helpers';
 import { observerOptions } from './settings';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
@@ -335,6 +336,37 @@ describe('createApi', () => {
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
+    test('should pass RTL to scrollToItem', () => {
+      const { items, visibleItems } = setup([0, 1, 1]);
+      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
+
+      const RTL = true;
+      const api = createApi(items, visibleItems, undefined, undefined, RTL);
+      api.scrollPrev();
+      expect(scrollToItemSpy).toHaveBeenCalled();
+      const RTLProp = scrollToItemSpy.mock.calls[0][5];
+      expect(RTLProp).toEqual(RTL);
+    });
+
+    test('should pass noPolyfill to scrollToItem', () => {
+      const { items, visibleItems } = setup([0, 1, 1]);
+      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
+
+      const noPolyfill = true;
+      const api = createApi(
+        items,
+        visibleItems,
+        undefined,
+        undefined,
+        undefined,
+        noPolyfill
+      );
+      api.scrollPrev();
+      expect(scrollToItemSpy).toHaveBeenCalled();
+      const noPolyfillrop = scrollToItemSpy.mock.calls[0][5];
+      expect(noPolyfillrop).toEqual(noPolyfill);
+    });
+
     test('with transition options', () => {
       const { items, nodes, visibleItems } = setup([0, 1, 1]);
 
@@ -408,6 +440,37 @@ describe('createApi', () => {
       createApi(items, visibleItems).scrollNext();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    test('should pass RTL to scrollToItem', () => {
+      const { items, visibleItems } = setup([0, 1, 1]);
+      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
+
+      const RTL = true;
+      const api = createApi(items, visibleItems, undefined, undefined, RTL);
+      api.scrollNext();
+      expect(scrollToItemSpy).toHaveBeenCalled();
+      const RTLProp = scrollToItemSpy.mock.calls[0][5];
+      expect(RTLProp).toEqual(RTL);
+    });
+
+    test('should pass noPolyfill to scrollToItem', () => {
+      const { items, visibleItems } = setup([0, 1, 1]);
+      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
+
+      const noPolyfill = true;
+      const api = createApi(
+        items,
+        visibleItems,
+        undefined,
+        undefined,
+        undefined,
+        noPolyfill
+      );
+      api.scrollNext();
+      expect(scrollToItemSpy).toHaveBeenCalled();
+      const noPolyfillrop = scrollToItemSpy.mock.calls[0][5];
+      expect(noPolyfillrop).toEqual(noPolyfill);
     });
 
     test('with transition options', () => {

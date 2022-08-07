@@ -200,6 +200,8 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | transitionBehavior       | 'smooth' \|'auto' \| customFunction                           |
 | transitionEase           | Ease function, eg t => t\*(2-t)                               |
 | wrapperClassName         | ClassName of the outer-most div                               |
+| RTL                      | Enable Right to left direction                                |
+| noPolyfill               | Don't use polyfill for scroll, no transitions                 |
 
 ### VisibilityContext
 
@@ -226,6 +228,8 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | visibleItems                  | ['item1', 'item1-separator', 'item2']                  |
 
 ### Transition/Animation
+
+NOTE: won't work with RTL prop
 
 Can use `transitionDuration`, `transitionEase` and `transitionBehavior`
 See [example](https://codesandbox.io/s/custom-transition-animation-n2pyn)

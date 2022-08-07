@@ -129,6 +129,11 @@ export interface Props {
     e.g. apiRef.current.scrollToItem(...)
    */
   apiRef?: React.MutableRefObject<publicApiType>;
+  RTL?: boolean;
+  /**
+    Disable scrollIntoView polyfill
+   */
+  noPolyfill?: boolean;
 }
 
 /**
@@ -158,6 +163,8 @@ function ScrollMenu({
   separatorClassName = '',
   wrapperClassName = '',
   apiRef = { current: {} as publicApiType },
+  RTL,
+  noPolyfill,
 }: Props): JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
@@ -192,13 +199,21 @@ function ScrollMenu({
 
   const api = React.useMemo(
     () =>
-      createApi(items, visibleItems, scrollContainerRef, {
-        duration: transitionDuration,
-        ease: transitionEase,
-        behavior: transitionBehavior!,
-      }),
+      createApi(
+        items,
+        visibleItems,
+        scrollContainerRef,
+        {
+          duration: transitionDuration,
+          ease: transitionEase,
+          behavior: transitionBehavior!,
+        },
+        RTL,
+        noPolyfill
+      ),
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, visibleItems, itemsChanged]
+    [items, visibleItems, itemsChanged, RTL, noPolyfill]
   );
 
   const getContext = React.useCallback(
@@ -248,6 +263,11 @@ function ScrollMenu({
     [wrapperClassName]
   );
 
+  const containerClassName = React.useMemo(
+    () => `${scrollContainerClassName}${RTL ? ' rtl' : ''}`,
+    [RTL, scrollContainerClassName]
+  );
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -262,7 +282,7 @@ function ScrollMenu({
         <div className={constants.innerWrapperClassName}>
           <div className={constants.arrowLeftClassName}>{LeftArrow}</div>
           <ScrollContainer
-            className={scrollContainerClassName}
+            className={containerClassName}
             onScroll={scrollHandler}
             scrollRef={scrollContainerRef}
           >

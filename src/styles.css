@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.react-horizontal-scrolling-menu--scroll-container.rtl {
+  direction: rtl;
+}
+
 .react-horizontal-scrolling-menu--inner-wrapper {
   display: flex;
   overflow-y: hidden;
@@ -16,10 +20,12 @@
   flex-direction: column;
 }
 
-.react-horizontal-scrolling-menu--header, .react-horizontal-scrolling-menu--footer {
+.react-horizontal-scrolling-menu--header,
+.react-horizontal-scrolling-menu--footer {
   width: 100%;
 }
 
-.react-horizontal-scrolling-menu--arrow-left, .react-horizontal-scrolling-menu--arrow-right {
-display: flex;
+.react-horizontal-scrolling-menu--arrow-left,
+.react-horizontal-scrolling-menu--arrow-right {
+  display: flex;
 }

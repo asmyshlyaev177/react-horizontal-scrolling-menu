@@ -5,6 +5,7 @@ import { ScrollMenu, Props } from '.';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 
 import * as constants from './constants';
+import * as createApi from './createApi';
 import { publicApiType } from './createApi';
 import { ItemType } from './types';
 import { VisibilityContext } from './context';
@@ -76,6 +77,7 @@ const options = {
 
 describe('ScrollMenu', () => {
   beforeEach(() => {
+    jest.resetAllMocks();
     jest.resetAllMocks();
   });
 
@@ -417,7 +419,54 @@ describe('ScrollMenu', () => {
       comparePublicApi(call);
     });
 
-    test('should pass classNames', () => {
+    describe('className', () => {
+      test('should pass classNames', () => {
+        (useIntersectionObserver as jest.Mock).mockReturnValue({
+          visibleItems: defaultItemsWithSeparators,
+        });
+
+        const itemClassName = 'item-class';
+        const separatorClassName = 'sep-class';
+        const wrapperClassName = 'wrapper-class';
+
+        const { container } = setup({
+          itemClassName,
+          separatorClassName,
+          scrollContainerClassName,
+          wrapperClassName,
+        });
+
+        const Wrapper = container.getElementsByClassName(
+          constants.wrapperClassName
+        )?.[0];
+
+        const ScrollContainer = container.getElementsByClassName(
+          constants.scrollContainerClassName
+        )?.[0];
+
+        expect(Wrapper.getAttribute('class')).toEqual(
+          `${constants.wrapperClassName} ${wrapperClassName}`
+        );
+
+        expect(ScrollContainer.getAttribute('class')).toEqual(
+          `${constants.scrollContainerClassName} ${scrollContainerClassName}`
+        );
+
+        const item = ScrollContainer.firstChild as HTMLElement;
+        expect(item.getAttribute('class')).toEqual(
+          `${constants.itemClassName} ${itemClassName}`
+        );
+
+        const separator = ScrollContainer.childNodes[1] as HTMLElement;
+        expect(separator.getAttribute('class')).toEqual(
+          `${constants.separatorClassName} ${separatorClassName}`
+        );
+      });
+    });
+  });
+
+  describe('RTL', () => {
+    test('should add .rtl class', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue({
         visibleItems: defaultItemsWithSeparators,
       });
@@ -431,6 +480,7 @@ describe('ScrollMenu', () => {
         separatorClassName,
         scrollContainerClassName,
         wrapperClassName,
+        RTL: true,
       });
 
       const Wrapper = container.getElementsByClassName(
@@ -446,19 +496,39 @@ describe('ScrollMenu', () => {
       );
 
       expect(ScrollContainer.getAttribute('class')).toEqual(
-        `${constants.scrollContainerClassName} ${scrollContainerClassName}`
-      );
-
-      const item = ScrollContainer.firstChild as HTMLElement;
-      expect(item.getAttribute('class')).toEqual(
-        `${constants.itemClassName} ${itemClassName}`
-      );
-
-      const separator = ScrollContainer.childNodes[1] as HTMLElement;
-      expect(separator.getAttribute('class')).toEqual(
-        `${constants.separatorClassName} ${separatorClassName}`
+        `${constants.scrollContainerClassName} ${scrollContainerClassName} rtl`
       );
     });
+
+    test('createApi called with RTL', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue({
+        visibleItems: defaultItemsWithSeparators,
+      });
+      const createApiSpy = jest.spyOn(createApi, 'default');
+
+      setup({
+        RTL: true,
+      });
+
+      expect(createApiSpy).toHaveBeenCalled();
+      const RTLProp = createApiSpy.mock.calls[0][4];
+      expect(RTLProp).toEqual(true);
+    });
+  });
+
+  test('createApi called with noPolyfill', () => {
+    (useIntersectionObserver as jest.Mock).mockReturnValue({
+      visibleItems: defaultItemsWithSeparators,
+    });
+    const createApiSpy = jest.spyOn(createApi, 'default');
+
+    setup({
+      noPolyfill: true,
+    });
+
+    expect(createApiSpy).toHaveBeenCalled();
+    const noPolyfill = createApiSpy.mock.calls[0][5];
+    expect(noPolyfill).toEqual(true);
   });
 });
 
