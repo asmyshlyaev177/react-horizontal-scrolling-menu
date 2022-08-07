@@ -21,7 +21,9 @@ export default function createApi(
     duration?: number;
     ease?: (t: number) => number;
     behavior: string | Function;
-  }
+  },
+  RTL?: boolean,
+  noPolyfill?: boolean
 ) {
   const visibleItemsWithoutSeparators = filterSeparators(visibleItems);
 
@@ -65,7 +67,8 @@ export default function createApi(
         boundary,
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
-      }
+      },
+      RTL || noPolyfill
     );
   };
 
@@ -91,7 +94,8 @@ export default function createApi(
         boundary,
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
-      }
+      },
+      RTL || noPolyfill
     );
   };
 

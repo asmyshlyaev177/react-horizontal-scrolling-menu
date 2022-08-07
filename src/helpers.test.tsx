@@ -127,6 +127,22 @@ describe('scrollToItem', () => {
     );
   });
 
+  test('should not use polyfill when noPolyfill passed', () => {
+    const target = document.createElement('div');
+    const standartScrollIntoViewMock = jest.fn();
+    target.scrollIntoView = standartScrollIntoViewMock;
+
+    const item = {
+      entry: { target },
+    } as unknown as IOItem;
+
+    const noPolyfill = true;
+    scrollToItem(item, undefined, undefined, undefined, undefined, noPolyfill);
+
+    expect(scrollIntoView).not.toHaveBeenCalled();
+    expect(standartScrollIntoViewMock).toHaveBeenCalled();
+  });
+
   test('should scroll to item with custom options', () => {
     const item = {
       entry: { target: document.createElement('div') },

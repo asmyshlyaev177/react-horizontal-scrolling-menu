@@ -47,22 +47,29 @@ function scrollToItem<T>(
   behavior?: ScrollBehavior | CustomScrollBehavior<T>,
   inline?: ScrollLogicalPosition,
   block?: ScrollLogicalPosition,
-  rest?: scrollToItemOptions
+  rest?: scrollToItemOptions,
+  noPolyfill?: boolean
 ): T | Promise<T> | void {
   const _item = (item as IOItem)?.entry?.target || item;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _behavior: any = behavior || 'smooth';
 
-  return (
-    _item &&
-    scrollIntoView(_item, {
+  if (_item) {
+    if (noPolyfill) {
+      return _item?.scrollIntoView({
+        behavior: _behavior,
+        inline: inline || 'end',
+        block: block || 'nearest',
+      });
+    }
+    return scrollIntoView(_item, {
       behavior: _behavior,
       inline: inline || 'end',
       block: block || 'nearest',
       duration: 500,
       ...rest,
-    })
-  );
+    });
+  }
 }
 
 export { scrollToItem };
