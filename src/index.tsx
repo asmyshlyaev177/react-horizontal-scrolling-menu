@@ -189,19 +189,19 @@ function ScrollMenu({
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, items);
 
-  const { visibleItems } = useIntersectionObserver({
+  const { visibleElementsWithSeparators } = useIntersectionObserver({
     items,
     itemsChanged,
     options: observerOptions,
     refs: menuItemsRefs,
   });
-  const mounted = !!visibleItems.length;
+  const mounted = !!visibleElementsWithSeparators.length;
 
   const api = React.useMemo(
     () =>
       createApi(
         items,
-        visibleItems,
+        visibleElementsWithSeparators,
         scrollContainerRef,
         {
           duration: transitionDuration,
@@ -213,7 +213,7 @@ function ScrollMenu({
       ),
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, visibleItems, itemsChanged, RTL, noPolyfill]
+    [items, visibleElementsWithSeparators, itemsChanged, RTL, noPolyfill]
   );
 
   const getContext = React.useCallback(
@@ -221,10 +221,10 @@ function ScrollMenu({
       ...api,
       initComplete: mounted,
       items,
-      visibleItems,
+      visibleElementsWithSeparators,
       scrollContainer: scrollContainerRef,
     }),
-    [api, mounted, items, visibleItems, scrollContainerRef]
+    [api, mounted, items, visibleElementsWithSeparators, scrollContainerRef]
   );
 
   const [context, setContext] = React.useState<publicApiType>(getContext);
@@ -238,7 +238,7 @@ function ScrollMenu({
     cb: () => onUpdate(context),
     condition: onInitCbFired,
     hash: JSON.stringify(
-      visibleItems
+      visibleElementsWithSeparators
         .concat(String(context?.isFirstItemVisible))
         .concat(String(context?.isLastItemVisible))
     ),

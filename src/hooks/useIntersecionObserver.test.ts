@@ -62,7 +62,7 @@ describe('useIntersectionObserver', () => {
     expect(mockedObserverCalls.observe[1]).toEqual(refs.el2.current);
   });
 
-  test('should return visible items', async () => {
+  test('should return visible elements', async () => {
     const oeti = mocked(observerEntriesToItems, true);
 
     const items = new ItemsMap();
@@ -76,7 +76,7 @@ describe('useIntersectionObserver', () => {
       useIntersectionObserver(props)
     );
 
-    expect(result.current.visibleItems).toEqual([]);
+    expect(result.current.visibleElementsWithSeparators).toEqual([]);
 
     const itemsToEntries = (items: { key: string; visible: boolean }[]) =>
       items.map(
@@ -113,12 +113,18 @@ describe('useIntersectionObserver', () => {
     mockedObserver.fire([]);
     mockedObserver.fire([]);
     await waitForNextUpdate();
-    expect(result.current.visibleItems).toEqual(['item1', 'item2']);
+    expect(result.current.visibleElementsWithSeparators).toEqual([
+      'item1',
+      'item2',
+    ]);
 
     oeti.mockReturnValueOnce(itemsToEntries(visibilityStateHistory[1]));
     mockedObserver.fire([]);
     await waitForNextUpdate();
-    expect(result.current.visibleItems).toEqual(['item2', 'item3']);
+    expect(result.current.visibleElementsWithSeparators).toEqual([
+      'item2',
+      'item3',
+    ]);
   });
 
   test('should call disconnect', () => {

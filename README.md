@@ -207,27 +207,29 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ### VisibilityContext
 
-| Prop                          | Signature                                              |
-| ----------------------------- | ------------------------------------------------------ |
-| getItemById                   | itemId => IOItem \| undefined                          |
-| getItemElementById            | itemId => DOM Element \| null                          |
-| getItemByIndex                | index => IOItem \| undefined                           |
-| getItemElementByIndex         | index => DOM Element \| null                           |
-| getNextItem                   | () => IOItem \| undefined)                             |
-| getPrevItem                   | () => IOItem \| undefined                              |
-| initComplete                  | boolean                                                |
-| isFirstItemVisible            | boolean                                                |
-| isItemVisible                 | itemId => boolean                                      |
-| isLastItem                    | boolean                                                |
-| isLastItemVisible             | boolean                                                |
-| scrollNext                    | (behavior, inline, block, ScrollOptions) => void       |
-| scrollPrev                    | (behavior, inline, block, ScrollOptions) => void       |
-| scrollToItem                  | (item, behavior, inline, block, ScrollOptions) => void |
-| visibleItemsWithoutSeparators | ['item1', 'item2']                                     |
-| initComplete                  | boolean                                                |
-| items                         | ItemsMap class instance                                |
-| scrollContainer               | Ref<OuterContainer>                                    |
-| visibleItems                  | ['item1', 'item1-separator', 'item2']                  |
+| Prop                                                            | Signature                                              |
+| --------------------------------------------------------------- | ------------------------------------------------------ |
+| getItemById                                                     | itemId => IOItem \| undefined                          |
+| getItemElementById                                              | itemId => DOM Element \| null                          |
+| getItemByIndex                                                  | index => IOItem \| undefined                           |
+| getItemElementByIndex                                           | index => DOM Element \| null                           |
+| getNextItem                                                     | () => IOItem \| undefined)                             |
+| getPrevItem                                                     | () => IOItem \| undefined                              |
+| initComplete                                                    | boolean                                                |
+| isFirstItemVisible                                              | boolean                                                |
+| isItemVisible                                                   | itemId => boolean                                      |
+| isLastItem                                                      | boolean                                                |
+| isLastItemVisible                                               | boolean                                                |
+| scrollNext                                                      | (behavior, inline, block, ScrollOptions) => void       |
+| scrollPrev                                                      | (behavior, inline, block, ScrollOptions) => void       |
+| scrollToItem                                                    | (item, behavior, inline, block, ScrollOptions) => void |
+| initComplete                                                    | boolean                                                |
+| items                                                           | ItemsMap class instance                                |
+| scrollContainer                                                 | Ref<OuterContainer>                                    |
+| visibleElements                                                 | ['item1', 'item2']                                     |
+| visibleElementsWithSeparators                                   | ['item1', 'item1-separator', 'item2']                  |
+| visibleItemsWithoutSeparators (deprecated, use visibleElements) | ['item1', 'item2']                                     |
+| visibleItems (deprecated, use visibleElementsWithSeparators)    | ['item1', 'item1-separator', 'item2']                  |
 
 ### Transition/Animation
 

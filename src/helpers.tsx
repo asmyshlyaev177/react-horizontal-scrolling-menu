@@ -5,7 +5,7 @@ import type {
   Item,
   IOItem,
   ItemOrElement,
-  visibleItems as visibleItemsType,
+  visibleElements,
   scrollToItemOptions,
   CustomScrollBehavior,
 } from './types';
@@ -90,7 +90,7 @@ export function getElementOrConstructor(
   );
 }
 
-export const filterSeparators = (items: visibleItemsType): visibleItemsType =>
+export const filterSeparators = (items: visibleElements): visibleElements =>
   items.filter((item) => !new RegExp(`.*${separatorString}$`).test(item));
 
 export const getItemId = (item: ReactChild | ReactFragment | ReactPortal) =>

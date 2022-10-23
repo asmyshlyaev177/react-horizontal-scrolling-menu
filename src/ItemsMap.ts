@@ -1,4 +1,4 @@
-import type { IOItem, Item, visibleItems as itemsArr } from './types';
+import type { IOItem, Item, visibleElements } from './types';
 import { filterSeparators } from './helpers';
 
 class ItemsMap extends Map<Item[0], Item[1]> {
@@ -6,16 +6,16 @@ class ItemsMap extends Map<Item[0], Item[1]> {
     return this.sort([...this]);
   }
 
-  public toItems(): itemsArr {
+  public toItems(): visibleElements {
     return this.toArr().map(([key]) => key);
   }
 
-  public toItemsWithoutSeparators(): itemsArr {
+  public toItemsWithoutSeparators(): visibleElements {
     return filterSeparators(this.toItems());
   }
 
   // NOTE: for backward compatibility, to remove
-  public toItemsKeys(): itemsArr {
+  public toItemsKeys(): visibleElements {
     return this.toItems();
   }
 

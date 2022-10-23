@@ -1,7 +1,7 @@
 import type { CustomEasing } from 'smooth-scroll-into-view-if-needed';
 import type { CustomScrollBehaviorCallback } from 'scroll-into-view-if-needed/typings/types';
 
-export type visibleItems = string[];
+export type visibleElements = string[];
 
 export interface IOItem {
   index: string;

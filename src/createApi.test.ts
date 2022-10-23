@@ -38,9 +38,15 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
     { ...observerOptions, ratio: 0.5 }
   );
   items.set(nodes);
-  const visibleItems = items.getVisible().map((el) => el[1].key);
+  const visibleElementsWithSeparators = items
+    .getVisible()
+    .map((el) => el[1].key);
 
-  return { items, nodes: nodes.map((el) => el[1]), visibleItems };
+  return {
+    items,
+    nodes: nodes.map((el) => el[1]),
+    visibleElementsWithSeparators,
+  };
 };
 
 describe('createApi', () => {
@@ -48,14 +54,16 @@ describe('createApi', () => {
     jest.clearAllMocks();
   });
 
-  test('visibleItems', () => {
-    const { items, visibleItems } = setup([0.3, 1, 0.7]);
+  test('visibleElementsWithSeparators', () => {
+    const { items, visibleElementsWithSeparators } = setup([0.3, 1, 0.7]);
 
-    expect(createApi(items, visibleItems).visibleItems).toEqual(visibleItems);
+    expect(
+      createApi(items, visibleElementsWithSeparators).visibleItems
+    ).toEqual(visibleElementsWithSeparators);
   });
 
-  test('visibleItemsWithoutSeparators', () => {
-    const { items, visibleItems } = setup([0.3, 1, 0.7]);
+  test('visibleElements', () => {
+    const { items, visibleElementsWithSeparators } = setup([0.3, 1, 0.7]);
     const expected = items
       .toArr()
       .filter((el) => el[1].visible)
@@ -63,20 +71,24 @@ describe('createApi', () => {
       .map((el) => el[1].key);
 
     expect(
-      createApi(items, visibleItems).visibleItemsWithoutSeparators
+      createApi(items, visibleElementsWithSeparators).visibleElements
+    ).toEqual(expected);
+    expect(
+      createApi(items, visibleElementsWithSeparators)
+        .visibleItemsWithoutSeparators
     ).toEqual(expected);
 
-    expect(createApi(items, []).visibleItemsWithoutSeparators).toEqual([]);
+    expect(createApi(items, []).visibleElements).toEqual([]);
     expect(createApi(items, []).visibleItemsWithoutSeparators).toEqual([]);
   });
 
   describe('helpers', () => {
     describe('scrollToItem', () => {
       test('should call scrollIntoView', () => {
-        const { items, visibleItems } = setup([0.7, 0, 0]);
+        const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
-        createApi(items, visibleItems, boundary).scrollToItem(
+        createApi(items, visibleElementsWithSeparators, boundary).scrollToItem(
           document.createElement('div')
         );
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -91,7 +103,7 @@ describe('createApi', () => {
       });
 
       test('with transitionOptions', () => {
-        const { items, visibleItems } = setup([0.7, 0, 0]);
+        const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
         const transitionOptions = {
@@ -102,7 +114,7 @@ describe('createApi', () => {
 
         createApi(
           items,
-          visibleItems,
+          visibleElementsWithSeparators,
           boundary,
           transitionOptions
         ).scrollToItem(document.createElement('div'));
@@ -119,7 +131,7 @@ describe('createApi', () => {
       });
 
       test('arguments should have priority over transitionOptions', () => {
-        const { items, visibleItems } = setup([0.7, 0, 0]);
+        const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
         const transitionOptions = {
@@ -130,7 +142,7 @@ describe('createApi', () => {
 
         createApi(
           items,
-          visibleItems,
+          visibleElementsWithSeparators,
           boundary,
           transitionOptions
         ).scrollToItem(
@@ -153,33 +165,37 @@ describe('createApi', () => {
     });
 
     test('getItemElementById', () => {
-      const { items, visibleItems } = setup([0.7, 0, 0]);
+      const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).getItemElementById).toEqual(
-        getItemElementById
-      );
+      expect(
+        createApi(items, visibleElementsWithSeparators).getItemElementById
+      ).toEqual(getItemElementById);
     });
 
     test('getItemElementByIndex', () => {
-      const { items, visibleItems } = setup([0.7, 0, 0]);
+      const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).getItemElementByIndex).toEqual(
-        getItemElementByIndex
-      );
+      expect(
+        createApi(items, visibleElementsWithSeparators).getItemElementByIndex
+      ).toEqual(getItemElementByIndex);
     });
   });
 
   describe('isFirstItemVisible', () => {
     test('first item visible', () => {
-      const { items, visibleItems } = setup([0.7, 0, 0]);
+      const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
-      expect(createApi(items, visibleItems).isFirstItemVisible).toEqual(true);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isFirstItemVisible
+      ).toEqual(true);
     });
 
     test('first item not visible', () => {
-      const { items, visibleItems } = setup([0.3, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([0.3, 1, 1]);
 
-      expect(createApi(items, visibleItems).isFirstItemVisible).toEqual(false);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isFirstItemVisible
+      ).toEqual(false);
     });
 
     test('empty items', () => {
@@ -191,15 +207,19 @@ describe('createApi', () => {
 
   describe('isLastItemVisible', () => {
     test('last item visible', () => {
-      const { items, visibleItems } = setup([0.3, 0.9, 0.9]);
+      const { items, visibleElementsWithSeparators } = setup([0.3, 0.9, 0.9]);
 
-      expect(createApi(items, visibleItems).isLastItemVisible).toEqual(true);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isLastItemVisible
+      ).toEqual(true);
     });
 
     test('last item not visible', () => {
-      const { items, visibleItems } = setup([1, 1, 0.3]);
+      const { items, visibleElementsWithSeparators } = setup([1, 1, 0.3]);
 
-      expect(createApi(items, visibleItems).isLastItemVisible).toEqual(false);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isLastItemVisible
+      ).toEqual(false);
     });
 
     test('empty items', () => {
@@ -232,15 +252,17 @@ describe('createApi', () => {
 
   describe('getItemByIndex', () => {
     test('item exist', () => {
-      const { items, nodes, visibleItems } = setup([0.1, 1, 0.9]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([
+        0.1, 1, 0.9,
+      ]);
 
-      expect(createApi(items, visibleItems).getItemByIndex(0)).toEqual(
-        nodes[0]
-      );
+      expect(
+        createApi(items, visibleElementsWithSeparators).getItemByIndex(0)
+      ).toEqual(nodes[0]);
 
-      expect(createApi(items, visibleItems).getItemByIndex(0)).toEqual(
-        nodes[0]
-      );
+      expect(
+        createApi(items, visibleElementsWithSeparators).getItemByIndex(0)
+      ).toEqual(nodes[0]);
     });
 
     test('item not exist', () => {
@@ -252,70 +274,98 @@ describe('createApi', () => {
 
   describe('isItemVisible', () => {
     test('should return visibility', () => {
-      const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isItemVisible('test1')).toBeFalsy();
-      expect(createApi(items, visibleItems).isItemVisible('2')).toBeTruthy();
+      const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
       expect(
-        createApi(items, visibleItems).isItemVisible(2 as unknown as string)
+        createApi(items, visibleElementsWithSeparators).isItemVisible('test1')
+      ).toBeFalsy();
+      expect(
+        createApi(items, visibleElementsWithSeparators).isItemVisible('2')
+      ).toBeTruthy();
+      expect(
+        createApi(items, visibleElementsWithSeparators).isItemVisible(
+          2 as unknown as string
+        )
       ).toBeTruthy();
     });
 
     test('item not exist', () => {
-      const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isItemVisible('test3')).toBeFalsy();
-      expect(createApi(items, visibleItems).isItemVisible('')).toBeFalsy();
+      const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isItemVisible('test3')
+      ).toBeFalsy();
+      expect(
+        createApi(items, visibleElementsWithSeparators).isItemVisible('')
+      ).toBeFalsy();
     });
   });
 
   describe('getPrevItem', () => {
     test('have previous item', () => {
-      const { items, nodes, visibleItems } = setup([0.1, 1, 0.9]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([
+        0.1, 1, 0.9,
+      ]);
 
-      expect(createApi(items, visibleItems).getPrevItem()).toEqual(nodes[0]);
+      expect(
+        createApi(items, visibleElementsWithSeparators).getPrevItem()
+      ).toEqual(nodes[0]);
     });
 
     test('do not have previous item', () => {
-      const { items, visibleItems } = setup([1, 0.1, 0.3]);
+      const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
 
-      expect(createApi(items, visibleItems).getPrevItem()).toEqual(undefined);
+      expect(
+        createApi(items, visibleElementsWithSeparators).getPrevItem()
+      ).toEqual(undefined);
     });
   });
 
   describe('getNextItem', () => {
     test('have next item', () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 0.3]);
-      expect(createApi(items, visibleItems).getNextItem()).toEqual(nodes[2]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([
+        1, 1, 0.3,
+      ]);
+      expect(
+        createApi(items, visibleElementsWithSeparators).getNextItem()
+      ).toEqual(nodes[2]);
     });
 
     test('do not have next item', () => {
-      const { items, visibleItems } = setup([0, 0.1, 0.9]);
+      const { items, visibleElementsWithSeparators } = setup([0, 0.1, 0.9]);
 
-      expect(createApi(items, visibleItems).getNextItem()).toEqual(undefined);
+      expect(
+        createApi(items, visibleElementsWithSeparators).getNextItem()
+      ).toEqual(undefined);
     });
   });
 
   describe('isLastItem', () => {
     test('item is last', () => {
-      const { items, visibleItems } = setup([0.1, 1, 0.9]);
-      expect(createApi(items, visibleItems).isLastItem('2')).toEqual(true);
+      const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
       expect(
-        createApi(items, visibleItems).isLastItem(2 as unknown as string)
+        createApi(items, visibleElementsWithSeparators).isLastItem('2')
+      ).toEqual(true);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isLastItem(
+          2 as unknown as string
+        )
       ).toEqual(true);
     });
 
     test('do not have previous item', () => {
-      const { items, visibleItems } = setup([1, 0.1, 0.3]);
+      const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
 
-      expect(createApi(items, visibleItems).isLastItem('test1')).toEqual(false);
+      expect(
+        createApi(items, visibleElementsWithSeparators).isLastItem('test1')
+      ).toEqual(false);
     });
   });
 
   describe('scrollPrev', () => {
     test('have prev item', () => {
-      const { items, nodes, visibleItems } = setup([0, 1, 1]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, visibleItems, boundary).scrollPrev();
+      createApi(items, visibleElementsWithSeparators, boundary).scrollPrev();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -329,19 +379,25 @@ describe('createApi', () => {
     });
 
     test('no prev item', () => {
-      const { items, visibleItems } = setup([1, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([1, 1, 1]);
 
-      createApi(items, visibleItems).scrollPrev();
+      createApi(items, visibleElementsWithSeparators).scrollPrev();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
     test('should pass RTL to scrollToItem', () => {
-      const { items, visibleItems } = setup([0, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const RTL = true;
-      const api = createApi(items, visibleItems, undefined, undefined, RTL);
+      const api = createApi(
+        items,
+        visibleElementsWithSeparators,
+        undefined,
+        undefined,
+        RTL
+      );
       api.scrollPrev();
       expect(scrollToItemSpy).toHaveBeenCalled();
       const RTLProp = scrollToItemSpy.mock.calls[0][5];
@@ -349,13 +405,13 @@ describe('createApi', () => {
     });
 
     test('should pass noPolyfill to scrollToItem', () => {
-      const { items, visibleItems } = setup([0, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const noPolyfill = true;
       const api = createApi(
         items,
-        visibleItems,
+        visibleElementsWithSeparators,
         undefined,
         undefined,
         undefined,
@@ -368,7 +424,7 @@ describe('createApi', () => {
     });
 
     test('with transition options', () => {
-      const { items, nodes, visibleItems } = setup([0, 1, 1]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
       const transitionOptions = {
@@ -376,7 +432,12 @@ describe('createApi', () => {
         ease: (t: number) => t,
         behavior: () => false,
       };
-      createApi(items, visibleItems, boundary, transitionOptions).scrollPrev();
+      createApi(
+        items,
+        visibleElementsWithSeparators,
+        boundary,
+        transitionOptions
+      ).scrollPrev();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -390,7 +451,7 @@ describe('createApi', () => {
     });
 
     test('arguments should have priority over transitionOptions', () => {
-      const { items, nodes, visibleItems } = setup([0, 1, 1]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
       const transitionOptions = {
@@ -398,11 +459,12 @@ describe('createApi', () => {
         ease: (t: number) => t,
         behavior: () => false,
       };
-      createApi(items, visibleItems, boundary, transitionOptions).scrollPrev(
-        'auto',
-        'center',
-        'center'
-      );
+      createApi(
+        items,
+        visibleElementsWithSeparators,
+        boundary,
+        transitionOptions
+      ).scrollPrev('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -418,10 +480,10 @@ describe('createApi', () => {
 
   describe('scrollNext', () => {
     test('have next item', () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 0]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, visibleItems, boundary).scrollNext();
+      createApi(items, visibleElementsWithSeparators, boundary).scrollNext();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
@@ -435,19 +497,25 @@ describe('createApi', () => {
     });
 
     test('no next item', () => {
-      const { items, visibleItems } = setup([1, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([1, 1, 1]);
 
-      createApi(items, visibleItems).scrollNext();
+      createApi(items, visibleElementsWithSeparators).scrollNext();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
     test('should pass RTL to scrollToItem', () => {
-      const { items, visibleItems } = setup([0, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const RTL = true;
-      const api = createApi(items, visibleItems, undefined, undefined, RTL);
+      const api = createApi(
+        items,
+        visibleElementsWithSeparators,
+        undefined,
+        undefined,
+        RTL
+      );
       api.scrollNext();
       expect(scrollToItemSpy).toHaveBeenCalled();
       const RTLProp = scrollToItemSpy.mock.calls[0][5];
@@ -455,13 +523,13 @@ describe('createApi', () => {
     });
 
     test('should pass noPolyfill to scrollToItem', () => {
-      const { items, visibleItems } = setup([0, 1, 1]);
+      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const noPolyfill = true;
       const api = createApi(
         items,
-        visibleItems,
+        visibleElementsWithSeparators,
         undefined,
         undefined,
         undefined,
@@ -474,7 +542,7 @@ describe('createApi', () => {
     });
 
     test('with transition options', () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 0]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
       const transitionOptions = {
@@ -482,7 +550,12 @@ describe('createApi', () => {
         ease: (t: number) => t,
         behavior: () => false,
       };
-      createApi(items, visibleItems, boundary, transitionOptions).scrollNext();
+      createApi(
+        items,
+        visibleElementsWithSeparators,
+        boundary,
+        transitionOptions
+      ).scrollNext();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
@@ -496,7 +569,7 @@ describe('createApi', () => {
     });
 
     test('arguments should have priority over transitionOptions', () => {
-      const { items, nodes, visibleItems } = setup([1, 1, 0]);
+      const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
       const transitionOptions = {
@@ -504,11 +577,12 @@ describe('createApi', () => {
         ease: (t: number) => t,
         behavior: () => false,
       };
-      createApi(items, visibleItems, boundary, transitionOptions).scrollNext(
-        'auto',
-        'center',
-        'center'
-      );
+      createApi(
+        items,
+        visibleElementsWithSeparators,
+        boundary,
+        transitionOptions
+      ).scrollNext('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
