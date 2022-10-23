@@ -5,7 +5,7 @@ describe('slidingWindow', () => {
   describe('previous group', () => {
     describe('should return prev visible group', () => {
       test('when there is less items in prev group', () => {
-        const visibleItems = [
+        const visibleElementsWithSeparators = [
           'test2',
           'test2-separator',
           'test3',
@@ -14,7 +14,10 @@ describe('slidingWindow', () => {
           'test4-separator',
         ];
 
-        const group1 = slidingWindow(allItems, visibleItems).prev();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).prev();
 
         expect(group1).toEqual([
           'test0',
@@ -26,7 +29,7 @@ describe('slidingWindow', () => {
       });
 
       test('5 items', () => {
-        const visibleItems = [
+        const visibleElementsWithSeparators = [
           'test15',
           'test15-separator',
           'test16',
@@ -37,7 +40,10 @@ describe('slidingWindow', () => {
           'test18-separator',
           'test19',
         ];
-        const group1 = slidingWindow(allItems, visibleItems).prev();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).prev();
 
         expect(group1).toEqual([
           'test10',
@@ -81,9 +87,12 @@ describe('slidingWindow', () => {
       });
 
       test('1 item', () => {
-        const visibleItems = ['test17', 'test17-separator'];
+        const visibleElementsWithSeparators = ['test17', 'test17-separator'];
 
-        const group1 = slidingWindow(allItems, visibleItems).prev();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).prev();
         expect(group1).toEqual(['test16']);
 
         const group2 = slidingWindow(allItems, group1).prev();
@@ -94,9 +103,16 @@ describe('slidingWindow', () => {
       });
 
       test('2 items', () => {
-        const visibleItems = ['test17', 'test17-separator', 'test18'];
+        const visibleElementsWithSeparators = [
+          'test17',
+          'test17-separator',
+          'test18',
+        ];
 
-        const group1 = slidingWindow(allItems, visibleItems).prev();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).prev();
         expect(group1).toEqual(['test15', 'test15-separator', 'test16']);
 
         const group2 = slidingWindow(allItems, group1).prev();
@@ -108,7 +124,7 @@ describe('slidingWindow', () => {
     });
 
     test('should return first group infinite times', () => {
-      const visibleItems = [
+      const visibleElementsWithSeparators = [
         'test5',
         'test5-separator',
         'test6',
@@ -120,7 +136,10 @@ describe('slidingWindow', () => {
         'test9',
       ];
 
-      const group1 = slidingWindow(allItems, visibleItems).prev();
+      const group1 = slidingWindow(
+        allItems,
+        visibleElementsWithSeparators
+      ).prev();
       expect(group1).toEqual([
         'test0',
         'test0-separator',
@@ -150,7 +169,7 @@ describe('slidingWindow', () => {
     });
 
     test('invalid inputs', () => {
-      const visibleItems = [
+      const visibleElementsWithSeparators = [
         'test5',
         'test5-separator',
         'test6',
@@ -162,14 +181,16 @@ describe('slidingWindow', () => {
         'test9',
       ];
 
-      expect(slidingWindow([], visibleItems).prev()).toEqual([]);
+      expect(slidingWindow([], visibleElementsWithSeparators).prev()).toEqual(
+        []
+      );
       expect(slidingWindow([], []).prev()).toEqual([]);
       expect(slidingWindow(allItems, []).prev()).toEqual([]);
     });
   });
 
   describe('next group', () => {
-    const visibleItems = [
+    const visibleElementsWithSeparators = [
       'test0',
       'test0-separator',
       'test1',
@@ -184,7 +205,7 @@ describe('slidingWindow', () => {
 
     describe('should return next visible group', () => {
       test('when there is less items in next group', () => {
-        const visibleItems = [
+        const visibleElementsWithSeparators = [
           'test16',
           'test16-separator',
           'test17',
@@ -193,7 +214,10 @@ describe('slidingWindow', () => {
           'test18-separator',
         ];
 
-        const group1 = slidingWindow(allItems, visibleItems).next();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).next();
 
         expect(group1).toEqual([
           'test17',
@@ -205,7 +229,10 @@ describe('slidingWindow', () => {
       });
 
       test('5 items', () => {
-        const group1 = slidingWindow(allItems, visibleItems).next();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).next();
 
         expect(group1).toEqual([
           'test5',
@@ -249,9 +276,12 @@ describe('slidingWindow', () => {
       });
 
       test('1 item', () => {
-        const visibleItems = ['test0', 'test0-separator'];
+        const visibleElementsWithSeparators = ['test0', 'test0-separator'];
 
-        const group1 = slidingWindow(allItems, visibleItems).next();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).next();
         expect(group1).toEqual(['test1']);
 
         const group2 = slidingWindow(allItems, group1).next();
@@ -262,9 +292,16 @@ describe('slidingWindow', () => {
       });
 
       test('2 items', () => {
-        const visibleItems = ['test0', 'test0-separator', 'test1'];
+        const visibleElementsWithSeparators = [
+          'test0',
+          'test0-separator',
+          'test1',
+        ];
 
-        const group1 = slidingWindow(allItems, visibleItems).next();
+        const group1 = slidingWindow(
+          allItems,
+          visibleElementsWithSeparators
+        ).next();
         expect(group1).toEqual(['test2', 'test2-separator', 'test3']);
 
         const group2 = slidingWindow(allItems, group1).next();
@@ -276,7 +313,10 @@ describe('slidingWindow', () => {
     });
 
     test('should return last group infinite times', () => {
-      const group1 = slidingWindow(allItems, visibleItems).next();
+      const group1 = slidingWindow(
+        allItems,
+        visibleElementsWithSeparators
+      ).next();
       const group2 = slidingWindow(allItems, group1).next();
 
       expect(group2).toEqual([
@@ -337,7 +377,7 @@ describe('slidingWindow', () => {
     });
 
     test('invalid inputs', () => {
-      const visibleItems = [
+      const visibleElementsWithSeparators = [
         'test5',
         'test5-separator',
         'test6',
@@ -349,7 +389,9 @@ describe('slidingWindow', () => {
         'test9',
       ];
 
-      expect(slidingWindow([], visibleItems).next()).toEqual([]);
+      expect(slidingWindow([], visibleElementsWithSeparators).next()).toEqual(
+        []
+      );
       expect(slidingWindow([], []).next()).toEqual([]);
       expect(slidingWindow(allItems, []).next()).toEqual([]);
     });

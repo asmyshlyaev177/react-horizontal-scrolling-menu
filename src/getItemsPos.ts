@@ -1,7 +1,7 @@
-import { visibleItems as itemsArr } from './types';
+import { visibleElements } from './types';
 import { separatorString } from './constants';
 
-export const omitEdgeSeparators = (items: itemsArr) =>
+export const omitEdgeSeparators = (items: visibleElements) =>
   items.filter((item, ind, arr) => {
     const isFirst = ind === 0;
     const isLast = ind === arr.length - 1;
@@ -10,7 +10,7 @@ export const omitEdgeSeparators = (items: itemsArr) =>
     return !((isFirst || isLast) && itemIsSeparator);
   });
 
-const getItemsPos = (items: itemsArr) => {
+const getItemsPos = (items: visibleElements) => {
   const normalizedItems = omitEdgeSeparators(items);
 
   const centerIndex = Math.floor(normalizedItems.length / 2);

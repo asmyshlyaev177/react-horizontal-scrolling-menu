@@ -1,23 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { separatorString } from './constants';
-import { visibleItems as itemsArr } from './types';
+import { visibleElements } from './types';
 import { filterSeparators } from './helpers';
 
-const addSeparators = (items: itemsArr): itemsArr =>
+const addSeparators = (items: visibleElements): visibleElements =>
   items
     .reduce(
       (result, item) => result.concat(item).concat(`${item}${separatorString}`),
-      <itemsArr>[]
+      <visibleElements>[]
     )
     .slice(0, -1);
 
 export function prevGroup(
-  allItems: itemsArr,
-  visibleItems: itemsArr
-): itemsArr {
-  const firstIndex = allItems.findIndex((item) => item === visibleItems?.[0]);
+  allItems: visibleElements,
+  visibleElementsWithSeparators: visibleElements
+): visibleElements {
+  const firstIndex = allItems.findIndex(
+    (item) => item === visibleElementsWithSeparators?.[0]
+  );
 
-  const count = visibleItems.length;
+  const count = visibleElementsWithSeparators.length;
 
   const _nextGroupFirstItem = firstIndex - count;
 
@@ -36,14 +38,14 @@ export function prevGroup(
 }
 
 export function nextGroup(
-  allItems: itemsArr,
-  visibleItems: itemsArr
-): itemsArr {
+  allItems: visibleElements,
+  visibleElementsWithSeparators: visibleElements
+): visibleElements {
   const lastIndex = allItems.findIndex(
-    (item) => item === visibleItems.slice(-1)?.[0]
+    (item) => item === visibleElementsWithSeparators.slice(-1)?.[0]
   );
 
-  const count = visibleItems.length;
+  const count = visibleElementsWithSeparators.length;
 
   // TODO:
   const _nextGroupLastItem = lastIndex + count + 1;
@@ -66,21 +68,21 @@ export function nextGroup(
 }
 
 function slidingWindow(
-  allItems: itemsArr,
-  visibleItems: itemsArr
+  allItems: visibleElements,
+  visibleElementsWithSeparators: visibleElements
 ): {
-  prev: () => itemsArr;
-  next: () => itemsArr;
+  prev: () => visibleElements;
+  next: () => visibleElements;
 } {
   const _allItems = filterSeparators(allItems);
-  const _visibleItems = filterSeparators(visibleItems);
+  const visibleElements = filterSeparators(visibleElementsWithSeparators);
 
   return {
     prev: () => {
-      return addSeparators(prevGroup(_allItems, _visibleItems));
+      return addSeparators(prevGroup(_allItems, visibleElements));
     },
     next: () => {
-      return addSeparators(nextGroup(_allItems, _visibleItems));
+      return addSeparators(nextGroup(_allItems, visibleElements));
     },
   };
 }

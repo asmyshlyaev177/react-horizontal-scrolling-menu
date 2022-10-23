@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
-import type { Item, Refs, visibleItems } from '../types';
+import type { Item, Refs, visibleElements } from '../types';
 import { observerOptions } from '../settings';
 import ItemsMap from '../ItemsMap';
 import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
@@ -16,7 +16,8 @@ interface Props {
 function useIntersection({ items, itemsChanged, refs, options }: Props) {
   const observer: { current?: IntersectionObserver } = React.useRef();
 
-  const [visibleItems, setVisibleItems] = React.useState<visibleItems>([]);
+  const [visibleElementsWithSeparators, setVisibleElementsWithSeparators] =
+    React.useState<visibleElements>([]);
 
   const throttleTimer: { current: number } = React.useRef(
     +setTimeout(() => void 0, 0)
@@ -30,15 +31,15 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
       throttleTimer.current = +setTimeout(
         () =>
           requestAnimationFrame(() => {
-            setVisibleItems((currentVisible) => {
-              const newVisibleItems = items
+            setVisibleElementsWithSeparators((currentVisible) => {
+              const newVisibleElements = items
                 .getVisible()
                 .map((el: Item) => el[1].key);
               if (
                 JSON.stringify(currentVisible) !==
-                JSON.stringify(newVisibleItems)
+                JSON.stringify(newVisibleElements)
               ) {
-                return newVisibleItems;
+                return newVisibleElements;
               }
               return currentVisible;
             });
@@ -63,7 +64,9 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
     };
   }, [ioCb, itemsChanged, options, refs]);
 
-  return { visibleItems };
+  return {
+    visibleElementsWithSeparators,
+  };
 }
 
 export default useIntersection;
