@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.2...v3.2.3) (2022-10-30)
+
+
+### Bug Fixes
+
+* **scroll by 1 item:** fns for scroll by 1 item ([679914c](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/679914c5e8bc5156eb0dbdf8abc729d0fc645829))
+
 ### [3.2.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.0...v3.2.1) (2022-10-23)
 
 ## [3.2.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.1.1...v3.2.0) (2022-08-07)
