@@ -10,7 +10,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&utm_medium=referral&utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&utm_campaign=Badge_Coverage)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
-[![Donate Bitcoin](https://img.shields.io/badge/donate-$10-orange.svg)](https://asmyshlyaev177.github.io/donate-bitcoin?amount=5&currency=USD)
+[![Donate Bitcoin](https://img.shields.io/badge/donate-$5-orange.svg)](https://asmyshlyaev177.github.io/donate-bitcoin?amount=5&currency=USD)
 
 ### Proud corner
 
