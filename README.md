@@ -213,7 +213,9 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | getItemElementById                                              | itemId => DOM Element \| null                          |
 | getItemByIndex                                                  | index => IOItem \| undefined                           |
 | getItemElementByIndex                                           | index => DOM Element \| null                           |
+| getNextElement (use this first, result without separators)      | () => IOItem \| undefined                              |
 | getNextItem                                                     | () => IOItem \| undefined)                             |
+| getPrevElement (use this first, result without separators)      | () => IOItem \| undefined                              |
 | getPrevItem                                                     | () => IOItem \| undefined                              |
 | initComplete                                                    | boolean                                                |
 | isFirstItemVisible                                              | boolean                                                |
