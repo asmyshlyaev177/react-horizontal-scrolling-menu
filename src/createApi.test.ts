@@ -319,6 +319,26 @@ describe('createApi', () => {
     });
   });
 
+  describe('getPrevElement', () => {
+    test('have previous item', () => {
+      const { items, nodes, visibleElementsWithSeparators } = setup([
+        0.1, 1, 0.9,
+      ]);
+
+      expect(
+        createApi(items, visibleElementsWithSeparators).getPrevElement()
+      ).toEqual(nodes[0]);
+    });
+
+    test('do not have previous item', () => {
+      const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
+
+      expect(
+        createApi(items, visibleElementsWithSeparators).getPrevElement()
+      ).toEqual(undefined);
+    });
+  });
+
   describe('getNextItem', () => {
     test('have next item', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([
@@ -334,6 +354,25 @@ describe('createApi', () => {
 
       expect(
         createApi(items, visibleElementsWithSeparators).getNextItem()
+      ).toEqual(undefined);
+    });
+  });
+
+  describe('getNextElement', () => {
+    test('have next item', () => {
+      const { items, nodes, visibleElementsWithSeparators } = setup([
+        1, 1, 0.1,
+      ]);
+      expect(
+        createApi(items, visibleElementsWithSeparators).getNextElement()
+      ).toEqual(nodes[2]);
+    });
+
+    test('do not have next item', () => {
+      const { items, visibleElementsWithSeparators } = setup([0, 0.1, 0.9]);
+
+      expect(
+        createApi(items, visibleElementsWithSeparators).getNextElement()
       ).toEqual(undefined);
     });
   });

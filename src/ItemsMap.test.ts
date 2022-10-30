@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-identical-title */
+/* eslint-disable radar/no-duplicate-string */
 import ItemsMap from './ItemsMap';
 import type { IOItem, Item } from './types';
 import { separatorString } from './constants';
@@ -213,6 +215,26 @@ describe('ItemsMap', () => {
     );
   });
 
+  // without separators
+  test('getVisibleElements', () => {
+    const map = new ItemsMap();
+
+    map.set(
+      dataWithSeparators.map((el) => [
+        el[0],
+        { ...el[1], visible: true } as unknown as IOItem,
+      ])
+    );
+
+    const result = map.getVisibleElements();
+    expect(result).toHaveLength(3);
+    expect(result).toEqual([
+      ['test1', { index: '0', key: 'test1', visible: true }],
+      ['test2', { index: '1', key: 'test3', visible: true }],
+      ['test3', { index: '2', key: 'test5', visible: true }],
+    ]);
+  });
+
   test('findIndex', () => {
     const map = new ItemsMap();
 
@@ -231,27 +253,102 @@ describe('ItemsMap', () => {
     expect(map.find((el) => el[0] === 'test1')).toEqual(data[0]);
   });
 
+  describe('getItemPos', () => {
+    test('should return all items and item pos', () => {
+      const map = new ItemsMap();
+      const onlyItems = false;
+
+      map.set(dataWithSeparators);
+      expect(map.getCurrentPos(dataWithSeparators[0][0], onlyItems)).toEqual([
+        dataWithSeparators,
+        0,
+      ]);
+
+      expect(map.getCurrentPos(dataWithSeparators[2][0], onlyItems)).toEqual([
+        dataWithSeparators,
+        2,
+      ]);
+
+      expect(map.getCurrentPos(dataWithSeparators[4][0], onlyItems)).toEqual([
+        dataWithSeparators,
+        4,
+      ]);
+    });
+
+    test('when onlyItems true should return all items without separators and item pos', () => {
+      const map = new ItemsMap();
+      const onlyItems = true;
+
+      map.set(dataWithSeparators);
+      const withoutSeparators = dataWithSeparators.filter(
+        (el) => !el[0].includes(separatorString)
+      );
+      expect(map.getCurrentPos(dataWithSeparators[0][0], onlyItems)).toEqual([
+        withoutSeparators,
+        0,
+      ]);
+      expect(map.getCurrentPos(dataWithSeparators[2][0], onlyItems)).toEqual([
+        withoutSeparators,
+        1,
+      ]);
+      expect(map.getCurrentPos(dataWithSeparators[4][0], onlyItems)).toEqual([
+        withoutSeparators,
+        2,
+      ]);
+    });
+  });
+
   describe('prev"ious item', () => {
     describe('by key', () => {
-      // eslint-disable-next-line radar/no-duplicate-string
-      test('have previous item', () => {
-        const map = new ItemsMap();
+      describe('with separators', () => {
+        // eslint-disable-next-line radar/no-duplicate-string
+        test('have previous item', () => {
+          const map = new ItemsMap();
 
-        map.set(data);
+          map.set(data);
 
-        const key = data[1][0];
+          expect(map.prev(data[1][0])).toEqual(data[0][1]);
+          expect(map.prev(data[2][0])).toEqual(data[1][1]);
+        });
 
-        expect(map.prev(key)).toEqual(data[0][1]);
+        // eslint-disable-next-line radar/no-duplicate-string
+        test('does not have prev item', () => {
+          const map = new ItemsMap();
+
+          map.set(data);
+
+          const key = data[0][0];
+
+          expect(map.prev(key)).toEqual(undefined);
+        });
       });
 
-      test('does not have prev item', () => {
-        const map = new ItemsMap();
+      describe('without separators', () => {
+        const onlyItems = true;
 
-        map.set(data);
+        // eslint-disable-next-line radar/no-duplicate-string
+        test('have previous item', () => {
+          const map = new ItemsMap();
 
-        const key = data[0][0];
+          map.set(dataWithSeparators);
 
-        expect(map.prev(key)).toEqual(undefined);
+          expect(map.prev(dataWithSeparators[2][0], onlyItems)).toEqual(
+            dataWithSeparators[0][1]
+          );
+          expect(map.prev(dataWithSeparators[4][0], onlyItems)).toEqual(
+            dataWithSeparators[2][1]
+          );
+        });
+
+        test('does not have prev item', () => {
+          const map = new ItemsMap();
+
+          map.set(dataWithSeparators);
+
+          expect(map.prev(dataWithSeparators[0][0], onlyItems)).toEqual(
+            undefined
+          );
+        });
       });
     });
 
@@ -267,48 +364,105 @@ describe('ItemsMap', () => {
     });
 
     describe('by value', () => {
-      test('have previous item', () => {
-        const map = new ItemsMap();
+      describe('with separators', () => {
+        test('have previous item', () => {
+          const map = new ItemsMap();
 
-        map.set(data);
+          map.set(data);
 
-        const item = data[1][1];
+          expect(map.prev(data[1][1])).toEqual(data[0][1]);
+          expect(map.prev(data[2][1])).toEqual(data[1][1]);
+        });
 
-        expect(map.prev(item)).toEqual(data[0][1]);
+        test('does not have prev item', () => {
+          const map = new ItemsMap();
+
+          map.set(data);
+
+          const item = data[0][1];
+
+          expect(map.prev(item)).toEqual(undefined);
+        });
       });
 
-      test('does not have prev item', () => {
-        const map = new ItemsMap();
+      describe('without separators', () => {
+        const onlyItems = true;
 
-        map.set(data);
+        test('have previous item', () => {
+          const map = new ItemsMap();
 
-        const item = data[0][1];
+          map.set(dataWithSeparators);
 
-        expect(map.prev(item)).toEqual(undefined);
+          expect(map.prev(dataWithSeparators[2][1], onlyItems)).toEqual(
+            dataWithSeparators[0][1]
+          );
+          expect(map.prev(dataWithSeparators[4][1], onlyItems)).toEqual(
+            dataWithSeparators[2][1]
+          );
+        });
+
+        test('does not have prev item', () => {
+          const map = new ItemsMap();
+
+          map.set(dataWithSeparators);
+
+          expect(map.prev(dataWithSeparators[0][1], onlyItems)).toEqual(
+            undefined
+          );
+        });
       });
     });
   });
 
   describe('next item', () => {
     describe('by key', () => {
-      test('have previous item', () => {
-        const map = new ItemsMap();
+      describe('with separators', () => {
+        // eslint-disable-next-line radar/no-duplicate-string
+        test('have next item', () => {
+          const map = new ItemsMap();
 
-        map.set(data);
+          map.set(data);
 
-        const key = data[1][0];
+          expect(map.next(data[0][0])).toEqual(data[1][1]);
+          expect(map.next(data[1][0])).toEqual(data[2][1]);
+        });
 
-        expect(map.next(key)).toEqual(data[2][1]);
+        test('does not have next item', () => {
+          const map = new ItemsMap();
+
+          map.set(data);
+
+          const key = data[2][0];
+
+          expect(map.next(key)).toEqual(undefined);
+        });
       });
 
-      test('does not have next item', () => {
-        const map = new ItemsMap();
+      describe('without separators', () => {
+        const onlyItems = true;
 
-        map.set(data);
+        test('have next item', () => {
+          const map = new ItemsMap();
 
-        const key = data[2][0];
+          map.set(dataWithSeparators);
 
-        expect(map.next(key)).toEqual(undefined);
+          expect(map.next(dataWithSeparators[0][0], onlyItems)).toEqual(
+            dataWithSeparators[2][1]
+          );
+          expect(map.next(dataWithSeparators[2][0], onlyItems)).toEqual(
+            dataWithSeparators[4][1]
+          );
+        });
+
+        test('does not have next item', () => {
+          const map = new ItemsMap();
+
+          map.set(dataWithSeparators);
+
+          expect(map.next(dataWithSeparators[4][0], onlyItems)).toEqual(
+            undefined
+          );
+        });
       });
     });
 
@@ -324,24 +478,52 @@ describe('ItemsMap', () => {
     });
 
     describe('by value', () => {
-      test('have next item', () => {
-        const map = new ItemsMap();
+      describe('without separators', () => {
+        test('have next item', () => {
+          const map = new ItemsMap();
 
-        map.set(data);
+          map.set(data);
 
-        const item = data[1][1];
+          expect(map.next(data[0][1])).toEqual(data[1][1]);
+          expect(map.next(data[1][1])).toEqual(data[2][1]);
+        });
 
-        expect(map.next(item)).toEqual(data[2][1]);
+        test('does not have next item', () => {
+          const map = new ItemsMap();
+
+          map.set(data);
+
+          const item = data.slice(-1)[0][1];
+
+          expect(map.next(item)).toEqual(undefined);
+        });
       });
 
-      test('does not have next item', () => {
-        const map = new ItemsMap();
+      describe('without separators', () => {
+        const onlyItems = true;
 
-        map.set(data);
+        test('have next item', () => {
+          const map = new ItemsMap();
 
-        const item = data.slice(-1)[0][1];
+          map.set(dataWithSeparators);
 
-        expect(map.next(item)).toEqual(undefined);
+          expect(map.next(dataWithSeparators[0][1], onlyItems)).toEqual(
+            dataWithSeparators[2][1]
+          );
+          expect(map.next(dataWithSeparators[2][1], onlyItems)).toEqual(
+            dataWithSeparators[4][1]
+          );
+        });
+
+        test('does not have next item', () => {
+          const map = new ItemsMap();
+
+          map.set(dataWithSeparators);
+
+          const item = dataWithSeparators.slice(-1)[0][1];
+
+          expect(map.next(item, onlyItems)).toEqual(undefined);
+        });
       });
     });
   });

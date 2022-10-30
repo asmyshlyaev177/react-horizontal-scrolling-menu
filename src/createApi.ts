@@ -40,8 +40,14 @@ export default function createApi(
 
   const getPrevItem = () => items.prev(items.getVisible()?.[0]?.[1]);
 
+  const getPrevElement = () =>
+    items.prev(items.getVisibleElements()?.[0]?.[1], true);
+
   const getNextItem = () =>
     items.next(items.getVisible()?.slice?.(-1)?.[0]?.[1]);
+
+  const getNextElement = () =>
+    items.next(items.getVisibleElements()?.slice?.(-1)?.[0]?.[1], true);
 
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
@@ -105,7 +111,9 @@ export default function createApi(
     getItemByIndex,
     getItemElementByIndex,
     getNextItem,
+    getNextElement,
     getPrevItem,
+    getPrevElement,
     isFirstItemVisible,
     isItemVisible,
     isLastItem,
