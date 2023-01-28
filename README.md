@@ -42,7 +42,7 @@
 
 [Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
 
-[RTL](https://codesandbox.io/s/rtl-8lix35?file=/src/index.tsx)
+[RTL](https://codesandbox.io/s/rtl-ng3bq9?file=/src/index.tsx)
 
 [Loop scroll](https://codesandbox.io/s/loop-scroll-4w8ek6?file=/src/index.tsx)
 
