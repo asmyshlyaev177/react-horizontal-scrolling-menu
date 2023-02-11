@@ -37,7 +37,7 @@
     "dev": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
     "kill-rollup": "ps aux | grep rollup | awk '{print $2}' | xargs kill -9 &",
-    "postbuild": "sleep 15 && yarn kill-rollup",
+    "postbuild": "wait-on dist/index.umd.js dist/index.esm.js dist/types && sleep 5 && yarn kill-rollup",
     "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
     "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
