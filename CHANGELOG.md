@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.5...v4.0.0) (2023-03-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **styles:** Need to import styles in your code - example "import
+'react-horizontal-scrolling-menu/dist/styles.css'"
+
+227
+
+### Bug Fixes
+
+* **styles:** bundle styles to styles.css file ([314b894](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/314b89451c9608dd791b58a2de6e9b978a9362db))
+
 ### [3.2.5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.4...v3.2.5) (2023-02-19)
 
 ### [3.2.4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.3...v3.2.4) (2023-02-19)
