@@ -26,7 +26,9 @@ const plugins = [
   typescript({ sourceMap: false, tsconfig: './tsconfig.json' }),
   commonjs(),
   postcss({
+    extract: 'styles.css',
     modules: false,
+    minimize: true,
     use: ['sass'],
   }),
 
