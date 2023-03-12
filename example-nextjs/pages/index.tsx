@@ -13,6 +13,7 @@ import useDrag from '../helpers/useDrag';
 // NOTE hide scrollbar in _app.js
 
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const isTest = process?.env?.NEXT_PUBLIC_IS_TEST;
 
