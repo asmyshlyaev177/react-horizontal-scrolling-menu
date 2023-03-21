@@ -2,7 +2,8 @@ import React from 'react';
 
 import throttle from 'lodash/throttle';
 import Styler from 'stylefire';
-import { animate } from 'popmotion/dist/popmotion';
+// import { animate } from 'popmotion'; // build
+import { animate } from 'popmotion/dist/popmotion'; // dev
 
 // NOTE: prevent scrolling on main page
 import usePreventBodyScroll from '../helpers/usePreventBodyScroll';
