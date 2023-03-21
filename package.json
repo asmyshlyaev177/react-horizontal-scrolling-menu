@@ -20,7 +20,9 @@
       "import": "./dist/index.esm.js",
       "umd": "./dist/index.umd.js",
       "require": "./dist/index.umd.js"
-    }
+    },
+    "./dist/styles.css": "./dist/styles.css",
+    "./styles.css": "./dist/styles.css"
   },
   "typesVersions": {
     "*": {
