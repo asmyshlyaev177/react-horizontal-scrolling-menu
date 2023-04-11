@@ -22,7 +22,8 @@
       "require": "./dist/index.cjs"
     },
     "./dist/styles.css": "./dist/styles.css",
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./dist/package.json"
   },
   "typesVersions": {
     "*": {
@@ -39,7 +40,7 @@
     "dev": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
     "kill-rollup": "sleep 3 && ps aux | grep rollup | awk '{print $2}' | xargs kill -9 &",
-    "postbuild": "wait-on dist/index.mjs dist/index.mjs dist/types && sleep 5 && yarn kill-rollup",
+    "postbuild": "wait-on dist/index.cjs dist/index.mjs dist/types && sleep 5 && yarn kill-rollup",
     "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
     "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
@@ -137,6 +138,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "rollup": "^2.70.2",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-ignore": "^1.0.9",
     "rollup-plugin-postcss": "^4.0.0",
