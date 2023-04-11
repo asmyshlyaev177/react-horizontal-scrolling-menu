@@ -6,7 +6,6 @@ import postcss from 'rollup-plugin-postcss';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import typescript from '@rollup/plugin-typescript';
 import filesize from 'rollup-plugin-filesize';
-import copy from 'rollup-plugin-copy';
 import pkg from './package.json';
 
 const input = 'src/index.tsx';
@@ -36,9 +35,6 @@ const plugins = [
   !isProduction && sourcemaps(),
   isProduction && terser(),
   filesize(),
-  copy({
-    targets: [{ src: 'package.json', dest: 'dist/' }],
-  }),
 ].filter(Boolean);
 
 export default [
