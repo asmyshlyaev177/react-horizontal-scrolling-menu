@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.0.2-beta.0...v4.0.2) (2023-04-11)
+
 ### [4.0.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v3.2.5...v4.0.1) (2023-03-21)
 
 
