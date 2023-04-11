@@ -1,13 +1,13 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "4.0.1",
+  "version": "4.0.3",
   "author": "asmyshlyaev177",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
-  "main": "dist/index.umd.js",
-  "browser": "dist/index.umd.js",
-  "module": "dist/index.esm.js",
-  "unpkg": "dist/index.umd.js",
+  "main": "dist/index.cjs",
+  "browser": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.cjs",
   "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
@@ -15,11 +15,11 @@
   },
   "exports": {
     ".": {
-      "browser": "./dist/index.umd.js",
-      "module": "./dist/index.esm.js",
-      "import": "./dist/index.esm.js",
-      "umd": "./dist/index.umd.js",
-      "require": "./dist/index.umd.js"
+      "browser": "./dist/index.cjs",
+      "module": "./dist/index.mjs",
+      "import": "./dist/index.mjs",
+      "umd": "./dist/index.cjs",
+      "require": "./dist/index.cjs"
     },
     "./dist/styles.css": "./dist/styles.css",
     "./styles.css": "./dist/styles.css"
@@ -39,7 +39,7 @@
     "dev": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
     "dev2": "webpack -w",
     "kill-rollup": "sleep 3 && ps aux | grep rollup | awk '{print $2}' | xargs kill -9 &",
-    "postbuild": "wait-on dist/index.umd.js dist/index.esm.js dist/types && sleep 5 && yarn kill-rollup",
+    "postbuild": "wait-on dist/index.cjs dist/index.mjs dist/types && sleep 5 && yarn kill-rollup",
     "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
     "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
