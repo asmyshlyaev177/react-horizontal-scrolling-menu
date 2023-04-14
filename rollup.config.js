@@ -43,7 +43,7 @@ export default [
     input,
     output: {
       name: 'react-horizontal-scrolling-menu',
-      file: pkg.browser,
+      file: pkg.unpkg,
       format: 'umd',
       sourcemap,
       globals: {
