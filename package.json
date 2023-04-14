@@ -4,8 +4,8 @@
   "author": "asmyshlyaev177",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
-  "main": "dist/index.cjs",
-  "browser": "dist/index.cjs",
+  "main": "dist/index.mjs",
+  "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
   "unpkg": "dist/index.cjs",
   "types": "dist/types/index.d.ts",
@@ -15,7 +15,7 @@
   },
   "exports": {
     ".": {
-      "browser": "./dist/index.cjs",
+      "browser": "./dist/index.mjs",
       "module": "./dist/index.mjs",
       "import": "./dist/index.mjs",
       "umd": "./dist/index.cjs",
@@ -42,6 +42,7 @@
     "postbuild": "wait-on dist/index.cjs dist/index.mjs dist/types && sleep 5 && yarn kill-rollup",
     "build": "rm -rf dist && rollup -c rollup.config.js &",
     "example": "cd example-nextjs && yarn dev",
+    "example-cra": "cd example-cra && yarn start",
     "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
     "wait": "wait-on http://localhost:3003 && sleep 10",
     "demo": "run-p dev example",
