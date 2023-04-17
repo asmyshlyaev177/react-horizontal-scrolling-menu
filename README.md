@@ -50,9 +50,6 @@
 
 [Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
 
-### CRA(create-react-app notes)
-[Some struggle with import of esm modules and possible solutions](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/234)
-
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
