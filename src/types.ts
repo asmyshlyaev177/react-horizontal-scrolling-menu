@@ -18,7 +18,7 @@ export interface Refs {
   [key: string]: React.MutableRefObject<HTMLElement | null>;
 }
 
-export type ItemType = React.ReactElement<{
+export type ItemType = React.ReactNode<{
   /**
     Required. id for every item, should be unique
    */
