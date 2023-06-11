@@ -51,8 +51,8 @@
 [Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
 
 ### CRA(create-react-app notes)
-[Some struggle with import of esm modules and possible solutions](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/234)
 
+[Some struggle with import of esm modules and possible solutions](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/234)
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
@@ -202,6 +202,9 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void      |
+| onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void      |
+| onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void      |
+| onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void      |
 | itemClassName            | ClassName of Item                                             |
 | separatorClassName       | ClassName of Item's separator                                 |
 | scrollContainerClassName | ClassName of scrollContainer                                  |
