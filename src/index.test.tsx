@@ -373,6 +373,56 @@ describe('ScrollMenu', () => {
       comparePublicApi(call);
     });
 
+    describe('touch events', () => {
+      test('should fire onTouchStart', () => {
+        (useIntersectionObserver as jest.Mock).mockReturnValue({
+          visibleElementsWithSeparators: defaultItemsWithSeparators,
+        });
+        const onTouchStart = jest.fn();
+        const { container } = setup({ onTouchStart });
+
+        act(() => {
+          fireEvent.touchStart(container.firstChild as Element);
+        });
+
+        expect(onTouchStart).toHaveBeenCalled();
+        const call = onTouchStart.mock.calls[0][0];
+        comparePublicApi(call);
+      });
+
+      test('should fire onTouchMove', () => {
+        (useIntersectionObserver as jest.Mock).mockReturnValue({
+          visibleElementsWithSeparators: defaultItemsWithSeparators,
+        });
+        const onTouchMove = jest.fn();
+        const { container } = setup({ onTouchMove });
+
+        act(() => {
+          fireEvent.touchMove(container.firstChild as Element);
+        });
+
+        expect(onTouchMove).toHaveBeenCalled();
+        const call = onTouchMove.mock.calls[0][0];
+        comparePublicApi(call);
+      });
+
+      test('should fire onTouchEnd', () => {
+        (useIntersectionObserver as jest.Mock).mockReturnValue({
+          visibleElementsWithSeparators: defaultItemsWithSeparators,
+        });
+        const onTouchEnd = jest.fn();
+        const { container } = setup({ onTouchEnd });
+
+        act(() => {
+          fireEvent.touchEnd(container.firstChild as Element);
+        });
+
+        expect(onTouchEnd).toHaveBeenCalled();
+        const call = onTouchEnd.mock.calls[0][0];
+        comparePublicApi(call);
+      });
+    });
+
     test('should fire onMouseDown', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue({
         visibleElementsWithSeparators: defaultItemsWithSeparators,
