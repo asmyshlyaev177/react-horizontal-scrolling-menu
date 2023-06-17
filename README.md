@@ -50,6 +50,9 @@
 
 [Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
 
+[Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
+
+
 ### CRA(create-react-app notes)
 
 [Some struggle with import of esm modules and possible solutions](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/234)
