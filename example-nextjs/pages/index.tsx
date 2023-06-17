@@ -11,6 +11,9 @@ import usePreventBodyScroll from '../helpers/usePreventBodyScroll';
 // NOTE drag with mouse
 import useDrag from '../helpers/useDrag';
 
+// swipe for mobile
+// import { useSwipe } from '../helpers/useSwipe';
+
 // NOTE hide scrollbar in _app.js
 
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
@@ -121,6 +124,8 @@ function App() {
     setItems((prev) => prev.slice(0, prev.length - 1));
   }, []);
 
+  // const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
+
   return (
     <div>
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
@@ -140,6 +145,9 @@ function App() {
               transitionDuration={duration}
               transitionEase={easingFunctions[ease]}
               transitionBehavior={customAnimation ? scrollBehavior : undefined}
+              // onTouchEnd={onTouchEnd}
+              // onTouchMove={onTouchMove}
+              // onTouchStart={onTouchStart}
             >
               {items.map(({ id }) => (
                 <Card
