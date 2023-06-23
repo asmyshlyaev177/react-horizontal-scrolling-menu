@@ -53,10 +53,6 @@
 [Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
 
 
-### CRA(create-react-app notes)
-
-[Some struggle with import of esm modules and possible solutions](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/234)
-
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
 This is a horizontal scrolling menu component for React.
