@@ -69,6 +69,9 @@ Possible set default position on initialization.
 
 :star: if you like the project :)
 
+### NextJS issues
+[Cannot use import statement outside a module](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240)_
+
 ## Quick start
 
 ```bash
