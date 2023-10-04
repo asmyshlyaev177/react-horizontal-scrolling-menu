@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.0...v4.1.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **package.json:** add exports.types field ([#247](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/247)) ([980775a](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/980775af4948e955a139e6d82eb05b488dbd70de))
+
 ## [4.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.0.4...v4.1.0) (2023-06-11)
 
 
