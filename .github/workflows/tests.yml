@@ -12,31 +12,27 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: cypress/included:8.4.1
+    container: cypress/included:9.6.0
 
+    env:
+      CYPRESS_CACHE_FOLDER: ../cypress_cache
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - uses: actions/cache@v2
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: 16.x
+
+      - uses: google/wireit@setup-github-actions-caching/v1
 
       - name: Install
         run: |
-          yarn setup
+          mkdir -p ../cypress_cache && \
+          yarn setup && \
+          chmod -R 777 ../cypress_cache
 
       - name: Unit tests
-        run: yarn test:unit --coverage --coverageReporters="lcov"
+        run: yarn test:unit -- --coverage --coverageReporters="lcov"
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
@@ -53,7 +49,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           env: true
-          # install-command: yarn install --immutable
           command: yarn test:e2e
 
       - uses: actions/upload-artifact@v1

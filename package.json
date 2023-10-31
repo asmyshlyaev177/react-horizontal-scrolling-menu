@@ -33,33 +33,129 @@
     }
   },
   "scripts": {
-    "test:unit": "jest",
-    "test:e2e": "run-p -r demo:test cypress:run-with-wait",
-    "cypress:run-with-wait": "run-s wait cypress:run",
-    "cypress:run": "cypress run",
-    "dev": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
+    "test:unit": "wireit",
+    "test:e2e": "wireit",
+    "dev": "wireit",
     "dev2": "webpack -w",
-    "kill-rollup": "sleep 3 && ps aux | grep rollup | awk '{print $2}' | xargs kill -9 &",
-    "postbuild": "wait-on dist/index.cjs dist/index.mjs dist/types && sleep 5 && yarn kill-rollup",
-    "build": "rm -rf dist && rollup -c rollup.config.js &",
-    "example": "cd example-nextjs && yarn dev",
-    "example-cra": "cd example-cra && yarn start",
-    "example:test": "cd example-nextjs && NEXT_PUBLIC_IS_TEST=true CHOKIDAR_USEPOLLING=1 yarn dev",
-    "wait": "wait-on http://localhost:3003 && sleep 10",
-    "demo": "run-p dev example",
-    "demo:test": "run-s build example:test",
+    "kill-rollup": "wireit",
+    "build": "wireit",
+    "demo": "wireit",
     "commit": "cz",
-    "release": "yarn test:unit && yarn test:e2e && standard-version",
-    "publish": "yarn build && git push --follow-tags origin main && npm publish",
+    "release": "wireit",
+    "pub": "wireit",
     "setup-yarn": "yarn cache clean && yarn set version 1.22.1",
-    "install-deps": "cd example-nextjs && yarn install && cd ../ && yarn install",
-    "setup-husky": "husky install",
-    "cz-install": "commitizen init cz-conventional-changelog --dev --exact --yarn",
-    "link-react": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../../ && yarn link react && yarn link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
-    "prepare": "yarn link-react",
-    "setup": "yarn setup-yarn && yarn install-deps && yarn setup-husky && yarn cz-install",
-    "cz-husky-init": "husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"'",
+    "install-deps": "wireit",
+    "setup-husky": "wireit",
+    "cz-install": "wireit",
+    "link-react": "wireit",
+    "setup-tooling": "wireit",
+    "setup": "yarn setup-yarn && yarn install && yarn setup-tooling",
+    "cz-husky-init": "wireit",
     "deploy-gp": "babel-node deploy-gp.js"
+  },
+  "wireit": {
+    "release": {
+      "command": "standard-version",
+      "dependencies": [
+        "test:unit",
+        "test:e2e"
+      ]
+    },
+    "pub": {
+      "command": "yarn release && yarn push && npm publish",
+      "dependencies": [
+        "build"
+      ]
+    },
+    "push": {
+      "command": "git push --follow-tags origin main"
+    },
+    "test:unit": {
+      "command": "jest",
+      "dependencies": ["setup-tooling"]
+    },
+    "kill-rollup": {
+      "command": "sleep 3 && ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 && echo 'killed' || echo 'killed'"
+    },
+    "test:e2e": {
+      "command": "npx wait-on http://localhost:3003 && cypress run",
+      "dependencies": [
+        "setup-tooling",
+        "demo"
+      ]
+    },
+    "dev": {
+      "command": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
+      "service": true,
+      "dependencies": ["setup-tooling", "kill-rollup"]
+    },
+    "demo": {
+      "command": "cd example-nextjs && yarn dev",
+      "service": true,
+      "dependencies": [
+        "dev",
+        "kill-rollup"
+      ]
+    },
+    "install-deps": {
+      "command": "yarn install",
+      "allowUsuallyExcludedPaths": true,
+      "files": ["package.json", "yarn.lock"]
+    },
+    "install-example-deps": {
+      "command": "cd example-nextjs && yarn install",
+      "dependencies": [
+        "install-deps"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "files": ["example-nextjs/package.json", "example-nextjs/yarn.lock"]
+    },
+    "link-react": {
+      "command": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../../ && yarn link react && yarn link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
+      "dependencies": [
+        "install-example-deps",
+        "install-deps"
+      ]
+    },
+    "setup-tooling": {
+      "command": "echo 'setup tooling'",
+      "dependencies": [
+        "install-example-deps",
+        "setup-husky",
+        "cz-husky-init",
+        "cz-install",
+        "link-react"
+      ]
+    },
+    "setup-husky": {
+      "command": "husky install && cat .husky/pre-commit | grep 'yarn test:unit && yarn test:e2e' ; [ $? -eq 1 ] && npx husky add .husky/pre-commit 'yarn test:unit && yarn test:e2e' || echo 'already installed' ",
+      "dependencies": [
+        "install-deps"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "files": [".husky"]
+    },
+    "cz-husky-init": {
+      "command": "cat .husky/commit-msg | grep 'npx --no-install commitlint --edit \"$1\"' ; [ $? -eq 1 ] && husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"' || echo 'commit msg hook installed'",
+      "dependencies": [
+        "install-deps",
+        "setup-husky"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "files": [".husky"]
+    },
+    "cz-install": {
+      "command": "commitizen init cz-conventional-changelog --dev --exact --yarn",
+      "dependencies": [
+        "install-deps"
+      ]
+    },
+    "build": {
+      "command": "rollup -c rollup.config.js",
+      "clean": true,
+      "output": ["dist", "dist/index.cjs", "dist/index.mjs", "dist/types" ],
+      "dependencies": ["setup-tooling", "kill-rollup"]
+    }
   },
   "keywords": [
     "react",
@@ -153,7 +249,8 @@
     "wait-on": "^7.0.1",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.7.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "wireit": "^0.14.1"
   },
   "peerDependencies": {
     "react": ">=16.8"
