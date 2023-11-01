@@ -1,7 +1,7 @@
 # React horizontal scrolling menu
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://war.ukraine.ua)
-## [Help Israel 🇮🇱🇮🇱🇮🇱](https://www.israaid.org/)
+## [Help Israel 🇮🇱🇮🇱🇮🇱](https://www.israelgives.org/) or [here 🇮🇱🇮🇱🇮🇱](https://www.israaid.org/)
 
 ![example](/sample.gif)
 
