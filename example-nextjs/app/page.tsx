@@ -1,25 +1,19 @@
+'use client';
 import React from 'react';
 
 import throttle from 'lodash/throttle';
-import Styler from 'stylefire';
-// import { animate } from 'popmotion'; // build
-import { animate } from 'popmotion/dist/popmotion'; // dev
 
 // NOTE: prevent scrolling on main page
-import usePreventBodyScroll from '../helpers/usePreventBodyScroll';
+import usePreventBodyScroll from './helpers/usePreventBodyScroll';
 
 // NOTE drag with mouse
-import useDrag from '../helpers/useDrag';
+import useDrag from './helpers/useDrag';
 
 // swipe for mobile
-// import { useSwipe } from '../helpers/useSwipe';
-
-// NOTE hide scrollbar in _app.js
+// import { useSwipe } from './helpers/useSwipe';
 
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
-
-const isTest = process?.env?.NEXT_PUBLIC_IS_TEST;
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
@@ -52,14 +46,10 @@ const onWheel = (
   }
 };
 
-// eslint-disable-next-line radar/cognitive-complexity
 function App() {
-  const [items, setItems] = React.useState(getItems);
+  const [items] = React.useState(getItems);
   const [selected, setSelected] = React.useState<string[]>([]);
   const [position, setPosition] = React.useState(0);
-  const [duration, setDuration] = React.useState(500);
-  const [ease, setEase] = React.useState('noEasing');
-  const [customAnimation, setCustomAnimation] = React.useState(false);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
@@ -120,14 +110,8 @@ function App() {
 
   const { disableScroll, enableScroll } = usePreventBodyScroll();
 
-  const handleRemoveLast = React.useCallback(() => {
-    setItems((prev) => prev.slice(0, prev.length - 1));
-  }, []);
-
-  // const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
-
   return (
-    <div>
+    <div className="main">
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <div onMouseLeave={dragStop}>
@@ -142,12 +126,6 @@ function App() {
               onMouseDown={() => dragStart}
               onMouseUp={() => dragStop}
               onMouseMove={handleDrag}
-              transitionDuration={duration}
-              transitionEase={easingFunctions[ease]}
-              transitionBehavior={customAnimation ? scrollBehavior : undefined}
-              // onTouchEnd={onTouchEnd}
-              // onTouchMove={onTouchMove}
-              // onTouchStart={onTouchStart}
             >
               {items.map(({ id }) => (
                 <Card
@@ -159,38 +137,6 @@ function App() {
                 />
               ))}
             </ScrollMenu>
-            <OptionsWrapper>
-              <OptionItem label="Duration">
-                <input
-                  value={duration}
-                  onChange={(ev) => setDuration(+ev.target.value)}
-                />
-              </OptionItem>
-              <OptionItem label="Ease">
-                <select
-                  name="ease"
-                  id="ease"
-                  value={ease}
-                  onChange={(ev) => setEase(ev.target.value)}
-                >
-                  {Object.entries(easingFunctions).map(([name, fn]) => (
-                    <option value={name} key={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </OptionItem>
-              <OptionItem label="Custom animation">
-                <input
-                  checked={customAnimation}
-                  onChange={(ev) => setCustomAnimation(ev.target.checked)}
-                  type="checkbox"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </OptionItem>
-            </OptionsWrapper>
-
-            <button onClick={handleRemoveLast}>Remove last</button>
           </div>
         </div>
       </div>
@@ -207,7 +153,7 @@ function LeftArrow() {
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev(isTest ? 'auto' : undefined)}
+      onClick={() => scrollPrev()}
       className="left"
     >
       Left
@@ -222,7 +168,7 @@ function RightArrow() {
   return (
     <Arrow
       disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext(isTest ? 'auto' : undefined)}
+      onClick={() => scrollNext()}
       className="right"
     >
       Right
@@ -314,75 +260,4 @@ function Card({
   );
 }
 
-const Wrapper = () => {
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted ? <App /> : null;
-};
-
-// eslint-disable-next-line react/prop-types
-export const OptionsWrapper = ({ children }) => (
-  <div style={{ marginTop: '10px', display: 'flex', columnGap: '10px' }}>
-    {children}
-  </div>
-);
-
-// eslint-disable-next-line react/prop-types
-export const OptionItem = ({ children, label }) => (
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <label>{label}</label>
-    {children}
-  </div>
-);
-
-const scrollBehavior = (instructions) => {
-  const [{ el, left }] = instructions;
-  const styler = Styler(el);
-
-  animate({
-    from: el.scrollLeft,
-    to: left,
-    type: 'spring',
-    onUpdate: (left) => styler.set('scrollLeft', left),
-  });
-};
-
-const easingFunctions = {
-  noEasing: undefined,
-  // no easing, no acceleration
-  linear: (t) => t,
-  // accelerating from zero velocity
-  easeInQuad: (t) => t * t,
-  // decelerating to zero velocity
-  easeOutQuad: (t) => t * (2 - t),
-  // acceleration until halfway, then deceleration
-  easeInOutQuad: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
-  // accelerating from zero velocity
-  easeInCubic: (t) => t * t * t,
-  // decelerating to zero velocity
-  easeOutCubic: (t) => --t * t * t + 1,
-  // acceleration until halfway, then deceleration
-  easeInOutCubic: (t) =>
-    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-  // accelerating from zero velocity
-  easeInQuart: (t) => t * t * t * t,
-  // decelerating to zero velocity
-  easeOutQuart: (t) => 1 - --t * t * t * t,
-  // acceleration until halfway, then deceleration
-  easeInOutQuart: (t) =>
-    t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
-  // accelerating from zero velocity
-  easeInQuint: (t) => t * t * t * t * t,
-  // decelerating to zero velocity
-  easeOutQuint: (t) => 1 + --t * t * t * t * t,
-  // acceleration until halfway, then deceleration
-  easeInOutQuint: (t) =>
-    t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
-  // Source https://gist.github.com/gre/1650294#file-easing-js
-};
-
-export default Wrapper;
+export default App;

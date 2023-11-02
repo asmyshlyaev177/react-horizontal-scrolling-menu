@@ -10,7 +10,7 @@ import type { Refs, Item } from '../types';
 import { MockedObserver, traceMethodCalls } from '../testUtils';
 import type { IntersectionObserverCB } from '../testUtils';
 
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 import { observerEntriesToItems } from '../helpers';
 jest.mock('../helpers', () => ({
@@ -63,7 +63,7 @@ describe('useIntersectionObserver', () => {
   });
 
   test('should return visible elements', async () => {
-    const oeti = mocked(observerEntriesToItems, true);
+    const oeti = mocked(observerEntriesToItems, { shallow: true });
 
     const items = new ItemsMap();
     const itemsChanged = '';
