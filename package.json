@@ -32,6 +32,10 @@
       ]
     }
   },
+  "engines": {
+    "node": "18",
+    "npm": "9"
+  },
   "scripts": {
     "test:unit": "wireit",
     "test:e2e": "wireit",
