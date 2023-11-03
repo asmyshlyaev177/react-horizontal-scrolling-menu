@@ -1,8 +1,0 @@
-{
-    "baseUrl": "http://localhost:3003",
-    "modifyObstructiveCode": false,
-    "retries": {
-        "runMode": 1,
-        "openMode": 0
-      }
-}

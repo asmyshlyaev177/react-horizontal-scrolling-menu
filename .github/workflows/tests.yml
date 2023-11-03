@@ -12,27 +12,34 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    container: cypress/included:9.6.0
+    container: cypress/included:cypress-13.4.0-node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
 
     env:
       CYPRESS_CACHE_FOLDER: ../cypress_cache
+      NODE_OPTIONS: --max-old-space-size=4096
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CI: true
+      WIREIT_LOGGER: "simple"
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version-file: '.nvmrc'
+          check-latest: true
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
       - uses: google/wireit@setup-github-actions-caching/v1
 
       - name: Install
         run: |
           mkdir -p ../cypress_cache && \
-          yarn setup && \
+          npm run setup && \
           chmod -R 777 ../cypress_cache
 
       - name: Unit tests
-        run: yarn test:unit -- --coverage --coverageReporters="lcov"
+        run: npm run test:unit -- --coverage --coverageReporters="lcov"
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
@@ -41,15 +48,11 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/lcov.info
 
-      - name: E2E tests
-        uses: cypress-io/github-action@v2
-        timeout-minutes: 30
-        env:
-          NODE_OPTIONS: --max-old-space-size=4096
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          env: true
-          command: yarn test:e2e
+      - name: E2E tests builded version
+        run: npm run test:e2e
+
+      - name: E2E tests dev version
+        run: npm run test:e2e:dev
 
       - uses: actions/upload-artifact@v1
         if: failure()

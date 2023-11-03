@@ -41,7 +41,7 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   // NOTE: hack for search peerDeps as React in example folder
   modulePaths: ['<rootDir>/example-nextjs/node_modules'],
-  setupFilesAfterEnv: ['<rootDir>/jest.init.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.init.mjs'],
   testEnvironment: 'jsdom',
 
   moduleNameMapper: {
