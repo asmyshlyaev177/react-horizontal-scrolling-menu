@@ -8,6 +8,7 @@
     "module": "es2020", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "lib": [
       "ES2016",
+      "dom.iterable",
       "ESNext",
       "DOM"
     ],
@@ -51,7 +52,7 @@
     // "paths": {},                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                             /* List of folders to include type definitions from. */
-    // "types": [],                                 /* Type declaration files to be included in compilation. */
+    "types": ["node", "jest", "@testing-library/dom", "@testing-library/jest-dom", "jest-environment-jsdom", "@jest/globals"],                                 /* Type declaration files to be included in compilation. */
     "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,                    /* Do not resolve the real path of symlinks. */
@@ -69,9 +70,10 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "src"
+    "src",
+    "jest.init.mjs"
   ],
   "exclude": [
-    "node_modules", "**/*.test.ts",
+    "node_modules", "**/*.test.ts", "**/*.test.tsx",
   ]
 }
