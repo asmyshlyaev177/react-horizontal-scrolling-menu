@@ -27,19 +27,19 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           check-latest: true
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
       - uses: google/wireit@setup-github-actions-caching/v1
 
       - name: Install
         run: |
           mkdir -p ../cypress_cache && \
-          yarn setup && \
+          npm run setup && \
           chmod -R 777 ../cypress_cache
 
       - name: Unit tests
-        run: yarn test:unit -- --coverage --coverageReporters="lcov"
+        run: npm run test:unit -- --coverage --coverageReporters="lcov"
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1
@@ -49,36 +49,10 @@ jobs:
           coverage-reports: coverage/lcov.info
 
       - name: E2E tests builded version
-        run: |
-          yarn build &&
-          cd example-nextjs && yarn build &&
-          yarn run:cy
+        run: npm run test:e2e
 
-      # - name: E2E tests
-      #   run: |
-      #     yarn demo &
-      #     yarn run:cy
-
-
-      # - name: E2E tests
-      #   uses: cypress-io/github-action@v6
-      #   timeout-minutes: 30
-      #   env:
-      #     NODE_OPTIONS: --max-old-space-size=4096
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     env: true
-      #     command: yarn test:e2e:dev
-
-      # - name: E2E tests builded version
-      #   uses: cypress-io/github-action@v6
-      #   timeout-minutes: 30
-      #   env:
-      #     NODE_OPTIONS: --max-old-space-size=4096
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     env: true
-      #     command: yarn test:e2e
+      - name: E2E tests dev version
+        run: npm run test:e2e:dev
 
       - uses: actions/upload-artifact@v1
         if: failure()

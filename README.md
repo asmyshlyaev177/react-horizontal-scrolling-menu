@@ -1,6 +1,7 @@
 # React horizontal scrolling menu
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://war.ukraine.ua)
+
 ## [Help Israel 🇮🇱🇮🇱🇮🇱](https://www.israelgives.org/) or [here 🇮🇱🇮🇱🇮🇱](https://www.israaid.org/)
 
 ![example](/sample.gif)
@@ -55,7 +56,6 @@
 
 [Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
 
-
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
 This is a horizontal scrolling menu component for React.
@@ -71,12 +71,13 @@ Possible set default position on initialization.
 :star: if you like the project :)
 
 ### NextJS issues
+
 [Cannot use import statement outside a module](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240)_
 
 ## Quick start
 
 ```bash
-yarn add react-horizontal-scrolling-menu
+npm install add react-horizontal-scrolling-menu
 ```
 
 In project:
@@ -182,8 +183,8 @@ You can clone repository and run demo project.
 
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
-yarn install
-yarn run demo
+npm install
+npm run demo
 ```
 
 ### Helpers and api
@@ -278,7 +279,7 @@ Will override transition\* options passed to ScrollMenu
 
 Can get previous or next visible group of items with `slidingWindow(allItems: string[], visibleItems: string[])` helper, e.g
 
-```
+```Javascript
 slidingWindow(allItems, visibleItems)
 .prev()
 //.next()
@@ -288,7 +289,7 @@ slidingWindow(allItems, visibleItems)
 
 Can get first, center and last items, e.g.
 
-```
+```Javascript
 const prevGroup = slidingWindow(allItems, visibleItems).prev()
 const { first, center: centerItem, last } = getItemsPos(prevGroup)
 

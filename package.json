@@ -46,14 +46,13 @@
     "commit": "cz",
     "release": "wireit",
     "pub": "wireit",
-    "setup-yarn": "[ ! -e .yarn/releases/yarn-1.22.1.js ] && yarn cache clean && yarn set version 1.22.1 || echo 'have yarn'",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
     "setup-husky": "wireit",
     "cz-install": "wireit",
     "link-react": "wireit",
     "setup-tooling": "wireit",
-    "setup": "yarn setup-yarn && yarn install && yarn setup-tooling",
+    "setup": "npm install && npm run setup-tooling",
     "cz-husky-init": "wireit",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky",
     "deploy-gp": "babel-node deploy-gp.js"
@@ -68,7 +67,7 @@
       ]
     },
     "pub": {
-      "command": "yarn release && yarn push && npm publish",
+      "command": "npm release && npm push && npm publish",
       "dependencies": [
         "build"
       ]
@@ -92,13 +91,13 @@
       ]
     },
     "test:e2e": {
-      "command": "yarn run:cy",
+      "command": "npm run run:cy",
       "dependencies": [
         "serve"
       ]
     },
     "test:e2e:dev": {
-      "command": "yarn run:cy",
+      "command": "npm run run:cy",
       "dependencies": [
         "demo"
       ]
@@ -112,47 +111,46 @@
       ]
     },
     "demo": {
-      "command": "cd example-nextjs && yarn dev",
+      "command": "cd example-nextjs && npm run dev",
       "service": true,
       "dependencies": [
         "dev"
       ]
     },
     "serve": {
-      "command": "cd example-nextjs && yarn serve",
+      "command": "cd example-nextjs && npm run build && npm run serve",
       "service": true,
       "dependencies": [
-        "build",
-        "./example-nextjs:build"
+        "build"
       ]
     },
     "install-deps": {
-      "command": "yarn install",
+      "command": "npm install",
       "allowUsuallyExcludedPaths": true,
       "files": [
         "package.json",
-        "yarn.lock"
+        "package-lock.json"
       ]
     },
     "install-example-deps": {
-      "command": "cd example-nextjs && yarn install",
+      "command": "cd example-nextjs && npm install",
       "dependencies": [
         "install-deps"
       ],
       "allowUsuallyExcludedPaths": true,
       "files": [
         "example-nextjs/package.json",
-        "example-nextjs/yarn.lock"
+        "example-nextjs/package-lock.json"
       ]
     },
     "link-react": {
-      "command": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && yarn link && cd ../react-dom && yarn link && cd ../../../ && yarn link react && yarn link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
+      "command": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && npm link && cd ../react-dom && npm link && cd ../../../ && npm link react && npm link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
       "dependencies": [
         "install-example-deps"
       ]
     },
     "setup-tooling": {
-      "command": "yarn link-react",
+      "command": "npm run link-react",
       "dependencies": [
         "setup-husky",
         "cz-husky-init",
@@ -160,7 +158,7 @@
       ]
     },
     "setup-husky": {
-      "command": "husky install && cat .husky/pre-commit | grep 'yarn test:unit' ; [ $? -eq 1 ] && npx husky add .husky/pre-commit 'yarn test:unit' || echo 'already installed' ",
+      "command": "husky install && cat .husky/pre-commit | grep 'npm run test:unit' ; [ $? -eq 1 ] && npx husky add .husky/pre-commit 'npm run test:unit' || echo 'already installed' ",
       "dependencies": [
         "install-deps"
       ],
@@ -180,7 +178,7 @@
       ]
     },
     "cz-install": {
-      "command": "commitizen init cz-conventional-changelog --dev --exact --yarn",
+      "command": "commitizen init cz-conventional-changelog --dev --exact",
       "dependencies": [
         "install-deps"
       ]
