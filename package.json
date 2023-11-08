@@ -13,6 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
   },
+  "homepage": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu",
+  "funding": {
+    "type": "patreon",
+    "url": "https://patreon.com/asmyshlyaev177"
+  },
+  "bugs": {
+    "url": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues"
+  },
   "exports": {
     ".": {
       "browser": "./dist/index.mjs",
