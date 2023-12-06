@@ -67,7 +67,9 @@
     "setup": "npm install && npm run setup-tooling",
     "cz-husky-init": "wireit",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky",
-    "deploy-gp": "babel-node deploy-gp.js"
+    "deploy-gp": "babel-node deploy-gp.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "wireit": {
     "release": {
@@ -246,6 +248,14 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^11.0.0",
+    "@storybook/addon-essentials": "^7.6.3",
+    "@storybook/addon-interactions": "^7.6.3",
+    "@storybook/addon-links": "^7.6.3",
+    "@storybook/addon-onboarding": "^1.0.9",
+    "@storybook/blocks": "^7.6.3",
+    "@storybook/react": "^7.6.3",
+    "@storybook/react-webpack5": "^7.6.3",
+    "@storybook/test": "^7.6.3",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
@@ -278,6 +288,7 @@
     "eslint-plugin-radar": "^0.2.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
+    "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-unicorn": "^32.0.1",
     "gh-pages": "^3.2.3",
     "husky": "^7.0.2",
@@ -300,6 +311,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.8",
     "standard-version": "^9.5.0",
+    "storybook": "^7.6.3",
     "style-loader": "^3.3.1",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.4.2",
