@@ -234,6 +234,9 @@
     "last 2 iOS major versions"
   ],
   "dependencies": {
+    "@storybook/builder-webpack5": "^7.6.3",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "monaco-editor": "^0.44.0",
     "smooth-scroll-into-view-if-needed": "~1.1"
   },
   "devDependencies": {
@@ -251,6 +254,7 @@
     "@storybook/addon-essentials": "^7.6.3",
     "@storybook/addon-interactions": "^7.6.3",
     "@storybook/addon-links": "^7.6.3",
+    "@storybook/addon-mdx-gfm": "^7.6.3",
     "@storybook/addon-onboarding": "^1.0.9",
     "@storybook/blocks": "^7.6.3",
     "@storybook/react": "^7.6.3",
@@ -312,6 +316,7 @@
     "semver": "^7.3.8",
     "standard-version": "^9.5.0",
     "storybook": "^7.6.3",
+    "storybook-addon-code-editor": "^2.2.0",
     "style-loader": "^3.3.1",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.4.2",

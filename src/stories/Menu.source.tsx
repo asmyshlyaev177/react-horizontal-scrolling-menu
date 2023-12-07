@@ -1,51 +1,41 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
-import { ScrollMenu, VisibilityContext } from '../index';
-import * as Lib from '../index';
+export default function SimpleExample() {
+  const [items] = React.useState(getItems);
+
+  return (
+    <div
+      style={{
+        maxWidth: '650px',
+        maxHeight: '400px',
+      }}
+    >
+      <ScrollMenu
+        LeftArrow={() => '<'}
+        RightArrow={() => '>'}
+        onWheel={onWheel}
+      >
+        {items.map(({ id }) => (
+          <Card
+            title={id}
+            itemId={id} // NOTE: itemId is required for track items
+            key={id}
+            onClick={() => false}
+            selected={false}
+          />
+        ))}
+      </ScrollMenu>
+    </div>
+  );
+}
+
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import Example from './Menu.source.tsx?raw';
-
-const meta: Meta<typeof ScrollMenu> = {
-  title: 'Example/ScrollMenu',
-  component: SimpleExample,
-  parameters: {},
-  // https://storybook.js.org/docs/writing-docs/autodocs
-  // tags: ['autodocs'],
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {
-    onWheel: {
-      description: 'onWheel handler',
-      type: 'function',
-    },
-  },
-};
-
-export default meta;
-
-type Story = StoryObj<typeof ScrollMenu>;
-
-export const Simple: Story = {
-  args: {
-    onWheel,
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'horizontal',
-    },
-  },
-};
-export const SimpleEditable = createLiveEditStory({
-  code: Example,
-  availableImports: { react: React, 'react-horizontal-scrolling-menu': Lib },
-});
-
 const elemPrefix = 'test';
+
 const getId = (index: number) => `${elemPrefix}${index}`;
+
 const getItems = () =>
   Array(10)
     .fill(0)
@@ -119,23 +109,5 @@ function Card({
         }}
       />
     </div>
-  );
-}
-
-function SimpleExample() {
-  const [items] = React.useState(getItems);
-
-  return (
-    <ScrollMenu LeftArrow={() => '<'} RightArrow={() => '>'} onWheel={onWheel}>
-      {items.map(({ id }) => (
-        <Card
-          title={id}
-          itemId={id} // NOTE: itemId is required for track items
-          key={id}
-          onClick={() => false}
-          selected={false}
-        />
-      ))}
-    </ScrollMenu>
   );
 }
