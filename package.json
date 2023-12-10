@@ -62,16 +62,32 @@
     "install-example-deps": "wireit",
     "setup-husky": "wireit",
     "cz-install": "wireit",
-    "link-react": "wireit",
     "setup-tooling": "wireit",
     "setup": "npm install && npm run setup-tooling",
     "cz-husky-init": "wireit",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky",
     "deploy-gp": "babel-node deploy-gp.js",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "wireit",
+    "storybook:types": "wireit",
+    "build-storybook": "wireit"
   },
   "wireit": {
+    "build-storybook": {
+      "command": "storybook build",
+      "dependencies": [
+        "storybook:types"
+      ]
+    },
+    "storybook": {
+      "command": "storybook dev -p 6006",
+      "service": true,
+      "dependencies": [
+        "storybook:types"
+      ]
+    },
+    "storybook:types": {
+      "command": "dts-bundle-generator --project ./tsconfig-monaco.json --no-check -o ./dist/index.d.ts ./src/index.tsx"
+    },
     "release": {
       "command": "standard-version",
       "dependencies": [
@@ -157,18 +173,13 @@
         "example-nextjs/package-lock.json"
       ]
     },
-    "link-react": {
-      "command": "rm -rf node_modules/react && rm -rf node_modules/react-dom && cd example-nextjs/node_modules/react && npm link && cd ../react-dom && npm link && cd ../../../ && npm link react && npm link react-dom && rm -rf node_modules/react && rm -rf node_modules/react-dom",
-      "dependencies": [
-        "install-example-deps"
-      ]
-    },
     "setup-tooling": {
-      "command": "npm run link-react",
+      "command": "echo 'setup'",
       "dependencies": [
         "setup-husky",
         "cz-husky-init",
-        "cz-install"
+        "cz-install",
+        "install-example-deps"
       ]
     },
     "setup-husky": {
@@ -208,8 +219,7 @@
       ],
       "dependencies": [
         "setup-tooling",
-        "kill-rollup",
-        "link-react"
+        "kill-rollup"
       ]
     }
   },
@@ -234,9 +244,6 @@
     "last 2 iOS major versions"
   ],
   "dependencies": {
-    "@storybook/builder-webpack5": "^7.6.3",
-    "@storybook/manager-webpack5": "^6.5.16",
-    "monaco-editor": "^0.44.0",
     "smooth-scroll-into-view-if-needed": "~1.1"
   },
   "devDependencies": {
@@ -254,9 +261,10 @@
     "@storybook/addon-essentials": "^7.6.3",
     "@storybook/addon-interactions": "^7.6.3",
     "@storybook/addon-links": "^7.6.3",
-    "@storybook/addon-mdx-gfm": "^7.6.3",
     "@storybook/addon-onboarding": "^1.0.9",
     "@storybook/blocks": "^7.6.3",
+    "@storybook/builder-webpack5": "^7.6.3",
+    "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^7.6.3",
     "@storybook/react-webpack5": "^7.6.3",
     "@storybook/test": "^7.6.3",
@@ -282,6 +290,7 @@
     "cypress-wait-until": "^2.0.1",
     "cz": "^1.8.2",
     "cz-conventional-changelog": "^3.3.0",
+    "dts-bundle-generator": "^9.0.0",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
@@ -300,6 +309,7 @@
     "jest-dev-server": "^9.0.1",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^10.2.2",
+    "monaco-editor": "^0.44.0",
     "node-sass": "^8.0.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",
