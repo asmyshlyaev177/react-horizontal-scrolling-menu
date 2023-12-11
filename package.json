@@ -41,8 +41,8 @@
     }
   },
   "engines": {
-    "node": "18",
-    "npm": "9"
+    "node": ">=18",
+    "npm": ">=9"
   },
   "scripts": {
     "test:unit": "wireit",
@@ -177,11 +177,11 @@
       "command": "cd example-nextjs && npm run dev",
       "service": true,
       "dependencies": [
-          "dev"
+        "dev"
       ]
     },
     "serve": {
-      "command": "cd example-nextjs && npm run build && npm run serve",
+      "command": "cd example-nextjs && npm run build && npm run serve 1> /dev/null",
       "service": true,
       "dependencies": [
         "build"
@@ -200,7 +200,7 @@
       ]
     },
     "install:playwright": {
-      "command": "npx playwright install",
+      "command": "npx playwright install chromium firefox",
       "clean": false,
       "files": [
         "package.json"
@@ -325,6 +325,7 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.40.1",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^11.0.0",

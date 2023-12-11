@@ -1,9 +1,5 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    /* Basic Options */
-    // "incremental": true,
-    /* Enable incremental compilation */
     "target": "ES2016", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNext'. */
     "module": "amd", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
     "lib": [
@@ -18,14 +14,11 @@
     "checkJs": true, /* Report errors in .js files. */
     "jsx": "react",
     "declaration": true, /* Generates corresponding '.d.ts' file. */
-    // "declarationDir": "./types",
     "emitDeclarationOnly": true,
     "declarationMap": false, /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "sourceMap": true, /* Generates corresponding '.map' file. */
     "outDir": "./", /* Redirect output structure to the directory. */
     "rootDir": "./src", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    // "removeComments": false, /* Do not emit comments to output. */
-    // "importHelpers": true,                       /* Import emit helpers from 'tslib'. */
     "downlevelIteration": false, /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     "isolatedModules": false, /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
     /* Strict Type-Checking Options */
@@ -34,12 +27,12 @@
     "types": ["node", "jest", "@testing-library/dom", "@testing-library/jest-dom", "jest-environment-jsdom", "@jest/globals"],                                 /* Type declaration files to be included in compilation. */
     "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     // "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
-    "skipLibCheck": true, /* Skip type checking of declaration files. */
+    "skipLibCheck": true
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "node_modules", "**/*.test.ts", "**/*.test.tsx", "**/stories/**",
+    "node_modules", "**/*.test.ts", "**/*.test.tsx", "**/stories/**"
   ]
 }
