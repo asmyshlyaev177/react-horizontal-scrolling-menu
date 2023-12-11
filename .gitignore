@@ -18,3 +18,5 @@ cypress/screenshots
 cypress_cache
 
 .wireit
+
+stories/index.d.ts

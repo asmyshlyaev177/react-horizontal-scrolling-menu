@@ -48,6 +48,8 @@
     "test:unit": "wireit",
     "test:e2e": "wireit",
     "test:e2e:dev": "wireit",
+    "test:storybook": "wireit",
+    "test:all": "wireit",
     "run:cy": "wireit",
     "dev": "wireit",
     "dev2": "webpack -w",
@@ -58,6 +60,7 @@
     "commit": "cz",
     "release": "wireit",
     "pub": "wireit",
+    "reinstall": "npm run cleanup && npm run setup",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
     "setup-husky": "wireit",
@@ -65,7 +68,7 @@
     "setup-tooling": "wireit",
     "setup": "npm install && npm run setup-tooling",
     "cz-husky-init": "wireit",
-    "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky",
+    "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky dist",
     "deploy-gp": "babel-node deploy-gp.js",
     "storybook": "wireit",
     "storybook:types": "wireit",
@@ -75,18 +78,40 @@
     "build-storybook": {
       "command": "storybook build",
       "dependencies": [
-        "storybook:types"
+        "storybook:types",
+        "setup-tooling"
       ]
     },
     "storybook": {
-      "command": "storybook dev -p 6006",
-      "service": true,
+      "command": "storybook dev -p 6006 --no-open",
+      "service": {
+        "readyWhen": {
+          "lineMatches": " 100%"
+        }
+      },
       "dependencies": [
-        "storybook:types"
+        "storybook:types",
+        "setup-tooling"
+      ]
+    },
+    "test:storybook": {
+      "command": "npx wait-on http://localhost:6006 && test-storybook -u --browsers firefox chromium",
+      "dependencies": [
+        "storybook",
+        "setup-tooling"
       ]
     },
     "storybook:types": {
-      "command": "dts-bundle-generator --project ./tsconfig-monaco.json --no-check -o ./dist/index.d.ts ./src/index.tsx"
+      "command": "dts-bundle-generator --project ./tsconfig-monaco.json --no-check -o ./stories/index.d.ts ./src/index.tsx",
+      "files": [
+        "src"
+      ],
+      "output": [
+        "stories/index.d.ts"
+      ],
+      "dependencies": [
+        "setup-tooling"
+      ]
     },
     "release": {
       "command": "standard-version",
@@ -105,17 +130,16 @@
     "push": {
       "command": "git push --follow-tags origin main"
     },
-    "test:unit": {
-      "command": "jest",
+    "test:all": {
+      "command": "npm run test:e2e",
       "dependencies": [
-        "install-deps"
+        "test:unit",
+        "test:storybook",
+        "test:e2e:dev"
       ]
     },
-    "kill-rollup": {
-      "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 && echo 'killed' || echo 'killed'"
-    },
-    "run:cy": {
-      "command": "npx wait-on http://localhost:3003 && cypress run",
+    "test:unit": {
+      "command": "jest",
       "dependencies": [
         "install-deps"
       ]
@@ -132,6 +156,15 @@
         "demo"
       ]
     },
+    "kill-rollup": {
+      "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 && echo 'killed' || echo 'killed'"
+    },
+    "run:cy": {
+      "command": "npx wait-on http://localhost:3003 && cypress run",
+      "dependencies": [
+        "install-deps"
+      ]
+    },
     "dev": {
       "command": "cross-env IS_DEVELOPMENT=true rollup -c rollup.config.js -w",
       "service": true,
@@ -144,7 +177,7 @@
       "command": "cd example-nextjs && npm run dev",
       "service": true,
       "dependencies": [
-        "dev"
+          "dev"
       ]
     },
     "serve": {
@@ -157,9 +190,24 @@
     "install-deps": {
       "command": "npm install",
       "allowUsuallyExcludedPaths": true,
+      "clean": false,
       "files": [
         "package.json",
         "package-lock.json"
+      ],
+      "output": [
+        "node_modules"
+      ]
+    },
+    "install:playwright": {
+      "command": "npx playwright install",
+      "clean": false,
+      "files": [
+        "package.json"
+      ],
+      "output": [],
+      "dependencies": [
+        "install-deps"
       ]
     },
     "install-example-deps": {
@@ -168,18 +216,27 @@
         "install-deps"
       ],
       "allowUsuallyExcludedPaths": true,
+      "clean": false,
       "files": [
-        "example-nextjs/package.json",
-        "example-nextjs/package-lock.json"
+        "example-nextjs/package.json"
+      ],
+      "output": [
+        "example-nextjs/node_modules"
       ]
     },
     "setup-tooling": {
       "command": "echo 'setup'",
+      "files": [
+        "package.json"
+      ],
+      "clean": false,
+      "output": [],
       "dependencies": [
         "setup-husky",
         "cz-husky-init",
         "cz-install",
-        "install-example-deps"
+        "install-example-deps",
+        "install:playwright"
       ]
     },
     "setup-husky": {
@@ -187,8 +244,12 @@
       "dependencies": [
         "install-deps"
       ],
-      "allowUsuallyExcludedPaths": true,
       "files": [
+        "package.json"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "clean": false,
+      "output": [
         ".husky"
       ]
     },
@@ -199,11 +260,20 @@
       ],
       "allowUsuallyExcludedPaths": true,
       "files": [
+        "package.json"
+      ],
+      "clean": false,
+      "output": [
         ".husky"
       ]
     },
     "cz-install": {
       "command": "commitizen init cz-conventional-changelog --dev --exact",
+      "files": [
+        "package.json"
+      ],
+      "clean": false,
+      "output": [],
       "dependencies": [
         "install-deps"
       ]
@@ -259,15 +329,18 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@storybook/addon-essentials": "^7.6.3",
-    "@storybook/addon-interactions": "^7.6.3",
+    "@storybook/addon-interactions": "^7.6.4",
     "@storybook/addon-links": "^7.6.3",
     "@storybook/addon-onboarding": "^1.0.9",
     "@storybook/blocks": "^7.6.3",
     "@storybook/builder-webpack5": "^7.6.3",
+    "@storybook/jest": "^0.2.3",
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^7.6.3",
     "@storybook/react-webpack5": "^7.6.3",
     "@storybook/test": "^7.6.3",
+    "@storybook/test-runner": "^0.16.0",
+    "@storybook/testing-library": "^0.2.2",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",

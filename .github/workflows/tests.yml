@@ -54,6 +54,9 @@ jobs:
       - name: E2E tests dev version
         run: npm run test:e2e:dev
 
+      - name: Storybook tests
+        run: npm run test:storybook
+
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
