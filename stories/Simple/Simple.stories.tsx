@@ -26,6 +26,8 @@ const meta: Meta<typeof ScrollMenu> = {
     (Story) => (
       <SizeWrapper>
         <Story />
+
+        {/* TODO: description block */}
       </SizeWrapper>
     ),
   ],

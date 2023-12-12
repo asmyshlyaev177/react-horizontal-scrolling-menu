@@ -14,21 +14,22 @@ const config: StorybookConfig = {
   ],
   addons: [
     'storybook-addon-code-editor',
-    '@storybook/addon-interactions',
+    // '@storybook/addon-interactions',
     '@storybook/addon-links',
     {
       name: '@storybook/addon-essentials',
       options: {
-        // docs: false,
+        actions: false,
+        controls: false,
       },
     },
-    '@storybook/addon-onboarding',
+    // '@storybook/addon-onboarding',
   ],
   managerHead: (head) => `
   <script>
     let storybookConfig = JSON.parse(localStorage.getItem('storybook-layout'));
 
-    const panelSize = 850
+    const panelSize = 940
     const navSize = 250
     if (typeof storybookConfig === 'object' && storybookConfig !== null && +storybookConfig.resizerPanel.x > panelSize) {
       storybookConfig.resizerNav.x = navSize;

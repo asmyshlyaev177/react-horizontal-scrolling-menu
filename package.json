@@ -386,6 +386,7 @@
     "lint-staged": "^10.2.2",
     "monaco-editor": "^0.44.0",
     "node-sass": "^8.0.0",
+    "normalize.css": "^8.0.1",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",
     "prettier": "^2.3.0",

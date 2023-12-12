@@ -110,7 +110,7 @@ const ArrowButton = styled('button')({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  right: '1%',
+  marginBottom: '2px',
   opacity: (props) => (props.disabled ? '0' : '1'),
   userSelect: 'none',
   borderRadius: '6px',

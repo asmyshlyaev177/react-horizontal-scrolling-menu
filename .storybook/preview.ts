@@ -1,15 +1,6 @@
 import type { Preview } from "@storybook/react";
-import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-
-const customViewports = {
-  horizontal: {
-    name: 'horizontal',
-    styles: {
-      height: '400px',
-      width: '650px',
-    }
-  }
-}
+import 'normalize.css';
+import './index.css'
 
 const preview: Preview = {
   parameters: {
@@ -20,10 +11,6 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    viewport: { viewports: {
-      ...MINIMAL_VIEWPORTS,
-      ...customViewports
-    } },
   },
 };
 
