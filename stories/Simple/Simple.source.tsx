@@ -4,26 +4,53 @@ import {
   VisibilityContext,
   publicApiType,
 } from 'react-horizontal-scrolling-menu';
-import './index.css';
+import styled from 'styled-jss';
 
-// TODO: styled-components or emotion
-export default function SimpleExample() {
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    overflowX: 'hidden',
+  },
+});
+
+export function SimpleExample() {
   const [items] = React.useState(() => getItems());
+  const [selected, setSelected] = React.useState<string[]>([]);
+
+  const isItemSelected = (id: string): boolean =>
+    !!selected.find((el) => el === id);
+
+  const handleItemClick = (itemId: string) => {
+    const itemSelected = isItemSelected(itemId);
+
+    setSelected((currentSelected: string[]) =>
+      itemSelected
+        ? currentSelected.filter((el) => el !== itemId)
+        : currentSelected.concat(itemId)
+    );
+  };
 
   return (
-    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} onWheel={onWheel}>
-      {items.map(({ id }) => (
-        <Card
-          title={id}
-          itemId={id} // NOTE: itemId is required for track items
-          key={id}
-          onClick={() => false}
-          selected={false}
-        />
-      ))}
-    </ScrollMenu>
+    <NoScrollbar>
+      <ScrollMenu
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        onWheel={onWheel}
+      >
+        {items.map(({ id }) => (
+          <Card
+            title={id}
+            itemId={id} // NOTE: itemId is required for track items
+            key={id}
+            onClick={() => handleItemClick(id)}
+            selected={isItemSelected(id)}
+          />
+        ))}
+      </ScrollMenu>
+    </NoScrollbar>
   );
 }
+
+export default SimpleExample;
 
 function LeftArrow() {
   const { initComplete, isFirstItemVisible, scrollPrev } =
@@ -69,24 +96,25 @@ function Arrow({
   className?: String;
 }) {
   return (
-    <button
+    <ArrowButton
       disabled={disabled}
       onClick={onClick}
       className={'arrow' + `-${className}`}
-      style={{
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        right: '1%',
-        opacity: disabled ? '0' : '1',
-        userSelect: 'none',
-      }}
     >
       {children}
-    </button>
+    </ArrowButton>
   );
 }
+const ArrowButton = styled('button')({
+  cursor: 'pointer',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  right: '1%',
+  opacity: (props) => (props.disabled ? '0' : '1'),
+  userSelect: 'none',
+  borderRadius: '6px',
+});
 
 function Card({
   onClick,
@@ -107,39 +135,46 @@ function Card({
     (visibility.initComplete && visibility.isItemVisible(itemId));
 
   return (
-    <div
+    <CardBody
       data-cy={itemId}
       onClick={() => onClick(visibility)}
       onKeyDown={(ev) => {
         ev.code === 'Enter' && onClick(visibility);
       }}
+      data-testid="card"
       role="button"
-      style={{
-        border: '1px solid',
-        display: 'inline-block',
-        margin: '0 10px',
-        width: '160px',
-        userSelect: 'none',
-      }}
       tabIndex={0}
       className="card"
+      visible={visible}
+      selected={selected}
     >
       <div className="card-header">
         <div>{title}</div>
-        <div style={{ backgroundColor: visible ? 'transparent' : 'gray' }}>
-          visible: {JSON.stringify(visible)}
-        </div>
-        <div>selected: {JSON.stringify(!!selected)}</div>
+        <div className="visible">visible: {JSON.stringify(visible)}</div>
+        <div className="selected">selected: {JSON.stringify(!!selected)}</div>
       </div>
-      <div
-        style={{
-          backgroundColor: selected ? 'green' : 'bisque',
-          height: '200px',
-        }}
-      />
-    </div>
+      <div className="background" />
+    </CardBody>
   );
 }
+const CardBody = styled('div')({
+  border: '1px solid',
+  display: 'inline-block',
+  margin: '0 10px',
+  width: '160px',
+  userSelect: 'none',
+  borderRadius: '8px',
+  overflow: 'hidden',
+
+  '& .visible': {
+    backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),
+  },
+
+  '& .background': {
+    backgroundColor: (props) => (props.selected ? 'green' : 'bisque'),
+    height: '200px',
+  },
+});
 
 const getId = (index: number) => `${'test'}${index}`;
 

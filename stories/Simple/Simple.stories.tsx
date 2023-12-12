@@ -5,11 +5,10 @@ import { createLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
 import * as Lib from '../../src/index';
+import styled from 'styled-jss';
 
 // @ts-ignore
 import * as Types from '../index.d.ts?raw';
-// @ts-ignore
-import * as styles from './index.css';
 
 // @ts-ignore
 import Example from './Simple.source.tsx?raw';
@@ -24,14 +23,18 @@ const meta: Meta<typeof ScrollMenu> = {
     },
   },
   decorators: [
-    // TODO: https://storybook.js.org/docs/writing-stories/decorators#global-decorators
     (Story) => (
-      <div style={{ maxWidth: '650px', maxHeight: '400px' }}>
+      <SizeWrapper>
         <Story />
-      </div>
+      </SizeWrapper>
     ),
   ],
 };
+
+const SizeWrapper = styled('div')({
+  maxWidth: '650px',
+  maxHeight: '400px',
+});
 
 export default meta;
 
@@ -40,7 +43,7 @@ export const Simple = createLiveEditStory({
   availableImports: {
     react: React,
     'react-horizontal-scrolling-menu': Lib,
-    './index.css': styles,
+    'styled-jss': styled,
   },
   modifyEditor: setupEditor,
 });
