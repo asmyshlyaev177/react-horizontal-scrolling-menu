@@ -62,7 +62,7 @@ function LeftArrow() {
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
       onClick={() => scrollPrev()}
-      className="left"
+      testId="left-arrow"
     >
       Left
     </Arrow>
@@ -77,7 +77,7 @@ function RightArrow() {
     <Arrow
       disabled={initComplete && isLastItemVisible}
       onClick={() => scrollNext()}
-      className="right"
+      testId="right-arrow"
     >
       Right
     </Arrow>
@@ -89,17 +89,20 @@ function Arrow({
   disabled,
   onClick,
   className,
+  testId,
 }: {
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
   className?: String;
+  testId: String
 }) {
   return (
     <ArrowButton
       disabled={disabled}
       onClick={onClick}
       className={'arrow' + `-${className}`}
+      data-testid={testId}
     >
       {children}
     </ArrowButton>
@@ -148,7 +151,7 @@ function Card({
       visible={visible}
       selected={selected}
     >
-      <div className="card-header">
+      <div className="header">
         <div>{title}</div>
         <div className="visible">visible: {JSON.stringify(visible)}</div>
         <div className="selected">selected: {JSON.stringify(!!selected)}</div>
@@ -165,6 +168,10 @@ const CardBody = styled('div')({
   userSelect: 'none',
   borderRadius: '8px',
   overflow: 'hidden',
+
+  '& .header': {
+    backgroundColor: 'white'
+  },
 
   '& .visible': {
     backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),

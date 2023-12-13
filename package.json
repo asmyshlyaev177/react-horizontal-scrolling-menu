@@ -95,7 +95,7 @@
       ]
     },
     "test:storybook": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook -u --browsers firefox chromium",
+      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
       "dependencies": [
         "storybook",
         "setup-tooling"
@@ -131,10 +131,9 @@
       "command": "git push --follow-tags origin main"
     },
     "test:all": {
-      "command": "npm run test:e2e",
+      "command": "npm run test:e2e && npm run test:storybook",
       "dependencies": [
         "test:unit",
-        "test:storybook",
         "test:e2e:dev"
       ]
     },

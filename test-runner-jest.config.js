@@ -10,6 +10,7 @@ const testRunnerConfig = getJestConfig();
 module.exports = {
   ...testRunnerConfig,
   roots: ['stories'],
+  testTimeout: 120 * 1000,
   /** Add your own overrides below, and make sure
    *  to merge testRunnerConfig properties with your own
    * @see https://jestjs.io/docs/configuration

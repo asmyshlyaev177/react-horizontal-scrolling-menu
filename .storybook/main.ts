@@ -14,7 +14,7 @@ const config: StorybookConfig = {
   ],
   addons: [
     'storybook-addon-code-editor',
-    // '@storybook/addon-interactions',
+    '@storybook/addon-interactions',
     '@storybook/addon-links',
     {
       name: '@storybook/addon-essentials',

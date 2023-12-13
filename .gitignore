@@ -20,3 +20,4 @@ cypress_cache
 .wireit
 
 stories/index.d.ts
+storybook-static
