@@ -13,7 +13,8 @@
     "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:radar/recommended"
+    "plugin:radar/recommended",
+    "plugin:storybook/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -93,16 +94,17 @@
         "*.spec.ts"
       ],
       "settings": {
-        "disable/plugins": ["jest"]
+        "disable/plugins": [
+          "jest"
+        ]
       },
       "rules": {
         "jest/valid-expect-in-promise": "off",
-        "jest/expect-expect" : "off",
-        "jest/valid-expect" : "off",
+        "jest/expect-expect": "off",
+        "jest/valid-expect": "off",
         "cypress/no-unnecessary-waiting": "off",
         "@typescript-eslint/no-explicit-any": "off"
       }
     }
-
   ]
 }
