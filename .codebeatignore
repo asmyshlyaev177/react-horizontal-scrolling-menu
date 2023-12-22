@@ -13,6 +13,8 @@ coverage/**
 .github/**
 types/**
 dist/**
+stories/**
+.storybook/**
 
 *.js
 

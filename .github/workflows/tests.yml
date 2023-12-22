@@ -36,7 +36,9 @@ jobs:
         run: |
           mkdir -p ../cypress_cache && \
           npm run setup && \
-          chmod -R 777 ../cypress_cache
+          chmod -R 777 ../cypress_cache && \
+          npx cross-env HOME=/root npx playwright install chromium firefox --with-deps && \
+          chmod -R 777 /root/.cache/ms-playwright
 
       - name: Unit tests
         run: npm run test:unit -- --coverage --coverageReporters="lcov"
@@ -50,12 +52,16 @@ jobs:
 
       - name: E2E tests builded version
         run: npm run test:e2e
-
-      - name: E2E tests dev version
-        run: npm run test:e2e:dev
-
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: cypress
           path: cypress
+
+      - name: E2E tests dev version
+        run: npm run test:e2e:dev
+
+      - name: Storybook tests
+        run: npx cross-env HOME=/root npm run test:storybook
+
+
