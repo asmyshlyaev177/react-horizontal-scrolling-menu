@@ -7,34 +7,34 @@ import styled from 'styled-jss';
 import { setupEditor } from '../setupEditor';
 import { ScrollMenu } from '../../src/index';
 import * as Lib from '../../src/index';
-import { ScrollTest } from '../test';
+import { ScrollTest, upArrowSelector, downArrowSelector } from '../test';
 
 // @ts-ignore
-import ExampleRaw from './Simple.source.tsx?raw';
-import { SimpleExample as Example } from './Simple.source';
+import ExampleRaw from './Vertical.source.tsx?raw';
+import { VerticalExample as Example } from './Vertical.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/Simple',
+  title: 'ScrollMenu/Vertical',
   component: Example,
   decorators: [
     (Story) => (
       <SizeWrapper>
         <Story />
-
-        {/* TODO: description block */}
       </SizeWrapper>
     ),
   ],
 };
 
 const SizeWrapper = styled('div')({
-  maxWidth: '650px',
-  maxHeight: '400px',
+  maxWidth: '300px',
+  maxHeight: '670px',
+  display: 'flex',
+  position: 'relative',
 });
 
 export default meta;
 
-export const Simple = createLiveEditStory({
+export const Vertical = createLiveEditStory({
   code: ExampleRaw,
   availableImports: {
     react: React,
@@ -44,4 +44,7 @@ export const Simple = createLiveEditStory({
   modifyEditor: setupEditor,
 });
 
-export const Test = ScrollTest();
+export const Test = ScrollTest({
+  leftArrow: upArrowSelector,
+  rightArrow: downArrowSelector,
+});
