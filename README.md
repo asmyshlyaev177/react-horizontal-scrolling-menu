@@ -20,7 +20,7 @@
 
 ### Examples
 
-[Demo](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
+[Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 
 [Basic example](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-example-swg0y?file=/src/index.tsx)
 
@@ -73,7 +73,7 @@ Possible set default position on initialization.
 ## Quick start
 
 ```bash
-npm install add react-horizontal-scrolling-menu
+npm install --save react-horizontal-scrolling-menu
 ```
 
 In project:
@@ -179,8 +179,18 @@ You can clone repository and run demo project.
 
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
-npm install
+npm run setup
 npm run demo
+```
+
+## Storybook
+
+Can clone repo and run storybook
+
+```bash
+git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
+npm run setup
+npm run storybook
 ```
 
 ### Helpers and api
