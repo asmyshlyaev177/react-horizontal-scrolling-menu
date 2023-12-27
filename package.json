@@ -69,7 +69,6 @@
     "setup": "npm install && npm run setup-tooling",
     "cz-husky-init": "wireit",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit .husky dist",
-    "deploy-gp": "babel-node deploy-gp.js",
     "storybook": "wireit",
     "storybook:types": "wireit",
     "build-storybook": "wireit"
