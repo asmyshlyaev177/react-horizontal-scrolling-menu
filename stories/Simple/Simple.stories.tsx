@@ -8,10 +8,11 @@ import { setupEditor } from '../setupEditor';
 import { ScrollMenu } from '../../src/index';
 import * as Lib from '../../src/index';
 import { ScrollTest } from '../test';
+import { SizeWrapper } from '../SizeWrapper';
 
 // @ts-ignore
 import ExampleRaw from './Simple.source.tsx?raw';
-import { SimpleExample as Example } from './Simple.source';
+import Example from './Simple.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'ScrollMenu/Simple',
@@ -20,17 +21,10 @@ const meta: Meta<typeof ScrollMenu> = {
     (Story) => (
       <SizeWrapper>
         <Story />
-
-        {/* TODO: description block */}
       </SizeWrapper>
     ),
   ],
 };
-
-const SizeWrapper = styled('div')({
-  maxWidth: '650px',
-  maxHeight: '400px',
-});
 
 export default meta;
 
