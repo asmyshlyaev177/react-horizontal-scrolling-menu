@@ -109,6 +109,7 @@
         "stories/index.d.ts"
       ],
       "dependencies": [
+        "build",
         "setup-tooling"
       ]
     },
