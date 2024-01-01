@@ -11,7 +11,7 @@ import { ScrollTest, upArrowSelector, downArrowSelector } from '../test';
 
 // @ts-ignore
 import ExampleRaw from './Vertical.source.tsx?raw';
-import { VerticalExample as Example } from './Vertical.source';
+import Example from './Vertical.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'ScrollMenu/Vertical',
