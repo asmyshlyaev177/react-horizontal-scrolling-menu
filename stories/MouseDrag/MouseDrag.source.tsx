@@ -12,14 +12,27 @@ const NoScrollbar = styled('div')({
   },
 });
 
-export function BottomArrows() {
+export function MouseDrag() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
+  // NOTE: for drag by mouse
+  const { dragStart, dragStop, dragMove, dragging } = useDrag();
+  const handleDrag =
+    ({ scrollContainer }: typeof VisibilityContext) =>
+    (ev: React.MouseEvent) =>
+      dragMove(ev, (posDiff) => {
+        if (scrollContainer.current) {
+          scrollContainer.current.scrollLeft += posDiff;
+        }
+      });
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
   const handleItemClick = (itemId: string) => {
+    if (dragging) {
+      return false;
+    }
     const itemSelected = isItemSelected(itemId);
 
     setSelected((currentSelected: string[]) =>
@@ -30,8 +43,15 @@ export function BottomArrows() {
   };
 
   return (
-    <NoScrollbar>
-      <ScrollMenu Footer={Arrows} onWheel={onWheel}>
+    <NoScrollbar onMouseLeave={dragStop}>
+      <ScrollMenu
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        onMouseDown={() => dragStart}
+        onMouseUp={() => dragStop}
+        onMouseMove={handleDrag}
+        onWheel={onWheel}
+      >
         {items.map(({ id }) => (
           <Card
             title={id}
@@ -45,22 +65,52 @@ export function BottomArrows() {
     </NoScrollbar>
   );
 }
-export default BottomArrows;
+export default MouseDrag;
 
-const Arrows = () => (
-  <div
-    style={{
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    Some other content
-    <div style={{ marginLeft: '10px', display: 'flex' }}>
-      <LeftArrow /> <RightArrow />
-    </div>
-  </div>
-);
+function useDrag() {
+  const [clicked, setClicked] = React.useState(false);
+  const [dragging, setDragging] = React.useState(false);
+  const position = React.useRef(0);
+
+  const dragStart = React.useCallback((ev: React.MouseEvent) => {
+    position.current = ev.clientX;
+    setClicked(true);
+  }, []);
+
+  const dragStop = React.useCallback(
+    () =>
+      // NOTE: need some delay so item under cursor won't be clicked
+      window.requestAnimationFrame(() => {
+        setDragging(false);
+        setClicked(false);
+      }),
+    []
+  );
+
+  const dragMove = (ev: React.MouseEvent, cb: (posDif: number) => void) => {
+    const newDiff = position.current - ev.clientX;
+
+    const movedEnough = Math.abs(newDiff) > 5;
+
+    if (clicked && movedEnough) {
+      setDragging(true);
+    }
+
+    if (dragging && movedEnough) {
+      position.current = ev.clientX;
+      cb(newDiff);
+    }
+  };
+
+  return {
+    dragStart,
+    dragStop,
+    dragMove,
+    dragging,
+    position,
+    setDragging,
+  };
+}
 
 function LeftArrow() {
   const { initComplete, isFirstItemVisible, scrollPrev } =
