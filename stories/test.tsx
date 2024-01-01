@@ -22,14 +22,19 @@ export class TestObj {
     );
   }
 
+  async getCards(text = '') {
+    const elems = await this.canvas.getAllByText(
+      (_content, element) =>
+        !!(element as HTMLElement)?.innerText?.includes(text),
+      { selector: '.card' }
+    );
+
+    return [...elems];
+  }
+
   async getVisibleCards() {
-    const visibleCards = [
-      ...this.canvas.getAllByText(
-        (_content, element) =>
-          !!(element as HTMLElement)?.innerText?.includes('visible: true'),
-        { selector: '.card' }
-      ),
-    ].map((el) => el.innerText.split('\n')[0]);
+    const cards = await this.getCards('visible: true');
+    const visibleCards = cards.map((el) => el.innerText.split('\n')[0]);
 
     expect(visibleCards).toHaveLength(3);
 
@@ -37,26 +42,23 @@ export class TestObj {
   }
 
   async cardHidden(card: string) {
-    await waitFor(() =>
-      expect(
-        this.canvas.getAllByText(
-          (_content, element) =>
-            !!(element as HTMLElement)?.innerText?.includes(
-              `${card}\nvisible: false`
-            ),
+    const hiddenCards = await this.getCards(`${card}\nvisible: false`);
 
-          { selector: '.card' }
-        )[0]
-      ).toBeInTheDocument()
-    );
+    await waitFor(() => expect(hiddenCards[0]).toBeInTheDocument());
+  }
+
+  async wait(timeout = 550) {
+    await new Promise((res) => setTimeout(() => res(true), timeout));
   }
 
   async clickPrev() {
     await userEvent.click(this.canvas.getByTestId(this.leftArrow));
+    await this.wait();
   }
 
   async clickNext() {
     await userEvent.click(this.canvas.getByTestId(this.rightArrow));
+    await this.wait();
   }
 
   async arrowsVisible({ up, down }: { up: boolean; down: boolean }) {
