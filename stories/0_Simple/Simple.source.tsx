@@ -7,8 +7,12 @@ import {
 import styled from 'styled-jss';
 
 const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
   '& .react-horizontal-scrolling-menu--scroll-container': {
-    overflowX: 'hidden',
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
   },
 });
 
@@ -95,7 +99,7 @@ function Arrow({
   disabled: boolean;
   onClick: VoidFunction;
   className?: String;
-  testId: String
+  testId: String;
 }) {
   return (
     <ArrowButton
@@ -170,7 +174,7 @@ const CardBody = styled('div')({
   overflow: 'hidden',
 
   '& .header': {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
 
   '& .visible': {
