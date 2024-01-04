@@ -7,8 +7,12 @@ import {
 import styled from 'styled-jss';
 
 const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
   '& .react-horizontal-scrolling-menu--scroll-container': {
-    overflowX: 'hidden',
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
   },
 });
 
