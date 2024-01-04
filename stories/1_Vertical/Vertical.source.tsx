@@ -7,6 +7,9 @@ import {
 import styled from 'styled-jss';
 
 const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
   // NOTE: also need to set on parent:
   // display: 'flex' and position: 'relative'
   '& .react-horizontal-scrolling-menu--wrapper': {
@@ -15,7 +18,8 @@ const NoScrollbar = styled('div')({
 
   '& .react-horizontal-scrolling-menu--scroll-container': {
     height: 'initial',
-
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
     overflowY: 'auto',
     flexDirection: 'column',
   },
