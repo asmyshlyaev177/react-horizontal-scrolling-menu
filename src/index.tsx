@@ -139,6 +139,9 @@ export interface Props {
   noPolyfill?: boolean;
 }
 
+const apiRefDefault = { current: {} as publicApiType };
+const cbDefault = (): void => void 0;
+
 /**
   See docs and examples at
 
@@ -153,22 +156,22 @@ function ScrollMenu({
   transitionDuration = 500,
   transitionEase,
   transitionBehavior,
-  onInit = (): void => void 0,
-  onUpdate = (): void => void 0,
+  onInit = cbDefault,
+  onUpdate = cbDefault,
   onMouseDown,
   onMouseUp,
   onMouseMove,
-  onScroll = (): void => void 0,
+  onScroll = cbDefault,
   onTouchMove,
   onTouchStart,
   onTouchEnd,
-  onWheel = (): void => void 0,
+  onWheel = cbDefault,
   options = defaultObserverOptions,
   scrollContainerClassName = '',
   itemClassName = '',
   separatorClassName = '',
   wrapperClassName = '',
-  apiRef = { current: {} as publicApiType },
+  apiRef = apiRefDefault,
   RTL,
   noPolyfill,
 }: Props): JSX.Element {
