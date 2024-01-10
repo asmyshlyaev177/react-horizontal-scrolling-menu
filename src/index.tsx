@@ -195,12 +195,16 @@ function ScrollMenu({
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, items);
 
-  const { visibleElementsWithSeparators } = useIntersectionObserver({
+  const ioOptions = React.useMemo(
+    () => ({
     items,
     itemsChanged,
     options: observerOptions,
     refs: menuItemsRefs,
-  });
+    }),
+    [items, itemsChanged, menuItemsRefs, observerOptions]
+  );
+  const visibleElementsWithSeparators = useIntersectionObserver(ioOptions);
   const mounted = !!visibleElementsWithSeparators.length;
 
   const api = React.useMemo(
