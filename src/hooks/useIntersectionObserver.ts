@@ -64,9 +64,6 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
     };
   }, [ioCb, itemsChanged, options, refs]);
 
-  return {
-    visibleElementsWithSeparators,
-  };
+  return visibleElementsWithSeparators;
 }
-
 export default useIntersection;
