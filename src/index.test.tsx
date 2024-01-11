@@ -82,9 +82,9 @@ describe('ScrollMenu', () => {
   });
 
   test('should render without props', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleElementsWithSeparators: defaultItemsWithSeparators,
-    });
+    (useIntersectionObserver as jest.Mock).mockReturnValue(
+      defaultItemsWithSeparators
+    );
     const { container } = setup();
 
     expect(container.firstChild).toBeTruthy();
@@ -93,9 +93,9 @@ describe('ScrollMenu', () => {
 
   describe('useIntersectionObserver', () => {
     test('should pass props to it', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const { container } = setup();
 
       expect(container.firstChild).toBeTruthy();
@@ -124,9 +124,9 @@ describe('ScrollMenu', () => {
 
     // eslint-disable-next-line radar/no-duplicate-string
     test('should fire with publicApi', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onInit = jest.fn();
       const { container } = setup({ onInit });
 
@@ -140,18 +140,10 @@ describe('ScrollMenu', () => {
     // TODO: to fix
     test.skip('should return initComplete false on first render(when visibleElementsWithSeparators empty)', () => {
       (useIntersectionObserver as jest.Mock)
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: [],
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: [],
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce(defaultItemsWithSeparators)
+        .mockReturnValueOnce(defaultItemsWithSeparators);
       const onInit = jest.fn();
 
       const { container, rerender } = setup({ onInit });
@@ -176,9 +168,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire with publicApi', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const apiRef = { current: {} } as React.MutableRefObject<publicApiType>;
 
       const { container } = setup({ apiRef });
@@ -195,9 +187,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire with publicApi', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onInit = jest.fn();
       const onUpdate = jest.fn();
 
@@ -213,18 +205,10 @@ describe('ScrollMenu', () => {
 
     test.skip('should not fire if init not complete(when visibleElementsWithSeparators empty)', () => {
       (useIntersectionObserver as jest.Mock)
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: [],
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: [],
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        })
-        .mockReturnValueOnce({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce([])
+        .mockReturnValueOnce(defaultItemsWithSeparators)
+        .mockReturnValueOnce(defaultItemsWithSeparators);
       const onInit = jest.fn();
       const onUpdate = jest.fn();
 
@@ -249,9 +233,9 @@ describe('ScrollMenu', () => {
 
   describe('Children, arrows, header and footer', () => {
     test('LeftArrow, ScrollContainer, MenuItems, RightArrow', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
 
       const { container, getByTestId } = setup({
         LeftArrow: LArrow,
@@ -298,9 +282,9 @@ describe('ScrollMenu', () => {
     });
 
     test('Header and footer', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
 
       const Header = <div data-testid="header">Header</div>;
       const Footer = <div data-testid="footer">Footer</div>;
@@ -338,9 +322,9 @@ describe('ScrollMenu', () => {
 
   describe('Events', () => {
     test('should fire onScroll', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onScroll = jest.fn();
       const { container } = setup({ onScroll });
 
@@ -358,9 +342,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire onWheel', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onWheel = jest.fn();
       const { container } = setup({ onWheel });
 
@@ -375,9 +359,9 @@ describe('ScrollMenu', () => {
 
     describe('touch events', () => {
       test('should fire onTouchStart', () => {
-        (useIntersectionObserver as jest.Mock).mockReturnValue({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        (useIntersectionObserver as jest.Mock).mockReturnValue(
+          defaultItemsWithSeparators
+        );
         const onTouchStart = jest.fn();
         const { container } = setup({ onTouchStart });
 
@@ -391,9 +375,9 @@ describe('ScrollMenu', () => {
       });
 
       test('should fire onTouchMove', () => {
-        (useIntersectionObserver as jest.Mock).mockReturnValue({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        (useIntersectionObserver as jest.Mock).mockReturnValue(
+          defaultItemsWithSeparators
+        );
         const onTouchMove = jest.fn();
         const { container } = setup({ onTouchMove });
 
@@ -407,9 +391,9 @@ describe('ScrollMenu', () => {
       });
 
       test('should fire onTouchEnd', () => {
-        (useIntersectionObserver as jest.Mock).mockReturnValue({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        (useIntersectionObserver as jest.Mock).mockReturnValue(
+          defaultItemsWithSeparators
+        );
         const onTouchEnd = jest.fn();
         const { container } = setup({ onTouchEnd });
 
@@ -424,9 +408,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire onMouseDown', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onMouseDown = jest.fn();
       const { container } = setup({ onMouseDown });
 
@@ -440,9 +424,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire onMouseUp', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onMouseUp = jest.fn();
       const { container } = setup({ onMouseUp });
 
@@ -456,9 +440,9 @@ describe('ScrollMenu', () => {
     });
 
     test('should fire onMouseMove', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const onMouseMove = jest.fn();
       const { container } = setup({ onMouseMove });
 
@@ -473,9 +457,9 @@ describe('ScrollMenu', () => {
 
     describe('className', () => {
       test('should pass classNames', () => {
-        (useIntersectionObserver as jest.Mock).mockReturnValue({
-          visibleElementsWithSeparators: defaultItemsWithSeparators,
-        });
+        (useIntersectionObserver as jest.Mock).mockReturnValue(
+          defaultItemsWithSeparators
+        );
 
         const itemClassName = 'item-class';
         const separatorClassName = 'sep-class';
@@ -519,9 +503,9 @@ describe('ScrollMenu', () => {
 
   describe('RTL', () => {
     test('should add .rtl class', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
 
       const itemClassName = 'item-class';
       const separatorClassName = 'sep-class';
@@ -553,9 +537,9 @@ describe('ScrollMenu', () => {
     });
 
     test('createApi called with RTL', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue({
-        visibleElementsWithSeparators: defaultItemsWithSeparators,
-      });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators
+      );
       const createApiSpy = jest.spyOn(createApi, 'default');
 
       setup({
@@ -569,9 +553,9 @@ describe('ScrollMenu', () => {
   });
 
   test('createApi called with noPolyfill', () => {
-    (useIntersectionObserver as jest.Mock).mockReturnValue({
-      visibleElementsWithSeparators: defaultItemsWithSeparators,
-    });
+    (useIntersectionObserver as jest.Mock).mockReturnValue(
+      defaultItemsWithSeparators
+    );
     const createApiSpy = jest.spyOn(createApi, 'default');
 
     setup({
