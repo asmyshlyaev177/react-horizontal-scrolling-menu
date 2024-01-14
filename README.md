@@ -10,6 +10,8 @@
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
 [![Donate Bitcoin](https://img.shields.io/badge/donate-$5-orange.svg)](https://asmyshlyaev177.github.io/donate-bitcoin?amount=5&currency=USD)
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://war.ukraine.ua)
+
 ### [Poll what you like/dislike/need from this library](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/discussions/221)
 
 ### Proud corner
