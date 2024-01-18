@@ -4,7 +4,8 @@ import type { queries } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 type Canvas = ReturnType<typeof within<typeof queries>>;
-
+type HorArrows = { left: boolean; right: boolean };
+type VerArrows = { up: boolean; down: boolean };
 export class TestObj {
   canvas: Canvas;
   leftArrow: string;
@@ -61,14 +62,23 @@ export class TestObj {
     await this.wait();
   }
 
-  async arrowsVisible({ up, down }: { up: boolean; down: boolean }) {
-    if (up) {
+  async arrowsVisible(arrows: HorArrows | VerArrows) {
+    let firstArrow, secondArrow;
+    if ('up' in arrows) {
+      firstArrow = arrows.up;
+      secondArrow = arrows.down;
+    } else {
+      firstArrow = arrows.left;
+      secondArrow = arrows.right;
+    }
+
+    if (firstArrow) {
       expect(await this.canvas.getByTestId(this.leftArrow)).toBeVisible();
     } else {
       expect(await this.canvas.getByTestId(this.leftArrow)).not.toBeVisible();
     }
 
-    if (down) {
+    if (secondArrow) {
       expect(await this.canvas.getByTestId(this.rightArrow)).toBeVisible();
     } else {
       expect(await this.canvas.getByTestId(this.rightArrow)).not.toBeVisible();

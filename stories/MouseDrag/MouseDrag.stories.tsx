@@ -4,12 +4,7 @@ import type { Meta } from '@storybook/react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
 import styled from 'styled-jss';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  within,
-  fireEvent,
-  userEvent,
-  waitFor,
-} from '@storybook/testing-library';
+import { within, fireEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 import { setupEditor } from '../setupEditor';
