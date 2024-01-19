@@ -6,17 +6,7 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  },
-});
-
-export function BottomArrows() {
+export function OneItemScroll() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
 
@@ -35,7 +25,11 @@ export function BottomArrows() {
 
   return (
     <NoScrollbar>
-      <ScrollMenu Footer={Arrows} onWheel={onWheel}>
+      <ScrollMenu
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        onWheel={onWheel}
+      >
         {items.map(({ id }) => (
           <Card
             title={id}
@@ -49,33 +43,20 @@ export function BottomArrows() {
     </NoScrollbar>
   );
 }
-export default BottomArrows;
 
-const Arrows = () => (
-  <div
-    style={{
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    Some other content
-    <div style={{ marginLeft: '10px', display: 'flex' }}>
-      <LeftArrow /> <RightArrow />
-    </div>
-  </div>
-);
+export default OneItemScroll;
 
 function LeftArrow() {
-  const { initComplete, isFirstItemVisible, scrollPrev } =
+  const { initComplete, isFirstItemVisible, scrollToItem, getPrevElement } =
     React.useContext<publicApiType>(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
+
+  // NOTE: Look here
+  const onClick = () => scrollToItem(getPrevElement(), 'smooth', 'start');
 
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev()}
+      onClick={onClick}
       testId="left-arrow"
     >
       Left
@@ -84,19 +65,32 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollNext } =
+  const { initComplete, isLastItemVisible, scrollToItem, getNextElement } =
     React.useContext<publicApiType>(VisibilityContext);
+
+  // NOTE: Look here
+  const onClick = () => scrollToItem(getNextElement(), 'smooth', 'end');
 
   return (
     <Arrow
       disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext()}
+      onClick={onClick}
       testId="right-arrow"
     >
       Right
     </Arrow>
   );
 }
+
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  },
+});
 
 function Arrow({
   children,

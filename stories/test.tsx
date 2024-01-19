@@ -4,7 +4,8 @@ import type { queries } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 type Canvas = ReturnType<typeof within<typeof queries>>;
-
+type HorArrows = { left: boolean; right: boolean };
+type VerArrows = { up: boolean; down: boolean };
 export class TestObj {
   canvas: Canvas;
   leftArrow: string;
@@ -32,11 +33,11 @@ export class TestObj {
     return [...elems];
   }
 
-  async getVisibleCards() {
+  async getVisibleCards(length = 3) {
     const cards = await this.getCards('visible: true');
     const visibleCards = cards.map((el) => el.innerText.split('\n')[0]);
 
-    expect(visibleCards).toHaveLength(3);
+    expect(visibleCards).toHaveLength(length);
 
     return visibleCards;
   }
@@ -61,14 +62,23 @@ export class TestObj {
     await this.wait();
   }
 
-  async arrowsVisible({ up, down }: { up: boolean; down: boolean }) {
-    if (up) {
+  async arrowsVisible(arrows: HorArrows | VerArrows) {
+    let firstArrow, secondArrow;
+    if ('up' in arrows) {
+      firstArrow = arrows.up;
+      secondArrow = arrows.down;
+    } else {
+      firstArrow = arrows.left;
+      secondArrow = arrows.right;
+    }
+
+    if (firstArrow) {
       expect(await this.canvas.getByTestId(this.leftArrow)).toBeVisible();
     } else {
       expect(await this.canvas.getByTestId(this.leftArrow)).not.toBeVisible();
     }
 
-    if (down) {
+    if (secondArrow) {
       expect(await this.canvas.getByTestId(this.rightArrow)).toBeVisible();
     } else {
       expect(await this.canvas.getByTestId(this.rightArrow)).not.toBeVisible();

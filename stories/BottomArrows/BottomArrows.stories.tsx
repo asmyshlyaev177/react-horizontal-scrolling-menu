@@ -15,7 +15,7 @@ import ExampleRaw from './BottomArrows.source.tsx?raw';
 import Example from './BottomArrows.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/BottomArrows',
+  title: 'Examples/BottomArrows',
   component: Example,
   decorators: [
     (Story) => (
