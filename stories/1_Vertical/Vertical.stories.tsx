@@ -14,7 +14,7 @@ import ExampleRaw from './Vertical.source.tsx?raw';
 import Example from './Vertical.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/Vertical',
+  title: 'Examples/Vertical',
   component: Example,
   decorators: [
     (Story) => (

@@ -6,17 +6,15 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
+const WideItems = styled('div')({
+  '& .react-horizontal-scrolling-menu--item ': {
+    minWidth: '100%',
+    display: 'flex',
+    justifyContent: 'center',
   },
 });
 
-export function BottomArrows() {
+export function OneItem() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
 
@@ -34,37 +32,29 @@ export function BottomArrows() {
   };
 
   return (
-    <NoScrollbar>
-      <ScrollMenu Footer={Arrows} onWheel={onWheel}>
-        {items.map(({ id }) => (
-          <Card
-            title={id}
-            itemId={id} // NOTE: itemId is required for track items
-            key={id}
-            onClick={() => handleItemClick(id)}
-            selected={isItemSelected(id)}
-          />
-        ))}
-      </ScrollMenu>
-    </NoScrollbar>
+    <WideItems>
+      <NoScrollbar>
+        <ScrollMenu
+          LeftArrow={LeftArrow}
+          RightArrow={RightArrow}
+          onWheel={onWheel}
+        >
+          {items.map(({ id }) => (
+            <Card
+              title={id}
+              itemId={id} // NOTE: itemId is required for track items
+              key={id}
+              onClick={() => handleItemClick(id)}
+              selected={isItemSelected(id)}
+            />
+          ))}
+        </ScrollMenu>
+      </NoScrollbar>
+    </WideItems>
   );
 }
-export default BottomArrows;
 
-const Arrows = () => (
-  <div
-    style={{
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-    }}
-  >
-    Some other content
-    <div style={{ marginLeft: '10px', display: 'flex' }}>
-      <LeftArrow /> <RightArrow />
-    </div>
-  </div>
-);
+export default OneItem;
 
 function LeftArrow() {
   const { initComplete, isFirstItemVisible, scrollPrev } =
@@ -97,6 +87,16 @@ function RightArrow() {
     </Arrow>
   );
 }
+
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  },
+});
 
 function Arrow({
   children,

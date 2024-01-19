@@ -15,7 +15,7 @@ import ExampleRaw from './Simple.source.tsx?raw';
 import Example from './Simple.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/Simple',
+  title: 'Examples/Simple',
   component: Example,
   decorators: [
     (Story) => (
