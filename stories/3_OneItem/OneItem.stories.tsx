@@ -17,7 +17,7 @@ import ExampleRaw from './OneItem.source.tsx?raw';
 import Example from './OneItem.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/OneItem',
+  title: 'Examples/OneItem',
   component: Example,
   decorators: [
     (Story) => (

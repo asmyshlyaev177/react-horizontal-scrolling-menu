@@ -18,7 +18,7 @@ import ExampleRaw from './MouseDrag.source.tsx?raw';
 import Example from './MouseDrag.source';
 
 const meta: Meta<typeof ScrollMenu> = {
-  title: 'ScrollMenu/MouseDrag',
+  title: 'Examples/MouseDrag',
   component: Example,
   decorators: [
     (Story) => (
