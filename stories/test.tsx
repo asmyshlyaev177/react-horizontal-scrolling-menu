@@ -33,11 +33,11 @@ export class TestObj {
     return [...elems];
   }
 
-  async getVisibleCards() {
+  async getVisibleCards(length = 3) {
     const cards = await this.getCards('visible: true');
     const visibleCards = cards.map((el) => el.innerText.split('\n')[0]);
 
-    expect(visibleCards).toHaveLength(3);
+    expect(visibleCards).toHaveLength(length);
 
     return visibleCards;
   }

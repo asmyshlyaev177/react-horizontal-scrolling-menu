@@ -184,6 +184,7 @@ const ArrowButton = styled('button')({
   opacity: (props) => (props.disabled ? '0' : '1'),
   userSelect: 'none',
   borderRadius: '6px',
+  borderWidth: '1px',
 });
 
 function Card({
