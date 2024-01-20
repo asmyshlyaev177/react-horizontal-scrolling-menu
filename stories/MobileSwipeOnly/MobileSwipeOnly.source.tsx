@@ -6,7 +6,7 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-export function SimpleExample() {
+export function MobileSwipeOnly() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
 
@@ -23,12 +23,31 @@ export function SimpleExample() {
     );
   };
 
+  const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
+
+  const ref = React.useRef<publicApiType>(null);
+
+  // NOTE: that ugly hack needed cause React v18 changed how it handle events
+  React.useEffect(() => {
+    const onTouchMove = (ev: TouchEvent) => {
+      ev.preventDefault();
+    };
+    const node = ref.current.scrollContainer.current;
+    node?.addEventListener('touchmove', onTouchMove, { passive: false });
+
+    return () => node?.removeEventListener('touchmove', onTouchMove);
+  }, [ref]);
+
   return (
     <NoScrollbar>
       <ScrollMenu
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         onWheel={onWheel}
+        onTouchEnd={onTouchEnd}
+        onTouchMove={onTouchMove}
+        onTouchStart={onTouchStart}
+        apiRef={ref}
       >
         {items.map(({ id }) => (
           <Card
@@ -44,9 +63,46 @@ export function SimpleExample() {
   );
 }
 
-export default SimpleExample;
+export default MobileSwipeOnly;
+
+export const useSwipe = () => {
+  const [touchStart, setTouchStart] = React.useState(0);
+  const [touchEnd, setTouchEnd] = React.useState(0);
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 20;
+
+  const onTouchStart = () => (ev: React.TouchEvent) => {
+    setTouchEnd(0);
+    setTouchStart(ev.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = () => (ev: React.TouchEvent) => {
+    console.log({ ev });
+    setTouchEnd(ev.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = (apiObj: publicApiType) => () => {
+    if (!touchStart || !touchEnd) return false;
+    const distance = touchStart - touchEnd;
+    const isSwipe = Math.abs(distance) > minSwipeDistance;
+    const isLeftSwipe = distance < minSwipeDistance;
+    if (isSwipe) {
+      if (isLeftSwipe) {
+        apiObj.scrollPrev();
+      } else {
+        apiObj.scrollNext();
+      }
+    }
+  };
+
+  return { onTouchStart, onTouchEnd, onTouchMove };
+};
 
 const NoScrollbar = styled('div')({
+  '&': {
+    position: 'relative',
+  },
   '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
     display: 'none',
   },

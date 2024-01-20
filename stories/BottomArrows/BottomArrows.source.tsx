@@ -6,16 +6,6 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  },
-});
-
 export function BottomArrows() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -50,6 +40,16 @@ export function BottomArrows() {
   );
 }
 export default BottomArrows;
+
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  },
+});
 
 const Arrows = () => (
   <div
