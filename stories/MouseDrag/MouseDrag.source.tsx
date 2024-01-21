@@ -6,16 +6,6 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  },
-});
-
 export function MouseDrag() {
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -70,6 +60,16 @@ export function MouseDrag() {
   );
 }
 export default MouseDrag;
+
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  },
+});
 
 function useDrag() {
   const [clicked, setClicked] = React.useState(false);
