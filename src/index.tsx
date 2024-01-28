@@ -200,10 +200,10 @@ function ScrollMenu({
 
   const ioOptions = React.useMemo(
     () => ({
-    items,
-    itemsChanged,
-    options: observerOptions,
-    refs: menuItemsRefs,
+      items,
+      itemsChanged,
+      options: observerOptions,
+      refs: menuItemsRefs,
     }),
     [items, itemsChanged, menuItemsRefs, observerOptions]
   );
