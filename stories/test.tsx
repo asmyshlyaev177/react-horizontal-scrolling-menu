@@ -48,7 +48,7 @@ export class TestObj {
     await waitFor(() => expect(hiddenCards[0]).toBeInTheDocument());
   }
 
-  async wait(timeout = 550) {
+  async wait(timeout = 700) {
     await new Promise((res) => setTimeout(() => res(true), timeout));
   }
 

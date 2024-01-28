@@ -41,7 +41,7 @@ const onWheel = (
 
   if (ev.deltaY < 0) {
     apiObj.scrollNext();
-  } else if (ev.deltaY > 0) {
+  } else {
     apiObj.scrollPrev();
   }
 };
