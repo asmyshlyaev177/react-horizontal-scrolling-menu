@@ -3,7 +3,7 @@ import { within, userEvent, waitFor } from '@storybook/testing-library';
 import type { queries } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
-type Canvas = ReturnType<typeof within<typeof queries>>;
+export type Canvas = ReturnType<typeof within<typeof queries>>;
 type HorArrows = { left: boolean; right: boolean };
 type VerArrows = { up: boolean; down: boolean };
 export class TestObj {
@@ -91,6 +91,41 @@ export const rightArrowSelector = 'right-arrow';
 export const upArrowSelector = 'up-arrow';
 export const downArrowSelector = 'down-arrow';
 
+export const scrollSmokeTest = async (testObj: TestObj) => {
+  await testObj.arrowsVisible({ up: false, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test0', 'test1', 'test2']);
+
+  await testObj.clickNext();
+  await testObj.cardHidden('test0');
+  await testObj.arrowsVisible({ up: true, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test3', 'test4', 'test5']);
+
+  await testObj.clickNext();
+  await testObj.cardHidden('test5');
+  await testObj.arrowsVisible({ up: true, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test6', 'test7', 'test8']);
+
+  await testObj.clickNext();
+  await testObj.cardHidden('test6');
+  await testObj.arrowsVisible({ up: true, down: false });
+  expect(await testObj.getVisibleCards()).toEqual(['test7', 'test8', 'test9']);
+
+  await testObj.clickPrev();
+  await testObj.cardHidden('test7');
+  await testObj.arrowsVisible({ up: true, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test4', 'test5', 'test6']);
+
+  await testObj.clickPrev();
+  await testObj.cardHidden('test4');
+  await testObj.arrowsVisible({ up: true, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test1', 'test2', 'test3']);
+
+  await testObj.clickPrev();
+  await testObj.cardHidden('test3');
+  await testObj.arrowsVisible({ up: false, down: true });
+  expect(await testObj.getVisibleCards()).toEqual(['test0', 'test1', 'test2']);
+};
+
 export const ScrollTest = ({
   leftArrow = leftArrowSelector,
   rightArrow = rightArrowSelector,
@@ -100,65 +135,6 @@ export const ScrollTest = ({
     const testObj = new TestObj(canvas, { leftArrow, rightArrow });
     await testObj.isReady();
 
-    await testObj.arrowsVisible({ up: false, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test0',
-      'test1',
-      'test2',
-    ]);
-
-    await testObj.clickNext();
-    await testObj.cardHidden('test0');
-    await testObj.arrowsVisible({ up: true, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test3',
-      'test4',
-      'test5',
-    ]);
-
-    await testObj.clickNext();
-    await testObj.cardHidden('test5');
-    await testObj.arrowsVisible({ up: true, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test6',
-      'test7',
-      'test8',
-    ]);
-
-    await testObj.clickNext();
-    await testObj.cardHidden('test6');
-    await testObj.arrowsVisible({ up: true, down: false });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test7',
-      'test8',
-      'test9',
-    ]);
-
-    await testObj.clickPrev();
-    await testObj.cardHidden('test7');
-    await testObj.arrowsVisible({ up: true, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test4',
-      'test5',
-      'test6',
-    ]);
-
-    await testObj.clickPrev();
-    await testObj.cardHidden('test4');
-    await testObj.arrowsVisible({ up: true, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test1',
-      'test2',
-      'test3',
-    ]);
-
-    await testObj.clickPrev();
-    await testObj.cardHidden('test3');
-    await testObj.arrowsVisible({ up: false, down: true });
-    expect(await testObj.getVisibleCards()).toEqual([
-      'test0',
-      'test1',
-      'test2',
-    ]);
+    await scrollSmokeTest(testObj);
   },
 });
