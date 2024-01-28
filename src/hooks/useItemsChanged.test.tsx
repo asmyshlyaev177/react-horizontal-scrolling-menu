@@ -68,8 +68,10 @@ describe('useItemsChanged', () => {
     test('should remove child from ItemsMap', () => {
       const childrenKeys = [
         'child1',
+        // eslint-disable-next-line radar/no-duplicate-string
         'child1-separator',
         'chidl2',
+        // eslint-disable-next-line radar/no-duplicate-string
         'child2-separator',
         'child3',
       ];

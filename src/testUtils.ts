@@ -30,12 +30,15 @@ export class MockedObserver {
   }
 }
 
-export function traceMethodCalls(obj: object | Function, calls: any = {}) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Obj = Record<string | symbol, any>;
+
+export function traceMethodCalls(obj: object | Function, calls: Obj = {}) {
   const handler: ProxyHandler<object | Function> = {
     get(target, propKey, receiver) {
       const targetValue = Reflect.get(target, propKey, receiver);
       if (typeof targetValue === 'function') {
-        return function (...args: any[]) {
+        return function (...args: unknown[]) {
           calls[propKey] = (calls[propKey] || []).concat(args);
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore

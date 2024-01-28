@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-conditional-expect */
 import React from 'react';
 import { render } from '@testing-library/react';
 import MenuItems from './MenuItems';

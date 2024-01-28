@@ -17,6 +17,7 @@ const defaultItems = ['test1', 'test2'];
 const defaultItemsWithSeparators = ['test1', 'item1-separator', 'test2'];
 const scrollContainerClassName = 'scroll-class';
 const getContext = (context: publicApiType) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { items: _1, scrollContainer: _2, ...rest } = context;
   return rest;
 };
@@ -138,6 +139,7 @@ describe('ScrollMenu', () => {
     });
 
     // TODO: to fix
+    // eslint-disable-next-line jest/no-disabled-tests
     test.skip('should return initComplete false on first render(when visibleElementsWithSeparators empty)', () => {
       (useIntersectionObserver as jest.Mock)
         .mockReturnValueOnce([])
@@ -203,6 +205,7 @@ describe('ScrollMenu', () => {
       comparePublicApi(call);
     });
 
+    // eslint-disable-next-line jest/no-disabled-tests
     test.skip('should not fire if init not complete(when visibleElementsWithSeparators empty)', () => {
       (useIntersectionObserver as jest.Mock)
         .mockReturnValueOnce([])

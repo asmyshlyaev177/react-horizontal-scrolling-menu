@@ -1,3 +1,4 @@
+/* eslint-disable radar/no-duplicate-string */
 import getItemsPos, { omitEdgeSeparators } from './getItemsPos';
 
 describe('getItemsPos', () => {
