@@ -40,9 +40,6 @@ jobs:
           npx cross-env HOME=/root npx playwright install chromium firefox --with-deps && \
           chmod -R 777 /root/.cache/ms-playwright
 
-      - name: Types check
-        run: npm run test:ts
-
       - name: Types and linter check
         run: npm run test:lint
 
