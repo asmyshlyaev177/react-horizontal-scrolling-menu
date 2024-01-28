@@ -264,7 +264,7 @@ function onWheel(apiObj: publicApiType, ev: React.WheelEvent): void {
 
   if (ev.deltaY < 0) {
     apiObj.scrollNext();
-  } else if (ev.deltaY > 0) {
+  } else {
     apiObj.scrollPrev();
   }
 }

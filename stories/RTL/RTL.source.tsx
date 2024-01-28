@@ -6,15 +6,8 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const WideItems = styled('div')({
-  '& .react-horizontal-scrolling-menu--item ': {
-    minWidth: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-});
-
-export function OneItem() {
+export function RTL() {
+  const [RTL, setRTL] = React.useState(true);
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
 
@@ -31,13 +24,20 @@ export function OneItem() {
     );
   };
 
+  const onWheelHandler = React.useCallback(
+    (apiObj: publicApiType, ev: React.WheelEvent) => onWheel(apiObj, ev, RTL),
+    [RTL]
+  );
+
   return (
-    <WideItems>
+    <>
       <NoScrollbar>
         <ScrollMenu
-          LeftArrow={LeftArrow}
-          RightArrow={RightArrow}
-          onWheel={onWheel}
+          LeftArrow={RTL ? <RightArrow RTL={RTL} /> : <LeftArrow RTL={RTL} />}
+          RightArrow={RTL ? <LeftArrow RTL={RTL} /> : <RightArrow RTL={RTL} />}
+          onWheel={onWheelHandler}
+          RTL={RTL}
+          noPolyfill={true}
         >
           {items.map(({ id }) => (
             <Card
@@ -50,53 +50,46 @@ export function OneItem() {
           ))}
         </ScrollMenu>
       </NoScrollbar>
-    </WideItems>
+
+      <Checkbox label="RTL" value={RTL} onClick={setRTL} />
+    </>
   );
 }
 
-export default OneItem;
+export default RTL;
 
-function LeftArrow() {
+export const isFirefox =
+  navigator?.userAgent?.toLowerCase?.()?.indexOf('firefox') > -1;
+
+function LeftArrow({ RTL }: { RTL: boolean }) {
   const { initComplete, isFirstItemVisible, scrollPrev } =
     React.useContext<publicApiType>(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
 
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev()}
-      testId="left-arrow"
+      onClick={() => scrollPrev('smooth', RTL && isFirefox ? 'start' : 'end')}
+      testId={RTL ? 'right-arrow' : 'left-arrow'}
     >
-      Left
+      {RTL ? 'Right' : 'Left'}
     </Arrow>
   );
 }
 
-function RightArrow() {
+function RightArrow({ RTL }: { RTL: boolean }) {
   const { initComplete, isLastItemVisible, scrollNext } =
     React.useContext<publicApiType>(VisibilityContext);
 
   return (
     <Arrow
       disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext()}
-      testId="right-arrow"
+      onClick={() => scrollNext('smooth', RTL && isFirefox ? 'end' : 'start')}
+      testId={RTL ? 'left-arrow' : 'right-arrow'}
     >
-      Right
+      {RTL ? 'Left' : 'Right'}
     </Arrow>
   );
 }
-
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  },
-});
 
 function Arrow({
   children,
@@ -132,6 +125,44 @@ const ArrowButton = styled('button')({
   userSelect: 'none',
   borderRadius: '6px',
   borderWidth: '1px',
+});
+
+const Checkbox = ({
+  onClick,
+  value,
+  label,
+}: {
+  value: boolean;
+  label: string;
+  onClick: (val: boolean) => void;
+}) => {
+  return (
+    <CheckboxWrapper>
+      <BigCheckbox
+        type="checkbox"
+        id={label}
+        onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
+          onClick(ev?.target?.checked)
+        }
+        checked={value}
+        defaultChecked={value}
+      />
+      <label htmlFor={label}>{label}</label>
+    </CheckboxWrapper>
+  );
+};
+const CheckboxWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  margin: '16px',
+  '& *:first-child': {
+    marginRight: '4px',
+  },
+});
+const BigCheckbox = styled('input')({
+  height: '24px',
+  width: '24px',
+  cursor: 'pointer',
 });
 
 function Card({
@@ -198,6 +229,16 @@ const CardBody = styled('div')({
   },
 });
 
+const NoScrollbar = styled('div')({
+  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
+    display: 'none',
+  },
+  '& .react-horizontal-scrolling-menu--scroll-container': {
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  },
+});
+
 const getId = (index: number) => `${'test'}${index}`;
 
 const getItems = () =>
@@ -205,10 +246,11 @@ const getItems = () =>
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
-function onWheel(apiObj: publicApiType, ev: React.WheelEvent): void {
-  // NOTE: no good standart way to distinguish touchpad scrolling gestures
-  // but can assume that gesture will affect X axis, mouse scroll only Y axis
-  // of if deltaY too small probably is it touchpad
+function onWheel(
+  apiObj: publicApiType,
+  ev: React.WheelEvent,
+  RTL: boolean
+): void {
   const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
   if (isThouchpad) {
@@ -217,8 +259,8 @@ function onWheel(apiObj: publicApiType, ev: React.WheelEvent): void {
   }
 
   if (ev.deltaY < 0) {
-    apiObj.scrollNext();
+    apiObj.scrollPrev('smooth', RTL && isFirefox ? 'start' : 'end');
   } else {
-    apiObj.scrollPrev();
+    apiObj.scrollNext('smooth', RTL && isFirefox ? 'end' : 'start');
   }
 }
