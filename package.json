@@ -124,7 +124,7 @@
       ]
     },
     "pub": {
-      "command": "npm release && npm push && npm publish",
+      "command": "npm run release && npm run push && npm publish",
       "dependencies": [
         "build"
       ]
