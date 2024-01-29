@@ -130,12 +130,19 @@ export default function createApi(
       options?: scrollToItemOptions
     ) => {
       const _behavior = behavior ?? transitionOptions?.behavior;
-      return scrollToItem(target, _behavior, inline, block, {
-        boundary: boundaryElement?.current,
-        ...options,
-        duration: options?.duration ?? transitionOptions?.duration,
-        ease: options?.ease ?? transitionOptions?.ease,
-      });
+      return scrollToItem(
+        target,
+        _behavior,
+        inline,
+        block,
+        {
+          boundary: boundaryElement?.current,
+          ...options,
+          duration: options?.duration ?? transitionOptions?.duration,
+          ease: options?.ease ?? transitionOptions?.ease,
+        },
+        noPolyfill
+      );
     },
     visibleElements,
     visibleElementsWithSeparators,

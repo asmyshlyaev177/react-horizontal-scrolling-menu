@@ -141,7 +141,7 @@
       ]
     },
     "test:lint": {
-      "command": "tsc --noEmit && eslint src"
+      "command": "eslint src && tsc --noEmit"
     },
     "test:unit": {
       "command": "jest",

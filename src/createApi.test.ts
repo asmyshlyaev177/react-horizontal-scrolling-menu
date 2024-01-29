@@ -52,6 +52,7 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
 describe('createApi', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   test('visibleElementsWithSeparators', () => {
@@ -128,6 +129,39 @@ describe('createApi', () => {
           ease: transitionOptions.ease,
           duration: transitionOptions.duration,
         });
+      });
+
+      test('with noPolyfill', () => {
+        const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
+        const scrollToItemSpy = jest
+          .spyOn(helpers, 'scrollToItem')
+          .mockReturnValue(jest.fn());
+
+        const boundary = { current: document.createElement('div') };
+        const transitionOptions = undefined;
+
+        const noPolyfill = true;
+
+        const elem = document.createElement('div');
+        createApi(
+          items,
+          visibleElementsWithSeparators,
+          boundary,
+          transitionOptions,
+          undefined,
+          noPolyfill
+        ).scrollToItem(elem);
+
+        expect(scrollToItemSpy).toHaveBeenCalledTimes(1);
+        expect(scrollToItemSpy).toHaveBeenNthCalledWith(
+          1,
+          elem,
+          undefined,
+          undefined,
+          undefined,
+          expect.objectContaining({ boundary: expect.anything() }),
+          noPolyfill
+        );
       });
 
       test('arguments should have priority over transitionOptions', () => {
