@@ -61,6 +61,7 @@
     "commit": "cz",
     "release": "wireit",
     "pub": "wireit",
+    "push": "wireit",
     "reinstall": "npm run cleanup && npm run setup",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
