@@ -78,7 +78,6 @@ export const useSwipe = () => {
   };
 
   const onTouchMove = () => (ev: React.TouchEvent) => {
-    console.log({ ev });
     setTouchEnd(ev.targetTouches[0].clientX);
   };
 

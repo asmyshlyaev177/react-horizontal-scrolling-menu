@@ -17,7 +17,7 @@ import useOnUpdate from './hooks/useOnUpdate';
 
 import { VisibilityContext } from './context';
 
-import type { ItemType, Refs } from './types';
+import type { ItemType, Refs, CustomScrollBehavior } from './types';
 import { getElementOrConstructor } from './helpers';
 
 import slidingWindow from './slidingWindow';
@@ -83,7 +83,7 @@ export interface Props {
       });
     }
    */
-  transitionBehavior?: string | Function;
+  transitionBehavior?: CustomScrollBehavior<unknown>;
   /**
    Callback that fire once on init
    */

@@ -22,7 +22,7 @@ export default function createApi(
   transitionOptions?: {
     duration?: number;
     ease?: (t: number) => number;
-    behavior: string | Function;
+    behavior: CustomScrollBehavior<unknown>;
   },
   RTL?: boolean,
   noPolyfill?: boolean
@@ -129,14 +129,20 @@ export default function createApi(
       block?: ScrollLogicalPosition,
       options?: scrollToItemOptions
     ) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const _behavior: any = behavior ?? transitionOptions?.behavior;
-      return scrollToItem(target, _behavior, inline, block, {
-        boundary: boundaryElement?.current,
-        ...options,
-        duration: options?.duration ?? transitionOptions?.duration,
-        ease: options?.ease ?? transitionOptions?.ease,
-      });
+      const _behavior = behavior ?? transitionOptions?.behavior;
+      return scrollToItem(
+        target,
+        _behavior,
+        inline,
+        block,
+        {
+          boundary: boundaryElement?.current,
+          ...options,
+          duration: options?.duration ?? transitionOptions?.duration,
+          ease: options?.ease ?? transitionOptions?.ease,
+        },
+        noPolyfill
+      );
     },
     visibleElements,
     visibleElementsWithSeparators,
