@@ -1,3 +1,5 @@
+[![For hire](/hireBadge.svg)](https://www.linkedin.com/in/asmyshlyaev177/)
+
 # React horizontal scrolling menu
 
 ![example](/sample.gif)
