@@ -163,7 +163,7 @@
       ]
     },
     "kill-rollup": {
-      "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 && echo 'killed' || echo 'killed'"
+      "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 || echo 'killed'"
     },
     "run:cy": {
       "command": "npx wait-on http://localhost:3003 && cypress run",
