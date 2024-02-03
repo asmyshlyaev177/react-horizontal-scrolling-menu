@@ -3,6 +3,17 @@
   "version": "4.1.4",
   "author": "asmyshlyaev177 <asmyshlyaev177@gmail.com> (https://www.linkedin.com/in/asmyshlyaev177/)",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "keywords": [
+    "react",
+    "react-component",
+    "menu",
+    "navigation",
+    "gallery",
+    "horizontal",
+    "scroll",
+    "scrolling",
+    "scrolling-menu"
+  ],
   "license": "ISC",
   "main": "dist/index.mjs",
   "browser": "dist/index.mjs",
@@ -43,6 +54,22 @@
   "engines": {
     "node": ">=18",
     "npm": ">=9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{html,css,less,ejs,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "scripts": {
     "test:unit": "wireit",
@@ -299,17 +326,6 @@
       ]
     }
   },
-  "keywords": [
-    "react",
-    "react-component",
-    "menu",
-    "navigation",
-    "gallery",
-    "horizontal",
-    "scroll",
-    "scrolling",
-    "scrolling-menu"
-  ],
   "browserslist": [
     "last 5 Chrome versions",
     "last 5 ChromeAndroid versions",
@@ -321,6 +337,18 @@
   ],
   "dependencies": {
     "smooth-scroll-into-view-if-needed": "~1.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
+  },
+  "files": [
+    "dist"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -419,32 +447,5 @@
     "webpack-cli": "^4.7.2",
     "webpack-merge": "^5.8.0",
     "wireit": "^0.14.1"
-  },
-  "peerDependencies": {
-    "react": ">=16.8",
-    "react-dom": ">=16.8"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{html,css,less,ejs,json}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "files": [
-    "dist"
-  ],
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   }
 }
