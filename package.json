@@ -165,11 +165,11 @@
       "command": "git push --follow-tags origin main"
     },
     "test:all": {
-      "command": "npm run test:e2e && npm run test:storybook",
+      "command": "npm run test:e2e && npm run test:e2e:dev",
       "dependencies": [
         "test:lint",
         "test:unit",
-        "test:e2e:dev"
+        "test:storybook"
       ]
     },
     "test:lint": {
@@ -342,7 +342,7 @@
   "peerDependencies": {
     "react": ">=16.8",
     "react-dom": ">=16.8",
-    "smooth-scroll-into-view-if-needed": "1.1"
+    "smooth-scroll-into-view-if-needed": "^2.x.x"
   },
   "files": [
     "dist"
@@ -436,7 +436,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.8",
-    "smooth-scroll-into-view-if-needed": "1.1",
+    "smooth-scroll-into-view-if-needed": "^2.x.x",
     "standard-version": "^9.5.0",
     "storybook": "^7.6.6",
     "storybook-addon-code-editor": "^2.2.0",
