@@ -58,8 +58,8 @@
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
-This is a horizontal scrolling menu component for React.
-Menu component has adaptive width, just set width for parent container.
+This is a highly customizable horizontal scrolling menu component for React. Can also use it for Amazon like items block or a Gallery.
+Menu component is responsive, just set width for parent container.
 Items width will be determined from CSS styles.
 
 For navigation, you can use scrollbar, native touch scroll, mouse wheel or drag by mouse.
@@ -67,6 +67,8 @@ For navigation, you can use scrollbar, native touch scroll, mouse wheel or drag 
 Component provide context with visible items and helpers.
 
 Possible set default position on initialization.
+
+Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) or codesandbox.
 
 :star: if you like the project :)
 
