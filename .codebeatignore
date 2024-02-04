@@ -4,6 +4,7 @@ docs/**
 src/**/*.test.ts
 src/**/*.test.tsx
 example-nextjs/**
+example-cra/**
 
 cypress/**
 coverage/**
