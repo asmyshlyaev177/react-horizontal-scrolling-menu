@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-beta.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.4...v5.0.0-beta.1) (2024-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **package.json:** Changed type of package to module, upgrade your NPM version
+
+### Bug Fixes
+
+* **package.json:** type module ([242eb69](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/242eb69217a0989cb042dd8a004da8608f108276))
+* **ts:** fix publicApiType type export ([90f99e7](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/90f99e7282561e6533a3496c4c106f5a283001af))
+
 ### [4.1.4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.3...v4.1.4) (2024-01-29)
 
 ### [4.1.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.2...v4.1.3) (2024-01-29)
