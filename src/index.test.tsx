@@ -6,7 +6,7 @@ import useIntersectionObserver from './hooks/useIntersectionObserver';
 
 import * as constants from './constants';
 import * as createApi from './createApi';
-import { publicApiType } from './createApi';
+import { type publicApiType } from './createApi';
 import { ItemType } from './types';
 import { VisibilityContext } from './context';
 
