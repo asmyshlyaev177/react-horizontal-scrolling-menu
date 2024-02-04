@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
-import ScrollContainer, { Props } from './ScrollContainer';
+import ScrollContainer, { type Props } from './ScrollContainer';
 import { scrollContainerClassName } from '../../constants';
 
 const setup = ({ className, scrollRef, onScroll }: Props) => {

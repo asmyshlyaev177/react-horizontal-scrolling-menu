@@ -1,4 +1,4 @@
-import MenuItems, { Props as _Props } from './MenuItems';
+import MenuItems, { type Props as _Props } from './MenuItems';
 
 export type Props = _Props;
 

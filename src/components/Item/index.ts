@@ -1,4 +1,4 @@
-import Item, { Props as _Props } from './Item';
+import Item, { type Props as _Props } from './Item';
 
 export type Props = _Props;
 

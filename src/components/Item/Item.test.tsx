@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Item, { Props } from './Item';
+import Item, { type Props } from './Item';
 import { itemClassName } from '../../constants';
 
 const setup = ({ children, className, id, index, refs }: Props) => {
