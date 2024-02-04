@@ -92,7 +92,7 @@
     "push": "wireit",
     "beta": "npm version premajor --preid=beta",
     "beta:bump": "npm version prerelease",
-    "beta:pub": "npm publish --tag beta",
+    "beta:pub": "npm run build && npm publish --tag beta",
     "reinstall": "npm run cleanup && npm run setup",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
