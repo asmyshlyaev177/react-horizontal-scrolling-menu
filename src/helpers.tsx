@@ -23,7 +23,7 @@ export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {
 
 export function observerEntriesToItems(
   entries: IntersectionObserverEntry[],
-  options: typeof observerOptions
+  options: typeof observerOptions,
 ): Item[] {
   return [...entries].map((entry) => {
     const target = entry.target as HTMLElement;
@@ -48,22 +48,22 @@ function scrollToItem<T>(
   inline?: ScrollLogicalPosition,
   block?: ScrollLogicalPosition,
   rest?: scrollToItemOptions,
-  noPolyfill?: boolean
+  noPolyfill?: boolean,
 ): T | Promise<T> | void {
   const _item = (item as IOItem)?.entry?.target || item;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _behavior: any = behavior || 'smooth';
+  const _behavior: ScrollBehavior | CustomScrollBehavior<T> =
+    behavior || 'smooth';
 
   if (_item) {
     if (noPolyfill) {
       return _item?.scrollIntoView({
-        behavior: _behavior,
+        behavior: _behavior as ScrollBehavior,
         inline: inline || 'end',
         block: block || 'nearest',
       });
     }
     return scrollIntoView(_item, {
-      behavior: _behavior,
+      behavior: _behavior as ScrollBehavior,
       inline: inline || 'end',
       block: block || 'nearest',
       duration: 500,
@@ -81,7 +81,7 @@ export const getItemElementByIndex = (id: string | number) =>
   document.querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(
-  Elem: React.FC | React.ReactNode
+  Elem: React.FC | React.ReactNode,
 ): JSX.Element | null {
   return (
     (React.isValidElement(Elem) && Elem) ||
@@ -96,5 +96,5 @@ export const filterSeparators = (items: visibleElements): visibleElements =>
 export const getItemId = (item: React.ReactNode) =>
   String(
     (item as JSX.Element)?.props?.[itemId] ||
-      String((item as JSX.Element)?.key || '').replace(/^\.\$/, '')
+      String((item as JSX.Element)?.key || '').replace(/^\.\$/, ''),
   );

@@ -1,4 +1,3 @@
-/* eslint-disable radar/no-duplicate-string */
 import createApi from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerEntriesToItems } from './helpers';
@@ -35,7 +34,7 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
 
   const nodes = observerEntriesToItems(
     newItems as unknown as IntersectionObserverEntry[],
-    { ...observerOptions, ratio: 0.5 }
+    { ...observerOptions, ratio: 0.5 },
   );
   items.set(nodes);
   const visibleElementsWithSeparators = items
@@ -59,7 +58,7 @@ describe('createApi', () => {
     const { items, visibleElementsWithSeparators } = setup([0.3, 1, 0.7]);
 
     expect(
-      createApi(items, visibleElementsWithSeparators).visibleItems
+      createApi(items, visibleElementsWithSeparators).visibleItems,
     ).toEqual(visibleElementsWithSeparators);
   });
 
@@ -72,11 +71,11 @@ describe('createApi', () => {
       .map((el) => el[1].key);
 
     expect(
-      createApi(items, visibleElementsWithSeparators).visibleElements
+      createApi(items, visibleElementsWithSeparators).visibleElements,
     ).toEqual(expected);
     expect(
       createApi(items, visibleElementsWithSeparators)
-        .visibleItemsWithoutSeparators
+        .visibleItemsWithoutSeparators,
     ).toEqual(expected);
 
     expect(createApi(items, []).visibleElements).toEqual([]);
@@ -90,7 +89,7 @@ describe('createApi', () => {
 
         const boundary = { current: document.createElement('div') };
         createApi(items, visibleElementsWithSeparators, boundary).scrollToItem(
-          document.createElement('div')
+          document.createElement('div'),
         );
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
         expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
@@ -117,7 +116,7 @@ describe('createApi', () => {
           items,
           visibleElementsWithSeparators,
           boundary,
-          transitionOptions
+          transitionOptions,
         ).scrollToItem(document.createElement('div'));
 
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -149,7 +148,7 @@ describe('createApi', () => {
           boundary,
           transitionOptions,
           undefined,
-          noPolyfill
+          noPolyfill,
         ).scrollToItem(elem);
 
         expect(scrollToItemSpy).toHaveBeenCalledTimes(1);
@@ -160,7 +159,7 @@ describe('createApi', () => {
           undefined,
           undefined,
           expect.objectContaining({ boundary: expect.anything() }),
-          noPolyfill
+          noPolyfill,
         );
       });
 
@@ -178,12 +177,12 @@ describe('createApi', () => {
           items,
           visibleElementsWithSeparators,
           boundary,
-          transitionOptions
+          transitionOptions,
         ).scrollToItem(
           document.createElement('div'),
           'auto',
           'center',
-          'center'
+          'center',
         );
 
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -202,7 +201,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getItemElementById
+        createApi(items, visibleElementsWithSeparators).getItemElementById,
       ).toEqual(getItemElementById);
     });
 
@@ -210,7 +209,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getItemElementByIndex
+        createApi(items, visibleElementsWithSeparators).getItemElementByIndex,
       ).toEqual(getItemElementByIndex);
     });
   });
@@ -220,7 +219,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).isFirstItemVisible
+        createApi(items, visibleElementsWithSeparators).isFirstItemVisible,
       ).toEqual(true);
     });
 
@@ -228,7 +227,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0.3, 1, 1]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).isFirstItemVisible
+        createApi(items, visibleElementsWithSeparators).isFirstItemVisible,
       ).toEqual(false);
     });
 
@@ -244,7 +243,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0.3, 0.9, 0.9]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).isLastItemVisible
+        createApi(items, visibleElementsWithSeparators).isLastItemVisible,
       ).toEqual(true);
     });
 
@@ -252,7 +251,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([1, 1, 0.3]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).isLastItemVisible
+        createApi(items, visibleElementsWithSeparators).isLastItemVisible,
       ).toEqual(false);
     });
 
@@ -271,11 +270,10 @@ describe('createApi', () => {
 
       expect(createApi(items).getItemById('2')).toEqual(nodes[2]);
       expect(createApi(items).getItemById(2 as unknown as string)).toEqual(
-        nodes[2]
+        nodes[2],
       );
     });
 
-    // eslint-disable-next-line radar/no-duplicate-string
     test('item not exist', () => {
       const { items } = setup([0.1, 1, 0.9]);
 
@@ -291,11 +289,11 @@ describe('createApi', () => {
       ]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getItemByIndex(0)
+        createApi(items, visibleElementsWithSeparators).getItemByIndex(0),
       ).toEqual(nodes[0]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getItemByIndex(0)
+        createApi(items, visibleElementsWithSeparators).getItemByIndex(0),
       ).toEqual(nodes[0]);
     });
 
@@ -310,25 +308,25 @@ describe('createApi', () => {
     test('should return visibility', () => {
       const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
       expect(
-        createApi(items, visibleElementsWithSeparators).isItemVisible('test1')
+        createApi(items, visibleElementsWithSeparators).isItemVisible('test1'),
       ).toBeFalsy();
       expect(
-        createApi(items, visibleElementsWithSeparators).isItemVisible('2')
+        createApi(items, visibleElementsWithSeparators).isItemVisible('2'),
       ).toBeTruthy();
       expect(
         createApi(items, visibleElementsWithSeparators).isItemVisible(
-          2 as unknown as string
-        )
+          2 as unknown as string,
+        ),
       ).toBeTruthy();
     });
 
     test('item not exist', () => {
       const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
       expect(
-        createApi(items, visibleElementsWithSeparators).isItemVisible('test3')
+        createApi(items, visibleElementsWithSeparators).isItemVisible('test3'),
       ).toBeFalsy();
       expect(
-        createApi(items, visibleElementsWithSeparators).isItemVisible('')
+        createApi(items, visibleElementsWithSeparators).isItemVisible(''),
       ).toBeFalsy();
     });
   });
@@ -340,7 +338,7 @@ describe('createApi', () => {
       ]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getPrevItem()
+        createApi(items, visibleElementsWithSeparators).getPrevItem(),
       ).toEqual(nodes[0]);
     });
 
@@ -348,7 +346,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getPrevItem()
+        createApi(items, visibleElementsWithSeparators).getPrevItem(),
       ).toEqual(undefined);
     });
   });
@@ -360,7 +358,7 @@ describe('createApi', () => {
       ]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getPrevElement()
+        createApi(items, visibleElementsWithSeparators).getPrevElement(),
       ).toEqual(nodes[0]);
     });
 
@@ -368,7 +366,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getPrevElement()
+        createApi(items, visibleElementsWithSeparators).getPrevElement(),
       ).toEqual(undefined);
     });
   });
@@ -379,7 +377,7 @@ describe('createApi', () => {
         1, 1, 0.3,
       ]);
       expect(
-        createApi(items, visibleElementsWithSeparators).getNextItem()
+        createApi(items, visibleElementsWithSeparators).getNextItem(),
       ).toEqual(nodes[2]);
     });
 
@@ -387,7 +385,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0, 0.1, 0.9]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getNextItem()
+        createApi(items, visibleElementsWithSeparators).getNextItem(),
       ).toEqual(undefined);
     });
   });
@@ -398,7 +396,7 @@ describe('createApi', () => {
         1, 1, 0.1,
       ]);
       expect(
-        createApi(items, visibleElementsWithSeparators).getNextElement()
+        createApi(items, visibleElementsWithSeparators).getNextElement(),
       ).toEqual(nodes[2]);
     });
 
@@ -406,7 +404,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([0, 0.1, 0.9]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).getNextElement()
+        createApi(items, visibleElementsWithSeparators).getNextElement(),
       ).toEqual(undefined);
     });
   });
@@ -415,12 +413,12 @@ describe('createApi', () => {
     test('item is last', () => {
       const { items, visibleElementsWithSeparators } = setup([0.1, 1, 0.9]);
       expect(
-        createApi(items, visibleElementsWithSeparators).isLastItem('2')
+        createApi(items, visibleElementsWithSeparators).isLastItem('2'),
       ).toEqual(true);
       expect(
         createApi(items, visibleElementsWithSeparators).isLastItem(
-          2 as unknown as string
-        )
+          2 as unknown as string,
+        ),
       ).toEqual(true);
     });
 
@@ -428,7 +426,7 @@ describe('createApi', () => {
       const { items, visibleElementsWithSeparators } = setup([1, 0.1, 0.3]);
 
       expect(
-        createApi(items, visibleElementsWithSeparators).isLastItem('test1')
+        createApi(items, visibleElementsWithSeparators).isLastItem('test1'),
       ).toEqual(false);
     });
   });
@@ -469,7 +467,7 @@ describe('createApi', () => {
         visibleElementsWithSeparators,
         undefined,
         undefined,
-        RTL
+        RTL,
       );
       api.scrollPrev();
       expect(scrollToItemSpy).toHaveBeenCalled();
@@ -488,7 +486,7 @@ describe('createApi', () => {
         undefined,
         undefined,
         undefined,
-        noPolyfill
+        noPolyfill,
       );
       api.scrollPrev();
       expect(scrollToItemSpy).toHaveBeenCalled();
@@ -509,7 +507,7 @@ describe('createApi', () => {
         items,
         visibleElementsWithSeparators,
         boundary,
-        transitionOptions
+        transitionOptions,
       ).scrollPrev();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -536,7 +534,7 @@ describe('createApi', () => {
         items,
         visibleElementsWithSeparators,
         boundary,
-        transitionOptions
+        transitionOptions,
       ).scrollPrev('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -587,7 +585,7 @@ describe('createApi', () => {
         visibleElementsWithSeparators,
         undefined,
         undefined,
-        RTL
+        RTL,
       );
       api.scrollNext();
       expect(scrollToItemSpy).toHaveBeenCalled();
@@ -606,7 +604,7 @@ describe('createApi', () => {
         undefined,
         undefined,
         undefined,
-        noPolyfill
+        noPolyfill,
       );
       api.scrollNext();
       expect(scrollToItemSpy).toHaveBeenCalled();
@@ -627,7 +625,7 @@ describe('createApi', () => {
         items,
         visibleElementsWithSeparators,
         boundary,
-        transitionOptions
+        transitionOptions,
       ).scrollNext();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -654,7 +652,7 @@ describe('createApi', () => {
         items,
         visibleElementsWithSeparators,
         boundary,
-        transitionOptions
+        transitionOptions,
       ).scrollNext('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);

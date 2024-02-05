@@ -22,7 +22,7 @@ class ItemsMap extends Map<Item[0], Item[1]> {
 
   public sort(arr: Item[]) {
     return arr.sort(
-      ([, IOItemA], [, IOItemB]) => +IOItemA.index - +IOItemB.index
+      ([, IOItemA], [, IOItemB]) => +IOItemA.index - +IOItemB.index,
     );
   }
 
@@ -45,31 +45,31 @@ class ItemsMap extends Map<Item[0], Item[1]> {
   }
 
   public filter(
-    predicate: (value: Item, index: number, array: Item[]) => boolean
+    predicate: (value: Item, index: number, array: Item[]) => boolean,
   ): Item[] {
     return this.toArr().filter(predicate);
   }
   public find(
-    predicate: (value: Item, index: number, obj: Item[]) => boolean
+    predicate: (value: Item, index: number, obj: Item[]) => boolean,
   ): Item | undefined {
     return this.toArr().find(predicate);
   }
 
   public findIndex(
-    predicate: (value: Item, index: number, obj: Item[]) => unknown
+    predicate: (value: Item, index: number, obj: Item[]) => unknown,
   ): number {
     return this.toArr().findIndex(predicate);
   }
 
   public getCurrentPos(
     item: string | IOItem,
-    onlyItems: boolean
+    onlyItems: boolean,
   ): [Item[], number] {
     const arr = this.toArr().filter((el) =>
-      onlyItems ? !el?.[0]?.includes(separatorString) : el
+      onlyItems ? !el?.[0]?.includes(separatorString) : el,
     );
     const current = arr.findIndex(
-      ([itemId, ioitem]) => itemId === item || ioitem === item
+      ([itemId, ioitem]) => itemId === item || ioitem === item,
     );
     return [arr, current];
   }
@@ -89,7 +89,7 @@ class ItemsMap extends Map<Item[0], Item[1]> {
 
   public getVisibleElements() {
     return this.filter(
-      (value: Item) => !value[0].includes(separatorString) && value[1].visible
+      (value: Item) => !value[0].includes(separatorString) && value[1].visible,
     );
   }
 }

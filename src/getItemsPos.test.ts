@@ -1,4 +1,3 @@
-/* eslint-disable radar/no-duplicate-string */
 import getItemsPos, { omitEdgeSeparators } from './getItemsPos';
 
 describe('getItemsPos', () => {
@@ -29,7 +28,7 @@ describe('getItemsPos', () => {
       });
 
       expect(
-        getItemsPos(['test4-separator', ...items, 'test9-separator'])
+        getItemsPos(['test4-separator', ...items, 'test9-separator']),
       ).toEqual({ first: 'test5', center: 'test7', last: 'test9' });
     });
 
@@ -57,7 +56,7 @@ describe('getItemsPos', () => {
       });
 
       expect(
-        getItemsPos(['test4-separator', ...items, 'test8-separator'])
+        getItemsPos(['test4-separator', ...items, 'test8-separator']),
       ).toEqual({ first: 'test5', center: 'test6-separator', last: 'test8' });
     });
 
@@ -83,7 +82,7 @@ describe('getItemsPos', () => {
       });
 
       expect(
-        getItemsPos(['item4-separator', ...items, 'item5-separator'])
+        getItemsPos(['item4-separator', ...items, 'item5-separator']),
       ).toEqual({
         first: 'test5',
         center: 'test5',
@@ -105,7 +104,7 @@ describe('omiseEdgeSeparators', () => {
         'test6',
         'test6-separator',
         'test7',
-      ])
+      ]),
     ).toEqual(['test6', 'test6-separator', 'test7']);
 
     expect(
@@ -114,7 +113,7 @@ describe('omiseEdgeSeparators', () => {
         'test6-separator',
         'test7',
         'test7-separator',
-      ])
+      ]),
     ).toEqual(['test6', 'test6-separator', 'test7']);
 
     expect(
@@ -124,7 +123,7 @@ describe('omiseEdgeSeparators', () => {
         'test6-separator',
         'test7',
         'test7-separator',
-      ])
+      ]),
     ).toEqual(['test6', 'test6-separator', 'test7']);
   });
 

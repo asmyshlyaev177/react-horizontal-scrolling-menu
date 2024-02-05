@@ -25,7 +25,7 @@ export default function createApi(
     behavior: CustomScrollBehavior<unknown>;
   },
   RTL?: boolean,
-  noPolyfill?: boolean
+  noPolyfill?: boolean,
 ) {
   const visibleElements = filterSeparators(visibleElementsWithSeparators);
 
@@ -61,7 +61,7 @@ export default function createApi(
       duration,
       ease,
       boundary = boundaryElement?.current,
-    }: scrollToItemOptions = {}
+    }: scrollToItemOptions = {},
   ) => {
     const _behavior = (behavior ??
       transitionOptions?.behavior) as ScrollBehavior;
@@ -76,7 +76,7 @@ export default function createApi(
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
       },
-      RTL || noPolyfill
+      RTL || noPolyfill,
     );
   };
 
@@ -88,7 +88,7 @@ export default function createApi(
       duration,
       ease,
       boundary = boundaryElement?.current,
-    }: scrollToItemOptions = {}
+    }: scrollToItemOptions = {},
   ) => {
     const _behavior = (behavior ??
       transitionOptions?.behavior) as ScrollBehavior;
@@ -103,7 +103,7 @@ export default function createApi(
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
       },
-      RTL || noPolyfill
+      RTL || noPolyfill,
     );
   };
 
@@ -127,7 +127,7 @@ export default function createApi(
       behavior?: CustomScrollBehavior<T>,
       inline?: ScrollLogicalPosition,
       block?: ScrollLogicalPosition,
-      options?: scrollToItemOptions
+      options?: scrollToItemOptions,
     ) => {
       const _behavior = behavior ?? transitionOptions?.behavior;
       return scrollToItem(
@@ -141,7 +141,7 @@ export default function createApi(
           duration: options?.duration ?? transitionOptions?.duration,
           ease: options?.ease ?? transitionOptions?.ease,
         },
-        noPolyfill
+        noPolyfill,
       );
     },
     visibleElements,

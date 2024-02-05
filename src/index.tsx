@@ -190,7 +190,7 @@ function ScrollMenu({
       root: scrollContainerRef.current,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options, scrollContainerRef.current]
+    [options, scrollContainerRef.current],
   );
 
   const items = React.useRef(new ItemsMap()).current;
@@ -205,7 +205,7 @@ function ScrollMenu({
       options: observerOptions,
       refs: menuItemsRefs,
     }),
-    [items, itemsChanged, menuItemsRefs, observerOptions]
+    [items, itemsChanged, menuItemsRefs, observerOptions],
   );
   const visibleElementsWithSeparators = useIntersectionObserver(ioOptions);
   const mounted = !!visibleElementsWithSeparators.length;
@@ -222,11 +222,11 @@ function ScrollMenu({
           behavior: transitionBehavior!,
         },
         RTL,
-        noPolyfill
+        noPolyfill,
       ),
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, visibleElementsWithSeparators, itemsChanged, RTL, noPolyfill]
+    [items, visibleElementsWithSeparators, itemsChanged, RTL, noPolyfill],
   );
 
   const getContext = React.useCallback(
@@ -237,7 +237,7 @@ function ScrollMenu({
       visibleElementsWithSeparators,
       scrollContainer: scrollContainerRef,
     }),
-    [api, mounted, items, visibleElementsWithSeparators, scrollContainerRef]
+    [api, mounted, items, visibleElementsWithSeparators, scrollContainerRef],
   );
 
   const [context, setContext] = React.useState<publicApiType>(getContext);
@@ -253,7 +253,7 @@ function ScrollMenu({
     hash: JSON.stringify(
       visibleElementsWithSeparators
         .concat(String(context?.isFirstItemVisible))
-        .concat(String(context?.isLastItemVisible))
+        .concat(String(context?.isLastItemVisible)),
     ),
   });
 
@@ -263,22 +263,22 @@ function ScrollMenu({
 
   const scrollHandler = React.useCallback(
     (event: React.UIEvent) => onScroll(context, event),
-    [onScroll, context]
+    [onScroll, context],
   );
 
   const onWheelHandler = React.useCallback(
     (event: React.WheelEvent) => onWheel(context, event),
-    [onWheel, context]
+    [onWheel, context],
   );
 
   const wrapperClass: string = React.useMemo(
     () => `${constants.wrapperClassName} ${wrapperClassName}`,
-    [wrapperClassName]
+    [wrapperClassName],
   );
 
   const containerClassName = React.useMemo(
     () => `${scrollContainerClassName}${RTL ? ' rtl' : ''}`,
-    [RTL, scrollContainerClassName]
+    [RTL, scrollContainerClassName],
   );
 
   return (
