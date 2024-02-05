@@ -1,5 +1,5 @@
 import type { CustomEasing } from 'smooth-scroll-into-view-if-needed';
-import type { CustomScrollBehaviorCallback } from 'scroll-into-view-if-needed/typings/types';
+import type { CustomScrollBehaviorCallback } from 'scroll-into-view-if-needed';
 
 export type visibleElements = string[];
 

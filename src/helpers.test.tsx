@@ -10,7 +10,7 @@ import {
   scrollToItem,
 } from './helpers';
 import { observerOptions } from './settings';
-import { IOItem } from './types';
+import type { IOItem } from './types';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 jest.mock('smooth-scroll-into-view-if-needed');

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { separatorString } from './constants';
-import { visibleElements } from './types';
+import type { visibleElements } from './types';
 import { filterSeparators } from './helpers';
 
 const addSeparators = (items: visibleElements): visibleElements =>

@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "4.1.4",
+  "version": "5.0.0",
   "author": "asmyshlyaev177 <asmyshlyaev177@gmail.com> (https://www.linkedin.com/in/asmyshlyaev177/)",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "keywords": [
@@ -15,6 +15,7 @@
     "scrolling-menu"
   ],
   "license": "ISC",
+  "type": "module",
   "main": "dist/index.mjs",
   "browser": "dist/index.mjs",
   "module": "dist/index.mjs",
@@ -53,7 +54,7 @@
   },
   "engines": {
     "node": ">=18",
-    "npm": ">=9"
+    "npm": ">=9.5.0"
   },
   "husky": {
     "hooks": {
@@ -89,6 +90,9 @@
     "release": "wireit",
     "pub": "wireit",
     "push": "wireit",
+    "beta": "npm version premajor --preid=beta",
+    "beta:bump": "npm version prerelease",
+    "beta:pub": "npm run build && npm publish --tag beta",
     "reinstall": "npm run cleanup && npm run setup",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
@@ -161,11 +165,11 @@
       "command": "git push --follow-tags origin main"
     },
     "test:all": {
-      "command": "npm run test:e2e && npm run test:storybook",
+      "command": "npm run test:e2e && npm run test:e2e:dev",
       "dependencies": [
         "test:lint",
         "test:unit",
-        "test:e2e:dev"
+        "test:storybook"
       ]
     },
     "test:lint": {
@@ -335,12 +339,10 @@
     "last 3 Safari major versions",
     "last 2 iOS major versions"
   ],
-  "dependencies": {
-    "smooth-scroll-into-view-if-needed": "~1.1"
-  },
   "peerDependencies": {
     "react": ">=16.8",
-    "react-dom": ">=16.8"
+    "react-dom": ">=16.8",
+    "smooth-scroll-into-view-if-needed": "^2.x.x"
   },
   "files": [
     "dist"
@@ -434,6 +436,7 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
     "semver": "^7.3.8",
+    "smooth-scroll-into-view-if-needed": "^2.x.x",
     "standard-version": "^9.5.0",
     "storybook": "^7.6.6",
     "storybook-addon-code-editor": "^2.2.0",

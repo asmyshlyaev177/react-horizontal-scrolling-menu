@@ -6,7 +6,7 @@ import ScrollContainer from './components/ScrollContainer';
 import MenuItems from './components/MenuItems';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
-import createApi, { publicApiType } from './createApi';
+import createApi, { type publicApiType } from './createApi';
 import ItemsMap from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
 
@@ -319,3 +319,4 @@ function ScrollMenu({
 }
 
 export { constants, getItemsPos, slidingWindow, ScrollMenu, VisibilityContext };
+export type { publicApiType };

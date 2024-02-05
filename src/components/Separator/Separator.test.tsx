@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Separator, { Props } from './Separator';
+import Separator, { type Props } from './Separator';
 import { separatorClassName } from '../../constants';
 
 const setup = ({ className, id, index, refs }: Props) => {

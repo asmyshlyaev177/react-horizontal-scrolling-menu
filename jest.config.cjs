@@ -19,7 +19,7 @@ module.exports = {
   // transform: {
   //   '^.+\\.[t|j]sx?$': 'babel-jest',
   // },
-  snapshotResolver: '<rootDir>/snapshotResolver.js',
+  snapshotResolver: '<rootDir>/snapshotResolver.cjs',
   coveragePathIgnorePatterns: [
     'spec.js',
     'test.js',

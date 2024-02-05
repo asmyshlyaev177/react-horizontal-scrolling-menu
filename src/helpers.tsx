@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactFragment, ReactPortal } from 'react';
+import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import type {
   Refs,
@@ -93,7 +93,7 @@ export function getElementOrConstructor(
 export const filterSeparators = (items: visibleElements): visibleElements =>
   items.filter((item) => !new RegExp(`.*${separatorString}$`).test(item));
 
-export const getItemId = (item: ReactChild | ReactFragment | ReactPortal) =>
+export const getItemId = (item: React.ReactNode) =>
   String(
     (item as JSX.Element)?.props?.[itemId] ||
       String((item as JSX.Element)?.key || '').replace(/^\.\$/, '')
