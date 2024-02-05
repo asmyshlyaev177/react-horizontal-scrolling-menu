@@ -1,6 +1,6 @@
 {
     "name": "@types/react",
-    "version": "18.2.34",
+    "version": "18.2.52",
     "description": "TypeScript definitions for react",
     "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
     "license": "MIT",
@@ -201,6 +201,6 @@
         "@types/scheduler": "*",
         "csstype": "^3.0.2"
     },
-    "typesPublisherContentHash": "1fdeb6aed07f46b464199111cf2c05bcbd40f44b73f7b7660c9c38e75acc7bd4",
-    "typeScriptVersion": "4.5"
+    "typesPublisherContentHash": "93fc940a3cfa823f1e10e0c4058e113f5fcc839de2adf5b2c9b6046991b0a4e0",
+    "typeScriptVersion": "4.6"
 }

@@ -8,7 +8,7 @@ This package contains type definitions for react (https://react.dev/).
 Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react.
 
 ### Additional Details
- * Last updated: Wed, 01 Nov 2023 22:45:31 GMT
+ * Last updated: Sat, 03 Feb 2024 00:50:19 GMT
  * Dependencies: [@types/prop-types](https://npmjs.com/package/@types/prop-types), [@types/scheduler](https://npmjs.com/package/@types/scheduler), [csstype](https://npmjs.com/package/csstype)
 
 # Credits
