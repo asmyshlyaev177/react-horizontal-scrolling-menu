@@ -11,7 +11,7 @@ const setup = ({ className, scrollRef, onScroll }: Props) => {
       scrollRef={scrollRef}
     >
       Child
-    </ScrollContainer>
+    </ScrollContainer>,
   );
 };
 

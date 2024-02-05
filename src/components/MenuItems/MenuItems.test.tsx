@@ -11,16 +11,14 @@ jest.mock('../Item', () => ({ className, id, index, refs }: ItemProps) => (
   </div>
 ));
 
-// eslint-disable-next-line radar/no-identical-functions
 jest.mock(
   '../Separator',
   () =>
-    ({ className, id, index, refs }: SeparatorProps) =>
-      (
-        <div className={className} id={id} data-index={index} data-refs={refs}>
-          Separator
-        </div>
-      )
+    ({ className, id, index, refs }: SeparatorProps) => (
+      <div className={className} id={id} data-index={index} data-refs={refs}>
+        Separator
+      </div>
+    ),
 );
 
 const items = ['test1', 'test2'];
@@ -46,7 +44,7 @@ const setup = ({ refs, itemClassName, separatorClassName }: mockProps) => {
       refs={refs}
     >
       {children}
-    </MenuItems>
+    </MenuItems>,
   );
 };
 
@@ -75,12 +73,12 @@ describe('MenuItems', () => {
 
         expect(child.getAttribute('id')).toEqual(item);
         expect(+child.getAttribute('data-index')!).toEqual(
-          +item.replace(/\D/g, '') - 1
+          +item.replace(/\D/g, '') - 1,
         );
         expect(child.childNodes).toHaveLength(1);
         // expect(child.childNodes[0]).toEqual('');
         expect(child).toHaveClass(
-          `react-horizontal-scrolling-menu--item ${itemClassName}`
+          `react-horizontal-scrolling-menu--item ${itemClassName}`,
         );
         expect(child.childNodes[0].textContent).toEqual('Separator');
         // expect(child.getAttribute('refs')).toEqual(JSON.stringify(refs))
@@ -89,10 +87,10 @@ describe('MenuItems', () => {
         const item = items[Math.floor(ind / 2)];
         expect(child.getAttribute('id')).toEqual(`${item}-separator`);
         expect(child).toHaveClass(
-          `react-horizontal-scrolling-menu--separator ${separatorClassName}`
+          `react-horizontal-scrolling-menu--separator ${separatorClassName}`,
         );
         expect(+child.getAttribute('data-index')!).toEqual(
-          +String(item).replace(/\D/g, '') - 1 + 0.1
+          +String(item).replace(/\D/g, '') - 1 + 0.1,
         );
         // expect(child.getAttribute('refs')).toEqual(JSON.stringify(refs))
       }

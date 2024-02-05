@@ -1,4 +1,3 @@
-/* eslint-disable radar/no-duplicate-string */
 import slidingWindow from './slidingWindow';
 
 describe('slidingWindow', () => {
@@ -16,7 +15,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).prev();
 
         expect(group1).toEqual([
@@ -42,7 +41,7 @@ describe('slidingWindow', () => {
         ];
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).prev();
 
         expect(group1).toEqual([
@@ -91,7 +90,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).prev();
         expect(group1).toEqual(['test16']);
 
@@ -111,7 +110,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).prev();
         expect(group1).toEqual(['test15', 'test15-separator', 'test16']);
 
@@ -138,7 +137,7 @@ describe('slidingWindow', () => {
 
       const group1 = slidingWindow(
         allItems,
-        visibleElementsWithSeparators
+        visibleElementsWithSeparators,
       ).prev();
       expect(group1).toEqual([
         'test0',
@@ -182,7 +181,7 @@ describe('slidingWindow', () => {
       ];
 
       expect(slidingWindow([], visibleElementsWithSeparators).prev()).toEqual(
-        []
+        [],
       );
       expect(slidingWindow([], []).prev()).toEqual([]);
       expect(slidingWindow(allItems, []).prev()).toEqual([]);
@@ -216,7 +215,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).next();
 
         expect(group1).toEqual([
@@ -231,7 +230,7 @@ describe('slidingWindow', () => {
       test('5 items', () => {
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).next();
 
         expect(group1).toEqual([
@@ -280,7 +279,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).next();
         expect(group1).toEqual(['test1']);
 
@@ -300,7 +299,7 @@ describe('slidingWindow', () => {
 
         const group1 = slidingWindow(
           allItems,
-          visibleElementsWithSeparators
+          visibleElementsWithSeparators,
         ).next();
         expect(group1).toEqual(['test2', 'test2-separator', 'test3']);
 
@@ -315,7 +314,7 @@ describe('slidingWindow', () => {
     test('should return last group infinite times', () => {
       const group1 = slidingWindow(
         allItems,
-        visibleElementsWithSeparators
+        visibleElementsWithSeparators,
       ).next();
       const group2 = slidingWindow(allItems, group1).next();
 
@@ -390,7 +389,7 @@ describe('slidingWindow', () => {
       ];
 
       expect(slidingWindow([], visibleElementsWithSeparators).next()).toEqual(
-        []
+        [],
       );
       expect(slidingWindow([], []).next()).toEqual([]);
       expect(slidingWindow(allItems, []).next()).toEqual([]);

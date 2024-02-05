@@ -25,19 +25,17 @@ describe('useIntersectionObserver', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'IntersectionObserver', {
       writable: true,
-      value: jest
-        .fn()
-        .mockImplementation(function TrackMock(
-          cb: IntersectionObserverCB,
-          options: IntersectionObserverInit
-        ) {
-          observer = traceMethodCalls(
-            new MockedObserver(cb, options),
-            mockedObserverCalls
-          );
+      value: jest.fn().mockImplementation(function TrackMock(
+        cb: IntersectionObserverCB,
+        options: IntersectionObserverInit,
+      ) {
+        observer = traceMethodCalls(
+          new MockedObserver(cb, options),
+          mockedObserverCalls,
+        );
 
-          return observer;
-        }),
+        return observer;
+      }),
     });
   });
   afterEach(() => {
@@ -73,7 +71,7 @@ describe('useIntersectionObserver', () => {
 
     oeti.mockReturnValueOnce([]);
     const { result, waitForNextUpdate } = renderHook(() =>
-      useIntersectionObserver(props)
+      useIntersectionObserver(props),
     );
 
     expect(result.current).toEqual([]);
@@ -89,7 +87,7 @@ describe('useIntersectionObserver', () => {
               visible: el.visible,
               index: String(index),
             },
-          ] as Item
+          ] as Item,
       );
 
     // observer entries cbs

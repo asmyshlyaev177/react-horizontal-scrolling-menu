@@ -20,7 +20,7 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
     React.useState<visibleElements>([]);
 
   const throttleTimer: { current: number } = React.useRef(
-    +setTimeout(() => void 0, 0)
+    +setTimeout(() => void 0, 0),
   );
 
   const ioCb = React.useCallback(
@@ -44,10 +44,10 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
               return currentVisible;
             });
           }),
-        options.throttle
+        options.throttle,
       );
     },
-    [items, options]
+    [items, options],
   );
 
   useIsomorphicLayoutEffect(() => {

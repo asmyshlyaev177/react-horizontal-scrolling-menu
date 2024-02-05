@@ -1,5 +1,4 @@
 /* eslint-disable jest/no-identical-title */
-/* eslint-disable radar/no-duplicate-string */
 import ItemsMap from './ItemsMap';
 import type { IOItem, Item } from './types';
 import { separatorString } from './constants';
@@ -211,7 +210,7 @@ describe('ItemsMap', () => {
     map.set(dataWithVisible);
 
     expect(map.getVisible()).toEqual(
-      dataWithVisible.filter((el) => el[1].visible)
+      dataWithVisible.filter((el) => el[1].visible),
     );
   });
 
@@ -223,7 +222,7 @@ describe('ItemsMap', () => {
       dataWithSeparators.map((el) => [
         el[0],
         { ...el[1], visible: true } as unknown as IOItem,
-      ])
+      ]),
     );
 
     const result = map.getVisibleElements();
@@ -281,7 +280,7 @@ describe('ItemsMap', () => {
 
       map.set(dataWithSeparators);
       const withoutSeparators = dataWithSeparators.filter(
-        (el) => !el[0].includes(separatorString)
+        (el) => !el[0].includes(separatorString),
       );
       expect(map.getCurrentPos(dataWithSeparators[0][0], onlyItems)).toEqual([
         withoutSeparators,
@@ -301,7 +300,6 @@ describe('ItemsMap', () => {
   describe('prev"ious item', () => {
     describe('by key', () => {
       describe('with separators', () => {
-        // eslint-disable-next-line radar/no-duplicate-string
         test('have previous item', () => {
           const map = new ItemsMap();
 
@@ -311,7 +309,6 @@ describe('ItemsMap', () => {
           expect(map.prev(data[2][0])).toEqual(data[1][1]);
         });
 
-        // eslint-disable-next-line radar/no-duplicate-string
         test('does not have prev item', () => {
           const map = new ItemsMap();
 
@@ -326,17 +323,16 @@ describe('ItemsMap', () => {
       describe('without separators', () => {
         const onlyItems = true;
 
-        // eslint-disable-next-line radar/no-duplicate-string
         test('have previous item', () => {
           const map = new ItemsMap();
 
           map.set(dataWithSeparators);
 
           expect(map.prev(dataWithSeparators[2][0], onlyItems)).toEqual(
-            dataWithSeparators[0][1]
+            dataWithSeparators[0][1],
           );
           expect(map.prev(dataWithSeparators[4][0], onlyItems)).toEqual(
-            dataWithSeparators[2][1]
+            dataWithSeparators[2][1],
           );
         });
 
@@ -346,7 +342,7 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.prev(dataWithSeparators[0][0], onlyItems)).toEqual(
-            undefined
+            undefined,
           );
         });
       });
@@ -394,10 +390,10 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.prev(dataWithSeparators[2][1], onlyItems)).toEqual(
-            dataWithSeparators[0][1]
+            dataWithSeparators[0][1],
           );
           expect(map.prev(dataWithSeparators[4][1], onlyItems)).toEqual(
-            dataWithSeparators[2][1]
+            dataWithSeparators[2][1],
           );
         });
 
@@ -407,7 +403,7 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.prev(dataWithSeparators[0][1], onlyItems)).toEqual(
-            undefined
+            undefined,
           );
         });
       });
@@ -417,7 +413,6 @@ describe('ItemsMap', () => {
   describe('next item', () => {
     describe('by key', () => {
       describe('with separators', () => {
-        // eslint-disable-next-line radar/no-duplicate-string
         test('have next item', () => {
           const map = new ItemsMap();
 
@@ -447,10 +442,10 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.next(dataWithSeparators[0][0], onlyItems)).toEqual(
-            dataWithSeparators[2][1]
+            dataWithSeparators[2][1],
           );
           expect(map.next(dataWithSeparators[2][0], onlyItems)).toEqual(
-            dataWithSeparators[4][1]
+            dataWithSeparators[4][1],
           );
         });
 
@@ -460,7 +455,7 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.next(dataWithSeparators[4][0], onlyItems)).toEqual(
-            undefined
+            undefined,
           );
         });
       });
@@ -508,10 +503,10 @@ describe('ItemsMap', () => {
           map.set(dataWithSeparators);
 
           expect(map.next(dataWithSeparators[0][1], onlyItems)).toEqual(
-            dataWithSeparators[2][1]
+            dataWithSeparators[2][1],
           );
           expect(map.next(dataWithSeparators[2][1], onlyItems)).toEqual(
-            dataWithSeparators[4][1]
+            dataWithSeparators[4][1],
           );
         });
 

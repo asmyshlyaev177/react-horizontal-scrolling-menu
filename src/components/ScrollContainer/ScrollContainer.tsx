@@ -18,7 +18,7 @@ function ScrollContainer({
 }: Props) {
   const scrollContainerClass = React.useMemo(
     () => `${scrollContainerClassName} ${_className}`,
-    [_className]
+    [_className],
   );
 
   return (

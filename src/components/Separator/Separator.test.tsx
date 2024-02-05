@@ -5,7 +5,7 @@ import { separatorClassName } from '../../constants';
 
 const setup = ({ className, id, index, refs }: Props) => {
   return render(
-    <Separator className={className} id={id} index={index} refs={refs} />
+    <Separator className={className} id={id} index={index} refs={refs} />,
   );
 };
 

@@ -1,9 +1,7 @@
 {
   "env": {
-    "browser": true,
-    "es6": true,
-    "es2020": true,
-    "node": true
+    "es2023": true,
+    "shared-node-browser": true
   },
   "extends": [
     "eslint:recommended",
@@ -13,7 +11,7 @@
     "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:radar/recommended",
+    "plugin:sonarjs/recommended",
     "plugin:storybook/recommended"
   ],
   "globals": {
@@ -25,7 +23,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 11,
+    "ecmaVersion": 2023,
     "sourceType": "module"
   },
   "processor": "disable/disable",
@@ -38,7 +36,7 @@
     "react-hooks",
     "jsx-a11y",
     "unicorn",
-    "radar"
+    "sonarjs"
   ],
   "rules": {
     "prettier/prettier": [
@@ -47,7 +45,6 @@
         "singleQuote": true,
         "tabWidth": 2,
         "usetabs": false,
-        "parser": "babel-ts",
         "printWidth": 80
       },
       {
@@ -56,21 +53,15 @@
     ],
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/ban-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "react/no-unknown-property": "off"
+    "react-hooks/exhaustive-deps": "error",
+    "@typescript-eslint/ban-types": "off", // TODO:
+    "@typescript-eslint/explicit-module-boundary-types": "off", // TODO:
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off", // TODO:
+    "@typescript-eslint/no-non-null-assertion": "off", // TODO:
+    "react/no-unknown-property": "off" // TODO:
   },
   "overrides": [
     {
@@ -78,32 +69,16 @@
         "*.test.js",
         "*.test.ts",
         "*.test.jsx",
-        "*.test.tsx"
-      ],
-      "rules": {
-        "react/display-name": "off",
-        "react/prop-types": "off",
-        "react/no-children-prop": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
-      }
-    },
-    {
-      "files": [
+        "*.test.tsx",
         "*.spec.js",
         "*.spec.ts"
       ],
-      "settings": {
-        "disable/plugins": [
-          "jest"
-        ]
-      },
       "rules": {
-        "jest/valid-expect-in-promise": "off",
-        "jest/expect-expect": "off",
-        "jest/valid-expect": "off",
-        "cypress/no-unnecessary-waiting": "off",
-        "@typescript-eslint/no-explicit-any": "off"
+        "sonarjs/no-duplicate-string": "off",
+        "react/display-name": "off",
+        "react/prop-types": "off",
+        "@typescript-eslint/no-explicit-any": "off", // TODO:
+        "@typescript-eslint/no-non-null-assertion": "off" // TODO:
       }
     }
   ]

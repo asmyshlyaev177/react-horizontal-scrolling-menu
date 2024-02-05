@@ -5,13 +5,9 @@ import { itemClassName } from '../../constants';
 
 const setup = ({ children, className, id, index, refs }: Props) => {
   return render(
-    <Item
-      children={children}
-      className={className}
-      id={id}
-      index={index}
-      refs={refs}
-    />
+    <Item className={className} id={id} index={index} refs={refs}>
+      {children}
+    </Item>,
   );
 };
 
