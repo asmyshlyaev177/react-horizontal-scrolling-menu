@@ -5,38 +5,43 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:jest/recommended",
-    "plugin:cypress/recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:sonarjs/recommended",
-    "plugin:storybook/recommended"
+    "plugin:deprecation/recommended",
+    "plugin:compat/recommended",
+
+    "plugin:react/recommended",
+    "plugin:react-redux/recommended",
+    "plugin:storybook/recommended",
+    "plugin:cypress/recommended",
+    "plugin:jest/recommended"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 2023,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": true
   },
   "processor": "disable/disable",
   "plugins": [
     "@typescript-eslint",
     "disable",
+    "jsx-a11y",
+    "unicorn",
+    "sonarjs",
+    "deprecation",
+    "compat",
+
+    "react-redux",
     "cypress",
     "jest",
     "react",
-    "react-hooks",
-    "jsx-a11y",
-    "unicorn",
-    "sonarjs"
+    "react-hooks"
   ],
   "rules": {
     "prettier/prettier": [
@@ -56,6 +61,19 @@
     "prefer-arrow-callback": "off",
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
+    "sonarjs/cognitive-complexity": ["error", 9],
+    "complexity": ["error", 11],
+    "max-statements": ["error", 30],
+    "max-params": ["error", 3],
+    "max-nested-callbacks": ["error", 4],
+    "max-lines-per-function": [
+      "error",
+      { "max": 150, "skipBlankLines": true, "skipComments": true }
+    ],
+    "max-lines": ["error", 400],
+    "max-len": ["error", 80],
+    "max-depth": ["error", 1],
+
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error"
   },
@@ -71,6 +89,11 @@
       ],
       "rules": {
         "sonarjs/no-duplicate-string": "off",
+        "max-statements": "off",
+        "max-lines": "off",
+        "max-lines-per-function": "off",
+        "max-nested-callbacks": ["error", 7],
+
         "react/display-name": "off",
         "react/prop-types": "off"
       }
