@@ -88,24 +88,24 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
 
-  publish:
-    needs: build-test
-    runs-on: ubuntu-20.04
-    if: github.ref_name == 'main'
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
-      - name: Install
-        run: npm run setup
-      - run: npm run build
-      - uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          provenance: true
-          registry: 'https://registry.npmjs.org'
+  # publish:
+  #   needs: build-test
+  #   runs-on: ubuntu-20.04
+  #   if: github.ref_name == 'main'
+  #   env:
+  #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version-file: '.nvmrc'
+  #         cache: 'npm'
+  #         registry-url: 'https://registry.npmjs.org'
+  #     - name: Install
+  #       run: npm run setup
+  #     - run: npm run build
+  #     - uses: JS-DevTools/npm-publish@v3
+  #       with:
+  #         token: ${{ secrets.NPM_TOKEN }}
+  #         provenance: true
+  #         registry: 'https://registry.npmjs.org'
