@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  cb: Function;
+  cb: () => void;
   condition: boolean;
   hash: string;
 }

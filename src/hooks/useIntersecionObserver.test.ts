@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 import { renderHook } from '@testing-library/react-hooks';
 
 import useIntersectionObserver from './useIntersectionObserver';
@@ -8,7 +7,7 @@ import { observerOptions } from '../settings';
 import type { Refs, Item } from '../types';
 
 import { MockedObserver, traceMethodCalls } from '../testUtils';
-import type { IntersectionObserverCB } from '../testUtils';
+import type { IntersectionObserverCB, MockedCalls } from '../testUtils';
 
 import { mocked } from 'jest-mock';
 
@@ -20,24 +19,22 @@ jest.mock('../helpers', () => ({
 }));
 
 describe('useIntersectionObserver', () => {
-  let observer: any;
-  let mockedObserverCalls: { [k: string]: any } = {};
+  let observer: MockedObserver | null;
+  let mockedObserverCalls: MockedCalls = {};
   beforeEach(() => {
     Object.defineProperty(window, 'IntersectionObserver', {
       writable: true,
-      value: jest
-        .fn()
-        .mockImplementation(function TrackMock(
-          cb: IntersectionObserverCB,
-          options: IntersectionObserverInit
-        ) {
-          observer = traceMethodCalls(
-            new MockedObserver(cb, options),
-            mockedObserverCalls
-          );
+      value: jest.fn().mockImplementation(function TrackMock(
+        cb: IntersectionObserverCB,
+        options: IntersectionObserverInit,
+      ) {
+        observer = traceMethodCalls(
+          new MockedObserver(cb, options),
+          mockedObserverCalls,
+        ) as unknown as MockedObserver;
 
-          return observer;
-        }),
+        return observer;
+      }),
     });
   });
   afterEach(() => {
@@ -73,7 +70,7 @@ describe('useIntersectionObserver', () => {
 
     oeti.mockReturnValueOnce([]);
     const { result, waitForNextUpdate } = renderHook(() =>
-      useIntersectionObserver(props)
+      useIntersectionObserver(props),
     );
 
     expect(result.current).toEqual([]);
@@ -89,7 +86,7 @@ describe('useIntersectionObserver', () => {
               visible: el.visible,
               index: String(index),
             },
-          ] as Item
+          ] as Item,
       );
 
     // observer entries cbs

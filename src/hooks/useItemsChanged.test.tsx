@@ -10,7 +10,7 @@ const TestComponent = ({
   menuItems,
   items,
 }: {
-  menuItems: any;
+  menuItems?: React.JSX.Element[];
   items: ItemsMap;
 }) => {
   const hash = useItemsChanged(menuItems, items);
@@ -33,7 +33,7 @@ describe('useItemsChanged', () => {
   describe('should return hash based on children', () => {
     test('empty string if there is no children', () => {
       const utils = render(
-        <TestComponent menuItems={undefined} items={new ItemsMap()} />
+        <TestComponent menuItems={undefined} items={new ItemsMap()} />,
       );
 
       const hash = JSON.parse(utils.getByTestId('hash').textContent!);
@@ -47,7 +47,7 @@ describe('useItemsChanged', () => {
       const children = getChildren(childrenKeys);
 
       const utils = render(
-        <TestComponent menuItems={children} items={new ItemsMap()} />
+        <TestComponent menuItems={children} items={new ItemsMap()} />,
       );
 
       const hash = JSON.parse(utils.getByTestId('hash').textContent!);
@@ -56,7 +56,7 @@ describe('useItemsChanged', () => {
       const newChildrenKeys = childrenKeys.concat('child3');
       const newChildren = getChildren(newChildrenKeys);
       utils.rerender(
-        <TestComponent menuItems={newChildren} items={new ItemsMap()} />
+        <TestComponent menuItems={newChildren} items={new ItemsMap()} />,
       );
 
       const newHash = JSON.parse(utils.getByTestId('hash').textContent!);
@@ -68,10 +68,8 @@ describe('useItemsChanged', () => {
     test('should remove child from ItemsMap', () => {
       const childrenKeys = [
         'child1',
-        // eslint-disable-next-line radar/no-duplicate-string
         'child1-separator',
         'chidl2',
-        // eslint-disable-next-line radar/no-duplicate-string
         'child2-separator',
         'child3',
       ];
@@ -80,7 +78,7 @@ describe('useItemsChanged', () => {
       const children = getChildren(childrenKeys);
 
       const utils = render(
-        <TestComponent menuItems={children} items={itemsMap} />
+        <TestComponent menuItems={children} items={itemsMap} />,
       );
 
       const hash = JSON.parse(utils.getByTestId('hash').textContent!);
@@ -91,12 +89,12 @@ describe('useItemsChanged', () => {
       });
       expect(itemsMap.toItems()).toEqual(childrenKeys);
 
-      const removeFirst = (arr: any[]) => arr.slice(1);
+      const removeFirst = <T,>(arr: T[]) => arr.slice(1);
 
       const newChildren = removeFirst(children);
 
       utils.rerender(
-        <TestComponent menuItems={newChildren} items={itemsMap} />
+        <TestComponent menuItems={newChildren} items={itemsMap} />,
       );
 
       expect(itemsMap.toItems()).toEqual([
@@ -122,7 +120,7 @@ describe('useItemsChanged', () => {
       const children = getChildren(childrenKeys);
 
       const utils = render(
-        <TestComponent menuItems={children} items={itemsMap} />
+        <TestComponent menuItems={children} items={itemsMap} />,
       );
 
       const hash = JSON.parse(utils.getByTestId('hash').textContent!);
@@ -133,12 +131,12 @@ describe('useItemsChanged', () => {
       });
       expect(itemsMap.toItems()).toEqual(childrenKeys);
 
-      const removeLast = (arr: any[]) => arr.slice(0, -1);
+      const removeLast = <T,>(arr: T[]) => arr.slice(0, -1);
 
       const newChildren = removeLast(children);
 
       utils.rerender(
-        <TestComponent menuItems={newChildren} items={itemsMap} />
+        <TestComponent menuItems={newChildren} items={itemsMap} />,
       );
 
       expect(itemsMap.toItems()).toEqual([

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { separatorString } from './constants';
 import type { visibleElements } from './types';
 import { filterSeparators } from './helpers';
@@ -7,16 +6,16 @@ const addSeparators = (items: visibleElements): visibleElements =>
   items
     .reduce(
       (result, item) => result.concat(item).concat(`${item}${separatorString}`),
-      <visibleElements>[]
+      <visibleElements>[],
     )
     .slice(0, -1);
 
 export function prevGroup(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements
+  visibleElementsWithSeparators: visibleElements,
 ): visibleElements {
   const firstIndex = allItems.findIndex(
-    (item) => item === visibleElementsWithSeparators?.[0]
+    (item) => item === visibleElementsWithSeparators?.[0],
   );
 
   const count = visibleElementsWithSeparators.length;
@@ -39,10 +38,10 @@ export function prevGroup(
 
 export function nextGroup(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements
+  visibleElementsWithSeparators: visibleElements,
 ): visibleElements {
   const lastIndex = allItems.findIndex(
-    (item) => item === visibleElementsWithSeparators.slice(-1)?.[0]
+    (item) => item === visibleElementsWithSeparators.slice(-1)?.[0],
   );
 
   const count = visibleElementsWithSeparators.length;
@@ -55,7 +54,7 @@ export function nextGroup(
   const nextGroupLastItem = isEnd ? allItems.length - 1 : _nextGroupLastItem;
   const next = allItems.slice(
     isEnd ? nextGroupLastItem - count + 1 : lastIndex + 1,
-    nextGroupLastItem
+    nextGroupLastItem,
   );
 
   // when have next items
@@ -69,7 +68,7 @@ export function nextGroup(
 
 function slidingWindow(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements
+  visibleElementsWithSeparators: visibleElements,
 ): {
   prev: () => visibleElements;
   next: () => visibleElements;

@@ -95,7 +95,7 @@ describe('observerEntriesToItems', () => {
     ];
 
     expect(
-      observerEntriesToItems(entries, { ...observerOptions, ratio: 0.5 })
+      observerEntriesToItems(entries, { ...observerOptions, ratio: 0.5 }),
     ).toEqual(result);
   });
 });
@@ -123,7 +123,7 @@ describe('scrollToItem', () => {
     expect(scrollIntoView).toHaveBeenNthCalledWith(
       1,
       item.entry.target,
-      options
+      options,
     );
   });
 
@@ -235,7 +235,7 @@ describe('getElementOrConstructor', () => {
 
   test('should return a jsx elem if constructor passed', () => {
     expect(getElementOrConstructor(JsxElemConstructor)).toEqual(
-      <JsxElemConstructor />
+      <JsxElemConstructor />,
     );
   });
 
@@ -258,7 +258,7 @@ describe('filterSeparators', () => {
         'test3-separator',
         'test4',
         'test4-separator',
-      ])
+      ]),
     ).toEqual(['test0', 'test1', 'test2', 'test3', 'test4']);
   });
 

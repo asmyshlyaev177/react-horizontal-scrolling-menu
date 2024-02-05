@@ -28,11 +28,11 @@ function MenuItems({
 
   const itemClass = React.useMemo(
     () => `${itemClassName} ${_itemClassName}`,
-    [_itemClassName]
+    [_itemClassName],
   );
   const separatorClass = React.useMemo(
     () => `${separatorClassName} ${_separatorClassName}`,
-    [_separatorClassName]
+    [_separatorClassName],
   );
 
   return (
