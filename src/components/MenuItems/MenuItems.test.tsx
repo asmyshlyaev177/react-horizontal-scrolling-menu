@@ -2,8 +2,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import MenuItems from './MenuItems';
-import { Props as SeparatorProps } from '../Separator';
-import { Props as ItemProps } from '../Item';
+import { type Props as SeparatorProps } from '../Separator';
+import { type Props as ItemProps } from '../Item';
 
 jest.mock('../Item', () => ({ className, id, index, refs }: ItemProps) => (
   <div className={className} id={id} data-index={index} data-refs={refs}>

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   ScrollMenu,
   VisibilityContext,
-  publicApiType,
+  type publicApiType,
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 

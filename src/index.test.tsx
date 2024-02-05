@@ -1,13 +1,13 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
-import { ScrollMenu, Props } from '.';
+import { ScrollMenu, type Props } from '.';
 
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 
 import * as constants from './constants';
 import * as createApi from './createApi';
-import { publicApiType } from './createApi';
-import { ItemType } from './types';
+import { type publicApiType } from './createApi';
+import { type ItemType } from './types';
 import { VisibilityContext } from './context';
 
 jest.mock('./hooks/useIntersectionObserver');

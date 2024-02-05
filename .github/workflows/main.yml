@@ -1,4 +1,4 @@
-name: Tests
+name: Test and deploy
 on:
   push:
     branches: [main]
@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-20.04
     container: cypress/included:cypress-13.4.0-node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
 
@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -67,12 +67,41 @@ jobs:
       - name: Storybook tests
         run: npx cross-env HOME=/root npm run test:storybook
 
+  deploy-storybook:
+    needs: build-test
+    runs-on: ubuntu-20.04
+    if: github.ref_name == 'main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install
+        run: npm run setup
       - name: Build storybook
         run: npm run build-storybook
-
       - name: Deploy storybook
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
+        if: github.ref_name == 'main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
+
+  publish:
+    needs: build-test
+    runs-on: ubuntu-20.04
+    if: github.ref_name == 'main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install
+        run: npm run setup
+      - run: npm run build
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          provenance: true

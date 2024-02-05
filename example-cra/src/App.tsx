@@ -4,7 +4,19 @@ import {
   VisibilityContext,
   type publicApiType,
 } from 'react-horizontal-scrolling-menu';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
+// @ts-ignore
 import styled from 'styled-jss';
+
+function App() {
+  return (
+    <div style={{ margin: '50px 10px 10px 10px' }}>
+      <SimpleExample />
+    </div>
+  );
+}
+
+export default App;
 
 export function SimpleExample() {
   const [items] = React.useState(() => getItems());
@@ -43,8 +55,6 @@ export function SimpleExample() {
     </NoScrollbar>
   );
 }
-
-export default SimpleExample;
 
 const NoScrollbar = styled('div')({
   '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
@@ -105,7 +115,7 @@ function Arrow({
     <ArrowButton
       disabled={disabled}
       onClick={onClick}
-      className={'arrow' + `-${className}`}
+      className={`arrow-${className}`}
       data-testid={testId}
     >
       {children}
@@ -118,7 +128,7 @@ const ArrowButton = styled('button')({
   flexDirection: 'column',
   justifyContent: 'center',
   marginBottom: '2px',
-  opacity: (props) => (props.disabled ? '0' : '1'),
+  opacity: (props: { disabled: boolean }) => (props.disabled ? '0' : '1'),
   userSelect: 'none',
   borderRadius: '6px',
   borderWidth: '1px',
@@ -146,7 +156,7 @@ function Card({
     <CardBody
       data-cy={itemId}
       onClick={() => onClick(visibility)}
-      onKeyDown={(ev) => {
+      onKeyDown={(ev: React.KeyboardEvent) => {
         ev.code === 'Enter' && onClick(visibility);
       }}
       data-testid="card"
@@ -179,11 +189,11 @@ const CardBody = styled('div')({
   },
 
   '& .visible': {
-    backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),
+    backgroundColor: (props: { visible: boolean }) => (props.visible ? 'transparent' : 'gray'),
   },
 
   '& .background': {
-    backgroundColor: (props) => (props.selected ? 'green' : 'bisque'),
+    backgroundColor: (props: { visible: boolean, selected: string }) => (props.selected ? 'green' : 'bisque'),
     height: '200px',
   },
 });

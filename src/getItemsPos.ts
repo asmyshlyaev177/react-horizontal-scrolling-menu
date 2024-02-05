@@ -1,4 +1,4 @@
-import { visibleElements } from './types';
+import type { visibleElements } from './types';
 import { separatorString } from './constants';
 
 export const omitEdgeSeparators = (items: visibleElements) =>
