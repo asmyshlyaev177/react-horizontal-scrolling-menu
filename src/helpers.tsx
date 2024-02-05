@@ -51,19 +51,19 @@ function scrollToItem<T>(
   noPolyfill?: boolean,
 ): T | Promise<T> | void {
   const _item = (item as IOItem)?.entry?.target || item;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _behavior: any = behavior || 'smooth';
+  const _behavior: ScrollBehavior | CustomScrollBehavior<T> =
+    behavior || 'smooth';
 
   if (_item) {
     if (noPolyfill) {
       return _item?.scrollIntoView({
-        behavior: _behavior,
+        behavior: _behavior as ScrollBehavior,
         inline: inline || 'end',
         block: block || 'nearest',
       });
     }
     return scrollIntoView(_item, {
-      behavior: _behavior,
+      behavior: _behavior as ScrollBehavior,
       inline: inline || 'end',
       block: block || 'nearest',
       duration: 500,

@@ -1,5 +1,10 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  type RenderResult,
+} from '@testing-library/react';
 import { ScrollMenu, type Props } from '.';
 
 import useIntersectionObserver from './hooks/useIntersectionObserver';
@@ -52,7 +57,9 @@ const RArrow = () => {
 };
 
 interface SetupProps extends Omit<Props, 'children'> {
-  rerender?: Function;
+  rerender?: RenderResult<
+    typeof import('@testing-library/dom/types/queries')
+  >['rerender'];
   children?: ItemType | ItemType[];
 }
 const setup = ({

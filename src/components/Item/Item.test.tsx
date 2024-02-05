@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Item, { type Props } from './Item';
 import { itemClassName } from '../../constants';
+import type { Refs } from '../../types';
 
 const setup = ({ children, className, id, index, refs }: Props) => {
   return render(
@@ -34,7 +35,7 @@ describe('Item', () => {
   test('should assign ref to refs', () => {
     const id = 'test1';
     const index = 1;
-    const refs: any = {};
+    const refs: Refs = {};
     setup({ className, id, index, refs });
 
     expect(Object.keys(refs)).toHaveLength(1);
@@ -44,7 +45,7 @@ describe('Item', () => {
   test('should render children', () => {
     const id = 'child1';
     const index = 1;
-    const refs: any = {};
+    const refs: Refs = {};
     const text = 'text123';
     const { findByTestId, findByText } = setup({
       children: <div data-test-id={id}>{text}</div>,

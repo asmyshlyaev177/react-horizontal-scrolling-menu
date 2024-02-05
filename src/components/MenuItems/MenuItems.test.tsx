@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import MenuItems from './MenuItems';
 import { type Props as SeparatorProps } from '../Separator';
 import { type Props as ItemProps } from '../Item';
+import type { Refs } from '../../types';
 
 jest.mock('../Item', () => ({ className, id, index, refs }: ItemProps) => (
   <div className={className} id={id} data-index={index} data-refs={refs}>
@@ -32,7 +33,7 @@ const children = items.map((item) => {
 });
 
 type mockProps = {
-  refs: any;
+  refs: Refs;
   itemClassName?: string;
   separatorClassName?: string;
 };
@@ -50,7 +51,7 @@ const setup = ({ refs, itemClassName, separatorClassName }: mockProps) => {
 
 describe('MenuItems', () => {
   test('should render children with separators', () => {
-    const refs = { current: 'test123' };
+    const refs = { test0: { current: 'test123' } } as unknown as Refs;
     const itemClassName = 'item-123';
     const separatorClassName = 'sep-123';
     const { container } = setup({

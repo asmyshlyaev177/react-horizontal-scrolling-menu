@@ -10,7 +10,7 @@ const TestComponent = ({
   menuItems,
   items,
 }: {
-  menuItems: any;
+  menuItems?: React.JSX.Element[];
   items: ItemsMap;
 }) => {
   const hash = useItemsChanged(menuItems, items);
@@ -89,7 +89,7 @@ describe('useItemsChanged', () => {
       });
       expect(itemsMap.toItems()).toEqual(childrenKeys);
 
-      const removeFirst = (arr: any[]) => arr.slice(1);
+      const removeFirst = <T,>(arr: T[]) => arr.slice(1);
 
       const newChildren = removeFirst(children);
 
@@ -131,7 +131,7 @@ describe('useItemsChanged', () => {
       });
       expect(itemsMap.toItems()).toEqual(childrenKeys);
 
-      const removeLast = (arr: any[]) => arr.slice(0, -1);
+      const removeLast = <T,>(arr: T[]) => arr.slice(0, -1);
 
       const newChildren = removeLast(children);
 

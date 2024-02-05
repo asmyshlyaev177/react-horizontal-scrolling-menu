@@ -44,6 +44,7 @@
       {
         "singleQuote": true,
         "tabWidth": 2,
+        // "parser": "babel-ts",
         "usetabs": false,
         "printWidth": 80
       },
@@ -56,12 +57,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error",
-    "@typescript-eslint/ban-types": "off", // TODO:
-    "@typescript-eslint/explicit-module-boundary-types": "off", // TODO:
-    "@typescript-eslint/no-non-null-asserted-optional-chain": "off", // TODO:
-    "@typescript-eslint/no-non-null-assertion": "off", // TODO:
-    "react/no-unknown-property": "off" // TODO:
+    "react-hooks/exhaustive-deps": "error"
   },
   "overrides": [
     {
@@ -76,9 +72,7 @@
       "rules": {
         "sonarjs/no-duplicate-string": "off",
         "react/display-name": "off",
-        "react/prop-types": "off",
-        "@typescript-eslint/no-explicit-any": "off", // TODO:
-        "@typescript-eslint/no-non-null-assertion": "off" // TODO:
+        "react/prop-types": "off"
       }
     }
   ]
