@@ -145,7 +145,7 @@ describe('ScrollMenu', () => {
 
     // TODO: to fix
     // eslint-disable-next-line jest/no-disabled-tests
-    test.skip('should return initComplete false on first render(when visibleElementsWithSeparators empty)', () => {
+    test.skip('should return initComplete false on first render', () => {
       (useIntersectionObserver as jest.Mock)
         .mockReturnValueOnce([])
         .mockReturnValueOnce([])
@@ -211,7 +211,7 @@ describe('ScrollMenu', () => {
     });
 
     // eslint-disable-next-line jest/no-disabled-tests
-    test.skip('should not fire if init not complete(when visibleElementsWithSeparators empty)', () => {
+    test.skip('should not fire if init not complete', () => {
       (useIntersectionObserver as jest.Mock)
         .mockReturnValueOnce([])
         .mockReturnValueOnce([])
@@ -543,21 +543,6 @@ describe('ScrollMenu', () => {
         `${constants.scrollContainerClassName} ${scrollContainerClassName} rtl`,
       );
     });
-
-    test('createApi called with RTL', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue(
-        defaultItemsWithSeparators,
-      );
-      const createApiSpy = jest.spyOn(createApi, 'default');
-
-      setup({
-        RTL: true,
-      });
-
-      expect(createApiSpy).toHaveBeenCalled();
-      const RTLProp = createApiSpy.mock.calls[0][4];
-      expect(RTLProp).toEqual(true);
-    });
   });
 
   test('createApi called with noPolyfill', () => {
@@ -571,7 +556,7 @@ describe('ScrollMenu', () => {
     });
 
     expect(createApiSpy).toHaveBeenCalled();
-    const noPolyfill = createApiSpy.mock.calls[0][5];
+    const noPolyfill = createApiSpy.mock.calls[0][3];
     expect(noPolyfill).toEqual(true);
   });
 });
