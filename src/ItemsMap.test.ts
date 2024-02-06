@@ -253,7 +253,7 @@ describe('ItemsMap', () => {
   });
 
   describe('getItemPos', () => {
-    test('should return all items and item pos', () => {
+    test('should return all items', () => {
       const map = new ItemsMap();
       const onlyItems = false;
 
@@ -274,7 +274,7 @@ describe('ItemsMap', () => {
       ]);
     });
 
-    test('when onlyItems true should return all items without separators and item pos', () => {
+    test('onlyItems=true should return all items without separators', () => {
       const map = new ItemsMap();
       const onlyItems = true;
 

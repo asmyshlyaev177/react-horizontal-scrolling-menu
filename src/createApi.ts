@@ -2,29 +2,31 @@ import React from 'react';
 
 import {
   filterSeparators,
-  scrollToItem,
   getItemElementById,
   getItemElementByIndex,
+  scrollToItem,
 } from './helpers';
 import ItemsMap from './ItemsMap';
 
 import type {
-  CustomScrollBehavior,
   ItemOrElement,
+  ScrollBehaviorArg,
   scrollToItemOptions,
   visibleElements,
 } from './types';
 
+type ScrollOptions = Omit<scrollToItemOptions, 'behavior'>;
+
+// eslint-disable-next-line max-params
 export default function createApi(
   items: ItemsMap,
   visibleElementsWithSeparators: visibleElements = [],
-  boundaryElement?: React.MutableRefObject<HTMLElement | null>,
   transitionOptions?: {
-    duration?: number;
-    ease?: (t: number) => number;
-    behavior: CustomScrollBehavior<unknown>;
+    duration?: scrollToItemOptions['duration'];
+    ease?: scrollToItemOptions['ease'];
+    behavior?: scrollToItemOptions['behavior'];
+    boundary?: React.MutableRefObject<scrollToItemOptions['boundary']>;
   },
-  RTL?: boolean,
   noPolyfill?: boolean,
 ) {
   const visibleElements = filterSeparators(visibleElementsWithSeparators);
@@ -53,18 +55,16 @@ export default function createApi(
 
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
-  const scrollPrev = <T>(
-    behavior?: CustomScrollBehavior<T>,
+  const defaultBoundary = transitionOptions?.boundary?.current;
+
+  const scrollPrev = (
+    behavior?: ScrollBehaviorArg,
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
-    {
-      duration,
-      ease,
-      boundary = boundaryElement?.current,
-    }: scrollToItemOptions = {},
+    { duration, ease, boundary = defaultBoundary }: ScrollOptions = {},
+    // eslint-disable-next-line max-params
   ) => {
-    const _behavior = (behavior ??
-      transitionOptions?.behavior) as ScrollBehavior;
+    const _behavior = behavior ?? transitionOptions?.behavior;
 
     return scrollToItem(
       getPrevItem(),
@@ -76,22 +76,18 @@ export default function createApi(
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
       },
-      RTL || noPolyfill,
+      noPolyfill,
     );
   };
 
-  const scrollNext = <T>(
-    behavior?: CustomScrollBehavior<T>,
+  const scrollNext = (
+    behavior?: ScrollBehaviorArg,
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
-    {
-      duration,
-      ease,
-      boundary = boundaryElement?.current,
-    }: scrollToItemOptions = {},
+    { duration, ease, boundary = defaultBoundary }: ScrollOptions = {},
+    // eslint-disable-next-line max-params
   ) => {
-    const _behavior = (behavior ??
-      transitionOptions?.behavior) as ScrollBehavior;
+    const _behavior = behavior ?? transitionOptions?.behavior;
 
     return scrollToItem(
       getNextItem(),
@@ -103,7 +99,7 @@ export default function createApi(
         duration: duration ?? transitionOptions?.duration,
         ease: ease ?? transitionOptions?.ease,
       },
-      RTL || noPolyfill,
+      noPolyfill,
     );
   };
 
@@ -122,9 +118,10 @@ export default function createApi(
     isLastItemVisible,
     scrollNext,
     scrollPrev,
-    scrollToItem: <T>(
+    // eslint-disable-next-line max-params
+    scrollToItem: (
       target?: ItemOrElement,
-      behavior?: CustomScrollBehavior<T>,
+      behavior?: ScrollBehaviorArg,
       inline?: ScrollLogicalPosition,
       block?: ScrollLogicalPosition,
       options?: scrollToItemOptions,
@@ -136,7 +133,7 @@ export default function createApi(
         inline,
         block,
         {
-          boundary: boundaryElement?.current,
+          boundary: defaultBoundary,
           ...options,
           duration: options?.duration ?? transitionOptions?.duration,
           ease: options?.ease ?? transitionOptions?.ease,

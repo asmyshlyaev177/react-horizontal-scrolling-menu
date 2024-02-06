@@ -8,6 +8,7 @@ import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 jest.mock('smooth-scroll-into-view-if-needed');
 
 import { getItemElementById, getItemElementByIndex } from './helpers';
+import type { CustomScrollBehavior } from './types';
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
@@ -54,6 +55,12 @@ describe('createApi', () => {
     jest.restoreAllMocks();
   });
 
+  const transitionOptions = {
+    duration: 500,
+    ease: (t: number) => t,
+    behavior: (() => false) as unknown as CustomScrollBehavior,
+  };
+
   test('visibleElementsWithSeparators', () => {
     const { items, visibleElementsWithSeparators } = setup([0.3, 1, 0.7]);
 
@@ -88,9 +95,9 @@ describe('createApi', () => {
         const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
-        createApi(items, visibleElementsWithSeparators, boundary).scrollToItem(
-          document.createElement('div'),
-        );
+        createApi(items, visibleElementsWithSeparators, {
+          boundary,
+        }).scrollToItem(document.createElement('div'));
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
         expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
           behavior: 'smooth',
@@ -106,18 +113,11 @@ describe('createApi', () => {
         const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
-        const transitionOptions = {
-          duration: 500,
-          ease: (t: number) => t,
-          behavior: () => false,
-        };
 
-        createApi(
-          items,
-          visibleElementsWithSeparators,
+        createApi(items, visibleElementsWithSeparators, {
           boundary,
-          transitionOptions,
-        ).scrollToItem(document.createElement('div'));
+          ...transitionOptions,
+        }).scrollToItem(document.createElement('div'));
 
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
         expect(scrollIntoView).toHaveBeenNthCalledWith(1, boundary.current, {
@@ -134,10 +134,10 @@ describe('createApi', () => {
         const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
         const scrollToItemSpy = jest
           .spyOn(helpers, 'scrollToItem')
-          .mockReturnValue(jest.fn());
+          .mockReturnValue(jest.fn() as unknown as void);
 
         const boundary = { current: document.createElement('div') };
-        const transitionOptions = undefined;
+        const transitionOptions = {};
 
         const noPolyfill = true;
 
@@ -145,9 +145,7 @@ describe('createApi', () => {
         createApi(
           items,
           visibleElementsWithSeparators,
-          boundary,
-          transitionOptions,
-          undefined,
+          { boundary, ...transitionOptions },
           noPolyfill,
         ).scrollToItem(elem);
 
@@ -167,18 +165,11 @@ describe('createApi', () => {
         const { items, visibleElementsWithSeparators } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
-        const transitionOptions = {
-          duration: 500,
-          ease: (t: number) => t,
-          behavior: () => false,
-        };
 
-        createApi(
-          items,
-          visibleElementsWithSeparators,
+        createApi(items, visibleElementsWithSeparators, {
+          ...transitionOptions,
           boundary,
-          transitionOptions,
-        ).scrollToItem(
+        }).scrollToItem(
           document.createElement('div'),
           'auto',
           'center',
@@ -436,7 +427,9 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, visibleElementsWithSeparators, boundary).scrollPrev();
+      createApi(items, visibleElementsWithSeparators, {
+        boundary,
+      }).scrollPrev();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -457,24 +450,6 @@ describe('createApi', () => {
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
-    test('should pass RTL to scrollToItem', () => {
-      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
-      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
-
-      const RTL = true;
-      const api = createApi(
-        items,
-        visibleElementsWithSeparators,
-        undefined,
-        undefined,
-        RTL,
-      );
-      api.scrollPrev();
-      expect(scrollToItemSpy).toHaveBeenCalled();
-      const RTLProp = scrollToItemSpy.mock.calls[0][5];
-      expect(RTLProp).toEqual(RTL);
-    });
-
     test('should pass noPolyfill to scrollToItem', () => {
       const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
@@ -483,8 +458,6 @@ describe('createApi', () => {
       const api = createApi(
         items,
         visibleElementsWithSeparators,
-        undefined,
-        undefined,
         undefined,
         noPolyfill,
       );
@@ -498,17 +471,11 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
-      const transitionOptions = {
-        duration: 500,
-        ease: (t: number) => t,
-        behavior: () => false,
-      };
-      createApi(
-        items,
-        visibleElementsWithSeparators,
+
+      createApi(items, visibleElementsWithSeparators, {
         boundary,
-        transitionOptions,
-      ).scrollPrev();
+        ...transitionOptions,
+      }).scrollPrev();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -525,17 +492,11 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
-      const transitionOptions = {
-        duration: 500,
-        ease: (t: number) => t,
-        behavior: () => false,
-      };
-      createApi(
-        items,
-        visibleElementsWithSeparators,
+
+      createApi(items, visibleElementsWithSeparators, {
         boundary,
-        transitionOptions,
-      ).scrollPrev('auto', 'center', 'center');
+        ...transitionOptions,
+      }).scrollPrev('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[0].entry.target, {
@@ -554,7 +515,9 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, visibleElementsWithSeparators, boundary).scrollNext();
+      createApi(items, visibleElementsWithSeparators, {
+        boundary,
+      }).scrollNext();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
@@ -575,24 +538,6 @@ describe('createApi', () => {
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
 
-    test('should pass RTL to scrollToItem', () => {
-      const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
-      const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
-
-      const RTL = true;
-      const api = createApi(
-        items,
-        visibleElementsWithSeparators,
-        undefined,
-        undefined,
-        RTL,
-      );
-      api.scrollNext();
-      expect(scrollToItemSpy).toHaveBeenCalled();
-      const RTLProp = scrollToItemSpy.mock.calls[0][5];
-      expect(RTLProp).toEqual(RTL);
-    });
-
     test('should pass noPolyfill to scrollToItem', () => {
       const { items, visibleElementsWithSeparators } = setup([0, 1, 1]);
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
@@ -601,8 +546,6 @@ describe('createApi', () => {
       const api = createApi(
         items,
         visibleElementsWithSeparators,
-        undefined,
-        undefined,
         undefined,
         noPolyfill,
       );
@@ -616,17 +559,11 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      const transitionOptions = {
-        duration: 500,
-        ease: (t: number) => t,
-        behavior: () => false,
-      };
-      createApi(
-        items,
-        visibleElementsWithSeparators,
+
+      createApi(items, visibleElementsWithSeparators, {
         boundary,
-        transitionOptions,
-      ).scrollNext();
+        ...transitionOptions,
+      }).scrollNext();
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
@@ -643,17 +580,10 @@ describe('createApi', () => {
       const { items, nodes, visibleElementsWithSeparators } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      const transitionOptions = {
-        duration: 500,
-        ease: (t: number) => t,
-        behavior: () => false,
-      };
-      createApi(
-        items,
-        visibleElementsWithSeparators,
+      createApi(items, visibleElementsWithSeparators, {
         boundary,
-        transitionOptions,
-      ).scrollNext('auto', 'center', 'center');
+        ...transitionOptions,
+      }).scrollNext('auto', 'center', 'center');
 
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollIntoView).toHaveBeenNthCalledWith(1, nodes[2].entry.target, {
