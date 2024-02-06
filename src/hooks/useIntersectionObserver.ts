@@ -19,8 +19,8 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
   const [visibleElementsWithSeparators, setVisibleElementsWithSeparators] =
     React.useState<visibleElements>([]);
 
-  const throttleTimer: { current: number } = React.useRef(
-    +setTimeout(() => void 0, 0),
+  const throttleTimer: { current: NodeJS.Timeout } = React.useRef(
+    setTimeout(() => void 0, 0),
   );
 
   const ioCb = React.useCallback(
@@ -28,22 +28,19 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
       items.set(observerEntriesToItems(entries, options));
 
       clearTimeout(throttleTimer.current);
-      throttleTimer.current = +setTimeout(
-        () =>
-          requestAnimationFrame(() => {
-            setVisibleElementsWithSeparators((currentVisible) => {
-              const newVisibleElements = items
-                .getVisible()
-                .map((el: Item) => el[1].key);
-              if (
-                JSON.stringify(currentVisible) !==
-                JSON.stringify(newVisibleElements)
-              ) {
-                return newVisibleElements;
-              }
-              return currentVisible;
-            });
-          }),
+      throttleTimer.current = rafTimeout(
+        () => {
+          setVisibleElementsWithSeparators((currentVisible) => {
+            const newVisibleElements = items
+              .getVisible()
+              .map((el: Item) => el[1].key);
+            return JSON.stringify(currentVisible) !==
+              JSON.stringify(newVisibleElements)
+              ? newVisibleElements
+              : currentVisible;
+          });
+        },
+
         options.throttle,
       );
     },
@@ -66,4 +63,10 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
 
   return visibleElementsWithSeparators;
 }
+
+const rafTimeout = (func: () => void, delay: number = 0) =>
+  setTimeout(() => {
+    requestAnimationFrame(func);
+  }, delay);
+
 export default useIntersection;

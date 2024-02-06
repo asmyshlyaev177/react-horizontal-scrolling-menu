@@ -22,7 +22,7 @@ function MenuItems({
   itemClassName: _itemClassName = '',
   refs,
   separatorClassName: _separatorClassName = '',
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const childArray = React.Children.toArray(children).filter(Boolean);
   const itemsCount = childArray.length;
 

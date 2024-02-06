@@ -1,13 +1,13 @@
 import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import type {
-  Refs,
-  Item,
   IOItem,
+  Item,
   ItemOrElement,
-  visibleElements,
+  Refs,
+  ScrollBehaviorArg,
   scrollToItemOptions,
-  CustomScrollBehavior,
+  visibleElements,
 } from './types';
 import { separatorString, id as itemId } from './constants';
 import { observerOptions } from './settings';
@@ -42,34 +42,34 @@ export function observerEntriesToItems(
   });
 }
 
-function scrollToItem<T>(
+// eslint-disable-next-line max-params
+function scrollToItem(
   item: ItemOrElement,
-  behavior?: ScrollBehavior | CustomScrollBehavior<T>,
+  behavior?: ScrollBehaviorArg,
   inline?: ScrollLogicalPosition,
   block?: ScrollLogicalPosition,
-  rest?: scrollToItemOptions,
+  rest?: Omit<scrollToItemOptions, 'behavior'>,
   noPolyfill?: boolean,
-): T | Promise<T> | void {
+): void {
   const _item = (item as IOItem)?.entry?.target || item;
-  const _behavior: ScrollBehavior | CustomScrollBehavior<T> =
-    behavior || 'smooth';
+  const _behavior = behavior || 'smooth';
 
-  if (_item) {
-    if (noPolyfill) {
-      return _item?.scrollIntoView({
-        behavior: _behavior as ScrollBehavior,
-        inline: inline || 'end',
-        block: block || 'nearest',
-      });
-    }
-    return scrollIntoView(_item, {
-      behavior: _behavior as ScrollBehavior,
-      inline: inline || 'end',
-      block: block || 'nearest',
-      duration: 500,
-      ...rest,
-    });
+  if (!_item) {
+    return void 0;
   }
+
+  const params = {
+    behavior: _behavior as unknown as ScrollBehavior,
+    inline: inline || 'end',
+    block: block || 'nearest',
+  };
+
+  return noPolyfill
+    ? _item.scrollIntoView(params)
+    : scrollIntoView(_item, {
+        ...rest,
+        ...params,
+      });
 }
 
 export { scrollToItem };
@@ -82,7 +82,7 @@ export const getItemElementByIndex = (id: string | number) =>
 
 export function getElementOrConstructor(
   Elem: React.FC | React.ReactNode,
-): JSX.Element | null {
+): React.JSX.Element | null {
   return (
     (React.isValidElement(Elem) && Elem) ||
     (typeof Elem === 'function' && <Elem />) ||
@@ -95,6 +95,6 @@ export const filterSeparators = (items: visibleElements): visibleElements =>
 
 export const getItemId = (item: React.ReactNode) =>
   String(
-    (item as JSX.Element)?.props?.[itemId] ||
-      String((item as JSX.Element)?.key || '').replace(/^\.\$/, ''),
+    (item as React.JSX.Element)?.props?.[itemId] ||
+      String((item as React.JSX.Element)?.key || '').replace(/^\.\$/, ''),
   );

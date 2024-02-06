@@ -114,7 +114,7 @@ describe('scrollToItem', () => {
       behavior: 'smooth',
       block: 'nearest',
       inline: 'end',
-      duration: 500,
+      duration: undefined,
     };
 
     scrollToItem(item);

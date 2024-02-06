@@ -23,7 +23,7 @@ import { getElementOrConstructor } from './helpers';
 import slidingWindow from './slidingWindow';
 import getItemsPos from './getItemsPos';
 
-type ComponentType = React.ReactNode | JSX.Element | React.FC;
+type ComponentType = React.ReactNode | React.JSX.Element | React.FC;
 
 export interface Props {
   /**
@@ -83,7 +83,7 @@ export interface Props {
       });
     }
    */
-  transitionBehavior?: CustomScrollBehavior<unknown>;
+  transitionBehavior?: CustomScrollBehavior;
   /**
    Callback that fire once on init
    */
@@ -174,7 +174,7 @@ function ScrollMenu({
   apiRef = apiRefDefault,
   RTL,
   noPolyfill,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
   const Header = getElementOrConstructor(_Header);
@@ -215,13 +215,12 @@ function ScrollMenu({
       createApi(
         items,
         visibleElementsWithSeparators,
-        scrollContainerRef,
         {
           duration: transitionDuration,
           ease: transitionEase,
           behavior: transitionBehavior!,
+          boundary: scrollContainerRef,
         },
-        RTL,
         noPolyfill,
       ),
 
