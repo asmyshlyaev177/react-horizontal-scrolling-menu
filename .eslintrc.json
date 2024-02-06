@@ -11,6 +11,7 @@
     "plugin:sonarjs/recommended",
     "plugin:deprecation/recommended",
     "plugin:compat/recommended",
+    "plugin:jsonc/recommended-with-jsonc",
 
     "plugin:react/recommended",
     "plugin:react-redux/recommended",
@@ -36,6 +37,7 @@
     "sonarjs",
     "deprecation",
     "compat",
+    "no-secrets",
 
     "react-redux",
     "cypress",
@@ -63,6 +65,7 @@
     "quotes": ["error", "single"],
     "sonarjs/cognitive-complexity": ["error", 9],
     "complexity": ["error", 11],
+    "no-secrets/no-secrets": "error",
     "max-statements": ["error", 30],
     "max-params": ["error", 3],
     "max-nested-callbacks": ["error", 4],
@@ -73,11 +76,16 @@
     "max-lines": ["error", 400],
     "max-len": ["error", 80],
     "max-depth": ["error", 1],
+    "jsdoc/require-jsdoc": 0,
 
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error"
   },
   "overrides": [
+    {
+      "files": ["*.json", "*.json5", "*.jsonc"],
+      "parser": "jsonc-eslint-parser"
+    },
     {
       "files": [
         "*.test.js",

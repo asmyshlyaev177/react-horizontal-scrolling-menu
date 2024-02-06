@@ -36,4 +36,4 @@ export interface scrollToItemOptions {
 
 export type ItemOrElement = IOItem | Element | undefined;
 
-export type ScrollBehaviorArg = ScrollBehavior | CustomScrollBehavior
+export type ScrollBehaviorArg = ScrollBehavior | CustomScrollBehavior;
