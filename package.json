@@ -1,7 +1,11 @@
 {
   "name": "react-horizontal-scrolling-menu",
   "version": "5.0.0",
-  "author": "asmyshlyaev177 <asmyshlyaev177@gmail.com> (https://www.linkedin.com/in/asmyshlyaev177/)",
+  "author": {
+    "name": "asmyshlyaev177",
+    "email": "asmyshlyaev177@gmail.com",
+    "url": "https://www.linkedin.com/in/asmyshlyaev177/"
+  },
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "keywords": [
     "react",
@@ -14,7 +18,7 @@
     "scrolling",
     "scrolling-menu"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.mjs",
   "browser": "dist/index.mjs",
