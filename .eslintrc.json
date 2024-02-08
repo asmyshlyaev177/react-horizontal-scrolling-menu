@@ -4,107 +4,13 @@
     "shared-node-browser": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:sonarjs/recommended",
-    "plugin:deprecation/recommended",
-    "plugin:compat/recommended",
-    "plugin:jsonc/recommended-with-jsonc",
-
-    "plugin:react/recommended",
-    "plugin:react-redux/recommended",
+    "plugin:maintainable/recommended",
+    "plugin:maintainable/react",
     "plugin:storybook/recommended",
     "plugin:cypress/recommended",
     "plugin:jest/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2023,
-    "sourceType": "module",
-    "project": true
-  },
-  "processor": "disable/disable",
-  "plugins": [
-    "@typescript-eslint",
-    "disable",
-    "jsx-a11y",
-    "unicorn",
-    "sonarjs",
-    "deprecation",
-    "compat",
-    "no-secrets",
-
-    "react-redux",
-    "cypress",
-    "jest",
-    "react",
-    "react-hooks"
-  ],
-  "rules": {
-    "prettier/prettier": [
-      "warn",
-      {
-        "singleQuote": true,
-        "tabWidth": 2,
-        // "parser": "babel-ts",
-        "usetabs": false,
-        "printWidth": 80
-      },
-      {
-        "usePrettierrc": false
-      }
-    ],
-    "arrow-body-style": "off",
-    "prefer-arrow-callback": "off",
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "sonarjs/cognitive-complexity": ["error", 9],
-    "complexity": ["error", 11],
-    "no-secrets/no-secrets": "error",
-    "max-statements": ["error", 30],
-    "max-params": ["error", 3],
-    "max-nested-callbacks": ["error", 4],
-    "max-lines-per-function": [
-      "error",
-      { "max": 150, "skipBlankLines": true, "skipComments": true }
-    ],
-    "max-lines": ["error", 400],
-    "max-len": ["error", 80],
-    "max-depth": ["error", 1],
-    "jsdoc/require-jsdoc": 0,
-
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error"
-  },
-  "overrides": [
-    {
-      "files": ["*.json", "*.json5", "*.jsonc"],
-      "parser": "jsonc-eslint-parser"
-    },
-    {
-      "files": [
-        "*.test.js",
-        "*.test.ts",
-        "*.test.jsx",
-        "*.test.tsx",
-        "*.spec.js",
-        "*.spec.ts"
-      ],
-      "rules": {
-        "sonarjs/no-duplicate-string": "off",
-        "max-statements": "off",
-        "max-lines": "off",
-        "max-lines-per-function": "off",
-        "max-nested-callbacks": ["error", 7],
-
-        "react/display-name": "off",
-        "react/prop-types": "off"
-      }
-    }
-  ]
+  "plugins": ["cypress", "jest"],
+  "rules": {},
+  "overrides": []
 }
