@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.4...v6.0.0) (2024-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changed type of package to module, upgrade your NPM version
+
+* fix(ts): fix publicApiType type export
+
+* chore: cRA example
+
+* chore(update): update smooth-scroll-into-view-if-needed to v2
+* Possible new behavior, test after update
+
+* ci(github actions): action to publish lib to npm
+
+* ci(github action): refactore test/release action
+
+* chore(release): 5.0.0
+
+### Bug Fixes
+
+* **yarn/vite:** polyfill to dependencies, issues with yarn/vite ([8a746f0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/8a746f084c80f4d864f8faa5fdc9b42d8d62a6f0)), closes [#269](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/269)
+
+
+* Module (#266) ([2498835](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/2498835bce2d8341cf7460bae79f8130ad9d1246)), closes [#266](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/266)
+
 ## [5.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.0-beta.3...v5.0.0) (2024-02-05)
 
 ## [5.0.0-beta.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2024-02-04)
