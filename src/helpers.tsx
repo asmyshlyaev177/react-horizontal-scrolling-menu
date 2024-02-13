@@ -81,11 +81,14 @@ export const getItemElementByIndex = (id: string | number) =>
   document.querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(
-  Elem: React.FC | React.ReactNode,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Elem: React.FC | React.ReactNode | React.MemoExoticComponent<any>,
 ): React.JSX.Element | null {
   return (
     (React.isValidElement(Elem) && Elem) ||
     (typeof Elem === 'function' && <Elem />) ||
+    // @ts-expect-error temporary solution for React.memo
+    (!!Elem && typeof Elem === 'object' && <Elem />) ||
     null
   );
 }
