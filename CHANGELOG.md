@@ -2,10 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [5.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v4.1.4...v5.0.2) (2024-02-13)
+### [5.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.1...v5.0.2) (2024-02-13)
 
 * **getelementorconstructor:** fix for React.memo elements as arrows/footer ([e5b3dc4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e5b3dc4923564bb5a8e4ef6f8a5d6441828c5cde))
 * **scripts:** fix release script ([0e3a4bb](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/0e3a4bb3656aec185e9a588dbdbfa451ac7e552e))
+
+## [5.0.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.0...v5.0.1) (2024-02-09)
+
+### Bug Fixes
+
+* **yarn/vite:** polyfill to dependencies, issues with yarn/vite ([8a746f0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/8a746f084c80f4d864f8faa5fdc9b42d8d62a6f0)), closes [#269](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/269)
 
 ## [5.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.0-beta.3...v5.0.0) (2024-02-05)
 
