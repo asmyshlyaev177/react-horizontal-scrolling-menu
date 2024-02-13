@@ -228,15 +228,24 @@ describe('getItemElementByIndex', () => {
 describe('getElementOrConstructor', () => {
   const JsxElem = <div>jsx_elem</div>;
   const JsxElemConstructor = () => JsxElem;
+  const Memo = React.memo(JsxElemConstructor);
 
   test('should return jsx element if jsx elem passed', () => {
-    expect(getElementOrConstructor(JsxElem)).toEqual(JsxElem);
+    const result = getElementOrConstructor(JsxElem);
+    expect(result).toEqual(JsxElem);
+    expect(React.isValidElement(result)).toBeTruthy();
   });
 
   test('should return a jsx elem if constructor passed', () => {
-    expect(getElementOrConstructor(JsxElemConstructor)).toEqual(
-      <JsxElemConstructor />,
-    );
+    const result = getElementOrConstructor(JsxElemConstructor);
+    expect(result).toEqual(<JsxElemConstructor />);
+    expect(React.isValidElement(result)).toBeTruthy();
+  });
+
+  test('should return a jsx elem if React.memo passed', () => {
+    const result = getElementOrConstructor(Memo);
+
+    expect(React.isValidElement(result)).toBeTruthy();
   });
 
   test('should return null if no element passed', () => {
