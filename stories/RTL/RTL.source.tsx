@@ -20,13 +20,13 @@ export function RTL() {
     setSelected((currentSelected: string[]) =>
       itemSelected
         ? currentSelected.filter((el) => el !== itemId)
-        : currentSelected.concat(itemId)
+        : currentSelected.concat(itemId),
     );
   };
 
   const onWheelHandler = React.useCallback(
     (apiObj: publicApiType, ev: React.WheelEvent) => onWheel(apiObj, ev, RTL),
-    [RTL]
+    [RTL],
   );
 
   return (
@@ -101,8 +101,8 @@ function Arrow({
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
-  className?: String;
-  testId: String;
+  className?: string;
+  testId: string;
 }) {
   return (
     <ArrowButton
@@ -171,8 +171,7 @@ function Card({
   title,
   itemId,
 }: {
-  disabled?: boolean;
-  onClick: Function;
+  onClick: (visibility: publicApiType) => void;
   selected: boolean;
   title: string;
   itemId: string;
@@ -187,7 +186,7 @@ function Card({
     <CardBody
       data-cy={itemId}
       onClick={() => onClick(visibility)}
-      onKeyDown={(ev) => {
+      onKeyDown={(ev: React.KeyboardEvent) => {
         ev.code === 'Enter' && onClick(visibility);
       }}
       data-testid="card"
@@ -249,7 +248,7 @@ const getItems = () =>
 function onWheel(
   apiObj: publicApiType,
   ev: React.WheelEvent,
-  RTL: boolean
+  RTL: boolean,
 ): void {
   const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 

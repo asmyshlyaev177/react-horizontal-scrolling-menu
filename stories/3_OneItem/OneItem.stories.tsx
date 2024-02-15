@@ -50,30 +50,30 @@ export const Test = {
     await testObj.wait();
 
     await testObj.arrowsVisible({ left: false, right: true });
-    expect(await testObj.getVisibleCards(1)).toEqual(['test0']);
+    expect(await testObj.getVisibleCardsKeys(1)).toEqual(['test0']);
 
     await testObj.clickNext();
     await testObj.wait();
     await testObj.cardHidden('test0');
-    expect(await testObj.getVisibleCards(1)).toEqual(['test1']);
+    expect(await testObj.getVisibleCardsKeys(1)).toEqual(['test1']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickNext();
     await testObj.wait();
     await testObj.cardHidden('test1');
-    expect(await testObj.getVisibleCards(1)).toEqual(['test2']);
+    expect(await testObj.getVisibleCardsKeys(1)).toEqual(['test2']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickPrev();
     await testObj.wait();
     await testObj.cardHidden('test2');
     await testObj.arrowsVisible({ left: true, right: true });
-    expect(await testObj.getVisibleCards(1)).toEqual(['test1']);
+    expect(await testObj.getVisibleCardsKeys(1)).toEqual(['test1']);
 
     await testObj.clickPrev();
     await testObj.wait();
     await testObj.cardHidden('test1');
     await testObj.arrowsVisible({ left: false, right: true });
-    expect(await testObj.getVisibleCards(1)).toEqual(['test0']);
+    expect(await testObj.getVisibleCardsKeys(1)).toEqual(['test0']);
   },
 };

@@ -49,15 +49,18 @@ export const TestDrag = {
     const testObj = new TestObj(canvas, { leftArrow: '', rightArrow: '' });
     await testObj.wait();
 
-    const lastCard = (await testObj.getCards()).slice(-1)[0];
+    const lastCard = (await testObj.getVisibleCards()).slice(-1)[0];
+    expect(await testObj.getSelectedCardsKeys()).toHaveLength(0);
+    await lastCard.click();
+    expect(await testObj.getSelectedCards()).toHaveLength(1);
 
-    await drag(lastCard, { delta: { x: -530, y: 0 } });
+    await drag(lastCard, { delta: { x: -350, y: 0 } });
     await testObj.wait();
 
-    expect(await testObj.getVisibleCards()).toEqual([
+    expect(await testObj.getVisibleCardsKeys()).toEqual([
+      'test2',
       'test3',
       'test4',
-      'test5',
     ]);
   },
 };
@@ -112,7 +115,7 @@ async function drag(
     delta?: undefined | { x: number; y: number };
     steps?: number;
     duration?: number;
-  }
+  },
 ) {
   const from = getElementClientCenter(element);
   const to = delta

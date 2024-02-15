@@ -33,6 +33,7 @@ function useIntersection({ items, itemsChanged, refs, options }: Props) {
           setVisibleElementsWithSeparators((currentVisible) => {
             const newVisibleElements = items
               .getVisible()
+              // eslint-disable-next-line max-nested-callbacks
               .map((el: Item) => el[1].key);
             return JSON.stringify(currentVisible) !==
               JSON.stringify(newVisibleElements)

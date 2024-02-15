@@ -140,8 +140,7 @@ function Card({
   title,
   itemId,
 }: {
-  disabled?: boolean;
-  onClick: Function;
+  onClick: (context: publicApiType) => void;
   selected: boolean;
   title: string;
   itemId: string;

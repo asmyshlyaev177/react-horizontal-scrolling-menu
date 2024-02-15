@@ -147,6 +147,7 @@ const cbDefault = (): void => void 0;
 
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
+// eslint-disable-next-line max-lines-per-function
 function ScrollMenu({
   LeftArrow: _LeftArrow,
   RightArrow: _RightArrow,
