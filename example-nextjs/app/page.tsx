@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import React from 'react';
 
@@ -100,7 +101,7 @@ function App() {
       // NOTE: or restore exact position by pixels
       // scrollContainer.current.scrollLeft = position;
     },
-    [position],
+    [],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

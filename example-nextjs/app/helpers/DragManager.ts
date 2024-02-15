@@ -11,7 +11,7 @@ export class DragManager {
 
   public dragStart = (ev: React.MouseEvent) => {
     this.position = ev.clientX;
-      this.clicked = true;
+    this.clicked = true;
   };
 
   public dragStop = () => {
