@@ -7,12 +7,16 @@ import throttle from 'lodash/throttle';
 import usePreventBodyScroll from './helpers/usePreventBodyScroll';
 
 // NOTE drag with mouse
-import useDrag from './helpers/useDrag';
+import { DragManager } from './helpers/DragManager';
 
 // swipe for mobile
 // import { useSwipe } from './helpers/useSwipe';
 
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import {
+  ScrollMenu,
+  VisibilityContext,
+  publicApiType,
+} from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
@@ -27,7 +31,7 @@ const getItems = () =>
 
 const onWheel = (
   apiObj: scrollVisibilityApiType,
-  ev: React.WheelEvent
+  ev: React.WheelEvent,
 ): void => {
   // NOTE: no good standart way to distinguish touchpad scrolling gestures
   // but can assume that gesture will affect X axis, mouse scroll only Y axis
@@ -54,12 +58,12 @@ function App() {
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
-  const { dragStart, dragStop, dragMove, dragging } = useDrag();
+  const dragState = React.useRef(new DragManager());
 
   const handleDrag =
     ({ scrollContainer }: scrollVisibilityApiType) =>
     (ev: React.MouseEvent) =>
-      dragMove(ev, (posDiff) => {
+      dragState.current.dragMove(ev, (posDiff: number) => {
         if (scrollContainer.current) {
           scrollContainer.current.scrollLeft += posDiff;
         }
@@ -68,7 +72,7 @@ function App() {
   const handleItemClick =
     (itemId: string) =>
     ({ getItemById, scrollToItem }: scrollVisibilityApiType) => {
-      if (dragging) {
+      if (dragState.current.dragging) {
         return false;
       }
       const itemSelected = isItemSelected(itemId);
@@ -76,7 +80,7 @@ function App() {
       setSelected((currentSelected: string[]) =>
         itemSelected
           ? currentSelected.filter((el) => el !== itemId)
-          : currentSelected.concat(itemId)
+          : currentSelected.concat(itemId),
       );
 
       if (!itemSelected) {
@@ -96,7 +100,7 @@ function App() {
       // NOTE: or restore exact position by pixels
       // scrollContainer.current.scrollLeft = position;
     },
-    [position]
+    [position],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,7 +109,7 @@ function App() {
       !!scrollContainer.current &&
         setPosition(scrollContainer.current.scrollLeft);
     }, 500),
-    []
+    [],
   );
 
   const { disableScroll, enableScroll } = usePreventBodyScroll();
@@ -114,7 +118,7 @@ function App() {
     <div className="main">
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
-          <div onMouseLeave={dragStop}>
+          <div onMouseLeave={dragState.current.dragStop}>
             <ScrollMenu
               Header={<div>Header</div>}
               Footer={() => <div>Footer</div>}
@@ -123,8 +127,8 @@ function App() {
               onInit={restorePosition}
               onScroll={savePosition}
               onWheel={onWheel}
-              onMouseDown={() => dragStart}
-              onMouseUp={() => dragStop}
+              onMouseDown={() => dragState.current.dragStart}
+              onMouseUp={() => dragState.current.dragStop}
               onMouseMove={handleDrag}
             >
               {items.map(({ id }) => (
@@ -185,7 +189,7 @@ function Arrow({
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
-  className?: String;
+  className?: string;
 }) {
   return (
     <button
@@ -213,8 +217,7 @@ function Card({
   title,
   itemId,
 }: {
-  disabled?: boolean;
-  onClick: Function;
+  onClick: (context: publicApiType) => void;
   selected: boolean;
   title: string;
   itemId: string;
@@ -229,7 +232,7 @@ function Card({
     <div
       data-cy={itemId}
       onClick={() => onClick(visibility)}
-      onKeyDown={(ev) => {
+      onKeyDown={(ev: React.KeyboardEvent) => {
         ev.code === 'Enter' && onClick(visibility);
       }}
       role="button"

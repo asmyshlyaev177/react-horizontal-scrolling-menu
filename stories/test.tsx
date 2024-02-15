@@ -11,7 +11,10 @@ export class TestObj {
   leftArrow: string;
   rightArrow: string;
 
-  constructor(canvas: Canvas, { leftArrow, rightArrow }) {
+  constructor(
+    canvas: Canvas,
+    { leftArrow, rightArrow }: { leftArrow: string; rightArrow: string },
+  ) {
     this.canvas = canvas;
     this.leftArrow = leftArrow;
     this.rightArrow = rightArrow;
@@ -19,27 +22,40 @@ export class TestObj {
 
   async isReady() {
     await waitFor(() =>
-      expect(this.canvas.getAllByText('visible: false')[0]).toBeInTheDocument()
+      expect(this.canvas.getAllByText('visible: false')[0]).toBeInTheDocument(),
     );
   }
 
   async getCards(text = '') {
-    const elems = await this.canvas.getAllByText(
+    const elems = await this.canvas.queryAllByText(
       (_content, element) =>
         !!(element as HTMLElement)?.innerText?.includes(text),
-      { selector: '.card' }
+      { selector: '.card' },
     );
 
-    return [...elems];
+    return [...(elems || [])];
   }
 
-  async getVisibleCards(length = 3) {
-    const cards = await this.getCards('visible: true');
-    const visibleCards = cards.map((el) => el.innerText.split('\n')[0]);
+  async getVisibleCards() {
+    return (await this.getCards('visible: true')) || [];
+  }
 
-    expect(visibleCards).toHaveLength(length);
+  async getVisibleCardsKeys(length = 3) {
+    const nodes = await this.getVisibleCards();
+    const keys = nodes.map((el) => el.innerText.split('\n')[0]);
 
-    return visibleCards;
+    expect(keys).toHaveLength(length);
+
+    return keys;
+  }
+
+  async getSelectedCards() {
+    return (await this.getCards('selected: true')) || [];
+  }
+
+  async getSelectedCardsKeys() {
+    const nodes = await this.getSelectedCards();
+    return nodes.map((el) => el.innerText.split('\n')[0]);
   }
 
   async cardHidden(card: string) {
@@ -93,37 +109,65 @@ export const downArrowSelector = 'down-arrow';
 
 export const scrollSmokeTest = async (testObj: TestObj) => {
   await testObj.arrowsVisible({ up: false, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test0', 'test1', 'test2']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test0',
+    'test1',
+    'test2',
+  ]);
 
   await testObj.clickNext();
   await testObj.cardHidden('test0');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test3', 'test4', 'test5']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test3',
+    'test4',
+    'test5',
+  ]);
 
   await testObj.clickNext();
   await testObj.cardHidden('test5');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test6', 'test7', 'test8']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test6',
+    'test7',
+    'test8',
+  ]);
 
   await testObj.clickNext();
   await testObj.cardHidden('test6');
   await testObj.arrowsVisible({ up: true, down: false });
-  expect(await testObj.getVisibleCards()).toEqual(['test7', 'test8', 'test9']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test7',
+    'test8',
+    'test9',
+  ]);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test7');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test4', 'test5', 'test6']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test4',
+    'test5',
+    'test6',
+  ]);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test4');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test1', 'test2', 'test3']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test1',
+    'test2',
+    'test3',
+  ]);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test3');
   await testObj.arrowsVisible({ up: false, down: true });
-  expect(await testObj.getVisibleCards()).toEqual(['test0', 'test1', 'test2']);
+  expect(await testObj.getVisibleCardsKeys()).toEqual([
+    'test0',
+    'test1',
+    'test2',
+  ]);
 };
 
 export const ScrollTest = ({

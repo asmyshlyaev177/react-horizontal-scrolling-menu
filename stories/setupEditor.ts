@@ -1,9 +1,9 @@
 import { createLiveEditStory } from 'storybook-addon-code-editor';
-// @ts-ignore
+// @ts-expect-error raw import
 import * as Types from './index.d.ts?raw';
 
 type args = Parameters<
-  // @ts-ignore
+  // @ts-expect-error some error
   Parameters<typeof createLiveEditStory>[0]['modifyEditor']
 >;
 
@@ -24,7 +24,7 @@ export function setupEditor(monaco: args[0], _editor: args[1]) {
   });
 
   monaco.languages.typescript.typescriptDefaults.addExtraLib(
-    `declare module "react-horizontal-scrolling-menu" { ${Types.default} }`
+    `declare module "react-horizontal-scrolling-menu" { ${Types.default} }`,
   );
 
   monaco.editor.setTheme('vs-dark');

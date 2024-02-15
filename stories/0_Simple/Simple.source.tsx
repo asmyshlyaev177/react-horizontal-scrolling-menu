@@ -19,7 +19,7 @@ export function SimpleExample() {
     setSelected((currentSelected: string[]) =>
       itemSelected
         ? currentSelected.filter((el) => el !== itemId)
-        : currentSelected.concat(itemId)
+        : currentSelected.concat(itemId),
     );
   };
 
@@ -98,8 +98,8 @@ function Arrow({
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
-  className?: String;
-  testId: String;
+  className?: string;
+  testId: string;
 }) {
   return (
     <ArrowButton
@@ -130,8 +130,7 @@ function Card({
   title,
   itemId,
 }: {
-  disabled?: boolean;
-  onClick: Function;
+  onClick: (context: publicApiType) => void;
   selected: boolean;
   title: string;
   itemId: string;
@@ -146,7 +145,7 @@ function Card({
     <CardBody
       data-cy={itemId}
       onClick={() => onClick(visibility)}
-      onKeyDown={(ev) => {
+      onKeyDown={(ev: React.KeyboardEvent) => {
         ev.code === 'Enter' && onClick(visibility);
       }}
       data-testid="card"

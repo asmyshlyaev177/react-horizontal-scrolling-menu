@@ -12,5 +12,12 @@
   ],
   "plugins": ["cypress", "jest"],
   "rules": {},
-  "overrides": []
+  "overrides": [
+    {
+      "files": ["stories/**"],
+      "rules": {
+        "sonarjs/cognitive-complexity": ["error", 10]
+      }
+    }
+  ]
 }
