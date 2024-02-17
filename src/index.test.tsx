@@ -8,6 +8,7 @@ import {
 import { ScrollMenu, type Props } from '.';
 
 import useIntersectionObserver from './hooks/useIntersectionObserver';
+import * as useOnCb from './hooks/useOnCb';
 
 import * as constants from './constants';
 import * as createApi from './createApi';
@@ -16,6 +17,10 @@ import { type ItemType } from './types';
 import { VisibilityContext } from './context';
 
 jest.mock('./hooks/useIntersectionObserver');
+jest.mock('./hooks/useOnCb', () => ({
+  __esModules: true,
+  useOnCb: jest.fn(),
+}));
 
 const defaultItems = ['test1', 'test2'];
 const defaultItemsWithSeparators = ['test1', 'item1-separator', 'test2'];
@@ -42,17 +47,26 @@ const defaultChildren = defaultItems.map((itemId) => (
 const LArrow = () => {
   const context = React.useContext(VisibilityContext);
   return (
-    <div className="left-arrow" data-testid="left-arrow">
+    <button
+      onClick={() => context.scrollPrev()}
+      className="left-arrow"
+      data-testid="left-arrow"
+    >
       {JSON.stringify(getContext(context))}
-    </div>
+    </button>
   );
 };
+
 const RArrow = () => {
   const context = React.useContext(VisibilityContext);
   return (
-    <div className="right-arrow" data-testid="right-arrow">
+    <button
+      onClick={() => context.scrollNext()}
+      className="right-arrow"
+      data-testid="right-arrow"
+    >
       {JSON.stringify(getContext(context))}
-    </div>
+    </button>
   );
 };
 
@@ -124,48 +138,32 @@ describe('ScrollMenu', () => {
     });
   });
 
-  describe('onInit', () => {
+  describe('onInit and onUpdate cbs', () => {
     beforeEach(() => {
       jest.resetAllMocks();
     });
 
-    test('should fire with publicApi', () => {
+    test('should pass onInit and onUpdate to useOnCb', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(
         defaultItemsWithSeparators,
       );
+      useOnCb.useOnCb as jest.Mock;
       const onInit = jest.fn();
-      const { container } = setup({ onInit });
+      const onUpdate = jest.fn();
+      const { container } = setup({
+        onInit,
+        onUpdate,
+      });
 
       expect(container.firstChild).toBeTruthy();
 
-      expect(onInit).toHaveBeenCalledTimes(1);
-      const call = onInit.mock.calls[0][0];
-      comparePublicApi(call);
-    });
-
-    // TODO: to fix
-    // eslint-disable-next-line jest/no-disabled-tests
-    test.skip('should return initComplete false on first render', () => {
-      (useIntersectionObserver as jest.Mock)
-        .mockReturnValueOnce([])
-        .mockReturnValueOnce([])
-        .mockReturnValueOnce(defaultItemsWithSeparators)
-        .mockReturnValueOnce(defaultItemsWithSeparators);
-      const onInit = jest.fn();
-
-      const { container, rerender } = setup({ onInit });
-
-      expect(onInit).not.toHaveBeenCalled();
-      const textContent1 = container.firstChild!.textContent;
-      expect(textContent1!.includes('"initComplete":false')).toBeTruthy();
-
-      setup({ onInit, rerender });
-
-      expect(onInit).toHaveBeenCalledTimes(1);
-      const call = onInit.mock.calls[0][0];
-      expect(call.initComplete).toEqual(true);
-      const textContent2 = container.firstChild!.textContent;
-      expect(textContent2!.includes('"initComplete":true')).toBeTruthy();
+      expect(useOnCb.useOnCb).toHaveBeenCalled();
+      const lastCall = (useOnCb.useOnCb as jest.Mock).mock.calls.slice(
+        -1,
+      )[0][0];
+      comparePublicApi(lastCall.context);
+      expect(lastCall.onInit).toEqual(onInit);
+      expect(lastCall.onUpdate).toEqual(onUpdate);
     });
   });
 
@@ -185,57 +183,6 @@ describe('ScrollMenu', () => {
       expect(container.firstChild).toBeTruthy();
 
       comparePublicApi(apiRef.current);
-    });
-  });
-
-  describe('onUpdate', () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-
-    test('should fire with publicApi', () => {
-      (useIntersectionObserver as jest.Mock).mockReturnValue(
-        defaultItemsWithSeparators,
-      );
-      const onInit = jest.fn();
-      const onUpdate = jest.fn();
-
-      const { container } = setup({ onInit, onUpdate });
-
-      expect(container.firstChild).toBeTruthy();
-
-      expect(onInit).toHaveBeenCalledTimes(1);
-      expect(onUpdate).toHaveBeenCalledTimes(1);
-      const call = onUpdate.mock.calls[0][0];
-      comparePublicApi(call);
-    });
-
-    // eslint-disable-next-line jest/no-disabled-tests
-    test.skip('should not fire if init not complete', () => {
-      (useIntersectionObserver as jest.Mock)
-        .mockReturnValueOnce([])
-        .mockReturnValueOnce([])
-        .mockReturnValueOnce(defaultItemsWithSeparators)
-        .mockReturnValueOnce(defaultItemsWithSeparators);
-      const onInit = jest.fn();
-      const onUpdate = jest.fn();
-
-      const { container, rerender } = setup({ onInit, onUpdate });
-
-      expect(onInit).not.toHaveBeenCalled();
-      expect(onUpdate).not.toHaveBeenCalled();
-      const textContent1 = container.firstChild!.textContent;
-      expect(textContent1!.includes('"initComplete":false')).toBeTruthy();
-
-      setup({ onInit, onUpdate, rerender });
-
-      expect(onInit).toHaveBeenCalledTimes(1);
-      expect(onUpdate).toHaveBeenCalledTimes(1);
-      const call = onUpdate.mock.calls[0][0];
-      comparePublicApi(call);
-      expect(call.initComplete).toEqual(true);
-      const textContent2 = container.firstChild!.textContent;
-      expect(textContent2!.includes('"initComplete":true')).toBeTruthy();
     });
   });
 
@@ -261,13 +208,8 @@ describe('ScrollMenu', () => {
       )?.[0];
 
       const context = {
-        initComplete: true,
         isFirstItemVisible: false,
         isLastItemVisible: false,
-        visibleElementsWithSeparators: ['test1', 'item1-separator', 'test2'],
-        visibleItems: ['test1', 'item1-separator', 'test2'],
-        visibleElements: ['test1', 'test2'],
-        visibleItemsWithoutSeparators: ['test1', 'test2'],
       };
 
       expect(ScrollContainer).toHaveClass(scrollContainerClassName);
@@ -280,7 +222,7 @@ describe('ScrollMenu', () => {
       expect(OuterWrapper).toContainElement(RightArrow);
       expect(OuterWrapper).toContainElement(ScrollContainer as HTMLElement);
 
-      const MenuItems = ScrollContainer.firstChild!;
+      const MenuItems = ScrollContainer;
 
       defaultItems.forEach((item) =>
         expect(MenuItems.textContent).toContain(item),
@@ -318,7 +260,7 @@ describe('ScrollMenu', () => {
       expect(OuterWrapper).toContainElement(footer);
       expect(OuterWrapper).toContainElement(footer as HTMLElement);
 
-      const MenuItems = ScrollContainer.firstChild!;
+      const MenuItems = ScrollContainer;
 
       defaultItems.forEach((item) =>
         expect(MenuItems.textContent).toContain(item),
@@ -556,7 +498,7 @@ describe('ScrollMenu', () => {
     });
 
     expect(createApiSpy).toHaveBeenCalled();
-    const noPolyfill = createApiSpy.mock.calls[0][3];
+    const noPolyfill = createApiSpy.mock.calls[0][2];
     expect(noPolyfill).toEqual(true);
   });
 });
@@ -572,9 +514,6 @@ function comparePublicApi(call: publicApiType) {
     scrollNext,
     scrollPrev,
     scrollToItem,
-    visibleElementsWithSeparators,
-    visibleElements,
-    initComplete,
     isFirstItemVisible,
     isLastItemVisible,
     items,
@@ -590,9 +529,6 @@ function comparePublicApi(call: publicApiType) {
   expect(scrollNext).toEqual(expect.any(Function));
   expect(scrollPrev).toEqual(expect.any(Function));
   expect(scrollToItem).toEqual(expect.any(Function));
-  expect(visibleElementsWithSeparators).toEqual(defaultItemsWithSeparators);
-  expect(visibleElements).toEqual(defaultItems);
-  expect(initComplete).toEqual(expect.any(Boolean));
   expect(isFirstItemVisible).toEqual(expect.any(Boolean));
   expect(isLastItemVisible).toEqual(expect.any(Boolean));
   expect(items).toEqual(expect.any(Object));

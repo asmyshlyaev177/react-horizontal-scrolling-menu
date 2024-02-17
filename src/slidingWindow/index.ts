@@ -1,0 +1,1 @@
+export { slidingWindow } from './slidingWindow';

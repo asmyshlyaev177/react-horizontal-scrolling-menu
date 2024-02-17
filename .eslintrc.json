@@ -1,7 +1,8 @@
 {
   "env": {
     "es2023": true,
-    "shared-node-browser": true
+    "shared-node-browser": true,
+    "jest/globals": true
   },
   "extends": [
     "plugin:maintainable/recommended",

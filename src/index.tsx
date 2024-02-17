@@ -7,20 +7,19 @@ import MenuItems from './components/MenuItems';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
 import createApi, { type publicApiType } from './createApi';
-import ItemsMap from './ItemsMap';
+import { ItemsMap } from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
 
 import * as constants from './constants';
 
-import useOnInitCb from './hooks/useOnInitCb';
-import useOnUpdate from './hooks/useOnUpdate';
+import { useOnCb } from './hooks/useOnCb';
 
 import { VisibilityContext } from './context';
 
 import type { ItemType, Refs, CustomScrollBehavior } from './types';
 import { getElementOrConstructor } from './helpers';
 
-import slidingWindow from './slidingWindow';
+import { slidingWindow } from './slidingWindow';
 import getItemsPos from './getItemsPos';
 
 type ComponentType = React.ReactNode | React.JSX.Element | React.FC;
@@ -181,7 +180,7 @@ function ScrollMenu({
   const Header = getElementOrConstructor(_Header);
   const Footer = getElementOrConstructor(_Footer);
 
-  const scrollContainerRef = React.useRef(null);
+  const scrollContainerRef = React.useRef<HTMLElement | null>(null);
   const [menuItemsRefs] = React.useState<Refs>({});
 
   const observerOptions = React.useMemo(
@@ -190,8 +189,7 @@ function ScrollMenu({
       ...options,
       root: scrollContainerRef.current,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options, scrollContainerRef.current],
+    [options],
   );
 
   const items = React.useRef(new ItemsMap()).current;
@@ -208,14 +206,12 @@ function ScrollMenu({
     }),
     [items, itemsChanged, menuItemsRefs, observerOptions],
   );
-  const visibleElementsWithSeparators = useIntersectionObserver(ioOptions);
-  const mounted = !!visibleElementsWithSeparators.length;
+  useIntersectionObserver(ioOptions);
 
   const api = React.useMemo(
     () =>
       createApi(
         items,
-        visibleElementsWithSeparators,
         {
           duration: transitionDuration,
           ease: transitionEase,
@@ -226,36 +222,23 @@ function ScrollMenu({
       ),
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, visibleElementsWithSeparators, itemsChanged, RTL, noPolyfill],
+    [items, RTL, noPolyfill],
   );
 
   const getContext = React.useCallback(
     () => ({
       ...api,
-      initComplete: mounted,
       items,
-      visibleElementsWithSeparators,
       scrollContainer: scrollContainerRef,
     }),
-    [api, mounted, items, visibleElementsWithSeparators, scrollContainerRef],
+    [api, items, scrollContainerRef],
   );
 
-  const [context, setContext] = React.useState<publicApiType>(getContext);
+  const [context, setContext] = React.useState<publicApiType>(() =>
+    getContext(),
+  );
 
-  const onInitCbFired = useOnInitCb({
-    cb: () => onInit(context),
-    condition: mounted,
-  });
-
-  useOnUpdate({
-    cb: () => onUpdate(context),
-    condition: onInitCbFired,
-    hash: JSON.stringify(
-      visibleElementsWithSeparators
-        .concat(String(context?.isFirstItemVisible))
-        .concat(String(context?.isLastItemVisible)),
-    ),
-  });
+  useOnCb({ context, onInit, onUpdate });
 
   React.useEffect(() => setContext(getContext()), [getContext]);
 

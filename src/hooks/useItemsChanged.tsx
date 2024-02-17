@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { separatorString } from '../constants';
-import ItemsMap from '../ItemsMap';
+import { ItemsMap } from '../ItemsMap';
 import type { ItemType } from '../types';
 import { getItemId } from '../helpers';
 

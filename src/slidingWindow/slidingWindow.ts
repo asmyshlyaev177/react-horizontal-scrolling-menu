@@ -1,6 +1,6 @@
-import { separatorString } from './constants';
-import type { visibleElements } from './types';
-import { filterSeparators } from './helpers';
+import { separatorString } from '../constants';
+import type { visibleElements } from '../types';
+import { filterSeparators } from '../helpers';
 
 const addSeparators = (items: visibleElements): visibleElements =>
   items
@@ -66,7 +66,7 @@ export function nextGroup(
   }
 }
 
-function slidingWindow(
+export function slidingWindow(
   allItems: visibleElements,
   visibleElementsWithSeparators: visibleElements,
 ): {
@@ -85,5 +85,3 @@ function slidingWindow(
     },
   };
 }
-
-export default slidingWindow;

@@ -1,26 +1,24 @@
 import React from 'react';
 
 import {
-  filterSeparators,
   getItemElementById,
   getItemElementByIndex,
   scrollToItem,
 } from './helpers';
-import ItemsMap from './ItemsMap';
+import { ItemsMap } from './ItemsMap';
 
 import type {
+  IOItem,
   ItemOrElement,
   ScrollBehaviorArg,
   scrollToItemOptions,
-  visibleElements,
 } from './types';
 
 type ScrollOptions = Omit<scrollToItemOptions, 'behavior'>;
 
-// eslint-disable-next-line max-params
+// eslint-disable-next-line max-lines-per-function
 export default function createApi(
   items: ItemsMap,
-  visibleElementsWithSeparators: visibleElements = [],
   transitionOptions?: {
     duration?: scrollToItemOptions['duration'];
     ease?: scrollToItemOptions['ease'];
@@ -29,7 +27,22 @@ export default function createApi(
   },
   noPolyfill?: boolean,
 ) {
-  const visibleElements = filterSeparators(visibleElementsWithSeparators);
+  const useIsVisible = (itemId: string, defaultValue: boolean = false) => {
+    const [visible, setVisible] = React.useState(defaultValue);
+
+    React.useEffect(() => {
+      const cb = (newVal?: IOItem) => {
+        setVisible(!!newVal?.visible);
+      };
+      items.subscribe(itemId, cb);
+
+      return () => {
+        items.unsubscribe(cb);
+      };
+    }, [itemId]);
+
+    return visible;
+  };
 
   const isFirstItemVisible = !!items.first()?.visible;
   const isLastItemVisible = !!items.last()?.visible;
@@ -40,18 +53,31 @@ export default function createApi(
   const getItemByIndex = (index: number | string) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
-  const isItemVisible = (id: string) => visibleElements.includes(String(id));
+  const isItemVisible = (id: string) =>
+    items
+      .getVisibleElements()
+      .map((el) => el[0])
+      .includes(String(id));
 
-  const getPrevItem = () => items.prev(items.getVisible()?.[0]?.[1]);
+  const getPrevItem = () => {
+    const first = items.getVisible()?.[0]?.[1];
+    return first ? items.prev(first) : undefined;
+  };
 
-  const getPrevElement = () =>
-    items.prev(items.getVisibleElements()?.[0]?.[1], true);
+  const getPrevElement = () => {
+    const first = items.getVisibleElements()?.[0]?.[1];
+    return first ? items.prev(first, true) : undefined;
+  };
 
-  const getNextItem = () =>
-    items.next(items.getVisible()?.slice?.(-1)?.[0]?.[1]);
+  const getNextItem = () => {
+    const last = items.getVisible().findLast(() => true)?.[1];
+    return last ? items.next(last) : undefined;
+  };
 
-  const getNextElement = () =>
-    items.next(items.getVisibleElements()?.slice?.(-1)?.[0]?.[1], true);
+  const getNextElement = () => {
+    const last = items.getVisibleElements().findLast(() => true)?.[1];
+    return last ? items.next(last, true) : undefined;
+  };
 
   const isLastItem = (id: string) => items.last() === getItemById(id);
 
@@ -66,6 +92,7 @@ export default function createApi(
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
 
+    // TODO: go from desired item position, e.g. before, left, center, right, after
     return scrollToItem(
       getPrevItem(),
       _behavior,
@@ -118,6 +145,7 @@ export default function createApi(
     isLastItemVisible,
     scrollNext,
     scrollPrev,
+    useIsVisible,
     // eslint-disable-next-line max-params
     scrollToItem: (
       target?: ItemOrElement,
@@ -141,27 +169,10 @@ export default function createApi(
         noPolyfill,
       );
     },
-    visibleElements,
-    visibleElementsWithSeparators,
-
-    visibleItems: visibleElementsWithSeparators,
-    visibleItemsWithoutSeparators: visibleElements,
   };
 }
 
 export interface publicApiType extends ReturnType<typeof createApi> {
-  initComplete: boolean;
   items: ItemsMap;
   scrollContainer: React.RefObject<HTMLElement | null>;
-
-  visibleElements: visibleElements;
-  visibleElementsWithSeparators: visibleElements;
-  /**
-    Deprecated, use visibleElementsWithSeparators
-   */
-  visibleItems: visibleElements;
-  /**
-    Deprecated, use visibleElements
-   */
-  visibleItemsWithoutSeparators: visibleElements;
 }

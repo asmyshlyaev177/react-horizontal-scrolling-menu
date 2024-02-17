@@ -47,36 +47,30 @@ export function OneItemScroll() {
 export default OneItemScroll;
 
 function LeftArrow() {
-  const { initComplete, isFirstItemVisible, scrollToItem, getPrevElement } =
-    React.useContext<publicApiType>(VisibilityContext);
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isFirstItemVisible = visibility.useIsVisible('first', true);
 
   // NOTE: Look here
-  const onClick = () => scrollToItem(getPrevElement(), 'smooth', 'start');
+  const onClick = () =>
+    visibility.scrollToItem(visibility.getPrevElement(), 'smooth', 'start');
 
   return (
-    <Arrow
-      disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={onClick}
-      testId="left-arrow"
-    >
+    <Arrow disabled={isFirstItemVisible} onClick={onClick} testId="left-arrow">
       Left
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollToItem, getNextElement } =
-    React.useContext<publicApiType>(VisibilityContext);
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isLastItemVisible = visibility.useIsVisible('last', false);
 
   // NOTE: Look here
-  const onClick = () => scrollToItem(getNextElement(), 'smooth', 'end');
+  const onClick = () =>
+    visibility.scrollToItem(visibility.getNextElement(), 'smooth', 'end');
 
   return (
-    <Arrow
-      disabled={initComplete && isLastItemVisible}
-      onClick={onClick}
-      testId="right-arrow"
-    >
+    <Arrow disabled={isLastItemVisible} onClick={onClick} testId="right-arrow">
       Right
     </Arrow>
   );
@@ -140,10 +134,7 @@ function Card({
   itemId: string;
 }) {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-
-  const visible =
-    !visibility.initComplete ||
-    (visibility.initComplete && visibility.isItemVisible(itemId));
+  const isVisible = visibility.useIsVisible(itemId, true);
 
   return (
     <CardBody
@@ -156,12 +147,12 @@ function Card({
       role="button"
       tabIndex={0}
       className="card"
-      visible={visible}
+      visible={isVisible}
       selected={selected}
     >
       <div className="header">
         <div>{title}</div>
-        <div className="visible">visible: {JSON.stringify(visible)}</div>
+        <div className="visible">visible: {JSON.stringify(isVisible)}</div>
         <div className="selected">selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div className="background" />

@@ -101,3 +101,8 @@ export const getItemId = (item: React.ReactNode) =>
     (item as React.JSX.Element)?.props?.[itemId] ||
       String((item as React.JSX.Element)?.key || '').replace(/^\.\$/, ''),
   );
+
+export const rafTimeout = (func: () => void, delay: number = 0) =>
+  setTimeout(() => {
+    requestAnimationFrame(func);
+  }, delay);

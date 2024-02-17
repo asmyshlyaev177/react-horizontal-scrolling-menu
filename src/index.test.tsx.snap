@@ -31,7 +31,7 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
         <div
@@ -47,7 +47,7 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
       </div>
@@ -82,12 +82,12 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
       <div
         class="react-horizontal-scrolling-menu--arrow-left"
       >
-        <div
+        <button
           class="left-arrow"
           data-testid="left-arrow"
         >
-          {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
-        </div>
+          {"isFirstItemVisible":false,"isLastItemVisible":false}
+        </button>
       </div>
       <div
         class="react-horizontal-scrolling-menu--scroll-container scroll-class"
@@ -100,7 +100,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
         <div
@@ -116,19 +116,19 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
       </div>
       <div
         class="react-horizontal-scrolling-menu--arrow-right"
       >
-        <div
+        <button
           class="right-arrow"
           data-testid="right-arrow"
         >
-          {"isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
-        </div>
+          {"isFirstItemVisible":false,"isLastItemVisible":false}
+        </button>
       </div>
     </div>
     <div
@@ -163,7 +163,7 @@ exports[`ScrollMenu should render without props 1`] = `
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
         <div
@@ -179,7 +179,7 @@ exports[`ScrollMenu should render without props 1`] = `
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"visibleElements":["test1","test2"],"visibleElementsWithSeparators":["test1","item1-separator","test2"],"visibleItems":["test1","item1-separator","test2"],"visibleItemsWithoutSeparators":["test1","test2"],"initComplete":true}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
       </div>
