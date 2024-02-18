@@ -101,7 +101,6 @@ const App = () => {
 
   const { disableScroll, enableScroll } = usePreventBodyScroll();
 
-  // TODO: firefox restoring scroll position on reload, investigate
   return (
     <div className="main">
       <div className="example" style={{ height: '200vh', paddingTop: '200px' }}>
