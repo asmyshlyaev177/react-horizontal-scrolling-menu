@@ -92,7 +92,6 @@ export default function createApi(
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
 
-    // TODO: go from desired item position, e.g. before, left, center, right, after
     return scrollToItem(
       getPrevItem(),
       _behavior,

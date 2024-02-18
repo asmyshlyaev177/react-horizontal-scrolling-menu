@@ -30,27 +30,6 @@ const getItems = (count: number) =>
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
-const onWheel = (
-  apiObj: scrollVisibilityApiType,
-  ev: React.WheelEvent,
-): void => {
-  // NOTE: no good standart way to distinguish touchpad scrolling gestures
-  // but can assume that gesture will affect X axis, mouse scroll only Y axis
-  // of if deltaY too small probably is it touchpad
-  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
-
-  if (isThouchpad) {
-    ev.stopPropagation();
-    return;
-  }
-
-  if (ev.deltaY < 0) {
-    apiObj.scrollNext();
-  } else {
-    apiObj.scrollPrev();
-  }
-};
-
 const App = () => {
   const [items] = React.useState(() => getItems(10));
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -214,6 +193,27 @@ const Arrow = ({
       {children}
     </button>
   );
+};
+
+const onWheel = (
+  apiObj: scrollVisibilityApiType,
+  ev: React.WheelEvent,
+): void => {
+  // NOTE: no good standart way to distinguish touchpad scrolling gestures
+  // but can assume that gesture will affect X axis, mouse scroll only Y axis
+  // of if deltaY too small probably is it touchpad
+  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+  if (isThouchpad) {
+    ev.stopPropagation();
+    return;
+  }
+
+  if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else {
+    apiObj.scrollPrev();
+  }
 };
 
 const Card = React.memo(

@@ -74,7 +74,7 @@ Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizon
 
 ### NextJS issues
 
-[Cannot use import statement outside a module](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240)_
+[Cannot use import statement outside a module](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240)
 
 ## Quick start
 
@@ -97,7 +97,6 @@ const getItems = () =>
 function App() {
   const [items, setItems] = React.useState(getItems);
   const [selected, setSelected] = React.useState([]);
-  const [position, setPosition] = React.useState(0);
 
   const isItemSelected = (id) => !!selected.find((el) => el === id);
 
@@ -109,7 +108,7 @@ function App() {
       setSelected((currentSelected) =>
         itemSelected
           ? currentSelected.filter((el) => el !== id)
-          : currentSelected.concat(id)
+          : currentSelected.concat(id),
       );
     };
 
@@ -128,29 +127,37 @@ function App() {
   );
 }
 
-function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } =
-    React.useContext(VisibilityContext);
-
+const LeftArrow = () => {
+  const visibility = React.useContext < publicApiType > VisibilityContext;
+  const isFirstItemVisible = visibility.useIsVisible('first', true);
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+    <Arrow
+      disabled={isFirstItemVisible}
+      onClick={visibility.scrollPrev}
+      className="left"
+    >
       Left
     </Arrow>
   );
-}
+};
 
-function RightArrow() {
-  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
-
+const RightArrow = () => {
+  const visibility = React.useContext < publicApiType > VisibilityContext;
+  const isLastItemVisible = visibility.useIsVisible('last', false);
   return (
-    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
+    <Arrow
+      disabled={isLastItemVisible}
+      onClick={visibility.scrollNext}
+      className="right"
+    >
       Right
     </Arrow>
   );
-}
+};
 
 function Card({ onClick, selected, title, itemId }) {
-  const visibility = React.useContext(VisibilityContext);
+  const visibility = React.useContext < publicApiType > VisibilityContext;
+  const visible = visibility.useIsVisible(itemId, true);
 
   return (
     <div
@@ -162,7 +169,7 @@ function Card({ onClick, selected, title, itemId }) {
     >
       <div className="card">
         <div>{title}</div>
-        <div>visible: {JSON.stringify(!!visibility.isItemVisible(itemId))}</div>
+        <div>visible: {JSON.stringify(visible)}</div>
         <div>selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div
@@ -235,31 +242,43 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ### VisibilityContext
 
-| Prop                                                            | Signature                                              |
-| --------------------------------------------------------------- | ------------------------------------------------------ |
-| getItemById                                                     | itemId => IOItem \| undefined                          |
-| getItemElementById                                              | itemId => DOM Element \| null                          |
-| getItemByIndex                                                  | index => IOItem \| undefined                           |
-| getItemElementByIndex                                           | index => DOM Element \| null                           |
-| getNextElement (use this first, result without separators)      | () => IOItem \| undefined                              |
-| getNextItem                                                     | () => IOItem \| undefined)                             |
-| getPrevElement (use this first, result without separators)      | () => IOItem \| undefined                              |
-| getPrevItem                                                     | () => IOItem \| undefined                              |
-| initComplete                                                    | boolean                                                |
-| isFirstItemVisible                                              | boolean                                                |
-| isItemVisible                                                   | itemId => boolean                                      |
-| isLastItem                                                      | boolean                                                |
-| isLastItemVisible                                               | boolean                                                |
-| scrollNext                                                      | (behavior, inline, block, ScrollOptions) => void       |
-| scrollPrev                                                      | (behavior, inline, block, ScrollOptions) => void       |
-| scrollToItem                                                    | (item, behavior, inline, block, ScrollOptions) => void |
-| initComplete                                                    | boolean                                                |
-| items                                                           | ItemsMap class instance                                |
-| scrollContainer                                                 | Ref<OuterContainer>                                    |
-| visibleElements                                                 | ['item1', 'item2']                                     |
-| visibleElementsWithSeparators                                   | ['item1', 'item1-separator', 'item2']                  |
-| visibleItemsWithoutSeparators (deprecated, use visibleElements) | ['item1', 'item2']                                     |
-| visibleItems (deprecated, use visibleElementsWithSeparators)    | ['item1', 'item1-separator', 'item2']                  |
+| Prop                                                       | Signature                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------ |
+| useIsVisible                                               | (itemId: string, defaultValue?: false) => boolean      |
+| getItemById                                                | itemId => IOItem \| undefined                          |
+| getItemElementById                                         | itemId => DOM Element \| null                          |
+| getItemByIndex                                             | index => IOItem \| undefined                           |
+| getItemElementByIndex                                      | index => DOM Element \| null                           |
+| getNextElement (use this first, result without separators) | () => IOItem \| undefined                              |
+| getNextItem                                                | () => IOItem \| undefined)                             |
+| getPrevElement (use this first, result without separators) | () => IOItem \| undefined                              |
+| getPrevItem                                                | () => IOItem \| undefined                              |
+| isFirstItemVisible                                         | boolean                                                |
+| isItemVisible                                              | itemId => boolean                                      |
+| isLastItem                                                 | boolean                                                |
+| isLastItemVisible                                          | boolean                                                |
+| scrollNext                                                 | (behavior, inline, block, ScrollOptions) => void       |
+| scrollPrev                                                 | (behavior, inline, block, ScrollOptions) => void       |
+| scrollToItem                                               | (item, behavior, inline, block, ScrollOptions) => void |
+| items                                                      | ItemsMap class instance                                |
+| scrollContainer                                            | Ref<OuterContainer>                                    |
+
+### items class instance
+
+ItemsMap class store info about all items and has methods to get currently visible items, prev/next item. Also, can subscribe to updates.
+
+| Prop/method        | Description                                                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| subscribe          | subscribe for events for `itemId` or `first`, `last`, `onInit`, `onUpdate`, eg. `items.subscribe('item5', (item) => setVisible(item.visible))` |
+| unsubscribe        | use in useEffect to cleanup, pass same cb instance                                                                                             |
+| getVisibleElements | returns visible elements only                                                                                                                  |
+| getVisible         | return only visible items with separators                                                                                                      |
+| toItems            | return ids for all items                                                                                                                       |
+| toArr              | return all items with separators                                                                                                               |
+| first              | return first item                                                                                                                              |
+| last               | return last item                                                                                                                               |
+| prev               | (itemId \| Item) => previous item \| undefined                                                                                                 |
+| next               | (itemId \| Item) => next item \| undefined                                                                                                     |
 
 ### Transition/Animation
 
@@ -314,11 +333,11 @@ Check out [examples](#examples)
 
 ### apiRef
 
-Can pass Ref object to Menu, current value will assigned as VisibilityContext. But `visibleItems` and some other values can be staled, so better use it only for firing functions like `scrollToItem`.
+Can pass Ref object to Menu, current value will assigned as VisibilityContext. But some other values can be staled, so better use it only for firing functions like `scrollToItem`.
 
 For scrolling use `apiRef.scrollToItem(apiRef.getItemElementById)` instead of `apiRef.scrollToItem(apiRef.getItemById)`.
 
-Can get item outside of context via `apiRef.getItemElementById(id)` or directly via `` document.querySelector(`[data-key='${itemId}']`) ``.
+Can get item outside of context via `apiRef.getItemElementById(id)` or directly via ``document.querySelector(`[data-key='${itemId}']`)``.
 See [`apiRef` example and `Add item and scroll to it`](#examples)
 
 ## Browser support
