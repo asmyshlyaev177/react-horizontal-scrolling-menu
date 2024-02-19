@@ -16,7 +16,7 @@ import { useOnCb } from './hooks/useOnCb';
 
 import { VisibilityContext } from './context';
 
-import type { ItemType, Refs, CustomScrollBehavior } from './types';
+import type { ItemType, Refs, CustomScrollBehavior, ItemId } from './types';
 import { getElementOrConstructor } from './helpers';
 
 import { slidingWindow } from './slidingWindow';
@@ -302,4 +302,4 @@ function ScrollMenu({
 }
 
 export { constants, getItemsPos, slidingWindow, ScrollMenu, VisibilityContext };
-export type { publicApiType };
+export type { publicApiType, ItemId };

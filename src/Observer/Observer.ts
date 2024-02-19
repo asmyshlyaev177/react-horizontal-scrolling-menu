@@ -1,60 +1,44 @@
-import type { IOItem } from '../types';
-import { rafTimeout } from '../helpers';
+import type { EventKey, IOItem } from '../types';
+import { events } from '../constants';
 
 export type ObsFn = (val?: IOItem) => void;
 
-type EventPayload = [key: string, value?: IOItem];
+export type EventPayload = [key: EventKey, value?: IOItem];
+
 export class Observer {
-  // TODO: use Map for speed?
-  observers: { key: string; fn: ObsFn }[];
-  stack: EventPayload[];
-  timer: NodeJS.Timeout | null;
+  observers: Map<EventKey, ObsFn[]>;
 
   constructor() {
-    this.observers = [];
-    this.stack = [];
-    this.timer = null;
+    this.observers = new Map();
   }
 
-  public subscribe = (key: string, fn: ObsFn) => {
-    this.observers.push({ key, fn });
+  public subscribe = (key: EventKey, fn: ObsFn) => {
+    this.observers.set(key, (this.observers.get(key) || []).concat(fn));
   };
 
-  public unsubscribe = (fn: ObsFn) => {
-    this.observers = this.observers.filter((el) => el.fn !== fn);
-  };
-
-  private emitUpdates = (key: EventPayload[0], value?: EventPayload[1]) => {
-    this.observers
-      .filter((obs) => obs.key === key)
-      .forEach((ob) => ob?.fn?.(value));
-  };
-
-  // TODO: try to just update directly without flush or stack
-  public flush = () => {
-    const stack = [...this.stack];
-    this.stack = [];
-
-    stack.forEach(([key, value]) => this.emitUpdates(key, value));
-    this.timer = null;
-  };
-
-  private scheduleFlush = () => {
-    // TODO: delay?
-    if (this.timer === null) {
-      this.timer = rafTimeout(this.flush, 100);
+  public unsubscribe = (key: EventKey, fn: ObsFn) => {
+    const newArr = (this.observers.get(key) || []).filter((el) => el !== fn);
+    if (newArr.length) {
+      this.observers.set(key, newArr);
+    } else {
+      this.observers.delete(key);
     }
   };
 
-  public updateBatch = (enties: EventPayload[]) => {
-    this.stack.push(...enties);
+  private emitUpdates = (key: EventPayload[0], value?: EventPayload[1]) => {
+    const cbs = this.observers.get(key) || [];
+    cbs?.forEach((cb) => cb?.(value));
+  };
 
-    this.scheduleFlush();
+  public updateBatch = (entries: EventPayload[], onUpdate = true) => {
+    if (entries.length) {
+      entries.forEach(([key, value]) => this.emitUpdates(key, value));
+      onUpdate && this.emitUpdates(events.onUpdate);
+    }
   };
 
   public update = (key: EventPayload[0], value?: EventPayload[1]) => {
-    this.stack.push([key, value]);
-
-    this.scheduleFlush();
+    this.emitUpdates(key, value);
+    this.emitUpdates(events.onUpdate);
   };
 }

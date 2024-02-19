@@ -34,8 +34,8 @@ export function Position() {
     api.scrollContainer.current.scrollLeft = getPosition();
   }, []);
 
-  const [key, setKey] = React.useState(() => String(Math.random()))
-  const reload = React.useCallback(() => setKey(String(Math.random())), [])
+  const [key, setKey] = React.useState(() => String(Math.random()));
+  const reload = React.useCallback(() => setKey(String(Math.random())), []);
 
   return (
     <>
@@ -58,8 +58,12 @@ export function Position() {
         ))}
       </ScrollMenu>
       <div>
-        <button onClick={reset} data-testid="reset">Reset position</button>
-        <button onClick={reload} data-testid="reload">Reload</button>
+        <button onClick={reset} data-testid="reset">
+          Reset position
+        </button>
+        <button onClick={reload} data-testid="reload">
+          Reload
+        </button>
       </div>
     </>
   );
@@ -67,15 +71,15 @@ export function Position() {
 
 const usePosition = () => {
   React.useEffect(() => {
-    window.history.scrollRestoration = 'manual'
-  }, [])
+    window.history.scrollRestoration = 'manual';
+  }, []);
 
   const setPosition = React.useCallback((pos: number | string) => {
-    localStorage.setItem('position', String(pos));
+    sessionStorage.setItem('position', String(pos));
   }, []);
-  const getPosition = () => +(localStorage.getItem('position') || 0);
+  const getPosition = () => +(sessionStorage.getItem('position') || 0);
   const reset = React.useCallback(
-    () => localStorage.removeItem('position'),
+    () => sessionStorage.removeItem('position'),
     [],
   );
 

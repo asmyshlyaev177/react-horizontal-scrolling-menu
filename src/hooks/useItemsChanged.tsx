@@ -2,12 +2,12 @@ import React from 'react';
 
 import { separatorString } from '../constants';
 import { ItemsMap } from '../ItemsMap';
-import type { ItemType } from '../types';
+import type { ItemId, ItemType } from '../types';
 import { getItemId } from '../helpers';
 
 const getItemsIdFromChildren = (
   children: ItemType | ItemType[] | undefined,
-): string[] => React.Children.toArray(children).map(getItemId).filter(Boolean);
+): ItemId[] => React.Children.toArray(children).map(getItemId).filter(Boolean);
 
 function useItemsChanged(
   menuItems: ItemType | ItemType[] | undefined,

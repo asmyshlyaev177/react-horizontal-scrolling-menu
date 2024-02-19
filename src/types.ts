@@ -2,14 +2,15 @@ import type { CustomEasing } from 'smooth-scroll-into-view-if-needed';
 import { Options } from 'scroll-into-view-if-needed';
 
 import { events } from './constants';
+
+export type ItemId = string;
+
 export interface IOItem {
   index: string;
-  key: string;
+  key: ItemId;
   entry: IntersectionObserverEntry;
   visible: boolean;
 }
-
-export type ItemId = string;
 
 export type Event = (typeof events)[keyof typeof events];
 

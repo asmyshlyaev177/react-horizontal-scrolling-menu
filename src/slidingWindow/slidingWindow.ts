@@ -46,7 +46,6 @@ export function nextGroup(
 
   const count = visibleElementsWithSeparators.length;
 
-  // TODO:
   const _nextGroupLastItem = lastIndex + count + 1;
 
   const isEnd = _nextGroupLastItem > allItems.length - 1;

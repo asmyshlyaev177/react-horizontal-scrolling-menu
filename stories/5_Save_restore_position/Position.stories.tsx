@@ -60,6 +60,7 @@ export const PosTest = {
     await testObj.isReady()
 
     await testObj.clickNext();
+    await testObj.wait()
     expect(await testObj.getVisibleCardsKeys()).toEqual([
       'test3',
       'test4',
@@ -75,6 +76,5 @@ export const PosTest = {
       'test4',
       'test5',
     ]);
-    await userEvent.click(canvas.getByTestId('reset'));
   },
 };

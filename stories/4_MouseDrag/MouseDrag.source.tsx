@@ -11,7 +11,7 @@ export function MouseDrag() {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   // NOTE: for drag by mouse
-  const dragState = React.useRef(new DragManager());
+  const dragState = React.useRef(new DragDealer());
 
   const handleDrag =
     ({ scrollContainer }: typeof VisibilityContext) =>
@@ -71,7 +71,7 @@ export function MouseDrag() {
 }
 export default MouseDrag;
 
-class DragManager {
+class DragDealer {
   clicked: boolean;
   dragging: boolean;
   position: number;

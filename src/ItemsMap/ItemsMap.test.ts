@@ -471,40 +471,57 @@ describe('ItemsMap', () => {
     it('should call unsubscribe', () => {
       const spy = jest.spyOn(map.observer, 'unsubscribe');
       const cb = jest.fn();
-      map.unsubscribe(cb);
+      map.unsubscribe('test', cb);
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenNthCalledWith(1, cb);
+      expect(spy).toHaveBeenNthCalledWith(1, 'test', cb);
     });
 
     describe('set', () => {
       it('should notify the Observer', () => {
-        const spy = jest.spyOn(map.observer, 'update');
-        const key = data[0][0];
-        const value = data[0][1];
+        const spy = jest.spyOn(map.observer, 'updateBatch');
+        const key = data[1][0];
+        const value = data[1][1];
         map.set(key, value);
-        expect(spy).toHaveBeenLastCalledWith(key, value);
+        expect(spy).toHaveBeenLastCalledWith([
+          [key, value],
+          ['first', value],
+        ]);
         expect(spy).toHaveBeenCalledTimes(1);
       });
 
       describe('should check for first/last items', () => {
         it('first item', () => {
           map.setBatch(data);
-          const spy = jest.spyOn(map.observer, 'update');
+          const spy = jest.spyOn(map.observer, 'updateBatch');
           const first = data[0];
           const key = first[0];
           const value = first[1];
           map.set(key, value);
-          expect(spy.mock.calls).toContainEqual([events.first, value]);
+          expect(spy.mock.calls).toStrictEqual([
+            [
+              [
+                [key, value],
+                ['first', value],
+              ],
+            ],
+          ]);
         });
 
         it('last item', () => {
           map.setBatch(data);
-          const spy = jest.spyOn(map.observer, 'update');
+          const spy = jest.spyOn(map.observer, 'updateBatch');
           const last = data.findLast(() => true)!;
           const key = last[0];
           const value = last[1];
           map.set(key, value);
-          expect(spy.mock.calls).toContainEqual([events.last, value]);
+          expect(spy.mock.calls).toStrictEqual([
+            [
+              [
+                [key, value],
+                ['last', value],
+              ],
+            ],
+          ]);
         });
       });
     });
@@ -512,54 +529,42 @@ describe('ItemsMap', () => {
     describe('setBatch', () => {
       it('should notify the Observer', () => {
         const spy = jest.spyOn(map.observer, 'update');
-        map.setBatch(data);
-        expect(spy).toHaveBeenCalledTimes(data.length + 3);
-        expect(spy.mock.calls).toEqual([
-          [events.onInit],
-          ...data,
-          [events.first, { index: '0', key: 'test1' }],
-          [events.last, { index: '2', key: 'test3' }],
-        ]);
-      });
-
-      it('should dedupe items', () => {
-        const spy = jest.spyOn(map.observer, 'update');
-        map.setBatch(data.concat(data));
-        expect(spy).toHaveBeenCalledTimes(data.length + 3);
-        expect(spy.mock.calls).toEqual([
-          [events.onInit],
-          ...data,
-          [events.first, { index: '0', key: 'test1' }],
-          [events.last, { index: '2', key: 'test3' }],
-        ]);
-      });
-
-      it('should flush first batch immediately', () => {
-        const spy = jest.spyOn(map.observer, 'flush');
+        const spyBatch = jest.spyOn(map.observer, 'updateBatch');
         map.setBatch(data);
         expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy.mock.calls).toStrictEqual([[events.onInit]]);
+        expect(spyBatch.mock.calls).toEqual([
+          [
+            [
+              ...data,
+              [events.first, { index: '0', key: 'test1' }],
+              [events.last, { index: '2', key: 'test3' }],
+            ],
+            false,
+          ],
+        ]);
       });
 
       describe('should notify about first/last items', () => {
         it('first item', () => {
-          const spy = jest.spyOn(map.observer, 'update');
+          const spy = jest.spyOn(map.observer, 'updateBatch');
           map.setBatch(data);
 
-          expect(spy).toHaveBeenCalledTimes(data.length + 3);
-          expect(spy.mock.calls).toContainEqual([
+          expect(spy).toHaveBeenCalledTimes(1);
+          expect(spy.mock.calls[0][0]).toContainEqual([
             events.first,
-            { index: '0', key: 'test1' },
+            data[0][1],
           ]);
         });
 
         it('last item', () => {
-          const spy = jest.spyOn(map.observer, 'update');
+          const spy = jest.spyOn(map.observer, 'updateBatch');
           map.setBatch(data);
 
-          expect(spy).toHaveBeenCalledTimes(data.length + 3);
-          expect(spy.mock.calls).toContainEqual([
+          expect(spy).toHaveBeenCalledTimes(1);
+          expect(spy.mock.calls[0][0]).toContainEqual([
             events.last,
-            { index: '2', key: 'test3' },
+            data.slice(-1)[0][1],
           ]);
         });
       });
@@ -569,17 +574,16 @@ describe('ItemsMap', () => {
           const spy = jest.spyOn(map.observer, 'update');
           map.setBatch(data);
 
-          expect(spy).toHaveBeenCalledTimes(data.length + 3);
+          expect(spy).toHaveBeenCalledTimes(1);
           expect(spy.mock.calls?.[0]).toStrictEqual([events.onInit]);
         });
 
-        it('onUpdate', async () => {
+        it('onUpdate', () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const spy = jest.spyOn(map.observer as any, 'emitUpdates');
           map.setBatch(data);
           map.set(data[0][0], data[0][1]);
 
-          await new Promise((res) => setTimeout(res, 300));
           expect(spy).toHaveBeenCalledTimes(data.length + 7);
           expect(spy.mock.calls).toContainEqual([events.onUpdate]);
         });

@@ -4,6 +4,7 @@ import type {
   IOItem,
   Item,
   ItemOrElement,
+  ItemId,
   Refs,
   ScrollBehaviorArg,
   scrollToItemOptions,
@@ -74,10 +75,10 @@ function scrollToItem(
 
 export { scrollToItem };
 
-export const getItemElementById = (id: string | number) =>
+export const getItemElementById = (id: ItemId) =>
   document.querySelector(`[${dataKeyAttribute}='${id}']`);
 
-export const getItemElementByIndex = (id: string | number) =>
+export const getItemElementByIndex = (id: ItemId) =>
   document.querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(

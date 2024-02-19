@@ -9,6 +9,7 @@ import { ItemsMap } from './ItemsMap';
 
 import type {
   IOItem,
+  ItemId,
   ItemOrElement,
   ScrollBehaviorArg,
   scrollToItemOptions,
@@ -27,7 +28,7 @@ export default function createApi(
   },
   noPolyfill?: boolean,
 ) {
-  const useIsVisible = (itemId: string, defaultValue: boolean = false) => {
+  const useIsVisible = (itemId: ItemId, defaultValue: boolean = false) => {
     // TODO: useDeferredValue only for React 18?
     const [visible, setVisible] = React.useState(defaultValue);
 
@@ -38,7 +39,7 @@ export default function createApi(
       items.subscribe(itemId, cb);
 
       return () => {
-        items.unsubscribe(cb);
+        items.unsubscribe(itemId, cb);
       };
     }, [itemId]);
 
@@ -48,13 +49,13 @@ export default function createApi(
   const isFirstItemVisible = !!items.first()?.visible;
   const isLastItemVisible = !!items.last()?.visible;
 
-  const getItemById = (id: string) =>
+  const getItemById = (id: ItemId) =>
     items.find((value) => value[1].key === String(id))?.[1];
 
   const getItemByIndex = (index: number | string) =>
     items.find((el) => String(el[1].index) === String(index))?.[1];
 
-  const isItemVisible = (id: string) =>
+  const isItemVisible = (id: ItemId) =>
     items
       .getVisibleElements()
       .map((el) => el[0])
@@ -80,7 +81,7 @@ export default function createApi(
     return last ? items.next(last, true) : undefined;
   };
 
-  const isLastItem = (id: string) => items.last() === getItemById(id);
+  const isLastItem = (id: ItemId) => items.last() === getItemById(id);
 
   const defaultBoundary = transitionOptions?.boundary?.current;
 
