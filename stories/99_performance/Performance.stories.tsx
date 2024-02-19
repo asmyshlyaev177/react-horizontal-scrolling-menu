@@ -7,18 +7,14 @@ import { setupEditor } from '../setupEditor';
 import { ScrollMenu } from '../../src/index';
 import * as Lib from '../../src/index';
 
-// @ts-ignore
+// @ts-expect-error import
 import ExampleRaw from './Performance.source.tsx?raw';
 import Example from './Performance.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Performance',
   component: Example,
-  decorators: [
-    (Story) => (
-        <Story />
-    ),
-  ],
+  decorators: [(Story) => <Story />],
 };
 
 export default meta;

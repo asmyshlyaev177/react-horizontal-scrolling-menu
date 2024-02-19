@@ -54,13 +54,13 @@ export const PosTest = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait()
+    await testObj.wait();
     await userEvent.click(canvas.getByTestId('reset'));
     await userEvent.click(canvas.getByTestId('reload'));
-    await testObj.isReady()
+    await testObj.isReady();
 
     await testObj.clickNext();
-    await testObj.wait()
+    await testObj.wait();
     expect(await testObj.getVisibleCardsKeys()).toEqual([
       'test3',
       'test4',
@@ -68,8 +68,8 @@ export const PosTest = {
     ]);
 
     await userEvent.click(canvas.getByTestId('reload'));
-    await testObj.isReady()
-    await testObj.wait()
+    await testObj.isReady();
+    await testObj.wait();
 
     expect(await testObj.getVisibleCardsKeys()).toEqual([
       'test3',

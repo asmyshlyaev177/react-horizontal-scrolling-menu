@@ -67,7 +67,7 @@
     }
   },
   "lint-staged": {
-    "!(stories/**/*)*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "git add"
     ],

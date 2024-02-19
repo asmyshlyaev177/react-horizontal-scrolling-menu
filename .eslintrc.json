@@ -12,7 +12,6 @@
     "plugin:jest/recommended"
   ],
   "plugins": ["cypress", "jest"],
-  "rules": {},
   "overrides": [
     {
       "files": ["stories/**"],

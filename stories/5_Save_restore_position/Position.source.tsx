@@ -30,9 +30,12 @@ export function Position() {
     },
     [setPosition],
   );
-  const restorePosition = React.useCallback((api: publicApiType) => {
-    api.scrollContainer.current.scrollLeft = getPosition();
-  }, []);
+  const restorePosition = React.useCallback(
+    (api: publicApiType) => {
+      api.scrollContainer.current.scrollLeft = getPosition();
+    },
+    [getPosition],
+  );
 
   const [key, setKey] = React.useState(() => String(Math.random()));
   const reload = React.useCallback(() => setKey(String(Math.random())), []);

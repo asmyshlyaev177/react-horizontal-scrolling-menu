@@ -6,7 +6,7 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const ITEMS = 5000
+const ITEMS = 5000;
 
 export function Performance() {
   const [items] = React.useState(() => getItems(ITEMS));
