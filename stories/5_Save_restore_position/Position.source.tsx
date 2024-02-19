@@ -6,39 +6,14 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-const ITEMS = 5000
-
-export function Performance() {
-  const [items] = React.useState(() => getItems(ITEMS));
+export function Position() {
+  const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
-
-  // NOTE: for drag by mouse
-  const dragState = React.useRef(new DragManager());
-
-  const handleDrag =
-    ({ scrollContainer }: typeof VisibilityContext) =>
-    (ev: React.MouseEvent) =>
-      dragState.current.dragMove(ev, (posDiff) => {
-        if (scrollContainer.current) {
-          scrollContainer.current.scrollLeft += posDiff;
-        }
-      });
-  const onMouseDown = React.useCallback(
-    () => dragState.current.dragStart,
-    [dragState],
-  );
-  const onMouseUp = React.useCallback(
-    () => dragState.current.dragStop,
-    [dragState],
-  );
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
   const handleItemClick = (itemId: string) => {
-    if (dragState.current.dragging) {
-      return false;
-    }
     const itemSelected = isItemSelected(itemId);
 
     setSelected((currentSelected: string[]) =>
@@ -48,72 +23,66 @@ export function Performance() {
     );
   };
 
+  const { getPosition, setPosition, reset } = usePosition();
+  const savePos = React.useCallback(
+    (api: publicApiType) => {
+      setPosition(api.scrollContainer.current.scrollLeft);
+    },
+    [setPosition],
+  );
+  const restorePosition = React.useCallback((api: publicApiType) => {
+    api.scrollContainer.current.scrollLeft = getPosition();
+  }, []);
+
+  const [key, setKey] = React.useState(() => String(Math.random()))
+  const reload = React.useCallback(() => setKey(String(Math.random())), [])
+
   return (
     <>
-      <div style={{ marginBottom: '50px' }}>{ITEMS} items and still fast!</div>
-      <div onMouseLeave={dragState.current.dragStop}>
-        <ScrollMenu
-          LeftArrow={LeftArrow}
-          RightArrow={RightArrow}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onMouseMove={handleDrag}
-          onWheel={onWheel}
-        >
-          {items.map(({ id }) => (
-            <Card
-              title={id}
-              itemId={id} // NOTE: itemId is required for track items
-              key={id}
-              onClick={() => handleItemClick(id)}
-              selected={isItemSelected(id)}
-            />
-          ))}
-        </ScrollMenu>
+      <ScrollMenu
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        onWheel={onWheel}
+        onUpdate={savePos}
+        onInit={restorePosition}
+        key={key}
+      >
+        {items.map(({ id }) => (
+          <Card
+            title={id}
+            itemId={id} // NOTE: itemId is required for track items
+            key={id}
+            onClick={() => handleItemClick(id)}
+            selected={isItemSelected(id)}
+          />
+        ))}
+      </ScrollMenu>
+      <div>
+        <button onClick={reset} data-testid="reset">Reset position</button>
+        <button onClick={reload} data-testid="reload">Reload</button>
       </div>
     </>
   );
 }
-export default Performance;
 
-class DragManager {
-  clicked: boolean;
-  dragging: boolean;
-  position: number;
+const usePosition = () => {
+  React.useEffect(() => {
+    window.history.scrollRestoration = 'manual'
+  }, [])
 
-  constructor() {
-    this.clicked = false;
-    this.dragging = false;
-    this.position = 0;
-  }
+  const setPosition = React.useCallback((pos: number | string) => {
+    localStorage.setItem('position', String(pos));
+  }, []);
+  const getPosition = () => +(localStorage.getItem('position') || 0);
+  const reset = React.useCallback(
+    () => localStorage.removeItem('position'),
+    [],
+  );
 
-  public dragStart = (ev: React.MouseEvent) => {
-    this.position = ev.clientX;
-    this.clicked = true;
-  };
+  return { getPosition, setPosition, reset };
+};
 
-  public dragStop = () => {
-    window.requestAnimationFrame(() => {
-      this.dragging = false;
-      this.clicked = false;
-    });
-  };
-
-  public dragMove = (ev: React.MouseEvent, cb: (posDiff: number) => void) => {
-    const newDiff = this.position - ev.clientX;
-
-    const movedEnough = Math.abs(newDiff) > 5;
-
-    if (this.clicked && movedEnough) {
-      this.dragging = true;
-    }
-
-    if (this.dragging && movedEnough) {
-      this.position = ev.clientX;
-      cb(newDiff);
-    }
-  };
-}
+export default Position;
 
 function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
@@ -243,8 +212,8 @@ const CardBody = styled('div')({
 
 const getId = (index: number) => `${'test'}${index}`;
 
-const getItems = (count: number) =>
-  Array(count)
+const getItems = () =>
+  Array(10)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 

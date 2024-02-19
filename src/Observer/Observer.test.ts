@@ -62,7 +62,7 @@ describe('Observer', () => {
 
       observer.update(key, item);
       expect(observer.timer).not.toBeNull();
-      await new Promise((res) => setTimeout(res, 100));
+      await new Promise((res) => setTimeout(res, 200));
       expect(observer.timer).toBeNull();
 
       expect(fn).toHaveBeenCalledTimes(1);

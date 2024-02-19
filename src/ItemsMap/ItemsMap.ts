@@ -1,4 +1,4 @@
-import type { IOItem, Item, visibleElements } from '../types';
+import type { IOItem, Item, ItemId, visibleElements, EventKey } from '../types';
 import { filterSeparators } from '../helpers';
 import { events, separatorString } from '../constants';
 import { Observer, type ObsFn } from '../Observer';
@@ -18,7 +18,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
     this.firstRun = true;
   }
 
-  public subscribe = (key: string, value: ObsFn) => {
+  public subscribe = (key: EventKey, value: ObsFn) => {
     return this.observer.subscribe(key, value);
   };
 
@@ -26,7 +26,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
     return this.observer.unsubscribe(fn);
   };
 
-  private notify = (key: string, value: IOItem) => {
+  private notify = (key: EventKey, value: IOItem) => {
     this.observer.update(key, value);
     if (!this.firstRun) {
       this.observer.update(events.onUpdate);
@@ -39,7 +39,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
     first = this.first(),
     last = this.last(),
   }: {
-    key: string;
+    key: EventKey;
     value: IOItem;
     first?: IOItem;
     last?: IOItem;
@@ -75,7 +75,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
   public sort = (arr: Item[]) =>
     arr.sort(([, IOItemA], [, IOItemB]) => +IOItemA.index - +IOItemB.index);
 
-  set = (key: string, value: IOItem): this => {
+  set = (key: ItemId, value: IOItem): this => {
     super.set(String(key), value);
     this.notify(key, value);
 
@@ -90,9 +90,12 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
     if (this.firstRun) {
       this.observer.update(events.onInit);
     }
+
+    // TODO: it eats too much resources
     const deduped = dedupePreferLast(entries, 0);
     this.sort(deduped).forEach(([itemId, ioitem]) => {
       super.set(String(itemId), ioitem);
+      // TODO: Observer.updateBatch
       this.notify(itemId, ioitem);
     });
 
@@ -127,7 +130,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
   ): number => this.toArr().findIndex(predicate);
 
   public getCurrentPos = (
-    item: string | IOItem,
+    item: ItemId | IOItem,
     onlyItems: boolean,
   ): [Item[], number] => {
     const arr = this.toArr().filter((el) =>
@@ -140,7 +143,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
   };
 
   public prev = (
-    item: string | IOItem,
+    item: ItemId | IOItem,
     onlyItems?: boolean,
   ): IOItem | undefined => {
     const [arr, current] = this.getCurrentPos(item, !!onlyItems);
@@ -148,7 +151,7 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
   };
 
   public next = (
-    item: IOItem | string,
+    item: ItemId | IOItem,
     onlyItems?: boolean,
   ): IOItem | undefined => {
     const [arr, current] = this.getCurrentPos(item, !!onlyItems);
