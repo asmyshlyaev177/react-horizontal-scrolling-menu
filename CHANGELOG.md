@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.0.0...v6.0.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* fix dependencies array for transitions ([d066024](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/d066024606800f37ce44ed55dd2b7a24e5ac5a23))
+
 ## [6.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.2...v6.0.0) (2024-02-20)
 
 
