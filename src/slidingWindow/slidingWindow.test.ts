@@ -1,4 +1,4 @@
-import slidingWindow from './slidingWindow';
+import { slidingWindow } from '.';
 
 describe('slidingWindow', () => {
   describe('previous group', () => {

@@ -39,6 +39,7 @@ function MenuItems({
     <>
       {childArray.map((child, index: number) => {
         const id = getItemId(child);
+        const itemId = 'menuItem__' + id;
         const separatorId = id + separatorString;
         const isLastItem = index + 1 === itemsCount;
 
@@ -46,7 +47,7 @@ function MenuItems({
           <Item
             className={itemClass}
             id={id}
-            key={'menuItem__' + id}
+            key={itemId}
             refs={refs}
             index={index}
           >

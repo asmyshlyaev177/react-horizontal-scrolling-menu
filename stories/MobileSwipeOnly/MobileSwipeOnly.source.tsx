@@ -112,15 +112,13 @@ const NoScrollbar = styled('div')({
 });
 
 function LeftArrow() {
-  const { initComplete, isFirstItemVisible, scrollPrev } =
-    React.useContext<publicApiType>(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isFirstItemVisible = visibility.useIsVisible('first', true);
 
   return (
     <Arrow
-      disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev()}
+      disabled={isFirstItemVisible}
+      onClick={() => visibility.scrollPrev()}
       testId="left-arrow"
     >
       Left
@@ -129,13 +127,13 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollNext } =
-    React.useContext<publicApiType>(VisibilityContext);
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isLastItemVisible = visibility.useIsVisible('last', false);
 
   return (
     <Arrow
-      disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext()}
+      disabled={isLastItemVisible}
+      onClick={() => visibility.scrollNext()}
       testId="right-arrow"
     >
       Right
@@ -191,10 +189,7 @@ function Card({
   itemId: string;
 }) {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-
-  const visible =
-    !visibility.initComplete ||
-    (visibility.initComplete && visibility.isItemVisible(itemId));
+  const isVisible = visibility.useIsVisible(itemId, true);
 
   return (
     <CardBody
@@ -207,12 +202,12 @@ function Card({
       role="button"
       tabIndex={0}
       className="card"
-      visible={visible}
+      visible={isVisible}
       selected={selected}
     >
       <div className="header">
         <div>{title}</div>
-        <div className="visible">visible: {JSON.stringify(visible)}</div>
+        <div className="visible">visible: {JSON.stringify(isVisible)}</div>
         <div className="selected">selected: {JSON.stringify(!!selected)}</div>
       </div>
       <div className="background" />

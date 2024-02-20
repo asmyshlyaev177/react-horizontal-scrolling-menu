@@ -193,7 +193,7 @@ describe('getItemElementById', () => {
     <div data-key=123 />other2</div>`;
 
     expect(getItemElementById('test456')).toEqual(null);
-    expect(getItemElementById(456)).toEqual(null);
+    expect(getItemElementById(456 as unknown as string)).toEqual(null);
     expect(getItemElementById('')).toEqual(null);
   });
 });
@@ -220,7 +220,7 @@ describe('getItemElementByIndex', () => {
     <div data-key=123 />other2</div>`;
 
     expect(getItemElementByIndex('456')).toEqual(null);
-    expect(getItemElementByIndex(456)).toEqual(null);
+    expect(getItemElementByIndex(456 as unknown as string)).toEqual(null);
     expect(getItemElementByIndex('')).toEqual(null);
   });
 });

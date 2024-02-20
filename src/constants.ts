@@ -17,3 +17,10 @@ export const id = 'itemId';
 
 export const dataKeyAttribute = 'data-key';
 export const dataIndexAttribute = 'data-index';
+
+export const events = {
+  first: 'first',
+  last: 'last',
+  onInit: 'onInit',
+  onUpdate: 'onUpdate',
+} as const;

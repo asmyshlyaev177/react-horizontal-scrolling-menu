@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { LegacyRef } from 'react';
 
 import { scrollContainerClassName } from '../../constants';
 
@@ -6,10 +6,9 @@ export type Props = {
   className?: string;
   children?: React.ReactNode;
   onScroll?: (event: React.UIEvent) => void;
-  scrollRef: React.Ref<HTMLDivElement>;
+  scrollRef: React.Ref<HTMLElement>;
 };
 
-// TODO: pass initialPosition ??
 function ScrollContainer({
   className: _className = '',
   children,
@@ -22,7 +21,11 @@ function ScrollContainer({
   );
 
   return (
-    <div className={scrollContainerClass} onScroll={onScroll} ref={scrollRef}>
+    <div
+      className={scrollContainerClass}
+      onScroll={onScroll}
+      ref={scrollRef as LegacyRef<HTMLDivElement>}
+    >
       {children}
     </div>
   );

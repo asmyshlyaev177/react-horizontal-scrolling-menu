@@ -1,6 +1,6 @@
-import { separatorString } from './constants';
-import type { visibleElements } from './types';
-import { filterSeparators } from './helpers';
+import { separatorString } from '../constants';
+import type { visibleElements } from '../types';
+import { filterSeparators } from '../helpers';
 
 const addSeparators = (items: visibleElements): visibleElements =>
   items
@@ -46,7 +46,6 @@ export function nextGroup(
 
   const count = visibleElementsWithSeparators.length;
 
-  // TODO:
   const _nextGroupLastItem = lastIndex + count + 1;
 
   const isEnd = _nextGroupLastItem > allItems.length - 1;
@@ -66,7 +65,7 @@ export function nextGroup(
   }
 }
 
-function slidingWindow(
+export function slidingWindow(
   allItems: visibleElements,
   visibleElementsWithSeparators: visibleElements,
 ): {
@@ -85,5 +84,3 @@ function slidingWindow(
     },
   };
 }
-
-export default slidingWindow;

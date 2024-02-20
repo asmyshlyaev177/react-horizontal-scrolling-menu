@@ -25,41 +25,28 @@ type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 const elemPrefix = 'test';
 const getId = (index: number) => `${elemPrefix}${index}`;
 
-const getItems = () =>
-  Array(10)
+const getItems = (count: number) =>
+  Array(count)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
-const onWheel = (
-  apiObj: scrollVisibilityApiType,
-  ev: React.WheelEvent,
-): void => {
-  // NOTE: no good standart way to distinguish touchpad scrolling gestures
-  // but can assume that gesture will affect X axis, mouse scroll only Y axis
-  // of if deltaY too small probably is it touchpad
-  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
-
-  if (isThouchpad) {
-    ev.stopPropagation();
-    return;
-  }
-
-  if (ev.deltaY < 0) {
-    apiObj.scrollNext();
-  } else {
-    apiObj.scrollPrev();
-  }
-};
-
-function App() {
-  const [items] = React.useState(getItems);
+const App = () => {
+  const [items] = React.useState(() => getItems(10));
   const [selected, setSelected] = React.useState<string[]>([]);
-  const [position, setPosition] = React.useState(0);
+  const position = React.useRef(0);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
 
   const dragState = React.useRef(new DragManager());
+  const onMouseDown = React.useCallback(
+    () => dragState.current.dragStart,
+    [dragState],
+  );
+  const onMouseUp = React.useCallback(
+    () => dragState.current.dragStop,
+    [dragState],
+  );
 
   const handleDrag =
     ({ scrollContainer }: scrollVisibilityApiType) =>
@@ -84,22 +71,20 @@ function App() {
           : currentSelected.concat(itemId),
       );
 
-      if (!itemSelected) {
-        // NOTE: center item on select
-        scrollToItem(getItemById(itemId), 'smooth', 'center', 'nearest');
-      }
+      // if (!itemSelected) {
+      //   // NOTE: center item on select
+      //   scrollToItem(getItemById(itemId), 'smooth', 'center', 'nearest');
+      // }
     };
 
   const restorePosition = React.useCallback(
-    ({
-      scrollContainer,
-      getItemById,
-      scrollToItem,
-    }: scrollVisibilityApiType) => {
+    ({ scrollContainer }: scrollVisibilityApiType) => {
       // NOTE: scroll to item, auto/smooth for animation
       // scrollToItem(getItemById('test7'), 'auto');
       // NOTE: or restore exact position by pixels
-      // scrollContainer.current.scrollLeft = position;
+      if (scrollContainer.current) {
+        scrollContainer.current.scrollLeft = 150;
+      }
     },
     [],
   );
@@ -107,8 +92,9 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const savePosition = React.useCallback(
     throttle(({ scrollContainer }: scrollVisibilityApiType) => {
-      !!scrollContainer.current &&
-        setPosition(scrollContainer.current.scrollLeft);
+      if (scrollContainer.current) {
+        position.current = scrollContainer.current.scrollLeft;
+      }
     }, 500),
     [],
   );
@@ -121,15 +107,13 @@ function App() {
         <div onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
           <div onMouseLeave={dragState.current.dragStop}>
             <ScrollMenu
-              Header={<div>Header</div>}
-              Footer={() => <div>Footer</div>}
               LeftArrow={LeftArrow}
               RightArrow={RightArrow}
-              onInit={restorePosition}
-              onScroll={savePosition}
+              // onInit={restorePosition}
+              // onScroll={savePosition}
               onWheel={onWheel}
-              onMouseDown={() => dragState.current.dragStart}
-              onMouseUp={() => dragState.current.dragStop}
+              onMouseDown={onMouseDown}
+              onMouseUp={onMouseUp}
               onMouseMove={handleDrag}
             >
               {items.map(({ id }) => (
@@ -147,41 +131,37 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
-function LeftArrow() {
-  const { initComplete, isFirstItemVisible, scrollPrev } =
-    React.useContext(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
-
+const LeftArrow = React.memo(() => {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isFirstItemVisible = visibility.useIsVisible('first', true);
   return (
     <Arrow
-      disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev()}
+      disabled={isFirstItemVisible}
+      onClick={visibility.scrollPrev}
       className="left"
     >
       Left
     </Arrow>
   );
-}
+});
 
-function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollNext } =
-    React.useContext(VisibilityContext);
-
+const RightArrow = React.memo(() => {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isLastItemVisible = visibility.useIsVisible('last', false);
   return (
     <Arrow
-      disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext()}
+      disabled={isLastItemVisible}
+      onClick={visibility.scrollNext}
       className="right"
     >
       Right
     </Arrow>
   );
-}
+});
 
-function Arrow({
+const Arrow = ({
   children,
   disabled,
   onClick,
@@ -191,11 +171,13 @@ function Arrow({
   disabled: boolean;
   onClick: VoidFunction;
   className?: string;
-}) {
+}) => {
+  const [_isPending, startTransition] = React.useTransition();
+
   return (
     <button
       disabled={disabled}
-      onClick={onClick}
+      onClick={() => startTransition(onClick)}
       className={'arrow' + `-${className}`}
       style={{
         cursor: 'pointer',
@@ -210,58 +192,87 @@ function Arrow({
       {children}
     </button>
   );
-}
+};
 
-function Card({
-  onClick,
-  selected,
-  title,
-  itemId,
-}: {
-  onClick: (context: publicApiType) => void;
-  selected: boolean;
-  title: string;
-  itemId: string;
-}) {
-  const visibility = React.useContext(VisibilityContext);
+const onWheel = (
+  apiObj: scrollVisibilityApiType,
+  ev: React.WheelEvent,
+): void => {
+  // NOTE: no good standart way to distinguish touchpad scrolling gestures
+  // but can assume that gesture will affect X axis, mouse scroll only Y axis
+  // of if deltaY too small probably is it touchpad
+  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
-  const visible =
-    !visibility.initComplete ||
-    (visibility.initComplete && visibility.isItemVisible(itemId));
+  if (isThouchpad) {
+    ev.stopPropagation();
+    return;
+  }
 
-  return (
-    <div
-      data-cy={itemId}
-      onClick={() => onClick(visibility)}
-      onKeyDown={(ev: React.KeyboardEvent) => {
-        ev.code === 'Enter' && onClick(visibility);
-      }}
-      role="button"
-      style={{
-        border: '1px solid',
-        display: 'inline-block',
-        margin: '0 10px',
-        width: '160px',
-        userSelect: 'none',
-      }}
-      tabIndex={0}
-      className="card"
-    >
-      <div className="card-header">
-        <div>{title}</div>
-        <div style={{ backgroundColor: visible ? 'transparent' : 'gray' }}>
-          visible: {JSON.stringify(visible)}
-        </div>
-        <div>selected: {JSON.stringify(!!selected)}</div>
-      </div>
+  if (ev.deltaY < 0) {
+    apiObj.scrollNext();
+  } else {
+    apiObj.scrollPrev();
+  }
+};
+
+const Card = React.memo(
+  ({
+    onClick,
+    selected,
+    title,
+    itemId,
+  }: {
+    onClick: (api: publicApiType) => void;
+    selected: boolean;
+    title: string;
+    itemId: string;
+  }) => {
+    const visibility = React.useContext<publicApiType>(VisibilityContext);
+    const visible = visibility.useIsVisible(itemId, true);
+    const isVisible = React.useDeferredValue(visible);
+
+    const [, startTransition] = React.useTransition();
+    const _onClick = React.useCallback(
+      (visibility: publicApiType) => {
+        startTransition(() => onClick(visibility));
+      },
+      [onClick],
+    );
+
+    return (
       <div
-        style={{
-          backgroundColor: selected ? 'green' : 'bisque',
-          height: '200px',
+        data-cy={itemId}
+        onClick={() => _onClick(visibility)}
+        onKeyDown={(ev) => {
+          ev.code === 'Enter' && _onClick(visibility);
         }}
-      />
-    </div>
-  );
-}
+        role="button"
+        style={{
+          border: '1px solid',
+          display: 'inline-block',
+          margin: '0 10px',
+          width: '160px',
+          userSelect: 'none',
+        }}
+        tabIndex={0}
+        className="card"
+      >
+        <div className="card-header">
+          <div>{title}</div>
+          <div style={{ backgroundColor: isVisible ? 'transparent' : 'gray' }}>
+            visible: {JSON.stringify(isVisible)}
+          </div>
+          <div>selected: {JSON.stringify(!!selected)}</div>
+        </div>
+        <div
+          style={{
+            backgroundColor: selected ? 'green' : 'bisque',
+            height: '200px',
+          }}
+        />
+      </div>
+    );
+  },
+);
 
 export default App;

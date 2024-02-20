@@ -11,7 +11,6 @@ describe('Scrolling menu', () => {
     cy.viewport(650, 768);
 
     cy.visit('/');
-    cy.waitUntil(() => cy.contains('Header').should('be.visible'));
     cy.waitUntil(() => cy.contains('test0').should('be.visible'));
 
     checkArrow({ cy, direction: 'Left', visible: false });
@@ -62,17 +61,17 @@ function checkCards({ cy, visible: _visible }) {
   cy.waitUntil(() =>
     cy
       .wrap(before)
-      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`))
+      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`)),
   );
   cy.waitUntil(() =>
     cy
       .wrap(after)
-      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`))
+      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`)),
   );
   return cy.waitUntil(() =>
     cy
       .wrap(visible)
-      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: true")`))
+      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: true")`)),
   );
 }
 
