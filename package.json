@@ -131,7 +131,7 @@
       ]
     },
     "test:storybook": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
+      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium webkit",
       "dependencies": [
         "storybook",
         "setup-tooling"
@@ -239,7 +239,7 @@
       ]
     },
     "install:playwright": {
-      "command": "npx playwright install chromium firefox",
+      "command": "npx playwright install chromium firefox webkit",
       "clean": false,
       "files": [
         "package.json"
