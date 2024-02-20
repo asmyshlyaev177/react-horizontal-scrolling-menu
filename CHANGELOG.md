@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.2...v6.0.0) (2024-02-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* * Removed visibleElements, isFirstItemVisible and isLastItemVisible.
+  Can use api.useIsVisible hook, api.isItemVisible,
+  and api.items.getVisibleElements to get visible items.
+* Removed initComplete
+
+* ci(lint-staged): ignore stories folder in lint-staged
+
+* docs(readme): update docs
+
+* docs(storybook): performance example
+
+* docs(storybook): save/restore position example
+
+* refactor: remove stack and flush updates logic
+
+* style(eslint): eslint/ts config for stories
+
+* ci: add webkit for storybook tests
+
+* Observer pattern (#270) ([d95befc](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/d95befcf12db081a2fcd14ad5ff67a410d795691)), closes [#270](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/270)
+
 ### [5.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v5.0.1...v5.0.2) (2024-02-13)
 
 * **getelementorconstructor:** fix for React.memo elements as arrows/footer ([e5b3dc4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e5b3dc4923564bb5a8e4ef6f8a5d6441828c5cde))
