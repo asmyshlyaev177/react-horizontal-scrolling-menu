@@ -6,12 +6,14 @@ import {
 } from 'react-horizontal-scrolling-menu';
 import styled from 'styled-jss';
 
-export function MouseDrag() {
-  const [items] = React.useState(() => getItems());
+const ITEMS = 5000;
+
+export function Performance() {
+  const [items] = React.useState(() => getItems(ITEMS));
   const [selected, setSelected] = React.useState<string[]>([]);
 
   // NOTE: for drag by mouse
-  const dragState = React.useRef(new DragDealer());
+  const dragState = React.useRef(new DragManager());
 
   const handleDrag =
     ({ scrollContainer }: typeof VisibilityContext) =>
@@ -47,31 +49,34 @@ export function MouseDrag() {
   };
 
   return (
-    <NoScrollbar onMouseLeave={dragState.current.dragStop}>
-      <ScrollMenu
-        LeftArrow={LeftArrow}
-        RightArrow={RightArrow}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseMove={handleDrag}
-        onWheel={onWheel}
-      >
-        {items.map(({ id }) => (
-          <Card
-            title={id}
-            itemId={id} // NOTE: itemId is required for track items
-            key={id}
-            onClick={() => handleItemClick(id)}
-            selected={isItemSelected(id)}
-          />
-        ))}
-      </ScrollMenu>
-    </NoScrollbar>
+    <>
+      <div style={{ marginBottom: '50px' }}>{ITEMS} items and still fast!</div>
+      <div onMouseLeave={dragState.current.dragStop}>
+        <ScrollMenu
+          LeftArrow={LeftArrow}
+          RightArrow={RightArrow}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onMouseMove={handleDrag}
+          onWheel={onWheel}
+        >
+          {items.map(({ id }) => (
+            <Card
+              title={id}
+              itemId={id} // NOTE: itemId is required for track items
+              key={id}
+              onClick={() => handleItemClick(id)}
+              selected={isItemSelected(id)}
+            />
+          ))}
+        </ScrollMenu>
+      </div>
+    </>
   );
 }
-export default MouseDrag;
+export default Performance;
 
-class DragDealer {
+class DragManager {
   clicked: boolean;
   dragging: boolean;
   position: number;
@@ -109,16 +114,6 @@ class DragDealer {
     }
   };
 }
-
-const NoScrollbar = styled('div')({
-  '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
-    display: 'none',
-  },
-  '& .react-horizontal-scrolling-menu--scroll-container': {
-    scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
-  },
-});
 
 function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
@@ -248,8 +243,8 @@ const CardBody = styled('div')({
 
 const getId = (index: number) => `${'test'}${index}`;
 
-const getItems = () =>
-  Array(10)
+const getItems = (count: number) =>
+  Array(count)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 

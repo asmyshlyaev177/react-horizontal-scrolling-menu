@@ -67,15 +67,13 @@ const NoScrollbar = styled('div')({
 });
 
 function LeftArrow() {
-  const { initComplete, isFirstItemVisible, scrollPrev } =
-    React.useContext<publicApiType>(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isFirstItemVisible = visibility.useIsVisible('first', true);
 
   return (
     <Arrow
-      disabled={!initComplete || (initComplete && isFirstItemVisible)}
-      onClick={() => scrollPrev()}
+      disabled={isFirstItemVisible}
+      onClick={visibility.scrollPrev}
       testId="left-arrow"
     >
       Left
@@ -84,13 +82,13 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { initComplete, isLastItemVisible, scrollNext } =
-    React.useContext<publicApiType>(VisibilityContext);
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isLastItemVisible = visibility.useIsVisible('last', false);
 
   return (
     <Arrow
-      disabled={initComplete && isLastItemVisible}
-      onClick={() => scrollNext()}
+      disabled={isLastItemVisible}
+      onClick={visibility.scrollNext}
       testId="right-arrow"
     >
       Right
@@ -108,8 +106,8 @@ function Arrow({
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
-  className?: String;
-  testId: String;
+  className?: string;
+  testId: string;
 }) {
   return (
     <ArrowButton
@@ -145,11 +143,8 @@ function Card({
   title: string;
   itemId: string;
 }) {
-  const visibility = React.useContext<publicApiType>(VisibilityContext);
-
-  const visible =
-    !visibility.initComplete ||
-    (visibility.initComplete && visibility.isItemVisible(itemId));
+    const visibility = React.useContext<publicApiType>(VisibilityContext);
+    const visible = visibility.useIsVisible(itemId, true);
 
   return (
     <CardBody

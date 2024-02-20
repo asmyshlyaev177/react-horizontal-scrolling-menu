@@ -1,8 +1,8 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import useIntersectionObserver from './useIntersectionObserver';
 
-import ItemsMap from '../ItemsMap';
+import { ItemsMap } from '../ItemsMap';
 import { observerOptions } from '../settings';
 import type { Refs, Item } from '../types';
 
@@ -59,21 +59,17 @@ describe('useIntersectionObserver', () => {
     expect(mockedObserverCalls.observe[1]).toEqual(refs.el2.current);
   });
 
-  test('should return visible elements', async () => {
-    const oeti = mocked(observerEntriesToItems, { shallow: true });
+  test('should set entries to ItemsMap', () => {
+    const observerMock = mocked(observerEntriesToItems, { shallow: true });
 
-    const items = new ItemsMap();
+    const items = { setBatch: jest.fn() } as unknown as ItemsMap;
     const itemsChanged = '';
     const options = observerOptions;
     const refs: Refs = {};
     const props = { items, itemsChanged, options, refs };
 
-    oeti.mockReturnValueOnce([]);
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useIntersectionObserver(props),
-    );
-
-    expect(result.current).toEqual([]);
+    observerMock.mockReturnValueOnce([]);
+    renderHook(() => useIntersectionObserver(props));
 
     const itemsToEntries = (items: { key: string; visible: boolean }[]) =>
       items.map(
@@ -104,18 +100,34 @@ describe('useIntersectionObserver', () => {
 
     const mockedObserver = observer as unknown as MockedObserver;
 
-    oeti.mockReturnValueOnce(itemsToEntries(visibilityStateHistory[0]));
+    observerMock.mockReturnValueOnce(itemsToEntries(visibilityStateHistory[0]));
 
     // trigger cb on observer
-    mockedObserver.fire([]);
-    mockedObserver.fire([]);
-    await waitForNextUpdate();
-    expect(result.current).toEqual(['item1', 'item2']);
+    const entriesMock1 = [] as IntersectionObserverEntry[];
+    mockedObserver.fire(entriesMock1);
+    expect(items.setBatch).toHaveBeenCalledTimes(1);
+    expect(items.setBatch).toHaveBeenNthCalledWith(1, entriesMock1);
 
-    oeti.mockReturnValueOnce(itemsToEntries(visibilityStateHistory[1]));
-    mockedObserver.fire([]);
-    await waitForNextUpdate();
-    expect(result.current).toEqual(['item2', 'item3']);
+    const entriesMock2 = itemsToEntries(
+      visibilityStateHistory[1],
+    ) as unknown as IntersectionObserverEntry[];
+
+    observerMock.mockReturnValueOnce(entriesMock2 as unknown as Item[]);
+    mockedObserver.fire(entriesMock2);
+
+    expect(items.setBatch).toHaveBeenCalledTimes(2);
+    expect(items.setBatch).toHaveBeenNthCalledWith(2, [
+      ['item1', { entry: {}, index: '0', key: 'item1', visible: true }],
+      ['item2', { entry: {}, index: '1', key: 'item2', visible: true }],
+    ]);
+
+    mockedObserver.fire(entriesMock2);
+    expect(items.setBatch).toHaveBeenCalledTimes(3);
+    expect(items.setBatch).toHaveBeenNthCalledWith(3, [
+      ['item1', { entry: {}, index: '0', key: 'item1', visible: false }],
+      ['item2', { entry: {}, index: '1', key: 'item2', visible: true }],
+      ['item3', { entry: {}, index: '2', key: 'item3', visible: true }],
+    ]);
   });
 
   test('should call disconnect', () => {

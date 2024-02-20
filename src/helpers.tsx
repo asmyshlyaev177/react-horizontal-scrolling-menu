@@ -4,6 +4,7 @@ import type {
   IOItem,
   Item,
   ItemOrElement,
+  ItemId,
   Refs,
   ScrollBehaviorArg,
   scrollToItemOptions,
@@ -74,10 +75,10 @@ function scrollToItem(
 
 export { scrollToItem };
 
-export const getItemElementById = (id: string | number) =>
+export const getItemElementById = (id: ItemId) =>
   document.querySelector(`[${dataKeyAttribute}='${id}']`);
 
-export const getItemElementByIndex = (id: string | number) =>
+export const getItemElementByIndex = (id: ItemId) =>
   document.querySelector(`[${dataIndexAttribute}='${id}']`);
 
 export function getElementOrConstructor(
@@ -101,3 +102,8 @@ export const getItemId = (item: React.ReactNode) =>
     (item as React.JSX.Element)?.props?.[itemId] ||
       String((item as React.JSX.Element)?.key || '').replace(/^\.\$/, ''),
   );
+
+export const rafTimeout = (func: () => void, delay: number = 0) =>
+  setTimeout(() => {
+    requestAnimationFrame(func);
+  }, delay);

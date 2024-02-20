@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 
 import useItemsChanged from './useItemsChanged';
 import { id as itemId } from '../constants';
-import ItemsMap from '../ItemsMap';
+import { ItemsMap } from '../ItemsMap';
 import { type IOItem } from '../types';
 
 const TestComponent = ({

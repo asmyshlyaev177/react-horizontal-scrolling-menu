@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import usePrevious from './usePrevious';
 
 describe('usePrevious', () => {
@@ -10,19 +10,19 @@ describe('usePrevious', () => {
     });
     expect(result.current).toEqual(undefined);
 
-    rerender();
-    expect(result.current).toEqual(values[0]);
-
     rerender(values[1]);
     expect(result.current).toEqual(values[0]);
 
     rerender(values[2]);
     expect(result.current).toEqual(values[1]);
 
-    rerender(values[2]);
+    rerender(values[0]);
     expect(result.current).toEqual(values[2]);
 
+    rerender(values[1]);
+    expect(result.current).toEqual(values[0]);
+
     rerender(values[2]);
-    expect(result.current).toEqual(values[2]);
+    expect(result.current).toEqual(values[1]);
   });
 });
