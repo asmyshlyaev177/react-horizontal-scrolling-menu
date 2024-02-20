@@ -215,14 +215,12 @@ function ScrollMenu({
         {
           duration: transitionDuration,
           ease: transitionEase,
-          behavior: transitionBehavior!,
+          behavior: transitionBehavior,
           boundary: scrollContainerRef,
         },
         noPolyfill,
       ),
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, RTL, noPolyfill],
+    [items, transitionDuration, transitionEase, transitionBehavior, noPolyfill],
   );
 
   const getContext = React.useCallback(

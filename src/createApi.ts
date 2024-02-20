@@ -29,7 +29,6 @@ export default function createApi(
   noPolyfill?: boolean,
 ) {
   const useIsVisible = (itemId: ItemId, defaultValue: boolean = false) => {
-    // TODO: useDeferredValue only for React 18?
     const [visible, setVisible] = React.useState(defaultValue);
 
     React.useEffect(() => {
