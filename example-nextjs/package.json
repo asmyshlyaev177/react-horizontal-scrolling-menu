@@ -23,7 +23,9 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
+    "popmotion": "^11.0.5",
     "serve": "^14.2.1",
+    "stylefire": "^7.0.3",
     "typescript": "^5"
   }
 }

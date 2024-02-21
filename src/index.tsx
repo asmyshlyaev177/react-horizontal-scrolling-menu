@@ -58,14 +58,6 @@ export interface Props {
    */
   transitionDuration?: number;
   /**
-    Ease function for transition
-
-    Example -  t => t*(2-t)
-
-    Full list at https://gist.github.com/gre/1650294#file-easing-js
-   */
-  transitionEase?: (t: number) => number;
-  /**
     Transition behavior can be 'smooth', 'auto' or custom function
 
     Example:
@@ -77,7 +69,8 @@ export interface Props {
       animate({
         from: el.scrollLeft,
         to: left,
-        type: 'spring',
+        ease: easingFunctions.easeInOutCubic,
+        duration: 500,
         onUpdate: (left) => styler.set('scrollLeft', left),
       });
     }
@@ -154,7 +147,6 @@ function ScrollMenu({
   Header: _Header,
   Footer: _Footer,
   transitionDuration = 500,
-  transitionEase,
   transitionBehavior,
   onInit = cbDefault,
   onUpdate = cbDefault,
@@ -214,13 +206,12 @@ function ScrollMenu({
         items,
         {
           duration: transitionDuration,
-          ease: transitionEase,
           behavior: transitionBehavior,
           boundary: scrollContainerRef,
         },
         noPolyfill,
       ),
-    [items, transitionDuration, transitionEase, transitionBehavior, noPolyfill],
+    [items, transitionDuration, transitionBehavior, noPolyfill],
   );
 
   const getContext = React.useCallback(

@@ -53,7 +53,6 @@ describe('createApi', () => {
 
   const transitionOptions = {
     duration: 500,
-    ease: (t: number) => t,
     behavior: (() => false) as unknown as CustomScrollBehavior,
   };
 
@@ -72,7 +71,6 @@ describe('createApi', () => {
           inline: 'end',
           block: 'nearest',
           boundary: boundary.current,
-          ease: undefined,
           duration: undefined,
         });
       });
@@ -93,7 +91,6 @@ describe('createApi', () => {
           inline: 'end',
           block: 'nearest',
           boundary: boundary.current,
-          ease: transitionOptions.ease,
           duration: transitionOptions.duration,
         });
       });
@@ -149,7 +146,6 @@ describe('createApi', () => {
           inline: 'center',
           block: 'center',
           boundary: boundary.current,
-          ease: transitionOptions.ease,
           duration: transitionOptions.duration,
         });
       });
@@ -348,7 +344,6 @@ describe('createApi', () => {
         block: 'nearest',
         inline: 'end',
         duration: undefined,
-        ease: undefined,
         boundary: boundary.current,
       });
     });
@@ -389,7 +384,6 @@ describe('createApi', () => {
         block: 'nearest',
         inline: 'end',
         duration: transitionOptions.duration,
-        ease: transitionOptions.ease,
         boundary: boundary.current,
       });
     });
@@ -410,7 +404,6 @@ describe('createApi', () => {
         block: 'center',
         inline: 'center',
         duration: transitionOptions.duration,
-        ease: transitionOptions.ease,
         boundary: boundary.current,
       });
     });
@@ -431,7 +424,6 @@ describe('createApi', () => {
         block: 'nearest',
         inline: 'start',
         duration: undefined,
-        ease: undefined,
         boundary: boundary.current,
       });
     });
@@ -472,7 +464,6 @@ describe('createApi', () => {
         block: 'nearest',
         inline: 'start',
         duration: transitionOptions.duration,
-        ease: transitionOptions.ease,
         boundary: boundary.current,
       });
     });
@@ -492,7 +483,6 @@ describe('createApi', () => {
         block: 'center',
         inline: 'center',
         duration: transitionOptions.duration,
-        ease: transitionOptions.ease,
         boundary: boundary.current,
       });
     });

@@ -1,4 +1,3 @@
-import type { CustomEasing } from 'smooth-scroll-into-view-if-needed';
 import { Options } from 'scroll-into-view-if-needed';
 
 import { events } from './constants';
@@ -36,7 +35,6 @@ export type CustomScrollBehavior = Options;
 export interface scrollToItemOptions {
   boundary?: HTMLElement | null;
   duration?: number;
-  ease?: CustomEasing;
   behavior: CustomScrollBehavior;
 }
 
