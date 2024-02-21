@@ -150,7 +150,6 @@ describe('scrollToItem', () => {
 
     const options = {
       duration: 1000,
-      ease: (t: number) => t / 2,
       boundary: document.createElement('div'),
     };
     scrollToItem(item, 'auto', 'end', 'center', options);

@@ -235,7 +235,6 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | scrollContainerClassName | ClassName of scrollContainer                                  |
 | transitionDuration       | Duration of transitions in ms, default 500                    |
 | transitionBehavior       | 'smooth' \|'auto' \| customFunction                           |
-| transitionEase           | Ease function, eg t => t\*(2-t)                               |
 | wrapperClassName         | ClassName of the outer-most div                               |
 | RTL                      | Enable Right to left direction                                |
 | noPolyfill               | Don't use polyfill for scroll, no transitions                 |
@@ -284,8 +283,8 @@ ItemsMap class store info about all items and has methods to get currently visib
 
 NOTE: won't work with RTL prop
 
-Can use `transitionDuration`, `transitionEase` and `transitionBehavior`
-See [example](https://codesandbox.io/s/custom-transition-animation-n2pyn)
+Can use `transitionDuration`, and `transitionBehavior`
+See [example](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
 
 #### ScrollOptions for scrollToItem, scrollPrev, scrollNext
 
@@ -299,7 +298,6 @@ Will override transition\* options passed to ScrollMenu
     // block,
     {
       duration: number, // number in milliseconds
-      ease: (t) => t, // ease function, more https://gist.github.com/gre/1650294#file-easing-js
     };
 }
 ```

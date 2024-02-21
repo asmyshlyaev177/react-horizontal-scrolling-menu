@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import React from 'react';
@@ -19,6 +20,8 @@ import {
   publicApiType,
 } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
+import Styler from 'stylefire';
+import { animate } from 'popmotion';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
@@ -34,6 +37,10 @@ const App = () => {
   const [items] = React.useState(() => getItems(10));
   const [selected, setSelected] = React.useState<string[]>([]);
   const position = React.useRef(0);
+  const [duration, setDuration] = React.useState(1500);
+  const [ease, setEase] =
+    React.useState<keyof typeof easingFunctions>('noEasing');
+  const [customAnimation, setCustomAnimation] = React.useState(true);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
@@ -115,6 +122,12 @@ const App = () => {
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
               onMouseMove={handleDrag}
+              transitionDuration={duration}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              transitionBehavior={
+                (customAnimation && scrollBehavior(ease, duration)) || undefined
+              }
             >
               {items.map(({ id }) => (
                 <Card
@@ -126,11 +139,112 @@ const App = () => {
                 />
               ))}
             </ScrollMenu>
+
+            <OptionsWrapper>
+              <OptionItem label="Duration">
+                <input
+                  value={duration}
+                  onChange={(ev) => setDuration(+ev.target.value)}
+                />
+              </OptionItem>
+              <OptionItem label="Ease">
+                <select
+                  name="ease"
+                  id="ease"
+                  value={ease}
+                  onChange={(ev: React.ChangeEvent<HTMLSelectElement>) =>
+                    setEase(ev.target.value as keyof typeof easingFunctions)
+                  }
+                >
+                  {Object.keys(easingFunctions).map((name: string) => (
+                    <option value={name} key={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </OptionItem>
+              <OptionItem label="Custom animation">
+                <input
+                  checked={customAnimation}
+                  onChange={(ev) => setCustomAnimation(ev.target.checked)}
+                  type="checkbox"
+                  style={{ width: '20px', height: '20px' }}
+                />
+              </OptionItem>
+            </OptionsWrapper>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+const OptionsWrapper = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ marginTop: '10px', display: 'flex', columnGap: '10px' }}>
+    {children}
+  </div>
+);
+
+const OptionItem = ({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}) => (
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <label>{label}</label>
+    {children}
+  </div>
+);
+
+const scrollBehavior =
+  (ease: keyof typeof easingFunctions, duration: number) =>
+  (instructions: { el: HTMLElement; left: number }[]) => {
+    const [{ el, left }] = instructions;
+    const styler = Styler(el);
+
+    animate({
+      from: el.scrollLeft,
+      to: left,
+      ease: easingFunctions[ease],
+      duration,
+      onUpdate: (left) => styler.set('scrollLeft', left),
+    });
+  };
+
+const easingFunctions = {
+  noEasing: undefined as unknown as (t: number) => number,
+  // no easing, no acceleration
+  linear: (t: number) => t,
+  // accelerating from zero velocity
+  easeInQuad: (t: number) => t * t,
+  // decelerating to zero velocity
+  easeOutQuad: (t: number) => t * (2 - t),
+  // acceleration until halfway, then deceleration
+  easeInOutQuad: (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+  // accelerating from zero velocity
+  easeInCubic: (t: number) => t * t * t,
+  // decelerating to zero velocity
+  easeOutCubic: (t: number) => --t * t * t + 1,
+  // acceleration until halfway, then deceleration
+  easeInOutCubic: (t: number) =>
+    t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+  // accelerating from zero velocity
+  easeInQuart: (t: number) => t * t * t * t,
+  // decelerating to zero velocity
+  easeOutQuart: (t: number) => 1 - --t * t * t * t,
+  // acceleration until halfway, then deceleration
+  easeInOutQuart: (t: number) =>
+    t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t,
+  // accelerating from zero velocity
+  easeInQuint: (t: number) => t * t * t * t * t,
+  // decelerating to zero velocity
+  easeOutQuint: (t: number) => 1 + --t * t * t * t * t,
+  // acceleration until halfway, then deceleration
+  easeInOutQuint: (t: number) =>
+    t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t,
+  // Source https://gist.github.com/gre/1650294#file-easing-js
 };
 
 const LeftArrow = React.memo(() => {

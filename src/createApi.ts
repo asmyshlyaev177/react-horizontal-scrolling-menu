@@ -22,7 +22,6 @@ export default function createApi(
   items: ItemsMap,
   transitionOptions?: {
     duration?: scrollToItemOptions['duration'];
-    ease?: scrollToItemOptions['ease'];
     behavior?: scrollToItemOptions['behavior'];
     boundary?: React.MutableRefObject<scrollToItemOptions['boundary']>;
   },
@@ -88,7 +87,7 @@ export default function createApi(
     behavior?: ScrollBehaviorArg,
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
-    { duration, ease, boundary = defaultBoundary }: ScrollOptions = {},
+    { duration, boundary = defaultBoundary }: ScrollOptions = {},
     // eslint-disable-next-line max-params
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
@@ -101,7 +100,6 @@ export default function createApi(
       {
         boundary,
         duration: duration ?? transitionOptions?.duration,
-        ease: ease ?? transitionOptions?.ease,
       },
       noPolyfill,
     );
@@ -111,7 +109,7 @@ export default function createApi(
     behavior?: ScrollBehaviorArg,
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
-    { duration, ease, boundary = defaultBoundary }: ScrollOptions = {},
+    { duration, boundary = defaultBoundary }: ScrollOptions = {},
     // eslint-disable-next-line max-params
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
@@ -124,7 +122,6 @@ export default function createApi(
       {
         boundary,
         duration: duration ?? transitionOptions?.duration,
-        ease: ease ?? transitionOptions?.ease,
       },
       noPolyfill,
     );
@@ -164,7 +161,6 @@ export default function createApi(
           boundary: defaultBoundary,
           ...options,
           duration: options?.duration ?? transitionOptions?.duration,
-          ease: options?.ease ?? transitionOptions?.ease,
         },
         noPolyfill,
       );
