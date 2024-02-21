@@ -52,7 +52,7 @@
 
 [One centered item](https://codesandbox.io/s/one-item-j9dzxd?file=/src/index.tsx)
 
-[Custom transition/animation](https://codesandbox.io/s/custom-transition-animation-n2pyn)
+[Custom transition/animation](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
 
 [Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
 
