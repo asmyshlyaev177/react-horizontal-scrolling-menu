@@ -37,10 +37,10 @@ const App = () => {
   const [items] = React.useState(() => getItems(10));
   const [selected, setSelected] = React.useState<string[]>([]);
   const position = React.useRef(0);
-  const [duration, setDuration] = React.useState(1500);
+  const [duration, setDuration] = React.useState(500);
   const [ease, setEase] =
     React.useState<keyof typeof easingFunctions>('noEasing');
-  const [customAnimation, setCustomAnimation] = React.useState(true);
+  const [customAnimation, setCustomAnimation] = React.useState(false);
 
   const isItemSelected = (id: string): boolean =>
     !!selected.find((el) => el === id);
