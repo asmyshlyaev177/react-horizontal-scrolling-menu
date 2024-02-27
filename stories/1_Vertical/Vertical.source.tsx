@@ -4,6 +4,7 @@ import {
   VisibilityContext,
   type publicApiType,
 } from 'react-horizontal-scrolling-menu';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 import styled from 'styled-jss';
 
 const NoScrollbar = styled('div')({
