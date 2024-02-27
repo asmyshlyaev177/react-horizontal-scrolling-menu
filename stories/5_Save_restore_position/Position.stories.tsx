@@ -2,13 +2,12 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
-import styled from 'styled-jss';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 import { setupEditor } from '../setupEditor';
+import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import * as Lib from '../../src/index';
 import {
   ScrollTest,
   TestObj,
@@ -37,11 +36,7 @@ export default meta;
 
 export const Position = createLiveEditStory({
   code: ExampleRaw,
-  availableImports: {
-    react: React,
-    'react-horizontal-scrolling-menu': Lib,
-    'styled-jss': styled,
-  },
+  availableImports,
   modifyEditor: setupEditor,
 });
 

@@ -5,8 +5,8 @@ import { createLiveEditStory } from 'storybook-addon-code-editor';
 import styled from 'styled-jss';
 
 import { setupEditor } from '../setupEditor';
+import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import * as Lib from '../../src/index';
 import { ScrollTest, upArrowSelector, downArrowSelector } from '../test';
 
 // @ts-ignore
@@ -36,11 +36,7 @@ export default meta;
 
 export const Vertical = createLiveEditStory({
   code: ExampleRaw,
-  availableImports: {
-    react: React,
-    'react-horizontal-scrolling-menu': Lib,
-    'styled-jss': styled,
-  },
+  availableImports,
   modifyEditor: setupEditor,
 });
 
