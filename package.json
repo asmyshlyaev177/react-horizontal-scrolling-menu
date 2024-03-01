@@ -89,7 +89,6 @@
     "build": "wireit",
     "demo": "wireit",
     "serve": "wireit",
-    "commit": "cz",
     "release": "wireit",
     "pub": "wireit",
     "push": "wireit",
@@ -99,11 +98,8 @@
     "reinstall": "npm run cleanup && npm run setup",
     "install-deps": "wireit",
     "install-example-deps": "wireit",
-    "setup-husky": "wireit",
-    "cz-install": "wireit",
     "setup-tooling": "wireit",
     "setup": "npm install && npm run setup-tooling",
-    "cz-husky-init": "wireit",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit dist",
     "storybook": "wireit",
     "storybook:types": "wireit",
@@ -271,50 +267,8 @@
       "clean": false,
       "output": [],
       "dependencies": [
-        "setup-husky",
-        "cz-husky-init",
-        "cz-install",
         "install-example-deps",
         "install:playwright"
-      ]
-    },
-    "setup-husky": {
-      "command": "husky install",
-      "dependencies": [
-        "install-deps"
-      ],
-      "files": [
-        "package.json"
-      ],
-      "allowUsuallyExcludedPaths": true,
-      "clean": false,
-      "output": [
-        ".husky"
-      ]
-    },
-    "cz-husky-init": {
-      "command": "cat .husky/commit-msg | grep 'npx --no-install commitlint --edit \"$1\"' ; [ $? -eq 1 ] && husky add .husky/commit-msg 'npx --no-install commitlint --edit \"$1\"' || echo 'commit msg hook installed'",
-      "dependencies": [
-        "setup-husky"
-      ],
-      "allowUsuallyExcludedPaths": true,
-      "files": [
-        "package.json"
-      ],
-      "clean": false,
-      "output": [
-        ".husky"
-      ]
-    },
-    "cz-install": {
-      "command": "commitizen init cz-conventional-changelog --dev --exact",
-      "files": [
-        "package.json"
-      ],
-      "clean": false,
-      "output": [],
-      "dependencies": [
-        "install-deps"
       ]
     },
     "build": {
@@ -353,9 +307,14 @@
       "path": "cz-conventional-changelog"
     }
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/cli": "^17.8.1",
+    "@commitlint/config-conventional": "^17.8.1",
     "@jest/globals": "^29.7.0",
     "@playwright/test": "^1.40.1",
     "@rollup/plugin-commonjs": "^19.0.0",
