@@ -32,12 +32,12 @@ export type ItemType = React.ReactElement<{
 
 export type CustomScrollBehavior = Options;
 
+export type ScrollBehaviorArg = ScrollBehavior | CustomScrollBehavior;
+
 export interface scrollToItemOptions {
   boundary?: HTMLElement | null;
   duration?: number;
-  behavior: CustomScrollBehavior;
+  behavior: ScrollBehaviorArg;
 }
 
 export type ItemOrElement = IOItem | Element | undefined;
-
-export type ScrollBehaviorArg = ScrollBehavior | CustomScrollBehavior;

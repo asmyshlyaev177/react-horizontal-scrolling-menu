@@ -17,6 +17,7 @@
     "react-horizontal-scrolling-menu": "file:../"
   },
   "devDependencies": {
+    "@million/lint": "^0.0.68",
     "@types/lodash": "^4.14.200",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -1,6 +1,11 @@
+/* eslint-disable */
+// const MillionCompiler = require('@million/lint');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export"
+  output: "export",
+  reactStrictMode: true
 }
 
-module.exports = nextConfig
+// module.exports = MillionCompiler.next()(nextConfig);
+module.exports = nextConfig;
