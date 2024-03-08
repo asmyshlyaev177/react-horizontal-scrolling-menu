@@ -16,7 +16,7 @@ import { useOnCb } from './hooks/useOnCb';
 
 import { VisibilityContext } from './context';
 
-import type { ItemType, Refs, CustomScrollBehavior, ItemId } from './types';
+import type { ItemType, Refs, ScrollBehaviorArg, ItemId } from './types';
 import { getElementOrConstructor } from './helpers';
 
 import { slidingWindow } from './slidingWindow';
@@ -75,7 +75,7 @@ export interface Props {
       });
     }
    */
-  transitionBehavior?: CustomScrollBehavior;
+  transitionBehavior?: ScrollBehaviorArg;
   /**
    Callback that fire once on init
    */

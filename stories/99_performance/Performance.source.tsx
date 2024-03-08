@@ -16,14 +16,17 @@ export function Performance() {
   // NOTE: for drag by mouse
   const dragState = React.useRef(new DragManager());
 
-  const handleDrag =
+  const handleDrag = React.useCallback(
     ({ scrollContainer }: typeof VisibilityContext) =>
-    (ev: React.MouseEvent) =>
-      dragState.current.dragMove(ev, (posDiff) => {
-        if (scrollContainer.current) {
-          scrollContainer.current.scrollLeft += posDiff;
-        }
-      });
+      (ev: React.MouseEvent) =>
+        dragState.current.dragMove(ev, (posDiff) => {
+          if (scrollContainer.current) {
+            scrollContainer.current.scrollLeft += posDiff;
+          }
+        }),
+    [],
+  );
+
   const onMouseDown = React.useCallback(
     () => dragState.current.dragStart,
     [dragState],
@@ -33,21 +36,17 @@ export function Performance() {
     [dragState],
   );
 
-  const isItemSelected = (id: string): boolean =>
-    !!selected.find((el) => el === id);
-
-  const handleItemClick = (itemId: string) => {
+  const handleItemClick = React.useCallback((itemId: string) => {
     if (dragState.current.dragging) {
       return false;
     }
-    const itemSelected = isItemSelected(itemId);
 
     setSelected((currentSelected: string[]) =>
-      itemSelected
+      currentSelected.includes(itemId)
         ? currentSelected.filter((el) => el !== itemId)
         : currentSelected.concat(itemId),
     );
-  };
+  }, []);
 
   return (
     <>
@@ -66,8 +65,8 @@ export function Performance() {
               title={id}
               itemId={id} // NOTE: itemId is required for track items
               key={id}
-              onClick={() => handleItemClick(id)}
-              selected={isItemSelected(id)}
+              onClick={handleItemClick}
+              selected={selected.includes(id)}
             />
           ))}
         </ScrollMenu>
@@ -116,7 +115,7 @@ class DragManager {
   };
 }
 
-function LeftArrow() {
+const LeftArrow = React.memo(() => {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isFirstItemVisible = visibility.useIsVisible('first', true);
 
@@ -129,9 +128,9 @@ function LeftArrow() {
       Left
     </Arrow>
   );
-}
+});
 
-function RightArrow() {
+const RightArrow = React.memo(() => {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isLastItemVisible = visibility.useIsVisible('last', false);
 
@@ -144,28 +143,21 @@ function RightArrow() {
       Right
     </Arrow>
   );
-}
+});
 
 function Arrow({
   children,
   disabled,
   onClick,
-  className,
   testId,
 }: {
   children: React.ReactNode;
   disabled: boolean;
   onClick: VoidFunction;
-  className?: string;
   testId: string;
 }) {
   return (
-    <ArrowButton
-      disabled={disabled}
-      onClick={onClick}
-      className={'arrow' + `-${className}`}
-      data-testid={testId}
-    >
+    <ArrowButton disabled={disabled} onClick={onClick} data-testid={testId}>
       {children}
     </ArrowButton>
   );
@@ -182,43 +174,57 @@ const ArrowButton = styled('button')({
   borderWidth: '1px',
 });
 
-function Card({
-  onClick,
-  selected,
-  title,
-  itemId,
-}: {
-  onClick: (context: publicApiType) => void;
-  selected: boolean;
-  title: string;
-  itemId: string;
-}) {
-  const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isVisible = visibility.useIsVisible(itemId, true);
+const Card = React.memo(
+  ({
+    onClick,
+    selected,
+    title,
+    itemId,
+  }: {
+    onClick: (context: publicApiType) => void;
+    selected: boolean;
+    title: string;
+    itemId: string;
+  }) => {
+    const visibility = React.useContext<publicApiType>(VisibilityContext);
+    const isVisible = visibility.useIsVisible(itemId, true);
+    const handleClick = React.useCallback(
+      () => onClick(itemId),
+      [itemId, onClick],
+    );
+    const onKeyDown = React.useCallback(
+      (ev: React.KeyboardEvent) => {
+        ev.code === 'Enter' && handleClick();
+      },
+      [handleClick],
+    );
 
-  return (
-    <CardBody
-      data-cy={itemId}
-      onClick={() => onClick(visibility)}
-      onKeyDown={(ev: React.KeyboardEvent) => {
-        ev.code === 'Enter' && onClick(visibility);
-      }}
-      data-testid="card"
-      role="button"
-      tabIndex={0}
-      className="card"
-      visible={isVisible}
-      selected={selected}
-    >
-      <div className="header">
-        <div>{title}</div>
-        <div className="visible">visible: {JSON.stringify(isVisible)}</div>
-        <div className="selected">selected: {JSON.stringify(!!selected)}</div>
-      </div>
-      <div className="background" />
-    </CardBody>
-  );
-}
+    return (
+      <CardBody
+        data-cy={itemId}
+        onClick={handleClick}
+        onKeyDown={onKeyDown}
+        data-testid="card"
+        role="button"
+        tabIndex={0}
+        className="card"
+        visible={isVisible}
+        selected={selected}
+      >
+        <div className="header">
+          <div>{title}</div>
+          <div className="visible">visible: {JSON.stringify(isVisible)}</div>
+          <div className="selected">selected: {JSON.stringify(!!selected)}</div>
+        </div>
+        <div className="background" />
+      </CardBody>
+    );
+  },
+  (prevProps, nextProps) =>
+    prevProps.selected === nextProps.selected &&
+    prevProps.title === nextProps.title,
+);
+
 const CardBody = styled('div')({
   border: '1px solid',
   display: 'inline-block',

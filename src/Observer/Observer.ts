@@ -27,7 +27,7 @@ export class Observer {
 
   private emitUpdates = (key: EventPayload[0], value?: EventPayload[1]) => {
     const cbs = this.observers.get(key) || [];
-    cbs?.forEach((cb) => cb?.(value));
+    cbs?.forEach((cb) => cb(value));
   };
 
   public updateBatch = (entries: EventPayload[], onUpdate = true) => {
