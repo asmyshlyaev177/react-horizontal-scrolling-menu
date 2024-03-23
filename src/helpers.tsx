@@ -10,7 +10,7 @@ import type {
   scrollToItemOptions,
   visibleElements,
 } from './types';
-import { separatorString, id as itemId } from './constants';
+import { separatorString, id as itemId, emptyStr } from './constants';
 import { observerOptions } from './settings';
 import { dataKeyAttribute, dataIndexAttribute } from './constants';
 
@@ -28,8 +28,8 @@ export function observerEntriesToItems(
 ): Item[] {
   return [...entries].map((entry) => {
     const target = entry.target as HTMLElement;
-    const key = String(target?.dataset?.key ?? '');
-    const index = String(target?.dataset?.index ?? '');
+    const key = String(target?.dataset?.key ?? emptyStr);
+    const index = String(target?.dataset?.index ?? emptyStr);
 
     return [
       key,
@@ -100,7 +100,10 @@ export const filterSeparators = (items: visibleElements): visibleElements =>
 export const getItemId = (item: React.ReactNode) =>
   String(
     (item as React.JSX.Element)?.props?.[itemId] ||
-      String((item as React.JSX.Element)?.key || '').replace(/^\.\$/, ''),
+      String((item as React.JSX.Element)?.key || emptyStr).replace(
+        /^\.\$/,
+        emptyStr,
+      ),
   );
 
 export const rafTimeout = (func: () => void, delay: number = 0) =>

@@ -32,6 +32,7 @@ export default function createApi(
 
     React.useEffect(() => {
       const cb = (newVal?: IOItem) => {
+        // TODO: where is better to use raf when value set or when events fired?
         setVisible(!!newVal?.visible);
       };
       items.subscribe(itemId, cb);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { separatorString } from '../constants';
+import { separatorString, emptyStr } from '../constants';
 import { ItemsMap } from '../ItemsMap';
 import type { ItemId, ItemType } from '../types';
 import { getItemId } from '../helpers';
@@ -13,7 +13,7 @@ function useItemsChanged(
   menuItems: ItemType | ItemType[] | undefined,
   items: ItemsMap,
 ): string {
-  const [hash, setHash] = React.useState<string>('');
+  const [hash, setHash] = React.useState<string>(emptyStr);
 
   const domNodes = React.useMemo(
     () => getItemsIdFromChildren(menuItems),
@@ -21,13 +21,13 @@ function useItemsChanged(
   );
 
   React.useEffect(() => {
-    const hash = domNodes.filter(Boolean).join('');
+    const hash = domNodes.filter(Boolean).join(emptyStr);
 
     const allItems = items.toItemsWithoutSeparators();
     const removed = allItems.filter((item) => !domNodes.includes(item));
     removed.forEach((item) => {
       const isLast = items.last()?.key === item;
-      const lastSeparator = (isLast && items.prev(item)?.key) || '';
+      const lastSeparator = (isLast && items.prev(item)?.key) || emptyStr;
 
       items.delete(lastSeparator);
       items.delete(`${item}${separatorString}`);
