@@ -36,7 +36,7 @@ const getItems = (count: number, start: number = 0) =>
     .map((_, ind) => ({ id: getId(start + ind) }));
 
 const App = () => {
-  const [items, setItems] = React.useState(() => getItems(ITEMS));
+  const [items] = React.useState(() => getItems(ITEMS));
 
   const [selected, setSelected] = React.useState<string[]>([]);
   const position = React.useRef(0);

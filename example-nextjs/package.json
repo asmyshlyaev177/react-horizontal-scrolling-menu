@@ -10,6 +10,7 @@
     "serve": "serve -s -p 3003 out"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.1",
     "lodash": "^4.17.21",
     "next": "14.0.1",
     "react": "^18",
