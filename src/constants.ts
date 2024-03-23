@@ -26,3 +26,5 @@ export const events = {
 } as const;
 
 export const emptyStr = '';
+
+export const emptyRef = { current: null };

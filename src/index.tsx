@@ -16,8 +16,14 @@ import { useOnCb } from './hooks/useOnCb';
 
 import { VisibilityContext } from './context';
 
-import type { ItemType, Refs, ScrollBehaviorArg, ItemId } from './types';
-import { getElementOrConstructor } from './helpers';
+import type {
+  ItemType,
+  Refs,
+  ScrollBehaviorArg,
+  ItemId,
+  RefType,
+} from './types';
+import { getElementOrConstructor, isMutableRef } from './helpers';
 
 import { slidingWindow } from './slidingWindow';
 import getItemsPos from './getItemsPos';
@@ -103,6 +109,12 @@ export interface Props {
   onTouchStart?: (arg0: publicApiType) => React.TouchEventHandler;
   onTouchEnd?: (arg0: publicApiType) => React.TouchEventHandler;
   /**
+    Ref object that will be passed to ScrollContainer, immediate parent of items
+
+    Usable for animations with formkit/auto-animate
+   */
+  containerRef?: RefType<Element>;
+  /**
     For add custom className for item
    */
   itemClassName?: string;
@@ -123,7 +135,9 @@ export interface Props {
 
     e.g. apiRef.current.scrollToItem(...)
    */
-  apiRef?: React.MutableRefObject<publicApiType>;
+  apiRef?:
+    | React.MutableRefObject<publicApiType>
+    | React.RefCallback<publicApiType>;
   RTL?: boolean;
   /**
     Disable scrollIntoView polyfill
@@ -160,6 +174,7 @@ function ScrollMenu({
   onWheel = cbDefault,
   options = defaultObserverOptions,
   scrollContainerClassName = constants.emptyStr,
+  containerRef = constants.emptyRef,
   itemClassName = constants.emptyStr,
   separatorClassName = constants.emptyStr,
   wrapperClassName = constants.emptyStr,
@@ -231,7 +246,13 @@ function ScrollMenu({
 
   React.useEffect(() => setContext(getContext()), [getContext]);
 
-  apiRef.current = context;
+  React.useEffect(() => {
+    if (isMutableRef(apiRef)) {
+      apiRef.current = context;
+    } else {
+      apiRef(context);
+    }
+  }, [context, apiRef]);
 
   const scrollHandler = React.useCallback(
     (event: React.UIEvent) => onScroll(context, event),
@@ -249,7 +270,7 @@ function ScrollMenu({
   );
 
   const containerClassName = React.useMemo(
-    () => `${scrollContainerClassName}${RTL ? ' rtl' : ''}`,
+    () => `${scrollContainerClassName}${RTL ? ' rtl' : constants.emptyStr}`,
     [RTL, scrollContainerClassName],
   );
 
@@ -273,6 +294,7 @@ function ScrollMenu({
             className={containerClassName}
             onScroll={scrollHandler}
             scrollRef={scrollContainerRef}
+            containerRef={containerRef}
           >
             <MenuItems
               refs={menuItemsRefs}

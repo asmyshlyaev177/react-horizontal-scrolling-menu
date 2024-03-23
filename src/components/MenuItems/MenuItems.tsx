@@ -47,7 +47,7 @@ function MenuItems({
           <Item
             className={itemClass}
             id={id}
-            key={'menuItem__' + id}
+            key={id}
             refs={refs}
             index={index}
           >
