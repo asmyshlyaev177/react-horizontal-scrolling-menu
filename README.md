@@ -222,7 +222,8 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onWheel                  | (VisibilityContext, event) => void                            |
 | onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll |
 | onInit                   | (VisibilityContext) => void                                   |
-| apiRef                   | React.RefObject                                               |
+| apiRef                   | React.RefObject \| React.RefCallback                          |
+| containerRef             | React.RefObject \| React.RefCallback                          |
 | onUpdate                 | (VisibilityContext) => void                                   |
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void      |
