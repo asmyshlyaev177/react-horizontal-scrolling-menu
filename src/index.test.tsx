@@ -98,7 +98,6 @@ const options = {
 describe('ScrollMenu', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    jest.resetAllMocks();
   });
 
   test('should render without props', () => {
@@ -138,10 +137,6 @@ describe('ScrollMenu', () => {
   });
 
   describe('onInit and onUpdate cbs', () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-
     test('should pass onInit and onUpdate to useOnCb', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(
         defaultItemsWithSeparators,
@@ -167,11 +162,7 @@ describe('ScrollMenu', () => {
   });
 
   describe('apiRef', () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-
-    test('should fire with publicApi', () => {
+    test('MutableRef', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(
         defaultItemsWithSeparators,
       );
@@ -182,6 +173,59 @@ describe('ScrollMenu', () => {
       expect(container.firstChild).toBeTruthy();
 
       comparePublicApi(apiRef.current);
+    });
+
+    test('Callback', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators,
+      );
+      const apiRef = { current: {} } as React.MutableRefObject<publicApiType>;
+      const cb = (api: publicApiType) => {
+        apiRef.current = api;
+      };
+
+      const { container } = setup({ apiRef: cb });
+
+      expect(container.firstChild).toBeTruthy();
+
+      comparePublicApi(apiRef.current);
+    });
+  });
+
+  describe('containerRef', () => {
+    test('MutableRef', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators,
+      );
+      const containerRef = {
+        current: {},
+      } as React.MutableRefObject<Element>;
+      const { container } = setup({ containerRef });
+      const scrollContainer = container.querySelector(
+        '.react-horizontal-scrolling-menu--scroll-container',
+      );
+
+      expect(container.firstChild).toBeTruthy();
+      expect(containerRef.current).toEqual(scrollContainer);
+    });
+
+    test('Callback', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue(
+        defaultItemsWithSeparators,
+      );
+      const containerRef = {
+        current: {},
+      } as React.MutableRefObject<Element>;
+      const cb = (elem: Element) => {
+        containerRef.current = elem;
+      };
+      const { container } = setup({ containerRef: cb });
+      const scrollContainer = container.querySelector(
+        '.react-horizontal-scrolling-menu--scroll-container',
+      );
+
+      expect(container.firstChild).toBeTruthy();
+      expect(containerRef.current).toEqual(scrollContainer);
     });
   });
 

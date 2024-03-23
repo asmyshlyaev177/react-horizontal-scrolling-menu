@@ -19,6 +19,10 @@ export type Item = [itemId: ItemId, observerEntry: IOItem];
 
 export type visibleElements = ItemId[];
 
+export type RefType<T> =
+  | React.MutableRefObject<T | null>
+  | React.RefCallback<T>;
+
 export interface Refs {
   [key: ItemId]: React.MutableRefObject<HTMLElement | null>;
 }

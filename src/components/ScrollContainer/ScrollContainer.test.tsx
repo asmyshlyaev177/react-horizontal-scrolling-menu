@@ -3,12 +3,24 @@ import { act, fireEvent, render } from '@testing-library/react';
 import ScrollContainer, { type Props } from './ScrollContainer';
 import { scrollContainerClassName } from '../../constants';
 
-const setup = ({ className, scrollRef, onScroll }: Props) => {
+const _containerRef = { current: null };
+const _scrollRef = { current: null };
+
+const setup = ({
+  className,
+  scrollRef = _scrollRef,
+  onScroll,
+  containerRef = _containerRef,
+}: Omit<Omit<Props, 'containerRef'>, 'scrollRef'> & {
+  containerRef?: Props['containerRef'];
+  scrollRef?: Props['scrollRef'];
+} = {}) => {
   return render(
     <ScrollContainer
       className={className}
       onScroll={onScroll}
       scrollRef={scrollRef}
+      containerRef={containerRef}
     >
       Child
     </ScrollContainer>,
@@ -16,10 +28,14 @@ const setup = ({ className, scrollRef, onScroll }: Props) => {
 };
 
 describe('ScrollContainer', () => {
+  beforeEach(() => {
+    _containerRef.current = null;
+    _scrollRef.current = null;
+  });
+
   describe('className', () => {
     test('default', () => {
-      const scrollRef: React.Ref<HTMLDivElement> = { current: null };
-      const { container } = setup({ scrollRef });
+      const { container } = setup();
 
       expect(container.firstChild).toHaveClass(scrollContainerClassName);
     });
@@ -27,8 +43,7 @@ describe('ScrollContainer', () => {
     test('custom', () => {
       const className = 'test123';
 
-      const scrollRef: React.Ref<HTMLDivElement> = { current: null };
-      const { container } = setup({ className, scrollRef });
+      const { container } = setup({ className });
 
       expect(container.firstChild).toHaveClass(scrollContainerClassName);
       expect(container.firstChild).toHaveClass(className);
@@ -45,8 +60,7 @@ describe('ScrollContainer', () => {
 
   test('should fire onScroll', () => {
     const onScroll = jest.fn();
-    const scrollRef: React.Ref<HTMLDivElement> = { current: null };
-    const { container } = setup({ onScroll, scrollRef });
+    const { container } = setup({ onScroll });
 
     expect(onScroll).toHaveBeenCalledTimes(0);
     act(() => {
@@ -54,5 +68,15 @@ describe('ScrollContainer', () => {
     });
 
     expect(onScroll).toHaveBeenCalledTimes(1);
+  });
+
+  test('should pass containerRef', () => {
+    const scrollRef: React.Ref<HTMLDivElement> = { current: null };
+    const containerRef: React.Ref<HTMLDivElement> = { current: null };
+    const { container, getByText } = setup({ scrollRef, containerRef });
+
+    expect(scrollRef.current).toEqual(container.firstChild);
+    expect(containerRef.current).toEqual(container.firstChild);
+    expect(getByText('Child')).toBeTruthy();
   });
 });
