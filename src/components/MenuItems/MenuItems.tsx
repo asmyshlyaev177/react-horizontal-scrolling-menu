@@ -6,6 +6,7 @@ import {
   separatorString,
   itemClassName,
   separatorClassName,
+  emptyStr,
 } from '../../constants';
 import type { ItemType, Refs } from '../../types';
 import { getItemId } from '../../helpers';
@@ -19,9 +20,9 @@ export type Props = {
 
 function MenuItems({
   children,
-  itemClassName: _itemClassName = '',
+  itemClassName: _itemClassName = emptyStr,
   refs,
-  separatorClassName: _separatorClassName = '',
+  separatorClassName: _separatorClassName = emptyStr,
 }: Props): React.JSX.Element {
   const childArray = React.Children.toArray(children).filter(Boolean);
   const itemsCount = childArray.length;

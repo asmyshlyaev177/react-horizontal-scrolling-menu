@@ -1,6 +1,6 @@
 import React, { LegacyRef } from 'react';
 
-import { scrollContainerClassName } from '../../constants';
+import { scrollContainerClassName, emptyStr } from '../../constants';
 
 export type Props = {
   className?: string;
@@ -10,7 +10,7 @@ export type Props = {
 };
 
 function ScrollContainer({
-  className: _className = '',
+  className: _className = emptyStr,
   children,
   onScroll = () => void 0,
   scrollRef,

@@ -24,3 +24,5 @@ export const events = {
   onInit: 'onInit',
   onUpdate: 'onUpdate',
 } as const;
+
+export const emptyStr = '';

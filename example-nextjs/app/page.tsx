@@ -28,13 +28,16 @@ type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 const elemPrefix = 'test';
 const getId = (index: number) => `${elemPrefix}${index}`;
 
-const getItems = (count: number) =>
+const ITEMS = 10;
+
+const getItems = (count: number, start: number = 0) =>
   Array(count)
     .fill(0)
-    .map((_, ind) => ({ id: getId(ind) }));
+    .map((_, ind) => ({ id: getId(start + ind) }));
 
 const App = () => {
-  const [items] = React.useState(() => getItems(10));
+  const [items, setItems] = React.useState(() => getItems(ITEMS));
+
   const [selected, setSelected] = React.useState<string[]>([]);
   const position = React.useRef(0);
   const [duration, setDuration] = React.useState(500);
