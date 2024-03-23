@@ -5,17 +5,14 @@ import {
 } from 'storybook-addon-code-editor/getStaticDirs';
 
 const config: StorybookConfig = {
-  core: {
-    builder: '@storybook/builder-webpack5',
-  },
   stories: [
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
   addons: [
     'storybook-addon-code-editor',
-    '@storybook/addon-interactions',
     '@storybook/addon-links',
+    // '@storybook/addon-onboarding',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -23,7 +20,9 @@ const config: StorybookConfig = {
         controls: false,
       },
     },
-    // '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm',
+    '@storybook/addon-webpack5-compiler-swc'
   ],
   managerHead: (head) => `
   <script>
@@ -50,9 +49,7 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      builder: {
-        useSWC: true,
-      },
+      builder: {}
     },
   },
   docs: {
