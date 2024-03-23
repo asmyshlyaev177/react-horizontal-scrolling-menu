@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.0.2...v6.1.0) (2024-03-23)
+
+
+### Features
+
+* containerRef prop to make it work with formkit/auto-animate ([#273](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/273)) ([d7ac7c3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/d7ac7c32f947638a8e6929f113d654caf1d4c0e6))
+
 ### [6.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.0.1...v6.0.2) (2024-02-21)
 
 ### [6.0.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.0.0...v6.0.1) (2024-02-20)
