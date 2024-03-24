@@ -2,7 +2,8 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
-import { within, expect } from '@storybook/test';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import { setupEditor } from '../setupEditor';
 import { availableImports } from '../availableImports';

@@ -3,7 +3,8 @@ import React from 'react';
 import type { Meta } from '@storybook/react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { expect, within, fireEvent } from '@storybook/test';
+import { within, fireEvent } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 
 import { setupEditor } from '../setupEditor';
 import { availableImports } from '../availableImports';
