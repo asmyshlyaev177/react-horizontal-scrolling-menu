@@ -1,0 +1,189 @@
+🔎 checking possible migrations..
+
+🔎 found a 'new-frameworks' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│   We've detected your project is not fully setup with the new framework format, which was introduced in Storybook 7.   │
+│                                                                                                                        │
+│   Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers (e.g. React, Vue),     │
+│   builders (e.g. Webpack, Vite) and defaults to make integrations easier.                                              │
+│                                                                                                                        │
+│   Your project should be updated to use Storybook's framework: @storybook/react-webpack5. We can attempt to do this    │
+│   for you automatically.                                                                                               │
+│                                                                                                                        │
+│   Here are the steps this migration will do to migrate your project:                                                   │
+│   - Remove the following dependencies:                                                                                 │
+│   - * @storybook/builder-webpack5                                                                                      │
+│   - * @storybook/manager-webpack5                                                                                      │
+│   - Remove the core.builder field in .storybook/main.ts.                                                               │
+│                                                                                                                        │
+│                                                                                                                        │
+│   To learn more about the new framework format, see:                                                                   │
+│   https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api                                    │
+│                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'new-frameworks' migration on your project? › (Y/n)✔ Do you want to run the 'new-frameworks' migration on your project? … yes
+✅ Removing dependencies: @storybook/builder-webpack5, @storybook/manager-webpack5
+✅ Updating main.js
+✅ Updating "framework" field
+✅ ran new-frameworks migration
+
+🔎 found a 'remove-jest-testing-library' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│   Attention: We've detected that you're using the following packages which are known to be incompatible since          │
+│   Storybook 8:                                                                                                         │
+│                                                                                                                        │
+│   - @storybook/jest                                                                                                    │
+│   - @storybook/testing-library                                                                                         │
+│                                                                                                                        │
+│   We will uninstall them for you and install @storybook/test instead.                                                  │
+│                                                                                                                        │
+│   Also, we can help you migrate your stories to use the new package.                                                   │
+│                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'remove-jest-testing-library' migration on your project? › (Y/n)✔ Do you want to run the 'remove-jest-testing-library' migration on your project? … yes
+? Please enter the glob for your stories to migrate to @storybook/test › ./src/**/*.stories.*✔ Please enter the glob for your stories to migrate to @storybook/test … ./src/**/*.stories.*
+=> Applying migrate-to-test-package: 0 files
+=> No matching files for glob: ./src/**/*.stories.*
+✅ ran remove-jest-testing-library migration
+
+🔎 found a 'remove-argtypes-regex' migration:
+╭ Manual migration detected ────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                               │
+│   Attention: We've detected that you're using argTypesRegex:                                                  │
+│                                                                                                               │
+│   .storybook/preview.ts                                                                                       │
+│      5 | const preview: Preview = {                                                                           │
+│      6 |   parameters: {                                                                                      │
+│   >  7 |     actions: { argTypesRegex: "^on[A-Z].*" },                                                        │
+│        |                ^^^^^^^^^^^^^                                                                         │
+│      8 |     // controls: {                                                                                   │
+│      9 |     //   matchers: {                                                                                 │
+│     10 |     //     color: /(background|color)$/i,                                                            │
+│                                                                                                               │
+│   In Storybook you can write so-called play functions, which are used to render your stories interactively.   │
+│   Mocking action args in play functions was done implicitly by analyzing the argTypesRegex.                   │
+│                                                                                                               │
+│   Since Storybook 8, implicit action args mocking isn't supported anymore.                                    │
+│                                                                                                               │
+│   Use the following command to check for mocked action usages in your play functions:                         │
+│   npx storybook migrate find-implicit-spies --glob="**/*.stories.@(js|jsx|ts|tsx)"                            │
+│                                                                                                               │
+│   And follow the documentation to migrate your play functions:                                                │
+│   https://storybook.js.org/docs/8.0/essentials/actions#via-storybooktest-fn-spy-function                      │
+│                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+? Select continue once you have made the required changes, or quit to exit the migration process › quit / continue✔ Select continue once you have made the required changes, or quit to exit the migration process … quit / continue
+
+🔎 found a 'github-flavored-markdown-mdx' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│   In MDX1 you had the option of using GitHub flavored markdown.                                                        │
+│                                                                                                                        │
+│   Storybook >= 8.0 uses MDX3 for compiling MDX, and thus no longer supports GFM out of the box.                        │
+│   Because of this you need to explicitly add the GFM plugin in the addon-docs options:                                 │
+│   https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm                            │
+│                                                                                                                        │
+│   We recommend that you follow the guide in the link above; however, we can add a temporary Storybook addon to help    │
+│   make this migration easier.                                                                                          │
+│   We'll install the addon and add it to your storybook config.                                                         │
+│                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'github-flavored-markdown-mdx' migration on your project? › (Y/n)✔ Do you want to run the 'github-flavored-markdown-mdx' migration on your project? … yes
+✅ Adding "@storybook/addon-mdx-gfm" addon
+✅ ran github-flavored-markdown-mdx migration
+
+🔎 found a 'webpack5-compiler-setup' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│   We need to update your Storybook configuration for Webpack 5.                                                        │
+│   The framework.options.builder.useSWC flag will be removed.                                                           │
+│                                                                                                                        │
+│   Storybook's Webpack5 builder is now compiler agnostic, meaning you have to install an additional addon to set up a   │
+│   compiler for Webpack5.                                                                                               │
+│                                                                                                                        │
+│   We have detected, that you want to use SWC as the compiler for Webpack5.                                             │
+│                                                                                                                        │
+│   In the next step, Storybook will install @storybook/addon-webpack5-compiler-swc and will add it to your addons       │
+│   list in your Storybook config.                                                                                       │
+│                                                                                                                        │
+│   After the migration, you can switch Webpack5 compilers by swapping the addon in your project.                        │
+│   You can find more information here: https://storybook.js.org/docs/8.0/builders/webpack#compiler-support              │
+│                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'webpack5-compiler-setup' migration on your project? › (Y/n)✔ Do you want to run the 'webpack5-compiler-setup' migration on your project? … yes
+Verifying @storybook/addon-webpack5-compiler-swc
+Installing @storybook/addon-webpack5-compiler-swc@^1.0.2
+Adding '@storybook/addon-webpack5-compiler-swc' to main.js addons field.
+✅ ran webpack5-compiler-setup migration
+
+⚠️  failed to check fix mdx1to3
+
+Error: ELOOP: too many symbolic links encountered, scandir '/home/alex/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/.wireit/696e7374616c6c2d6578616d706c652d64657073/cache/8d49618f3b96641137b8358b0acb16f3c8f70a4b1131209a9324ca7c86374679/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/@next/env'
+
+🔎 found a 'upgradeStorybookRelatedDependencies' migration:
+╭ Automigration detected ──────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│   You're upgrading to the latest version of Storybook. We recommend upgrading the following packages:                │
+│   - @storybook/test-runner: 0.16.0 => 0.17.0                                                                         │
+│   - eslint-plugin-storybook: 0.6.15 => 0.8.0                                                                         │
+│   - storybook-addon-code-editor: 2.2.0 => 2.2.1                                                                      │
+│                                                                                                                      │
+│   After upgrading, we will run the dedupe command, which could possibly have effects on dependencies that are not    │
+│   Storybook related.                                                                                                 │
+│   see: https://docs.npmjs.com/cli/commands/npm-dedupe                                                                │
+│                                                                                                                      │
+│   Do you want to proceed (upgrade the detected packages)?                                                            │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'upgradeStorybookRelatedDependencies' migration on your project? › (y/N)✔ Do you want to run the 'upgradeStorybookRelatedDependencies' migration on your project? … no
+
+╭ Migration check ran with failures ─────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                        │
+│   Successful migrations:                                                                                               │
+│                                                                                                                        │
+│   new-frameworks, remove-jest-testing-library, github-flavored-markdown-mdx, webpack5-compiler-setup                   │
+│                                                                                                                        │
+│   Failed migrations:                                                                                                   │
+│                                                                                                                        │
+│   mdx1to3:                                                                                                             │
+│   ELOOP: too many symbolic links encountered, scandir                                                                  │
+│   '/home/alex/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-ne   │
+│   xtjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/exam   │
+│   ple-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-men   │
+│   u/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolli   │
+│   ng-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-s   │
+│   crolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizo   │
+│   ntal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-   │
+│   horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/   │
+│   react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/.wireit/696e7374616c6c   │
+│   2d6578616d706c652d64657073/cache/8d49618f3b96641137b8358b0acb16f3c8f70a4b1131209a9324ca7c86374679/example-nextjs/n   │
+│   ode_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/example-ne   │
+│   xtjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/react-horizontal-scrolling-menu/exam   │
+│   ple-nextjs/node_modules/react-horizontal-scrolling-menu/example-nextjs/node_modules/@next/env'                       │
+│                                                                                                                        │
+│   You can find the full logs in /home/alex/react-horizontal-scrolling-menu/migration-storybook.log                     │
+│                                                                                                                        │
+│   Manual migrations:                                                                                                   │
+│                                                                                                                        │
+│   remove-argtypes-regex                                                                                                │
+│                                                                                                                        │
+│   Skipped migrations:                                                                                                  │
+│                                                                                                                        │
+│   upgradeStorybookRelatedDependencies                                                                                  │
+│                                                                                                                        │
+│   ─────────────────────────────────────────────────                                                                    │
+│                                                                                                                        │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook automigrate'                      │
+│                                                                                                                        │
+│   The automigrations try to migrate common patterns in your project, but might not contain everything needed to        │
+│   migrate to the latest version of Storybook.                                                                          │
+│                                                                                                                        │
+│   Please check the changelog and migration guide for manual migrations and more information:                           │
+│   https://storybook.js.org/docs/8.0/migration-guide                                                                    │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                                              │
+│                                                                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
