@@ -35,11 +35,6 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
           </div>
         </div>
         <div
-          class="react-horizontal-scrolling-menu--separator "
-          data-index="0.1"
-          data-key="test1-separator"
-        />
-        <div
           class="react-horizontal-scrolling-menu--item "
           data-index="1"
           data-key="test2"
@@ -104,11 +99,6 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           </div>
         </div>
         <div
-          class="react-horizontal-scrolling-menu--separator "
-          data-index="0.1"
-          data-key="test1-separator"
-        />
-        <div
           class="react-horizontal-scrolling-menu--item "
           data-index="1"
           data-key="test2"
@@ -166,11 +156,6 @@ exports[`ScrollMenu should render without props 1`] = `
             {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
           </div>
         </div>
-        <div
-          class="react-horizontal-scrolling-menu--separator "
-          data-index="0.1"
-          data-key="test1-separator"
-        />
         <div
           class="react-horizontal-scrolling-menu--item "
           data-index="1"

@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-identical-title */
 import { ItemsMap } from './ItemsMap';
 import type { IOItem, Item } from '../types';
-import { events, separatorString } from '../constants';
+import { events } from '../constants';
 
 let map: ItemsMap;
 
@@ -10,23 +10,10 @@ describe('ItemsMap', () => {
     ['test1', { index: '0', key: 'test1' } as unknown as IOItem],
     ['test2', { index: '1', key: 'test2' } as unknown as IOItem],
     ['test3', { index: '2', key: 'test3' } as unknown as IOItem],
+    ['test4', { index: '3', key: 'test4' } as unknown as IOItem],
   ];
   const updateDataIndex = (data: Item[]): Item[] =>
     data.map((el, ind) => [el[0], { ...el[1], index: String(ind) }]);
-
-  const dataWithSeparators: Item[] = [
-    ['test1', { index: '0', key: 'test1' } as unknown as IOItem],
-    [
-      `test1${separatorString}`,
-      { index: '0.1', key: 'test2' } as unknown as IOItem,
-    ],
-    ['test2', { index: '1', key: 'test3' } as unknown as IOItem],
-    [
-      `test2${separatorString}`,
-      { index: '1.1', key: 'test4' } as unknown as IOItem,
-    ],
-    ['test3', { index: '2', key: 'test5' } as unknown as IOItem],
-  ];
 
   beforeEach(() => {
     map = new ItemsMap();
@@ -94,17 +81,9 @@ describe('ItemsMap', () => {
 
     describe('toItems', () => {
       test('should return keys of items', () => {
-        map.setBatch(dataWithSeparators);
+        map.setBatch(data);
 
-        expect(map.toItems()).toEqual(dataWithSeparators.map((el) => el[0]));
-      });
-    });
-
-    describe('toItemsWithoutSeparators', () => {
-      test('should return keys of items', () => {
-        map.setBatch(dataWithSeparators);
-
-        expect(map.toItemsWithoutSeparators()).toEqual(data.map((el) => el[0]));
+        expect(map.toItems()).toEqual(data.map((el) => el[0]));
       });
     });
   });
@@ -132,7 +111,7 @@ describe('ItemsMap', () => {
       expect(updateDataIndex(data)).toEqual(data);
       map.setBatch(data);
       const newData = updateDataIndex([
-        ['test4', { index: '0', key: 'test4' } as unknown as IOItem],
+        ['test5', { index: '4', key: 'test5' } as unknown as IOItem],
         ...data,
       ]);
       expect(map.first()).toEqual(data[0][1]);
@@ -194,24 +173,6 @@ describe('ItemsMap', () => {
     );
   });
 
-  // without separators
-  test('getVisibleElements', () => {
-    map.setBatch(
-      dataWithSeparators.map((el) => [
-        el[0],
-        { ...el[1], visible: true } as unknown as IOItem,
-      ]),
-    );
-
-    const result = map.getVisibleElements();
-    expect(result).toHaveLength(3);
-    expect(result).toEqual([
-      ['test1', { index: '0', key: 'test1', visible: true }],
-      ['test2', { index: '1', key: 'test3', visible: true }],
-      ['test3', { index: '2', key: 'test5', visible: true }],
-    ]);
-  });
-
   test('findIndex', () => {
     map.setBatch(data);
 
@@ -228,87 +189,28 @@ describe('ItemsMap', () => {
 
   describe('getItemPos', () => {
     test('should return all items', () => {
-      const onlyItems = false;
+      map.setBatch(data);
+      expect(map.getCurrentPos(data[0][0])).toEqual([data, 0]);
 
-      map.setBatch(dataWithSeparators);
-      expect(map.getCurrentPos(dataWithSeparators[0][0], onlyItems)).toEqual([
-        dataWithSeparators,
-        0,
-      ]);
+      expect(map.getCurrentPos(data[2][0])).toEqual([data, 2]);
 
-      expect(map.getCurrentPos(dataWithSeparators[2][0], onlyItems)).toEqual([
-        dataWithSeparators,
-        2,
-      ]);
-
-      expect(map.getCurrentPos(dataWithSeparators[4][0], onlyItems)).toEqual([
-        dataWithSeparators,
-        4,
-      ]);
-    });
-
-    test('onlyItems=true should return all items without separators', () => {
-      const onlyItems = true;
-
-      map.setBatch(dataWithSeparators);
-      const withoutSeparators = dataWithSeparators.filter(
-        (el) => !el[0].includes(separatorString),
-      );
-      expect(map.getCurrentPos(dataWithSeparators[0][0], onlyItems)).toEqual([
-        withoutSeparators,
-        0,
-      ]);
-      expect(map.getCurrentPos(dataWithSeparators[2][0], onlyItems)).toEqual([
-        withoutSeparators,
-        1,
-      ]);
-      expect(map.getCurrentPos(dataWithSeparators[4][0], onlyItems)).toEqual([
-        withoutSeparators,
-        2,
-      ]);
+      expect(map.getCurrentPos(data[3][0])).toEqual([data, 3]);
     });
   });
 
-  describe('prev"ious item', () => {
+  describe('previous item', () => {
     describe('by key', () => {
-      describe('with separators', () => {
-        test('have previous item', () => {
-          map.setBatch(data);
+      test('have previous item', () => {
+        map.setBatch(data);
 
-          expect(map.prev(data[1][0])).toEqual(data[0][1]);
-          expect(map.prev(data[2][0])).toEqual(data[1][1]);
-        });
-
-        test('does not have prev item', () => {
-          map.setBatch(data);
-
-          const key = data[0][0];
-
-          expect(map.prev(key)).toEqual(undefined);
-        });
+        expect(map.prev(data[2][0])).toEqual(data[1][1]);
+        expect(map.prev(data[3][0])).toEqual(data[2][1]);
       });
 
-      describe('without separators', () => {
-        const onlyItems = true;
+      test('does not have prev item', () => {
+        map.setBatch(data);
 
-        test('have previous item', () => {
-          map.setBatch(dataWithSeparators);
-
-          expect(map.prev(dataWithSeparators[2][0], onlyItems)).toEqual(
-            dataWithSeparators[0][1],
-          );
-          expect(map.prev(dataWithSeparators[4][0], onlyItems)).toEqual(
-            dataWithSeparators[2][1],
-          );
-        });
-
-        test('does not have prev item', () => {
-          map.setBatch(dataWithSeparators);
-
-          expect(map.prev(dataWithSeparators[0][0], onlyItems)).toEqual(
-            undefined,
-          );
-        });
+        expect(map.prev(data[0][0])).toEqual(undefined);
       });
     });
 
@@ -322,88 +224,36 @@ describe('ItemsMap', () => {
     });
 
     describe('by value', () => {
-      describe('with separators', () => {
-        test('have previous item', () => {
-          map.setBatch(data);
+      test('have previous item', () => {
+        map.setBatch(data);
 
-          expect(map.prev(data[1][1])).toEqual(data[0][1]);
-          expect(map.prev(data[2][1])).toEqual(data[1][1]);
-        });
-
-        test('does not have prev item', () => {
-          map.setBatch(data);
-
-          const item = data[0][1];
-
-          expect(map.prev(item)).toEqual(undefined);
-        });
+        expect(map.prev(data[2][1])).toEqual(data[1][1]);
+        expect(map.prev(data[3][1])).toEqual(data[2][1]);
       });
 
-      describe('without separators', () => {
-        const onlyItems = true;
+      test('does not have prev item', () => {
+        map.setBatch(data);
 
-        test('have previous item', () => {
-          map.setBatch(dataWithSeparators);
-
-          expect(map.prev(dataWithSeparators[2][1], onlyItems)).toEqual(
-            dataWithSeparators[0][1],
-          );
-          expect(map.prev(dataWithSeparators[4][1], onlyItems)).toEqual(
-            dataWithSeparators[2][1],
-          );
-        });
-
-        test('does not have prev item', () => {
-          map.setBatch(dataWithSeparators);
-
-          expect(map.prev(dataWithSeparators[0][1], onlyItems)).toEqual(
-            undefined,
-          );
-        });
+        expect(map.prev(data[0][1])).toEqual(undefined);
       });
     });
   });
 
   describe('next item', () => {
     describe('by key', () => {
-      describe('with separators', () => {
-        test('have next item', () => {
-          map.setBatch(data);
+      test('have next item', () => {
+        map.setBatch(data);
 
-          expect(map.next(data[0][0])).toEqual(data[1][1]);
-          expect(map.next(data[1][0])).toEqual(data[2][1]);
-        });
-
-        test('does not have next item', () => {
-          map.setBatch(data);
-
-          const key = data[2][0];
-
-          expect(map.next(key)).toEqual(undefined);
-        });
+        expect(map.next(data[0][0])).toEqual(data[1][1]);
+        expect(map.next(data[1][0])).toEqual(data[2][1]);
       });
 
-      describe('without separators', () => {
-        const onlyItems = true;
+      test('does not have next item', () => {
+        map.setBatch(data);
 
-        test('have next item', () => {
-          map.setBatch(dataWithSeparators);
+        const key = data.slice(-1)[0][1];
 
-          expect(map.next(dataWithSeparators[0][0], onlyItems)).toEqual(
-            dataWithSeparators[2][1],
-          );
-          expect(map.next(dataWithSeparators[2][0], onlyItems)).toEqual(
-            dataWithSeparators[4][1],
-          );
-        });
-
-        test('does not have next item', () => {
-          map.setBatch(dataWithSeparators);
-
-          expect(map.next(dataWithSeparators[4][0], onlyItems)).toEqual(
-            undefined,
-          );
-        });
+        expect(map.next(key)).toEqual(undefined);
       });
     });
 
@@ -417,44 +267,19 @@ describe('ItemsMap', () => {
     });
 
     describe('by value', () => {
-      describe('without separators', () => {
-        test('have next item', () => {
-          map.setBatch(data);
+      test('have next item', () => {
+        map.setBatch(data);
 
-          expect(map.next(data[0][1])).toEqual(data[1][1]);
-          expect(map.next(data[1][1])).toEqual(data[2][1]);
-        });
-
-        test('does not have next item', () => {
-          map.setBatch(data);
-
-          const item = data.slice(-1)[0][1];
-
-          expect(map.next(item)).toEqual(undefined);
-        });
+        expect(map.next(data[0][1])).toEqual(data[1][1]);
+        expect(map.next(data[1][1])).toEqual(data[2][1]);
       });
 
-      describe('without separators', () => {
-        const onlyItems = true;
+      test('does not have next item', () => {
+        map.setBatch(data);
 
-        test('have next item', () => {
-          map.setBatch(dataWithSeparators);
+        const item = data.slice(-1)[0][1];
 
-          expect(map.next(dataWithSeparators[0][1], onlyItems)).toEqual(
-            dataWithSeparators[2][1],
-          );
-          expect(map.next(dataWithSeparators[2][1], onlyItems)).toEqual(
-            dataWithSeparators[4][1],
-          );
-        });
-
-        test('does not have next item', () => {
-          map.setBatch(dataWithSeparators);
-
-          const item = dataWithSeparators.slice(-1)[0][1];
-
-          expect(map.next(item, onlyItems)).toEqual(undefined);
-        });
+        expect(map.next(item)).toEqual(undefined);
       });
     });
   });
@@ -538,7 +363,7 @@ describe('ItemsMap', () => {
             [
               ...data,
               [events.first, { index: '0', key: 'test1' }],
-              [events.last, { index: '2', key: 'test3' }],
+              [events.last, { index: '3', key: 'test4' }],
             ],
             false,
           ],

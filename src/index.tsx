@@ -119,10 +119,6 @@ export interface Props {
    */
   itemClassName?: string;
   /**
-    For add custom className for item separator
-   */
-  separatorClassName?: string;
-  /**
     For add custom className for scroll container
    */
   scrollContainerClassName?: string;
@@ -176,7 +172,6 @@ function ScrollMenu({
   scrollContainerClassName = constants.emptyStr,
   containerRef = constants.emptyRef,
   itemClassName = constants.emptyStr,
-  separatorClassName = constants.emptyStr,
   wrapperClassName = constants.emptyStr,
   apiRef = apiRefDefault,
   RTL,
@@ -296,11 +291,7 @@ function ScrollMenu({
             scrollRef={scrollContainerRef}
             containerRef={containerRef}
           >
-            <MenuItems
-              refs={menuItemsRefs}
-              itemClassName={itemClassName}
-              separatorClassName={separatorClassName}
-            >
+            <MenuItems refs={menuItemsRefs} itemClassName={itemClassName}>
               {children}
             </MenuItems>
           </ScrollContainer>

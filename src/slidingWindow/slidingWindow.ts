@@ -1,24 +1,14 @@
-import { separatorString } from '../constants';
 import type { visibleElements } from '../types';
-import { filterSeparators } from '../helpers';
-
-const addSeparators = (items: visibleElements): visibleElements =>
-  items
-    .reduce(
-      (result, item) => result.concat(item).concat(`${item}${separatorString}`),
-      <visibleElements>[],
-    )
-    .slice(0, -1);
 
 export function prevGroup(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements,
+  visibleElements: visibleElements,
 ): visibleElements {
   const firstIndex = allItems.findIndex(
-    (item) => item === visibleElementsWithSeparators?.[0],
+    (item) => item === visibleElements?.[0],
   );
 
-  const count = visibleElementsWithSeparators.length;
+  const count = visibleElements.length;
 
   const _nextGroupFirstItem = firstIndex - count;
 
@@ -38,13 +28,13 @@ export function prevGroup(
 
 export function nextGroup(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements,
+  visibleElements: visibleElements,
 ): visibleElements {
   const lastIndex = allItems.findIndex(
-    (item) => item === visibleElementsWithSeparators.slice(-1)?.[0],
+    (item) => item === visibleElements.slice(-1)?.[0],
   );
 
-  const count = visibleElementsWithSeparators.length;
+  const count = visibleElements.length;
 
   const _nextGroupLastItem = lastIndex + count + 1;
 
@@ -67,20 +57,17 @@ export function nextGroup(
 
 export function slidingWindow(
   allItems: visibleElements,
-  visibleElementsWithSeparators: visibleElements,
+  visibleElements: visibleElements,
 ): {
   prev: () => visibleElements;
   next: () => visibleElements;
 } {
-  const _allItems = filterSeparators(allItems);
-  const visibleElements = filterSeparators(visibleElementsWithSeparators);
-
   return {
     prev: () => {
-      return addSeparators(prevGroup(_allItems, visibleElements));
+      return prevGroup(allItems, visibleElements);
     },
     next: () => {
-      return addSeparators(nextGroup(_allItems, visibleElements));
+      return nextGroup(allItems, visibleElements);
     },
   };
 }

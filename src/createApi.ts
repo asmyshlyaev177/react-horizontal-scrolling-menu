@@ -32,8 +32,7 @@ export default function createApi(
 
     React.useEffect(() => {
       const cb = (newVal?: IOItem) => {
-        // TODO: where is better to use raf when value set or when events fired?
-        setVisible(!!newVal?.visible);
+        setTimeout(() => setVisible(!!newVal?.visible), 0);
       };
       items.subscribe(itemId, cb);
 
@@ -56,28 +55,18 @@ export default function createApi(
 
   const isItemVisible = (id: ItemId) =>
     items
-      .getVisibleElements()
+      .getVisible()
       .map((el) => el[0])
       .includes(String(id));
 
-  const getPrevItem = () => {
+  const getPrevElement = () => {
     const first = items.getVisible()?.[0]?.[1];
     return first ? items.prev(first) : undefined;
   };
 
-  const getPrevElement = () => {
-    const first = items.getVisibleElements()?.[0]?.[1];
-    return first ? items.prev(first, true) : undefined;
-  };
-
-  const getNextItem = () => {
+  const getNextElement = () => {
     const last = items.getVisible().findLast(() => true)?.[1];
     return last ? items.next(last) : undefined;
-  };
-
-  const getNextElement = () => {
-    const last = items.getVisibleElements().findLast(() => true)?.[1];
-    return last ? items.next(last, true) : undefined;
   };
 
   const isLastItem = (id: ItemId) => items.last() === getItemById(id);
@@ -94,7 +83,7 @@ export default function createApi(
     const _behavior = behavior ?? transitionOptions?.behavior;
 
     return scrollToItem(
-      getPrevItem(),
+      getPrevElement(),
       _behavior,
       inline || 'end',
       block || 'nearest',
@@ -116,7 +105,7 @@ export default function createApi(
     const _behavior = behavior ?? transitionOptions?.behavior;
 
     return scrollToItem(
-      getNextItem(),
+      getNextElement(),
       _behavior,
       inline || 'start',
       block || 'nearest',
@@ -133,9 +122,7 @@ export default function createApi(
     getItemElementById,
     getItemByIndex,
     getItemElementByIndex,
-    getNextItem,
     getNextElement,
-    getPrevItem,
     getPrevElement,
     isFirstItemVisible,
     isItemVisible,

@@ -1,6 +1,5 @@
 import type { IOItem, Item, ItemId, visibleElements, EventKey } from '../types';
-import { filterSeparators } from '../helpers';
-import { events, separatorString } from '../constants';
+import { events } from '../constants';
 import { Observer, type ObsFn } from '../Observer';
 
 export class ItemsMap extends Map<Item[0], Item[1]> {
@@ -60,9 +59,6 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
 
   public toItems = (): visibleElements => this.toArr().map(([key]) => key);
 
-  public toItemsWithoutSeparators = (): visibleElements =>
-    filterSeparators(this.toItems());
-
   public sort = (arr: Item[]) =>
     arr.sort(([, IOItemA], [, IOItemB]) => +IOItemA.index - +IOItemB.index);
 
@@ -119,39 +115,23 @@ export class ItemsMap extends Map<Item[0], Item[1]> {
     predicate: (value: Item, index: number, obj: Item[]) => unknown,
   ): number => this.toArr().findIndex(predicate);
 
-  public getCurrentPos = (
-    item: ItemId | IOItem,
-    onlyItems: boolean,
-  ): [Item[], number] => {
-    const arr = this.toArr().filter((el) =>
-      onlyItems ? !el?.[0]?.includes(separatorString) : el,
-    );
+  public getCurrentPos = (item: ItemId | IOItem): [Item[], number] => {
+    const arr = this.toArr();
     const current = arr.findIndex(
       ([itemId, ioitem]) => itemId === item || ioitem === item,
     );
     return [arr, current];
   };
 
-  public prev = (
-    item: ItemId | IOItem,
-    onlyItems?: boolean,
-  ): IOItem | undefined => {
-    const [arr, current] = this.getCurrentPos(item, !!onlyItems);
+  public prev = (item: ItemId | IOItem): IOItem | undefined => {
+    const [arr, current] = this.getCurrentPos(item);
     return current !== -1 ? arr[current - 1]?.[1] : undefined;
   };
 
-  public next = (
-    item: ItemId | IOItem,
-    onlyItems?: boolean,
-  ): IOItem | undefined => {
-    const [arr, current] = this.getCurrentPos(item, !!onlyItems);
+  public next = (item: ItemId | IOItem): IOItem | undefined => {
+    const [arr, current] = this.getCurrentPos(item);
     return current !== -1 ? arr[current + 1]?.[1] : undefined;
   };
 
   public getVisible = () => this.filter((value: Item) => value[1].visible);
-
-  public getVisibleElements = () =>
-    this.filter(
-      (value: Item) => !value[0].includes(separatorString) && value[1].visible,
-    );
 }
