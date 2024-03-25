@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { scrollContainerClassName, emptyStr } from '../../constants';
-import { RefType } from '../../types';
 import { isMutableRef } from '../../helpers';
+import { RefType } from '../../types';
 
 export type Props = {
   className?: string;

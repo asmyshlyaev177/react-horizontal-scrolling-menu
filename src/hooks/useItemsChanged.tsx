@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { emptyStr } from '../constants';
 import { ItemsMap } from '../ItemsMap';
-import type { ItemId, ItemType } from '../types';
+import { emptyStr } from '../constants';
 import { getItemId } from '../helpers';
+
+import type { ItemId, ItemType } from '../types';
 
 const getItemsIdFromChildren = (
   children: ItemType | ItemType[] | undefined,

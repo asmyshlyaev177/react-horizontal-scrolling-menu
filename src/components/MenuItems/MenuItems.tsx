@@ -1,9 +1,10 @@
 import React from 'react';
 
-import Item from '../Item';
 import { itemClassName, emptyStr } from '../../constants';
-import type { ItemType, Refs } from '../../types';
 import { getItemId } from '../../helpers';
+import Item from '../Item';
+
+import type { ItemType, Refs } from '../../types';
 
 export type Props = {
   children?: ItemType | ItemType[];

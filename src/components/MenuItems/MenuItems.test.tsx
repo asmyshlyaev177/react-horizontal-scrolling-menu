@@ -1,8 +1,11 @@
 /* eslint-disable jest/no-conditional-expect */
-import React from 'react';
 import { render } from '@testing-library/react';
-import MenuItems from './MenuItems';
+import React from 'react';
+
 import { type Props as ItemProps } from '../Item';
+
+import MenuItems from './MenuItems';
+
 import type { Refs } from '../../types';
 
 jest.mock('../Item', () => ({ className, id, index, refs }: ItemProps) => (

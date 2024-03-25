@@ -2,19 +2,19 @@ import React from 'react';
 
 import './styles.css';
 
-import ScrollContainer from './components/ScrollContainer';
+import { ItemsMap } from './ItemsMap';
 import MenuItems from './components/MenuItems';
+import ScrollContainer from './components/ScrollContainer';
+import * as constants from './constants';
+import { VisibilityContext } from './context';
+import createApi, { type publicApiType } from './createApi';
+import getItemsPos from './getItemsPos';
+import { getElementOrConstructor, isMutableRef } from './helpers';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
-import createApi, { type publicApiType } from './createApi';
-import { ItemsMap } from './ItemsMap';
-import { observerOptions as defaultObserverOptions } from './settings';
-
-import * as constants from './constants';
-
 import { useOnCb } from './hooks/useOnCb';
-
-import { VisibilityContext } from './context';
+import { observerOptions as defaultObserverOptions } from './settings';
+import { slidingWindow } from './slidingWindow';
 
 import type {
   ItemType,
@@ -23,10 +23,6 @@ import type {
   ItemId,
   RefType,
 } from './types';
-import { getElementOrConstructor, isMutableRef } from './helpers';
-
-import { slidingWindow } from './slidingWindow';
-import getItemsPos from './getItemsPos';
 
 type ComponentType = React.ReactNode | React.JSX.Element | React.FC;
 

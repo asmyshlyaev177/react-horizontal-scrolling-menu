@@ -1,10 +1,11 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
+
+import { ItemsMap } from '../ItemsMap';
+import { id as itemId } from '../constants';
+import { type IOItem } from '../types';
 
 import useItemsChanged from './useItemsChanged';
-import { id as itemId } from '../constants';
-import { ItemsMap } from '../ItemsMap';
-import { type IOItem } from '../types';
 
 const TestComponent = ({
   menuItems,

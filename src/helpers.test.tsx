@@ -1,4 +1,6 @@
 import React from 'react';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
 import {
   getElementOrConstructor,
   getItemElementById,
@@ -9,8 +11,8 @@ import {
   scrollToItem,
 } from './helpers';
 import { observerOptions } from './settings';
+
 import type { IOItem } from './types';
-import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 jest.mock('smooth-scroll-into-view-if-needed');
 

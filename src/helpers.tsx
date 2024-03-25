@@ -1,5 +1,14 @@
 import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
+import {
+  id as itemId,
+  emptyStr,
+  dataKeyAttribute,
+  dataIndexAttribute,
+} from './constants';
+import { observerOptions } from './settings';
+
 import type {
   IOItem,
   Item,
@@ -9,9 +18,6 @@ import type {
   ScrollBehaviorArg,
   scrollToItemOptions,
 } from './types';
-import { id as itemId, emptyStr } from './constants';
-import { observerOptions } from './settings';
-import { dataKeyAttribute, dataIndexAttribute } from './constants';
 
 export const getNodesFromRefs = (refs: Refs): HTMLElement[] => {
   const result = Object.values(refs)

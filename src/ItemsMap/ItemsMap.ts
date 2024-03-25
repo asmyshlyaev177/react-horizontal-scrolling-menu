@@ -1,6 +1,7 @@
-import type { IOItem, Item, ItemId, visibleElements, EventKey } from '../types';
-import { events } from '../constants';
 import { Observer, type ObsFn } from '../Observer';
+import { events } from '../constants';
+
+import type { IOItem, Item, ItemId, visibleElements, EventKey } from '../types';
 
 export class ItemsMap extends Map<Item[0], Item[1]> {
   observer: Observer;

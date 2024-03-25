@@ -1,27 +1,26 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
-import React from 'react';
-
 import throttle from 'lodash/throttle';
-
+import { animate } from 'popmotion';
+import React from 'react';
 // NOTE: prevent scrolling on main page
-import usePreventBodyScroll from './helpers/usePreventBodyScroll';
-
-// NOTE drag with mouse
-import { DragManager } from './helpers/DragManager';
-
-// swipe for mobile
-// import { useSwipe } from './helpers/useSwipe';
-
 import {
   ScrollMenu,
   VisibilityContext,
   publicApiType,
 } from 'react-horizontal-scrolling-menu';
-import 'react-horizontal-scrolling-menu/dist/styles.css';
 import Styler from 'stylefire';
-import { animate } from 'popmotion';
+
+import { DragManager } from './helpers/DragManager';
+import usePreventBodyScroll from './helpers/usePreventBodyScroll';
+
+// NOTE drag with mouse
+
+// swipe for mobile
+// import { useSwipe } from './helpers/useSwipe';
+
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { ItemsMap } from './ItemsMap';
 import {
   getItemElementById,
   getItemElementByIndex,
   scrollToItem,
 } from './helpers';
-import { ItemsMap } from './ItemsMap';
 
 import type {
   IOItem,

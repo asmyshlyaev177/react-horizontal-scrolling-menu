@@ -1,7 +1,9 @@
 /* eslint-disable jest/no-identical-title */
-import { ItemsMap } from './ItemsMap';
-import type { IOItem, Item } from '../types';
 import { events } from '../constants';
+
+import { ItemsMap } from './ItemsMap';
+
+import type { IOItem, Item } from '../types';
 
 let map: ItemsMap;
 

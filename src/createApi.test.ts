@@ -1,14 +1,18 @@
-import createApi from './createApi';
-import { ItemsMap } from './ItemsMap';
-import { observerEntriesToItems } from './helpers';
-import * as helpers from './helpers';
-import { observerOptions } from './settings';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-jest.mock('smooth-scroll-into-view-if-needed');
+import { ItemsMap } from './ItemsMap';
+import createApi from './createApi';
+import {
+  observerEntriesToItems,
+  getItemElementById,
+  getItemElementByIndex,
+} from './helpers';
+import * as helpers from './helpers';
+import { observerOptions } from './settings';
 
-import { getItemElementById, getItemElementByIndex } from './helpers';
 import type { CustomScrollBehavior } from './types';
+
+jest.mock('smooth-scroll-into-view-if-needed');
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
