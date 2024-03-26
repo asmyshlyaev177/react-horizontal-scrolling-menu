@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
-import type { Refs } from '../types';
-import { observerOptions } from '../settings';
 import { ItemsMap } from '../ItemsMap';
+import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
+import { observerOptions } from '../settings';
+
 import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
+
+import type { Refs } from '../types';
 
 interface Props {
   items: ItemsMap;

@@ -1,6 +1,7 @@
 import React from 'react';
-import { publicApiType } from '../createApi';
+
 import { events } from '../constants';
+import { publicApiType } from '../createApi';
 
 interface Props {
   context: publicApiType;

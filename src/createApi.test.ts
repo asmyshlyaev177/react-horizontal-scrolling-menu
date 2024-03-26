@@ -1,14 +1,18 @@
-import createApi from './createApi';
-import { ItemsMap } from './ItemsMap';
-import { observerEntriesToItems } from './helpers';
-import * as helpers from './helpers';
-import { observerOptions } from './settings';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-jest.mock('smooth-scroll-into-view-if-needed');
+import { ItemsMap } from './ItemsMap';
+import createApi from './createApi';
+import {
+  observerEntriesToItems,
+  getItemElementById,
+  getItemElementByIndex,
+} from './helpers';
+import * as helpers from './helpers';
+import { observerOptions } from './settings';
 
-import { getItemElementById, getItemElementByIndex } from './helpers';
 import type { CustomScrollBehavior } from './types';
+
+jest.mock('smooth-scroll-into-view-if-needed');
 
 const setup = (ratio = [0.3, 1, 0.7]) => {
   const items = new ItemsMap();
@@ -21,11 +25,11 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
     },
     {
       intersectionRatio: 0,
-      target: { dataset: { index: '0.1', key: 'test1-separator' } },
+      target: { dataset: { index: '1', key: 2 } },
     },
     {
       intersectionRatio: 0,
-      target: { dataset: { index: '1', key: 2 } },
+      target: { dataset: { index: '2', key: 3 } },
     },
   ].map((el, ind) => ({
     ...el,
@@ -212,9 +216,9 @@ describe('createApi', () => {
 
       expect(createApi(items).getItemById('test1')).toEqual(nodes[0]);
 
-      expect(createApi(items).getItemById('2')).toEqual(nodes[2]);
+      expect(createApi(items).getItemById('2')).toEqual(nodes[1]);
       expect(createApi(items).getItemById(2 as unknown as string)).toEqual(
-        nodes[2],
+        nodes[1],
       );
     });
 
@@ -247,7 +251,6 @@ describe('createApi', () => {
       const { items } = setup([0.1, 1, 0.9]);
 
       expect(createApi(items).isItemVisible('test1')).toBeFalsy();
-      expect(createApi(items).isItemVisible('test1-separator')).toBeFalsy();
       expect(createApi(items).isItemVisible('2')).toBeTruthy();
       expect(
         createApi(items).isItemVisible(2 as unknown as string),
@@ -258,20 +261,6 @@ describe('createApi', () => {
       const { items } = setup([0.1, 1, 0.9]);
       expect(createApi(items).isItemVisible('test3')).toBeFalsy();
       expect(createApi(items).isItemVisible('')).toBeFalsy();
-    });
-  });
-
-  describe('getPrevItem', () => {
-    test('have previous item', () => {
-      const { items, nodes } = setup([0.1, 1, 0.9]);
-
-      expect(createApi(items).getPrevItem()).toEqual(nodes[0]);
-    });
-
-    test('do not have previous item', () => {
-      const { items } = setup([1, 0.1, 0.3]);
-
-      expect(createApi(items).getPrevItem()).toEqual(undefined);
     });
   });
 
@@ -286,19 +275,6 @@ describe('createApi', () => {
       const { items } = setup([1, 0.1, 0.3]);
 
       expect(createApi(items).getPrevElement()).toEqual(undefined);
-    });
-  });
-
-  describe('getNextItem', () => {
-    test('have next item', () => {
-      const { items, nodes } = setup([1, 1, 0.3]);
-      expect(createApi(items).getNextItem()).toEqual(nodes[2]);
-    });
-
-    test('do not have next item', () => {
-      const { items } = setup([0, 0.1, 0.9]);
-
-      expect(createApi(items).getNextItem()).toEqual(undefined);
     });
   });
 
@@ -318,8 +294,8 @@ describe('createApi', () => {
   describe('isLastItem', () => {
     test('item is last', () => {
       const { items } = setup([0.1, 1, 0.9]);
-      expect(createApi(items).isLastItem('2')).toEqual(true);
-      expect(createApi(items).isLastItem(2 as unknown as string)).toEqual(true);
+      expect(createApi(items).isLastItem('3')).toEqual(true);
+      expect(createApi(items).isLastItem(3 as unknown as string)).toEqual(true);
     });
 
     test('do not have previous item', () => {

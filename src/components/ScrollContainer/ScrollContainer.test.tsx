@@ -1,7 +1,9 @@
-import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
-import ScrollContainer, { type Props } from './ScrollContainer';
+import React from 'react';
+
 import { scrollContainerClassName } from '../../constants';
+
+import ScrollContainer, { type Props } from './ScrollContainer';
 
 const _containerRef = { current: null };
 const _scrollRef = { current: null };

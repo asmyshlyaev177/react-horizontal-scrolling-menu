@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { separatorString, emptyStr } from '../constants';
 import { ItemsMap } from '../ItemsMap';
-import type { ItemId, ItemType } from '../types';
+import { emptyStr } from '../constants';
 import { getItemId } from '../helpers';
+
+import type { ItemId, ItemType } from '../types';
 
 const getItemsIdFromChildren = (
   children: ItemType | ItemType[] | undefined,
@@ -23,14 +24,9 @@ function useItemsChanged(
   React.useEffect(() => {
     const hash = domNodes.filter(Boolean).join(emptyStr);
 
-    const allItems = items.toItemsWithoutSeparators();
+    const allItems = items.toItems();
     const removed = allItems.filter((item) => !domNodes.includes(item));
     removed.forEach((item) => {
-      const isLast = items.last()?.key === item;
-      const lastSeparator = (isLast && items.prev(item)?.key) || emptyStr;
-
-      items.delete(lastSeparator);
-      items.delete(`${item}${separatorString}`);
       items.delete(item);
     });
 

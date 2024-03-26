@@ -1,6 +1,7 @@
-import { IOItem } from '../types';
-import { EventPayload, Observer } from './Observer';
 import { events } from '../constants';
+import { IOItem } from '../types';
+
+import { EventPayload, Observer } from './Observer';
 
 const key = 'test';
 const fn = jest.fn();

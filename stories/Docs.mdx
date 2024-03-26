@@ -99,10 +99,6 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
   <td>ClassName of Item </td>
 </tr>
 <tr>
-  <td>separatorClassName</td>
-  <td>ClassName of Item's separator</td>
-</tr>
-<tr>
   <td>scrollContainerClassName</td>
   <td>ClassName of scrollContainer</td>
 </tr>
@@ -159,19 +155,11 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
     <td>index => DOM Element \| null</td>
   </tr>
   <tr>
-    <td>getNextElement (use this first, result without separators)</td>
+    <td>getNextElement (use this first)</td>
     <td>() => IOItem \| undefined</td>
   </tr>
   <tr>
-    <td>getNextItem</td>
-    <td>() => IOItem \| undefined</td>
-  </tr>
-  <tr>
-    <td>getPrevElement (use this first, result without separators)</td>
-    <td>() => IOItem \| undefined</td>
-  </tr>
-  <tr>
-    <td>getPrevItem</td>
+    <td>getPrevElement (use this first)</td>
     <td>() => IOItem \| undefined</td>
   </tr>
   <tr>
@@ -221,18 +209,6 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
   <tr>
     <td>visibleElements</td>
     <td>\['item1', 'item2'\]</td>
-  </tr>
-  <tr>
-    <td>visibleElementsWithSeparators</td>
-    <td>\['item1', 'item1-separator', 'item2'\]</td>
-  </tr>
-  <tr>
-    <td>visibleItemsWithoutSeparators (deprecated, use visibleElements)</td>
-    <td>\['item1', 'item2'\]</td>
-  </tr>
-  <tr>
-    <td>visibleItems (deprecated, use visibleElementsWithSeparators)</td>
-    <td>\['item1', 'item1-separator', 'item2'\]</td>
   </tr>
 </table>
 
