@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.1.0...v7.0.0) (2024-03-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed getPrevItem and getNextItem and code related to separators
+
+* chore: update eslint plugin
+
+* refactor(imports): fix imports with eslint
+
+### Bug Fixes
+
+* removed Separator elements ([#274](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/274)) ([0a48245](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/0a4824538120c0ea107d6089871431765511c5f5))
+
 ## [6.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.0.2...v6.1.0) (2024-03-23)
 
 
