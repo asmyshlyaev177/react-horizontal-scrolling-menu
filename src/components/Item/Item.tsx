@@ -1,7 +1,8 @@
 import React from 'react';
 
-import type { Refs, ItemId } from '../../types';
 import { dataKeyAttribute, dataIndexAttribute } from '../../constants';
+
+import type { Refs, ItemId } from '../../types';
 
 export type Props = {
   id: ItemId;

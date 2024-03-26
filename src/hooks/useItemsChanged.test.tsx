@@ -1,10 +1,11 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
+
+import { ItemsMap } from '../ItemsMap';
+import { id as itemId } from '../constants';
+import { type IOItem } from '../types';
 
 import useItemsChanged from './useItemsChanged';
-import { id as itemId } from '../constants';
-import { ItemsMap } from '../ItemsMap';
-import { type IOItem } from '../types';
 
 const TestComponent = ({
   menuItems,
@@ -66,13 +67,7 @@ describe('useItemsChanged', () => {
 
   describe('when child removed', () => {
     test('should remove child from ItemsMap', () => {
-      const childrenKeys = [
-        'child1',
-        'child1-separator',
-        'chidl2',
-        'child2-separator',
-        'child3',
-      ];
+      const childrenKeys = ['child1', 'chidl2', 'child3'];
       const itemsMap = new ItemsMap();
 
       const children = getChildren(childrenKeys);
@@ -97,56 +92,10 @@ describe('useItemsChanged', () => {
         <TestComponent menuItems={newChildren} items={itemsMap} />,
       );
 
-      expect(itemsMap.toItems()).toEqual([
-        'chidl2',
-        'child2-separator',
-        'child3',
-      ]);
+      expect(itemsMap.toItems()).toEqual(['chidl2', 'child3']);
 
       const newHash = JSON.parse(utils.getByTestId('hash').textContent!);
       expect(newHash).toEqual(removeFirst(childrenKeys).join(''));
-    });
-
-    test('should remove last item with prev separator', () => {
-      const childrenKeys = [
-        'child1',
-        'child1-separator',
-        'chidl2',
-        'child2-separator',
-        'child3',
-      ];
-      const itemsMap = new ItemsMap();
-
-      const children = getChildren(childrenKeys);
-
-      const utils = render(
-        <TestComponent menuItems={children} items={itemsMap} />,
-      );
-
-      const hash = JSON.parse(utils.getByTestId('hash').textContent!);
-      expect(hash).toEqual(childrenKeys.join(''));
-
-      childrenKeys.forEach((key) => {
-        itemsMap.set(key, { key } as IOItem);
-      });
-      expect(itemsMap.toItems()).toEqual(childrenKeys);
-
-      const removeLast = <T,>(arr: T[]) => arr.slice(0, -1);
-
-      const newChildren = removeLast(children);
-
-      utils.rerender(
-        <TestComponent menuItems={newChildren} items={itemsMap} />,
-      );
-
-      expect(itemsMap.toItems()).toEqual([
-        'child1',
-        'child1-separator',
-        'chidl2',
-      ]);
-
-      const newHash = JSON.parse(utils.getByTestId('hash').textContent!);
-      expect(newHash).toEqual(removeLast(childrenKeys).join(''));
     });
   });
 });

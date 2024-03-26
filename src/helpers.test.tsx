@@ -1,6 +1,7 @@
 import React from 'react';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+
 import {
-  filterSeparators,
   getElementOrConstructor,
   getItemElementById,
   getItemElementByIndex,
@@ -10,8 +11,8 @@ import {
   scrollToItem,
 } from './helpers';
 import { observerOptions } from './settings';
+
 import type { IOItem } from './types';
-import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 jest.mock('smooth-scroll-into-view-if-needed');
 
@@ -249,30 +250,6 @@ describe('getElementOrConstructor', () => {
 
   test('should return null if no element passed', () => {
     expect(getElementOrConstructor(undefined)).toEqual(null);
-  });
-});
-
-describe('filterSeparators', () => {
-  test('should filter separators from items', () => {
-    expect(
-      filterSeparators([
-        'test0',
-        'test0-separator',
-        'test1',
-        'test1-separator',
-        'test2',
-        'test2-separator',
-        'test3',
-        'test3-separator',
-        'test4',
-        'test4-separator',
-      ]),
-    ).toEqual(['test0', 'test1', 'test2', 'test3', 'test4']);
-  });
-
-  test('should return argument if nothing to filter', () => {
-    expect(filterSeparators(['test0', 'test1'])).toEqual(['test0', 'test1']);
-    expect(filterSeparators([])).toEqual([]);
   });
 });
 

@@ -232,7 +232,6 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void      |
 | onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void      |
 | itemClassName            | ClassName of Item                                             |
-| separatorClassName       | ClassName of Item's separator                                 |
 | scrollContainerClassName | ClassName of scrollContainer                                  |
 | transitionDuration       | Duration of transitions in ms, default 500                    |
 | transitionBehavior       | 'smooth' \|'auto' \| customFunction                           |
@@ -242,43 +241,40 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ### VisibilityContext
 
-| Prop                                                       | Signature                                              |
-| ---------------------------------------------------------- | ------------------------------------------------------ |
-| useIsVisible                                               | (itemId: string, defaultValue?: false) => boolean      |
-| getItemById                                                | itemId => IOItem \| undefined                          |
-| getItemElementById                                         | itemId => DOM Element \| null                          |
-| getItemByIndex                                             | index => IOItem \| undefined                           |
-| getItemElementByIndex                                      | index => DOM Element \| null                           |
-| getNextElement (use this first, result without separators) | () => IOItem \| undefined                              |
-| getNextItem                                                | () => IOItem \| undefined)                             |
-| getPrevElement (use this first, result without separators) | () => IOItem \| undefined                              |
-| getPrevItem                                                | () => IOItem \| undefined                              |
-| isFirstItemVisible                                         | boolean                                                |
-| isItemVisible                                              | itemId => boolean                                      |
-| isLastItem                                                 | boolean                                                |
-| isLastItemVisible                                          | boolean                                                |
-| scrollNext                                                 | (behavior, inline, block, ScrollOptions) => void       |
-| scrollPrev                                                 | (behavior, inline, block, ScrollOptions) => void       |
-| scrollToItem                                               | (item, behavior, inline, block, ScrollOptions) => void |
-| items                                                      | ItemsMap class instance                                |
-| scrollContainer                                            | Ref<OuterContainer>                                    |
+| Prop                  | Signature                                              |
+| --------------------- | ------------------------------------------------------ |
+| useIsVisible          | (itemId: string, defaultValue?: false) => boolean      |
+| getItemById           | itemId => IOItem \| undefined                          |
+| getItemElementById    | itemId => DOM Element \| null                          |
+| getItemByIndex        | index => IOItem \| undefined                           |
+| getItemElementByIndex | index => DOM Element \| null                           |
+| getNextElement        | () => IOItem \| undefined                              |
+| getPrevElement        | () => IOItem \| undefined                              |
+| isFirstItemVisible    | boolean                                                |
+| isItemVisible         | itemId => boolean                                      |
+| isLastItem            | boolean                                                |
+| isLastItemVisible     | boolean                                                |
+| scrollNext            | (behavior, inline, block, ScrollOptions) => void       |
+| scrollPrev            | (behavior, inline, block, ScrollOptions) => void       |
+| scrollToItem          | (item, behavior, inline, block, ScrollOptions) => void |
+| items                 | ItemsMap class instance                                |
+| scrollContainer       | Ref<OuterContainer>                                    |
 
 ### items class instance
 
 ItemsMap class store info about all items and has methods to get currently visible items, prev/next item. Also, can subscribe to updates.
 
-| Prop/method        | Description                                                                                                                                    |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| subscribe          | subscribe for events for `itemId` or `first`, `last`, `onInit`, `onUpdate`, eg. `items.subscribe('item5', (item) => setVisible(item.visible))` |
-| unsubscribe        | use in useEffect to cleanup, pass same cb instance                                                                                             |
-| getVisibleElements | returns visible elements only                                                                                                                  |
-| getVisible         | return only visible items with separators                                                                                                      |
-| toItems            | return ids for all items                                                                                                                       |
-| toArr              | return all items with separators                                                                                                               |
-| first              | return first item                                                                                                                              |
-| last               | return last item                                                                                                                               |
-| prev               | (itemId \| Item) => previous item \| undefined                                                                                                 |
-| next               | (itemId \| Item) => next item \| undefined                                                                                                     |
+| Prop/method | Description                                                                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| subscribe   | subscribe for events for `itemId` or `first`, `last`, `onInit`, `onUpdate`, eg. `items.subscribe('item5', (item) => setVisible(item.visible))` |
+| unsubscribe | use in useEffect to cleanup, pass same cb instance                                                                                             |
+| getVisible  | return only visible items                                                                                                                      |
+| toItems     | return ids for all items                                                                                                                       |
+| toArr       | return all items                                                                                                                               |
+| first       | return first item                                                                                                                              |
+| last        | return last item                                                                                                                               |
+| prev        | (itemId \| Item) => previous item \| undefined                                                                                                 |
+| next        | (itemId \| Item) => next item \| undefined                                                                                                     |
 
 ### Transition/Animation
 

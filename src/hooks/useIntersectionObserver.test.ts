@@ -1,17 +1,16 @@
 import { renderHook } from '@testing-library/react';
+import { mocked } from 'jest-mock';
+
+import { ItemsMap } from '../ItemsMap';
+import { observerEntriesToItems } from '../helpers';
+import { observerOptions } from '../settings';
+import { MockedObserver, traceMethodCalls } from '../testUtils';
 
 import useIntersectionObserver from './useIntersectionObserver';
 
-import { ItemsMap } from '../ItemsMap';
-import { observerOptions } from '../settings';
+import type { IntersectionObserverCB, MockedCalls } from '../testUtils';
 import type { Refs, Item } from '../types';
 
-import { MockedObserver, traceMethodCalls } from '../testUtils';
-import type { IntersectionObserverCB, MockedCalls } from '../testUtils';
-
-import { mocked } from 'jest-mock';
-
-import { observerEntriesToItems } from '../helpers';
 jest.mock('../helpers', () => ({
   __esModule: true,
   ...jest.requireActual('../helpers'),
