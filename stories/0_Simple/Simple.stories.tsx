@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import type { Meta } from '@storybook/react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import { ScrollTest } from '../test';
 import { SizeWrapper } from '../SizeWrapper';
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
+import { ScrollTest } from '../test';
 
+import Example from './Simple.source';
 // @ts-ignore
 import ExampleRaw from './Simple.source.tsx?raw';
-import Example from './Simple.source';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Simple',
