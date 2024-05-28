@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v7.0.0...v7.1.0) (2024-05-28)
+
+
+### Features
+
+* **onmouseleave:** onMouseLeave prop ([661ba27](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/661ba270a90e4a8ddb618bdbd001150635da0c28))
+
 ## [7.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v6.1.0...v7.0.0) (2024-03-26)
 
 
