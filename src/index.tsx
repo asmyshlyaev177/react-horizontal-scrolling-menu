@@ -99,6 +99,7 @@ export interface Props {
    */
   options?: Partial<typeof defaultObserverOptions>;
   onMouseDown?: (arg0: publicApiType) => React.MouseEventHandler;
+  onMouseLeave?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseUp?: (arg0: publicApiType) => React.MouseEventHandler;
   onMouseMove?: (arg0: publicApiType) => React.MouseEventHandler;
   onTouchMove?: (arg0: publicApiType) => React.TouchEventHandler;
@@ -157,6 +158,7 @@ function ScrollMenu({
   onInit = cbDefault,
   onUpdate = cbDefault,
   onMouseDown,
+  onMouseLeave,
   onMouseUp,
   onMouseMove,
   onScroll = cbDefault,
@@ -271,6 +273,7 @@ function ScrollMenu({
       className={wrapperClass}
       onWheel={onWheelHandler}
       onMouseDown={onMouseDown?.(context)}
+      onMouseLeave={onMouseLeave?.(context)}
       onMouseUp={onMouseUp?.(context)}
       onMouseMove={onMouseMove?.(context)}
       onTouchStart={onTouchStart?.(context)}
