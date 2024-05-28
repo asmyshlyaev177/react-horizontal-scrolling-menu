@@ -224,6 +224,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | containerRef             | React.RefObject \| React.RefCallback                          |
 | onUpdate                 | (VisibilityContext) => void                                   |
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void      |
+| onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void      |
 | onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void      |
