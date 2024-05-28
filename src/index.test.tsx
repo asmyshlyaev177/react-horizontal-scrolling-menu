@@ -385,6 +385,20 @@ describe('ScrollMenu', () => {
       comparePublicApi(call);
     });
 
+    test('should fire onMouseLeave', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
+      const onMouseLeave = jest.fn();
+      const { container } = setup({ onMouseLeave });
+
+      act(() => {
+        fireEvent.mouseLeave(container.firstChild as Element);
+      });
+
+      expect(onMouseLeave).toHaveBeenCalled();
+      const call = onMouseLeave.mock.calls[0][0];
+      comparePublicApi(call);
+    });
+
     test('should fire onMouseUp', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
       const onMouseUp = jest.fn();
