@@ -1,25 +1,26 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
 import { expect } from '@storybook/jest';
 import { within } from '@storybook/testing-library';
+import React from 'react';
+import { createLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
+import { SizeWrapper } from '../SizeWrapper';
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
 import {
   scrollSmokeTest,
   TestObj,
   leftArrowSelector,
   rightArrowSelector,
 } from '../test';
-import type { Canvas } from '../test';
-import { SizeWrapper } from '../SizeWrapper';
 
 // @ts-ignore
-import ExampleRaw from './RTL.source.tsx?raw';
 import Example from './RTL.source';
+import ExampleRaw from './RTL.source.tsx?raw';
+
+import type { Canvas } from '../test';
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/RTL',
@@ -50,6 +51,7 @@ export const TestRTL = {
     });
     expect(await canvas.getByLabelText('RTL')).toBeChecked();
     await testObj.isReady();
+    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },
@@ -67,6 +69,7 @@ export const TestNonRTL = {
     await canvas.getByLabelText('RTL').click();
     expect(await canvas.getByLabelText('RTL')).not.toBeChecked();
     await testObj.isReady();
+    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },
