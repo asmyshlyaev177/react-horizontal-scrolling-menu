@@ -65,7 +65,7 @@ jobs:
         run: npm run test:e2e:dev
 
       - name: Storybook tests
-        run: npx cross-env HOME=/root npm run test:storybook
+        run: npx cross-env HOME=/root npm run test:storybook-ci
 
   deploy-storybook:
     needs: build-test
