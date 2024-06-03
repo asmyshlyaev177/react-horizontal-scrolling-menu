@@ -126,8 +126,15 @@
         "setup-tooling"
       ]
     },
-    "test:storybook": {
+    "test:storybook-ci": {
       "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium webkit",
+      "dependencies": [
+        "storybook",
+        "setup-tooling"
+      ]
+    },
+    "test:storybook": {
+      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
       "dependencies": [
         "storybook",
         "setup-tooling"
