@@ -81,6 +81,7 @@
     "test:e2e": "wireit",
     "test:e2e:dev": "wireit",
     "test:storybook": "wireit",
+    "test:storybook-ci": "wireit",
     "test:all": "wireit",
     "test:lint": "wireit",
     "run:cy": "wireit",
