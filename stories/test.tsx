@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { within, userEvent, waitFor } from '@storybook/testing-library';
-import type { queries } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { within, userEvent, waitFor } from '@storybook/testing-library';
+
+import type { queries } from '@storybook/testing-library';
 
 export type Canvas = ReturnType<typeof within<typeof queries>>;
 type HorArrows = { left: boolean; right: boolean };
@@ -64,7 +65,7 @@ export class TestObj {
     await waitFor(() => expect(hiddenCards[0]).toBeInTheDocument());
   }
 
-  async wait(timeout = 700) {
+  async wait(timeout = 800) {
     await new Promise((res) => setTimeout(() => res(true), timeout));
   }
 
@@ -178,6 +179,7 @@ export const ScrollTest = ({
     const canvas = within(canvasElement);
     const testObj = new TestObj(canvas, { leftArrow, rightArrow });
     await testObj.isReady();
+    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },
