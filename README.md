@@ -24,18 +24,6 @@
 
 ### Codesandbox Examples (Deprecated)
 
-[Basic example](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-example-swg0y?file=/src/index.tsx)
-
-[Hidden scrollbar and arrows on bottom](https://codesandbox.io/s/no-scrollbar-and-buttons-position-c3kn5?file=/src/index.tsx)
-
-[Select item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-basic-with-select-item-qtxwt?file=/src/index.tsx)
-
-[Drag by mouse](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-drag-by-mouse-o3u2t?file=/src/index.tsx)
-
-[Click and select multiple items](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-item-selection-and-click-0oze7?file=/src/index.tsx)
-
-[Scroll by 1 item](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-scroll-one-item-6hn8q?file=/src/index.tsx)
-
 [Center items](https://codesandbox.io/s/center-items-on-click-drag-e8cyph?file=/src/index.tsx)
 
 [Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
@@ -44,11 +32,7 @@
 
 [Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
 
-[RTL](https://codesandbox.io/s/rtl-ng3bq9?file=/src/index.tsx)
-
 [Loop scroll](https://codesandbox.io/s/loop-scroll-4w8ek6?file=/src/index.tsx)
-
-[One centered item](https://codesandbox.io/s/one-item-j9dzxd?file=/src/index.tsx)
 
 [Custom transition/animation](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
 
