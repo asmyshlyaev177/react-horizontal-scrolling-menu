@@ -1,11 +1,13 @@
 import React from 'react';
+import styled from 'styled-jss';
+
 import {
   ScrollMenu,
   VisibilityContext,
   type publicApiType,
 } from 'react-horizontal-scrolling-menu';
+
 import 'react-horizontal-scrolling-menu/dist/styles.css';
-import styled from 'styled-jss';
 
 const ITEMS = 5000;
 
@@ -14,7 +16,7 @@ export function Performance() {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   // NOTE: for drag by mouse
-  const dragState = React.useRef(new DragManager());
+  const dragState = React.useRef(new DragDealer());
 
   const handleDrag = React.useCallback(
     ({ scrollContainer }: typeof VisibilityContext) =>
@@ -59,6 +61,8 @@ export function Performance() {
           onMouseUp={onMouseUp}
           onMouseMove={handleDrag}
           onWheel={onWheel}
+          // better for performance
+          noPolyfill={true}
         >
           {items.map(({ id }) => (
             <Card
@@ -76,7 +80,7 @@ export function Performance() {
 }
 export default Performance;
 
-class DragManager {
+class DragDealer {
   clicked: boolean;
   dragging: boolean;
   position: number;
@@ -188,6 +192,7 @@ const Card = React.memo(
   }) => {
     const visibility = React.useContext<publicApiType>(VisibilityContext);
     const isVisible = visibility.useIsVisible(itemId, true);
+    const isVisibleDeffered = React.useDeferredValue(isVisible);
     const handleClick = React.useCallback(
       () => onClick(itemId),
       [itemId, onClick],
@@ -208,12 +213,14 @@ const Card = React.memo(
         role="button"
         tabIndex={0}
         className="card"
-        visible={isVisible}
+        visible={isVisibleDeffered}
         selected={selected}
       >
         <div className="header">
           <div>{title}</div>
-          <div className="visible">visible: {JSON.stringify(isVisible)}</div>
+          <div className="visible">
+            visible: {JSON.stringify(isVisibleDeffered)}
+          </div>
           <div className="selected">selected: {JSON.stringify(!!selected)}</div>
         </div>
         <div className="background" />
