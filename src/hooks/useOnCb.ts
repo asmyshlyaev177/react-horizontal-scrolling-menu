@@ -10,16 +10,20 @@ interface Props {
 }
 
 export const useOnCb = ({ context, onInit, onUpdate }: Props) => {
-  React.useEffect(() => {
-    const onInitCb = () => onInit(context);
-    const onUpdateCb = () => onUpdate(context);
+  const onInitCb = React.useCallback(() => onInit(context), [onInit, context]);
+  const onUpdateCb = React.useCallback(
+    () => onUpdate(context),
+    [onUpdate, context],
+  );
+  const { items } = context;
 
-    context.items.subscribe(events.onInit, onInitCb);
-    context.items.subscribe(events.onUpdate, onUpdateCb);
+  React.useEffect(() => {
+    items.subscribe(events.onInit, onInitCb);
+    items.subscribe(events.onUpdate, onUpdateCb);
 
     return () => {
-      context.items.unsubscribe(events.onInit, onInitCb);
-      context.items.unsubscribe(events.onUpdate, onUpdateCb);
+      items.unsubscribe(events.onInit, onInitCb);
+      items.unsubscribe(events.onUpdate, onUpdateCb);
     };
-  }, [context, onInit, onUpdate]);
+  }, [items, onInitCb, onUpdateCb]);
 };

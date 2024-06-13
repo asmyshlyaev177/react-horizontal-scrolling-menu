@@ -29,17 +29,17 @@ export default function createApi(
 ) {
   const useIsVisible = (itemId: ItemId, defaultValue: boolean = false) => {
     const [visible, setVisible] = React.useState(defaultValue);
+    const cb = React.useCallback((newVal?: IOItem) => {
+      setVisible(!!newVal?.visible);
+    }, []);
 
     React.useEffect(() => {
-      const cb = (newVal?: IOItem) => {
-        setTimeout(() => setVisible(!!newVal?.visible), 0);
-      };
       items.subscribe(itemId, cb);
 
       return () => {
         items.unsubscribe(itemId, cb);
       };
-    }, [itemId]);
+    }, [itemId, cb]);
 
     return visible;
   };
