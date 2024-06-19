@@ -195,32 +195,33 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ## Properties and callbacks
 
-| Prop                     | Signature                                                     |
-| ------------------------ | ------------------------------------------------------------- |
-| LeftArrow                | React component for left arrow                                |
-| RightArrow               | React component for right arrow                               |
-| Header                   | React component Header                                        |
-| Footer                   | React component Footer                                        |
-| onWheel                  | (VisibilityContext, event) => void                            |
-| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll |
-| onInit                   | (VisibilityContext) => void                                   |
-| apiRef                   | React.RefObject \| React.RefCallback                          |
-| containerRef             | React.RefObject \| React.RefCallback                          |
-| onUpdate                 | (VisibilityContext) => void                                   |
-| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void      |
-| onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void      |
-| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void      |
-| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void      |
-| onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void      |
-| onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void      |
-| onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void      |
-| itemClassName            | ClassName of Item                                             |
-| scrollContainerClassName | ClassName of scrollContainer                                  |
-| transitionDuration       | Duration of transitions in ms, default 500                    |
-| transitionBehavior       | 'smooth' \|'auto' \| customFunction                           |
-| wrapperClassName         | ClassName of the outer-most div                               |
-| RTL                      | Enable Right to left direction                                |
-| noPolyfill               | Don't use polyfill for scroll, no transitions                 |
+| Prop                     | Signature                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ |
+| LeftArrow                | React component for left arrow                                                                         |
+| RightArrow               | React component for right arrow                                                                        |
+| Header                   | React component Header                                                                                 |
+| Footer                   | React component Footer                                                                                 |
+| onWheel                  | (VisibilityContext, event) => void                                                                     |
+| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll                                          |
+| onInit                   | (VisibilityContext) => void                                                                            |
+| apiRef                   | React.RefObject \| React.RefCallback                                                                   |
+| options                  | options for IntersectionObserver - `rootMargin`, `treshhhold`, and `ratio` to consider element visible |
+| containerRef             | React.RefObject \| React.RefCallback                                                                   |
+| onUpdate                 | (VisibilityContext) => void                                                                            |
+| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
+| onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
+| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
+| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
+| onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
+| onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
+| onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
+| itemClassName            | ClassName of Item                                                                                      |
+| scrollContainerClassName | ClassName of scrollContainer                                                                           |
+| transitionDuration       | Duration of transitions in ms, default 500                                                             |
+| transitionBehavior       | 'smooth' \|'auto' \| customFunction                                                                    |
+| wrapperClassName         | ClassName of the outer-most div                                                                        |
+| RTL                      | Enable Right to left direction                                                                         |
+| noPolyfill               | Don't use polyfill for scroll, no transitions                                                          |
 
 ### VisibilityContext
 
