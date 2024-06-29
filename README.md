@@ -63,7 +63,7 @@ Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizon
 ```bash
 npm install --save react-horizontal-scrolling-menu
 ```
-
+test
 In project:
 
 ```javascript
@@ -188,6 +188,7 @@ npm run setup
 npm run storybook
 ```
 
+<!-- DOCS_START -->
 ### Helpers and api
 
 Children of main ScrollMenu component(arrows, fotter, items) can use **VisibilityContext** to access state and callbacks.
@@ -318,6 +319,8 @@ For scrolling use `apiRef.scrollToItem(apiRef.getItemElementById)` instead of `a
 
 Can get item outside of context via `apiRef.getItemElementById(id)` or directly via ``document.querySelector(`[data-key='${itemId}']`)``.
 See [`apiRef` example and `Add item and scroll to it`](#examples)
+
+<!-- DOCS_END -->
 
 ## Browser support
 

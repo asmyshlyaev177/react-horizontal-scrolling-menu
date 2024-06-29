@@ -381,6 +381,8 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
     "rollup": "^2.70.2",
     "rollup-plugin-filesize": "^9.1.2",
     "rollup-plugin-ignore": "^1.0.9",
