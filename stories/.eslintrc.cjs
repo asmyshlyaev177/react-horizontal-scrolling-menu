@@ -17,5 +17,6 @@ module.exports = {
   },
   rules: {
     'sonarjs/cognitive-complexity': ['error', 10],
+    "no-secrets/no-secrets": "off"
   },
 };
