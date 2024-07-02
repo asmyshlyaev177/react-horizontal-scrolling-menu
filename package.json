@@ -82,7 +82,7 @@
     "test:e2e:dev": "wireit",
     "test:storybook": "wireit",
     "test:storybook-ci": "wireit",
-    "test:all": "wireit",
+    "test": "wireit",
     "test:lint": "wireit",
     "run:cy": "wireit",
     "dev": "wireit",
@@ -155,7 +155,7 @@
       ]
     },
     "release": {
-      "command": "standard-version",
+      "command": "standard-version --no-verify",
       "dependencies": [
         "test:unit",
         "test:e2e",
@@ -171,7 +171,7 @@
     "push": {
       "command": "git push --follow-tags origin main"
     },
-    "test:all": {
+    "test": {
       "command": "npm run test:e2e && npm run test:e2e:dev",
       "dependencies": [
         "test:unit",
