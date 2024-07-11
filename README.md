@@ -14,7 +14,7 @@
 
 #### [Poll what you like/dislike/need from this library](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/discussions/221)
 
-### Check out my new project https://github.com/asmyshlyaev177/state-in-url
+### Check out my new project 👉 https://github.com/asmyshlyaev177/state-in-url
 
 ### Proud corner
 
