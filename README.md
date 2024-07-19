@@ -117,7 +117,7 @@ const LeftArrow = () => {
   return (
     <Arrow
       disabled={isFirstItemVisible}
-      onClick={visibility.scrollPrev}
+      onClick={() => visibility.scrollPrev()}
       className="left"
     >
       Left
@@ -131,7 +131,7 @@ const RightArrow = () => {
   return (
     <Arrow
       disabled={isLastItemVisible}
-      onClick={visibility.scrollNext}
+      onClick={() => visibility.scrollNext()}
       className="right"
     >
       Right

@@ -73,7 +73,7 @@ function LeftArrow() {
   return (
     <Arrow
       disabled={isFirstItemVisible}
-      onClick={visibility.scrollPrev}
+      onClick={() => visibility.scrollPrev()}
       testId="left-arrow"
     >
       Left
@@ -88,7 +88,7 @@ function RightArrow() {
   return (
     <Arrow
       disabled={isLastItemVisible}
-      onClick={visibility.scrollNext}
+      onClick={() => visibility.scrollNext()}
       testId="right-arrow"
     >
       Right
