@@ -255,7 +255,7 @@ const LeftArrow = React.memo(() => {
   return (
     <Arrow
       disabled={isFirstItemVisible}
-      onClick={visibility.scrollPrev}
+      onClick={() => visibility.scrollPrev()}
       className="left"
     >
       Left
@@ -269,7 +269,7 @@ const RightArrow = React.memo(() => {
   return (
     <Arrow
       disabled={isLastItemVisible}
-      onClick={visibility.scrollNext}
+      onClick={() => visibility.scrollNext()}
       className="right"
     >
       Right
