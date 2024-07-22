@@ -15,7 +15,7 @@ const OnScreenContext = React.createContext(true);
 export function SimpleExample() {
   // NOTE: to show/hide arrows only when main component is on screen and visible
   const { isIntersecting: isVisible, ref } = useIntersectionObserver({
-    threshold: 1,
+    threshold: 0.9,
   });
 
   const [items] = React.useState(() => getItems());
@@ -35,26 +35,32 @@ export function SimpleExample() {
   };
 
   return (
-    <div ref={ref}>
-      <NoScrollbar>
-        <OnScreenContext.Provider value={isVisible}>
-          <ScrollMenu
-            LeftArrow={LeftArrow}
-            RightArrow={RightArrow}
-            onWheel={onWheel}
-          >
-            {items.map(({ id }) => (
-              <Card
-                title={id}
-                itemId={id} // NOTE: itemId is required for track items
-                key={id}
-                onClick={() => handleItemClick(id)}
-                selected={isItemSelected(id)}
-              />
-            ))}
-          </ScrollMenu>
-        </OnScreenContext.Provider>
-      </NoScrollbar>
+    <div>
+      <div ref={ref}>
+        <NoScrollbar>
+          <OnScreenContext.Provider value={isVisible}>
+            <ScrollMenu
+              LeftArrow={LeftArrow}
+              RightArrow={RightArrow}
+              onWheel={onWheel}
+            >
+              {items.map(({ id }) => (
+                <Card
+                  title={id}
+                  itemId={id} // NOTE: itemId is required for track items
+                  key={id}
+                  onClick={() => handleItemClick(id)}
+                  selected={isItemSelected(id)}
+                />
+              ))}
+            </ScrollMenu>
+          </OnScreenContext.Provider>
+        </NoScrollbar>
+      </div>
+
+      <div style={{ height: '300vh', backgroundColor: 'aqua', opacity: 0.2 }}>
+        filler
+      </div>
     </div>
   );
 }
