@@ -118,19 +118,137 @@ export default function createApi(
   };
 
   return {
+    /**
+     * Get an item by id
+     *
+     * * example:
+     * ```
+     *  const item = getItemById('test1')
+     *  // { index: '1', key: 'test1', entry: IntersectionObserverEntry, visible: true }
+     * ```
+     */
     getItemById,
+    /**
+     * Get an item node by id
+     *
+     * * example:
+     * ```
+     *  const item = getItemElementById('test1')
+     *  // DomNode
+     * ```
+     */
     getItemElementById,
+    /**
+     * Get an item by index
+     *
+     * * example:
+     * ```
+     *  const item = getItemByIndex('1')
+     *  // { index: '1', key: 'test1', entry: IntersectionObserverEntry, visible: true }
+     * ```
+     */
     getItemByIndex,
+    /**
+     * Get an item node by index
+     *
+     * * example:
+     * ```
+     *  const item = getItemElementById('1')
+     *  // DomNode
+     * ```
+     */
     getItemElementByIndex,
+    /**
+     * Get a next item after last currently visible
+     *
+     * * example:
+     * ```
+     *  const next = getNextElement()
+     *  // { index: '5', key: 'test1', entry: IntersectionObserverEntry, visible: true }
+     * ```
+     */
     getNextElement,
+    /**
+     * Get an item before first currently visible
+     *
+     * * example:
+     * ```
+     *  const prev = getPrevElement()
+     *  // { index: '1', key: 'test1', entry: IntersectionObserverEntry, visible: true }
+     * ```
+     */
     getPrevElement,
     isFirstItemVisible,
+    /**
+     * Return item visibility
+     *
+     * * example:
+     * ```
+     *  const visible = isItemVisible('item1')
+     *  // true || false
+     * ```
+     */
     isItemVisible,
+    /**
+     * Return if item is a last item
+     *
+     * * example:
+     * ```
+     *  const isLast = isLastItem('item100')
+     *  // true || false
+     * ```
+     */
     isLastItem,
     isLastItemVisible,
+    /**
+     * Scroll to next group of items
+     *
+     * * example:
+     * ```
+     *  scrollNext(
+     *   'auto' | 'instant' | 'smooth',
+     *   'center' | 'end' | 'nearest' | 'start',
+     *   'center' | 'end' | 'nearest' | 'start'
+     * )
+     * ```
+     */
     scrollNext,
+    /**
+     * Scroll to previous group of items
+     *
+     * * example:
+     * ```
+     *  scrollPrev(
+     *   'auto' | 'instant' | 'smooth',
+     *   'center' | 'end' | 'nearest' | 'start',
+     *   'center' | 'end' | 'nearest' | 'start'
+     * )
+     * ```
+     */
     scrollPrev,
+    /**
+     * Hook to subscribe to visibility updates
+     *
+     * * example:
+     * ```
+     *  const visible = useIsVisible('first' | 'last' | 'itemId1' )
+     *  // true | false
+     * ```
+     */
     useIsVisible,
+    /**
+     * Scroll to some item
+     *
+     * * example:
+     * ```
+     *  scrollToItem(
+     *   itemInstance || 'itemId',
+     *   'auto' | 'instant' | 'smooth',
+     *   'center' | 'end' | 'nearest' | 'start',
+     *   'center' | 'end' | 'nearest' | 'start'
+     * )
+     * ```
+     */
     // eslint-disable-next-line max-params
     scrollToItem: (
       target?: ItemOrElement,
