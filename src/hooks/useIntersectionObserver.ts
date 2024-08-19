@@ -13,6 +13,7 @@ interface Props {
   itemsChanged: string;
   options: typeof observerOptions;
   refs: Refs;
+  wrapperVisible: { current: boolean };
 }
 
 function useIntersectionObserver({
@@ -20,14 +21,17 @@ function useIntersectionObserver({
   itemsChanged,
   refs,
   options,
+  wrapperVisible,
 }: Props) {
-  const observer: { current?: IntersectionObserver } = React.useRef();
+  const observer = React.useRef<IntersectionObserver>();
 
   const ioCb = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {
-      items.setBatch(observerEntriesToItems(entries, options));
+      if (wrapperVisible.current) {
+        items.setBatch(observerEntriesToItems(entries, options));
+      }
     },
-    [items, options],
+    [items, options, wrapperVisible],
   );
 
   useIsomorphicLayoutEffect(() => {

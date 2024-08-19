@@ -11,6 +11,7 @@ import { VisibilityContext } from './context';
 import { type publicApiType } from './createApi';
 import * as createApi from './createApi';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
+import { useMenuVisible } from './hooks/useMenuVisible';
 import * as useOnCb from './hooks/useOnCb';
 import { type ItemType } from './types';
 
@@ -20,6 +21,10 @@ jest.mock('./hooks/useIntersectionObserver');
 jest.mock('./hooks/useOnCb', () => ({
   __esModules: true,
   useOnCb: jest.fn(),
+}));
+jest.mock('./hooks/useMenuVisible', () => ({
+  __esModules: true,
+  useMenuVisible: jest.fn(),
 }));
 
 const defaultItems = ['test1', 'test2'];
@@ -97,6 +102,7 @@ const options = {
 describe('ScrollMenu', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    (useMenuVisible as jest.Mock).mockReturnValue({ current: true });
   });
 
   test('should render without props', () => {
@@ -121,12 +127,7 @@ describe('ScrollMenu', () => {
         items: expect.any(Object),
         itemsChanged: '',
         options,
-        refs: Object.fromEntries(
-          defaultItems.map((_, ind: number) => [
-            String(ind),
-            { current: expect.any(Element) },
-          ]),
-        ),
+        refs: mapRefs(defaultItems),
       });
     });
   });
@@ -151,6 +152,46 @@ describe('ScrollMenu', () => {
       comparePublicApi(lastCall.context);
       expect(lastCall.onInit).toEqual(onInit);
       expect(lastCall.onUpdate).toEqual(onUpdate);
+    });
+  });
+
+  describe('useMenuVisible - should pass menu visibility to useIntersectionObserver', () => {
+    test('true', () => {
+      (useMenuVisible as jest.Mock).mockReturnValue({ current: true });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
+      const { container } = setup();
+
+      expect(container.firstChild).toBeTruthy();
+      expect(useIntersectionObserver).toHaveBeenCalled();
+      const call = (useIntersectionObserver as jest.Mock).mock.calls[0].slice(
+        -1,
+      )[0];
+      expect(call).toMatchObject({
+        items: expect.any(Object),
+        itemsChanged: '',
+        options,
+        wrapperVisible: { current: true },
+        refs: mapRefs(defaultItems),
+      });
+    });
+
+    test('false', () => {
+      (useMenuVisible as jest.Mock).mockReturnValue({ current: false });
+      (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
+      const { container } = setup();
+
+      expect(container.firstChild).toBeTruthy();
+      expect(useIntersectionObserver).toHaveBeenCalled();
+      const call = (useIntersectionObserver as jest.Mock).mock.calls[0].slice(
+        -1,
+      )[0];
+      expect(call).toMatchObject({
+        items: expect.any(Object),
+        itemsChanged: '',
+        options,
+        wrapperVisible: { current: false },
+        refs: mapRefs(defaultItems),
+      });
     });
   });
 
@@ -537,3 +578,11 @@ function comparePublicApi(call: publicApiType) {
   expect(items).toEqual(expect.any(Object));
   expect(scrollContainer).toEqual({ current: expect.any(Element) });
 }
+
+const mapRefs = (defaultItems: unknown[]) =>
+  Object.fromEntries(
+    defaultItems.map((_, ind: number) => [
+      String(ind),
+      { current: expect.any(Element) },
+    ]),
+  );
