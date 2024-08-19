@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-jss';
-import { useIntersectionObserver } from 'usehooks-ts';
 
 import {
   ScrollMenu,
@@ -32,13 +31,8 @@ function usePreventBodyScroll() {
   return { disableScroll, enableScroll };
 }
 
-const OnScreenContext = React.createContext(true);
 export function PreventBodyScroll() {
   const { disableScroll, enableScroll } = usePreventBodyScroll();
-
-  const { isIntersecting: isVisible, ref } = useIntersectionObserver({
-    threshold: 0.95,
-  });
 
   const [items] = React.useState(() => getItems());
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -58,25 +52,23 @@ export function PreventBodyScroll() {
 
   return (
     <div style={{ height: '200vh' }}>
-      <div ref={ref}>
+      <div>
         <NoScrollbar onMouseEnter={disableScroll} onMouseLeave={enableScroll}>
-          <OnScreenContext.Provider value={isVisible}>
-            <ScrollMenu
-              LeftArrow={LeftArrow}
-              RightArrow={RightArrow}
-              onWheel={onWheel}
-            >
-              {items.map(({ id }) => (
-                <Card
-                  title={id}
-                  itemId={id} // NOTE: itemId is required for track items
-                  key={id}
-                  onClick={() => handleItemClick(id)}
-                  selected={isItemSelected(id)}
-                />
-              ))}
-            </ScrollMenu>
-          </OnScreenContext.Provider>
+          <ScrollMenu
+            LeftArrow={LeftArrow}
+            RightArrow={RightArrow}
+            onWheel={onWheel}
+          >
+            {items.map(({ id }) => (
+              <Card
+                title={id}
+                itemId={id} // NOTE: itemId is required for track items
+                key={id}
+                onClick={() => handleItemClick(id)}
+                selected={isItemSelected(id)}
+              />
+            ))}
+          </ScrollMenu>
         </NoScrollbar>
       </div>
     </div>
@@ -99,13 +91,10 @@ function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isFirstItemVisible = visibility.useIsVisible('first', true);
 
-  const isOnScreen = React.useContext(OnScreenContext);
   const [disabled, setDisabled] = React.useState(isFirstItemVisible);
   React.useEffect(() => {
-    if (isOnScreen) {
-      setDisabled(isFirstItemVisible);
-    }
-  }, [isOnScreen, isFirstItemVisible]);
+    setDisabled(isFirstItemVisible);
+  }, [isFirstItemVisible]);
 
   return (
     <Arrow
@@ -122,13 +111,10 @@ function RightArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isLastItemVisible = visibility.useIsVisible('last', false);
 
-  const isOnScreen = React.useContext(OnScreenContext);
   const [disabled, setDisabled] = React.useState(isLastItemVisible);
   React.useEffect(() => {
-    if (isOnScreen) {
-      setDisabled(isLastItemVisible);
-    }
-  }, [isOnScreen, isLastItemVisible]);
+    setDisabled(isLastItemVisible);
+  }, [isLastItemVisible]);
 
   return (
     <Arrow

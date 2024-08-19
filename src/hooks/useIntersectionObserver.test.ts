@@ -49,7 +49,13 @@ describe('useIntersectionObserver', () => {
       el1: { current: document.createElement('div') },
       el2: { current: document.createElement('div') },
     };
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+      wrapperVisible: { current: true },
+    };
 
     renderHook(() => useIntersectionObserver(props));
 
@@ -65,24 +71,16 @@ describe('useIntersectionObserver', () => {
     const itemsChanged = '';
     const options = observerOptions;
     const refs: Refs = {};
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+      wrapperVisible: { current: true },
+    };
 
     observerMock.mockReturnValueOnce([]);
     renderHook(() => useIntersectionObserver(props));
-
-    const itemsToEntries = (items: { key: string; visible: boolean }[]) =>
-      items.map(
-        (el, index) =>
-          [
-            el.key,
-            {
-              key: el.key,
-              entry: {} as IntersectionObserverEntry,
-              visible: el.visible,
-              index: String(index),
-            },
-          ] as Item,
-      );
 
     // observer entries cbs
     const visibilityStateHistory = [
@@ -129,6 +127,47 @@ describe('useIntersectionObserver', () => {
     ]);
   });
 
+  test('should not fire an update when menu hidden', () => {
+    const observerMock = mocked(observerEntriesToItems, { shallow: true });
+
+    const items = { setBatch: jest.fn() } as unknown as ItemsMap;
+    const itemsChanged = '';
+    const options = observerOptions;
+    const refs: Refs = {};
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+      wrapperVisible: { current: false },
+    };
+
+    observerMock.mockReturnValueOnce([]);
+    renderHook(() => useIntersectionObserver(props));
+
+    // observer entries cbs
+    const visibilityStateHistory = [
+      [
+        { key: 'item1', visible: true },
+        { key: 'item2', visible: true },
+      ],
+      [
+        { key: 'item1', visible: false },
+        { key: 'item2', visible: true },
+        { key: 'item3', visible: true },
+      ],
+    ];
+
+    const mockedObserver = observer as unknown as MockedObserver;
+
+    observerMock.mockReturnValueOnce(itemsToEntries(visibilityStateHistory[0]));
+
+    // trigger cb on observer
+    const entriesMock1 = [] as IntersectionObserverEntry[];
+    mockedObserver.fire(entriesMock1);
+    expect(items.setBatch).toHaveBeenCalledTimes(0);
+  });
+
   test('should call disconnect', () => {
     const items = new ItemsMap();
     const itemsChanged = '';
@@ -137,7 +176,13 @@ describe('useIntersectionObserver', () => {
       el1: { current: document.createElement('div') },
       el2: { current: document.createElement('div') },
     };
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+      wrapperVisible: { current: true },
+    };
 
     const { unmount } = renderHook(() => useIntersectionObserver(props));
 
@@ -146,3 +191,17 @@ describe('useIntersectionObserver', () => {
     expect(mockedObserverCalls.disconnect).toEqual([]);
   });
 });
+
+const itemsToEntries = (items: { key: string; visible: boolean }[]) =>
+  items.map(
+    (el, index) =>
+      [
+        el.key,
+        {
+          key: el.key,
+          entry: {} as IntersectionObserverEntry,
+          visible: el.visible,
+          index: String(index),
+        },
+      ] as Item,
+  );

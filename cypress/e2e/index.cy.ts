@@ -40,6 +40,20 @@ describe('Scrolling menu', () => {
 
     cy.log('First items');
   });
+
+  it('When Menu hidden should not update arrows', () => {
+    cy.viewport(650, 768);
+
+    cy.visit('/');
+    cy.waitUntil(() => cy.contains('test0').should('be.visible'));
+
+    checkArrow({ cy, direction: 'Left', visible: false });
+
+    cy.scrollTo(0, 400);
+
+    cy.wait(300);
+    checkArrow({ cy, direction: 'Left', visible: false });
+  });
 });
 
 function scrollPrev({ cy }) {
