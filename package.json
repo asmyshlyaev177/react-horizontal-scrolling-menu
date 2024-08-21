@@ -16,7 +16,8 @@
     "horizontal",
     "scroll",
     "scrolling",
-    "scrolling-menu"
+    "scrolling-menu",
+    "popular"
   ],
   "license": "MIT",
   "type": "module",
