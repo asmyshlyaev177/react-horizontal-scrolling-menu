@@ -4,7 +4,7 @@ export default defineConfig({
   modifyObstructiveCode: false,
 
   retries: {
-    runMode: 1,
+    runMode: 2,
     openMode: 0,
   },
 
