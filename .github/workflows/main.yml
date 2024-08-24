@@ -38,7 +38,8 @@ jobs:
           npm run setup && \
           chmod -R 777 ../cypress_cache && \
           npx cross-env HOME=/root npx playwright install chromium firefox webkit --with-deps && \
-          chmod -R 777 /root/.cache/ms-playwright
+          chmod -R 777 /root/.cache/ms-playwright && \
+          apt install -y curl
 
       - name: Types and linter check
         run: npm run test:lint
@@ -47,7 +48,7 @@ jobs:
         run: npm run test:unit -- --coverage --coverageReporters="lcov"
 
       - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         continue-on-error: true
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
