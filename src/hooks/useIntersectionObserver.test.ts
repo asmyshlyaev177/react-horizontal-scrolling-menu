@@ -64,7 +64,7 @@ describe('useIntersectionObserver', () => {
     expect(mockedObserverCalls.observe[1]).toEqual(refs.el2.current);
   });
 
-  test('should set entries to ItemsMap', () => {
+  test('should set entries to ItemsMap', async () => {
     const observerMock = mocked(observerEntriesToItems, { shallow: true });
 
     const items = { setBatch: jest.fn() } as unknown as ItemsMap;
@@ -102,6 +102,8 @@ describe('useIntersectionObserver', () => {
     // trigger cb on observer
     const entriesMock1 = [] as IntersectionObserverEntry[];
     mockedObserver.fire(entriesMock1);
+    await new Promise((res) => setTimeout(res, 300));
+
     expect(items.setBatch).toHaveBeenCalledTimes(1);
     expect(items.setBatch).toHaveBeenNthCalledWith(1, entriesMock1);
 
@@ -111,6 +113,7 @@ describe('useIntersectionObserver', () => {
 
     observerMock.mockReturnValueOnce(entriesMock2 as unknown as Item[]);
     mockedObserver.fire(entriesMock2);
+    await new Promise((res) => setTimeout(res, 300));
 
     expect(items.setBatch).toHaveBeenCalledTimes(2);
     expect(items.setBatch).toHaveBeenNthCalledWith(2, [
@@ -119,6 +122,8 @@ describe('useIntersectionObserver', () => {
     ]);
 
     mockedObserver.fire(entriesMock2);
+    await new Promise((res) => setTimeout(res, 300));
+
     expect(items.setBatch).toHaveBeenCalledTimes(3);
     expect(items.setBatch).toHaveBeenNthCalledWith(3, [
       ['item1', { entry: {}, index: '0', key: 'item1', visible: false }],

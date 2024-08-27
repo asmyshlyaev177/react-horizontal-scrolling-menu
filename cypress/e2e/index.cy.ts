@@ -1,5 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /* eslint-disable jest/expect-expect */
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable max-nested-callbacks */
 const items: string[] = Array(10)
   .fill(1)
   .map((_el, index) => `test${index}`);
@@ -41,18 +43,52 @@ describe('Scrolling menu', () => {
     cy.log('First items');
   });
 
-  it('When Menu hidden should not update arrows', () => {
-    cy.viewport(650, 768);
+  describe('menu visibility', () => {
+    it('When Menu hidden should not update arrows', () => {
+      cy.viewport(650, 768);
 
-    cy.visit('/');
-    cy.waitUntil(() => cy.contains('test0').should('be.visible'));
+      cy.visit('/');
+      cy.waitUntil(() => cy.contains('test0').should('be.visible'));
 
-    checkArrow({ cy, direction: 'Left', visible: false });
+      checkArrow({ cy, direction: 'Left', visible: false });
 
-    cy.scrollTo(0, 400);
+      cy.scrollTo(0, 400);
 
-    cy.wait(300);
-    checkArrow({ cy, direction: 'Left', visible: false });
+      cy.wait(300);
+      checkArrow({ cy, direction: 'Left', visible: false });
+    });
+
+    it('should handle scroll when Menu partially hidden', () => {
+      cy.viewport(650, 768);
+
+      cy.visit('/');
+      cy.waitUntil(() => cy.contains('test0').should('be.visible'));
+
+      checkArrow({ cy, direction: 'Left', visible: false });
+
+      cy.scrollTo(0, 450);
+      cy.wait(300);
+
+      scrollNext({ cy });
+      cy.wait(300);
+
+      checkCards({ cy, visible: ['3', '4', '5'] });
+
+      checkArrow({ cy, direction: 'Left', visible: true });
+      checkArrow({ cy, direction: 'Right', visible: true });
+
+      scrollNext({ cy });
+      cy.wait(300);
+      checkCards({ cy, visible: ['6', '7', '8'] });
+      checkArrow({ cy, direction: 'Left', visible: true });
+      checkArrow({ cy, direction: 'Right', visible: true });
+
+      scrollNext({ cy });
+      cy.wait(300);
+      checkCards({ cy, visible: ['7', '8', '9'] });
+      checkArrow({ cy, direction: 'Left', visible: true });
+      checkArrow({ cy, direction: 'Right', visible: false });
+    });
   });
 });
 
