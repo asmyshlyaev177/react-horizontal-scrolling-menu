@@ -70,7 +70,7 @@ export const Test = {
     expect(await getActivePage()).toHaveTextContent('1');
 
     await userEvent.click(canvas.getByTestId('page-5'));
-    await testObj.isReady();
+    await testObj.wait();
     await testObj.wait();
 
     await checkPagesLength();
@@ -84,7 +84,6 @@ export const Test = {
     expect(await getRightItems()).toEqual('15');
 
     await userEvent.click(canvas.getByTestId('page-10'));
-    await testObj.isReady();
     await testObj.wait();
 
     await checkPagesLength();

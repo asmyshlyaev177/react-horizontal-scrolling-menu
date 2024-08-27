@@ -8,11 +8,23 @@ export const useMenuVisible = (
 ) => {
   const wrapperVisible = React.useRef(true);
 
+  const _ratio = ratio + 0.01;
+  const threshold = React.useMemo(
+    () => [_ratio - 0.01, _ratio, _ratio + 0.01],
+    [],
+  );
+  const ioCb = React.useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const isIntersecting = entries?.[0]?.intersectionRatio > _ratio;
+
+      if (wrapperVisible.current !== isIntersecting) {
+        wrapperVisible.current = isIntersecting;
+      }
+    },
+    [ratio],
+  );
+
   useIsomorphicLayoutEffect(() => {
-    const ioCb = (entries: IntersectionObserverEntry[]) => {
-      const isIntersecting = entries?.[0]?.intersectionRatio > ratio + 0.05;
-      wrapperVisible.current = isIntersecting;
-    };
     const observerInstance = new IntersectionObserver(ioCb, {
       threshold,
     });
@@ -23,9 +35,7 @@ export const useMenuVisible = (
     return () => {
       observerInstance.disconnect();
     };
-  }, [wrapperVisible, menuRef]);
+  }, [wrapperVisible, menuRef, ioCb, threshold]);
 
   return wrapperVisible;
 };
-
-const threshold = [0.89, 0.9, 0.91, 0.92, 0.95];

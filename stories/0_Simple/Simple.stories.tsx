@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { type Meta } from '@storybook/react';
 import React from 'react';
 import { createLiveEditStory } from 'storybook-addon-code-editor';
 
@@ -11,8 +12,6 @@ import { ScrollTest } from '../test';
 import Example from './Simple.source';
 // @ts-ignore
 import ExampleRaw from './Simple.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Simple',
