@@ -34,7 +34,7 @@ function useIntersectionObserver({
         add(parsedEntries);
       }
     },
-    [items, options, wrapperVisible, addPriority, schedule, add, running],
+    [options, wrapperVisible, addPriority, schedule, add, running],
   );
 
   useIsomorphicLayoutEffect(() => {
@@ -58,16 +58,9 @@ const useQueue = (items: ItemsMap, wrapperVisible: { current: boolean }) => {
   const timer = React.useRef(0 as unknown as NodeJS.Timeout);
   const running = React.useRef(false);
 
-  const getItems = React.useCallback(
-    (ref: typeof queue | typeof priorityQueue) => {
-      return ref.current;
-    },
-    [],
-  );
-
   const isVisible = React.useCallback(() => {
     return wrapperVisible.current;
-  }, [running]);
+  }, [wrapperVisible]);
 
   const run = React.useCallback(() => {
     if (!isVisible()) {
@@ -77,9 +70,9 @@ const useQueue = (items: ItemsMap, wrapperVisible: { current: boolean }) => {
     }
 
     items.setBatch(
-      filterQueue(getItems(queue), dedupeEntries(getItems(priorityQueue))),
+      filterQueue(queue.current, dedupeEntries(priorityQueue.current)),
     );
-  }, [queue, priorityQueue, getItems, isVisible, items]);
+  }, [queue, priorityQueue, isVisible, items]);
 
   const schedule = React.useCallback(() => {
     if (running.current) {
@@ -91,28 +84,34 @@ const useQueue = (items: ItemsMap, wrapperVisible: { current: boolean }) => {
       queue.current = [];
       priorityQueue.current = [];
       running.current = false;
-    }, 200);
-  }, [items, run]);
+    }, 100);
+  }, [items, run, priorityQueue, queue]);
 
   const cleanup = React.useCallback(() => {
+    clearTimeout(timer.current);
     queue.current = [];
     priorityQueue.current = [];
-    clearTimeout(timer.current);
-  }, []);
+  }, [priorityQueue, queue]);
 
-  const add = React.useCallback((entries: Item[]) => {
-    clearTimeout(timer.current);
-    running.current = false;
-    schedule();
-    queue.current.push(...entries);
-  }, []);
+  const add = React.useCallback(
+    (entries: Item[]) => {
+      clearTimeout(timer.current);
+      running.current = false;
+      queue.current.push(...entries);
+      schedule();
+    },
+    [queue, running, schedule, timer],
+  );
 
-  const addPriority = React.useCallback((entries: Item[]) => {
-    clearTimeout(timer.current);
-    running.current = false;
-    schedule();
-    priorityQueue.current.push(...entries);
-  }, []);
+  const addPriority = React.useCallback(
+    (entries: Item[]) => {
+      clearTimeout(timer.current);
+      running.current = false;
+      priorityQueue.current.push(...entries);
+      schedule();
+    },
+    [priorityQueue, schedule, running, timer],
+  );
 
   return {
     schedule,
