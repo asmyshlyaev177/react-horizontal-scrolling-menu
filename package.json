@@ -1,6 +1,6 @@
 {
   "name": "react-horizontal-scrolling-menu",
-  "version": "7.1.5",
+  "version": "7.1.6",
   "author": {
     "name": "asmyshlyaev177",
     "email": "asmyshlyaev177@gmail.com",
@@ -106,6 +106,7 @@
     "storybook": "wireit",
     "storybook:types": "wireit",
     "build-storybook": "wireit",
+    "prepack": "npm run build",
     "prepare": "husky install"
   },
   "wireit": {
