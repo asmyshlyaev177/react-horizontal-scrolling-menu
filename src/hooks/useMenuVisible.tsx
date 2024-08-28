@@ -8,10 +8,10 @@ export const useMenuVisible = (
 ) => {
   const wrapperVisible = React.useRef(true);
 
-  const _ratio = ratio + 0.01;
+  const _ratio = React.useMemo(() => ratio + 0.01, [ratio]);
   const threshold = React.useMemo(
     () => [_ratio - 0.01, _ratio, _ratio + 0.01],
-    [],
+    [_ratio],
   );
   const ioCb = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -21,7 +21,7 @@ export const useMenuVisible = (
         wrapperVisible.current = isIntersecting;
       }
     },
-    [ratio],
+    [_ratio],
   );
 
   useIsomorphicLayoutEffect(() => {

@@ -85,7 +85,7 @@ const useQueue = (items: ItemsMap, wrapperVisible: { current: boolean }) => {
       priorityQueue.current = [];
       running.current = false;
     }, 100);
-  }, [items, run, priorityQueue, queue]);
+  }, [run, priorityQueue, queue]);
 
   const cleanup = React.useCallback(() => {
     clearTimeout(timer.current);
