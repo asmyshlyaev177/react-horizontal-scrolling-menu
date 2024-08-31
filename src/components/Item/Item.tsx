@@ -13,7 +13,7 @@ export type Props = {
 };
 
 function Item({ children, className, id, index, refs }: Props) {
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLDivElement>(null);
   refs[String(index)] = ref;
 
   return (

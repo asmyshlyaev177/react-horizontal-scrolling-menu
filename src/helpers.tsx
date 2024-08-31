@@ -102,10 +102,7 @@ export function getElementOrConstructor(
 export const getItemId = (item: React.ReactNode) =>
   String(
     (item as React.JSX.Element)?.props?.[itemId] ||
-      String((item as React.JSX.Element)?.key || emptyStr).replace(
-        /^\.\$/,
-        emptyStr,
-      ),
+      ((item as React.JSX.Element)?.key || emptyStr).replace(/^\.\$/, emptyStr),
   );
 
 export const rafTimeout = (func: () => void, delay: number = 0) =>
