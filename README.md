@@ -209,7 +209,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll                                          |
 | onInit                   | (VisibilityContext) => void                                                                            |
 | apiRef                   | React.RefObject \| React.RefCallback                                                                   |
-| options                  | options for IntersectionObserver - `rootMargin`, `treshhhold`, and `ratio` to consider element visible |
+| options                  | options for IntersectionObserver - `rootMargin`, `threshold`, and `ratio` to consider element visible |
 | containerRef             | React.RefObject \| React.RefCallback                                                                   |
 | onUpdate                 | (VisibilityContext) => void                                                                            |
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
