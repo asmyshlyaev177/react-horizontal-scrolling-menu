@@ -5,7 +5,7 @@
 ![example](/sample.gif)
 
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
-[![Tests](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/tests.yml)
+![NPM Downloads](https://img.shields.io/npm/dm/react-horizontal-scrolling-menu)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&utm_medium=referral&utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&utm_medium=referral&utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&utm_campaign=Badge_Coverage)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/)
