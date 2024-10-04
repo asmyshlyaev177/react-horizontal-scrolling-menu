@@ -136,6 +136,7 @@ export interface Props {
   /**
     Disable scrollIntoView polyfill
    */
+  // TODO: true by default
   noPolyfill?: boolean;
 }
 
@@ -174,7 +175,7 @@ function ScrollMenu({
   wrapperClassName = constants.emptyStr,
   apiRef = apiRefDefault,
   RTL,
-  noPolyfill,
+  noPolyfill = true,
 }: Props): React.JSX.Element {
   const LeftArrow = getElementOrConstructor(_LeftArrow);
   const RightArrow = getElementOrConstructor(_RightArrow);
