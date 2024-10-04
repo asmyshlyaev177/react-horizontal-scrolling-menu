@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v7.1.8...v8.0.0) (2024-10-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* `noPolyfill` options is true by default now
+
+### Bug Fixes
+
+* noPolyfill=true by default ([ddbe715](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/ddbe71595b4365ba8ed7f5bd63ef980d09554967))
+
 ### [7.1.8](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v7.1.7...v7.1.8) (2024-09-19)
 
 ### [7.1.7](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v7.1.5...v7.1.7) (2024-08-28)
