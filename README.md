@@ -221,11 +221,11 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
 | itemClassName            | ClassName of Item                                                                                      |
 | scrollContainerClassName | ClassName of scrollContainer                                                                           |
-| transitionDuration       | Duration of transitions in ms, default 500                                                             |
+| transitionDuration       | Duration of transitions in ms, default `500`                                                           |
 | transitionBehavior       | 'smooth' \|'auto' \| customFunction                                                                    |
 | wrapperClassName         | ClassName of the outer-most div                                                                        |
 | RTL                      | Enable Right to left direction                                                                         |
-| noPolyfill               | Don't use polyfill for scroll, no transitions                                                          |
+| noPolyfill               | Don't use polyfill for scroll, no transitions, `true` by default                                       |
 
 ### VisibilityContext
 
