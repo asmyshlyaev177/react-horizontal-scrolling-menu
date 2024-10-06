@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+/* eslint-disable sonarjs/no-duplicate-string */
 import { expect } from '@storybook/jest';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { within, userEvent } from '@storybook/testing-library';
@@ -36,7 +38,6 @@ export const Progress = createLiveEditStory({
   modifyEditor: setupEditor,
 });
 
-// TODO: fix this
 export const Test = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -50,51 +51,54 @@ export const Test = {
       'test1',
       'test2',
     ]);
-    const getLeftItems = async () =>
-      await canvas.getByTestId('items-left').textContent;
-    const getRightItems = async () =>
-      await canvas.getByTestId('items-right').textContent;
-    const getActivePage = async () => {
-      const activePages = await canvas
-        .queryAllByTestId(/page-/)
-        .filter((el) => el.className.includes('active'));
-      expect(activePages).toHaveLength(1);
-      return activePages[0];
-    };
-    const checkPagesLength = async () =>
-      expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
 
-    expect(await getLeftItems()).toEqual('0');
-    expect(await getRightItems()).toEqual('27');
+    expect(await canvas.getByTestId('items-left').textContent).toEqual('0');
+    expect(await canvas.getByTestId('items-right').textContent).toEqual('27');
 
-    await checkPagesLength();
-    expect(await getActivePage()).toHaveTextContent('1');
+    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
+    await testObj.wait();
+    const activePages = await canvas
+      .queryAllByTestId(/page-/)
+      .filter((el) => el.className.includes('active'));
+    expect(activePages[0].textContent).toEqual('1');
 
     await userEvent.click(canvas.getByTestId('page-5'));
-    // await testObj.wait();
-    // await testObj.wait();
+    await testObj.wait();
+    await testObj.wait();
 
-    // await checkPagesLength();
-    // expect(await testObj.getVisibleCardsKeys()).toEqual([
-    //   'test12',
-    //   'test13',
-    //   'test14',
-    // ]);
-    // expect(await getActivePage()).toHaveTextContent('5');
-    // expect(await getLeftItems()).toEqual('12');
-    // expect(await getRightItems()).toEqual('15');
+    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
+    expect(await testObj.getVisibleCardsKeys()).toEqual([
+      'test12',
+      'test13',
+      'test14',
+    ]);
 
-    // await userEvent.click(canvas.getByTestId('page-10'));
-    // await testObj.wait();
+    const activePages1 = await canvas
+      .queryAllByTestId(/page-/)
+      .filter((el) => el.className.includes('active'));
+    expect(activePages1[0].textContent).toEqual('5');
 
-    // await checkPagesLength();
-    // expect(await testObj.getVisibleCardsKeys()).toEqual([
-    //   'test27',
-    //   'test28',
-    //   'test29',
-    // ]);
-    // expect(await getActivePage()).toHaveTextContent('10');
-    // expect(await getLeftItems()).toEqual('27');
-    // expect(await getRightItems()).toEqual('0');
+    expect(await canvas.getByTestId('items-left').textContent).toEqual('12');
+    expect(await canvas.getByTestId('items-right').textContent).toEqual('15');
+
+    await testObj.wait();
+    await userEvent.click(canvas.getByTestId('page-10'));
+
+    await testObj.wait();
+    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
+    expect(await testObj.getVisibleCardsKeys()).toEqual([
+      'test27',
+      'test28',
+      'test29',
+    ]);
+
+    await testObj.wait(1200);
+    const activePages2 = await canvas
+      .queryAllByTestId(/page-/)
+      .filter((el) => el.className.includes('active'));
+    expect(activePages2[0].textContent).toEqual('10');
+
+    expect(await canvas.getByTestId('items-left').textContent).toEqual('27');
+    expect(await canvas.getByTestId('items-right').textContent).toEqual('0');
   },
 };
