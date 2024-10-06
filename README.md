@@ -64,7 +64,7 @@ Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizon
 ## Quick start
 
 ```bash
-npm install --save react-horizontal-scrolling-menu
+npm install --save react-horizontal-scrolling-menu@7.1.1 // last version has a bug
 ```
 test
 In project:
