@@ -31,7 +31,7 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
         <div
@@ -42,7 +42,7 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           class="left-arrow"
           data-testid="left-arrow"
         >
-          {"isFirstItemVisible":false,"isLastItemVisible":false}
+          {"isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
         </button>
       </div>
       <div
@@ -95,7 +95,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
         <div
@@ -106,7 +106,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
       </div>
@@ -117,7 +117,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
           class="right-arrow"
           data-testid="right-arrow"
         >
-          {"isFirstItemVisible":false,"isLastItemVisible":false}
+          {"isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
         </button>
       </div>
     </div>
@@ -153,7 +153,7 @@ exports[`ScrollMenu should render without props 1`] = `
           <div
             data-testid="test1"
           >
-            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test1","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
         <div
@@ -164,7 +164,7 @@ exports[`ScrollMenu should render without props 1`] = `
           <div
             data-testid="test2"
           >
-            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false}
+            {"itemId":"test2","isFirstItemVisible":false,"isLastItemVisible":false,"menuVisible":{"current":true}}
           </div>
         </div>
       </div>

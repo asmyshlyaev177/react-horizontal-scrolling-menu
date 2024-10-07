@@ -182,7 +182,7 @@ function ScrollMenu({
   const Header = getElementOrConstructor(_Header);
   const Footer = getElementOrConstructor(_Footer);
 
-  const scrollContainerRef = React.useRef<HTMLElement | null>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement | null>(null);
   const [menuItemsRefs] = React.useState<Refs>({});
 
   const observerOptions = React.useMemo(
@@ -199,18 +199,18 @@ function ScrollMenu({
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, items);
 
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const wrapperVisible = useMenuVisible(wrapperRef, observerOptions.ratio);
-
+  const menuVisible = useMenuVisible(
+    scrollContainerRef,
+    observerOptions.ratio + 0.05 < 1 ? observerOptions.ratio + 0.05 : 0.95,
+  );
   const ioOptions = React.useMemo(
     () => ({
       items,
       itemsChanged,
       options: observerOptions,
       refs: menuItemsRefs,
-      wrapperVisible,
     }),
-    [items, itemsChanged, wrapperVisible, menuItemsRefs, observerOptions],
+    [items, itemsChanged, menuItemsRefs, observerOptions],
   );
   useIntersectionObserver(ioOptions);
 
@@ -233,8 +233,9 @@ function ScrollMenu({
       ...api,
       items,
       scrollContainer: scrollContainerRef,
+      menuVisible,
     }),
-    [api, items, scrollContainerRef],
+    [api, items, scrollContainerRef, menuVisible],
   );
 
   const [context, setContext] = React.useState<publicApiType>(() =>
@@ -285,7 +286,6 @@ function ScrollMenu({
       onTouchStart={onTouchStart?.(context)}
       onTouchMove={onTouchMove?.(context)}
       onTouchEnd={onTouchEnd?.(context)}
-      ref={wrapperRef}
     >
       <VisibilityContext.Provider value={context}>
         <div className={constants.headerClassName}>{Header}</div>

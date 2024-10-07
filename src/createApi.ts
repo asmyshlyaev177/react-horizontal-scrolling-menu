@@ -277,4 +277,5 @@ export default function createApi(
 export interface publicApiType extends ReturnType<typeof createApi> {
   items: ItemsMap;
   scrollContainer: React.RefObject<HTMLElement | null>;
+  menuVisible: { current: boolean };
 }
