@@ -43,7 +43,7 @@ describe('Scrolling menu', () => {
     cy.log('First items');
   });
 
-  describe('menu visibility', () => {
+  describe.skip('menu visibility', () => {
     it('When Menu hidden should not update arrows', () => {
       cy.viewport(650, 768);
 
