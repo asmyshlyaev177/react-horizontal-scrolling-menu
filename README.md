@@ -242,6 +242,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | isItemVisible         | itemId => boolean                                      |
 | isLastItem            | boolean                                                |
 | isLastItemVisible     | boolean                                                |
+| menuVisible           | { current: boolean }
 | scrollNext            | (behavior, inline, block, ScrollOptions) => void       |
 | scrollPrev            | (behavior, inline, block, ScrollOptions) => void       |
 | scrollToItem          | (item, behavior, inline, block, ScrollOptions) => void |

@@ -252,9 +252,17 @@ const easingFunctions = {
 const LeftArrow = React.memo(() => {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isFirstItemVisible = visibility.useIsVisible('first', true);
+
+  const [disabled, setDisabled] = React.useState(isFirstItemVisible);
+  React.useEffect(() => {
+    if (visibility.menuVisible.current) {
+      setDisabled(isFirstItemVisible);
+    }
+  }, [isFirstItemVisible, visibility.menuVisible]);
+
   return (
     <Arrow
-      disabled={isFirstItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollPrev()}
       className="left"
     >
@@ -266,9 +274,17 @@ const LeftArrow = React.memo(() => {
 const RightArrow = React.memo(() => {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isLastItemVisible = visibility.useIsVisible('last', false);
+
+  const [disabled, setDisabled] = React.useState(isLastItemVisible);
+  React.useEffect(() => {
+    if (visibility.menuVisible) {
+      setDisabled(isLastItemVisible);
+    }
+  }, [isLastItemVisible, visibility.menuVisible]);
+
   return (
     <Arrow
-      disabled={isLastItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollNext()}
       className="right"
     >

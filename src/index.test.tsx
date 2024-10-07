@@ -170,7 +170,6 @@ describe('ScrollMenu', () => {
         items: expect.any(Object),
         itemsChanged: '',
         options,
-        wrapperVisible: { current: true },
         refs: mapRefs(defaultItems),
       });
     });
@@ -189,7 +188,6 @@ describe('ScrollMenu', () => {
         items: expect.any(Object),
         itemsChanged: '',
         options,
-        wrapperVisible: { current: false },
         refs: mapRefs(defaultItems),
       });
     });
@@ -277,6 +275,9 @@ describe('ScrollMenu', () => {
       const context = {
         isFirstItemVisible: false,
         isLastItemVisible: false,
+        menuVisible: {
+          current: true,
+        },
       };
 
       expect(ScrollContainer).toHaveClass(scrollContainerClassName);

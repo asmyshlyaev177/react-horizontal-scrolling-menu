@@ -73,8 +73,10 @@ function LeftArrow() {
 
   const [disabled, setDisabled] = React.useState(isFirstItemVisible);
   React.useEffect(() => {
-    setDisabled(isFirstItemVisible);
-  }, [isFirstItemVisible]);
+    if (visibility.menuVisible.current) {
+      setDisabled(isFirstItemVisible);
+    }
+  }, [isFirstItemVisible, visibility.menuVisible]);
 
   return (
     <Arrow
@@ -93,8 +95,10 @@ function RightArrow() {
 
   const [disabled, setDisabled] = React.useState(isLastItemVisible);
   React.useEffect(() => {
-    setDisabled(isLastItemVisible);
-  }, [isLastItemVisible]);
+    if (visibility.menuVisible) {
+      setDisabled(isLastItemVisible);
+    }
+  }, [isLastItemVisible, visibility.menuVisible]);
 
   return (
     <Arrow

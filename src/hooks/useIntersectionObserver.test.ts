@@ -65,7 +65,12 @@ describe('useIntersectionObserver', () => {
     const itemsChanged = '';
     const options = observerOptions;
     const refs: Refs = {};
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+    };
 
     observerMock.mockReturnValueOnce([]);
     renderHook(() => useIntersectionObserver(props));
@@ -137,7 +142,13 @@ describe('useIntersectionObserver', () => {
       el1: { current: document.createElement('div') },
       el2: { current: document.createElement('div') },
     };
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs,
+      menuVisible: { current: true },
+    };
 
     const { unmount } = renderHook(() => useIntersectionObserver(props));
 
