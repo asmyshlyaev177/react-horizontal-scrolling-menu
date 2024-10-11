@@ -2,6 +2,115 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 8.1.0 (2024-10-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* `noPolyfill` options is true by default now
+* Removed getPrevItem and getNextItem and code related to separators
+
+* chore: update eslint plugin
+
+* refactor(imports): fix imports with eslint
+* * Removed visibleElements, isFirstItemVisible and isLastItemVisible.
+  Can use api.useIsVisible hook, api.isItemVisible,
+  and api.items.getVisibleElements to get visible items.
+* Removed initComplete
+
+* ci(lint-staged): ignore stories folder in lint-staged
+
+* docs(readme): update docs
+
+* docs(storybook): performance example
+
+* docs(storybook): save/restore position example
+
+* refactor: remove stack and flush updates logic
+
+* style(eslint): eslint/ts config for stories
+
+* ci: add webkit for storybook tests
+* Changed type of package to module, upgrade your NPM version
+
+* fix(ts): fix publicApiType type export
+
+* chore: cRA example
+
+* chore(update): update smooth-scroll-into-view-if-needed to v2
+* Possible new behavior, test after update
+
+* ci(github actions): action to publish lib to npm
+
+* ci(github action): refactore test/release action
+
+* chore(release): 5.0.0
+* **styles:** Need to import styles in your code - example "import
+'react-horizontal-scrolling-menu/dist/styles.css'"
+* Removed Arrows prop
+
+* fix: removed globalThis
+
+* test: test for Header and Footer
+
+* chore: updated example and README
+
+* chore(release): 3.0.0
+
+### Features
+
+* `useLeftArrowVisible` and `useRightArrowVisible` hooks ([#292](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/292)) ([5ae82a8](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/5ae82a807c9961ca6c5281da20d99a87adeb9d15))
+* **apiref:** apiRef object for access VisibilityContext from outside of Menu component ([32012f6](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/32012f603dccc89f57a3e4a1b9d318c3e49f3c27))
+* arrows prop for use arrows with additional content ([e222381](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e222381734754560ae813da12292d1b340cf2c4f)), closes [#197](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/197)
+* **classname:** className for Item, Separator and ScrollContainer ([4cb0a3f](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/4cb0a3f190dc70cc65242e26c846f63e5e4ff84e))
+* containerRef prop to make it work with formkit/auto-animate ([#273](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/273)) ([44b13b4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/44b13b43eb9ece69e0773990824f7891eefc59dc))
+* getItemElementById and getItemElementByIndex helpers ([f0a0475](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/f0a047587cb99b92a0f45bfa8e0783f9959d9935)), closes [#167](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/167)
+* header and footer initial implementation ([#200](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/200)) ([7aaac71](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/7aaac71ccd2729b5f7a542a8b786e63d0cdb66f2)), closes [#197](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/197)
+* **onmouseleave:** onMouseLeave prop ([57ad4cb](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/57ad4cbd11e0b7c574b018cbf5cf126c2e2810c6))
+* **onupdate:** onUpdate cb that called every time visibleItems changed ([010f5ff](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/010f5ffc38bdda401ea396bfadcfe066840e927d))
+* **rtl:** rtl support ([7d7740b](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/7d7740b6de218117edf1ef019345e6de10d07baf))
+* slidingWindow and getItemsPos helpers ([0bc0839](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/0bc0839ac2429f3b0cdb8e64d0a6c56054ce66fd))
+* touch events ([b0baa6c](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/b0baa6ca45d538d46234b34179d993a48bb32caf))
+* transition and animations ([40e9201](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/40e9201e9606c5b7755c375dc04442a3f8ef0035))
+* use key prop if itemId not provided, getItemId helper ([5d700f2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/5d700f237d1cf6c18238f27465ef25fbd03ce66e))
+* use smooth-scroll-into-view-if-needed library as polyfill ([28b2a9c](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/28b2a9cbd54beb0e307e630ff961acf2bdf4e205)), closes [#174](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/174)
+
+
+### Bug Fixes
+
+* change mjs to be browser and main entries ([1dc5ebd](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/1dc5ebdebe6976f749c52c5f5ee394662b6ee016))
+* changed target to es2015(es6) since some uglifiers don't support newer ([a557987](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/a5579878e06e97fbb8cb2105b6e9d4a82723f7eb))
+* convert itemId to string ([ede8987](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/ede8987ba5c41f21709c538b20883b30b9fe4f80)), closes [#207](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/207)
+* don't fire updates if Menu is hidden ([95aa22e](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/95aa22ee11f06302f811fafeaef9aef620204f90))
+* don't use labeled tuple for support TS < 4 ([61fbe8a](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/61fbe8ab5ac226fe5ae73d5a822aa715320d7eb9))
+* fix arrow status ([#291](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/291)) ([6ad8b64](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/6ad8b64d285c0863fe6aaa23c8bfc19bed5e5a57))
+* fix dependencies array for transitions ([5b61bb6](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/5b61bb60b41e3252a4159a6ce926754196196aa5))
+* fix if prev/next group of items in slidingWindow smaller than current one ([292d581](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/292d581745a9403a7e55092cd63a97e88265b13e))
+* fix visibility issue ([7f71b1c](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/7f71b1c9eaf3be15f86a34cab153aa884d6ef50d))
+* fixed Arrows props can't pass as component ([219b58b](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/219b58b3cb2ec46cfa59a4b553679466224e1086))
+* fixed onInit cb and example ([d24278b](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/d24278bda1eaeda86dabb5fe53298a1d8d680567))
+* fixed situation when items added at start, need to handle when items removed ([210f8d4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/210f8d4714d972051e0bc491ea14083db1e7b258)), closes [#164](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/164)
+* fixed styles for wrapper ([66006e3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/66006e31c2cf154bebb3f18fa53bab58512df5a0))
+* fixed useOnUpdate staled value ([8a7386f](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/8a7386f163f218733bd69365427da435d733a17d))
+* **getelementorconstructor:** fix for React.memo elements as arrows/footer ([b398ad5](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/b398ad525730e00b1912ed8c6e5181c388d09d1a))
+* nextjs complaining about useLayoutEffect ([#191](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/191)) ([bef5dca](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/bef5dca019ea44d5891c6353e8ad239487dc7ba1))
+* noPolyfill=true by default ([dad3dab](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/dad3dab3e54e747156969ea6418c64d41ebcfa98))
+* **package.json:** add exports.types field ([#247](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/247)) ([2c6ef40](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/2c6ef40212d2d28bfeed65dbaf7e90e62d85e81f))
+* pass arrows as FC or Element ([b53a8dd](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/b53a8ddccf43f188bedadab5a65c02f68e5a73c6)), closes [#152](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/152)
+* remove separators too when remove items ([fccd6a6](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/fccd6a6be3f4c1d20ca1b970f78903e3398646a8)), closes [#171](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/171)
+* removed Separator elements ([#274](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/274)) ([c033bf9](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/c033bf99bf2b05277f9adcd94a7699244d770480))
+* **scripts:** fix release script ([e763c9e](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e763c9eb09f3a04a5541cba198626ce7ecd932f9))
+* **scroll by 1 item:** fns for scroll by 1 item ([bdd4e68](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/bdd4e68e86a0824d2c05571902031d6877e43389))
+* **scrolltoitem:** scrollToItem accepts IOItem as an argument ([f1732e2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/f1732e2bc61f82fd1ace9a0bc008790b4981c82e)), closes [#157](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/157)
+* **styles.css import:** fixed exports field for /dist/styles.css ([c7dc811](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/c7dc8115cbe6ab0e981f8e291df706af90cd47c0)), closes [#231](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/231)
+* **styles:** bundle styles to styles.css file ([6b298f1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/6b298f11d05ccae6106ae16c36b8221e5ba0a949)), closes [#227](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/227)
+* ts types on same level as index, codesandbox doesn't see it otherwise ([d2a7249](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/d2a72491ff252e319feeea185600c2ebe425e9d0))
+* **yarn/vite:** polyfill to dependencies, issues with yarn/vite ([e60faf4](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e60faf4a65de0ca7106977810cab77a81ab40a09)), closes [#269](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/269)
+
+
+* Observer pattern (#270) ([e5b998a](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/e5b998a2e10ca72c0f4364d273aff322bdd6d628)), closes [#270](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/270)
+* Module (#266) ([47d387b](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/47d387b48e865d915be5fb6eca641cf2c3135dfe)), closes [#266](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/266)
+
 ### [8.0.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.0.0...v8.0.2) (2024-10-07)
 
 
