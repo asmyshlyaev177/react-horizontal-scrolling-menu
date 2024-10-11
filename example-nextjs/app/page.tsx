@@ -379,6 +379,7 @@ const Card = React.memo(
           ev.code === 'Enter' && _onClick(visibility);
         }}
         role="button"
+        data-visible={isVisible}
         style={{
           border: '1px solid',
           display: 'inline-block',

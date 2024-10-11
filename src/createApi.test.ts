@@ -60,13 +60,15 @@ describe('createApi', () => {
     behavior: (() => false) as unknown as CustomScrollBehavior,
   };
 
+  const menuVisible = { current: true };
+
   describe('helpers', () => {
     describe('scrollToItem', () => {
       test('should call scrollIntoView', () => {
         const { items } = setup([0.7, 0, 0]);
 
         const boundary = { current: document.createElement('div') };
-        createApi(items, {
+        createApi(items, menuVisible, {
           boundary,
         }).scrollToItem(document.createElement('div'));
         expect(scrollIntoView).toHaveBeenCalledTimes(1);
@@ -84,7 +86,7 @@ describe('createApi', () => {
 
         const boundary = { current: document.createElement('div') };
 
-        createApi(items, {
+        createApi(items, menuVisible, {
           boundary,
           ...transitionOptions,
         }).scrollToItem(document.createElement('div'));
@@ -113,6 +115,7 @@ describe('createApi', () => {
         const elem = document.createElement('div');
         createApi(
           items,
+          menuVisible,
           { boundary, ...transitionOptions },
           noPolyfill,
         ).scrollToItem(elem);
@@ -134,7 +137,7 @@ describe('createApi', () => {
 
         const boundary = { current: document.createElement('div') };
 
-        createApi(items, {
+        createApi(items, menuVisible, {
           ...transitionOptions,
           boundary,
         }).scrollToItem(
@@ -158,13 +161,15 @@ describe('createApi', () => {
     test('getItemElementById', () => {
       const { items } = setup([0.7, 0, 0]);
 
-      expect(createApi(items).getItemElementById).toEqual(getItemElementById);
+      expect(createApi(items, menuVisible).getItemElementById).toEqual(
+        getItemElementById,
+      );
     });
 
     test('getItemElementByIndex', () => {
       const { items } = setup([0.7, 0, 0]);
 
-      expect(createApi(items).getItemElementByIndex).toEqual(
+      expect(createApi(items, menuVisible).getItemElementByIndex).toEqual(
         getItemElementByIndex,
       );
     });
@@ -174,19 +179,19 @@ describe('createApi', () => {
     test('first item visible', () => {
       const { items } = setup([0.7, 0, 0]);
 
-      expect(createApi(items).isFirstItemVisible).toEqual(true);
+      expect(createApi(items, menuVisible).isFirstItemVisible).toEqual(true);
     });
 
     test('first item not visible', () => {
       const { items } = setup([0.3, 1, 1]);
 
-      expect(createApi(items).isFirstItemVisible).toEqual(false);
+      expect(createApi(items, menuVisible).isFirstItemVisible).toEqual(false);
     });
 
     test('empty items', () => {
       const items = new ItemsMap();
 
-      expect(createApi(items).isFirstItemVisible).toEqual(false);
+      expect(createApi(items, menuVisible).isFirstItemVisible).toEqual(false);
     });
   });
 
@@ -194,19 +199,19 @@ describe('createApi', () => {
     test('last item visible', () => {
       const { items } = setup([0.3, 0.9, 0.9]);
 
-      expect(createApi(items).isLastItemVisible).toEqual(true);
+      expect(createApi(items, menuVisible).isLastItemVisible).toEqual(true);
     });
 
     test('last item not visible', () => {
       const { items } = setup([1, 1, 0.3]);
 
-      expect(createApi(items).isLastItemVisible).toEqual(false);
+      expect(createApi(items, menuVisible).isLastItemVisible).toEqual(false);
     });
 
     test('empty items', () => {
       const items = new ItemsMap();
 
-      expect(createApi(items).isLastItemVisible).toEqual(false);
+      expect(createApi(items, menuVisible).isLastItemVisible).toEqual(false);
     });
   });
 
@@ -214,19 +219,23 @@ describe('createApi', () => {
     test('item exist', () => {
       const { items, nodes } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).getItemById('test1')).toEqual(nodes[0]);
-
-      expect(createApi(items).getItemById('2')).toEqual(nodes[1]);
-      expect(createApi(items).getItemById(2 as unknown as string)).toEqual(
-        nodes[1],
+      expect(createApi(items, menuVisible).getItemById('test1')).toEqual(
+        nodes[0],
       );
+
+      expect(createApi(items, menuVisible).getItemById('2')).toEqual(nodes[1]);
+      expect(
+        createApi(items, menuVisible).getItemById(2 as unknown as string),
+      ).toEqual(nodes[1]);
     });
 
     test('item not exist', () => {
       const { items } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).getItemById('test123')).toEqual(undefined);
-      expect(createApi(items).getItemById('')).toEqual(undefined);
+      expect(createApi(items, menuVisible).getItemById('test123')).toEqual(
+        undefined,
+      );
+      expect(createApi(items, menuVisible).getItemById('')).toEqual(undefined);
     });
   });
 
@@ -234,15 +243,17 @@ describe('createApi', () => {
     test('item exist', () => {
       const { items, nodes } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).getItemByIndex(0)).toEqual(nodes[0]);
+      expect(createApi(items, menuVisible).getItemByIndex(0)).toEqual(nodes[0]);
 
-      expect(createApi(items).getItemByIndex(0)).toEqual(nodes[0]);
+      expect(createApi(items, menuVisible).getItemByIndex(0)).toEqual(nodes[0]);
     });
 
     test('item not exist', () => {
       const { items } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).getItemByIndex(5.1)).toEqual(undefined);
+      expect(createApi(items, menuVisible).getItemByIndex(5.1)).toEqual(
+        undefined,
+      );
     });
   });
 
@@ -250,17 +261,17 @@ describe('createApi', () => {
     test('should return visibility', () => {
       const { items } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).isItemVisible('test1')).toBeFalsy();
-      expect(createApi(items).isItemVisible('2')).toBeTruthy();
+      expect(createApi(items, menuVisible).isItemVisible('test1')).toBeFalsy();
+      expect(createApi(items, menuVisible).isItemVisible('2')).toBeTruthy();
       expect(
-        createApi(items).isItemVisible(2 as unknown as string),
+        createApi(items, menuVisible).isItemVisible(2 as unknown as string),
       ).toBeTruthy();
     });
 
     test('item not exist', () => {
       const { items } = setup([0.1, 1, 0.9]);
-      expect(createApi(items).isItemVisible('test3')).toBeFalsy();
-      expect(createApi(items).isItemVisible('')).toBeFalsy();
+      expect(createApi(items, menuVisible).isItemVisible('test3')).toBeFalsy();
+      expect(createApi(items, menuVisible).isItemVisible('')).toBeFalsy();
     });
   });
 
@@ -268,40 +279,42 @@ describe('createApi', () => {
     test('have previous item', () => {
       const { items, nodes } = setup([0.1, 1, 0.9]);
 
-      expect(createApi(items).getPrevElement()).toEqual(nodes[0]);
+      expect(createApi(items, menuVisible).getPrevElement()).toEqual(nodes[0]);
     });
 
     test('do not have previous item', () => {
       const { items } = setup([1, 0.1, 0.3]);
 
-      expect(createApi(items).getPrevElement()).toEqual(undefined);
+      expect(createApi(items, menuVisible).getPrevElement()).toEqual(undefined);
     });
   });
 
   describe('getNextElement', () => {
     test('have next item', () => {
       const { items, nodes } = setup([1, 1, 0.1]);
-      expect(createApi(items).getNextElement()).toEqual(nodes[2]);
+      expect(createApi(items, menuVisible).getNextElement()).toEqual(nodes[2]);
     });
 
     test('do not have next item', () => {
       const { items } = setup([0, 0.1, 0.9]);
 
-      expect(createApi(items).getNextElement()).toEqual(undefined);
+      expect(createApi(items, menuVisible).getNextElement()).toEqual(undefined);
     });
   });
 
   describe('isLastItem', () => {
     test('item is last', () => {
       const { items } = setup([0.1, 1, 0.9]);
-      expect(createApi(items).isLastItem('3')).toEqual(true);
-      expect(createApi(items).isLastItem(3 as unknown as string)).toEqual(true);
+      expect(createApi(items, menuVisible).isLastItem('3')).toEqual(true);
+      expect(
+        createApi(items, menuVisible).isLastItem(3 as unknown as string),
+      ).toEqual(true);
     });
 
     test('do not have previous item', () => {
       const { items } = setup([1, 0.1, 0.3]);
 
-      expect(createApi(items).isLastItem('test1')).toEqual(false);
+      expect(createApi(items, menuVisible).isLastItem('test1')).toEqual(false);
     });
   });
 
@@ -310,7 +323,7 @@ describe('createApi', () => {
       const { items, nodes } = setup([0, 1, 1]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
       }).scrollPrev();
 
@@ -327,7 +340,7 @@ describe('createApi', () => {
     test('no prev item', () => {
       const { items } = setup([1, 1, 1]);
 
-      createApi(items).scrollPrev();
+      createApi(items, menuVisible).scrollPrev();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
@@ -337,7 +350,7 @@ describe('createApi', () => {
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const noPolyfill = true;
-      const api = createApi(items, undefined, noPolyfill);
+      const api = createApi(items, menuVisible, undefined, noPolyfill);
       api.scrollPrev();
       expect(scrollToItemSpy).toHaveBeenCalled();
       const noPolyfillrop = scrollToItemSpy.mock.calls[0][5];
@@ -349,7 +362,7 @@ describe('createApi', () => {
 
       const boundary = { current: document.createElement('div') };
 
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
         ...transitionOptions,
       }).scrollPrev();
@@ -369,7 +382,7 @@ describe('createApi', () => {
 
       const boundary = { current: document.createElement('div') };
 
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
         ...transitionOptions,
       }).scrollPrev('auto', 'center', 'center');
@@ -390,7 +403,7 @@ describe('createApi', () => {
       const { items, nodes } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
       }).scrollNext();
 
@@ -407,7 +420,7 @@ describe('createApi', () => {
     test('no next item', () => {
       const { items } = setup([1, 1, 1]);
 
-      createApi(items).scrollNext();
+      createApi(items, menuVisible).scrollNext();
 
       expect(scrollIntoView).not.toHaveBeenCalled();
     });
@@ -417,7 +430,7 @@ describe('createApi', () => {
       const scrollToItemSpy = jest.spyOn(helpers, 'scrollToItem');
 
       const noPolyfill = true;
-      const api = createApi(items, undefined, noPolyfill);
+      const api = createApi(items, menuVisible, undefined, noPolyfill);
       api.scrollNext();
       expect(scrollToItemSpy).toHaveBeenCalled();
       const noPolyfillrop = scrollToItemSpy.mock.calls[0][5];
@@ -429,7 +442,7 @@ describe('createApi', () => {
 
       const boundary = { current: document.createElement('div') };
 
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
         ...transitionOptions,
       }).scrollNext();
@@ -448,7 +461,7 @@ describe('createApi', () => {
       const { items, nodes } = setup([1, 1, 0]);
 
       const boundary = { current: document.createElement('div') };
-      createApi(items, {
+      createApi(items, menuVisible, {
         boundary,
         ...transitionOptions,
       }).scrollNext('auto', 'center', 'center');

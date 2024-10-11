@@ -1,12 +1,14 @@
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import React from 'react';
+import styled from 'styled-jss';
+
 import {
   ScrollMenu,
   VisibilityContext,
   type publicApiType,
 } from 'react-horizontal-scrolling-menu';
+
 import 'react-horizontal-scrolling-menu/dist/styles.css';
-import styled from 'styled-jss';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export function ItemsAnimation() {
   const [parent] = useAutoAnimate();
@@ -75,6 +77,7 @@ export function ItemsAnimation() {
         LeftArrow={LeftArrow}
         RightArrow={RightArrow}
         onWheel={onWheel}
+        noPolyfill={false}
       >
         {items.map(({ id }) => (
           <Card
@@ -109,11 +112,12 @@ const NoScrollbar = styled('div')({
 
 function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isFirstItemVisible = visibility.useIsVisible('first', true);
+
+  const disabled = visibility.useLeftArrowVisible();
 
   return (
     <Arrow
-      disabled={isFirstItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollPrev()}
       testId="left-arrow"
     >
@@ -124,11 +128,12 @@ function LeftArrow() {
 
 function RightArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isLastItemVisible = visibility.useIsVisible('last', false);
+
+  const disabled = visibility.useRightArrowVisible();
 
   return (
     <Arrow
-      disabled={isLastItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollNext()}
       testId="right-arrow"
     >

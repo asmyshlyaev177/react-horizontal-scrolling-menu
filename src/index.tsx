@@ -111,7 +111,7 @@ export interface Props {
 
     Usable for animations with formkit/auto-animate
    */
-  containerRef?: RefType<Element>;
+  containerRef?: RefType<Element | null>;
   /**
     For add custom className for item
    */
@@ -218,6 +218,7 @@ function ScrollMenu({
     () =>
       createApi(
         items,
+        menuVisible,
         {
           duration: transitionDuration,
           behavior: transitionBehavior,
@@ -225,7 +226,7 @@ function ScrollMenu({
         },
         noPolyfill,
       ),
-    [items, transitionDuration, transitionBehavior, noPolyfill],
+    [items, transitionDuration, transitionBehavior, noPolyfill, menuVisible],
   );
 
   const getContext = React.useCallback(

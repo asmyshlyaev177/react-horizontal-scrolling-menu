@@ -15,7 +15,7 @@ import { useMenuVisible } from './hooks/useMenuVisible';
 import * as useOnCb from './hooks/useOnCb';
 import { type ItemType } from './types';
 
-import { ScrollMenu, type Props } from '.';
+import { ScrollMenu, type Props } from './index';
 
 jest.mock('./hooks/useIntersectionObserver');
 jest.mock('./hooks/useOnCb', () => ({
@@ -547,7 +547,7 @@ describe('ScrollMenu', () => {
     });
 
     expect(createApiSpy).toHaveBeenCalled();
-    const noPolyfill = createApiSpy.mock.calls[0][2];
+    const noPolyfill = createApiSpy.mock.calls[0][3];
     expect(noPolyfill).toEqual(true);
   });
 });

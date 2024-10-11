@@ -1,11 +1,13 @@
 import React from 'react';
+import styled from 'styled-jss';
+
 import {
   ScrollMenu,
   VisibilityContext,
   type publicApiType,
 } from 'react-horizontal-scrolling-menu';
+
 import 'react-horizontal-scrolling-menu/dist/styles.css';
-import styled from 'styled-jss';
 
 const WideItems = styled('div')({
   '& .react-horizontal-scrolling-menu--item ': {
@@ -59,11 +61,12 @@ export default OneItem;
 
 function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isFirstItemVisible = visibility.useIsVisible('first', true);
+
+  const disabled = visibility.useLeftArrowVisible();
 
   return (
     <Arrow
-      disabled={isFirstItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollPrev()}
       testId="left-arrow"
     >
@@ -74,11 +77,12 @@ function LeftArrow() {
 
 function RightArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isLastItemVisible = visibility.useIsVisible('last', false);
+
+  const disabled = visibility.useRightArrowVisible();
 
   return (
     <Arrow
-      disabled={isLastItemVisible}
+      disabled={disabled}
       onClick={() => visibility.scrollNext()}
       testId="right-arrow"
     >

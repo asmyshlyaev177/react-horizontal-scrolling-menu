@@ -1,9 +1,9 @@
 name: Test and deploy
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -71,7 +71,7 @@ jobs:
   deploy-storybook:
     needs: build-test
     runs-on: ubuntu-20.04
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'master'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -84,7 +84,7 @@ jobs:
         run: npm run build-storybook
       - name: Deploy storybook
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
@@ -92,7 +92,7 @@ jobs:
   # publish:
   #   needs: build-test
   #   runs-on: ubuntu-20.04
-  #   if: github.ref_name == 'main'
+  #   if: github.ref_name == 'master'
   #   env:
   #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   #   steps:
