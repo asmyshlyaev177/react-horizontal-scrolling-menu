@@ -85,7 +85,9 @@ export class TestObj {
   }
 
   async arrowsVisible(arrows: HorArrows | VerArrows) {
-    let firstArrow, secondArrow;
+    await this.wait();
+    let firstArrow: HorArrows['left'] | VerArrows['up'];
+    let secondArrow: HorArrows['right'] | VerArrows['down'];
     if ('up' in arrows) {
       firstArrow = arrows.up;
       secondArrow = arrows.down;
@@ -114,6 +116,7 @@ export const upArrowSelector = 'up-arrow';
 export const downArrowSelector = 'down-arrow';
 
 export const scrollSmokeTest = async (testObj: TestObj) => {
+  await testObj.wait();
   await testObj.arrowsVisible({ up: false, down: true });
   expect(await testObj.getVisibleCardsKeys()).toEqual([
     'test0',

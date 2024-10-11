@@ -20,6 +20,7 @@ type ScrollOptions = Omit<scrollToItemOptions, 'behavior'>;
 // eslint-disable-next-line max-lines-per-function
 export default function createApi(
   items: ItemsMap,
+  menuVisible: { current: boolean },
   transitionOptions?: {
     duration?: scrollToItemOptions['duration'];
     behavior?: scrollToItemOptions['behavior'];
@@ -42,6 +43,32 @@ export default function createApi(
     }, [itemId, cb]);
 
     return visible;
+  };
+
+  const useLeftArrowVisible = () => {
+    const isFirstItemVisible = useIsVisible('first', true);
+
+    const [disabled, setDisabled] = React.useState(isFirstItemVisible);
+    React.useEffect(() => {
+      if (menuVisible.current) {
+        setDisabled(isFirstItemVisible);
+      }
+    }, [isFirstItemVisible]);
+
+    return disabled;
+  };
+
+  const useRightArrowVisible = () => {
+    const isLastItemVisible = useIsVisible('last', false);
+
+    const [disabled, setDisabled] = React.useState(isLastItemVisible);
+    React.useEffect(() => {
+      if (menuVisible.current) {
+        setDisabled(isLastItemVisible);
+      }
+    }, [isLastItemVisible]);
+
+    return disabled;
   };
 
   const isFirstItemVisible = !!items.first()?.visible;
@@ -236,6 +263,27 @@ export default function createApi(
      * ```
      */
     useIsVisible,
+    /**
+     * Hook that return visibility of Left Arrow
+     *
+     * * example:
+     * ```
+     *  const visible = useLeftArrowVisible()
+     *  // true | false
+     * ```
+     */
+    useLeftArrowVisible,
+    /**
+     * Hook that return visibility of Right Arrow
+     *
+     * * example:
+     * ```
+     *  const visible = useRightArrowVisible()
+     *  // true | false
+     * ```
+     */
+    useRightArrowVisible,
+
     /**
      * Scroll to some item
      *

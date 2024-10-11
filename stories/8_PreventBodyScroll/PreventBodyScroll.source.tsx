@@ -89,12 +89,8 @@ const NoScrollbar = styled('div')({
 
 function LeftArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isFirstItemVisible = visibility.useIsVisible('first', true);
 
-  const [disabled, setDisabled] = React.useState(isFirstItemVisible);
-  React.useEffect(() => {
-    setDisabled(isFirstItemVisible);
-  }, [isFirstItemVisible]);
+  const disabled = visibility.useLeftArrowVisible();
 
   return (
     <Arrow
@@ -109,12 +105,8 @@ function LeftArrow() {
 
 function RightArrow() {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
-  const isLastItemVisible = visibility.useIsVisible('last', false);
 
-  const [disabled, setDisabled] = React.useState(isLastItemVisible);
-  React.useEffect(() => {
-    setDisabled(isLastItemVisible);
-  }, [isLastItemVisible]);
+  const disabled = visibility.useRightArrowVisible();
 
   return (
     <Arrow

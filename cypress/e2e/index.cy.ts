@@ -2,18 +2,21 @@
 /* eslint-disable jest/expect-expect */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable max-nested-callbacks */
-const items: string[] = Array(10)
-  .fill(1)
-  .map((_el, index) => `test${index}`);
 
 const waitShort = 450;
 
+type Cy = Cypress.cy & CyEventEmitter;
+type Direction = 'Left' | 'Right';
+
+// TODO: convert to Playwright, weird bugs in cypress, tired of fighting it
 describe('Scrolling menu', () => {
-  it('Scroll forward and bacward and check cards and arrows visibility', () => {
+  it('Scroll forward and backward and check cards and arrows visibility', () => {
     cy.viewport(650, 768);
 
     cy.visit('/');
     cy.waitUntil(() => cy.contains('test0').should('be.visible'));
+
+    cy.wait(500);
 
     checkArrow({ cy, direction: 'Left', visible: false });
     checkArrow({ cy, direction: 'Right', visible: true });
@@ -43,11 +46,12 @@ describe('Scrolling menu', () => {
     cy.log('First items');
   });
 
-  describe.skip('menu visibility', () => {
+  describe('menu visibility', () => {
     it('When Menu hidden should not update arrows', () => {
       cy.viewport(650, 768);
 
       cy.visit('/');
+      cy.wait(300);
       cy.waitUntil(() => cy.contains('test0').should('be.visible'));
 
       checkArrow({ cy, direction: 'Left', visible: false });
@@ -64,6 +68,7 @@ describe('Scrolling menu', () => {
       cy.visit('/');
       cy.waitUntil(() => cy.contains('test0').should('be.visible'));
 
+      cy.wait(300);
       checkArrow({ cy, direction: 'Left', visible: false });
 
       cy.scrollTo(0, 450);
@@ -92,32 +97,19 @@ describe('Scrolling menu', () => {
   });
 });
 
-function scrollPrev({ cy }) {
+function scrollPrev({ cy }: { cy: Cy }) {
   return getArrow({ cy, direction: 'Left' }).click();
 }
 
-function scrollNext({ cy }) {
+function scrollNext({ cy }: { cy: Cy }) {
   return getArrow({ cy, direction: 'Right' }).click();
 }
 
-function checkCards({ cy, visible: _visible }) {
+function checkCards({ cy, visible: _visible }: { cy: Cy; visible: string[] }) {
   cy.log('CHECK_CARDS');
   const visible = _visible.map((id) => `test${id}`);
-  const firstVisibleInd = items.findIndex((id) => visible[0] === id);
-  const lastVisibleInd = items.findIndex((id) => visible.slice(-1)[0] === id);
-  const before = items.slice(0, firstVisibleInd);
-  const after = items.slice(lastVisibleInd + 1);
 
-  cy.waitUntil(() =>
-    cy
-      .wrap(before)
-      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`)),
-  );
-  cy.waitUntil(() =>
-    cy
-      .wrap(after)
-      .each((id) => cy.get(`[data-cy=${id}]:contains("visible: false")`)),
-  );
+  cy.get('.card[data-visible=true]').should('have.length', visible.length);
   return cy.waitUntil(() =>
     cy
       .wrap(visible)
@@ -125,15 +117,28 @@ function checkCards({ cy, visible: _visible }) {
   );
 }
 
-function checkArrow({ direction = 'Left', visible = true, cy }) {
+function checkArrow({
+  direction = 'Left',
+  visible = true,
+  cy,
+}: {
+  cy: Cy;
+  direction: Direction;
+  visible: boolean;
+}) {
   cy.log('CHECK_ARROWS');
-  // TODO: waitUntil
   cy.wait(waitShort);
   return getArrow({ cy, direction })
     .should(`${visible ? '' : 'not.'}be.visible`)
     .should(`${visible ? 'not.' : ''}be.disabled`);
 }
 
-function getArrow({ cy, direction = 'Left' }) {
+function getArrow({
+  cy,
+  direction = 'Left',
+}: {
+  cy: Cy;
+  direction: Direction;
+}) {
   return cy.get(`button:contains("${direction}")`);
 }
