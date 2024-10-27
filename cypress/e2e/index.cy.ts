@@ -8,7 +8,6 @@ const waitShort = 450;
 type Cy = Cypress.cy & CyEventEmitter;
 type Direction = 'Left' | 'Right';
 
-// TODO: convert to Playwright, weird bugs in cypress, tired of fighting it
 describe('Scrolling menu', () => {
   it('Scroll forward and backward and check cards and arrows visibility', () => {
     cy.viewport(650, 768);
