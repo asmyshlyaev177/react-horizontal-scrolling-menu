@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.1.0...v8.2.0) (2024-10-27)
+
+
+### Bug Fixes
+
+* minor fix ([c78dd96](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/c78dd965768066669df5c377235769d5c7be4667))
+
 ## 8.1.0 (2024-10-11)
 
 
