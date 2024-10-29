@@ -24,6 +24,7 @@ Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">fol
 ](https://github.com/awslabs/performance-dashboard-on-aws/blob/49ce2517a29569a9761dec8f212f25cf85a394af/frontend/src/components/Tabs.tsx#L3) |
 [React status code](https://react.statuscode.com/issues/257)
 
+# Check out examples for common cases
 ### [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) (Faster and more convinient, new examples will be here)
 
 ### Codesandbox Examples (Deprecated)
