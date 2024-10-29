@@ -28,7 +28,9 @@ Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">fol
 ### [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) (Faster and more convinient, new examples will be here)
 
 ### Codesandbox Examples (Deprecated)
-
+<details>
+  <summary>Codesandbox examples</summary>
+  
 [Center items](https://codesandbox.io/s/center-items-on-click-drag-e8cyph?file=/src/index.tsx)
 
 [Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
@@ -42,6 +44,9 @@ Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">fol
 [Custom transition/animation](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
 
 [Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
+  
+</details>
+
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
