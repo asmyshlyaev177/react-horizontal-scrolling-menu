@@ -105,11 +105,6 @@ export const getItemId = (item: React.ReactNode) =>
       ((item as React.JSX.Element)?.key || emptyStr).replace(/^\.\$/, emptyStr),
   );
 
-export const rafTimeout = (func: () => void, delay: number = 0) =>
-  setTimeout(() => {
-    requestAnimationFrame(func);
-  }, delay);
-
 export function isMutableRef<T>(
   elem: React.MutableRefObject<T> | React.RefCallback<T> | React.LegacyRef<T>,
 ): elem is React.MutableRefObject<T> {
