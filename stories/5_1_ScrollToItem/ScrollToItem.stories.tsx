@@ -7,7 +7,6 @@ import { ScrollMenu } from '../../src/index';
 import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
-import { ScrollTest } from '../test';
 
 import Example from './ScrollToItem.source';
 // @ts-ignore
@@ -32,5 +31,3 @@ export const ScrollToItem = createLiveEditStory({
   availableImports,
   modifyEditor: setupEditor,
 });
-
-export const Test = ScrollTest();
