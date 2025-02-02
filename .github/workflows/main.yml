@@ -37,6 +37,8 @@ jobs:
           mkdir -p ../cypress_cache && \
           npm run setup && \
           chmod -R 777 ../cypress_cache && \
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo tee /etc/apt/trusted.gpg.d/google.asc >/dev/null && \
+          sudo apt update && \
           npx cross-env HOME=/root npx playwright install chromium firefox webkit --with-deps && \
           chmod -R 777 /root/.cache/ms-playwright && \
           apt install -y curl
