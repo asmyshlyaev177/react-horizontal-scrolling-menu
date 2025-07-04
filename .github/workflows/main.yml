@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   build-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     container: cypress/included:cypress-13.4.0-node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
 
     env:
@@ -72,7 +72,7 @@ jobs:
 
   deploy-storybook:
     needs: build-test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     if: github.ref_name == 'master'
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +93,7 @@ jobs:
 
   # publish:
   #   needs: build-test
-  #   runs-on: ubuntu-20.04
+  #   runs-on: ubuntu-24.04
   #   if: github.ref_name == 'master'
   #   env:
   #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
