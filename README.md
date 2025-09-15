@@ -344,6 +344,8 @@ My first npm project. Sorry for my english.
 
 Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
 
+[Portfolio site](https://asmyshlyaev177.dev)
+
 ## [Contributing](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CONTRIBUTING.md)
 
 ## [Changelog](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CHANGELOG.md)
