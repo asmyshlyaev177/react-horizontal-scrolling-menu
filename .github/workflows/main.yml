@@ -4,16 +4,16 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-  # Releases are cut by hand: Actions -> "Test and deploy" -> "Run workflow" on
-  # master. The full suite runs first and the release job only starts if it is
-  # green.
+  # Kept as an escape hatch — e.g. to retry a release whose publish step failed
+  # after the tag was already pushed.
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  # Never cancel a release halfway through: a push landing on master while one
-  # is publishing would otherwise kill it between the git push and npm publish.
-  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
+  # Only ever cancel superseded PR builds. A master run may be publishing, and
+  # cancelling it between `git push` and `npm publish` would leave a tag with no
+  # package behind it.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-test:
@@ -113,12 +113,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
 
-  # Bumps the version, writes the changelog, tags, pushes and publishes.
-  # Only reachable through "Run workflow" on master, and only after build-test
-  # is green — the test suite is not repeated here.
+  # Bumps the version, writes the changelog, tags, pushes and publishes. Runs on
+  # every master push once build-test is green — the suite is not repeated here.
+  # The release commit itself cannot retrigger this: it is pushed with
+  # GITHUB_TOKEN, which never starts a workflow run, and is marked [skip ci].
   release:
     needs: build-test
-    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'master'
+    if: >
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+      && github.ref_name == 'master'
     runs-on: ubuntu-24.04
     # Same image as build-test so the browsers `prepack` pulls in via
     # setup-tooling are already present and `playwright install` is a no-op.
@@ -128,6 +131,12 @@ jobs:
       contents: write # push the release commit and its tag
       id-token: write # exchange an OIDC token for npm's short-lived credential
 
+    env:
+      # The release commit is made by a script, and `git commit --no-verify`
+      # does NOT skip prepare-commit-msg — which runs commitizen and needs a
+      # terminal the runner does not have. Husky's wrapper honours HUSKY=0.
+      HUSKY: 0
+
     steps:
       - uses: actions/checkout@v7
         with:
@@ -136,10 +145,30 @@ jobs:
           # wrong version and an empty changelog.
           fetch-depth: 0
 
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # Left to itself commit-and-tag-version bumps a patch for *any* commit, so
+      # a docs- or chore-only merge would publish a new version whose changelog
+      # entry is empty. Only release when something user-visible landed.
+      - name: Is there anything to release?
+        id: check
+        run: |
+          last=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          echo "Last tag: ${last:-<none>}"
+          if git log ${last:+"$last"..HEAD} --format='%s%n%b' \
+             | grep -qE '^(feat|fix|perf)(\(.+\))?!?:|^BREAKING[ -]CHANGE:'; then
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "No feat/fix/perf commits since ${last:-the first commit} — skipping the release."
+          fi
+
       # No `cache: npm` here: npm advises against restoring a package manager
       # cache in a release build, so the published tarball is built from what
       # the lockfile actually resolves to today.
       - uses: actions/setup-node@v7
+        if: steps.check.outputs.release == 'true'
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -149,17 +178,17 @@ jobs:
       # npm since 24.4, but assert it rather than discover it after the tag has
       # already been pushed.
       - name: Check npm supports trusted publishing
+        if: steps.check.outputs.release == 'true'
         run: |
           npx --yes semver -r '>=11.5.1' "$(npm -v)" >/dev/null \
             || { echo "npm $(npm -v) is too old for trusted publishing (need >= 11.5.1)" >&2; exit 1; }
 
-      - name: Trust the workspace
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
       - name: Install
+        if: steps.check.outputs.release == 'true'
         run: npm ci
 
       - name: Identify the committer
+        if: steps.check.outputs.release == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -167,11 +196,13 @@ jobs:
       # Called directly rather than through `npm run release`, whose wireit
       # graph would re-run the entire suite that build-test just finished.
       - name: Version, changelog and tag
+        if: steps.check.outputs.release == 'true'
         run: >
           npx commit-and-tag-version --no-verify
           --releaseCommitMessageFormat 'chore(release): {{currentTag}} [skip ci]'
 
       - name: Push the release commit and tag
+        if: steps.check.outputs.release == 'true'
         run: git push --follow-tags origin HEAD:master
 
       # Authenticates through the trusted publisher linked on npmjs.com — no
@@ -179,4 +210,5 @@ jobs:
       # is not passed. `prepack` rebuilds dist here, so the tarball always
       # matches the tag that was just created.
       - name: Publish to npm
+        if: steps.check.outputs.release == 'true'
         run: npm publish --access public

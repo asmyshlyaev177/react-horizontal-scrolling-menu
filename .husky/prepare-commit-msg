@@ -1,1 +1,7 @@
+# commitizen needs a terminal. A non-interactive commit (CI, a script, some
+# IDEs) has no controlling tty, and a failed `exec` redirection kills the hook
+# shell outright — before the `|| true` below can swallow it. So probe for a
+# usable tty in a subshell, where failing is harmless.
+( exec < /dev/tty ) 2>/dev/null || exit 0
+
 exec < /dev/tty && npx cz --hook || true
