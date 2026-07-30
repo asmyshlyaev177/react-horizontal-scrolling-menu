@@ -145,10 +145,7 @@ import{i as e}from"./preload-helper-BdFrVu1K.js";var t;e((()=>{t=`{
       "dependencies": [
         "release:preflight",
         "test:lint",
-        "test:unit",
-        "test:e2e",
-        "test:e2e:dev",
-        "test:storybook"
+        "test"
       ]
     },
     "pub": {
@@ -168,12 +165,15 @@ import{i as e}from"./preload-helper-BdFrVu1K.js";var t;e((()=>{t=`{
       ]
     },
     "test:lint": {
-      "command": "eslint src e2e playwright.config.ts && prettier --check src e2e playwright.config.ts && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json"
+      "command": "eslint src e2e playwright.config.ts && prettier --check src e2e playwright.config.ts && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json",
+      "dependencies": [
+        "setup-tooling"
+      ]
     },
     "test:unit": {
       "command": "jest",
       "dependencies": [
-        "install-deps"
+        "setup-tooling"
       ]
     },
     "test:e2e": {
