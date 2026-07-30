@@ -128,6 +128,12 @@ jobs:
       contents: write # push the release commit and its tag
       id-token: write # exchange an OIDC token for npm's short-lived credential
 
+    env:
+      # The release commit is made by a script, and `git commit --no-verify`
+      # does NOT skip prepare-commit-msg — which runs commitizen and needs a
+      # terminal the runner does not have. Husky's wrapper honours HUSKY=0.
+      HUSKY: 0
+
     steps:
       - uses: actions/checkout@v7
         with:
