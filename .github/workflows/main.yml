@@ -126,7 +126,7 @@ jobs:
 
     permissions:
       contents: write # push the release commit and its tag
-      id-token: write # mint the npm provenance attestation
+      id-token: write # exchange an OIDC token for npm's short-lived credential
 
     steps:
       - uses: actions/checkout@v7
@@ -136,13 +136,22 @@ jobs:
           # wrong version and an empty changelog.
           fetch-depth: 0
 
+      # No `cache: npm` here: npm advises against restoring a package manager
+      # cache in a release build, so the published tarball is built from what
+      # the lockfile actually resolves to today.
       - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
           registry-url: 'https://registry.npmjs.org'
+
+      # Trusted publishing needs npm >= 11.5.1. Node 24 has shipped a new enough
+      # npm since 24.4, but assert it rather than discover it after the tag has
+      # already been pushed.
+      - name: Check npm supports trusted publishing
+        run: |
+          npx --yes semver -r '>=11.5.1' "$(npm -v)" >/dev/null \
+            || { echo "npm $(npm -v) is too old for trusted publishing (need >= 11.5.1)" >&2; exit 1; }
 
       - name: Trust the workspace
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -165,9 +174,9 @@ jobs:
       - name: Push the release commit and tag
         run: git push --follow-tags origin HEAD:master
 
-      # `prepack` rebuilds dist as part of publishing, so the tarball always
+      # Authenticates through the trusted publisher linked on npmjs.com — no
+      # NPM_TOKEN, and provenance is attested automatically, so `--provenance`
+      # is not passed. `prepack` rebuilds dist here, so the tarball always
       # matches the tag that was just created.
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
