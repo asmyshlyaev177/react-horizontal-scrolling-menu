@@ -1,6 +1,6 @@
 import{i as e}from"./preload-helper-BdFrVu1K.js";var t;e((()=>{t=`{
   "name": "react-horizontal-scrolling-menu",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "author": {
     "name": "asmyshlyaev177",
     "email": "asmyshlyaev177@gmail.com",
