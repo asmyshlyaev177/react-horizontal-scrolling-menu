@@ -16,7 +16,7 @@ export function MouseDrag() {
   const dragState = React.useRef(new DragDealer());
 
   const handleDrag =
-    ({ scrollContainer }: typeof VisibilityContext) =>
+    ({ scrollContainer }: publicApiType) =>
     (ev: React.MouseEvent) =>
       dragState.current.dragMove(ev, (posDiff) => {
         if (scrollContainer.current) {

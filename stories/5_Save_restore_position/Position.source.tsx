@@ -28,13 +28,17 @@ export function Position() {
   const { getPosition, setPosition, reset } = usePosition();
   const savePos = React.useCallback(
     (api: publicApiType) => {
-      setPosition(api.scrollContainer.current.scrollLeft);
+      setPosition(api.scrollContainer.current?.scrollLeft ?? 0);
     },
     [setPosition],
   );
   const restorePosition = React.useCallback(
     (api: publicApiType) => {
-      api.scrollContainer.current.scrollLeft = getPosition();
+      const node = api.scrollContainer.current;
+
+      if (node) {
+        node.scrollLeft = getPosition();
+      }
     },
     [getPosition],
   );

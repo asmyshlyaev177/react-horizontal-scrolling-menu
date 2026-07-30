@@ -60,7 +60,7 @@ const Footer = () => {
   // listening to 'onUpdate' event with some debounce
   React.useEffect(() => {
     if (items) {
-      let timer: NodeJS.Timeout;
+      let timer: ReturnType<typeof setTimeout>;
       const cb = () => {
         clearTimeout(timer);
         timer = setTimeout(

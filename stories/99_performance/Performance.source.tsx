@@ -18,7 +18,7 @@ export function Performance() {
   const dragState = React.useRef(new DragDealer());
 
   const handleDrag = React.useCallback(
-    ({ scrollContainer }: typeof VisibilityContext) =>
+    ({ scrollContainer }: publicApiType) =>
       (ev: React.MouseEvent) =>
         dragState.current.dragMove(ev, (posDiff) => {
           if (scrollContainer.current) {
@@ -184,7 +184,7 @@ const Card = React.memo(
     title,
     itemId,
   }: {
-    onClick: (context: publicApiType) => void;
+    onClick: (itemId: string) => void;
     selected: boolean;
     title: string;
     itemId: string;

@@ -98,7 +98,6 @@
     "setup": "npm install && npm run setup-tooling",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit dist",
     "storybook": "wireit",
-    "storybook:types": "wireit",
     "build-storybook": "wireit",
     "prepack": "npm run build",
     "prepare": "husky"
@@ -107,7 +106,7 @@
     "build-storybook": {
       "command": "storybook build",
       "dependencies": [
-        "storybook:types",
+        "build",
         "setup-tooling"
       ]
     },
@@ -119,7 +118,7 @@
         }
       },
       "dependencies": [
-        "storybook:types",
+        "build",
         "setup-tooling"
       ]
     },
@@ -134,19 +133,6 @@
       "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
       "dependencies": [
         "storybook",
-        "setup-tooling"
-      ]
-    },
-    "storybook:types": {
-      "command": "dts-bundle-generator --project ./tsconfig-monaco.json --no-check -o ./stories/index.d.ts ./src/index.tsx",
-      "files": [
-        "src"
-      ],
-      "output": [
-        "stories/index.d.ts"
-      ],
-      "dependencies": [
-        "build",
         "setup-tooling"
       ]
     },
@@ -348,7 +334,6 @@
     "cypress-wait-until": "^3.0.2",
     "cz": "^1.8.2",
     "cz-conventional-changelog": "^3.3.0",
-    "dts-bundle-generator": "^9.5.1",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-compat": "^7.0.2",

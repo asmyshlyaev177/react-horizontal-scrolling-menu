@@ -32,11 +32,16 @@ export function ScrollToItem() {
     if (!apiRef.current) return () => {};
 
     const id = setTimeout(() => {
-      const itemsList = [...apiRef.current.items.toItems()];
-      const itemKey = itemsList.find((el) => el.includes(5));
-      const item = apiRef.current.getItemById(itemKey);
-      // const item = apiRef.current.getItemByIndex(5) // or by index
-      apiRef.current.scrollToItem(item, 'auto', 'start');
+      const api = apiRef.current;
+      if (!api) return;
+
+      const itemsList = [...api.items.toItems()];
+      const itemKey = itemsList.find((el) => el.includes('5'));
+      if (!itemKey) return;
+
+      const item = api.getItemById(itemKey);
+      // const item = api.getItemByIndex(5) // or by index
+      api.scrollToItem(item, 'auto', 'start');
     }, 100);
 
     return () => clearTimeout(id);

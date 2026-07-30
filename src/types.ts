@@ -40,6 +40,14 @@ export type ItemType = React.ReactElement<{
   itemId: ItemId;
 }>;
 
+/**
+ * A single slot in `ScrollMenu`'s children. Items are usually produced by a
+ * `.map()` and mixed with conditional ones (`{loading && <Loader itemId=... />}`),
+ * which is why a slot may also be a nested array or a falsy value — React
+ * flattens both away before the menu sees them.
+ */
+export type ItemChild = ItemType | ItemType[] | false | null | undefined;
+
 export type CustomScrollBehavior = Options;
 
 export type ScrollBehaviorArg = ScrollBehavior | CustomScrollBehavior;

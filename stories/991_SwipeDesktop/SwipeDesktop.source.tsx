@@ -34,7 +34,7 @@ export function SwipeDesktop() {
     const onTouchMove = (ev: TouchEvent) => {
       ev.preventDefault();
     };
-    const node = ref.current.scrollContainer.current;
+    const node = ref.current?.scrollContainer.current;
     node?.addEventListener('touchmove', onTouchMove, { passive: false });
 
     return () => node?.removeEventListener('touchmove', onTouchMove);

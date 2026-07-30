@@ -2,11 +2,11 @@ import React from 'react';
 
 import { emptyStr, itemClassName } from '../../constants';
 import { getItemId } from '../../helpers';
-import type { ItemType, RegisterRef } from '../../types';
+import type { ItemChild, RegisterRef } from '../../types';
 import Item from '../Item';
 
 export type Props = {
-  children?: ItemType | ItemType[];
+  children?: ItemChild | ItemChild[];
   registerRef: RegisterRef;
   itemClassName?: string;
 };

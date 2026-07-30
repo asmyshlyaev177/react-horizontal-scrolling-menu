@@ -3,14 +3,13 @@ import React from 'react';
 import { emptyStr } from '../constants';
 import { getItemId } from '../helpers';
 import { ItemsMap } from '../ItemsMap';
-import type { ItemId, ItemType } from '../types';
+import type { ItemChild, ItemId } from '../types';
 
-const getItemsIdFromChildren = (
-  children: ItemType | ItemType[] | undefined,
-): ItemId[] => React.Children.toArray(children).map(getItemId).filter(Boolean);
+const getItemsIdFromChildren = (children: ItemChild | ItemChild[]): ItemId[] =>
+  React.Children.toArray(children).map(getItemId).filter(Boolean);
 
 function useItemsChanged(
-  menuItems: ItemType | ItemType[] | undefined,
+  menuItems: ItemChild | ItemChild[],
   items: ItemsMap,
 ): string {
   const domNodes = React.useMemo(

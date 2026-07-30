@@ -17,8 +17,8 @@ import { ItemsMap } from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
 import { slidingWindow } from './slidingWindow';
 import type {
+  ItemChild,
   ItemId,
-  ItemType,
   Refs,
   RefType,
   ScrollBehaviorArg,
@@ -54,7 +54,7 @@ export interface Props {
   /**
     Every child should has unique `itemId` prop
    */
-  children: ItemType | ItemType[];
+  children: ItemChild | ItemChild[];
   /**
     Duration of transition
    */
@@ -126,10 +126,14 @@ export interface Props {
   /**
     Ref object for access VisibilityContextApi outside of context
 
-    e.g. apiRef.current.scrollToItem(...)
+    e.g. apiRef.current?.scrollToItem(...)
    */
   apiRef?:
-    React.MutableRefObject<publicApiType> | React.RefCallback<publicApiType>;
+    | React.MutableRefObject<publicApiType>
+    // `useRef<publicApiType>(null)` is typed as `RefObject<publicApiType | null>`
+    // by React 19, so without this arm no caller can pass a ref without a cast.
+    | React.RefObject<publicApiType | null>
+    | React.RefCallback<publicApiType>;
   RTL?: boolean;
   /**
     Disable scrollIntoView polyfill

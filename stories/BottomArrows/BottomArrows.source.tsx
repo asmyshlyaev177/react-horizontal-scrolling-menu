@@ -109,7 +109,7 @@ function Arrow({
 }: {
   children: React.ReactNode;
   disabled: boolean;
-  onClick: (context: publicApiType) => void;
+  onClick: VoidFunction;
   className?: string;
   testId: string;
 }) {

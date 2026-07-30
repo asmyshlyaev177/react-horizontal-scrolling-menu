@@ -105,7 +105,11 @@ export const getItemId = (item: React.ReactNode) =>
   );
 
 export function isMutableRef<T>(
-  elem: React.MutableRefObject<T> | React.RefCallback<T> | React.LegacyRef<T>,
-): elem is React.MutableRefObject<T> {
+  elem:
+    | React.MutableRefObject<T>
+    | React.RefObject<T | null>
+    | React.RefCallback<T>
+    | React.LegacyRef<T>,
+): elem is React.MutableRefObject<T> | React.RefObject<T | null> {
   return !!elem && Object.prototype.hasOwnProperty.call(elem, 'current');
 }
