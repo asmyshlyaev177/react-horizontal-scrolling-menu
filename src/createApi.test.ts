@@ -1,15 +1,14 @@
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
-import { ItemsMap } from './ItemsMap';
 import createApi from './createApi';
+import * as helpers from './helpers';
 import {
-  observerEntriesToItems,
   getItemElementById,
   getItemElementByIndex,
+  observerEntriesToItems,
 } from './helpers';
-import * as helpers from './helpers';
+import { ItemsMap } from './ItemsMap';
 import { observerOptions } from './settings';
-
 import type { CustomScrollBehavior } from './types';
 
 jest.mock('smooth-scroll-into-view-if-needed');

@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { ItemsMap } from './ItemsMap';
 import {
   getItemElementById,
   getItemElementByIndex,
   scrollToItem,
 } from './helpers';
-
+import { ItemsMap } from './ItemsMap';
 import type {
   IOItem,
   ItemId,
@@ -105,7 +104,6 @@ export default function createApi(
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
     { duration, boundary = defaultBoundary }: ScrollOptions = {},
-    // eslint-disable-next-line max-params
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
 
@@ -127,7 +125,6 @@ export default function createApi(
     inline?: ScrollLogicalPosition,
     block?: ScrollLogicalPosition,
     { duration, boundary = defaultBoundary }: ScrollOptions = {},
-    // eslint-disable-next-line max-params
   ) => {
     const _behavior = behavior ?? transitionOptions?.behavior;
 

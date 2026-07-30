@@ -12,25 +12,28 @@ concurrency:
 jobs:
   build-test:
     runs-on: ubuntu-24.04
-    container: cypress/included:cypress-13.4.0-node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
+    container: cypress/included:cypress-15.19.0-node-24.18.1-chrome-150.0.7871.186-1-ff-153.0.1-edge-150.0.4078.105-1
 
     env:
       CYPRESS_CACHE_FOLDER: ../cypress_cache
       NODE_OPTIONS: --max-old-space-size=4096
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI: true
-      WIREIT_LOGGER: "simple"
+      WIREIT_LOGGER: 'simple'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           check-latest: true
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
-      - uses: google/wireit@setup-github-actions-caching/v1
+      # v2 of this action is required: GitHub retired the v1 Actions cache
+      # service, which made wireit fail with "GitHub Cache check HTTP 400 error".
+      # wireit >= 0.14.12 speaks the v2 cache backend.
+      - uses: google/wireit@setup-github-actions-caching/v2
 
       - name: Install
         run: |
@@ -58,7 +61,7 @@ jobs:
 
       - name: E2E tests builded version
         run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress
@@ -75,8 +78,8 @@ jobs:
     runs-on: ubuntu-24.04
     if: github.ref_name == 'master'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -85,7 +88,7 @@ jobs:
       - name: Build storybook
         run: npm run build-storybook
       - name: Deploy storybook
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: github.ref_name == 'master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -98,8 +101,8 @@ jobs:
   #   env:
   #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
+  #     - uses: actions/checkout@v7
+  #     - uses: actions/setup-node@v7
   #       with:
   #         node-version-file: '.nvmrc'
   #         cache: 'npm'

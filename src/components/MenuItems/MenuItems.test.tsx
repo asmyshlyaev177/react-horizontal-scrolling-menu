@@ -1,15 +1,12 @@
-/* eslint-disable jest/no-conditional-expect */
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import type { RegisterRef } from '../../types';
 import { type Props as ItemProps } from '../Item';
-
 import MenuItems from './MenuItems';
 
-import type { Refs } from '../../types';
-
-jest.mock('../Item', () => ({ className, id, index, refs }: ItemProps) => (
-  <div className={className} id={id} data-index={index} data-refs={refs}>
+jest.mock('../Item', () => ({ className, id, index }: ItemProps) => (
+  <div className={className} id={id} data-index={index}>
     Item
   </div>
 ));
@@ -25,12 +22,12 @@ const children = items.map((item) => {
 });
 
 type mockProps = {
-  refs: Refs;
+  registerRef: RegisterRef;
   itemClassName?: string;
 };
-const setup = ({ refs, itemClassName }: mockProps) => {
+const setup = ({ registerRef, itemClassName }: mockProps) => {
   return render(
-    <MenuItems itemClassName={itemClassName} refs={refs}>
+    <MenuItems itemClassName={itemClassName} registerRef={registerRef}>
       {children}
     </MenuItems>,
   );
@@ -38,11 +35,11 @@ const setup = ({ refs, itemClassName }: mockProps) => {
 
 describe('MenuItems', () => {
   test('should render children', () => {
-    const refs = { test0: { current: 'test123' } } as unknown as Refs;
+    const registerRef: RegisterRef = () => void 0;
     const itemClassName = 'item-123';
     const { container } = setup({
       itemClassName,
-      refs,
+      registerRef,
     });
 
     const renderedChildren = container.childNodes;

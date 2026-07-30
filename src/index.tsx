@@ -1,8 +1,7 @@
-import React from 'react';
-
 import './styles.css';
 
-import { ItemsMap } from './ItemsMap';
+import React from 'react';
+
 import MenuItems from './components/MenuItems';
 import ScrollContainer from './components/ScrollContainer';
 import * as constants from './constants';
@@ -14,15 +13,15 @@ import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
 import { useMenuVisible } from './hooks/useMenuVisible';
 import { useOnCb } from './hooks/useOnCb';
+import { ItemsMap } from './ItemsMap';
 import { observerOptions as defaultObserverOptions } from './settings';
 import { slidingWindow } from './slidingWindow';
-
 import type {
+  ItemId,
   ItemType,
   Refs,
-  ScrollBehaviorArg,
-  ItemId,
   RefType,
+  ScrollBehaviorArg,
 } from './types';
 
 type ComponentType = React.ReactNode | React.JSX.Element | React.FC;
@@ -130,8 +129,7 @@ export interface Props {
     e.g. apiRef.current.scrollToItem(...)
    */
   apiRef?:
-    | React.MutableRefObject<publicApiType>
-    | React.RefCallback<publicApiType>;
+    React.MutableRefObject<publicApiType> | React.RefCallback<publicApiType>;
   RTL?: boolean;
   /**
     Disable scrollIntoView polyfill
@@ -183,18 +181,33 @@ function ScrollMenu({
   const Footer = getElementOrConstructor(_Footer);
 
   const scrollContainerRef = React.useRef<HTMLDivElement | null>(null);
-  const [menuItemsRefs] = React.useState<Refs>({});
+  // A ref rather than a plain object: items publish their nodes into this map
+  // from their ref callbacks, and mutating ref contents outside render is the
+  // sanctioned escape hatch. The registry stays owned here — items get
+  // `registerItemRef` rather than the map itself, so nothing mutates a prop.
+  const menuItemsRefs = React.useRef<Refs>({});
 
+  const registerItemRef = React.useCallback(
+    (index: number, node: HTMLElement | null) => {
+      menuItemsRefs.current[String(index)] = { current: node };
+    },
+    [],
+  );
+
+  // `root` is resolved from `scrollContainerRef` inside useIntersectionObserver's
+  // layout effect. Reading `.current` here would both be unsafe during render and
+  // capture `null`, because this memo only recomputes when `options` changes.
   const observerOptions = React.useMemo(
     () => ({
       ...defaultObserverOptions,
       ...options,
-      root: scrollContainerRef.current,
     }),
     [options],
   );
 
-  const items = React.useRef(new ItemsMap()).current;
+  // Lazy useState rather than `useRef(new ItemsMap()).current`: that read the ref
+  // during render and allocated a throwaway ItemsMap on every render.
+  const [items] = React.useState(() => new ItemsMap());
 
   // NOTE: hack for detect when items added/removed dynamicaly
   const itemsChanged = useItemsChanged(children, items);
@@ -209,11 +222,16 @@ function ScrollMenu({
       itemsChanged,
       options: observerOptions,
       refs: menuItemsRefs,
+      root: scrollContainerRef,
     }),
     [items, itemsChanged, menuItemsRefs, observerOptions],
   );
   useIntersectionObserver(ioOptions);
 
+  // `menuVisible` and `boundary` are ref objects that createApi stores and reads
+  // at call time, not during render. They are part of publicApiType, so this
+  // cannot be avoided without a breaking API change.
+  /* eslint-disable react-hooks/refs */
   const api = React.useMemo(
     () =>
       createApi(
@@ -228,6 +246,7 @@ function ScrollMenu({
       ),
     [items, transitionDuration, transitionBehavior, noPolyfill, menuVisible],
   );
+  /* eslint-enable react-hooks/refs */
 
   const getContext = React.useCallback(
     () => ({
@@ -239,14 +258,19 @@ function ScrollMenu({
     [api, items, scrollContainerRef, menuVisible],
   );
 
-  const [context, setContext] = React.useState<publicApiType>(() =>
-    getContext(),
+  // `context` is derived entirely from `getContext`, so it is memoised rather
+  // than mirrored into state and resynced from an effect. The old form rendered
+  // once with a stale context before the effect corrected it.
+  const context = React.useMemo<publicApiType>(
+    () => getContext(),
+    [getContext],
   );
 
   useOnCb({ context, onInit, onUpdate });
 
-  React.useEffect(() => setContext(getContext()), [getContext]);
-
+  // Publishing into a caller-supplied ref is the documented contract of the
+  // `apiRef` prop, so this mutation is deliberate.
+  /* eslint-disable react-hooks/immutability */
   React.useEffect(() => {
     if (isMutableRef(apiRef)) {
       apiRef.current = context;
@@ -254,6 +278,7 @@ function ScrollMenu({
       apiRef(context);
     }
   }, [context, apiRef]);
+  /* eslint-enable react-hooks/immutability */
 
   const scrollHandler = React.useCallback(
     (event: React.UIEvent) => onScroll(context, event),
@@ -275,6 +300,13 @@ function ScrollMenu({
     [RTL, scrollContainerClassName],
   );
 
+  /* The pointer props are handler *factories*: the public API calls them with
+     the context to obtain the actual handler, which has to happen during render.
+     `context` is the VisibilityContext value and deliberately carries the
+     `scrollContainer` and `menuVisible` refs (see publicApiType), so the compiler
+     sees a ref read. Removing these would mean dropping refs from the public API,
+     which is a breaking change. */
+  /* eslint-disable react-hooks/refs */
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -298,7 +330,10 @@ function ScrollMenu({
             scrollRef={scrollContainerRef}
             containerRef={containerRef}
           >
-            <MenuItems refs={menuItemsRefs} itemClassName={itemClassName}>
+            <MenuItems
+              registerRef={registerItemRef}
+              itemClassName={itemClassName}
+            >
               {children}
             </MenuItems>
           </ScrollContainer>
@@ -308,7 +343,8 @@ function ScrollMenu({
       </VisibilityContext.Provider>
     </div>
   );
+  /* eslint-enable react-hooks/refs */
 }
 
-export { constants, getItemsPos, slidingWindow, ScrollMenu, VisibilityContext };
-export type { publicApiType, ItemId };
+export { constants, getItemsPos, ScrollMenu, slidingWindow, VisibilityContext };
+export type { ItemId, publicApiType };

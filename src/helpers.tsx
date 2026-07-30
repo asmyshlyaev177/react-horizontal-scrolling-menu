@@ -2,18 +2,17 @@ import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import {
-  id as itemId,
-  emptyStr,
-  dataKeyAttribute,
   dataIndexAttribute,
+  dataKeyAttribute,
+  emptyStr,
+  id as itemId,
 } from './constants';
 import { observerOptions } from './settings';
-
 import type {
   IOItem,
   Item,
-  ItemOrElement,
   ItemId,
+  ItemOrElement,
   Refs,
   ScrollBehaviorArg,
   scrollToItemOptions,

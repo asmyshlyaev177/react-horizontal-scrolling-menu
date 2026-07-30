@@ -10,24 +10,22 @@
     "serve": "serve -s -p 3003 out"
   },
   "dependencies": {
-    "@formkit/auto-animate": "^0.8.1",
-    "lodash": "^4.17.21",
-    "next": "^14.2.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "lodash": "^4.18.1",
+    "next": "^16.2.12",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-horizontal-scrolling-menu": "file:../"
   },
   "devDependencies": {
-    "@million/lint": "^0.0.68",
-    "@types/lodash": "^4.14.200",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "^14.2.5",
+    "@types/lodash": "^4.17.24",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.2.12",
     "popmotion": "^11.0.5",
-    "serve": "^14.2.1",
+    "serve": "^14.2.6",
     "stylefire": "^7.0.3",
-    "typescript": "^5"
+    "typescript": "^6.0.3"
   }
 }

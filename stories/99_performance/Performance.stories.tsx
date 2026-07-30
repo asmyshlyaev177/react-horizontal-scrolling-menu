@@ -1,14 +1,13 @@
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
+import Example from './Performance.source';
 // @ts-expect-error import
 import ExampleRaw from './Performance.source.tsx?raw';
-import Example from './Performance.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Performance',
@@ -18,7 +17,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const Performance = createLiveEditStory({
+export const Performance = {};
+
+makeLiveEditStory(Performance, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

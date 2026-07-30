@@ -1,15 +1,13 @@
 import { renderHook } from '@testing-library/react';
 import { mocked } from 'jest-mock';
 
-import { ItemsMap } from '../ItemsMap';
 import { observerEntriesToItems } from '../helpers';
+import { ItemsMap } from '../ItemsMap';
 import { observerOptions } from '../settings';
-import { MockedObserver, traceMethodCalls } from '../testUtils';
-
-import useIntersectionObserver from './useIntersectionObserver';
-
 import type { IntersectionObserverCB, MockedCalls } from '../testUtils';
-import type { Refs, Item } from '../types';
+import { MockedObserver, traceMethodCalls } from '../testUtils';
+import type { Item, Refs } from '../types';
+import useIntersectionObserver from './useIntersectionObserver';
 
 jest.mock('../helpers', () => ({
   __esModule: true,
@@ -41,6 +39,10 @@ describe('useIntersectionObserver', () => {
     mockedObserverCalls = {};
   });
 
+  // The scroll container the observer uses as its `root`; it is resolved
+  // inside the hook's layout effect rather than during render.
+  const root: { current: Element | null } = { current: null };
+
   test('should observe items from refs', () => {
     const items = new ItemsMap();
     const itemsChanged = '';
@@ -49,7 +51,13 @@ describe('useIntersectionObserver', () => {
       el1: { current: document.createElement('div') },
       el2: { current: document.createElement('div') },
     };
-    const props = { items, itemsChanged, options, refs };
+    const props = {
+      items,
+      itemsChanged,
+      options,
+      refs: { current: refs },
+      root,
+    };
 
     renderHook(() => useIntersectionObserver(props));
 
@@ -69,7 +77,8 @@ describe('useIntersectionObserver', () => {
       items,
       itemsChanged,
       options,
-      refs,
+      refs: { current: refs },
+      root,
     };
 
     observerMock.mockReturnValueOnce([]);
@@ -146,7 +155,8 @@ describe('useIntersectionObserver', () => {
       items,
       itemsChanged,
       options,
-      refs,
+      refs: { current: refs },
+      root,
       menuVisible: { current: true },
     };
 

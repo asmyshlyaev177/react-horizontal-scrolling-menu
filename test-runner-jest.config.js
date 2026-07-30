@@ -1,13 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getJestConfig } = require('@storybook/test-runner');
+import { getJestConfig } from '@storybook/test-runner';
 
-// The default Jest configuration comes from @storybook/test-runner
+// The default Jest configuration comes from @storybook/test-runner.
+// This file is ESM because package.json sets "type": "module"; the previous
+// `require`/`module.exports` form fails under Node's ESM loader.
 const testRunnerConfig = getJestConfig();
 
 /**
  * @type {import('@jest/types').Config.InitialOptions}
  */
-module.exports = {
+export default {
   ...testRunnerConfig,
   roots: ['stories'],
   testTimeout: 120 * 1000,

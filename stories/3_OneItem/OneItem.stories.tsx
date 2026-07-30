@@ -1,19 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { expect, within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import { TestObj, leftArrowSelector, rightArrowSelector } from '../test';
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
 import { SizeWrapper } from '../SizeWrapper';
-
+import { leftArrowSelector, rightArrowSelector, TestObj } from '../test';
+import Example from './OneItem.source';
 // @ts-ignore
 import ExampleRaw from './OneItem.source.tsx?raw';
-import Example from './OneItem.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/OneItem',
@@ -29,7 +27,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const OneItem = createLiveEditStory({
+export const OneItem = {};
+
+makeLiveEditStory(OneItem, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

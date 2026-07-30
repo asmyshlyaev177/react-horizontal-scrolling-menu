@@ -1,13 +1,14 @@
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
+
 // @ts-expect-error raw import
 import * as Types from './index.d.ts?raw';
 
+// `makeLiveEditStory(story, options)` takes the options as its *second*
+// parameter; `createLiveEditStory` took them as the first.
 type args = Parameters<
-  // @ts-expect-error some error
-  Parameters<typeof createLiveEditStory>[0]['modifyEditor']
+  NonNullable<Parameters<typeof makeLiveEditStory>[1]['modifyEditor']>
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function setupEditor(monaco: args[0], _editor: args[1]) {
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
     noSemanticValidation: false,

@@ -11,7 +11,6 @@ import {
   scrollToItem,
 } from './helpers';
 import { observerOptions } from './settings';
-
 import type { IOItem } from './types';
 
 jest.mock('smooth-scroll-into-view-if-needed');

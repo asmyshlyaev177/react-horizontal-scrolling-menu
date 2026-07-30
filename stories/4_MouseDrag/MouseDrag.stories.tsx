@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { expect, within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
-import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
-import { ScrollTest, TestObj, drag } from '../test';
-
+import { SizeWrapper } from '../SizeWrapper';
+import { drag, ScrollTest, TestObj } from '../test';
 // @ts-ignore
 import Example from './MouseDrag.source';
 import ExampleRaw from './MouseDrag.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/MouseDrag',
@@ -30,7 +27,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const MouseDrag = createLiveEditStory({
+export const MouseDrag = {};
+
+makeLiveEditStory(MouseDrag, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

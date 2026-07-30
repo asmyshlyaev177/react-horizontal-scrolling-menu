@@ -1,6 +1,5 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-/* eslint-disable jest/expect-expect */
-/* eslint-disable sonarjs/no-duplicate-string */
+
 /* eslint-disable max-nested-callbacks */
 
 const waitShort = 450;

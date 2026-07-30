@@ -20,12 +20,18 @@ export type Item = [itemId: ItemId, observerEntry: IOItem];
 export type visibleElements = ItemId[];
 
 export type RefType<T> =
-  | React.MutableRefObject<T | null>
-  | React.RefCallback<T>;
+  React.MutableRefObject<T | null> | React.RefCallback<T>;
 
 export interface Refs {
   [key: ItemId]: React.MutableRefObject<HTMLElement | null>;
 }
+
+/**
+ * Publishes an item's DOM node into the menu's ref registry. Items receive this
+ * instead of the registry itself: the registry belongs to `ScrollMenu`, and only
+ * its owner may mutate it.
+ */
+export type RegisterRef = (index: number, node: HTMLElement | null) => void;
 
 export type ItemType = React.ReactElement<{
   /**

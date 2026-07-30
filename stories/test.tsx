@@ -1,13 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { expect } from '@storybook/jest';
-import {
-  within,
-  userEvent,
-  waitFor,
-  fireEvent,
-} from '@storybook/testing-library';
-
-import type { queries } from '@storybook/testing-library';
+import type { queries } from 'storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 
 export type Canvas = ReturnType<typeof within<typeof queries>>;
 type HorArrows = { left: boolean; right: boolean };

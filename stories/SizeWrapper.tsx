@@ -1,4 +1,4 @@
-import styled from 'styled-jss';
+import styled from '@emotion/styled';
 
 export const SizeWrapper = styled('div')({
   maxWidth: '650px',

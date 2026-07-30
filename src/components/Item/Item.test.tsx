@@ -2,17 +2,26 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { itemClassName } from '../../constants';
-
+import type { Refs } from '../../types';
 import Item, { type Props } from './Item';
 
-import type { Refs } from '../../types';
-
-const setup = ({ children, className, id, index, refs }: Props) => {
+const setup = ({ children, className, id, index, registerRef }: Props) => {
   return render(
-    <Item className={className} id={id} index={index} refs={refs}>
+    <Item className={className} id={id} index={index} registerRef={registerRef}>
       {children}
     </Item>,
   );
+};
+
+/** Stands in for the registry `ScrollMenu` owns. */
+const makeRegistry = () => {
+  const refs: Refs = {};
+  return {
+    refs,
+    registerRef: (index: number, node: HTMLElement | null) => {
+      refs[String(index)] = { current: node };
+    },
+  };
 };
 
 describe('Item', () => {
@@ -21,12 +30,12 @@ describe('Item', () => {
   test('should pass data-key data-index and className attrs', () => {
     const id = 'test1';
     const index = 1;
-    const refs = {};
+    const { registerRef } = makeRegistry();
     const { container } = setup({
       className,
       id,
       index,
-      refs,
+      registerRef,
     });
 
     const child = container.firstChild as HTMLElement;
@@ -35,11 +44,11 @@ describe('Item', () => {
     expect(child.getAttribute('class')).toEqual(className);
   });
 
-  test('should assign ref to refs', () => {
+  test('should register its node with the parent', () => {
     const id = 'test1';
     const index = 1;
-    const refs: Refs = {};
-    setup({ className, id, index, refs });
+    const { refs, registerRef } = makeRegistry();
+    setup({ className, id, index, registerRef });
 
     expect(Object.keys(refs)).toHaveLength(1);
     expect(refs[index].current).toBeInTheDocument();
@@ -48,14 +57,14 @@ describe('Item', () => {
   test('should render children', () => {
     const id = 'child1';
     const index = 1;
-    const refs: Refs = {};
+    const { registerRef } = makeRegistry();
     const text = 'text123';
     const { findByTestId, findByText } = setup({
       children: <div data-test-id={id}>{text}</div>,
       className,
       id,
       index,
-      refs,
+      registerRef,
     });
 
     expect(findByTestId(id)).toBeTruthy();

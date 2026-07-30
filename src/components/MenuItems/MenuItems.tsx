@@ -1,21 +1,20 @@
 import React from 'react';
 
-import { itemClassName, emptyStr } from '../../constants';
+import { emptyStr, itemClassName } from '../../constants';
 import { getItemId } from '../../helpers';
+import type { ItemType, RegisterRef } from '../../types';
 import Item from '../Item';
-
-import type { ItemType, Refs } from '../../types';
 
 export type Props = {
   children?: ItemType | ItemType[];
-  refs: Refs;
+  registerRef: RegisterRef;
   itemClassName?: string;
 };
 
 function MenuItems({
   children,
   itemClassName: _itemClassName = emptyStr,
-  refs,
+  registerRef,
 }: Props) {
   const childArray = React.Children.toArray(children).filter(Boolean);
 
@@ -27,7 +26,13 @@ function MenuItems({
     const id = getItemId(child);
 
     return (
-      <Item className={itemClass} id={id} key={id} refs={refs} index={index}>
+      <Item
+        className={itemClass}
+        id={id}
+        key={id}
+        registerRef={registerRef}
+        index={index}
+      >
         {child}
       </Item>
     );

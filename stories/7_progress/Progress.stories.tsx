@@ -1,22 +1,17 @@
-/* eslint-disable max-statements */
-/* eslint-disable sonarjs/no-duplicate-string */
-import { expect } from '@storybook/jest';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { within, userEvent } from '@storybook/testing-library';
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { expect, userEvent, within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
-import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
-import { TestObj, leftArrowSelector, rightArrowSelector } from '../test';
-
+import { SizeWrapper } from '../SizeWrapper';
+import { leftArrowSelector, rightArrowSelector, TestObj } from '../test';
 import Example from './Progress.source';
 // @ts-ignore
 import ExampleRaw from './Progress.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Progress',
@@ -32,7 +27,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const Progress = createLiveEditStory({
+export const Progress = {};
+
+makeLiveEditStory(Progress, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,
@@ -84,6 +81,9 @@ export const Test = {
     await testObj.wait();
     await userEvent.click(canvas.getByTestId('page-10'));
 
+    // Two waits, as after the page-5 click above: `wait()` is a fixed sleep and
+    // one is not enough for the smooth scroll to the last page to settle.
+    await testObj.wait();
     await testObj.wait();
     expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
     expect(await testObj.getVisibleCardsKeys()).toEqual([

@@ -8,14 +8,13 @@ import React from 'react';
 
 import * as constants from './constants';
 import { VisibilityContext } from './context';
-import { type publicApiType } from './createApi';
 import * as createApi from './createApi';
+import { type publicApiType } from './createApi';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import { useMenuVisible } from './hooks/useMenuVisible';
 import * as useOnCb from './hooks/useOnCb';
+import { type Props, ScrollMenu } from './index';
 import { type ItemType } from './types';
-
-import { ScrollMenu, type Props } from './index';
 
 jest.mock('./hooks/useIntersectionObserver');
 jest.mock('./hooks/useOnCb', () => ({
@@ -30,7 +29,6 @@ jest.mock('./hooks/useMenuVisible', () => ({
 const defaultItems = ['test1', 'test2'];
 const scrollContainerClassName = 'scroll-class';
 const getContext = (context: publicApiType) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { items: _1, scrollContainer: _2, ...rest } = context;
   return rest;
 };
@@ -92,9 +90,10 @@ const setup = ({
   return render(<ScrollMenu {...props}>{children}</ScrollMenu>);
 };
 
+// `root` is no longer part of these options: it is passed separately as a ref
+// and resolved inside useIntersectionObserver's layout effect.
 const options = {
   ratio: 0.9,
-  root: null,
   rootMargin: '5px',
   threshold: [0.05, 0.5, 0.75, 0.95],
 };
@@ -125,9 +124,9 @@ describe('ScrollMenu', () => {
       )[0];
       expect(call).toMatchObject({
         items: expect.any(Object),
-        itemsChanged: '',
+        itemsChanged: 'test1test2',
         options,
-        refs: mapRefs(defaultItems),
+        refs: { current: mapRefs(defaultItems) },
       });
     });
   });
@@ -135,7 +134,6 @@ describe('ScrollMenu', () => {
   describe('onInit and onUpdate cbs', () => {
     test('should pass onInit and onUpdate to useOnCb', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
-      useOnCb.useOnCb as jest.Mock;
       const onInit = jest.fn();
       const onUpdate = jest.fn();
       const { container } = setup({
@@ -168,9 +166,9 @@ describe('ScrollMenu', () => {
       )[0];
       expect(call).toMatchObject({
         items: expect.any(Object),
-        itemsChanged: '',
+        itemsChanged: 'test1test2',
         options,
-        refs: mapRefs(defaultItems),
+        refs: { current: mapRefs(defaultItems) },
       });
     });
 
@@ -186,9 +184,9 @@ describe('ScrollMenu', () => {
       )[0];
       expect(call).toMatchObject({
         items: expect.any(Object),
-        itemsChanged: '',
+        itemsChanged: 'test1test2',
         options,
-        refs: mapRefs(defaultItems),
+        refs: { current: mapRefs(defaultItems) },
       });
     });
   });
