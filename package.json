@@ -41,12 +41,12 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "browser": "./dist/index.mjs",
       "module": "./dist/index.mjs",
       "import": "./dist/index.mjs",
       "umd": "./dist/index.cjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./dist/styles.css": "./dist/styles.css",
     "./styles.css": "./dist/styles.css"
