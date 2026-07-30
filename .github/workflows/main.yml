@@ -201,10 +201,14 @@ jobs:
           npx commit-and-tag-version --no-verify
           --releaseCommitMessageFormat 'chore(release): {{currentTag}} [skip ci]'
 
-      - name: Push the release commit and tag
-        if: steps.check.outputs.release == 'true'
-        run: git push --follow-tags origin HEAD:master
-
+      # Publish BEFORE pushing. npm publish is by far the likeliest step to
+      # fail — auth, registry config, a rejected tarball — and when it ran after
+      # the push it left a tag on GitHub with no package behind it, which no
+      # re-run can heal because the next run bumps to the following version.
+      # This way a failed publish leaves the commit and tag local to the runner
+      # and the run is simply a clean retry. The inverse risk, a push failing
+      # after a successful publish, is far rarer and leaves the package correct.
+      #
       # Authenticates through the trusted publisher linked on npmjs.com — no
       # NPM_TOKEN, and provenance is attested automatically, so `--provenance`
       # is not passed. `prepack` rebuilds dist here, so the tarball always
@@ -212,3 +216,7 @@ jobs:
       - name: Publish to npm
         if: steps.check.outputs.release == 'true'
         run: npm publish --access public
+
+      - name: Push the release commit and tag
+        if: steps.check.outputs.release == 'true'
+        run: git push --follow-tags origin HEAD:master
