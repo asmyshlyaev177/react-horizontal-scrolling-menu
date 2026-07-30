@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.2.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.0...v8.2.2) (2026-07-30)
+
+### Bug Fixes
+
+* fix types order in export field ([4efec4d](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/4efec4de0f474d6736e2099bf9857e4e62336a95))
+* refactor and type fixes ([de38a9a](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/de38a9aeed23c08a6143f60a402d986774fe038c))
 ## [8.2.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.0...v8.2.1) (2026-07-30)
 
 ### Bug Fixes
