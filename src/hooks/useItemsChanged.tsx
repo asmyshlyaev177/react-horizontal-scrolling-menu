@@ -1,36 +1,37 @@
 import React from 'react';
 
-import { ItemsMap } from '../ItemsMap';
 import { emptyStr } from '../constants';
 import { getItemId } from '../helpers';
+import { ItemsMap } from '../ItemsMap';
+import type { ItemChild, ItemId } from '../types';
 
-import type { ItemId, ItemType } from '../types';
-
-const getItemsIdFromChildren = (
-  children: ItemType | ItemType[] | undefined,
-): ItemId[] => React.Children.toArray(children).map(getItemId).filter(Boolean);
+const getItemsIdFromChildren = (children: ItemChild | ItemChild[]): ItemId[] =>
+  React.Children.toArray(children).map(getItemId).filter(Boolean);
 
 function useItemsChanged(
-  menuItems: ItemType | ItemType[] | undefined,
+  menuItems: ItemChild | ItemChild[],
   items: ItemsMap,
 ): string {
-  const [hash, setHash] = React.useState<string>(emptyStr);
-
   const domNodes = React.useMemo(
     () => getItemsIdFromChildren(menuItems),
     [menuItems],
   );
 
-  React.useEffect(() => {
-    const hash = domNodes.filter(Boolean).join(emptyStr);
+  // The hash is derived from the children, so it is computed during render
+  // rather than pushed into state from an effect. Setting state in an effect
+  // costs an extra render pass and is flagged by the React Compiler.
+  const hash = React.useMemo(
+    () => domNodes.filter(Boolean).join(emptyStr),
+    [domNodes],
+  );
 
-    const allItems = items.toItems();
-    const removed = allItems.filter((item) => !domNodes.includes(item));
+  // Dropping items that are no longer rendered is a genuine side effect on the
+  // shared ItemsMap, so it stays in an effect.
+  React.useEffect(() => {
+    const removed = items.toItems().filter((item) => !domNodes.includes(item));
     removed.forEach((item) => {
       items.delete(item);
     });
-
-    setHash(hash);
   }, [domNodes, items]);
 
   return hash;

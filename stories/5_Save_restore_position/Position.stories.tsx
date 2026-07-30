@@ -1,24 +1,22 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
-import { within, userEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { userEvent, within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
+import { SizeWrapper } from '../SizeWrapper';
 import {
-  ScrollTest,
-  TestObj,
   leftArrowSelector,
   rightArrowSelector,
+  ScrollTest,
+  TestObj,
 } from '../test';
-import { SizeWrapper } from '../SizeWrapper';
-
+import Example from './Position.source';
 // @ts-ignore
 import ExampleRaw from './Position.source.tsx?raw';
-import Example from './Position.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Position',
@@ -34,7 +32,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const Position = createLiveEditStory({
+export const Position = {};
+
+makeLiveEditStory(Position, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,
@@ -49,27 +49,17 @@ export const PosTest = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait();
+    await testObj.isReady();
     await userEvent.click(canvas.getByTestId('reset'));
     await userEvent.click(canvas.getByTestId('reload'));
     await testObj.isReady();
 
     await testObj.clickNext();
-    await testObj.wait();
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test3',
-      'test4',
-      'test5',
-    ]);
+    await testObj.expectVisibleCards(['test3', 'test4', 'test5']);
 
     await userEvent.click(canvas.getByTestId('reload'));
     await testObj.isReady();
-    await testObj.wait();
 
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test3',
-      'test4',
-      'test5',
-    ]);
+    await testObj.expectVisibleCards(['test3', 'test4', 'test5']);
   },
 };

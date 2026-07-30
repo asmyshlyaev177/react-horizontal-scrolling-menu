@@ -2,11 +2,21 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-    target-branch: "main"
+      interval: 'weekly'
+    # The default branch is `master`; this said `main`, so nothing could be targeted.
+    target-branch: 'master'
     open-pull-requests-limit: 0
     allow:
-        - dependency-type: "production"
+      - dependency-type: 'production'
+
+  # Keeps the workflow action versions current, so they cannot silently rot the
+  # way actions/checkout@v4 and the wireit caching action did.
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    target-branch: 'master'
+    open-pull-requests-limit: 3

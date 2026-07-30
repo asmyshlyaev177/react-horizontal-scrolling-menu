@@ -1,10 +1,9 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { ItemsMap } from '../ItemsMap';
 import { id as itemId } from '../constants';
+import { ItemsMap } from '../ItemsMap';
 import { type IOItem } from '../types';
-
 import useItemsChanged from './useItemsChanged';
 
 const TestComponent = ({

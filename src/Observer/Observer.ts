@@ -1,5 +1,4 @@
 import { events } from '../constants';
-
 import type { EventKey, IOItem } from '../types';
 
 export type ObsFn = (val?: IOItem) => void;

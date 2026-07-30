@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
-import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
-import { TestObj, leftArrowSelector, rightArrowSelector } from '../test';
-
+import { SizeWrapper } from '../SizeWrapper';
+import { leftArrowSelector, rightArrowSelector, TestObj } from '../test';
 // @ts-ignore
 import Example from './OneItemScroll.source';
 import ExampleRaw from './OneItemScroll.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/OneItemScroll',
@@ -30,7 +27,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const OneItemScroll = createLiveEditStory({
+export const OneItemScroll = {};
+
+makeLiveEditStory(OneItemScroll, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,
@@ -43,48 +42,31 @@ export const Test = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait();
+    // Both arrows start in the state this first assertion expects, so
+    // without gating on the observer it would pass before the menu had
+    // initialised and the click below would hit an empty ItemsMap.
+    await testObj.isReady();
 
     await testObj.arrowsVisible({ left: false, right: true });
 
     await testObj.clickNext();
-    await testObj.wait();
     await testObj.cardHidden('test0');
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test1',
-      'test2',
-      'test3',
-    ]);
+    await testObj.expectVisibleCards(['test1', 'test2', 'test3']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickNext();
-    await testObj.wait();
     await testObj.cardHidden('test1');
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test2',
-      'test3',
-      'test4',
-    ]);
+    await testObj.expectVisibleCards(['test2', 'test3', 'test4']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickPrev();
-    await testObj.wait();
     await testObj.cardHidden('test4');
     await testObj.arrowsVisible({ left: true, right: true });
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test1',
-      'test2',
-      'test3',
-    ]);
+    await testObj.expectVisibleCards(['test1', 'test2', 'test3']);
 
     await testObj.clickPrev();
-    await testObj.wait();
     await testObj.cardHidden('test3');
     await testObj.arrowsVisible({ left: false, right: true });
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test0',
-      'test1',
-      'test2',
-    ]);
+    await testObj.expectVisibleCards(['test0', 'test1', 'test2']);
   },
 };

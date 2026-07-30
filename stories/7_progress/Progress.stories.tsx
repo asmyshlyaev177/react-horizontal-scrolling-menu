@@ -1,22 +1,17 @@
-/* eslint-disable max-statements */
-/* eslint-disable sonarjs/no-duplicate-string */
-import { expect } from '@storybook/jest';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { within, userEvent } from '@storybook/testing-library';
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
-import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
-import { TestObj, leftArrowSelector, rightArrowSelector } from '../test';
-
+import { SizeWrapper } from '../SizeWrapper';
+import { leftArrowSelector, rightArrowSelector, TestObj } from '../test';
 import Example from './Progress.source';
 // @ts-ignore
 import ExampleRaw from './Progress.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Progress',
@@ -32,7 +27,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const Progress = createLiveEditStory({
+export const Progress = {};
+
+makeLiveEditStory(Progress, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,
@@ -45,60 +42,49 @@ export const Test = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait();
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test0',
-      'test1',
-      'test2',
-    ]);
+    // The progress footer is driven by the same visibility state as the cards
+    // but mounts and updates a beat behind them, so everything it renders has
+    // to be polled rather than read once.
+    const expectPages = async (count: number) =>
+      waitFor(() =>
+        expect(canvas.queryAllByTestId(/page-/)).toHaveLength(count),
+      );
 
-    expect(await canvas.getByTestId('items-left').textContent).toEqual('0');
-    expect(await canvas.getByTestId('items-right').textContent).toEqual('27');
+    const expectActivePage = async (page: string) =>
+      waitFor(() => {
+        const active = canvas
+          .queryAllByTestId(/page-/)
+          .filter((el) => el.className.includes('active'));
+        expect(active[0]?.textContent).toEqual(page);
+      });
 
-    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
-    await testObj.wait();
-    const activePages = await canvas
-      .queryAllByTestId(/page-/)
-      .filter((el) => el.className.includes('active'));
-    expect(activePages[0].textContent).toEqual('1');
+    const expectItemCounts = async (left: string, right: string) =>
+      waitFor(async () => {
+        expect((await canvas.findByTestId('items-left')).textContent).toEqual(
+          left,
+        );
+        expect((await canvas.findByTestId('items-right')).textContent).toEqual(
+          right,
+        );
+      });
+
+    await testObj.expectVisibleCards(['test0', 'test1', 'test2']);
+    await expectItemCounts('0', '27');
+    await expectPages(10);
+    await expectActivePage('1');
 
     await userEvent.click(canvas.getByTestId('page-5'));
-    await testObj.wait();
-    await testObj.wait();
 
-    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test12',
-      'test13',
-      'test14',
-    ]);
+    await expectPages(10);
+    await testObj.expectVisibleCards(['test12', 'test13', 'test14']);
+    await expectActivePage('5');
+    await expectItemCounts('12', '15');
 
-    const activePages1 = await canvas
-      .queryAllByTestId(/page-/)
-      .filter((el) => el.className.includes('active'));
-    expect(activePages1[0].textContent).toEqual('5');
-
-    expect(await canvas.getByTestId('items-left').textContent).toEqual('12');
-    expect(await canvas.getByTestId('items-right').textContent).toEqual('15');
-
-    await testObj.wait();
     await userEvent.click(canvas.getByTestId('page-10'));
 
-    await testObj.wait();
-    expect(await canvas.queryAllByTestId(/page-/)).toHaveLength(10);
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test27',
-      'test28',
-      'test29',
-    ]);
-
-    await testObj.wait(1200);
-    const activePages2 = await canvas
-      .queryAllByTestId(/page-/)
-      .filter((el) => el.className.includes('active'));
-    expect(activePages2[0].textContent).toEqual('10');
-
-    expect(await canvas.getByTestId('items-left').textContent).toEqual('27');
-    expect(await canvas.getByTestId('items-right').textContent).toEqual('0');
+    await expectPages(10);
+    await testObj.expectVisibleCards(['test27', 'test28', 'test29']);
+    await expectActivePage('10');
+    await expectItemCounts('27', '0');
   },
 };

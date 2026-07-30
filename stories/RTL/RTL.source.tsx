@@ -1,11 +1,12 @@
+import 'react-horizontal-scrolling-menu/dist/styles.css';
+
+import styled from '@emotion/styled';
 import React from 'react';
 import {
+  type publicApiType,
   ScrollMenu,
   VisibilityContext,
-  type publicApiType,
 } from 'react-horizontal-scrolling-menu';
-import 'react-horizontal-scrolling-menu/dist/styles.css';
-import styled from 'styled-jss';
 
 export function RTL() {
   const [RTL, setRTL] = React.useState(true);
@@ -25,18 +26,13 @@ export function RTL() {
     );
   };
 
-  const onWheelHandler = React.useCallback(
-    (apiObj: publicApiType, ev: React.WheelEvent) => onWheel(apiObj, ev, RTL),
-    [RTL],
-  );
-
   return (
     <>
       <NoScrollbar>
         <ScrollMenu
           LeftArrow={RTL ? <RightArrow RTL={RTL} /> : <LeftArrow RTL={RTL} />}
           RightArrow={RTL ? <LeftArrow RTL={RTL} /> : <RightArrow RTL={RTL} />}
-          onWheel={onWheelHandler}
+          onWheel={onWheel}
           RTL={RTL}
           noPolyfill={true}
         >
@@ -59,9 +55,6 @@ export function RTL() {
 
 export default RTL;
 
-export const isFirefox =
-  navigator?.userAgent?.toLowerCase?.()?.indexOf('firefox') > -1;
-
 function LeftArrow({ RTL }: { RTL: boolean }) {
   const visibility = React.useContext<publicApiType>(VisibilityContext);
   const isFirstItemVisible = visibility.useIsVisible('first', true);
@@ -69,9 +62,7 @@ function LeftArrow({ RTL }: { RTL: boolean }) {
   return (
     <Arrow
       disabled={isFirstItemVisible}
-      onClick={() =>
-        visibility.scrollPrev('smooth', RTL && isFirefox ? 'start' : 'end')
-      }
+      onClick={() => visibility.scrollPrev('smooth', 'end')}
       testId={RTL ? 'right-arrow' : 'left-arrow'}
     >
       {RTL ? 'Right' : 'Left'}
@@ -86,9 +77,7 @@ function RightArrow({ RTL }: { RTL: boolean }) {
   return (
     <Arrow
       disabled={isLastItemVisible}
-      onClick={() =>
-        visibility.scrollNext('smooth', RTL && isFirefox ? 'end' : 'start')
-      }
+      onClick={() => visibility.scrollNext('smooth', 'start')}
       testId={RTL ? 'left-arrow' : 'right-arrow'}
     >
       {RTL ? 'Left' : 'Right'}
@@ -120,17 +109,17 @@ function Arrow({
     </ArrowButton>
   );
 }
-const ArrowButton = styled('button')({
+const ArrowButton = styled('button')((props) => ({
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   marginBottom: '2px',
-  opacity: (props) => (props.disabled ? '0' : '1'),
+  opacity: props.disabled ? '0' : '1',
   userSelect: 'none',
   borderRadius: '6px',
   borderWidth: '1px',
-});
+}));
 
 const Checkbox = ({
   onClick,
@@ -207,28 +196,30 @@ function Card({
     </CardBody>
   );
 }
-const CardBody = styled('div')({
-  border: '1px solid',
-  display: 'inline-block',
-  margin: '0 10px',
-  width: '160px',
-  userSelect: 'none',
-  borderRadius: '8px',
-  overflow: 'hidden',
+const CardBody = styled('div')<{ selected?: boolean; visible?: boolean }>(
+  (props) => ({
+    border: '1px solid',
+    display: 'inline-block',
+    margin: '0 10px',
+    width: '160px',
+    userSelect: 'none',
+    borderRadius: '8px',
+    overflow: 'hidden',
 
-  '& .header': {
-    backgroundColor: 'white',
-  },
+    '& .header': {
+      backgroundColor: 'white',
+    },
 
-  '& .visible': {
-    backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),
-  },
+    '& .visible': {
+      backgroundColor: props.visible ? 'transparent' : 'gray',
+    },
 
-  '& .background': {
-    backgroundColor: (props) => (props.selected ? 'green' : 'bisque'),
-    height: '200px',
-  },
-});
+    '& .background': {
+      backgroundColor: props.selected ? 'green' : 'bisque',
+      height: '200px',
+    },
+  }),
+);
 
 const NoScrollbar = styled('div')({
   '& .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar': {
@@ -247,11 +238,7 @@ const getItems = () =>
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
-function onWheel(
-  apiObj: publicApiType,
-  ev: React.WheelEvent,
-  RTL: boolean,
-): void {
+function onWheel(apiObj: publicApiType, ev: React.WheelEvent): void {
   const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
   if (isThouchpad) {
@@ -260,8 +247,8 @@ function onWheel(
   }
 
   if (ev.deltaY < 0) {
-    apiObj.scrollPrev('smooth', RTL && isFirefox ? 'start' : 'end');
+    apiObj.scrollPrev('smooth', 'end');
   } else {
-    apiObj.scrollNext('smooth', RTL && isFirefox ? 'end' : 'start');
+    apiObj.scrollNext('smooth', 'start');
   }
 }

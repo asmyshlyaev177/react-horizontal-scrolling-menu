@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
-import { SizeWrapper } from '../SizeWrapper';
 import { availableImports } from '../availableImports';
 import { setupEditor } from '../setupEditor';
+import { SizeWrapper } from '../SizeWrapper';
 import { ScrollTest } from '../test';
-
 import Example from './PreventBodyScroll.source';
 // @ts-ignore
 import ExampleRaw from './PreventBodyScroll.source.tsx?raw';
-
-import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/PreventBodyScroll',
@@ -28,7 +26,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const PreventBodyScroll = createLiveEditStory({
+export const PreventBodyScroll = {};
+
+makeLiveEditStory(PreventBodyScroll, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

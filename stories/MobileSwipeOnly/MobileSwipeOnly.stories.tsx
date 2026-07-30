@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import { ScrollTest } from '../test';
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
 import { SizeWrapper } from '../SizeWrapper';
-
+import { ScrollTest } from '../test';
+import Example from './MobileSwipeOnly.source';
 // @ts-ignore
 import ExampleRaw from './MobileSwipeOnly.source.tsx?raw';
-import Example from './MobileSwipeOnly.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/MobileSwipeOnly',
@@ -27,7 +26,9 @@ const meta: Meta<typeof ScrollMenu> = {
 
 export default meta;
 
-export const MobileSwipeOnly = createLiveEditStory({
+export const MobileSwipeOnly = {};
+
+makeLiveEditStory(MobileSwipeOnly, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

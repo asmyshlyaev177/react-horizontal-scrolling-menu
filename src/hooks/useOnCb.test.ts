@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react';
 
 import { publicApiType } from '../createApi';
-
 import { useOnCb } from './useOnCb';
 
 const cbs: { [index: string]: (() => void) | undefined } = {

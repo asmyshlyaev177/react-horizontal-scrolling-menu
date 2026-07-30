@@ -1,0 +1,18 @@
+{
+  // The root tsconfig.json only includes `src`, so editors have no project that
+  // covers these files. This gives them one while keeping the Storybook config
+  // out of the library's build program.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "..",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    // `css` is the local ambient `declare module '*.css'` package under
+    // ../types; the root config picks it up via `include` instead.
+    "typeRoots": ["../types", "../node_modules/@types"],
+    "types": ["node", "css"]
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": []
+}

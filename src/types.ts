@@ -20,12 +20,18 @@ export type Item = [itemId: ItemId, observerEntry: IOItem];
 export type visibleElements = ItemId[];
 
 export type RefType<T> =
-  | React.MutableRefObject<T | null>
-  | React.RefCallback<T>;
+  React.MutableRefObject<T | null> | React.RefCallback<T>;
 
 export interface Refs {
   [key: ItemId]: React.MutableRefObject<HTMLElement | null>;
 }
+
+/**
+ * Publishes an item's DOM node into the menu's ref registry. Items receive this
+ * instead of the registry itself: the registry belongs to `ScrollMenu`, and only
+ * its owner may mutate it.
+ */
+export type RegisterRef = (index: number, node: HTMLElement | null) => void;
 
 export type ItemType = React.ReactElement<{
   /**
@@ -33,6 +39,14 @@ export type ItemType = React.ReactElement<{
    */
   itemId: ItemId;
 }>;
+
+/**
+ * A single slot in `ScrollMenu`'s children. Items are usually produced by a
+ * `.map()` and mixed with conditional ones (`{loading && <Loader itemId=... />}`),
+ * which is why a slot may also be a nested array or a falsy value — React
+ * flattens both away before the menu sees them.
+ */
+export type ItemChild = ItemType | ItemType[] | false | null | undefined;
 
 export type CustomScrollBehavior = Options;
 

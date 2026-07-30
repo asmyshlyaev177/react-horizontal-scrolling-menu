@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-jss';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
+import styled from '@emotion/styled';
+import React from 'react';
 import {
+  type publicApiType,
   ScrollMenu,
   VisibilityContext,
-  type publicApiType,
 } from 'react-horizontal-scrolling-menu';
-
-import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 export function ScrollToItem() {
   const [items] = React.useState(() => getItems());
@@ -33,15 +32,20 @@ export function ScrollToItem() {
     if (!apiRef.current) return () => {};
 
     const id = setTimeout(() => {
-      const itemsList = [...apiRef.current.items.toItems()];
-      const itemKey = itemsList.find((el) => el.includes(5));
-      const item = apiRef.current.getItemById(itemKey);
-      // const item = apiRef.current.getItemByIndex(5) // or by index
-      apiRef.current.scrollToItem(item, 'auto', 'start');
+      const api = apiRef.current;
+      if (!api) return;
+
+      const itemsList = [...api.items.toItems()];
+      const itemKey = itemsList.find((el) => el.includes('5'));
+      if (!itemKey) return;
+
+      const item = api.getItemById(itemKey);
+      // const item = api.getItemByIndex(5) // or by index
+      api.scrollToItem(item, 'auto', 'start');
     }, 100);
 
     return () => clearTimeout(id);
-  }, [apiRef.current]);
+  }, [apiRef]);
 
   return (
     <ScrollMenu
@@ -121,17 +125,17 @@ function Arrow({
     </ArrowButton>
   );
 }
-const ArrowButton = styled('button')({
+const ArrowButton = styled('button')((props) => ({
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   marginBottom: '2px',
-  opacity: (props) => (props.disabled ? '0' : '1'),
+  opacity: props.disabled ? '0' : '1',
   userSelect: 'none',
   borderRadius: '6px',
   borderWidth: '1px',
-});
+}));
 
 function Card({
   onClick,
@@ -170,28 +174,30 @@ function Card({
     </CardBody>
   );
 }
-const CardBody = styled('div')({
-  border: '1px solid',
-  display: 'inline-block',
-  margin: '0 10px',
-  width: '160px',
-  userSelect: 'none',
-  borderRadius: '8px',
-  overflow: 'hidden',
+const CardBody = styled('div')<{ selected?: boolean; visible?: boolean }>(
+  (props) => ({
+    border: '1px solid',
+    display: 'inline-block',
+    margin: '0 10px',
+    width: '160px',
+    userSelect: 'none',
+    borderRadius: '8px',
+    overflow: 'hidden',
 
-  '& .header': {
-    backgroundColor: 'white',
-  },
+    '& .header': {
+      backgroundColor: 'white',
+    },
 
-  '& .visible': {
-    backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),
-  },
+    '& .visible': {
+      backgroundColor: props.visible ? 'transparent' : 'gray',
+    },
 
-  '& .background': {
-    backgroundColor: (props) => (props.selected ? 'green' : 'bisque'),
-    height: '200px',
-  },
-});
+    '& .background': {
+      backgroundColor: props.selected ? 'green' : 'bisque',
+      height: '200px',
+    },
+  }),
+);
 
 const getId = (index: number) => `${'test'}${index}`;
 

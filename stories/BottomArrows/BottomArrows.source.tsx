@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-jss';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
+import styled from '@emotion/styled';
+import React from 'react';
 import {
+  type publicApiType,
   ScrollMenu,
   VisibilityContext,
-  type publicApiType,
 } from 'react-horizontal-scrolling-menu';
-
-import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 export function BottomArrows() {
   const [items] = React.useState(() => getItems());
@@ -110,7 +109,7 @@ function Arrow({
 }: {
   children: React.ReactNode;
   disabled: boolean;
-  onClick: (context: publicApiType) => void;
+  onClick: VoidFunction;
   className?: string;
   testId: string;
 }) {
@@ -125,17 +124,17 @@ function Arrow({
     </ArrowButton>
   );
 }
-const ArrowButton = styled('button')({
+const ArrowButton = styled('button')((props) => ({
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   marginBottom: '2px',
-  opacity: (props) => (props.disabled ? '0' : '1'),
+  opacity: props.disabled ? '0' : '1',
   userSelect: 'none',
   borderRadius: '6px',
   borderWidth: '1px',
-});
+}));
 
 function Card({
   onClick,
@@ -174,28 +173,30 @@ function Card({
     </CardBody>
   );
 }
-const CardBody = styled('div')({
-  border: '1px solid',
-  display: 'inline-block',
-  margin: '0 10px',
-  width: '160px',
-  userSelect: 'none',
-  borderRadius: '8px',
-  overflow: 'hidden',
+const CardBody = styled('div')<{ selected?: boolean; visible?: boolean }>(
+  (props) => ({
+    border: '1px solid',
+    display: 'inline-block',
+    margin: '0 10px',
+    width: '160px',
+    userSelect: 'none',
+    borderRadius: '8px',
+    overflow: 'hidden',
 
-  '& .header': {
-    backgroundColor: 'white',
-  },
+    '& .header': {
+      backgroundColor: 'white',
+    },
 
-  '& .visible': {
-    backgroundColor: (props) => (props.visible ? 'transparent' : 'gray'),
-  },
+    '& .visible': {
+      backgroundColor: props.visible ? 'transparent' : 'gray',
+    },
 
-  '& .background': {
-    backgroundColor: (props) => (props.selected ? 'green' : 'bisque'),
-    height: '200px',
-  },
-});
+    '& .background': {
+      backgroundColor: props.selected ? 'green' : 'bisque',
+      height: '200px',
+    },
+  }),
+);
 
 const getId = (index: number) => `${'test'}${index}`;
 

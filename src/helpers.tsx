@@ -2,18 +2,17 @@ import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import {
-  id as itemId,
-  emptyStr,
-  dataKeyAttribute,
   dataIndexAttribute,
+  dataKeyAttribute,
+  emptyStr,
+  id as itemId,
 } from './constants';
 import { observerOptions } from './settings';
-
 import type {
   IOItem,
   Item,
-  ItemOrElement,
   ItemId,
+  ItemOrElement,
   Refs,
   ScrollBehaviorArg,
   scrollToItemOptions,
@@ -106,7 +105,11 @@ export const getItemId = (item: React.ReactNode) =>
   );
 
 export function isMutableRef<T>(
-  elem: React.MutableRefObject<T> | React.RefCallback<T> | React.LegacyRef<T>,
-): elem is React.MutableRefObject<T> {
+  elem:
+    | React.MutableRefObject<T>
+    | React.RefObject<T | null>
+    | React.RefCallback<T>
+    | React.LegacyRef<T>,
+): elem is React.MutableRefObject<T> | React.RefObject<T | null> {
   return !!elem && Object.prototype.hasOwnProperty.call(elem, 'current');
 }

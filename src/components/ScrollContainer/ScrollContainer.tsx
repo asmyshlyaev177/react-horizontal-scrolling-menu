@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { scrollContainerClassName, emptyStr } from '../../constants';
+import { emptyStr, scrollContainerClassName } from '../../constants';
 import { isMutableRef } from '../../helpers';
 import { RefType } from '../../types';
 

@@ -1,18 +1,17 @@
 import React from 'react';
 
-import { ItemsMap } from '../ItemsMap';
 import { getNodesFromRefs, observerEntriesToItems } from '../helpers';
+import { ItemsMap } from '../ItemsMap';
 import { observerOptions } from '../settings';
-
-import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
-
 import type { Refs } from '../types';
+import useIsomorphicLayoutEffect from './useIsomorphicLayoutEffect';
 
 interface Props {
   items: ItemsMap;
   itemsChanged: string;
   options: typeof observerOptions;
-  refs: Refs;
+  refs: { current: Refs };
+  root: { current: Element | null };
 }
 
 function useIntersectionObserver({
@@ -20,8 +19,11 @@ function useIntersectionObserver({
   itemsChanged,
   refs,
   options,
+  root,
 }: Props) {
-  const observer: { current?: IntersectionObserver } = React.useRef();
+  const observer: { current?: IntersectionObserver } = React.useRef<
+    IntersectionObserver | undefined
+  >(undefined);
 
   const ioCb = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -31,9 +33,13 @@ function useIntersectionObserver({
   );
 
   useIsomorphicLayoutEffect(() => {
-    const elements = getNodesFromRefs(refs);
+    const elements = getNodesFromRefs(refs.current);
+    // Resolved here rather than during render: `root.current` is only populated
+    // once the scroll container has mounted, and reading a ref during render is
+    // unsafe under the React Compiler.
     const observerInstance =
-      observer.current || new IntersectionObserver(ioCb, options);
+      observer.current ||
+      new IntersectionObserver(ioCb, { ...options, root: root.current });
     observer.current = observerInstance;
     elements.forEach((elem) => observerInstance.observe(elem));
 
@@ -41,7 +47,7 @@ function useIntersectionObserver({
       observerInstance.disconnect();
       observer.current = undefined;
     };
-  }, [ioCb, itemsChanged, options, refs]);
+  }, [ioCb, itemsChanged, options, refs, root]);
 }
 
 export default useIntersectionObserver;

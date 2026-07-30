@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import styled from '@emotion/styled';
+import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import type { Meta } from '@storybook/react';
-import { createLiveEditStory } from 'storybook-addon-code-editor';
-import styled from 'styled-jss';
+import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
-import { setupEditor } from '../setupEditor';
-import { availableImports } from '../availableImports';
 import { ScrollMenu } from '../../src/index';
-import { ScrollTest, upArrowSelector, downArrowSelector } from '../test';
-
+import { availableImports } from '../availableImports';
+import { setupEditor } from '../setupEditor';
+import { downArrowSelector, ScrollTest, upArrowSelector } from '../test';
+import Example from './Vertical.source';
 // @ts-ignore
 import ExampleRaw from './Vertical.source.tsx?raw';
-import Example from './Vertical.source';
 
 const meta: Meta<typeof ScrollMenu> = {
   title: 'Examples/Vertical',
@@ -34,7 +33,9 @@ const SizeWrapper = styled('div')({
 
 export default meta;
 
-export const Vertical = createLiveEditStory({
+export const Vertical = {};
+
+makeLiveEditStory(Vertical, {
   code: ExampleRaw,
   availableImports,
   modifyEditor: setupEditor,

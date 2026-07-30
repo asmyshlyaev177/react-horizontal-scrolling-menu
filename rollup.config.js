@@ -1,12 +1,13 @@
-import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import ignore from 'rollup-plugin-ignore';
-import { terser } from 'rollup-plugin-terser';
-import postcss from 'rollup-plugin-postcss';
-import sourcemaps from 'rollup-plugin-sourcemaps';
+import resolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import filesize from 'rollup-plugin-filesize';
-import pkg from './package.json';
+import ignore from 'rollup-plugin-ignore';
+import postcss from 'rollup-plugin-postcss';
+import sourcemaps from 'rollup-plugin-sourcemaps2';
+
+import pkg from './package.json' with { type: 'json' };
 
 const input = 'src/index.tsx';
 
@@ -23,7 +24,14 @@ const plugins = [
   resolve({
     include: ['node_modules/**'],
   }),
-  typescript({ sourceMap: false, tsconfig: './tsconfig.json' }),
+  // @rollup/plugin-typescript v12 validates that `declarationDir` lives inside the
+  // rollup output directory, so point both at `dist` rather than the tsconfig defaults.
+  typescript({
+    sourceMap: false,
+    tsconfig: './tsconfig.json',
+    outDir: 'dist',
+    declarationDir: 'dist/types',
+  }),
   commonjs(),
   postcss({
     extract: 'styles.css',

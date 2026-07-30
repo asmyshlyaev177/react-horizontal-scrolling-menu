@@ -8,7 +8,7 @@ Make sure that what you trying to fix really a bug, or if adding feature that is
 2. Write code! Add some feature or fix bug.
 
 3. Check that all tests passed(unit and e2e) and add tests for your code.
-You can run unit tests with `npm run test:unit` and cypress tests `npm run test:e2e`
+   You can run unit tests with `npm run test:unit` and Playwright e2e tests with `npm run test:e2e`
 
 4. Update readme and example (if needed)
 

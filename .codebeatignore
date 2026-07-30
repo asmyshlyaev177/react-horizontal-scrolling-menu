@@ -6,8 +6,8 @@ src/**/*.test.tsx
 example-nextjs/**
 example-cra/**
 
-cypress/**
-cypress.config.*
+e2e/**
+playwright.config.*
 coverage/**
 .yarn/**
 .vscode/**
