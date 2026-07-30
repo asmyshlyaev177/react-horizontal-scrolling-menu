@@ -114,7 +114,7 @@
       "command": "storybook dev -p 6006 --no-open",
       "service": {
         "readyWhen": {
-          "lineMatches": " 100%"
+          "lineMatches": "localhost:6006"
         }
       },
       "dependencies": [
