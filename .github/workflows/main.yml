@@ -12,10 +12,12 @@ concurrency:
 jobs:
   build-test:
     runs-on: ubuntu-24.04
-    container: cypress/included:cypress-15.19.0-node-24.18.1-chrome-150.0.7871.186-1-ff-153.0.1-edge-150.0.4078.105-1
+    # Ships chromium, firefox and webkit plus their system libraries, already
+    # matched to the @playwright/test version. Keep the tag in step with the
+    # dependency in package.json when bumping Playwright.
+    container: mcr.microsoft.com/playwright:v1.62.0-noble
 
     env:
-      CYPRESS_CACHE_FOLDER: ../cypress_cache
       NODE_OPTIONS: --max-old-space-size=4096
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CI: true
@@ -35,16 +37,10 @@ jobs:
       # wireit >= 0.14.12 speaks the v2 cache backend.
       - uses: google/wireit@setup-github-actions-caching/v2
 
+      # The container already provides the browsers at $PLAYWRIGHT_BROWSERS_PATH,
+      # so `playwright install` inside `setup` is a no-op.
       - name: Install
-        run: |
-          mkdir -p ../cypress_cache && \
-          npm run setup && \
-          chmod -R 777 ../cypress_cache && \
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc >/dev/null && \
-          apt update && \
-          npx cross-env HOME=/root npx playwright install chromium firefox webkit --with-deps && \
-          chmod -R 777 /root/.cache/ms-playwright && \
-          apt install -y curl
+        run: npm run setup
 
       - name: Types and linter check
         run: npm run test:lint
@@ -61,17 +57,20 @@ jobs:
 
       - name: E2E tests builded version
         run: npm run test:e2e
-      - uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: cypress
-          path: cypress
 
       - name: E2E tests dev version
         run: npm run test:e2e:dev
 
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+
       - name: Storybook tests
-        run: npx cross-env HOME=/root npm run test:storybook-ci
+        run: npm run test:storybook-ci
 
   deploy-storybook:
     needs: build-test

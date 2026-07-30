@@ -79,7 +79,7 @@
     "test:storybook-ci": "wireit",
     "test": "wireit",
     "test:lint": "wireit",
-    "run:cy": "wireit",
+    "run:e2e": "wireit",
     "dev": "wireit",
     "kill-rollup": "wireit",
     "build": "wireit",
@@ -161,7 +161,7 @@
       ]
     },
     "test:lint": {
-      "command": "eslint src && prettier --check src && tsc --noEmit"
+      "command": "eslint src e2e playwright.config.ts && prettier --check src e2e playwright.config.ts && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json"
     },
     "test:unit": {
       "command": "jest",
@@ -170,13 +170,13 @@
       ]
     },
     "test:e2e": {
-      "command": "npm run run:cy",
+      "command": "npm run run:e2e",
       "dependencies": [
         "serve"
       ]
     },
     "test:e2e:dev": {
-      "command": "npm run run:cy",
+      "command": "npm run run:e2e",
       "dependencies": [
         "demo"
       ]
@@ -184,10 +184,10 @@
     "kill-rollup": {
       "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 || echo 'killed'"
     },
-    "run:cy": {
-      "command": "npx wait-on http://localhost:3003 && cypress run",
+    "run:e2e": {
+      "command": "npx wait-on http://localhost:3003 && playwright test",
       "dependencies": [
-        "install-deps"
+        "install:playwright"
       ]
     },
     "dev": {
@@ -306,8 +306,8 @@
     "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
     "@emotion/react": "^11.14.0",
-    "@eslint/js": "^9.39.5",
     "@emotion/styled": "^11.14.1",
+    "@eslint/js": "^9.39.5",
     "@formkit/auto-animate": "^0.8.4",
     "@jest/globals": "^30.4.1",
     "@playwright/test": "^1.62.0",
@@ -330,16 +330,14 @@
     "commit-and-tag-version": "^13.1.2",
     "commitizen": "^4.3.2",
     "cross-env": "^10.1.0",
-    "cypress": "^15.19.0",
-    "cypress-wait-until": "^3.0.2",
     "cz": "^1.8.2",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-compat": "^7.0.2",
-    "eslint-plugin-cypress": "^6.4.3",
     "eslint-plugin-jest": "^29.16.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-playwright": "^2.2.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
@@ -365,6 +363,7 @@
     "storybook": "^10.5.5",
     "storybook-addon-code-editor": "^6.2.0",
     "ts-jest": "^29.4.12",
+    "tslib": "^2.8.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.65.0",
     "usehooks-ts": "^3.1.1",

@@ -1,0 +1,22 @@
+{
+  /* The root tsconfig pins `rootDir` to ./src for the rollup build, so the e2e
+     specs get their own project — same idea as tsconfig.stories.json. Checked
+     by `npm run test:lint`; Playwright compiles the specs itself at run time. */
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true
+  },
+  "include": ["e2e", "playwright.config.ts"]
+}

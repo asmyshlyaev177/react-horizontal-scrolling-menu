@@ -1,9 +1,9 @@
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import compat from 'eslint-plugin-compat';
-import cypress from 'eslint-plugin-cypress';
 import jest from 'eslint-plugin-jest';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import playwright from 'eslint-plugin-playwright';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -31,8 +31,8 @@ export default tseslint.config(
       'coverage/**',
       'storybook-static/**',
       '.wireit/**',
-      'cypress/videos/**',
-      'cypress/screenshots/**',
+      'test-results/**',
+      'playwright-report/**',
       'example-cra/**',
       'example-nextjs/**',
     ],
@@ -142,15 +142,17 @@ export default tseslint.config(
   },
 
   // --- Tests ---------------------------------------------------------------
+  // Scoped to `src` (jest's `roots`) so the Playwright specs under `e2e` do not
+  // pick up jest's globals and rules.
   {
-    files: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.{test,spec}.{js,jsx,ts,tsx}'],
     ...jest.configs['flat/recommended'],
     languageOptions: {
       globals: { ...globals.jest },
     },
   },
   {
-    files: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.{test,spec}.{js,jsx,ts,tsx}'],
     rules: {
       'sonarjs/no-duplicate-string': 'off',
       'max-statements': 'off',
@@ -173,10 +175,31 @@ export default tseslint.config(
     },
   },
 
-  // --- Cypress -------------------------------------------------------------
+  // --- Playwright ----------------------------------------------------------
   {
-    files: ['cypress/**/*.{js,ts}'],
-    ...cypress.configs.recommended,
+    files: ['e2e/**/*.ts'],
+    ...playwright.configs['flat/recommended'],
+  },
+  {
+    files: ['e2e/**/*.ts'],
+    rules: {
+      // `describe` > `describe` > `test` > callback is normal spec structure.
+      'max-nested-callbacks': ['error', 5],
+      // A short pause is the only way to assert that state did *not* change
+      // after an IntersectionObserver callback; the spec explains each use.
+      'playwright/no-wait-for-timeout': 'off',
+      // The specs assert through named helpers rather than inline `expect`.
+      'playwright/expect-expect': [
+        'warn',
+        {
+          assertFunctionNames: [
+            'openDemo',
+            'expectArrow',
+            'expectVisibleCards',
+          ],
+        },
+      ],
+    },
   },
 
   // Must stay last: turns off everything that would conflict with Prettier.
