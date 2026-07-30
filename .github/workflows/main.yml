@@ -4,10 +4,16 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  # Releases are cut by hand: Actions -> "Test and deploy" -> "Run workflow" on
+  # master. The full suite runs first and the release job only starts if it is
+  # green.
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # Never cancel a release halfway through: a push landing on master while one
+  # is publishing would otherwise kill it between the git push and npm publish.
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 jobs:
   build-test:
@@ -107,24 +113,61 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
 
-  # publish:
-  #   needs: build-test
-  #   runs-on: ubuntu-24.04
-  #   if: github.ref_name == 'master'
-  #   env:
-  #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  #   steps:
-  #     - uses: actions/checkout@v7
-  #     - uses: actions/setup-node@v7
-  #       with:
-  #         node-version-file: '.nvmrc'
-  #         cache: 'npm'
-  #         registry-url: 'https://registry.npmjs.org'
-  #     - name: Install
-  #       run: npm run setup
-  #     - run: npm run build
-  #     - uses: JS-DevTools/npm-publish@v3
-  #       with:
-  #         token: ${{ secrets.NPM_TOKEN }}
-  #         provenance: true
-  #         registry: 'https://registry.npmjs.org'
+  # Bumps the version, writes the changelog, tags, pushes and publishes.
+  # Only reachable through "Run workflow" on master, and only after build-test
+  # is green — the test suite is not repeated here.
+  release:
+    needs: build-test
+    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'master'
+    runs-on: ubuntu-24.04
+    # Same image as build-test so the browsers `prepack` pulls in via
+    # setup-tooling are already present and `playwright install` is a no-op.
+    container: mcr.microsoft.com/playwright:v1.62.0-noble
+
+    permissions:
+      contents: write # push the release commit and its tag
+      id-token: write # mint the npm provenance attestation
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # commit-and-tag-version derives the bump and the changelog from every
+          # commit and tag since the last release, so a shallow clone gives the
+          # wrong version and an empty changelog.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          check-latest: true
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install
+        run: npm ci
+
+      - name: Identify the committer
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      # Called directly rather than through `npm run release`, whose wireit
+      # graph would re-run the entire suite that build-test just finished.
+      - name: Version, changelog and tag
+        run: >
+          npx commit-and-tag-version --no-verify
+          --releaseCommitMessageFormat 'chore(release): {{currentTag}} [skip ci]'
+
+      - name: Push the release commit and tag
+        run: git push --follow-tags origin HEAD:master
+
+      # `prepack` rebuilds dist as part of publishing, so the tarball always
+      # matches the tag that was just created.
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
