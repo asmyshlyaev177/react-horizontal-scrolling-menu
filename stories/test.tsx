@@ -4,6 +4,17 @@ import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 export type Canvas = ReturnType<typeof within<typeof queries>>;
 type HorArrows = { left: boolean; right: boolean };
 type VerArrows = { up: boolean; down: boolean };
+
+/**
+ * Scrolling is animated (500ms by default) and item visibility is reported by
+ * an IntersectionObserver, so nothing about the menu is true at the moment a
+ * click returns. Every assertion below therefore polls the live DOM through
+ * `waitFor` until it settles, rather than sleeping for a fixed interval and
+ * hoping. Generous, because it is an upper bound that is almost never reached —
+ * a passing assertion returns as soon as it holds.
+ */
+const settleTimeout = 5000;
+
 export class TestObj {
   canvas: Canvas;
   leftArrow: string;
@@ -18,9 +29,14 @@ export class TestObj {
     this.rightArrow = rightArrow;
   }
 
+  /** Resolves once the IntersectionObserver has classified the items. */
   async isReady() {
-    await waitFor(() =>
-      expect(this.canvas.getAllByText('visible: false')[0]).toBeInTheDocument(),
+    await waitFor(
+      () =>
+        expect(
+          this.canvas.getAllByText('visible: false')[0],
+        ).toBeInTheDocument(),
+      { timeout: settleTimeout },
     );
   }
 
@@ -38,15 +54,6 @@ export class TestObj {
     return (await this.getCards('visible: true')) || [];
   }
 
-  async getVisibleCardsKeys(length = 3) {
-    const nodes = await this.getVisibleCards();
-    const keys = nodes.map((el) => el.innerText.split('\n')[0]);
-
-    expect(keys).toHaveLength(length);
-
-    return keys;
-  }
-
   async getSelectedCards() {
     return (await this.getCards('selected: true')) || [];
   }
@@ -56,28 +63,39 @@ export class TestObj {
     return nodes.map((el) => el.innerText.split('\n')[0]);
   }
 
-  async cardHidden(card: string) {
-    const hiddenCards = await this.getCards(`${card}\nvisible: false`);
-
-    await waitFor(() => expect(hiddenCards[0]).toBeInTheDocument());
+  /** Waits until exactly these cards, in order, report themselves visible. */
+  async expectVisibleCards(keys: string[]) {
+    await waitFor(
+      async () => {
+        const nodes = await this.getVisibleCards();
+        expect(nodes.map((el) => el.innerText.split('\n')[0])).toEqual(keys);
+      },
+      { timeout: settleTimeout },
+    );
   }
 
-  async wait(timeout = 800) {
-    await new Promise((res) => setTimeout(() => res(true), timeout));
+  async cardHidden(card: string) {
+    // The query has to live inside the callback: re-running it is the whole
+    // point, and the previous version resolved it once up front and then polled
+    // that stale snapshot.
+    await waitFor(
+      async () => {
+        const hiddenCards = await this.getCards(`${card}\nvisible: false`);
+        expect(hiddenCards[0]).toBeInTheDocument();
+      },
+      { timeout: settleTimeout },
+    );
   }
 
   async clickPrev() {
     await userEvent.click(this.canvas.getByTestId(this.leftArrow));
-    await this.wait();
   }
 
   async clickNext() {
     await userEvent.click(this.canvas.getByTestId(this.rightArrow));
-    await this.wait();
   }
 
   async arrowsVisible(arrows: HorArrows | VerArrows) {
-    await this.wait();
     let firstArrow: HorArrows['left'] | VerArrows['up'];
     let secondArrow: HorArrows['right'] | VerArrows['down'];
     if ('up' in arrows) {
@@ -88,17 +106,25 @@ export class TestObj {
       secondArrow = arrows.right;
     }
 
-    if (firstArrow) {
-      expect(await this.canvas.getByTestId(this.leftArrow)).toBeVisible();
-    } else {
-      expect(await this.canvas.getByTestId(this.leftArrow)).not.toBeVisible();
-    }
+    await waitFor(
+      () => {
+        const first = this.canvas.getByTestId(this.leftArrow);
+        const second = this.canvas.getByTestId(this.rightArrow);
 
-    if (secondArrow) {
-      expect(await this.canvas.getByTestId(this.rightArrow)).toBeVisible();
-    } else {
-      expect(await this.canvas.getByTestId(this.rightArrow)).not.toBeVisible();
-    }
+        if (firstArrow) {
+          expect(first).toBeVisible();
+        } else {
+          expect(first).not.toBeVisible();
+        }
+
+        if (secondArrow) {
+          expect(second).toBeVisible();
+        } else {
+          expect(second).not.toBeVisible();
+        }
+      },
+      { timeout: settleTimeout },
+    );
   }
 }
 
@@ -108,67 +134,38 @@ export const upArrowSelector = 'up-arrow';
 export const downArrowSelector = 'down-arrow';
 
 export const scrollSmokeTest = async (testObj: TestObj) => {
-  await testObj.wait();
   await testObj.arrowsVisible({ up: false, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test0',
-    'test1',
-    'test2',
-  ]);
+  await testObj.expectVisibleCards(['test0', 'test1', 'test2']);
 
   await testObj.clickNext();
   await testObj.cardHidden('test0');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test3',
-    'test4',
-    'test5',
-  ]);
+  await testObj.expectVisibleCards(['test3', 'test4', 'test5']);
 
   await testObj.clickNext();
   await testObj.cardHidden('test5');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test6',
-    'test7',
-    'test8',
-  ]);
+  await testObj.expectVisibleCards(['test6', 'test7', 'test8']);
 
   await testObj.clickNext();
   await testObj.cardHidden('test6');
   await testObj.arrowsVisible({ up: true, down: false });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test7',
-    'test8',
-    'test9',
-  ]);
+  await testObj.expectVisibleCards(['test7', 'test8', 'test9']);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test7');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test4',
-    'test5',
-    'test6',
-  ]);
+  await testObj.expectVisibleCards(['test4', 'test5', 'test6']);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test4');
   await testObj.arrowsVisible({ up: true, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test1',
-    'test2',
-    'test3',
-  ]);
+  await testObj.expectVisibleCards(['test1', 'test2', 'test3']);
 
   await testObj.clickPrev();
   await testObj.cardHidden('test3');
   await testObj.arrowsVisible({ up: false, down: true });
-  expect(await testObj.getVisibleCardsKeys()).toEqual([
-    'test0',
-    'test1',
-    'test2',
-  ]);
+  await testObj.expectVisibleCards(['test0', 'test1', 'test2']);
 };
 
 export const ScrollTest = ({
@@ -179,7 +176,6 @@ export const ScrollTest = ({
     const canvas = within(canvasElement);
     const testObj = new TestObj(canvas, { leftArrow, rightArrow });
     await testObj.isReady();
-    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },

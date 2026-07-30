@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { expect, within } from 'storybook/test';
+import { within } from 'storybook/test';
 import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
@@ -42,48 +42,31 @@ export const Test = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait();
+    // Both arrows start in the state this first assertion expects, so
+    // without gating on the observer it would pass before the menu had
+    // initialised and the click below would hit an empty ItemsMap.
+    await testObj.isReady();
 
     await testObj.arrowsVisible({ left: false, right: true });
 
     await testObj.clickNext();
-    await testObj.wait();
     await testObj.cardHidden('test0');
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test1',
-      'test2',
-      'test3',
-    ]);
+    await testObj.expectVisibleCards(['test1', 'test2', 'test3']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickNext();
-    await testObj.wait();
     await testObj.cardHidden('test1');
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test2',
-      'test3',
-      'test4',
-    ]);
+    await testObj.expectVisibleCards(['test2', 'test3', 'test4']);
     await testObj.arrowsVisible({ left: true, right: true });
 
     await testObj.clickPrev();
-    await testObj.wait();
     await testObj.cardHidden('test4');
     await testObj.arrowsVisible({ left: true, right: true });
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test1',
-      'test2',
-      'test3',
-    ]);
+    await testObj.expectVisibleCards(['test1', 'test2', 'test3']);
 
     await testObj.clickPrev();
-    await testObj.wait();
     await testObj.cardHidden('test3');
     await testObj.arrowsVisible({ left: false, right: true });
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test0',
-      'test1',
-      'test2',
-    ]);
+    await testObj.expectVisibleCards(['test0', 'test1', 'test2']);
   },
 };

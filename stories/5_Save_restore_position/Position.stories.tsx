@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Meta } from '@storybook/react-vite';
 import React from 'react';
-import { expect, userEvent, within } from 'storybook/test';
+import { userEvent, within } from 'storybook/test';
 import { makeLiveEditStory } from 'storybook-addon-code-editor';
 
 import { ScrollMenu } from '../../src/index';
@@ -49,27 +49,17 @@ export const PosTest = {
       leftArrow: leftArrowSelector,
       rightArrow: rightArrowSelector,
     });
-    await testObj.wait();
+    await testObj.isReady();
     await userEvent.click(canvas.getByTestId('reset'));
     await userEvent.click(canvas.getByTestId('reload'));
     await testObj.isReady();
 
     await testObj.clickNext();
-    await testObj.wait();
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test3',
-      'test4',
-      'test5',
-    ]);
+    await testObj.expectVisibleCards(['test3', 'test4', 'test5']);
 
     await userEvent.click(canvas.getByTestId('reload'));
     await testObj.isReady();
-    await testObj.wait();
 
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test3',
-      'test4',
-      'test5',
-    ]);
+    await testObj.expectVisibleCards(['test3', 'test4', 'test5']);
   },
 };

@@ -32,10 +32,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
-      # v2 of this action is required: GitHub retired the v1 Actions cache
-      # service, which made wireit fail with "GitHub Cache check HTTP 400 error".
-      # wireit >= 0.14.12 speaks the v2 cache backend.
-      - uses: google/wireit@setup-github-actions-caching/v2
+      # The repo is checked out by the runner but git runs as root inside the
+      # container, so every `git rev-parse` fails with "dubious ownership" —
+      # which is what breaks Storybook's change detection.
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      # NOTE: google/wireit@setup-github-actions-caching/v2 used to be here. Its
+      # cache token mediator is not reachable from inside a job container, so
+      # every wireit invocation failed with ECONNREFUSED, printed an "Internal
+      # error! Please file a bug" block, and disabled caching anyway — 8 failures
+      # and 0 cache hits per run. Without WIREIT_CACHE set, wireit uses its local
+      # .wireit cache, which is what the "Already fresh" results come from.
 
       # The container already provides the browsers at $PLAYWRIGHT_BROWSERS_PATH,
       # so `playwright install` inside `setup` is a no-op.
@@ -69,7 +77,13 @@ jobs:
             playwright-report
             test-results
 
+      # Firefox refuses to start as root when $HOME belongs to someone else, and
+      # the container's HOME (/github/home) is owned by pwuser. This is the
+      # workaround Playwright's own launch error prescribes. Only needed here:
+      # the Playwright e2e specs run chromium, which has no such check.
       - name: Storybook tests
+        env:
+          HOME: /root
         run: npm run test:storybook-ci
 
   deploy-storybook:

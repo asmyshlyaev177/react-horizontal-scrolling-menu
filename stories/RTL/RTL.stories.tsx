@@ -50,7 +50,6 @@ export const TestRTL = {
     });
     expect(await canvas.getByLabelText('RTL')).toBeChecked();
     await testObj.isReady();
-    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },
@@ -68,7 +67,6 @@ export const TestNonRTL = {
     await canvas.getByLabelText('RTL').click();
     expect(await canvas.getByLabelText('RTL')).not.toBeChecked();
     await testObj.isReady();
-    await testObj.wait();
 
     await scrollSmokeTest(testObj);
   },

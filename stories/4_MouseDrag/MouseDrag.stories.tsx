@@ -41,7 +41,9 @@ export const TestDrag = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const testObj = new TestObj(canvas, { leftArrow: '', rightArrow: '' });
-    await testObj.wait();
+    // Gates the `getVisibleCards()` read below: it is a snapshot, not a
+    // retrying assertion, so the observer must have run first.
+    await testObj.isReady();
 
     const lastCard = (await testObj.getVisibleCards()).slice(-1)[0];
     expect(await testObj.getSelectedCardsKeys()).toHaveLength(0);
@@ -49,12 +51,7 @@ export const TestDrag = {
     expect(await testObj.getSelectedCards()).toHaveLength(1);
 
     await drag(lastCard, { delta: { x: -350, y: 0 } });
-    await testObj.wait();
 
-    expect(await testObj.getVisibleCardsKeys()).toEqual([
-      'test2',
-      'test3',
-      'test4',
-    ]);
+    await testObj.expectVisibleCards(['test2', 'test3', 'test4']);
   },
 };
