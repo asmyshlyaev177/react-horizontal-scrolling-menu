@@ -100,7 +100,8 @@
     "storybook": "wireit",
     "build-storybook": "wireit",
     "prepack": "npm run build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release:preflight": "wireit"
   },
   "wireit": {
     "build-storybook": {
@@ -136,22 +137,28 @@
         "setup-tooling"
       ]
     },
+    "release:preflight": {
+      "command": "sh -eu -c 'branch=$(git rev-parse --abbrev-ref HEAD); [ \"$branch\" = master ] || { echo \"Refusing to release from $branch; releases are cut from master.\" >&2; exit 1; }; [ -z \"$(git status --porcelain)\" ] || { echo \"Refusing to release with a dirty working tree; commit or stash first.\" >&2; git status --short >&2; exit 1; }; git fetch --quiet origin master; [ \"$(git rev-parse HEAD)\" = \"$(git rev-parse origin/master)\" ] || { echo \"Local master is not in sync with origin/master; pull or push first.\" >&2; exit 1; }'"
+    },
     "release": {
       "command": "commit-and-tag-version --no-verify",
       "dependencies": [
+        "release:preflight",
+        "test:lint",
         "test:unit",
         "test:e2e",
-        "test:e2e:dev"
+        "test:e2e:dev",
+        "test:storybook"
       ]
     },
     "pub": {
-      "command": "npm run release && npm run build && npm run push && npm publish",
+      "command": "npm run release && npm run push && npm publish",
       "dependencies": [
         "build"
       ]
     },
     "push": {
-      "command": "git push --follow-tags origin main"
+      "command": "git push --follow-tags origin HEAD"
     },
     "test": {
       "command": "npm run test:e2e && npm run test:e2e:dev",
