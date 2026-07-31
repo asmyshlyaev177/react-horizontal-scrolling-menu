@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.2.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.2...v8.2.3) (2026-07-31)
+
+### Bug Fixes
+
+* hire badge ([a3d06a1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/a3d06a13cfba428acb239dedd26b8a2ff2eb912d))
 ## [8.2.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.0...v8.2.2) (2026-07-30)
 
 ### Bug Fixes
