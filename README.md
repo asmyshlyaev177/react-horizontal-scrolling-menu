@@ -1,4 +1,4 @@
-[![For hire](/hireBadge.svg)](https://www.linkedin.com/in/asmyshlyaev177/)
+[![Available for hire](https://img.shields.io/badge/available%20for%20hire-senior%20react%20engineer-2ea44f?style=flat-square)](https://asmyshlyaev177.dev)
 
 # React horizontal scrolling menu
 
@@ -12,25 +12,33 @@
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
 [![Donate Bitcoin](https://img.shields.io/badge/donate-$5-orange.svg)](https://asmyshlyaev177.github.io/donate-bitcoin?amount=5&currency=USD)
 
-
 #### [Poll what you like/dislike/need from this library](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/discussions/221)
 
 ### Check out my new project 👉 https://github.com/asmyshlyaev177/state-in-url
+
 Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">follow me</a> to support the project!
 
-### Proud corner
+### Used by
 
-[performance-dashboard-on-aws
-](https://github.com/awslabs/performance-dashboard-on-aws/blob/49ce2517a29569a9761dec8f212f25cf85a394af/frontend/src/components/Tabs.tsx#L3) |
-[React status code](https://react.statuscode.com/issues/257)
+Over 20,000 repositories depend on this library. A few you can go and read:
+
+- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
+- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
+- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+
+Also featured in [React Status #257](https://react.statuscode.com/issues/257).
 
 # Check out examples for common cases
+
 ### [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) (Faster and more convinient, new examples will be here)
 
 ### Codesandbox Examples (Deprecated)
+
 <details>
   <summary>Codesandbox examples</summary>
-  
+
 [Center items](https://codesandbox.io/s/center-items-on-click-drag-e8cyph?file=/src/index.tsx)
 
 [Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
@@ -44,9 +52,8 @@ Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">fol
 [Custom transition/animation](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
 
 [Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
-  
-</details>
 
+</details>
 
 ### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
 
@@ -73,6 +80,7 @@ Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizon
 ```bash
 npm install --save react-horizontal-scrolling-menu
 ```
+
 test
 In project:
 
@@ -199,6 +207,7 @@ npm run storybook
 ```
 
 <!-- DOCS_START -->
+
 ### Helpers and api
 
 Children of main ScrollMenu component(arrows, fotter, items) can use **VisibilityContext** to access state and callbacks.
@@ -206,33 +215,33 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ## Properties and callbacks
 
-| Prop                     | Signature                                                                                              |
-| ------------------------ | ------------------------------------------------------------------------------------------------------ |
-| LeftArrow                | React component for left arrow                                                                         |
-| RightArrow               | React component for right arrow                                                                        |
-| Header                   | React component Header                                                                                 |
-| Footer                   | React component Footer                                                                                 |
-| onWheel                  | (VisibilityContext, event) => void                                                                     |
-| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll                                          |
-| onInit                   | (VisibilityContext) => void                                                                            |
-| apiRef                   | React.RefObject \| React.RefCallback                                                                   |
+| Prop                     | Signature                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| LeftArrow                | React component for left arrow                                                                        |
+| RightArrow               | React component for right arrow                                                                       |
+| Header                   | React component Header                                                                                |
+| Footer                   | React component Footer                                                                                |
+| onWheel                  | (VisibilityContext, event) => void                                                                    |
+| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll                                         |
+| onInit                   | (VisibilityContext) => void                                                                           |
+| apiRef                   | React.RefObject \| React.RefCallback                                                                  |
 | options                  | options for IntersectionObserver - `rootMargin`, `threshold`, and `ratio` to consider element visible |
-| containerRef             | React.RefObject \| React.RefCallback                                                                   |
-| onUpdate                 | (VisibilityContext) => void                                                                            |
-| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
-| onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
-| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
-| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void                                               |
-| onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
-| onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
-| onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void                                               |
-| itemClassName            | ClassName of Item                                                                                      |
-| scrollContainerClassName | ClassName of scrollContainer                                                                           |
-| transitionDuration       | Duration of transitions in ms, default `500`                                                           |
-| transitionBehavior       | 'smooth' \|'auto' \| customFunction                                                                    |
-| wrapperClassName         | ClassName of the outer-most div                                                                        |
-| RTL                      | Enable Right to left direction                                                                         |
-| noPolyfill               | Don't use polyfill for scroll, no transitions, `true` by default                                       |
+| containerRef             | React.RefObject \| React.RefCallback                                                                  |
+| onUpdate                 | (VisibilityContext) => void                                                                           |
+| onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
+| onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
+| onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
+| onMouseMove              | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
+| onTouchMove              | (VisibilityContext) => (React.TouchEventHandler) => void                                              |
+| onTouchStart             | (VisibilityContext) => (React.TouchEventHandler) => void                                              |
+| onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void                                              |
+| itemClassName            | ClassName of Item                                                                                     |
+| scrollContainerClassName | ClassName of scrollContainer                                                                          |
+| transitionDuration       | Duration of transitions in ms, default `500`                                                          |
+| transitionBehavior       | 'smooth' \|'auto' \| customFunction                                                                   |
+| wrapperClassName         | ClassName of the outer-most div                                                                       |
+| RTL                      | Enable Right to left direction                                                                        |
+| noPolyfill               | Don't use polyfill for scroll, no transitions, `true` by default                                      |
 
 ### VisibilityContext
 
@@ -249,7 +258,7 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | isItemVisible         | itemId => boolean                                      |
 | isLastItem            | boolean                                                |
 | isLastItemVisible     | boolean                                                |
-| menuVisible           | { current: boolean }
+| menuVisible           | { current: boolean }                                   |
 | scrollNext            | (behavior, inline, block, ScrollOptions) => void       |
 | scrollPrev            | (behavior, inline, block, ScrollOptions) => void       |
 | scrollToItem          | (item, behavior, inline, block, ScrollOptions) => void |
@@ -286,12 +295,12 @@ Will override transition\* options passed to ScrollMenu
 ```javascript
 {
   // target,
-  behavior, // 'smooth', 'auto' or custom function
+  (behavior, // 'smooth', 'auto' or custom function
     // inline,
     // block,
     {
       duration: number, // number in milliseconds
-    };
+    });
 }
 ```
 
@@ -340,11 +349,32 @@ See [`apiRef` example and `Add item and scroll to it`](#examples)
 
 ## About
 
-My first npm project. Sorry for my english.
+My first npm project, and still maintained years later.
 
 Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
 
-[Portfolio site](https://asmyshlyaev177.dev)
+## Hire me
+
+I'm **Aleksandr Smyshliaev** — I wrote and maintain this library. Senior
+frontend engineer (React / Next.js / TypeScript, 8+ years), and **available for
+full-time remote work right now**.
+
+If your team ships this package, you have already seen how I work: one stable
+public API across React 17, 18 and 19, no breaking change forced on anyone
+downstream.
+
+- **Best at** — component libraries, state management, and test suites that
+  survive a refactor.
+- **Also mine** — [state-in-url](https://github.com/asmyshlyaev177/state-in-url)
+  (typed URL state),
+  [test-proxy-recorder](https://github.com/asmyshlyaev177/test-proxy-recorder)
+  (record/replay for Playwright),
+  [llm-queue](https://github.com/asmyshlyaev177/llm-queue).
+- **Where** — Tbilisi, Georgia (GMT+4), full CET overlap. Registered contractor
+  entity, so B2B engagement needs no employer-of-record setup.
+- **Reach me** — [asmyshlyaev177.dev](https://asmyshlyaev177.dev) ·
+  [asmyshlyaev177@gmail.com](mailto:asmyshlyaev177@gmail.com) ·
+  [LinkedIn](https://linkedin.com/in/asmyshlyaev177) · Telegram @asmyshlyaev177
 
 ## [Contributing](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CONTRIBUTING.md)
 
