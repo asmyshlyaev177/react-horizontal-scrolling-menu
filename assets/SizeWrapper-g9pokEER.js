@@ -1,0 +1,1 @@
+import{i as e}from"./preload-helper-BdFrVu1K.js";import{d as t,f as n}from"./dist-CxkS9euy.js";var r,i=e((()=>{t(),r=n(`div`)({maxWidth:`650px`,maxHeight:`400px`})}));export{i as n,r as t};

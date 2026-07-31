@@ -1,10 +1,10 @@
 import{i as e}from"./preload-helper-BdFrVu1K.js";var t;e((()=>{t=`{
   "name": "react-horizontal-scrolling-menu",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "author": {
-    "name": "asmyshlyaev177",
+    "name": "Aleksandr Smyshliaev",
     "email": "asmyshlyaev177@gmail.com",
-    "url": "https://www.linkedin.com/in/asmyshlyaev177/"
+    "url": "https://asmyshlyaev177.dev"
   },
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "keywords": [
