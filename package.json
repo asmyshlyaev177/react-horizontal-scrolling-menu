@@ -6,7 +6,7 @@
     "email": "asmyshlyaev177@gmail.com",
     "url": "https://asmyshlyaev177.dev"
   },
-  "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "description": "Horizontal scrolling menu component for React with per-item visibility tracking. Supports mouse and touch devices, SSR-safe.",
   "keywords": [
     "front-end",
     "react",
@@ -18,7 +18,8 @@
     "scroll",
     "scrolling",
     "scrolling-menu",
-    "popular"
+    "carousel",
+    "tabs"
   ],
   "license": "MIT",
   "type": "module",
@@ -31,7 +32,7 @@
     "type": "git",
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
   },
-  "homepage": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu",
+  "homepage": "https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev",
   "funding": {
     "type": "patreon",
     "url": "https://patreon.com/asmyshlyaev177"
@@ -58,13 +59,16 @@
       ]
     }
   },
-  "engines": {
-    "node": ">=24",
-    "npm": ">=11"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24",
+      "onFail": "warn"
+    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "eslint --fix",
+      "eslint --fix --no-warn-ignored",
       "prettier --write"
     ],
     "*.{html,css,less,ejs,json,md,yml,yaml}": [
@@ -96,12 +100,17 @@
     "install-example-deps": "wireit",
     "setup-tooling": "wireit",
     "setup": "npm install && npm run setup-tooling",
-    "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit dist",
+    "cleanup": "rm -rf node_modules example-nextjs/node_modules example-tanstack/node_modules .wireit dist",
     "storybook": "wireit",
     "build-storybook": "wireit",
     "prepack": "npm run build",
     "prepare": "husky",
-    "release:preflight": "wireit"
+    "release:preflight": "wireit",
+    "deploy": "cd website && npm run deploy",
+    "preview": "cd website && npm run preview",
+    "serve-tanstack": "wireit",
+    "demo-tanstack": "wireit",
+    "install-example-tanstack-deps": "wireit"
   },
   "wireit": {
     "build-storybook": {
@@ -179,20 +188,22 @@
     "test:e2e": {
       "command": "npm run run:e2e",
       "dependencies": [
-        "serve"
+        "serve",
+        "serve-tanstack"
       ]
     },
     "test:e2e:dev": {
       "command": "npm run run:e2e",
       "dependencies": [
-        "demo"
+        "demo",
+        "demo-tanstack"
       ]
     },
     "kill-rollup": {
       "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 || echo 'killed'"
     },
     "run:e2e": {
-      "command": "npx wait-on http://localhost:3003 && playwright test",
+      "command": "npx wait-on http://localhost:3003 http://localhost:3004 && playwright test",
       "dependencies": [
         "install:playwright"
       ]
@@ -220,7 +231,7 @@
       ]
     },
     "install-deps": {
-      "command": "npm install",
+      "command": "if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
       "allowUsuallyExcludedPaths": true,
       "clean": false,
       "files": [
@@ -243,7 +254,7 @@
       ]
     },
     "install-example-deps": {
-      "command": "cd example-nextjs && npm install",
+      "command": "cd example-nextjs && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
       "dependencies": [
         "install-deps"
       ],
@@ -265,6 +276,7 @@
       "output": [],
       "dependencies": [
         "install-example-deps",
+        "install-example-tanstack-deps",
         "install:playwright"
       ]
     },
@@ -280,6 +292,34 @@
       "dependencies": [
         "setup-tooling",
         "kill-rollup"
+      ]
+    },
+    "install-example-tanstack-deps": {
+      "command": "cd example-tanstack && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
+      "dependencies": [
+        "install-deps"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "clean": false,
+      "files": [
+        "example-tanstack/package.json"
+      ],
+      "output": [
+        "example-tanstack/node_modules"
+      ]
+    },
+    "serve-tanstack": {
+      "command": "cd example-tanstack && npm run build && npm run serve 1> /dev/null",
+      "service": true,
+      "dependencies": [
+        "build"
+      ]
+    },
+    "demo-tanstack": {
+      "command": "cd example-tanstack && npm run dev",
+      "service": true,
+      "dependencies": [
+        "dev"
       ]
     }
   },
@@ -380,5 +420,10 @@
   },
   "dependencies": {
     "smooth-scroll-into-view-if-needed": "^2.0.2"
+  },
+  "allowScripts": {
+    "@swc/core@1.15.47": true,
+    "esbuild@0.28.1": true,
+    "unrs-resolver@1.12.2": true
   }
 }

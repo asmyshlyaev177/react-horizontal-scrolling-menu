@@ -21,79 +21,114 @@ const leftArrow = (page: Page) =>
 const rightArrow = (page: Page) =>
   page.getByRole('button', { name: 'Right', exact: true });
 
-test.describe('Scrolling menu', () => {
-  test('scrolls forward and backward, tracking cards and arrows', async ({
-    page,
-  }) => {
-    await openDemo(page);
+/**
+ * The same spec runs against every example app — same demo page, same DOM
+ * contract, different framework/bundler. Relative URLs resolve against
+ * baseURL (example-nextjs on 3003); the rest are absolute per-app ports.
+ * Servers for all apps run simultaneously, booted by the wireit graph.
+ */
+const APPS = [
+  { name: 'nextjs', url: '/' },
+  { name: 'tanstack', url: 'http://localhost:3004/' },
+] as const;
 
-    await expectArrow(leftArrow(page), { active: false });
-    await expectArrow(rightArrow(page), { active: true });
-    await expectVisibleCards(page, [0, 1, 2]);
-
-    await rightArrow(page).click();
-    await expectVisibleCards(page, [3, 4, 5]);
-
-    await rightArrow(page).click();
-    await expectVisibleCards(page, [6, 7, 8]);
-
-    // Last page: the menu can only scroll far enough to show the tail.
-    await rightArrow(page).click();
-    await expectVisibleCards(page, [7, 8, 9]);
-
-    await leftArrow(page).click();
-    await expectVisibleCards(page, [4, 5, 6]);
-
-    await leftArrow(page).click();
-    await expectVisibleCards(page, [1, 2, 3]);
-
-    // Back to the first page.
-    await leftArrow(page).click();
-    await expectVisibleCards(page, [0, 1, 2]);
-  });
-
-  test.describe('menu visibility', () => {
-    test('does not update arrows while the menu is off screen', async ({
-      page,
+for (const app of APPS) {
+  test.describe(`Scrolling menu [${app.name}]`, () => {
+    /**
+     * Both apps server-render — Next.js prerenders the 'use client' page,
+     * TanStack Start renders in workerd on every request. The raw payload,
+     * fetched without a browser, must already contain the whole menu: this is
+     * what catches an SSR regression (window/document access during render),
+     * which the browser tests can't — hydration would repaint the page before
+     * the first assertion looks at it.
+     */
+    test('server-renders the menu into the HTML payload', async ({
+      request,
     }) => {
-      await openDemo(page);
-      await expectArrow(leftArrow(page), { active: false });
+      const response = await request.get(app.url);
+      expect(response.ok()).toBe(true);
 
-      await scrollWindowTo(page, 400);
-
-      await page.waitForTimeout(OBSERVER_MS);
-      await expectArrow(leftArrow(page), { active: false });
+      const html = await response.text();
+      for (let i = 0; i < 10; i++) {
+        expect(html).toContain(`data-cy="test${i}"`);
+      }
+      expect(html).toContain('>Left<');
+      expect(html).toContain('>Right<');
     });
 
-    test('handles scrolling while the menu is partially hidden', async ({
+    test('scrolls forward and backward, tracking cards and arrows', async ({
       page,
     }) => {
-      await openDemo(page);
-      await expectArrow(leftArrow(page), { active: false });
+      await openDemo(page, app.url);
 
-      await scrollWindowTo(page, 450);
-      await page.waitForTimeout(OBSERVER_MS);
+      await expectArrow(leftArrow(page), { active: false });
+      await expectArrow(rightArrow(page), { active: true });
+      await expectVisibleCards(page, [0, 1, 2]);
 
       await rightArrow(page).click();
       await expectVisibleCards(page, [3, 4, 5]);
-      await expectArrow(leftArrow(page), { active: true });
-      await expectArrow(rightArrow(page), { active: true });
 
       await rightArrow(page).click();
       await expectVisibleCards(page, [6, 7, 8]);
-      await expectArrow(leftArrow(page), { active: true });
-      await expectArrow(rightArrow(page), { active: true });
 
+      // Last page: the menu can only scroll far enough to show the tail.
       await rightArrow(page).click();
       await expectVisibleCards(page, [7, 8, 9]);
-      await expectArrow(leftArrow(page), { active: true });
-      await expectArrow(rightArrow(page), { active: false });
+
+      await leftArrow(page).click();
+      await expectVisibleCards(page, [4, 5, 6]);
+
+      await leftArrow(page).click();
+      await expectVisibleCards(page, [1, 2, 3]);
+
+      // Back to the first page.
+      await leftArrow(page).click();
+      await expectVisibleCards(page, [0, 1, 2]);
+    });
+
+    test.describe('menu visibility', () => {
+      test('does not update arrows while the menu is off screen', async ({
+        page,
+      }) => {
+        await openDemo(page, app.url);
+        await expectArrow(leftArrow(page), { active: false });
+
+        await scrollWindowTo(page, 400);
+
+        await page.waitForTimeout(OBSERVER_MS);
+        await expectArrow(leftArrow(page), { active: false });
+      });
+
+      test('handles scrolling while the menu is partially hidden', async ({
+        page,
+      }) => {
+        await openDemo(page, app.url);
+        await expectArrow(leftArrow(page), { active: false });
+
+        await scrollWindowTo(page, 450);
+        await page.waitForTimeout(OBSERVER_MS);
+
+        await rightArrow(page).click();
+        await expectVisibleCards(page, [3, 4, 5]);
+        await expectArrow(leftArrow(page), { active: true });
+        await expectArrow(rightArrow(page), { active: true });
+
+        await rightArrow(page).click();
+        await expectVisibleCards(page, [6, 7, 8]);
+        await expectArrow(leftArrow(page), { active: true });
+        await expectArrow(rightArrow(page), { active: true });
+
+        await rightArrow(page).click();
+        await expectVisibleCards(page, [7, 8, 9]);
+        await expectArrow(leftArrow(page), { active: true });
+        await expectArrow(rightArrow(page), { active: false });
+      });
     });
   });
-});
+}
 
-async function openDemo(page: Page) {
-  await page.goto('/');
+async function openDemo(page: Page, url: string) {
+  await page.goto(url);
   await expect(page.locator('[data-cy="test0"]')).toBeVisible();
 }
 

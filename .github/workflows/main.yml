@@ -92,6 +92,49 @@ jobs:
           HOME: /root
         run: npm run test:storybook-ci
 
+  # The landing page in website/ — TanStack Start SSR'd on Cloudflare
+  # Workers. Built on every push/PR so a library or website change that
+  # breaks it fails fast; deployed only from master, and only when the
+  # CLOUDFLARE_API_TOKEN secret exists (create one with "Workers Scripts:
+  # Edit" permission and add it via repo settings or `gh secret set`).
+  website:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          check-latest: true
+          cache: 'npm'
+          cache-dependency-path: 'website/package-lock.json'
+      - name: Install
+        run: npm ci
+        working-directory: website
+      - name: Typecheck
+        run: npm run typecheck
+        working-directory: website
+      - name: Build
+        run: npm run build
+        working-directory: website
+      # The whole point of the page is that the demos are server-rendered;
+      # a prerender that silently degrades to an empty shell must fail CI.
+      - name: Assert demos are prerendered
+        run: |
+          grep -aq 'data-key="item-1"' website/dist/client/index.html \
+            || { echo "Prerendered HTML lost the server-rendered demos" >&2; exit 1; }
+
+      - name: Deploy to Cloudflare Workers
+        if: github.event_name == 'push' && github.ref_name == 'master'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN not set — skipping deploy (the site can still be deployed locally with 'npm run deploy')."
+            exit 0
+          fi
+          npx wrangler deploy
+        working-directory: website
+
   deploy-storybook:
     needs: build-test
     runs-on: ubuntu-24.04

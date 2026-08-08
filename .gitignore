@@ -20,3 +20,16 @@ blob-report
 .wireit
 
 storybook-static
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
+# TanStack Start scratch dir (routeTree temp files)
+.tanstack
+
+# private planning file
+/ROADMAP.md

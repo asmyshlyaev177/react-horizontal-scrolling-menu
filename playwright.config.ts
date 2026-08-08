@@ -1,15 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * The demo app is started by wireit before the tests run — `serve` for the
- * exported build (`test:e2e`) and `demo` for `next dev` (`test:e2e:dev`). Both
- * listen on 3003, so one spec suite covers both variants.
+ * The example apps are started by wireit before the tests run — `serve` +
+ * `serve-tanstack` for the production builds (`test:e2e`), `demo` +
+ * `demo-tanstack` for the dev servers (`test:e2e:dev`). example-nextjs listens
+ * on 3003 (the baseURL), example-tanstack on 3004; the one spec suite loops
+ * over both.
  */
 export default defineConfig({
   testDir: './e2e',
 
   // Every spec opens its own page and shares no state, so they can run at once.
   fullyParallel: true,
+
+  // But not unbounded: the tests assert real scrolling, and in the dev-server
+  // variant a worker per test saturates the CPU (rollup watch + next dev +
+  // vite dev + one chromium each) badly enough that the first scrollIntoView
+  // starves and a click appears to do nothing. Three workers is the load the
+  // suite was originally written for.
+  workers: 3,
 
   forbidOnly: !!process.env.CI,
 

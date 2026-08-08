@@ -42,6 +42,7 @@ makeLiveEditStory(RTL, {
 });
 
 export const TestRTL = {
+  tags: ['test-only'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement) as Canvas;
     const testObj = new TestObj(canvas, {
@@ -55,8 +56,9 @@ export const TestRTL = {
   },
 };
 
-// Another test to make sure it works with noPolyfill=true
+// Verifies the same menu still scrolls correctly with RTL switched off.
 export const TestNonRTL = {
+  tags: ['test-only'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement) as Canvas;
     const testObj = new TestObj(canvas, {

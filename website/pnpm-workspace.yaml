@@ -1,0 +1,18 @@
+# pnpm compatibility for an npm-managed repo (package-lock.json + wireit + CI).
+# verifyDepsBeforeRun:false stops pnpm from auto-running `pnpm install`
+# before every `pnpm run <script>` — the auto-install is what kept failing
+# on unapproved build scripts. Approvals below cover deliberate installs,
+# in both the v11 key (allowBuilds) and the v10 key (onlyBuiltDependencies).
+verifyDepsBeforeRun: false
+allowBuilds:
+  '@swc/core': true
+  core-js: true
+  esbuild: true
+  unrs-resolver: true
+  workerd: true
+onlyBuiltDependencies:
+  - core-js
+  - '@swc/core'
+  - esbuild
+  - unrs-resolver
+  - workerd
