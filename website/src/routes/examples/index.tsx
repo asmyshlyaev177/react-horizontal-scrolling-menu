@@ -21,7 +21,7 @@ function ExamplesHub() {
   return (
     <>
       <SiteHeader />
-      <main id="main" className="container pt-10 pb-20">
+      <main id="main" className="site-container pt-10 pb-20">
         <h1 className="max-w-3xl text-4xl/tight font-bold tracking-tight text-balance">
           Examples: every pattern, live, with the full source
         </h1>

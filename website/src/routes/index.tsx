@@ -57,7 +57,7 @@ function Home() {
       <main id="main">
         {/* ---------------- hero ---------------- */}
         <section className="hero" aria-labelledby="hero-title">
-          <div className="container">
+          <div className="site-container">
             <h1 id="hero-title">
               The horizontal menu that{' '}
               <span className="knows">knows what’s visible</span>
@@ -80,7 +80,7 @@ function Home() {
         </section>
 
         {/* ---------------- install ---------------- */}
-        <section className="install container" aria-label="Install">
+        <section className="install site-container" aria-label="Install">
           <div className="install-row">
             <span className="install-cmd">
               <span className="dollar" aria-hidden>
@@ -108,7 +108,7 @@ function Home() {
 
         {/* ---------------- autoplay ---------------- */}
         <section
-          className="autoplay container"
+          className="autoplay site-container"
           aria-labelledby="autoplay-title"
         >
           <h2 className="section-heading" id="autoplay-title">
@@ -135,7 +135,7 @@ function Home() {
 
         {/* ---------------- positioning ---------------- */}
         <section
-          className="positioning container"
+          className="positioning site-container"
           aria-labelledby="positioning-title"
         >
           <div className="positioning-grid">
@@ -199,7 +199,7 @@ function Home() {
 
         {/* ---------------- quick start ---------------- */}
         <section
-          className="quickstart container"
+          className="quickstart site-container"
           id="quick-start"
           aria-labelledby="qs-title"
         >
@@ -247,7 +247,10 @@ function Home() {
         </section>
 
         {/* ---------------- gallery ---------------- */}
-        <section className="gallery container" aria-labelledby="gallery-title">
+        <section
+          className="gallery site-container"
+          aria-labelledby="gallery-title"
+        >
           <h2 className="section-heading" id="gallery-title">
             Recipes you’ll actually ship
           </h2>
@@ -324,7 +327,7 @@ function Home() {
 
         {/* ---------------- features ---------------- */}
         <section
-          className="features container"
+          className="features site-container"
           aria-labelledby="features-title"
         >
           <h2 className="section-heading" id="features-title">
@@ -394,7 +397,7 @@ function Home() {
         </section>
 
         {/* ---------------- proof ---------------- */}
-        <section className="proof container" aria-labelledby="proof-title">
+        <section className="proof site-container" aria-labelledby="proof-title">
           <h2 className="proof-statement" id="proof-title">
             Downloaded <strong>347,516 times</strong> last month by some{' '}
             <strong>20,000 repositories</strong> — maintained since{' '}
@@ -415,7 +418,7 @@ function Home() {
         </section>
 
         {/* ---------------- storybook cta ---------------- */}
-        <section className="sb-cta container" aria-labelledby="sb-title">
+        <section className="sb-cta site-container" aria-labelledby="sb-title">
           <div className="sb-panel">
             <div>
               <h2 id="sb-title">Every example is editable, in your browser</h2>
@@ -436,7 +439,10 @@ function Home() {
         </section>
 
         {/* ---------------- author ---------------- */}
-        <section className="author container" aria-labelledby="author-title">
+        <section
+          className="author site-container"
+          aria-labelledby="author-title"
+        >
           <div className="author-card">
             <img src="/author.png" alt="" width="72" height="72" />
             <div className="author-body">

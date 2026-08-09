@@ -11,7 +11,7 @@ export function SiteHeader() {
         Skip to content
       </a>
       <header className="site-header">
-        <div className="container">
+        <div className="site-container">
           <Link
             className="brand"
             to="/"
@@ -45,7 +45,7 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <div className="container">
+      <div className="site-container">
         <Link to="/examples">Examples</Link>
         <Link to="/compare">Compare</Link>
         <a href={GITHUB}>GitHub</a>

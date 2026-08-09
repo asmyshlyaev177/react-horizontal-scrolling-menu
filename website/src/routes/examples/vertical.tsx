@@ -68,6 +68,24 @@ function Page() {
         <code>&apos;nearest&apos;</code>, each click would only nudge the next
         row into view.
       </p>
+      <h2>Keeping the scroll inside the column</h2>
+      <p>
+        <code>scrollIntoView</code> moves every scrollable ancestor of its
+        target, and the page is one of them — so a <code>block</code>-aligned
+        jump inside a column takes the whole document with it. The option that
+        stops the walk is <code>boundary</code>, passed in the fourth argument:{' '}
+        <code>
+          scrollNext(undefined, undefined, &apos;start&apos;, &#123; boundary
+          &#125;)
+        </code>{' '}
+        with the menu&rsquo;s own <code>scrollContainer.current</code> scrolls
+        the rows and nothing else. It needs{' '}
+        <code>noPolyfill=&#123;false&#125;</code> on <code>ScrollMenu</code>,
+        since only the polyfill understands <code>boundary</code> — the demo
+        above passes both. Horizontal menus rarely run into this: their default{' '}
+        <code>block: &apos;nearest&apos;</code> asks the page for no vertical
+        movement in the first place.
+      </p>
       <h2>Visibility has no axis</h2>
       <p>
         <code>useIsVisible</code> is IntersectionObserver-backed, and

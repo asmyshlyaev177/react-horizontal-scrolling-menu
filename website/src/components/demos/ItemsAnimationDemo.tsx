@@ -17,11 +17,15 @@ const CHIP_COLORS = [
   { color: 'var(--demo-violet)' },
 ];
 
+// Enough chips to overflow the rail from the start — a row that already
+// fits has nothing to animate into or out of view.
+const INITIAL_COUNT = 12;
+
 export function ItemsAnimationDemo() {
   const [parent] = useAutoAnimate();
-  const nextId = React.useRef(6);
+  const nextId = React.useRef(INITIAL_COUNT);
   const [items, setItems] = React.useState(() =>
-    Array.from({ length: 6 }, (_, index) => index),
+    Array.from({ length: INITIAL_COUNT }, (_, index) => index),
   );
 
   const addItem = () => {

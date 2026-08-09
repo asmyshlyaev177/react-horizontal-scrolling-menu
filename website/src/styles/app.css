@@ -205,7 +205,7 @@ pre {
   top: 1rem;
 }
 
-.container {
+.site-container {
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: var(--pad);
@@ -221,7 +221,7 @@ pre {
   padding-block: 1.1rem;
 }
 
-.site-header .container {
+.site-header .site-container {
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -303,7 +303,7 @@ pre {
 }
 
 @media (max-width: 640px) {
-  .site-header .container {
+  .site-header .site-container {
     gap: 0.75rem;
   }
 
@@ -743,6 +743,21 @@ pre {
 }
 
 /* ---------- example pages ---------- */
+
+/* Every example demo sits in this slot, whichever panel it brings. The cap
+   is the point of it: at full container width a ten-item rail fits almost
+   entirely on screen, so the arrows go dead after one click and there is
+   nothing to demonstrate. Bounded to the prose column, ten items are three
+   screenfuls — you scroll to reach the last one. */
+.example-demo-slot {
+  max-width: 42rem;
+}
+
+/* Items are flex children, so a fixed card width is only a hint — in a
+   narrow rail they squeeze to min-content instead of overflowing. */
+.example-demo-slot .react-horizontal-scrolling-menu--item {
+  flex-shrink: 0;
+}
 
 /* Demo panel for example-page demos that don't reuse an existing demo
    wrapper. Must clip: an unclipped rail inflates the page width and
@@ -1262,6 +1277,10 @@ pre {
   background: var(--bg);
   border-radius: var(--radius-m);
   padding: 0.6rem 1.1rem;
+  /* One–ten set to wildly different widths; a floor evens the row out and
+     keeps ten of them wider than the rail. */
+  min-width: 5.5rem;
+  text-align: center;
   font-weight: 550;
   white-space: nowrap;
   user-select: none;
@@ -1480,7 +1499,7 @@ pre {
   color: var(--muted);
 }
 
-.site-footer .container {
+.site-footer .site-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.75rem;

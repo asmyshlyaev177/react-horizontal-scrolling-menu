@@ -81,7 +81,7 @@ export function ExamplePage({
   return (
     <>
       <SiteHeader />
-      <main id="main" className="container pt-10 pb-20">
+      <main id="main" className="site-container pt-10 pb-20">
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link to="/examples" className="hover:text-ink">
             Examples
@@ -100,8 +100,9 @@ export function ExamplePage({
         </div>
 
         {/* Demos bring their own panel (.example-demo or an existing
-            demo wrapper) — nesting two panels doubles the border. */}
-        <div className="mt-8">{demo}</div>
+            demo wrapper) — nesting two panels doubles the border. The slot
+            caps the width so a rail of ~10 items actually overflows. */}
+        <div className="example-demo-slot mt-8">{demo}</div>
         {demoHint ? (
           <p className="mt-3 text-sm text-muted">{demoHint}</p>
         ) : null}

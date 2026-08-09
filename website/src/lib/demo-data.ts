@@ -49,6 +49,9 @@ export const tabs = [
   'FAQ',
 ];
 
+// Ten to start with, so the row overflows before anything is added — the
+// point of the demo is the scroll-to-the-new-chip, which needs a row that
+// scrolls. The pool is what "Add filter" draws from.
 export const initialChips = [
   { id: 'react', color: 'var(--demo-cyan)', darkText: true },
   { id: 'typescript', color: 'var(--demo-blue)' },
@@ -56,11 +59,13 @@ export const initialChips = [
   { id: 'menu', color: 'var(--demo-green)', darkText: true },
   { id: 'gallery', color: 'var(--demo-amber)', darkText: true },
   { id: 'tabs', color: 'var(--demo-violet)' },
+  { id: 'carousel', color: 'var(--demo-cyan)', darkText: true },
+  { id: 'slider', color: 'var(--demo-red)' },
+  { id: 'accordion', color: 'var(--demo-amber)', darkText: true },
+  { id: 'lightbox', color: 'var(--demo-blue)' },
 ];
 
 export const chipPool = [
-  'carousel',
-  'slider',
   'rtl',
   'a11y',
   'touch',

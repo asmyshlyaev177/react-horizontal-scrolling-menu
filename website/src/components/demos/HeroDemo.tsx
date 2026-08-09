@@ -75,7 +75,7 @@ export function HeroDemo() {
           />
         ))}
       </ScrollMenu>
-      <div className="container">
+      <div className="site-container">
         <p className="hero-readout" aria-live="off">
           <span className="fn">getVisible()</span>
           {' → ['}
