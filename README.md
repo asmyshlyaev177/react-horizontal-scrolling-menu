@@ -15,7 +15,7 @@ wheel, drag, or the arrow components you provide. 5.7 kB min+gzip.
 
 ![example](/sample.gif)
 
-### [Landing page](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev) · [Live examples (Storybook, editable in the browser)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) · [API](#properties-and-callbacks)
+### [Landing page](https://react-horizontal-scrolling-menu.dev) · [Live examples (Storybook, editable in the browser)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) · [API](#properties-and-callbacks)
 
 ### Used by
 
@@ -104,7 +104,7 @@ accessibility come from the browser, not a physics reimplementation. On top
 of that: per-item visibility via IntersectionObserver, `scrollToItem` /
 `scrollNext` / `scrollPrev`, an `apiRef` for control from outside, Header
 and Footer slots, RTL, dynamic add/remove detection, and TypeScript types
-throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev)
+throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-menu.dev)
 server-renders every demo.
 
 No carousel engine: no snap or spring physics — if you want a fullscreen

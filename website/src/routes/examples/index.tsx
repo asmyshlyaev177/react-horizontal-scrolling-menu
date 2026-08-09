@@ -12,7 +12,7 @@ export const Route = createFileRoute('/examples/')({
       path: '/examples',
       title: 'React horizontal scroll menu examples — live, with code',
       description:
-        'Live examples of react-horizontal-scrolling-menu: arrows, drag to scroll, scrollable tabs, RTL, vertical, infinite loop, autoplay — each with complete copy-paste source.',
+        'Examples of react-horizontal-scrolling-menu: arrows, drag to scroll, scrollable tabs, RTL, vertical, infinite loop, autoplay — each with copy-paste source.',
     }),
   component: ExamplesHub,
 });

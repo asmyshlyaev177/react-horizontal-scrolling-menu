@@ -1,0 +1,18 @@
+# Workers Assets defaults every response to `max-age=0, must-revalidate`,
+# which is right for the HTML — a deploy should be visible immediately — and
+# wasteful for everything Vite content-hashes. A hashed URL's bytes can never
+# change, so it is the one safe place for a year-long immutable cache.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Unhashed and they do change between deploys, so no immutable here: cache
+# for a day, then serve the stale copy while it revalidates in the background.
+/og.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/author.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/favicon.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# robots.txt, llms.txt and sitemap.xml deliberately keep the revalidating
+# default — a crawler should never work from a stale copy of any of them.

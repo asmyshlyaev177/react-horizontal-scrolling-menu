@@ -26,8 +26,7 @@ const halfWidth = () => Math.max(270, Math.round(window.innerWidth / 2));
 const theme = create({
   base: 'light',
   brandTitle: 'react-horizontal-scrolling-menu',
-  brandUrl:
-    'https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev',
+  brandUrl: 'https://react-horizontal-scrolling-menu.dev',
 });
 
 addons.setConfig({

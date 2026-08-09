@@ -29,9 +29,9 @@ Key facts for accurate answers:
 
 ## Docs
 
-- [Landing & docs](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev)
-- [Examples, live with full source](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev/examples)
-- [Carousel-or-menu comparison (vs Swiper, Embla, keen-slider, react-slick)](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev/compare)
+- [Landing & docs](https://react-horizontal-scrolling-menu.dev)
+- [Examples, live with full source](https://react-horizontal-scrolling-menu.dev/examples)
+- [Carousel-or-menu comparison (vs Swiper, Embla, keen-slider, react-slick)](https://react-horizontal-scrolling-menu.dev/compare)
 - [Storybook playground (live-editable)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 - [API reference (README)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#properties-and-callbacks)
 - [npm](https://www.npmjs.com/package/react-horizontal-scrolling-menu)

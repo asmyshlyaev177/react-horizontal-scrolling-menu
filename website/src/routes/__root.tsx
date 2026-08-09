@@ -54,6 +54,8 @@ const TITLE = 'react-horizontal-scrolling-menu — horizontal menu for React';
 // ~155 chars — the SERP snippet cuts around 160.
 const DESCRIPTION =
   'Horizontal scrolling menu for React on native browser scrolling, with per-item visibility tracking. 5.7 kB gzipped, TypeScript-first, 347k downloads/month.';
+const OG_IMAGE_ALT =
+  'A row of category cards with the off-screen ones dimmed, above a live getVisible() readout.';
 
 const CONTRACT = `<!--
 THESIS: the component sells itself — every demo on this page IS the library
@@ -88,14 +90,22 @@ export const Route = createRootRoute({
         content: '#ffffff',
       },
       { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'react-horizontal-scrolling-menu' },
       { property: 'og:title', content: TITLE },
       { property: 'og:description', content: DESCRIPTION },
       { property: 'og:url', content: SITE_URL },
       { property: 'og:image', content: `${SITE_URL}/og.png` },
+      // Dimensions let a scraper reserve the card's layout before it has
+      // fetched the image; without them some clients fall back to the small
+      // square thumbnail instead of the wide card.
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { property: 'og:image:alt', content: OG_IMAGE_ALT },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: TITLE },
       { name: 'twitter:description', content: DESCRIPTION },
       { name: 'twitter:image', content: `${SITE_URL}/og.png` },
+      { name: 'twitter:image:alt', content: OG_IMAGE_ALT },
     ],
     links: [
       // Fonts must be fetched before the stylesheet discovers them, or the
@@ -141,6 +151,14 @@ function RootComponent() {
  */
 const THEME_INIT = `try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
 
+/**
+ * GA4, its own property — separate from the portfolio's, so library traffic
+ * and portfolio traffic stay separately readable. `async` keeps gtag.js off
+ * the critical path; the PROD gate keeps `vite dev` from reporting hits.
+ */
+const GA_ID = 'G-H5MGQC810S';
+const GA_INIT = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}');`;
+
 function RootDocument({ children }: { children: ReactNode }) {
   return (
     // suppressHydrationWarning: THEME_INIT sets data-theme on <html> before
@@ -158,6 +176,15 @@ function RootDocument({ children }: { children: ReactNode }) {
         {/* After HeadContent so it follows the bundled CSS — see FONT_FACES. */}
         <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        {import.meta.env.PROD && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <script dangerouslySetInnerHTML={{ __html: GA_INIT }} />
+          </>
+        )}
       </head>
       <body>
         <div

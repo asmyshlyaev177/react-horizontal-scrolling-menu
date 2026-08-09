@@ -1,5 +1,4 @@
-export const SITE_URL =
-  'https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev';
+export const SITE_URL = 'https://react-horizontal-scrolling-menu.dev';
 
 export const GITHUB =
   'https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu';
