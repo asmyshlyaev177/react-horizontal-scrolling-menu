@@ -126,6 +126,14 @@ position, items animation, progress dots, preventing body scroll, custom
 transitions, infinite loop, autoplay, vertical layout, arrows in the footer,
 mobile swipe, RTL, and a 5000-item stress test.
 
+### AI agents
+
+The package ships [TanStack Intent](https://tanstack.com/intent) skills —
+task-focused guidance for AI coding agents (correct v8 API, common silent
+failures, recipes), versioned with the library in `skills/`. If you use an
+agent, run `npx @tanstack/intent@latest install` to wire the skills into
+your setup.
+
 <!-- DOCS_START -->
 
 ### Helpers and API

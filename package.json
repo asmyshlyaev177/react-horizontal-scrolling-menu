@@ -24,7 +24,8 @@
     "swipe",
     "tabs",
     "intersection-observer",
-    "typescript"
+    "typescript",
+    "tanstack-intent"
   ],
   "license": "MIT",
   "type": "module",
@@ -351,7 +352,9 @@
     "react-dom": ">=16.8"
   },
   "files": [
-    "dist"
+    "dist",
+    "skills",
+    "!skills/_artifacts"
   ],
   "config": {
     "commitizen": {
@@ -380,6 +383,7 @@
     "@storybook/addon-links": "^10.5.5",
     "@storybook/react-vite": "^10.5.5",
     "@storybook/test-runner": "^0.24.4",
+    "@tanstack/intent": "^0.3.6",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
