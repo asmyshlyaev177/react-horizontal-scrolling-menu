@@ -6,7 +6,7 @@
     "email": "asmyshlyaev177@gmail.com",
     "url": "https://asmyshlyaev177.dev"
   },
-  "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
+  "description": "Horizontal scrolling menu component for React with per-item visibility tracking. Supports mouse and touch devices, SSR-safe.",
   "keywords": [
     "front-end",
     "react",
@@ -15,10 +15,17 @@
     "navigation",
     "gallery",
     "horizontal",
+    "horizontal-scroll",
     "scroll",
     "scrolling",
     "scrolling-menu",
-    "popular"
+    "carousel",
+    "slider",
+    "swipe",
+    "tabs",
+    "intersection-observer",
+    "typescript",
+    "tanstack-intent"
   ],
   "license": "MIT",
   "type": "module",
@@ -31,7 +38,7 @@
     "type": "git",
     "url": "git+https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu.git"
   },
-  "homepage": "https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu",
+  "homepage": "https://react-horizontal-scrolling-menu.dev",
   "funding": {
     "type": "patreon",
     "url": "https://patreon.com/asmyshlyaev177"
@@ -58,13 +65,16 @@
       ]
     }
   },
-  "engines": {
-    "node": ">=24",
-    "npm": ">=11"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24",
+      "onFail": "warn"
+    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "eslint --fix",
+      "eslint --fix --no-warn-ignored",
       "prettier --write"
     ],
     "*.{html,css,less,ejs,json,md,yml,yaml}": [
@@ -96,12 +106,18 @@
     "install-example-deps": "wireit",
     "setup-tooling": "wireit",
     "setup": "npm install && npm run setup-tooling",
-    "cleanup": "rm -rf node_modules example-nextjs/node_modules .wireit dist",
+    "cleanup": "rm -rf node_modules example-nextjs/node_modules example-tanstack/node_modules .wireit dist",
     "storybook": "wireit",
+    "storybook:static": "wireit",
     "build-storybook": "wireit",
     "prepack": "npm run build",
     "prepare": "husky",
-    "release:preflight": "wireit"
+    "release:preflight": "wireit",
+    "deploy": "cd website && npm run deploy",
+    "preview": "cd website && npm run preview",
+    "serve-tanstack": "wireit",
+    "demo-tanstack": "wireit",
+    "install-example-tanstack-deps": "wireit"
   },
   "wireit": {
     "build-storybook": {
@@ -123,17 +139,25 @@
         "setup-tooling"
       ]
     },
-    "test:storybook-ci": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium webkit",
+    "storybook:static": {
+      "command": "http-server storybook-static -p 6007 -c-1 -s",
+      "service": true,
       "dependencies": [
-        "storybook",
+        "build-storybook",
+        "setup-tooling"
+      ]
+    },
+    "test:storybook-ci": {
+      "command": "npx wait-on -l -t 120000 --httpTimeout 10000 http://127.0.0.1:6007 && test-storybook --browsers firefox chromium webkit --url http://127.0.0.1:6007",
+      "dependencies": [
+        "storybook:static",
         "setup-tooling"
       ]
     },
     "test:storybook": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
+      "command": "npx wait-on -l -t 120000 --httpTimeout 10000 http://127.0.0.1:6007 && test-storybook --browsers firefox chromium --url http://127.0.0.1:6007",
       "dependencies": [
-        "storybook",
+        "storybook:static",
         "setup-tooling"
       ]
     },
@@ -165,7 +189,7 @@
       ]
     },
     "test:lint": {
-      "command": "eslint src e2e playwright.config.ts && prettier --check src e2e playwright.config.ts && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json",
+      "command": "eslint src e2e playwright.config.ts website/src && prettier --check src e2e playwright.config.ts website/src && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json",
       "dependencies": [
         "setup-tooling"
       ]
@@ -179,20 +203,22 @@
     "test:e2e": {
       "command": "npm run run:e2e",
       "dependencies": [
-        "serve"
+        "serve",
+        "serve-tanstack"
       ]
     },
     "test:e2e:dev": {
       "command": "npm run run:e2e",
       "dependencies": [
-        "demo"
+        "demo",
+        "demo-tanstack"
       ]
     },
     "kill-rollup": {
       "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 || echo 'killed'"
     },
     "run:e2e": {
-      "command": "npx wait-on http://localhost:3003 && playwright test",
+      "command": "npx wait-on -l -t 300000 --httpTimeout 10000 http://localhost:3003 http://localhost:3004 && playwright test",
       "dependencies": [
         "install:playwright"
       ]
@@ -220,7 +246,7 @@
       ]
     },
     "install-deps": {
-      "command": "npm install",
+      "command": "if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
       "allowUsuallyExcludedPaths": true,
       "clean": false,
       "files": [
@@ -243,7 +269,7 @@
       ]
     },
     "install-example-deps": {
-      "command": "cd example-nextjs && npm install",
+      "command": "cd example-nextjs && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
       "dependencies": [
         "install-deps"
       ],
@@ -265,6 +291,7 @@
       "output": [],
       "dependencies": [
         "install-example-deps",
+        "install-example-tanstack-deps",
         "install:playwright"
       ]
     },
@@ -280,6 +307,34 @@
       "dependencies": [
         "setup-tooling",
         "kill-rollup"
+      ]
+    },
+    "install-example-tanstack-deps": {
+      "command": "cd example-tanstack && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
+      "dependencies": [
+        "install-deps"
+      ],
+      "allowUsuallyExcludedPaths": true,
+      "clean": false,
+      "files": [
+        "example-tanstack/package.json"
+      ],
+      "output": [
+        "example-tanstack/node_modules"
+      ]
+    },
+    "serve-tanstack": {
+      "command": "cd example-tanstack && npm run build && npm run serve",
+      "service": true,
+      "dependencies": [
+        "build"
+      ]
+    },
+    "demo-tanstack": {
+      "command": "cd example-tanstack && npm run dev",
+      "service": true,
+      "dependencies": [
+        "dev"
       ]
     }
   },
@@ -297,7 +352,9 @@
     "react-dom": ">=16.8"
   },
   "files": [
-    "dist"
+    "dist",
+    "skills",
+    "!skills/_artifacts"
   ],
   "config": {
     "commitizen": {
@@ -326,6 +383,7 @@
     "@storybook/addon-links": "^10.5.5",
     "@storybook/react-vite": "^10.5.5",
     "@storybook/test-runner": "^0.24.4",
+    "@tanstack/intent": "^0.3.6",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -352,6 +410,7 @@
     "eslint-plugin-storybook": "^10.5.5",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^17.8.0",
+    "http-server": "^14.1.1",
     "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
@@ -380,5 +439,10 @@
   },
   "dependencies": {
     "smooth-scroll-into-view-if-needed": "^2.0.2"
+  },
+  "allowScripts": {
+    "@swc/core@1.15.47": true,
+    "esbuild@0.28.1": true,
+    "unrs-resolver@1.12.2": true
   }
 }

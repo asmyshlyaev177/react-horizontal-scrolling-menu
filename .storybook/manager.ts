@@ -1,5 +1,6 @@
 import { STORY_CHANGED, STORY_PREPARED } from 'storybook/internal/core-events';
 import { addons } from 'storybook/manager-api';
+import { create } from 'storybook/theming';
 
 /**
  * The panel key `storybook-addon-code-editor` registers itself under. It isn't
@@ -21,7 +22,15 @@ const halfWidth = () => Math.max(270, Math.round(window.innerWidth / 2));
  * `layout` and `ui` used to be passed as top-level keys; since Storybook 9 that
  * form logs a deprecation warning for every key.
  */
+/** Branding only — everything else stays Storybook's stock light theme. */
+const theme = create({
+  base: 'light',
+  brandTitle: 'react-horizontal-scrolling-menu',
+  brandUrl: 'https://react-horizontal-scrolling-menu.dev',
+});
+
 addons.setConfig({
+  theme,
   // Open on the live editor rather than Controls: this Storybook is the
   // library's demo, so editing the example is the point.
   selectedPanel: liveCodeEditorPanelId,
@@ -49,6 +58,13 @@ addons.setConfig({
   sidebar: {
     showRoots: false,
     collapsedRoots: ['other'],
+    // Hide the play-function-only `Test` stories from visitors. A sidebar
+    // filter only affects the nav: the stories stay in the built index, so the
+    // test runner still finds and runs them (unlike the `!dev` tag, which
+    // would drop them from the index entirely).
+    filters: {
+      patterns: (item) => !item.tags?.includes('test-only'),
+    },
   },
   toolbar: {
     title: { hidden: false },

@@ -1,0 +1,35 @@
+/* Tailwind v4, utilities only — no preflight: the existing pages depend
+   on app.css's own base styles. Utilities are imported UNLAYERED on
+   purpose: app.css styles bare elements (a, ul) outside any layer, and
+   unlayered rules always beat layered ones — utilities must compete by
+   normal specificity (and win ties by loading after app.css). New
+   surfaces (example pages, compare) are styled with these utilities;
+   shared pieces (.arrow-btn, .code-panel, .feed-card, .btn) stay
+   semantic classes from app.css. */
+@layer theme;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css';
+
+/* Site tokens exposed to utilities. `inline` emits var() references, so
+   the light/dark token flip in app.css keeps working under Tailwind
+   classes (bg-surface, text-muted, border-border, …). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-ok: var(--ok);
+  --color-demo-red: var(--demo-red);
+  --color-demo-amber: var(--demo-amber);
+  --color-demo-green: var(--demo-green);
+  --color-demo-cyan: var(--demo-cyan);
+  --color-demo-blue: var(--demo-blue);
+  --color-demo-violet: var(--demo-violet);
+  --font-mono: var(--font-mono);
+  /* Site radii under the default utility names: rounded-md / rounded-lg. */
+  --radius-md: var(--radius-m);
+  --radius-lg: var(--radius-l);
+}

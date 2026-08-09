@@ -3,12 +3,23 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import README from '../README.md?raw'
 
-{/* {(() => {
-  console.log('debug' )
-})()} */}
-
 <Meta title="Docs" />
 
+export const fallbackDocs = `
+**react-horizontal-scrolling-menu** is a horizontal scrolling menu component for React.
+It renders your items in a scroll container, tracks their visibility with an
+IntersectionObserver, and gives you a full API for arrows, drag, swipe and
+programmatic scrolling. See the
+[README on GitHub](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu)
+for the full documentation.
+`;
+
+export const docsContent = (() => {
+  const match = README.match(
+    /<!--\s?DOCS_START\s?-->(.*)<!--\s?DOCS_END\s?-->/s,
+  );
+  return match ? match[1] : fallbackDocs;
+})();
 
 <div className="container">
   <div className='section-title'>
@@ -24,16 +35,13 @@ Add library to your project
 npm install --save react-horizontal-scrolling-menu
 ```
 
-Start by <a href="/?path=/story/examples-simple" target="_blank">simple example</a> and use this documentation as a reference
+Start by <a href="/?path=/story/examples-simple--simple">simple example</a> and use this documentation as a reference
 
 You can ask for help or propose improvements at <a href="https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu" target="_blank">library's github</a>
 
 
 <Markdown remarkPlugins={[remarkGfm]}>
-{README
-  .match(/\<\!\-\-\s?DOCS_START\s?\-\-\>(.*)\<\!\-\-\s?DOCS_END\s?\-\-\>/s)[0]
-  .replace('<!-- DOCS_START -->', '')
-  .replace('<!-- DOCS_END -->', '')}
+{docsContent}
 </Markdown>
 
 <style>

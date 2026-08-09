@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Never deployed — the config exists so @cloudflare/vite-plugin can run
+  // the SSR build in workerd locally (vite dev / vite preview).
+  "name": "example-tanstack",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // Bare package specifier, resolved by @cloudflare/vite-plugin — not a file path.
+  "main": "@tanstack/react-start/server-entry",
+}

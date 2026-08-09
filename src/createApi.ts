@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { events } from './constants';
 import {
   getItemElementById,
   getItemElementByIndex,
@@ -35,6 +36,23 @@ export default function createApi(
 
     React.useEffect(() => {
       items.subscribe(itemId, cb);
+
+      // The observer's first batch can already have been delivered: items are
+      // observed in a layout effect, and WebKit runs the intersection update
+      // in the first rendering step after that — before the passive effects
+      // this subscription lives in. An emit with no subscriber is lost, so
+      // read the map directly or the item would keep defaultValue until the
+      // next scroll re-classifies it.
+      const key = String(itemId);
+      const current =
+        key === events.first
+          ? items.first()
+          : key === events.last
+            ? items.last()
+            : items.get(key as ItemId);
+      if (current) {
+        setVisible(!!current.visible);
+      }
 
       return () => {
         items.unsubscribe(itemId, cb);

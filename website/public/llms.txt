@@ -1,0 +1,43 @@
+# react-horizontal-scrolling-menu
+
+> Horizontal scrolling menu component for React, built on native browser
+> scrolling with per-item visibility tracking (IntersectionObserver).
+> 5.7 kB min+gzip, TypeScript-first, MIT, one stable API across
+> React 16.8–19. ~347k npm downloads per month. A menu, not a carousel:
+> the right tool for category rows, tab strips, chip filters and any row
+> of things an app needs to reason about — not for fullscreen image
+> sliders (use Embla or Swiper there).
+
+Install: `npm install react-horizontal-scrolling-menu`
+
+Key facts for accurate answers:
+
+- Every child of `ScrollMenu` needs a unique `itemId` prop — that is how
+  items are tracked, found and scrolled to.
+- `useIsVisible(itemId, defaultValue)` subscribes one component to one
+  item's on-screen state; `first`/`last` shorthands drive arrow state.
+- Imperative API via `VisibilityContext` inside the menu or `apiRef`
+  outside it: `scrollToItem`, `scrollNext`, `scrollPrev`, item lookup by
+  id or index.
+- Native scrolling: momentum, scrollbar, touch, wheel and accessibility
+  come from the browser. Server-side rendering works; `defaultValue`
+  controls the server-painted visibility state.
+- Infinite loop and autoplay are not props — they are documented
+  ~60-line recipes on the public API (see the examples below).
+- Download counts and version numbers change over time — read current
+  values from npm rather than restating these.
+
+## Docs
+
+- [Landing & docs](https://react-horizontal-scrolling-menu.dev)
+- [Examples, live with full source](https://react-horizontal-scrolling-menu.dev/examples)
+- [Carousel-or-menu comparison (vs Swiper, Embla, keen-slider, react-slick)](https://react-horizontal-scrolling-menu.dev/compare)
+- [Storybook playground (live-editable)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
+- [API reference (README)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#properties-and-callbacks)
+- [npm](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
+- [GitHub](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu)
+
+## Contact
+
+- Author: Aleksandr Smyshliaev — [asmyshlyaev177.dev](https://asmyshlyaev177.dev)
+- [GitHub](https://github.com/asmyshlyaev177) · [Issues](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues)

@@ -1,0 +1,9 @@
+# react-horizontal-scrolling-menu — https://react-horizontal-scrolling-menu.dev
+# Content signals (https://contentsignals.org): this is MIT-licensed
+# open-source documentation — index it, cite it, train on it.
+
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+
+Sitemap: https://react-horizontal-scrolling-menu.dev/sitemap.xml

@@ -1,22 +1,21 @@
-[![Available for hire](https://img.shields.io/badge/available%20for%20hire-senior%20react%20engineer-2ea44f?style=flat-square)](https://asmyshlyaev177.dev)
-
 # React horizontal scrolling menu
-
-![example](/sample.gif)
 
 [![npm](https://img.shields.io/npm/v/react-horizontal-scrolling-menu.svg)](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
 ![NPM Downloads](https://img.shields.io/npm/dm/react-horizontal-scrolling-menu)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&utm_medium=referral&utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&utm_campaign=Badge_Grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/433d9b4a8a374109a9f96b8faf3c175d)](https://www.codacy.com/gh/asmyshlyaev177/react-horizontal-scrolling-menu/dashboard?utm_source=github.com&utm_medium=referral&utm_content=asmyshlyaev177/react-horizontal-scrolling-menu&utm_campaign=Badge_Coverage)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/)
 ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-horizontal-scrolling-menu.svg)
-[![Donate Bitcoin](https://img.shields.io/badge/donate-$5-orange.svg)](https://asmyshlyaev177.github.io/donate-bitcoin?amount=5&currency=USD)
+[![CI](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/main.yml/badge.svg)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/actions/workflows/main.yml)
+[![Available for hire](https://img.shields.io/badge/available%20for%20hire-senior%20react%20engineer-2ea44f?style=flat-square)](https://asmyshlyaev177.dev)
 
-#### [Poll what you like/dislike/need from this library](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/discussions/221)
+A horizontal scrolling menu component for React, built on native browser
+scrolling with per-item visibility tracking. Good for category rows, tab
+strips, chip filters, galleries — any row of things your app needs to reason
+about. Items are your own components with your own CSS; the menu is
+responsive to its parent width; navigation works by scrollbar, touch, mouse
+wheel, drag, or the arrow components you provide. 5.7 kB min+gzip.
 
-### Check out my new project 👉 https://github.com/asmyshlyaev177/state-in-url
+![example](/sample.gif)
 
-Add a ⭐️ and <a href="https://github.com/asmyshlyaev177" target="_blank">follow me</a> to support the project!
+### [Landing page](https://react-horizontal-scrolling-menu.dev) · [Live examples (Storybook, editable in the browser)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) · [API](#properties-and-callbacks)
 
 ### Used by
 
@@ -30,188 +29,118 @@ Over 20,000 repositories depend on this library. A few you can go and read:
 
 Also featured in [React Status #257](https://react.statuscode.com/issues/257).
 
-# Check out examples for common cases
-
-### [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) (Faster and more convinient, new examples will be here)
-
-### Codesandbox Examples (Deprecated)
-
-<details>
-  <summary>Codesandbox examples</summary>
-
-[Center items](https://codesandbox.io/s/center-items-on-click-drag-e8cyph?file=/src/index.tsx)
-
-[Dynamically add items when last is visible](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-dynamically-add-items-38ted?file=/src/index.tsx)
-
-[apiRef - controling component outside](https://codesandbox.io/s/react-horizontal-scrolling-menu-v2-apiref-vdr0d?file=/src/index.tsx)
-
-[Add item and scroll to it](https://codesandbox.io/s/basic-example-forked-3j0xm?file=/src/index.tsx)
-
-[Loop scroll](https://codesandbox.io/s/loop-scroll-4w8ek6?file=/src/index.tsx)
-
-[Custom transition/animation](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
-
-[Swipe on mobile devices(need to run locally, codesandbox has issues)](https://codesandbox.io/s/swipe-on-mobile-qmgqtj)
-
-</details>
-
-### Previous version [V1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1)
-
-This is a highly customizable horizontal scrolling menu component for React. Can also use it for Amazon like items block or a Gallery.
-Menu component is responsive, just set width for parent container.
-Items width will be determined from CSS styles.
-
-For navigation, you can use scrollbar, native touch scroll, mouse wheel or drag by mouse.
-
-Component provide context with visible items and helpers.
-
-Possible set default position on initialization.
-
-Check out examples on [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) or codesandbox.
-
-:star: if you like the project :)
-
-### NextJS issues
-
-[Cannot use import statement outside a module](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240)
-
 ## Quick start
 
 ```bash
-npm install --save react-horizontal-scrolling-menu
+npm install react-horizontal-scrolling-menu
 ```
 
-test
-In project:
-
-```javascript
+```tsx
 import React from 'react';
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import {
+  ScrollMenu,
+  VisibilityContext,
+  type publicApiType,
+} from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 
-const getItems = () =>
-  Array(20)
-    .fill(0)
-    .map((_, ind) => ({ id: `element-${ind}` }));
+const items = Array.from({ length: 10 }, (_, i) => `item-${i + 1}`);
 
-function App() {
-  const [items, setItems] = React.useState(getItems);
-  const [selected, setSelected] = React.useState([]);
-
-  const isItemSelected = (id) => !!selected.find((el) => el === id);
-
-  const handleClick =
-    (id) =>
-    ({ getItemById, scrollToItem }) => {
-      const itemSelected = isItemSelected(id);
-
-      setSelected((currentSelected) =>
-        itemSelected
-          ? currentSelected.filter((el) => el !== id)
-          : currentSelected.concat(id),
-      );
-    };
-
+export function App() {
   return (
     <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-      {items.map(({ id }) => (
-        <Card
-          itemId={id} // NOTE: itemId is required for track items
-          title={id}
-          key={id}
-          onClick={handleClick(id)}
-          selected={isItemSelected(id)}
-        />
+      {items.map((id) => (
+        <Card itemId={id} key={id} title={id} />
       ))}
     </ScrollMenu>
   );
 }
 
-const LeftArrow = () => {
-  const visibility = React.useContext < publicApiType > VisibilityContext;
-  const isFirstItemVisible = visibility.useIsVisible('first', true);
+function LeftArrow() {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isFirstVisible = visibility.useIsVisible('first', true);
   return (
-    <Arrow
-      disabled={isFirstItemVisible}
-      onClick={() => visibility.scrollPrev()}
-      className="left"
-    >
-      Left
-    </Arrow>
-  );
-};
-
-const RightArrow = () => {
-  const visibility = React.useContext < publicApiType > VisibilityContext;
-  const isLastItemVisible = visibility.useIsVisible('last', false);
-  return (
-    <Arrow
-      disabled={isLastItemVisible}
-      onClick={() => visibility.scrollNext()}
-      className="right"
-    >
-      Right
-    </Arrow>
-  );
-};
-
-function Card({ onClick, selected, title, itemId }) {
-  const visibility = React.useContext < publicApiType > VisibilityContext;
-  const visible = visibility.useIsVisible(itemId, true);
-
-  return (
-    <div
-      onClick={() => onClick(visibility)}
-      style={{
-        width: '160px',
-      }}
-      tabIndex={0}
-    >
-      <div className="card">
-        <div>{title}</div>
-        <div>visible: {JSON.stringify(visible)}</div>
-        <div>selected: {JSON.stringify(!!selected)}</div>
-      </div>
-      <div
-        style={{
-          height: '200px',
-        }}
-      />
-    </div>
+    <button disabled={isFirstVisible} onClick={() => visibility.scrollPrev()}>
+      ←
+    </button>
   );
 }
 
-export default App;
+function RightArrow() {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isLastVisible = visibility.useIsVisible('last', false);
+  return (
+    <button disabled={isLastVisible} onClick={() => visibility.scrollNext()}>
+      →
+    </button>
+  );
+}
+
+function Card({ itemId, title }: { itemId: string; title: string }) {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isVisible = visibility.useIsVisible(itemId);
+  return (
+    <div style={{ width: '160px' }} data-visible={isVisible}>
+      {title}
+    </div>
+  );
+}
 ```
 
-Check out Example in `example-nextjs` folder for info how to implement more features like mouse drag or disable body scroll.
+Three things the example relies on:
 
-## Example
+- Every item needs a unique `itemId` prop — that's how visibility tracking
+  works. The React `key` works as a fallback.
+- `styles.css` is a separate import; the JS bundle never injects CSS.
+- Item width comes from your own CSS — the menu measures nothing.
 
-You can clone repository and run demo project.
+Writing plain JavaScript? Drop the type imports and use
+`React.useContext(VisibilityContext)` as usual.
 
-```bash
-git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
-npm run setup
-npm run demo
-```
+## What it does — and doesn't
 
-## Storybook
+Built on native browser scrolling: momentum, scrollbar, touch, wheel and
+accessibility come from the browser, not a physics reimplementation. On top
+of that: per-item visibility via IntersectionObserver, `scrollToItem` /
+`scrollNext` / `scrollPrev`, an `apiRef` for control from outside, Header
+and Footer slots, RTL, dynamic add/remove detection, and TypeScript types
+throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-menu.dev)
+server-renders every demo.
 
-Can clone repo and run storybook
+No carousel engine: no snap or spring physics — if you want a fullscreen
+image slider, use Embla or Swiper. Autoplay and infinite loop aren't props
+either; they're recipes of about sixty lines each on the public API,
+live-editable in Storybook
+([infinite loop](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
+[autoplay](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-autoplay--autoplay)).
+If you need a row that knows what's visible, this is it.
 
-```bash
-git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
-npm run setup
-npm run storybook
-```
+## Examples
+
+Every example is live-editable in the
+[Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —
+each story ships with a Monaco editor loaded with the library's real type
+definitions. Covers: basic usage, one-item-per-scroll, mouse drag, scroll to
+item on mount, center on click, adding items dynamically, save/restore
+position, items animation, progress dots, preventing body scroll, custom
+transitions, infinite loop, autoplay, vertical layout, arrows in the footer,
+mobile swipe, RTL, and a 5000-item stress test.
+
+### AI agents
+
+The package ships [TanStack Intent](https://tanstack.com/intent) skills —
+task-focused guidance for AI coding agents (correct v8 API, common silent
+failures, recipes), versioned with the library in `skills/`. If you use an
+agent, run `npx @tanstack/intent@latest install` to wire the skills into
+your setup.
 
 <!-- DOCS_START -->
 
-### Helpers and api
+### Helpers and API
 
-Children of main ScrollMenu component(arrows, fotter, items) can use **VisibilityContext** to access state and callbacks.
-Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
+Children of the main ScrollMenu component (arrows, header, footer, items)
+can use **VisibilityContext** to access state and callbacks. Function
+callbacks also receive the context, e.g. `onWheel`, `onScroll`.
 
 ## Properties and callbacks
 
@@ -222,12 +151,12 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | Header                   | React component Header                                                                                |
 | Footer                   | React component Footer                                                                                |
 | onWheel                  | (VisibilityContext, event) => void                                                                    |
-| onScroll                 | (VisibilityContext, event) => void, will fire _before_ scroll                                         |
+| onScroll                 | (VisibilityContext, event) => void, fires _before_ scroll settles                                     |
 | onInit                   | (VisibilityContext) => void                                                                           |
+| onUpdate                 | (VisibilityContext) => void                                                                           |
 | apiRef                   | React.RefObject \| React.RefCallback                                                                  |
 | options                  | options for IntersectionObserver - `rootMargin`, `threshold`, and `ratio` to consider element visible |
-| containerRef             | React.RefObject \| React.RefCallback                                                                  |
-| onUpdate                 | (VisibilityContext) => void                                                                           |
+| containerRef             | React.RefObject \| React.RefCallback for the scroll container                                         |
 | onMouseDown              | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
 | onMouseLeave             | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
 | onMouseUp                | (VisibilityContext) => (React.MouseEventHandler) => void                                              |
@@ -237,17 +166,33 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 | onTouchEnd               | (VisibilityContext) => (React.TouchEventHandler) => void                                              |
 | itemClassName            | ClassName of Item                                                                                     |
 | scrollContainerClassName | ClassName of scrollContainer                                                                          |
-| transitionDuration       | Duration of transitions in ms, default `500`                                                          |
-| transitionBehavior       | 'smooth' \|'auto' \| customFunction                                                                   |
 | wrapperClassName         | ClassName of the outer-most div                                                                       |
+| transitionDuration       | Duration of transitions in ms, default `500`, needs `noPolyfill={false}`                              |
+| transitionBehavior       | 'smooth' \| 'auto' \| custom function, needs `noPolyfill={false}`                                     |
 | RTL                      | Enable Right to left direction                                                                        |
-| noPolyfill               | Don't use polyfill for scroll, no transitions, `true` by default                                      |
+| noPolyfill               | `true` by default (native scrollIntoView); set `false` to enable transition props                     |
+
+Note the two callback shapes: `onWheel` and `onScroll` are plain
+`(context, event) => void`, while the mouse and touch props are handler
+factories — `(context) => (event) => void`. See the
+[MouseDrag story](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-mousedrag--mouse-drag)
+for the factory pattern in use.
 
 ### VisibilityContext
 
+Hooks (call them only inside components rendered under ScrollMenu, following
+the rules of hooks):
+
+| Hook                 | Signature                                                                |
+| -------------------- | ------------------------------------------------------------------------ |
+| useIsVisible         | (itemId: string \| 'first' \| 'last', defaultValue?: boolean) => boolean |
+| useLeftArrowVisible  | () => boolean                                                            |
+| useRightArrowVisible | () => boolean                                                            |
+
+Values and functions:
+
 | Prop                  | Signature                                              |
 | --------------------- | ------------------------------------------------------ |
-| useIsVisible          | (itemId: string, defaultValue?: false) => boolean      |
 | getItemById           | itemId => IOItem \| undefined                          |
 | getItemElementById    | itemId => DOM Element \| null                          |
 | getItemByIndex        | index => IOItem \| undefined                           |
@@ -267,115 +212,142 @@ Function callbacks also pass context, eg `onWheel`, `onScroll` etc.
 
 ### items class instance
 
-ItemsMap class store info about all items and has methods to get currently visible items, prev/next item. Also, can subscribe to updates.
+ItemsMap stores info about all items, with methods to get currently visible
+items and the previous or next item. You can also subscribe to updates.
 
 | Prop/method | Description                                                                                                                                    |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| subscribe   | subscribe for events for `itemId` or `first`, `last`, `onInit`, `onUpdate`, eg. `items.subscribe('item5', (item) => setVisible(item.visible))` |
-| unsubscribe | use in useEffect to cleanup, pass same cb instance                                                                                             |
-| getVisible  | return only visible items                                                                                                                      |
-| toItems     | return ids for all items                                                                                                                       |
-| toArr       | return all items                                                                                                                               |
-| first       | return first item                                                                                                                              |
-| last        | return last item                                                                                                                               |
+| subscribe   | subscribe to events for `itemId` or `first`, `last`, `onInit`, `onUpdate`, e.g. `items.subscribe('item5', (item) => setVisible(item.visible))` |
+| unsubscribe | use in useEffect for cleanup, pass the same callback instance                                                                                  |
+| getVisible  | returns only visible items                                                                                                                     |
+| toItems     | returns ids of all items                                                                                                                       |
+| toArr       | returns all items                                                                                                                              |
+| first       | returns the first item                                                                                                                         |
+| last        | returns the last item                                                                                                                          |
 | prev        | (itemId \| Item) => previous item \| undefined                                                                                                 |
 | next        | (itemId \| Item) => next item \| undefined                                                                                                     |
 
-### Transition/Animation
+### Transitions and animation
 
-NOTE: won't work with RTL prop
+`transitionDuration` and `transitionBehavior` (`'smooth'`, `'auto'`, or a
+custom function) control how `scrollToItem` and the scroll helpers animate.
+Both require `noPolyfill={false}` — the default native scroll ignores them.
+They don't combine with the `RTL` prop.
 
-Can use `transitionDuration`, and `transitionBehavior`
-See [example](https://codesandbox.io/p/sandbox/custom-transition-animation-3h4d2y?file=%2Fsrc%2Findex.tsx)
+See the
+[CustomTransition story](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-customtransition--custom-transition)
+for a custom easing function.
 
-#### ScrollOptions for scrollToItem, scrollPrev, scrollNext
+#### ScrollOptions
 
-Will override transition\* options passed to ScrollMenu
+The last argument of `scrollToItem`, `scrollPrev` and `scrollNext` overrides
+the transition props for that one call:
 
-```javascript
-{
-  // target,
-  (behavior, // 'smooth', 'auto' or custom function
-    // inline,
-    // block,
-    {
-      duration: number, // number in milliseconds
-    });
-}
+```tsx
+scrollToItem(getItemElementById('item-5'), 'smooth', 'center', 'nearest', {
+  duration: 800, // milliseconds
+});
 ```
 
 ### Other helpers
 
 #### slidingWindow
 
-Can get previous or next visible group of items with `slidingWindow(allItems: string[], visibleItems: string[])` helper, e.g
+Get the previous or next group of visible items:
 
-```Javascript
-slidingWindow(allItems, visibleItems)
-.prev()
-//.next()
+```tsx
+slidingWindow(allItems, visibleItems).prev();
+// or .next()
 ```
 
 #### getItemsPos
 
-Can get first, center and last items, e.g.
+Get the first, center and last item of a group — e.g. to scroll to the
+center of the previous page:
 
-```Javascript
-const prevGroup = slidingWindow(allItems, visibleItems).prev()
-const { first, center: centerItem, last } = getItemsPos(prevGroup)
-
-// and scroll to center item of previous group of items
-scrollToItem(getItemById(centerItem, 'smooth', 'center'))
-
+```tsx
+const prevGroup = slidingWindow(allItems, visibleItems).prev();
+const { center } = getItemsPos(prevGroup);
+scrollToItem(getItemById(center), 'smooth', 'center');
 ```
-
-Check out [examples](#examples)
 
 ### apiRef
 
-Can pass Ref object to Menu, current value will assigned as VisibilityContext. But some other values can be staled, so better use it only for firing functions like `scrollToItem`.
+Pass a ref to ScrollMenu and the full VisibilityContext value is assigned to
+it — useful for firing functions like `scrollToItem` from outside the menu.
+Data values on the ref can go stale, so prefer calling functions:
 
-For scrolling use `apiRef.scrollToItem(apiRef.getItemElementById)` instead of `apiRef.scrollToItem(apiRef.getItemById)`.
+```tsx
+apiRef.current.scrollToItem(apiRef.current.getItemElementById('item-3'));
+```
 
-Can get item outside of context via `apiRef.getItemElementById(id)` or directly via ``document.querySelector(`[data-key='${itemId}']`)``.
-See [`apiRef` example and `Add item and scroll to it`](#examples)
+You can also reach an item's DOM element directly via
+``document.querySelector(`[data-key='${itemId}']`)``. See the
+[ScrollToItem story](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-scrolltoitem--scroll-to-item)
+and the
+[AddItemAndScrollToIt story](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-additemandscrolltoit--add-item-and-scroll-to-it).
 
 <!-- DOCS_END -->
 
+## SSR
+
+The library is SSR-safe: the first render emits plain markup and
+IntersectionObserver only attaches client-side. The `useIsVisible`
+`defaultValue` argument controls the server-rendered state — the canonical
+arrow pattern (`('first', true)` / `('last', false)`) renders a disabled
+left arrow and enabled right arrow, matching a row scrolled to its start.
+
+### Next.js note
+
+The package is ESM-first. On older Next.js setups you may hit
+[“Cannot use import statement outside a module”](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/240) —
+adding the package to
+[`transpilePackages`](https://nextjs.org/docs/app/api-reference/config/next-config-js/transpilePackages)
+resolves it.
+
 ## Browser support
 
-- Browser must support **IntersectionObserver API** and **requestAnimationFrame** or use polyfills.
-- Only modern browsers, no IE or smart toasters
+Requires **IntersectionObserver** and **requestAnimationFrame** — every
+modern browser. No IE.
+
+## Development
+
+```bash
+git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
+cd react-horizontal-scrolling-menu
+npm run setup
+npm run demo        # example app (Next.js, port 3003) with the library in watch mode
+npm run demo-tanstack  # example app (TanStack Start SSR, port 3004)
+npm run storybook   # examples
+npm test            # unit + e2e + storybook tests
+```
+
+Two integration example apps live in the repo — `example-nextjs` and
+`example-tanstack` (TanStack Start, server-rendered in workerd) — both
+rendering the same demo (mouse drag, body-scroll locking, custom animation
+with a control panel) so the one e2e suite in `e2e/` runs against the
+library under both frameworks, including an assertion that the menu is
+already present in the server-rendered HTML.
+
+Contributions and corrections are welcome — fork, commit, open a PR, and
+don't forget tests. See [CONTRIBUTING](./CONTRIBUTING.md) and the
+[CHANGELOG](./CHANGELOG.md).
+
+Docs for the legacy [v1 API](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/v1).
 
 ## About
 
-My first npm project, and still maintained years later.
+Built and maintained by **Aleksandr Smyshliaev** since 2018 — my first npm
+package, and still the same public API across React 16.8 to 19. I'm a
+frontend engineer (React / Next.js / TypeScript) and **available for
+contract and full-time work**.
 
-Any contribution and correction appreciated. Just fork repo, commit and make PR, don't forget about tests.
-
-## Hire me
-
-I'm **Aleksandr Smyshliaev** — I wrote and maintain this library. Senior
-frontend engineer (React / Next.js / TypeScript, 8+ years), and **available for
-full-time remote work right now**.
-
-If your team ships this package, you have already seen how I work: one stable
-public API across React 17, 18 and 19, no breaking change forced on anyone
-downstream.
-
-- **Best at** — component libraries, state management, and test suites that
-  survive a refactor.
-- **Also mine** — [state-in-url](https://github.com/asmyshlyaev177/state-in-url)
-  (typed URL state),
-  [test-proxy-recorder](https://github.com/asmyshlyaev177/test-proxy-recorder)
-  (record/replay for Playwright),
-  [llm-queue](https://github.com/asmyshlyaev177/llm-queue).
-- **Where** — Tbilisi, Georgia (GMT+4), full CET overlap. Registered contractor
-  entity, so B2B engagement needs no employer-of-record setup.
 - **Reach me** — [asmyshlyaev177.dev](https://asmyshlyaev177.dev) ·
   [asmyshlyaev177@gmail.com](mailto:asmyshlyaev177@gmail.com) ·
   [LinkedIn](https://linkedin.com/in/asmyshlyaev177) · Telegram @asmyshlyaev177
+- **Also mine** — [state-in-url](https://github.com/asmyshlyaev177/state-in-url)
+  (typed URL state),
+  [test-proxy-recorder](https://github.com/asmyshlyaev177/test-proxy-recorder)
+  (record/replay for Playwright)
 
-## [Contributing](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CONTRIBUTING.md)
-
-## [Changelog](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/blob/main/CHANGELOG.md)
+A ⭐️ on the repo helps more people find the library.

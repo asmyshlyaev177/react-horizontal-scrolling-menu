@@ -34,4 +34,4 @@ makeLiveEditStory(BottomArrows, {
   modifyEditor: setupEditor,
 });
 
-export const Test = ScrollTest();
+export const Test = { ...ScrollTest(), tags: ['test-only'] };

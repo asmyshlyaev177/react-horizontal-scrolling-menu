@@ -29,7 +29,8 @@ export function MobileSwipeOnly() {
 
   const ref = React.useRef<publicApiType>(null);
 
-  // NOTE: that ugly hack needed cause React v18 changed how it handle events
+  // React 18+ attaches touchmove listeners as passive, so preventDefault only
+  // works from a non-passive listener added manually to the scroll container.
   React.useEffect(() => {
     const onTouchMove = (ev: TouchEvent) => {
       ev.preventDefault();

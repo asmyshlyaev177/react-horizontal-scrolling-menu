@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "react-horizontal-scrolling-menu",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // The canonical host. `workers_dev: false` drops the *.workers.dev route
+  // rather than leaving it up: two hostnames serving the same pages compete
+  // for them in search, and every canonical tag here points at the apex.
+  "routes": [
+    { "pattern": "react-horizontal-scrolling-menu.dev", "custom_domain": true },
+  ],
+  "workers_dev": false,
+  // Bare package specifier, resolved by @cloudflare/vite-plugin — not a file path.
+  "main": "@tanstack/react-start/server-entry",
+  // Serve prerendered pages at their canonical, no-trailing-slash URLs —
+  // the default auto-trailing-slash 307s /examples → /examples/, which
+  // fights every canonical link and the sitemap.
+  "assets": {
+    "html_handling": "drop-trailing-slash",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}

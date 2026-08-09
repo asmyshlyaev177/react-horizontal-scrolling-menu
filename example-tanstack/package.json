@@ -1,0 +1,36 @@
+{
+  "name": "example-tanstack",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build && npm run typecheck",
+    "serve": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "^1.170.22",
+    "@tanstack/react-start": "^1.168.39",
+    "lodash": "^4.18.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-horizontal-scrolling-menu": "file:../"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.51.1",
+    "@types/lodash": "^4.17.24",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "popmotion": "^11.0.5",
+    "stylefire": "^7.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "wrangler": "^4.120.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260801.1": true
+  }
+}
