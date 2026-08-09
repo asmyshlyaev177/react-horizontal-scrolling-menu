@@ -1,0 +1,2 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e((()=>{t=`export { default as _default } from "../../dist/declarations/src/_isolated-hnrs.js"
+`})))()}n();export{t as default};

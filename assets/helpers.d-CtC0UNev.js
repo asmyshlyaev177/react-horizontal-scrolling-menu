@@ -1,0 +1,13 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e((()=>{t=`import React from 'react';
+import { observerOptions } from './settings';
+import type { Item, ItemId, ItemOrElement, Refs, ScrollBehaviorArg, scrollToItemOptions } from './types';
+export declare const getNodesFromRefs: (refs: Refs) => HTMLElement[];
+export declare function observerEntriesToItems(entries: IntersectionObserverEntry[], options: typeof observerOptions): Item[];
+declare function scrollToItem(item: ItemOrElement, behavior?: ScrollBehaviorArg, inline?: ScrollLogicalPosition, block?: ScrollLogicalPosition, rest?: Omit<scrollToItemOptions, 'behavior'>, noPolyfill?: boolean): void;
+export { scrollToItem };
+export declare const getItemElementById: (id: ItemId) => Element | null;
+export declare const getItemElementByIndex: (id: ItemId) => Element | null;
+export declare function getElementOrConstructor(Elem: React.FC | React.ReactNode | React.MemoExoticComponent<any>): React.JSX.Element | null;
+export declare const getItemId: (item: React.ReactNode) => string;
+export declare function isMutableRef<T>(elem: React.MutableRefObject<T> | React.RefObject<T | null> | React.RefCallback<T> | React.LegacyRef<T>): elem is React.MutableRefObject<T> | React.RefObject<T | null>;
+`})))()}n();export{t as default};

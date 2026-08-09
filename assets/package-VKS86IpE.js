@@ -1,0 +1,33 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e((()=>{t=`{
+  "name": "@emotion/memoize",
+  "version": "0.9.0",
+  "description": "emotion's memoize utility",
+  "main": "dist/emotion-memoize.cjs.js",
+  "module": "dist/emotion-memoize.esm.js",
+  "types": "dist/emotion-memoize.cjs.d.ts",
+  "license": "MIT",
+  "repository": "https://github.com/emotion-js/emotion/tree/main/packages/memoize",
+  "scripts": {
+    "test:typescript": "dtslint types"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@definitelytyped/dtslint": "0.0.112",
+    "typescript": "^5.4.5"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "module": "./dist/emotion-memoize.esm.js",
+      "import": "./dist/emotion-memoize.cjs.mjs",
+      "default": "./dist/emotion-memoize.cjs.js"
+    },
+    "./package.json": "./package.json"
+  }
+}
+`})))()}n();export{t as default};
