@@ -62,10 +62,16 @@ function ProgressBar() {
         });
       }, 150);
     };
+    // 'onInit' fires instead of 'onUpdate' for the very first classification,
+    // and the immediate call covers a first batch delivered before this
+    // effect ran (WebKit) — without both, the bar waits for the next scroll.
+    items.subscribe('onInit', cb);
     items.subscribe('onUpdate', cb);
+    cb();
 
     return () => {
       clearTimeout(timer);
+      items.unsubscribe('onInit', cb);
       items.unsubscribe('onUpdate', cb);
     };
   }, [items]);

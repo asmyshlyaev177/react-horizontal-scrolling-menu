@@ -17,11 +17,17 @@ concurrency:
 
 jobs:
   build-test:
+    # Deliberately NOT inside the Playwright container: the tanstack example
+    # serves through workerd (Cloudflare's runtime), and workerd accepts
+    # connections but never answers them inside docker job containers —
+    # cloudflare/workers-sdk#6280, reproduced with the official Playwright
+    # image — which left `wait-on` polling port 3004 forever. On the plain
+    # VM workerd is fine; `npm run setup` downloads the browsers and the
+    # install-deps step below provides their system libraries.
     runs-on: ubuntu-24.04
-    # Ships chromium, firefox and webkit plus their system libraries, already
-    # matched to the @playwright/test version. Keep the tag in step with the
-    # dependency in package.json when bumping Playwright.
-    container: mcr.microsoft.com/playwright:v1.62.0-noble
+    # A hung step (e.g. wait-on polling a server that never answers) otherwise
+    # burns the full 6-hour default before anyone notices.
+    timeout-minutes: 30
 
     env:
       NODE_OPTIONS: --max-old-space-size=4096
@@ -29,9 +35,82 @@ jobs:
       CI: true
       WIREIT_LOGGER: 'simple'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Use Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: '.nvmrc'
+          check-latest: true
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      # NOTE: google/wireit@setup-github-actions-caching/v2 used to be here.
+      # Its cache token mediator was unreachable from the job container this
+      # job used to run in, so every wireit invocation failed with
+      # ECONNREFUSED and disabled caching anyway. Without WIREIT_CACHE set,
+      # wireit uses its local .wireit cache, which is what the "Already
+      # fresh" results come from.
+
+      # `setup` also downloads the browsers matching @playwright/test.
+      - name: Install
+        run: npm run setup
+
+      # The e2e specs run chromium only; firefox and webkit live in the
+      # storybook-test job's container.
+      - name: Install browser system dependencies
+        run: npx playwright install-deps chromium
+
+      - name: Types and linter check
+        run: npm run test:lint
+
+      - name: Unit tests
+        run: npm run test:unit -- --coverage --coverageReporters="lcov"
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699 # v1.3.0
+        continue-on-error: true
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/lcov.info
+
+      # run:e2e's wait-on carries `-t 300000 --httpTimeout 10000` because its
+      # defaults are no overall timeout and no per-request timeout: one HEAD
+      # request landing in vite preview's bound-but-workerd-still-booting
+      # window used to hang the resource's poll loop — and this step — forever.
+      - name: E2E tests builded version
+        run: npm run test:e2e
+
+      - name: E2E tests dev version
+        run: npm run test:e2e:dev
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+
+  # The three-browser matrix lives in the Playwright container: it ships
+  # chromium, firefox AND webkit with their system libraries already matched
+  # to the @playwright/test version (webkit's apt footprint on the VM is
+  # large), and it runs in parallel with build-test. Storybook tests never
+  # touch workerd, so unlike build-test's e2e they are safe inside a job
+  # container. Keep the image tag in step with @playwright/test when
+  # bumping Playwright.
+  storybook-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container: mcr.microsoft.com/playwright:v1.62.0-noble
+
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+      CI: true
+      WIREIT_LOGGER: 'simple'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -44,49 +123,15 @@ jobs:
       - name: Trust the workspace
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      # NOTE: google/wireit@setup-github-actions-caching/v2 used to be here. Its
-      # cache token mediator is not reachable from inside a job container, so
-      # every wireit invocation failed with ECONNREFUSED, printed an "Internal
-      # error! Please file a bug" block, and disabled caching anyway — 8 failures
-      # and 0 cache hits per run. Without WIREIT_CACHE set, wireit uses its local
-      # .wireit cache, which is what the "Already fresh" results come from.
-
-      # The container already provides the browsers at $PLAYWRIGHT_BROWSERS_PATH,
-      # so `playwright install` inside `setup` is a no-op.
+      # The container already provides the browsers at
+      # $PLAYWRIGHT_BROWSERS_PATH, so `playwright install` inside `setup`
+      # is a no-op.
       - name: Install
         run: npm run setup
 
-      - name: Types and linter check
-        run: npm run test:lint
-
-      - name: Unit tests
-        run: npm run test:unit -- --coverage --coverageReporters="lcov"
-
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1.3.0
-        continue-on-error: true
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage/lcov.info
-
-      - name: E2E tests builded version
-        run: npm run test:e2e
-
-      - name: E2E tests dev version
-        run: npm run test:e2e:dev
-
-      - uses: actions/upload-artifact@v7
-        if: failure()
-        with:
-          name: playwright-report
-          path: |
-            playwright-report
-            test-results
-
-      # Firefox refuses to start as root when $HOME belongs to someone else, and
-      # the container's HOME (/github/home) is owned by pwuser. This is the
-      # workaround Playwright's own launch error prescribes. Only needed here:
-      # the Playwright e2e specs run chromium, which has no such check.
+      # Firefox refuses to start as root when $HOME belongs to someone else,
+      # and the container's HOME (/github/home) is owned by pwuser. This is
+      # the workaround Playwright's own launch error prescribes.
       - name: Storybook tests
         env:
           HOME: /root
@@ -99,9 +144,10 @@ jobs:
   # Edit" permission and add it via repo settings or `gh secret set`).
   website:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
@@ -136,12 +182,13 @@ jobs:
         working-directory: website
 
   deploy-storybook:
-    needs: build-test
+    needs: [build-test, storybook-test]
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     if: github.ref_name == 'master'
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -150,7 +197,7 @@ jobs:
       - name: Build storybook
         run: npm run build-storybook
       - name: Deploy storybook
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         if: github.ref_name == 'master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -161,13 +208,16 @@ jobs:
   # The release commit itself cannot retrigger this: it is pushed with
   # GITHUB_TOKEN, which never starts a workflow run, and is marked [skip ci].
   release:
-    needs: build-test
+    needs: [build-test, storybook-test]
     if: >
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       && github.ref_name == 'master'
     runs-on: ubuntu-24.04
-    # Same image as build-test so the browsers `prepack` pulls in via
-    # setup-tooling are already present and `playwright install` is a no-op.
+    timeout-minutes: 20
+    # The Playwright image ships the browsers `prepack` pulls in via
+    # setup-tooling, so `playwright install` is a no-op. Unlike build-test
+    # this job never talks to workerd, so the job container is safe here.
+    # Keep the tag in step with @playwright/test when bumping Playwright.
     container: mcr.microsoft.com/playwright:v1.62.0-noble
 
     permissions:
@@ -181,7 +231,7 @@ jobs:
       HUSKY: 0
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # commit-and-tag-version derives the bump and the changelog from every
           # commit and tag since the last release, so a shallow clone gives the
@@ -210,7 +260,7 @@ jobs:
       # No `cache: npm` here: npm advises against restoring a package manager
       # cache in a release build, so the published tarball is built from what
       # the lockfile actually resolves to today.
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         if: steps.check.outputs.release == 'true'
         with:
           node-version-file: '.nvmrc'

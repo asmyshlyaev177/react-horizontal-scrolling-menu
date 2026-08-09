@@ -9,6 +9,8 @@ const cbs: { [index: string]: (() => void) | undefined } = {
 };
 const context = {
   items: {
+    // A fresh map that has not processed its first batch yet.
+    firstRun: true,
     subscribe: jest.fn((event: string, cb: () => void) => {
       cbs[event] = cb;
     }),
@@ -64,5 +66,29 @@ describe('useOnCb', () => {
     unmount();
 
     expect(context.items.unsubscribe).toHaveBeenCalledTimes(2);
+  });
+
+  it('replays onInit when the first batch preceded the subscription', () => {
+    // WebKit can deliver the first IO batch between the layout effect that
+    // observes and the passive effect that subscribes — firstRun is already
+    // false by the time useOnCb runs, and the emit was lost.
+    const lateContext = {
+      items: { ...(context.items as object), firstRun: false },
+    } as unknown as publicApiType;
+
+    renderHook(() => useOnCb({ ...props, context: lateContext }));
+
+    expect(onInit).toHaveBeenCalledTimes(1);
+    expect(onInit).toHaveBeenNthCalledWith(1, lateContext);
+
+    // A late real emit must not double-fire the one-shot callback.
+    cbs?.onInit?.();
+    expect(onInit).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not fire onInit on subscribe before the first batch', () => {
+    renderHook(() => useOnCb(props));
+
+    expect(onInit).not.toHaveBeenCalled();
   });
 });

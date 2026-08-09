@@ -139,26 +139,22 @@
       ]
     },
     "storybook:static": {
-      "command": "http-server storybook-static -p 6007 -c-1",
-      "service": {
-        "readyWhen": {
-          "lineMatches": "Available on"
-        }
-      },
+      "command": "http-server storybook-static -p 6007 -c-1 -s",
+      "service": true,
       "dependencies": [
         "build-storybook",
         "setup-tooling"
       ]
     },
     "test:storybook-ci": {
-      "command": "npx wait-on http://127.0.0.1:6007 && test-storybook --browsers firefox chromium webkit --url http://127.0.0.1:6007",
+      "command": "npx wait-on -l -t 120000 --httpTimeout 10000 http://127.0.0.1:6007 && test-storybook --browsers firefox chromium webkit --url http://127.0.0.1:6007",
       "dependencies": [
         "storybook:static",
         "setup-tooling"
       ]
     },
     "test:storybook": {
-      "command": "npx wait-on http://127.0.0.1:6007 && test-storybook --browsers firefox chromium --url http://127.0.0.1:6007",
+      "command": "npx wait-on -l -t 120000 --httpTimeout 10000 http://127.0.0.1:6007 && test-storybook --browsers firefox chromium --url http://127.0.0.1:6007",
       "dependencies": [
         "storybook:static",
         "setup-tooling"
@@ -221,7 +217,7 @@
       "command": "ps aux | grep rollup | grep -v grep | awk '{print $2}' | xargs kill -9 || echo 'killed'"
     },
     "run:e2e": {
-      "command": "npx wait-on http://localhost:3003 http://localhost:3004 && playwright test",
+      "command": "npx wait-on -l -t 300000 --httpTimeout 10000 http://localhost:3003 http://localhost:3004 && playwright test",
       "dependencies": [
         "install:playwright"
       ]
@@ -327,7 +323,7 @@
       ]
     },
     "serve-tanstack": {
-      "command": "cd example-tanstack && npm run build && npm run serve 1> /dev/null",
+      "command": "cd example-tanstack && npm run build && npm run serve",
       "service": true,
       "dependencies": [
         "build"

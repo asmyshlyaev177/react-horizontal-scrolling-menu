@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import createApi from './createApi';
@@ -271,6 +272,29 @@ describe('createApi', () => {
       const { items } = setup([0.1, 1, 0.9]);
       expect(createApi(items, menuVisible).isItemVisible('test3')).toBeFalsy();
       expect(createApi(items, menuVisible).isItemVisible('')).toBeFalsy();
+    });
+  });
+
+  describe('useIsVisible', () => {
+    test('reads current visibility on subscribe when the first IO batch preceded it', () => {
+      // setup() delivers the initial batch BEFORE any hook subscribes,
+      // mirroring WebKit firing the intersection update between the layout
+      // effect that observes and the passive effect that subscribes — an
+      // emit with no subscriber is lost, so the hook must read the map.
+      const { items } = setup([0.7, 0, 0]);
+      const api = createApi(items, menuVisible);
+
+      const hidden = renderHook(() => api.useIsVisible('3', true));
+      expect(hidden.result.current).toBe(false);
+
+      const visible = renderHook(() => api.useIsVisible('test1', false));
+      expect(visible.result.current).toBe(true);
+
+      const first = renderHook(() => api.useIsVisible('first', false));
+      expect(first.result.current).toBe(true);
+
+      const last = renderHook(() => api.useIsVisible('last', true));
+      expect(last.result.current).toBe(false);
     });
   });
 

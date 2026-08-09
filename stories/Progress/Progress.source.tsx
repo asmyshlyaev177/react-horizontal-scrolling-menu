@@ -57,7 +57,11 @@ const Footer = () => {
   );
 
   // Need to update this component
-  // listening to 'onUpdate' event with some debounce
+  // listening to 'onUpdate' event with some debounce.
+  // 'onInit' covers the very first classification (it fires instead of
+  // 'onUpdate' there), and the immediate call picks the state up when the
+  // first batch landed before this effect ran — otherwise the footer would
+  // wait for the next scroll to appear.
   React.useEffect(() => {
     if (items) {
       let timer: ReturnType<typeof setTimeout>;
@@ -68,10 +72,13 @@ const Footer = () => {
           200,
         );
       };
+      items.subscribe('onInit', cb);
       items.subscribe('onUpdate', cb);
+      cb();
 
       return () => {
         clearTimeout(timer);
+        items.unsubscribe('onInit', cb);
         items.unsubscribe('onUpdate', cb);
       };
     }
