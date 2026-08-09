@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.3.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.3...v8.3.0) (2026-08-09)
+
+### Features
+
+* autoplay, loop and landing ([62247f7](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/62247f7f42ca3310c7d603eb44d11d3a3c4988b9))
 ## [8.2.3](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.2...v8.2.3) (2026-07-31)
 
 ### Bug Fixes
