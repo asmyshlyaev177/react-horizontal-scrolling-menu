@@ -2,6 +2,7 @@ import '@fontsource-variable/schibsted-grotesk';
 import '@fontsource-variable/jetbrains-mono';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import '../styles/app.css';
+import '../styles/tw.css';
 
 import jetbrainsWoff2 from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
 import schibstedWoff2 from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
@@ -48,10 +49,11 @@ const FONT_FACES = `
 }
 `;
 
-const TITLE =
-  'react-horizontal-scrolling-menu — the horizontal menu for React that knows what’s visible';
+// ≤60 chars, package name first — the SERP truncates around 60.
+const TITLE = 'react-horizontal-scrolling-menu — horizontal menu for React';
+// ~155 chars — the SERP snippet cuts around 160.
 const DESCRIPTION =
-  'A horizontal scrolling menu component for React, built on native browser scrolling with per-item visibility tracking. 5.7 kB gzipped, TypeScript-first, 347k downloads a month.';
+  'Horizontal scrolling menu for React on native browser scrolling, with per-item visibility tracking. 5.7 kB gzipped, TypeScript-first, 347k downloads/month.';
 
 const CONTRACT = `<!--
 THESIS: the component sells itself — every demo on this page IS the library
@@ -115,7 +117,8 @@ export const Route = createRootRoute({
         crossOrigin: 'anonymous',
       },
       { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-      { rel: 'canonical', href: SITE_URL },
+      // Canonical is per-route (lib/seo.ts pageHead) — a root-level one
+      // would duplicate on every child page.
     ],
   }),
   component: RootComponent,

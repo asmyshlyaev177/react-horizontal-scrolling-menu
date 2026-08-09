@@ -29,6 +29,8 @@ const preview: Preview = {
             'SaveRestorePosition',
             'PreventBodyScroll',
             'CustomTransition',
+            'InfiniteLoop',
+            'Autoplay',
             'Vertical',
             'BottomArrows',
             'MobileSwipeOnly',

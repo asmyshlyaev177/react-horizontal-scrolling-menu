@@ -107,9 +107,13 @@ and Footer slots, RTL, dynamic add/remove detection, and TypeScript types
 throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-menu.asmyshlyaev177.workers.dev)
 server-renders every demo.
 
-No autoplay, no infinite loop, no snap or spring physics. If you want a
-fullscreen image slider, use Embla or Swiper. If you need a row that knows
-what's visible, this is it.
+No carousel engine: no snap or spring physics — if you want a fullscreen
+image slider, use Embla or Swiper. Autoplay and infinite loop aren't props
+either; they're recipes of about sixty lines each on the public API,
+live-editable in Storybook
+([infinite loop](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
+[autoplay](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-autoplay--autoplay)).
+If you need a row that knows what's visible, this is it.
 
 ## Examples
 
@@ -119,8 +123,8 @@ each story ships with a Monaco editor loaded with the library's real type
 definitions. Covers: basic usage, one-item-per-scroll, mouse drag, scroll to
 item on mount, center on click, adding items dynamically, save/restore
 position, items animation, progress dots, preventing body scroll, custom
-transitions, vertical layout, arrows in the footer, mobile swipe, RTL, and a
-5000-item stress test.
+transitions, infinite loop, autoplay, vertical layout, arrows in the footer,
+mobile swipe, RTL, and a 5000-item stress test.
 
 <!-- DOCS_START -->
 

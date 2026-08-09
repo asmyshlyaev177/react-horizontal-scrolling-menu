@@ -92,3 +92,23 @@ export const feedColors = [
   'var(--demo-blue)',
   'var(--demo-violet)',
 ];
+
+export interface City {
+  id: string;
+  name: string;
+  color: string;
+  darkText?: boolean;
+}
+
+export const cities: City[] = [
+  { id: 'tokyo', name: 'Tokyo', color: 'var(--demo-red)' },
+  { id: 'oslo', name: 'Oslo', color: 'var(--demo-cyan)', darkText: true },
+  { id: 'lima', name: 'Lima', color: 'var(--demo-amber)', darkText: true },
+  { id: 'cairo', name: 'Cairo', color: 'var(--demo-blue)' },
+  { id: 'sydney', name: 'Sydney', color: 'var(--demo-green)', darkText: true },
+  { id: 'quito', name: 'Quito', color: 'var(--demo-violet)' },
+  { id: 'seoul', name: 'Seoul', color: 'var(--demo-cyan)', darkText: true },
+  { id: 'porto', name: 'Porto', color: 'var(--demo-red)' },
+  { id: 'denver', name: 'Denver', color: 'var(--demo-amber)', darkText: true },
+  { id: 'hanoi', name: 'Hanoi', color: 'var(--demo-blue)' },
+];

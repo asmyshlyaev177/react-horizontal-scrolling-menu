@@ -5,6 +5,12 @@
   "compatibility_flags": ["nodejs_compat"],
   // Bare package specifier, resolved by @cloudflare/vite-plugin — not a file path.
   "main": "@tanstack/react-start/server-entry",
+  // Serve prerendered pages at their canonical, no-trailing-slash URLs —
+  // the default auto-trailing-slash 307s /examples → /examples/, which
+  // fights every canonical link and the sitemap.
+  "assets": {
+    "html_handling": "drop-trailing-slash",
+  },
   "observability": {
     "enabled": true,
   },

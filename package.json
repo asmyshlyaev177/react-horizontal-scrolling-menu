@@ -15,11 +15,16 @@
     "navigation",
     "gallery",
     "horizontal",
+    "horizontal-scroll",
     "scroll",
     "scrolling",
     "scrolling-menu",
     "carousel",
-    "tabs"
+    "slider",
+    "swipe",
+    "tabs",
+    "intersection-observer",
+    "typescript"
   ],
   "license": "MIT",
   "type": "module",
@@ -102,6 +107,7 @@
     "setup": "npm install && npm run setup-tooling",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules example-tanstack/node_modules .wireit dist",
     "storybook": "wireit",
+    "storybook:static": "wireit",
     "build-storybook": "wireit",
     "prepack": "npm run build",
     "prepare": "husky",
@@ -132,17 +138,29 @@
         "setup-tooling"
       ]
     },
-    "test:storybook-ci": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium webkit",
+    "storybook:static": {
+      "command": "http-server storybook-static -p 6007 -c-1",
+      "service": {
+        "readyWhen": {
+          "lineMatches": "Available on"
+        }
+      },
       "dependencies": [
-        "storybook",
+        "build-storybook",
+        "setup-tooling"
+      ]
+    },
+    "test:storybook-ci": {
+      "command": "npx wait-on http://127.0.0.1:6007 && test-storybook --browsers firefox chromium webkit --url http://127.0.0.1:6007",
+      "dependencies": [
+        "storybook:static",
         "setup-tooling"
       ]
     },
     "test:storybook": {
-      "command": "npx wait-on http://localhost:6006 && test-storybook --browsers firefox chromium",
+      "command": "npx wait-on http://127.0.0.1:6007 && test-storybook --browsers firefox chromium --url http://127.0.0.1:6007",
       "dependencies": [
-        "storybook",
+        "storybook:static",
         "setup-tooling"
       ]
     },
@@ -174,7 +192,7 @@
       ]
     },
     "test:lint": {
-      "command": "eslint src e2e playwright.config.ts && prettier --check src e2e playwright.config.ts && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json",
+      "command": "eslint src e2e playwright.config.ts website/src && prettier --check src e2e playwright.config.ts website/src && tsc --noEmit && tsc --noEmit -p tsconfig.e2e.json",
       "dependencies": [
         "setup-tooling"
       ]
@@ -392,6 +410,7 @@
     "eslint-plugin-storybook": "^10.5.5",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^17.8.0",
+    "http-server": "^14.1.1",
     "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",

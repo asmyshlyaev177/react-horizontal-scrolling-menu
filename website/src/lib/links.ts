@@ -21,10 +21,28 @@ export const storyUrl = (id: string) => `${STORYBOOK}/?path=/story/${id}`;
 // Storybook reorganization only has to update this map.
 export const STORIES = {
   simple: storyUrl('examples-simple--simple'),
+  oneItem: storyUrl('examples-oneitem--one-item'),
+  oneItemScroll: storyUrl('examples-oneitemscroll--one-item-scroll'),
+  bottomArrows: storyUrl('examples-bottomarrows--bottom-arrows'),
   centerOnClick: storyUrl('examples-centeronclick--center-on-click'),
+  scrollToItem: storyUrl('examples-scrolltoitem--scroll-to-item'),
+  saveRestorePosition: storyUrl('examples-saverestoreposition--position'),
+  customTransition: storyUrl('examples-customtransition--custom-transition'),
+  progress: storyUrl('examples-progress--progress'),
+  mouseDrag: storyUrl('examples-mousedrag--mouse-drag'),
+  swipeDesktop: storyUrl('examples-swipedesktop--swipe-desktop'),
+  mobileSwipeOnly: storyUrl('examples-mobileswipeonly--mobile-swipe-only'),
+  preventBodyScroll: storyUrl(
+    'examples-preventbodyscroll--prevent-body-scroll',
+  ),
   addItemScrollTo: storyUrl(
     'examples-additemandscrolltoit--add-item-and-scroll-to-it',
   ),
   addItems: storyUrl('examples-additems--add-items'),
+  itemsAnimation: storyUrl('examples-itemsanimation--items-animation'),
+  performance: storyUrl('examples-performance--performance'),
+  vertical: storyUrl('examples-vertical--vertical'),
   rtl: storyUrl('examples-rtl--rtl'),
+  infiniteLoop: storyUrl('examples-infiniteloop--infinite-loop'),
+  autoplay: storyUrl('examples-autoplay--autoplay'),
 };

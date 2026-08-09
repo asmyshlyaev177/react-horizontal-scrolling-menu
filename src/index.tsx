@@ -108,6 +108,9 @@ export interface Props {
   /**
     Ref object that will be passed to ScrollContainer, immediate parent of items
 
+    It receives the scroll container element itself, so it can also read or
+    set scrollLeft before paint (see the InfiniteLoop example)
+
     Usable for animations with formkit/auto-animate
    */
   containerRef?: RefType<Element | null>;

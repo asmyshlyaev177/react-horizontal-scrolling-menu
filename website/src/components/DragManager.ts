@@ -8,28 +8,30 @@ export class DragManager {
   clicked = false;
   dragging = false;
   position = 0;
+  resetId = 0;
 
   dragStart = (ev: React.MouseEvent) => {
+    // A pending reset from the previous drag would kill this one.
+    window.cancelAnimationFrame(this.resetId);
     this.position = ev.clientX;
     this.clicked = true;
   };
 
   dragStop = () => {
-    window.requestAnimationFrame(() => {
+    // Stop applying immediately; only `dragging` waits a frame, so click
+    // handlers can still read it. Deferring `clicked` too let a mousemove
+    // landing within that frame apply a stale delta from the old anchor.
+    this.clicked = false;
+    this.resetId = window.requestAnimationFrame(() => {
       this.dragging = false;
-      this.clicked = false;
     });
   };
 
   dragMove = (ev: React.MouseEvent, cb: (delta: number) => void) => {
     const newDiff = this.position - ev.clientX;
-    const movedEnough = Math.abs(newDiff) > 5;
 
-    if (this.clicked && movedEnough) {
+    if (this.clicked && Math.abs(newDiff) > 5) {
       this.dragging = true;
-    }
-
-    if (this.dragging && movedEnough) {
       this.position = ev.clientX;
       cb(newDiff);
     }

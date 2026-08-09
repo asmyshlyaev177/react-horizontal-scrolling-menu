@@ -1,23 +1,21 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 import { CodeBlock, CopyButton } from '../components/CodeBlock';
+import { AutoplayDemo } from '../components/demos/AutoplayDemo';
 import { ChipsDemo } from '../components/demos/ChipsDemo';
 import { HeroDemo } from '../components/demos/HeroDemo';
 import { InfiniteDemo } from '../components/demos/InfiniteDemo';
 import { QuickStartDemo } from '../components/demos/QuickStartDemo';
 import { RTLDemo } from '../components/demos/RTLDemo';
 import { TabsDemo } from '../components/demos/TabsDemo';
-import { ArrowUpRight, Check, GitHub, Mark, Minus } from '../components/Icons';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { ArrowUpRight, Check, Minus } from '../components/Icons';
+import { SiteFooter, SiteHeader } from '../components/SiteChrome';
 import {
   API_DOCS,
   AUTHOR_GITHUB,
   AUTHOR_LINKEDIN,
   AUTHOR_SITE,
-  CHANGELOG,
   GITHUB,
-  ISSUES,
-  NPM,
   REACT_STATUS,
   SITE_URL,
   STORIES,
@@ -25,6 +23,9 @@ import {
 } from '../lib/links';
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    links: [{ rel: 'canonical', href: SITE_URL }],
+  }),
   component: Home,
 });
 
@@ -51,35 +52,7 @@ const jsonLd = {
 function Home() {
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-
-      <header className="site-header">
-        <div className="container">
-          <a
-            className="brand"
-            href="/"
-            aria-label="react-horizontal-scrolling-menu — home"
-          >
-            <Mark />
-            <span>react-horizontal-scrolling-menu</span>
-          </a>
-          <nav className="site-nav" aria-label="Site">
-            <a className="nav-link" href={STORYBOOK}>
-              Examples
-            </a>
-            <a className="nav-link" href={NPM}>
-              npm
-            </a>
-            <a className="nav-link" href={GITHUB}>
-              <GitHub />
-              GitHub
-            </a>
-            <ThemeToggle />
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="main">
         {/* ---------------- hero ---------------- */}
@@ -133,6 +106,33 @@ function Home() {
           </div>
         </section>
 
+        {/* ---------------- autoplay ---------------- */}
+        <section
+          className="autoplay container"
+          aria-labelledby="autoplay-title"
+        >
+          <h2 className="section-heading" id="autoplay-title">
+            Autoplay, without a carousel engine
+          </h2>
+          <p className="section-lede">
+            There’s no <code>autoplay</code> prop — this rail is a recipe on the
+            public API: the row cloned onto both ends, one{' '}
+            <code>scrollLeft</code> jump at the seam, and a timer calling{' '}
+            <code>scrollNext()</code>. It pauses on hover, focus and hidden
+            tabs, sits still under reduced motion — and you can drag it, even
+            backwards, across the seam.
+          </p>
+          <AutoplayDemo />
+          <p className="links-row">
+            <Link className="gallery-link" to="/examples/autoplay">
+              Read the full recipe
+            </Link>
+            <a className="gallery-link" href={STORIES.autoplay}>
+              Edit it live in Storybook <ArrowUpRight />
+            </a>
+          </p>
+        </section>
+
         {/* ---------------- positioning ---------------- */}
         <section
           className="positioning container"
@@ -145,10 +145,10 @@ function Home() {
               </h2>
               <p className="honest-scope">
                 Embla, Swiper and keen-slider re-implement scrolling in
-                JavaScript to build image sliders — autoplay, loops, spring
-                physics. This library does none of that. It rides native browser
-                scrolling and adds the one thing the browser doesn’t give you:
-                knowing exactly which items are on screen.
+                JavaScript to build image sliders — snap points, spring physics,
+                a render loop. This library ships none of that. It rides native
+                browser scrolling and adds the one thing the browser doesn’t
+                give you: knowing exactly which items are on screen.
               </p>
               <p className="honest-scope">
                 <strong>The wrong tool</strong> for a fullscreen image slider —
@@ -239,9 +239,9 @@ function Home() {
                   </span>
                 </p>
               </div>
-              <a className="gallery-link" href={STORIES.simple}>
-                Open this example in Storybook <ArrowUpRight />
-              </a>
+              <Link className="gallery-link" to="/examples/simple">
+                Read the full getting-started example
+              </Link>
             </div>
           </div>
         </section>
@@ -265,9 +265,9 @@ function Home() {
                 and paging.
               </p>
               <CodeBlock snippet="tabs" title="Tab.tsx" />
-              <a className="gallery-link" href={STORIES.centerOnClick}>
-                Open in Storybook <ArrowUpRight />
-              </a>
+              <Link className="gallery-link" to="/examples/center-on-click">
+                See the full example
+              </Link>
             </div>
             <TabsDemo />
           </div>
@@ -280,9 +280,12 @@ function Home() {
                 Add a filter and the row follows it.
               </p>
               <CodeBlock snippet="chips" title="Filters.tsx" />
-              <a className="gallery-link" href={STORIES.addItemScrollTo}>
-                Open in Storybook <ArrowUpRight />
-              </a>
+              <Link
+                className="gallery-link"
+                to="/examples/add-item-and-scroll-to-it"
+              >
+                See the full example
+              </Link>
             </div>
             <ChipsDemo />
           </div>
@@ -296,9 +299,9 @@ function Home() {
                 no pixel thresholds to tune.
               </p>
               <CodeBlock snippet="infinite" title="Feed.tsx" />
-              <a className="gallery-link" href={STORIES.addItems}>
-                Open in Storybook <ArrowUpRight />
-              </a>
+              <Link className="gallery-link" to="/examples/add-items">
+                See the full example
+              </Link>
             </div>
             <InfiniteDemo />
           </div>
@@ -311,9 +314,9 @@ function Home() {
                 and paging logic follow.
               </p>
               <CodeBlock snippet="rtl" title="Menu.tsx" />
-              <a className="gallery-link" href={STORIES.rtl}>
-                Open in Storybook <ArrowUpRight />
-              </a>
+              <Link className="gallery-link" to="/examples/rtl">
+                See the full example
+              </Link>
             </div>
             <RTLDemo />
           </div>
@@ -368,8 +371,6 @@ function Home() {
               <h3>Not in the box</h3>
               <ul>
                 {[
-                  'Autoplay',
-                  'Infinite loop',
                   'Snap and spring physics',
                   'Fullscreen image sliders',
                   'Lightboxes',
@@ -382,7 +383,11 @@ function Home() {
               </ul>
               <p>
                 Those belong to image-slider land — Embla and Swiper do them
-                well. This stays a menu.
+                well. <a href={STORIES.infiniteLoop}>Infinite loop</a> and{' '}
+                <a href={STORIES.autoplay}>autoplay</a> aren’t props either —
+                they’re recipes: about sixty lines of the public API each,
+                live-editable in Storybook. The rail near the top of this page
+                is exactly that recipe, running. This stays a menu.
               </p>
             </div>
           </div>
@@ -453,16 +458,7 @@ function Home() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="container">
-          <a href={GITHUB}>GitHub</a>
-          <a href={NPM}>npm</a>
-          <a href={STORYBOOK}>Storybook</a>
-          <a href={CHANGELOG}>Changelog</a>
-          <a href={ISSUES}>Issues</a>
-          <span className="license">MIT © Aleksandr Smyshliaev</span>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <script
         type="application/ld+json"

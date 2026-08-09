@@ -10,33 +10,340 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ExamplesIndexRouteImport } from './routes/examples/index'
+import { Route as ExamplesAddItemAndScrollToItRouteImport } from './routes/examples/add-item-and-scroll-to-it'
+import { Route as ExamplesAddItemsRouteImport } from './routes/examples/add-items'
+import { Route as ExamplesAutoplayRouteImport } from './routes/examples/autoplay'
+import { Route as ExamplesBottomArrowsRouteImport } from './routes/examples/bottom-arrows'
+import { Route as ExamplesCenterOnClickRouteImport } from './routes/examples/center-on-click'
+import { Route as ExamplesCustomTransitionRouteImport } from './routes/examples/custom-transition'
+import { Route as ExamplesInfiniteLoopRouteImport } from './routes/examples/infinite-loop'
+import { Route as ExamplesItemsAnimationRouteImport } from './routes/examples/items-animation'
+import { Route as ExamplesMobileSwipeOnlyRouteImport } from './routes/examples/mobile-swipe-only'
+import { Route as ExamplesMouseDragRouteImport } from './routes/examples/mouse-drag'
+import { Route as ExamplesOneItemRouteImport } from './routes/examples/one-item'
+import { Route as ExamplesOneItemScrollRouteImport } from './routes/examples/one-item-scroll'
+import { Route as ExamplesPerformanceRouteImport } from './routes/examples/performance'
+import { Route as ExamplesPreventBodyScrollRouteImport } from './routes/examples/prevent-body-scroll'
+import { Route as ExamplesProgressRouteImport } from './routes/examples/progress'
+import { Route as ExamplesRtlRouteImport } from './routes/examples/rtl'
+import { Route as ExamplesSaveRestorePositionRouteImport } from './routes/examples/save-restore-position'
+import { Route as ExamplesScrollToItemRouteImport } from './routes/examples/scroll-to-item'
+import { Route as ExamplesSimpleRouteImport } from './routes/examples/simple'
+import { Route as ExamplesSwipeDesktopRouteImport } from './routes/examples/swipe-desktop'
+import { Route as ExamplesVerticalRouteImport } from './routes/examples/vertical'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
+  id: '/examples/',
+  path: '/examples/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesAddItemAndScrollToItRoute =
+  ExamplesAddItemAndScrollToItRouteImport.update({
+    id: '/examples/add-item-and-scroll-to-it',
+    path: '/examples/add-item-and-scroll-to-it',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExamplesAddItemsRoute = ExamplesAddItemsRouteImport.update({
+  id: '/examples/add-items',
+  path: '/examples/add-items',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesAutoplayRoute = ExamplesAutoplayRouteImport.update({
+  id: '/examples/autoplay',
+  path: '/examples/autoplay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesBottomArrowsRoute = ExamplesBottomArrowsRouteImport.update({
+  id: '/examples/bottom-arrows',
+  path: '/examples/bottom-arrows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesCenterOnClickRoute = ExamplesCenterOnClickRouteImport.update({
+  id: '/examples/center-on-click',
+  path: '/examples/center-on-click',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesCustomTransitionRoute =
+  ExamplesCustomTransitionRouteImport.update({
+    id: '/examples/custom-transition',
+    path: '/examples/custom-transition',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExamplesInfiniteLoopRoute = ExamplesInfiniteLoopRouteImport.update({
+  id: '/examples/infinite-loop',
+  path: '/examples/infinite-loop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesItemsAnimationRoute = ExamplesItemsAnimationRouteImport.update({
+  id: '/examples/items-animation',
+  path: '/examples/items-animation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesMobileSwipeOnlyRoute = ExamplesMobileSwipeOnlyRouteImport.update({
+  id: '/examples/mobile-swipe-only',
+  path: '/examples/mobile-swipe-only',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesMouseDragRoute = ExamplesMouseDragRouteImport.update({
+  id: '/examples/mouse-drag',
+  path: '/examples/mouse-drag',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesOneItemRoute = ExamplesOneItemRouteImport.update({
+  id: '/examples/one-item',
+  path: '/examples/one-item',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesOneItemScrollRoute = ExamplesOneItemScrollRouteImport.update({
+  id: '/examples/one-item-scroll',
+  path: '/examples/one-item-scroll',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesPerformanceRoute = ExamplesPerformanceRouteImport.update({
+  id: '/examples/performance',
+  path: '/examples/performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesPreventBodyScrollRoute =
+  ExamplesPreventBodyScrollRouteImport.update({
+    id: '/examples/prevent-body-scroll',
+    path: '/examples/prevent-body-scroll',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExamplesProgressRoute = ExamplesProgressRouteImport.update({
+  id: '/examples/progress',
+  path: '/examples/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesRtlRoute = ExamplesRtlRouteImport.update({
+  id: '/examples/rtl',
+  path: '/examples/rtl',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesSaveRestorePositionRoute =
+  ExamplesSaveRestorePositionRouteImport.update({
+    id: '/examples/save-restore-position',
+    path: '/examples/save-restore-position',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ExamplesScrollToItemRoute = ExamplesScrollToItemRouteImport.update({
+  id: '/examples/scroll-to-item',
+  path: '/examples/scroll-to-item',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesSimpleRoute = ExamplesSimpleRouteImport.update({
+  id: '/examples/simple',
+  path: '/examples/simple',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesSwipeDesktopRoute = ExamplesSwipeDesktopRouteImport.update({
+  id: '/examples/swipe-desktop',
+  path: '/examples/swipe-desktop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamplesVerticalRoute = ExamplesVerticalRouteImport.update({
+  id: '/examples/vertical',
+  path: '/examples/vertical',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
+  '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
+  '/examples/add-items': typeof ExamplesAddItemsRoute
+  '/examples/autoplay': typeof ExamplesAutoplayRoute
+  '/examples/bottom-arrows': typeof ExamplesBottomArrowsRoute
+  '/examples/center-on-click': typeof ExamplesCenterOnClickRoute
+  '/examples/custom-transition': typeof ExamplesCustomTransitionRoute
+  '/examples/infinite-loop': typeof ExamplesInfiniteLoopRoute
+  '/examples/items-animation': typeof ExamplesItemsAnimationRoute
+  '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
+  '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/one-item': typeof ExamplesOneItemRoute
+  '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
+  '/examples/performance': typeof ExamplesPerformanceRoute
+  '/examples/prevent-body-scroll': typeof ExamplesPreventBodyScrollRoute
+  '/examples/progress': typeof ExamplesProgressRoute
+  '/examples/rtl': typeof ExamplesRtlRoute
+  '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
+  '/examples/simple': typeof ExamplesSimpleRoute
+  '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
+  '/examples/vertical': typeof ExamplesVerticalRoute
+  '/examples/': typeof ExamplesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
+  '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
+  '/examples/add-items': typeof ExamplesAddItemsRoute
+  '/examples/autoplay': typeof ExamplesAutoplayRoute
+  '/examples/bottom-arrows': typeof ExamplesBottomArrowsRoute
+  '/examples/center-on-click': typeof ExamplesCenterOnClickRoute
+  '/examples/custom-transition': typeof ExamplesCustomTransitionRoute
+  '/examples/infinite-loop': typeof ExamplesInfiniteLoopRoute
+  '/examples/items-animation': typeof ExamplesItemsAnimationRoute
+  '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
+  '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/one-item': typeof ExamplesOneItemRoute
+  '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
+  '/examples/performance': typeof ExamplesPerformanceRoute
+  '/examples/prevent-body-scroll': typeof ExamplesPreventBodyScrollRoute
+  '/examples/progress': typeof ExamplesProgressRoute
+  '/examples/rtl': typeof ExamplesRtlRoute
+  '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
+  '/examples/simple': typeof ExamplesSimpleRoute
+  '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
+  '/examples/vertical': typeof ExamplesVerticalRoute
+  '/examples': typeof ExamplesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/compare': typeof CompareRoute
+  '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
+  '/examples/add-items': typeof ExamplesAddItemsRoute
+  '/examples/autoplay': typeof ExamplesAutoplayRoute
+  '/examples/bottom-arrows': typeof ExamplesBottomArrowsRoute
+  '/examples/center-on-click': typeof ExamplesCenterOnClickRoute
+  '/examples/custom-transition': typeof ExamplesCustomTransitionRoute
+  '/examples/infinite-loop': typeof ExamplesInfiniteLoopRoute
+  '/examples/items-animation': typeof ExamplesItemsAnimationRoute
+  '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
+  '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/one-item': typeof ExamplesOneItemRoute
+  '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
+  '/examples/performance': typeof ExamplesPerformanceRoute
+  '/examples/prevent-body-scroll': typeof ExamplesPreventBodyScrollRoute
+  '/examples/progress': typeof ExamplesProgressRoute
+  '/examples/rtl': typeof ExamplesRtlRoute
+  '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
+  '/examples/simple': typeof ExamplesSimpleRoute
+  '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
+  '/examples/vertical': typeof ExamplesVerticalRoute
+  '/examples/': typeof ExamplesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/compare'
+    | '/examples/add-item-and-scroll-to-it'
+    | '/examples/add-items'
+    | '/examples/autoplay'
+    | '/examples/bottom-arrows'
+    | '/examples/center-on-click'
+    | '/examples/custom-transition'
+    | '/examples/infinite-loop'
+    | '/examples/items-animation'
+    | '/examples/mobile-swipe-only'
+    | '/examples/mouse-drag'
+    | '/examples/one-item'
+    | '/examples/one-item-scroll'
+    | '/examples/performance'
+    | '/examples/prevent-body-scroll'
+    | '/examples/progress'
+    | '/examples/rtl'
+    | '/examples/save-restore-position'
+    | '/examples/scroll-to-item'
+    | '/examples/simple'
+    | '/examples/swipe-desktop'
+    | '/examples/vertical'
+    | '/examples/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/compare'
+    | '/examples/add-item-and-scroll-to-it'
+    | '/examples/add-items'
+    | '/examples/autoplay'
+    | '/examples/bottom-arrows'
+    | '/examples/center-on-click'
+    | '/examples/custom-transition'
+    | '/examples/infinite-loop'
+    | '/examples/items-animation'
+    | '/examples/mobile-swipe-only'
+    | '/examples/mouse-drag'
+    | '/examples/one-item'
+    | '/examples/one-item-scroll'
+    | '/examples/performance'
+    | '/examples/prevent-body-scroll'
+    | '/examples/progress'
+    | '/examples/rtl'
+    | '/examples/save-restore-position'
+    | '/examples/scroll-to-item'
+    | '/examples/simple'
+    | '/examples/swipe-desktop'
+    | '/examples/vertical'
+    | '/examples'
+  id:
+    | '__root__'
+    | '/'
+    | '/compare'
+    | '/examples/add-item-and-scroll-to-it'
+    | '/examples/add-items'
+    | '/examples/autoplay'
+    | '/examples/bottom-arrows'
+    | '/examples/center-on-click'
+    | '/examples/custom-transition'
+    | '/examples/infinite-loop'
+    | '/examples/items-animation'
+    | '/examples/mobile-swipe-only'
+    | '/examples/mouse-drag'
+    | '/examples/one-item'
+    | '/examples/one-item-scroll'
+    | '/examples/performance'
+    | '/examples/prevent-body-scroll'
+    | '/examples/progress'
+    | '/examples/rtl'
+    | '/examples/save-restore-position'
+    | '/examples/scroll-to-item'
+    | '/examples/simple'
+    | '/examples/swipe-desktop'
+    | '/examples/vertical'
+    | '/examples/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompareRoute: typeof CompareRoute
+  ExamplesAddItemAndScrollToItRoute: typeof ExamplesAddItemAndScrollToItRoute
+  ExamplesAddItemsRoute: typeof ExamplesAddItemsRoute
+  ExamplesAutoplayRoute: typeof ExamplesAutoplayRoute
+  ExamplesBottomArrowsRoute: typeof ExamplesBottomArrowsRoute
+  ExamplesCenterOnClickRoute: typeof ExamplesCenterOnClickRoute
+  ExamplesCustomTransitionRoute: typeof ExamplesCustomTransitionRoute
+  ExamplesInfiniteLoopRoute: typeof ExamplesInfiniteLoopRoute
+  ExamplesItemsAnimationRoute: typeof ExamplesItemsAnimationRoute
+  ExamplesMobileSwipeOnlyRoute: typeof ExamplesMobileSwipeOnlyRoute
+  ExamplesMouseDragRoute: typeof ExamplesMouseDragRoute
+  ExamplesOneItemRoute: typeof ExamplesOneItemRoute
+  ExamplesOneItemScrollRoute: typeof ExamplesOneItemScrollRoute
+  ExamplesPerformanceRoute: typeof ExamplesPerformanceRoute
+  ExamplesPreventBodyScrollRoute: typeof ExamplesPreventBodyScrollRoute
+  ExamplesProgressRoute: typeof ExamplesProgressRoute
+  ExamplesRtlRoute: typeof ExamplesRtlRoute
+  ExamplesSaveRestorePositionRoute: typeof ExamplesSaveRestorePositionRoute
+  ExamplesScrollToItemRoute: typeof ExamplesScrollToItemRoute
+  ExamplesSimpleRoute: typeof ExamplesSimpleRoute
+  ExamplesSwipeDesktopRoute: typeof ExamplesSwipeDesktopRoute
+  ExamplesVerticalRoute: typeof ExamplesVerticalRoute
+  ExamplesIndexRoute: typeof ExamplesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +355,195 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/': {
+      id: '/examples/'
+      path: '/examples'
+      fullPath: '/examples/'
+      preLoaderRoute: typeof ExamplesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/add-item-and-scroll-to-it': {
+      id: '/examples/add-item-and-scroll-to-it'
+      path: '/examples/add-item-and-scroll-to-it'
+      fullPath: '/examples/add-item-and-scroll-to-it'
+      preLoaderRoute: typeof ExamplesAddItemAndScrollToItRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/add-items': {
+      id: '/examples/add-items'
+      path: '/examples/add-items'
+      fullPath: '/examples/add-items'
+      preLoaderRoute: typeof ExamplesAddItemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/autoplay': {
+      id: '/examples/autoplay'
+      path: '/examples/autoplay'
+      fullPath: '/examples/autoplay'
+      preLoaderRoute: typeof ExamplesAutoplayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/bottom-arrows': {
+      id: '/examples/bottom-arrows'
+      path: '/examples/bottom-arrows'
+      fullPath: '/examples/bottom-arrows'
+      preLoaderRoute: typeof ExamplesBottomArrowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/center-on-click': {
+      id: '/examples/center-on-click'
+      path: '/examples/center-on-click'
+      fullPath: '/examples/center-on-click'
+      preLoaderRoute: typeof ExamplesCenterOnClickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/custom-transition': {
+      id: '/examples/custom-transition'
+      path: '/examples/custom-transition'
+      fullPath: '/examples/custom-transition'
+      preLoaderRoute: typeof ExamplesCustomTransitionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/infinite-loop': {
+      id: '/examples/infinite-loop'
+      path: '/examples/infinite-loop'
+      fullPath: '/examples/infinite-loop'
+      preLoaderRoute: typeof ExamplesInfiniteLoopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/items-animation': {
+      id: '/examples/items-animation'
+      path: '/examples/items-animation'
+      fullPath: '/examples/items-animation'
+      preLoaderRoute: typeof ExamplesItemsAnimationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/mobile-swipe-only': {
+      id: '/examples/mobile-swipe-only'
+      path: '/examples/mobile-swipe-only'
+      fullPath: '/examples/mobile-swipe-only'
+      preLoaderRoute: typeof ExamplesMobileSwipeOnlyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/mouse-drag': {
+      id: '/examples/mouse-drag'
+      path: '/examples/mouse-drag'
+      fullPath: '/examples/mouse-drag'
+      preLoaderRoute: typeof ExamplesMouseDragRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/one-item': {
+      id: '/examples/one-item'
+      path: '/examples/one-item'
+      fullPath: '/examples/one-item'
+      preLoaderRoute: typeof ExamplesOneItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/one-item-scroll': {
+      id: '/examples/one-item-scroll'
+      path: '/examples/one-item-scroll'
+      fullPath: '/examples/one-item-scroll'
+      preLoaderRoute: typeof ExamplesOneItemScrollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/performance': {
+      id: '/examples/performance'
+      path: '/examples/performance'
+      fullPath: '/examples/performance'
+      preLoaderRoute: typeof ExamplesPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/prevent-body-scroll': {
+      id: '/examples/prevent-body-scroll'
+      path: '/examples/prevent-body-scroll'
+      fullPath: '/examples/prevent-body-scroll'
+      preLoaderRoute: typeof ExamplesPreventBodyScrollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/progress': {
+      id: '/examples/progress'
+      path: '/examples/progress'
+      fullPath: '/examples/progress'
+      preLoaderRoute: typeof ExamplesProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/rtl': {
+      id: '/examples/rtl'
+      path: '/examples/rtl'
+      fullPath: '/examples/rtl'
+      preLoaderRoute: typeof ExamplesRtlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/save-restore-position': {
+      id: '/examples/save-restore-position'
+      path: '/examples/save-restore-position'
+      fullPath: '/examples/save-restore-position'
+      preLoaderRoute: typeof ExamplesSaveRestorePositionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/scroll-to-item': {
+      id: '/examples/scroll-to-item'
+      path: '/examples/scroll-to-item'
+      fullPath: '/examples/scroll-to-item'
+      preLoaderRoute: typeof ExamplesScrollToItemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/simple': {
+      id: '/examples/simple'
+      path: '/examples/simple'
+      fullPath: '/examples/simple'
+      preLoaderRoute: typeof ExamplesSimpleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/swipe-desktop': {
+      id: '/examples/swipe-desktop'
+      path: '/examples/swipe-desktop'
+      fullPath: '/examples/swipe-desktop'
+      preLoaderRoute: typeof ExamplesSwipeDesktopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/vertical': {
+      id: '/examples/vertical'
+      path: '/examples/vertical'
+      fullPath: '/examples/vertical'
+      preLoaderRoute: typeof ExamplesVerticalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompareRoute: CompareRoute,
+  ExamplesAddItemAndScrollToItRoute: ExamplesAddItemAndScrollToItRoute,
+  ExamplesAddItemsRoute: ExamplesAddItemsRoute,
+  ExamplesAutoplayRoute: ExamplesAutoplayRoute,
+  ExamplesBottomArrowsRoute: ExamplesBottomArrowsRoute,
+  ExamplesCenterOnClickRoute: ExamplesCenterOnClickRoute,
+  ExamplesCustomTransitionRoute: ExamplesCustomTransitionRoute,
+  ExamplesInfiniteLoopRoute: ExamplesInfiniteLoopRoute,
+  ExamplesItemsAnimationRoute: ExamplesItemsAnimationRoute,
+  ExamplesMobileSwipeOnlyRoute: ExamplesMobileSwipeOnlyRoute,
+  ExamplesMouseDragRoute: ExamplesMouseDragRoute,
+  ExamplesOneItemRoute: ExamplesOneItemRoute,
+  ExamplesOneItemScrollRoute: ExamplesOneItemScrollRoute,
+  ExamplesPerformanceRoute: ExamplesPerformanceRoute,
+  ExamplesPreventBodyScrollRoute: ExamplesPreventBodyScrollRoute,
+  ExamplesProgressRoute: ExamplesProgressRoute,
+  ExamplesRtlRoute: ExamplesRtlRoute,
+  ExamplesSaveRestorePositionRoute: ExamplesSaveRestorePositionRoute,
+  ExamplesScrollToItemRoute: ExamplesScrollToItemRoute,
+  ExamplesSimpleRoute: ExamplesSimpleRoute,
+  ExamplesSwipeDesktopRoute: ExamplesSwipeDesktopRoute,
+  ExamplesVerticalRoute: ExamplesVerticalRoute,
+  ExamplesIndexRoute: ExamplesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
