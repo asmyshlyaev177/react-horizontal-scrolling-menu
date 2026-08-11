@@ -1529,3 +1529,17 @@ pre {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- for-hire badge ---------- */
+
+/* <for-hire-badge> is a custom element served from asmyshlyaev177.dev (see
+   routes/__root.tsx). Its own styles live in its shadow root; these tokens
+   drop it into this page's palette, in whichever theme is active. */
+for-hire-badge {
+  --fhb-bg: var(--surface);
+  --fhb-border: var(--border);
+  --fhb-ink: var(--ink);
+  --fhb-muted: var(--muted);
+  --fhb-font: var(--font-sans);
+  --fhb-shadow: var(--shadow-2);
+}

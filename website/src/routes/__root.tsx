@@ -176,6 +176,11 @@ function RootDocument({ children }: { children: ReactNode }) {
         {/* After HeadContent so it follows the bundled CSS — see FONT_FACES. */}
         <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        {/* Shared across my sites — one implementation, served from the
+            portfolio. The element below shows itself only while the GitHub
+            "Available for hire" toggle is on, and follows the same data-theme
+            THEME_INIT writes. */}
+        <script async src="https://asmyshlyaev177.dev/for-hire-badge.js" />
         {import.meta.env.PROD && (
           <>
             <script
@@ -193,6 +198,7 @@ function RootDocument({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: CONTRACT }}
         />
         {children}
+        <for-hire-badge></for-hire-badge>
         <Scripts />
       </body>
     </html>
