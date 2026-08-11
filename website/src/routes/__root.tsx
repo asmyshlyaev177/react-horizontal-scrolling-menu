@@ -159,6 +159,25 @@ const THEME_INIT = `try{var t=localStorage.getItem('theme');if(t==='light'||t===
 const GA_ID = 'G-H5MGQC810S';
 const GA_INIT = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA_ID}');`;
 
+/**
+ * Self-hosted behavior analytics — click and hover heatmaps, scroll depth,
+ * rage clicks, session replay — answering what GA4 cannot: whether people
+ * actually drag the hero rail, and how far down the examples they get.
+ * ~1.7 kB gzipped, no cookies.
+ *
+ * The tag carries nothing on purpose: the collector is baked into the bundle
+ * and the site key is this page's own hostname, so a copy of this snippet on
+ * another host can only ever file under that host. Loaded from the Worker
+ * rather than vendored into public/, which is what keeps a tracker update
+ * reaching this site on its own (Cache-Control: max-age=300).
+ *
+ * Under the same PROD gate as GA4, so `vite dev` never reports — and the
+ * tracker ignores navigator.webdriver, so no Playwright or Lighthouse run
+ * lands in the data either.
+ */
+const HEATMAP_SRC =
+  'https://heatmap-analytics.asmyshlyaev177.workers.dev/tracker.js';
+
 function RootDocument({ children }: { children: ReactNode }) {
   return (
     // suppressHydrationWarning: THEME_INIT sets data-theme on <html> before
@@ -188,6 +207,7 @@ function RootDocument({ children }: { children: ReactNode }) {
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
             />
             <script dangerouslySetInnerHTML={{ __html: GA_INIT }} />
+            <script async src={HEATMAP_SRC} />
           </>
         )}
       </head>
