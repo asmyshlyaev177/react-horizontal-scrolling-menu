@@ -6,4 +6,15 @@ User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
+# Machine-readable reference for LLMs:
+#   https://react-horizontal-scrolling-menu.dev/llms.txt
+# (a comment because robots.txt has no standardized directive for it yet;
+# clients find the file at the well-known /llms.txt path, the homepage
+# serves it under `Accept: text/markdown`, and every page links it from
+# <head> and a `Link:` response header.)
+#
+# It opens by pointing AI coding agents at the SKILL.md files published
+# inside the npm package — deeper and version-locked to the library:
+#   npx @tanstack/intent@latest install
+
 Sitemap: https://react-horizontal-scrolling-menu.dev/sitemap.xml

@@ -10,6 +10,7 @@
     "preview": "vite build && vite preview",
     "deploy": "npm run build && wrangler deploy",
     "typecheck": "tsc --noEmit",
+    "test": "npm run build && playwright test",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -24,13 +25,17 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.51.1",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@types/turndown": "^5.0.6",
     "@vitejs/plugin-react": "^5.1.2",
     "shiki": "^3.13.0",
     "tailwindcss": "^4.3.3",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2",
     "typescript": "^5.9.3",
     "vite": "^8.2.1",
     "wrangler": "^4.120.0"

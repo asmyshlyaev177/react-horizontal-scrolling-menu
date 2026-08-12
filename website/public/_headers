@@ -16,3 +16,36 @@
 
 # robots.txt, llms.txt and sitemap.xml deliberately keep the revalidating
 # default — a crawler should never work from a stale copy of any of them.
+
+# llms.txt is Markdown. Workers Assets types every .txt as text/plain, and a
+# client that asks for text/markdown should be told it got some.
+/llms.txt
+  Content-Type: text/markdown; charset=utf-8
+
+# Advertise the Markdown alternates on every HTML response, not only inside
+# the markup: a `Link:` header reaches clients that send HEAD, or that never
+# parse <head> at all. One rule per HTML route rather than `/*`, which would
+# staple it to every image and hashed asset too.
+#
+# Each route names its own mirror before the site-wide summary — the same
+# order, and for the same reason, as the two `rel="alternate"` links in
+# src/lib/seo.ts: a client taking the first one should get the page it asked
+# about, and fall back to the whole-site reference only where there is no
+# page of its own to hand back.
+#
+# `:slug` matches one path segment and is interpolated into the value, so the
+# examples need one rule rather than twenty-one. It also matches the mirrors
+# themselves (`/examples/<slug>.md`), which is why the rule below is written
+# as `/examples/:slug` and not `/examples/*` — see the note there.
+/
+  Link: </index.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
+  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
+/examples
+  Link: </examples.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
+  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
+/examples/:slug
+  Link: </examples/:slug.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
+  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
+/compare
+  Link: </compare.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
+  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"

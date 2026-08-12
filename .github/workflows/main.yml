@@ -159,8 +159,18 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
         working-directory: website
-      - name: Build
-        run: npm run build
+      # `npm test` builds, then runs the Playwright suite against `vite
+      # preview` — the built site in workerd. No browser is downloaded on
+      # purpose: every assertion in website/e2e is HTTP-level (status,
+      # headers, body) and runs on Playwright's `request` fixture, so
+      # `playwright install` is not needed here. A test that touches `page`
+      # would change that.
+      #
+      # workerd is why this job has no `container:` — see the note on
+      # build-test above; inside a job container it accepts connections and
+      # never answers them, which would hang the webServer wait.
+      - name: Build and smoke test
+        run: npm test
         working-directory: website
       # The whole point of the page is that the demos are server-rendered;
       # a prerender that silently degrades to an empty shell must fail CI.
@@ -168,6 +178,13 @@ jobs:
         run: |
           grep -aq 'data-key="item-1"' website/dist/client/index.html \
             || { echo "Prerendered HTML lost the server-rendered demos" >&2; exit 1; }
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: website-playwright-report
+          path: |
+            website/playwright-report
+            website/test-results
 
       - name: Deploy to Cloudflare Workers
         if: github.event_name == 'push' && github.ref_name == 'master'
