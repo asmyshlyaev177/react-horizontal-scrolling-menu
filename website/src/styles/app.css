@@ -1402,6 +1402,111 @@ pre {
   font-size: 0.98rem;
 }
 
+/* ---------- ai skills ---------- */
+
+.ai-skills {
+  padding-block: clamp(1rem, 3vw, 2rem);
+}
+
+.ai-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .ai-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.ai-copy h2 {
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ai-copy > p {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+/* The command sits on the panel, so it needs the page ground under it to
+   stay legible — --surface on --surface is one flat field. */
+.ai-copy .install-cmd {
+  margin-top: 1.25rem;
+  background: var(--bg);
+}
+
+.ai-note {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+.ai-note code {
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
+
+/* Two columns measured once for the whole list, not once per row: each
+   `li` is its own grid (it needs the rule under it), so it inherits the
+   track sizes through `subgrid`. Sized per row, every description would
+   start at a different x and the column would read as ragged. */
+.skill-list {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 0.65rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.93rem;
+}
+
+.skill-list li {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: 0.3rem 0.9rem;
+  align-items: baseline;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Too narrow for two columns: the name goes above its description, and the
+   rows follow the list's single track through the same subgrid. */
+@media (max-width: 560px) {
+  .skill-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.skill-list code {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.skill-list span {
+  color: var(--muted);
+}
+
+.ai-skills .links-row {
+  margin-top: 0.5rem;
+}
+
 /* ---------- storybook cta ---------- */
 
 .sb-cta {

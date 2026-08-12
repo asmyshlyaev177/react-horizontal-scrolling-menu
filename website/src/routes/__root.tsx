@@ -128,7 +128,11 @@ export const Route = createRootRoute({
       },
       { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       // Canonical is per-route (lib/seo.ts pageHead) — a root-level one
-      // would duplicate on every child page.
+      // would duplicate on every child page. The `rel="alternate"` links to
+      // /llms.txt and to each page's own Markdown are per-route for a
+      // different reason: root links render first, so declaring the
+      // site-wide summary here would put it ahead of the page's own mirror
+      // and a client taking the first match would get the wrong document.
     ],
   }),
   component: RootComponent,

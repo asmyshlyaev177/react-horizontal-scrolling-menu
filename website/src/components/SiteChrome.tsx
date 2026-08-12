@@ -1,6 +1,13 @@
 import { Link } from '@tanstack/react-router';
 
-import { CHANGELOG, GITHUB, ISSUES, NPM, STORYBOOK } from '../lib/links';
+import {
+  CHANGELOG,
+  GITHUB,
+  ISSUES,
+  LLMS_TXT,
+  NPM,
+  STORYBOOK,
+} from '../lib/links';
 import { GitHub, Mark } from './Icons';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -53,6 +60,7 @@ export function SiteFooter() {
         <a href={STORYBOOK}>Storybook</a>
         <a href={CHANGELOG}>Changelog</a>
         <a href={ISSUES}>Issues</a>
+        <a href={LLMS_TXT}>llms.txt</a>
         <span className="license">MIT © Aleksandr Smyshliaev</span>
       </div>
     </footer>

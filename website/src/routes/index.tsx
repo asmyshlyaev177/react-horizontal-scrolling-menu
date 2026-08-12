@@ -16,20 +16,53 @@ import {
   AUTHOR_LINKEDIN,
   AUTHOR_SITE,
   GITHUB,
+  INTENT,
+  LLMS_TXT,
   REACT_STATUS,
   SITE_URL,
+  SKILLS,
   STORIES,
   STORYBOOK,
 } from '../lib/links';
+import { llmsTxtLink } from '../lib/seo';
 
 export const Route = createFileRoute('/')({
   head: () => ({
-    links: [{ rel: 'canonical', href: SITE_URL }],
+    links: [
+      { rel: 'canonical', href: SITE_URL },
+      // The homepage's Markdown mirror, under the name an agent guesses when
+      // it appends `.md` to a site root. Same document as /llms.txt and as
+      // what `Accept: text/markdown` gets here (src/start.ts) — three ways
+      // in, because agents disagree about which one to try.
+      {
+        rel: 'alternate',
+        type: 'text/markdown',
+        href: `${SITE_URL}/index.md`,
+        title: 'This page as Markdown',
+      },
+      llmsTxtLink,
+    ],
   }),
   component: Home,
 });
 
 const INSTALL_CMD = 'npm install react-horizontal-scrolling-menu';
+const INTENT_CMD = 'npx @tanstack/intent@latest install';
+
+// The SKILL.md files published inside the package, and the one line each
+// that tells an agent — or a reader deciding whether this is worth a
+// command — when it is the one to load. Kept in the same order as
+// public/llms.txt, which is the machine-readable version of this table.
+const SKILL_INDEX: ReadonlyArray<readonly [string, string]> = [
+  ['menu-setup', 'A first working menu, arrows, the required CSS import'],
+  ['menu-visibility', 'What’s on screen, and arrow state at the edges'],
+  ['menu-scrolling', 'scrollToItem, apiRef, page-at-a-time paging'],
+  ['menu-interactions', 'Drag, wheel and touch — and their handler factories'],
+  ['menu-recipes', 'Autoplay, infinite loop, load-more: recipes, not props'],
+  ['menu-transitions-rtl', 'Animation timing, custom easing, right-to-left'],
+  ['menu-testing-ssr', 'Next.js and RSC, Jest mocks, Playwright'],
+  ['menu-migration', 'Upgrading pre-v8 code, and the APIs models still invent'],
+];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -244,6 +277,61 @@ function Home() {
               </Link>
             </div>
           </div>
+        </section>
+
+        {/* ---------------- ai skills ---------------- */}
+        <section
+          className="ai-skills site-container"
+          aria-labelledby="ai-skills-title"
+        >
+          <div className="ai-panel">
+            <div className="ai-copy">
+              <h2 id="ai-skills-title">Or hand it to your coding agent</h2>
+              <p>
+                Models trained on older releases still reach for{' '}
+                <code>visibleElements</code>, <code>Separator</code> items and
+                an <code>Arrows</code> prop — all removed years ago — and invent
+                an <code>autoplay</code> prop that never existed. The package
+                ships eight <code>SKILL.md</code> files to stop that:
+                task-scoped guidance your agent loads on demand through{' '}
+                <a href={INTENT}>TanStack Intent</a>, versioned with the library
+                instead of with this page.
+              </p>
+              <span className="install-cmd">
+                <span className="dollar" aria-hidden>
+                  $
+                </span>
+                {INTENT_CMD}
+                <CopyButton text={INTENT_CMD} label="Copy Intent command" />
+              </span>
+              <p className="ai-note">
+                Run once in a project that already has the package installed.
+                Your agent then discovers the skills from{' '}
+                <code>
+                  node_modules/react-horizontal-scrolling-menu/skills/
+                </code>
+                .
+              </p>
+            </div>
+
+            <ul className="skill-list">
+              {SKILL_INDEX.map(([skill, when]) => (
+                <li key={skill}>
+                  <code>{skill}</code>
+                  <span>{when}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="links-row">
+            <a className="gallery-link" href={SKILLS}>
+              Read the skills on GitHub <ArrowUpRight />
+            </a>
+            <a className="gallery-link" href={LLMS_TXT}>
+              llms.txt — the same facts, condensed
+            </a>
+          </p>
         </section>
 
         {/* ---------------- gallery ---------------- */}

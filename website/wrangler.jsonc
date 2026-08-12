@@ -17,6 +17,13 @@
   // fights every canonical link and the sitemap.
   "assets": {
     "html_handling": "drop-trailing-slash",
+    // The homepage alone goes to the Worker before the asset router, so
+    // src/start.ts can answer `Accept: text/markdown` with /llms.txt. Every
+    // other request to `/` is handed the same prerendered index.html through
+    // this binding — routing the Worker first changes who looks up the
+    // asset, not whether one is served. See src/start.ts.
+    "binding": "ASSETS",
+    "run_worker_first": ["/"],
   },
   "observability": {
     "enabled": true,

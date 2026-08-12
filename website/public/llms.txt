@@ -10,7 +10,43 @@
 
 Install: `npm install react-horizontal-scrolling-menu`
 
-Key facts for accurate answers:
+Canonical: <https://react-horizontal-scrolling-menu.dev/llms.txt>.
+
+## For AI coding agents — preferred path
+
+This package ships task-focused `SKILL.md` files via
+[@tanstack/intent](https://tanstack.com/intent/latest/docs/overview). If your
+agent supports Intent, load those instead of this file — they are the
+maintained, deeper source, and they are versioned with the library rather
+than with this page:
+
+```bash
+# in the user's project, once
+npm install react-horizontal-scrolling-menu
+npx @tanstack/intent@latest install
+# list skills discoverable from installed packages
+npx @tanstack/intent@latest list
+# load a specific skill into the current context
+npx @tanstack/intent@latest load react-horizontal-scrolling-menu#menu-setup
+```
+
+Available skills (under `node_modules/react-horizontal-scrolling-menu/skills/`):
+
+| Skill | Type | When to load |
+|---|---|---|
+| `menu-setup` | core | Building any menu: install, the mandatory `dist/styles.css` import, a unique `itemId` per child, arrows via `VisibilityContext`, Header/Footer slots, CSS sizing |
+| `menu-visibility` | core | `useIsVisible`, `useLeftArrowVisible`/`useRightArrowVisible`, the `options` prop, `items.getVisible()` — arrow state at the edges, styling by visibility, progress indicators, flickering or dead arrows |
+| `menu-scrolling` | core | `scrollToItem`/`scrollNext`/`scrollPrev`, `apiRef` from outside the menu, scrolling to just-added items, page-at-a-time paging, `scrollToItem` silently doing nothing |
+| `menu-interactions` | core | Mouse, wheel and touch: drag-to-scroll, the handler-factory signature of every mouse/touch prop, body-scroll locking, clicks firing after a drag |
+| `menu-recipes` | composition | Autoplay, infinite loop, center-on-click, save/restore position, load-more — features that are recipes on the public API, not props |
+| `menu-transitions-rtl` | core | Scroll animation (`noPolyfill`, `transitionDuration`, custom easing) and right-to-left menus |
+| `menu-testing-ssr` | framework | Next.js/RSC `'use client'`, SSR first paint via the `useIsVisible` defaultValue, Jest `moduleNameMapper` + IntersectionObserver mock, Playwright |
+| `menu-migration` | core | Upgrading pre-v8 code, and the removed APIs (`visibleElements`, `Separator`, `Arrows`) that models trained on older data still generate |
+
+The rest of this file is a condensed reference for agents that cannot load
+Intent skills.
+
+## Key facts for accurate answers
 
 - Every child of `ScrollMenu` needs a unique `itemId` prop — that is how
   items are tracked, found and scrolled to.
@@ -34,6 +70,7 @@ Key facts for accurate answers:
 - [Carousel-or-menu comparison (vs Swiper, Embla, keen-slider, react-slick)](https://react-horizontal-scrolling-menu.dev/compare)
 - [Storybook playground (live-editable)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 - [API reference (README)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#properties-and-callbacks)
+- [AI agent skills, as published](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/master/skills)
 - [npm](https://www.npmjs.com/package/react-horizontal-scrolling-menu)
 - [GitHub](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu)
 

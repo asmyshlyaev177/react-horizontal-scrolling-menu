@@ -9,6 +9,10 @@ export const STORYBOOK =
 export const CHANGELOG = `${GITHUB}/blob/master/CHANGELOG.md`;
 export const ISSUES = `${GITHUB}/issues`;
 export const API_DOCS = `${GITHUB}#properties-and-callbacks`;
+export const LLMS_TXT = '/llms.txt';
+// The SKILL.md files published with the package, as sources on GitHub.
+export const SKILLS = `${GITHUB}/tree/master/skills`;
+export const INTENT = 'https://tanstack.com/intent/latest/docs/overview';
 export const AUTHOR_SITE = 'https://asmyshlyaev177.dev';
 export const AUTHOR_GITHUB = 'https://github.com/asmyshlyaev177';
 export const AUTHOR_LINKEDIN = 'https://linkedin.com/in/asmyshlyaev177';
