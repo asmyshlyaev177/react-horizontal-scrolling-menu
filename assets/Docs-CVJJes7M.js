@@ -43,7 +43,7 @@ wheel, drag, or the arrow components you provide. 5.7 kB min+gzip.
 
 ![example](/sample.gif)
 
-### [Landing page](https://react-horizontal-scrolling-menu.dev) · [Live examples (Storybook, editable in the browser)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) · [API](#properties-and-callbacks)
+### [Landing page](https://react-horizontal-scrolling-menu.dev) · [Live examples (Storybook, editable in the browser)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) · [API](#properties-and-callbacks) · [AI agent skills](#using-with-ai-coding-agents)
 
 ### Used by
 
@@ -125,6 +125,42 @@ Three things the example relies on:
 Writing plain JavaScript? Drop the type imports and use
 \`React.useContext(VisibilityContext)\` as usual.
 
+## Using with AI coding agents
+
+Models trained on older releases still reach for \`visibleElements\`,
+\`Separator\` items and an \`Arrows\` prop — all removed — and invent an
+\`autoplay\` prop that never existed. The package ships eight \`SKILL.md\`
+files to stop that: task-scoped guidance loaded on demand through
+[TanStack Intent](https://tanstack.com/intent/latest/docs/overview),
+versioned with the library rather than with any web page.
+
+\`\`\`bash
+npm install react-horizontal-scrolling-menu
+npx @tanstack/intent@latest install   # once per project
+\`\`\`
+
+\`install\` adds skill discovery to your agent's config (\`CLAUDE.md\`,
+\`.cursorrules\`, …); the agent then loads a skill on demand from
+\`node_modules/react-horizontal-scrolling-menu/skills/\`. List or load them
+directly with \`npx @tanstack/intent@latest list\` and
+\`npx @tanstack/intent@latest load react-horizontal-scrolling-menu#menu-setup\`.
+
+| Skill                  | When it's loaded                                        |
+| ---------------------- | ------------------------------------------------------- |
+| \`menu-setup\`           | A first working menu, arrows, the required CSS import   |
+| \`menu-visibility\`      | What's on screen, and arrow state at the edges          |
+| \`menu-scrolling\`       | \`scrollToItem\`, \`apiRef\`, page-at-a-time paging         |
+| \`menu-interactions\`    | Drag, wheel and touch — and their handler factories     |
+| \`menu-recipes\`         | Autoplay, infinite loop, load-more: recipes, not props  |
+| \`menu-transitions-rtl\` | Animation timing, custom easing, right-to-left          |
+| \`menu-testing-ssr\`     | Next.js and RSC, Jest mocks, Playwright                 |
+| \`menu-migration\`       | Upgrading pre-v8 code, and the APIs models still invent |
+
+The sources live in [\`skills/\`](skills/). Agents that can't load Intent
+skills should read
+[llms.txt](https://react-horizontal-scrolling-menu.dev/llms.txt) instead —
+the same facts, condensed into one file.
+
 ## What it does — and doesn't
 
 Built on native browser scrolling: momentum, scrollbar, touch, wheel and
@@ -153,14 +189,6 @@ item on mount, center on click, adding items dynamically, save/restore
 position, items animation, progress dots, preventing body scroll, custom
 transitions, infinite loop, autoplay, vertical layout, arrows in the footer,
 mobile swipe, RTL, and a 5000-item stress test.
-
-### AI agents
-
-The package ships [TanStack Intent](https://tanstack.com/intent) skills —
-task-focused guidance for AI coding agents (correct v8 API, common silent
-failures, recipes), versioned with the library in \`skills/\`. If you use an
-agent, run \`npx @tanstack/intent@latest install\` to wire the skills into
-your setup.
 
 <!-- DOCS_START -->
 
