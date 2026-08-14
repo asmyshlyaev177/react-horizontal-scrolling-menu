@@ -2,8 +2,16 @@ import { readFileSync } from 'node:fs';
 
 import { expect, test } from '@playwright/test';
 
+import { LOCALES } from '../../scripts/i18n/locales.mjs';
 import { EXAMPLES } from '../src/lib/examples-manifest';
 import { SITE_URL } from '../src/lib/links';
+import {
+  BROWSER,
+  frontmatterOf,
+  HTML_ROUTES,
+  linkHeaderTargets,
+  markdownAlternates,
+} from './shared';
 
 /**
  * What the site serves, and to whom.
@@ -35,20 +43,19 @@ const ROBOTS_TXT = readFileSync(
   'utf8',
 );
 
-/** A real browser: HTML, always, on every path. */
-const BROWSER = {
-  'user-agent':
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
-  accept:
-    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-};
-
-/** Every route that ships HTML, and so must advertise a Markdown mirror. */
-const HTML_ROUTES = [
-  '/',
-  '/examples',
-  '/compare',
-  ...EXAMPLES.map((example) => `/examples/${example.slug}`),
+/**
+ * The same routes in every language. English is unprefixed; the eight
+ * translations sit under their content-directory name.
+ *
+ * The per-route assertions below run against the English set only — the
+ * sitemap has to list all of them, and that is what this is for. One
+ * translated locale is checked end to end in locales.spec.ts.
+ */
+const ALL_HTML_ROUTES = [
+  ...HTML_ROUTES,
+  ...LOCALES.flatMap((locale) =>
+    HTML_ROUTES.map((path) => `/${locale.dir}${path}`.replace(/\/$/, '')),
+  ),
 ];
 
 /**
@@ -56,43 +63,6 @@ const HTML_ROUTES = [
  * otherwise produce — same exception the link rewriter in vite.config.ts makes.
  */
 const mirrorOf = (path: string) => (path === '/' ? '/index.md' : `${path}.md`);
-
-/** hrefs of the `rel="alternate" type="text/markdown"` links, in document order. */
-function markdownAlternates(html: string): string[] {
-  const head = html.slice(0, html.indexOf('</head>'));
-  return [...head.matchAll(/<link\b[^>]*>/g)]
-    .map(([tag]) => tag)
-    .filter(
-      (tag) => tag.includes('rel="alternate"') && tag.includes('text/markdown'),
-    )
-    .map((tag) => /href="([^"]+)"/.exec(tag)?.[1] ?? tag);
-}
-
-/**
- * The YAML frontmatter of a mirror, as a plain object.
- *
- * Deliberately strict rather than a real YAML parse: every value the build
- * writes is a quoted scalar, so anything else here means the generator emitted
- * something a parser would choke on — which is the failure this guards.
- */
-function frontmatterOf(markdown: string): Record<string, string> {
-  const block = /^---\n([\s\S]*?)\n---\n/.exec(markdown);
-  if (!block) return {};
-  return Object.fromEntries(
-    block[1].split('\n').map((line) => {
-      const field = /^([a-z]+): "((?:[^"\\]|\\.)*)"$/.exec(line);
-      expect(field, `unparseable frontmatter line: ${line}`).not.toBeNull();
-      return [field![1], field![2].replace(/\\(["\\])/g, '$1')];
-    }),
-  );
-}
-
-/** Targets of a `Link:` header, in order. RFC 8288 lists them comma-separated. */
-const linkHeaderTargets = (header: string | undefined) =>
-  (header ?? '')
-    .split(',')
-    .map((entry) => /<([^>]+)>/.exec(entry)?.[1])
-    .filter((target): target is string => Boolean(target));
 
 test.describe('the homepage negotiates', () => {
   test('`Accept: text/markdown` gets llms.txt, verbatim', async ({
@@ -378,6 +348,6 @@ test.describe('the discovery files', () => {
       ([, loc]) => loc.replace(SITE_URL, ''),
     );
 
-    expect(listed.sort()).toEqual([...HTML_ROUTES].sort());
+    expect(listed.sort()).toEqual([...ALL_HTML_ROUTES].sort());
   });
 });

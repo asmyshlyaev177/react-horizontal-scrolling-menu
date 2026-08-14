@@ -1,19 +1,22 @@
 import { execSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { cloudflare } from '@cloudflare/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
-import TurndownService from 'turndown';
-import { gfm } from 'turndown-plugin-gfm';
 import { defineConfig, type Plugin } from 'vite';
 
-import { EXAMPLE_GROUPS, EXAMPLES } from './src/lib/examples-manifest';
-import { GITHUB, SITE_URL, STORIES } from './src/lib/links';
-import { frontmatter, metaOf } from './src/lib/markdown-frontmatter';
+import { ALL_LOCALES } from '../scripts/i18n/locales.mjs';
+import { EXAMPLES } from './src/lib/examples-manifest.ts';
+import { SITE_URL } from './src/lib/links.ts';
+import {
+  convertedMirrors,
+  exampleDocument,
+  hubDocument,
+  prefixOf,
+} from './src/lib/mirror-docs.ts';
 
 // Highlights every snippet in src/lib/snippets.ts with shiki at build
 // time and exposes the HTML as a virtual module. Shiki stays a dev
@@ -94,6 +97,81 @@ function exampleCodeHtml(): Plugin {
 
 // Emits sitemap.xml with every route, stamped with the last commit date
 // (content freshness = HEAD commit, never new Date()).
+
+/** The locale-independent path of every page the site routes. */
+const PAGE_PATHS = [
+  '/',
+  '/examples',
+  ...EXAMPLES.map((example) => `/examples/${example.slug}`),
+  '/compare',
+];
+
+/**
+ * Every URL the site serves, grouped by the page it is a translation of.
+ *
+ * One list, three consumers: the sitemap (which needs the alternates cluster),
+ * the Markdown mirrors (which need to know a locale page is still an example
+ * page and deserves its source) and public/_headers. Hand-maintaining any of
+ * the three separately is how a locale ends up with no `Link:` header and no
+ * sitemap entry while looking fine in a browser.
+ */
+const ALL_PAGES = PAGE_PATHS.map((path) => ({
+  path,
+  urls: ALL_LOCALES.map((locale) => ({
+    locale,
+    url: `${prefixOf(locale)}${path}`.replace(/\/$/, '') || '/',
+  })),
+}));
+
+/**
+ * Appends the per-route `Link:` rules to the `_headers` Cloudflare reads.
+ *
+ * Nine languages by four route shapes is thirty-six blocks; the file used to
+ * carry four, written by hand. Generating them from the same page table the
+ * sitemap uses is the only way they stay in step — and `e2e/smoke.spec.ts`
+ * asserts the header on every route, so a missing block fails loudly rather
+ * than quietly.
+ */
+function localeHeaders(): Plugin {
+  return {
+    name: 'locale-headers',
+    apply: 'build',
+    // `writeBundle`, not `generateBundle`: `_headers` comes from public/ and is
+    // copied to the output directory verbatim rather than passing through the
+    // bundle, so there is no asset to rewrite — only a file to append to once
+    // it has been copied.
+    writeBundle() {
+      if (this.environment?.name !== 'client') return;
+      const file = fileURLToPath(
+        new URL('./dist/client/_headers', import.meta.url),
+      );
+
+      const alternate = (href: string, title: string) =>
+        `  Link: <${href}>; rel="alternate"; type="text/markdown"; title="${title}"`;
+      const llms = alternate('/llms.txt', 'LLM-friendly reference (llms.txt)');
+      const own = (href: string) => alternate(href, 'This page as Markdown');
+
+      const blocks = ALL_LOCALES.flatMap((locale) => {
+        const p = prefixOf(locale);
+        return [
+          // Every locale homepage points at the same `/index.md`: it is the
+          // published llms.txt, one English document, and `$locale/index.tsx`
+          // says exactly that in <head>. A `/ja/index.md` here would be both a
+          // 404 and a header that disagrees with the markup.
+          [p || '/', own('/index.md')],
+          [`${p}/examples`, own(`${p}/examples.md`)],
+          // `:slug` is interpolated into the value, so one rule covers all 21.
+          [`${p}/examples/:slug`, own(`${p}/examples/:slug.md`)],
+          [`${p}/compare`, own(`${p}/compare.md`)],
+        ].map(([route, link]) => `${route}\n${link}\n${llms}`);
+      });
+
+      const existing = readFileSync(file, 'utf8').trimEnd();
+      writeFileSync(file, `${existing}\n\n${blocks.join('\n')}\n`, 'utf8');
+    },
+  };
+}
+
 function sitemap(): Plugin {
   return {
     name: 'sitemap',
@@ -105,22 +183,28 @@ function sitemap(): Plugin {
       })
         .toString()
         .trim();
-      const paths = [
-        '/',
-        '/examples',
-        ...EXAMPLES.map((example) => `/examples/${example.slug}`),
-        '/compare',
-      ];
-      const urls = paths
-        .map(
-          (path) =>
-            `  <url><loc>${SITE_URL}${path}</loc><lastmod>${lastmod}</lastmod></url>`,
-        )
-        .join('\n');
+      // Every page in every language, each entry carrying the full alternates
+      // cluster. Without `xhtml:link` the eight translations read as
+      // near-duplicates of the English pages rather than alternates of them.
+      const urls = ALL_PAGES.flatMap(({ urls: group }) => {
+        const alternates = group
+          .map(
+            ({ locale, url }) =>
+              `    <xhtml:link rel="alternate" hreflang="${locale.code}" href="${SITE_URL}${url}"/>`,
+          )
+          .concat(
+            `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${group[0].url}"/>`,
+          )
+          .join('\n');
+        return group.map(
+          ({ url }) =>
+            `  <url>\n    <loc>${SITE_URL}${url}</loc>\n    <lastmod>${lastmod}</lastmod>\n${alternates}\n  </url>`,
+        );
+      }).join('\n');
       this.emitFile({
         type: 'asset',
         fileName: 'sitemap.xml',
-        source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+        source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`,
       });
     },
   };
@@ -156,97 +240,31 @@ function markdownMirrors(): Plugin {
     generateBundle() {
       if (this.environment?.name !== 'client') return;
 
+      /** `''` for English, `ja/` for the rest — an asset path has no leading slash. */
+      const dir = (locale: { code: string; dir: string }) =>
+        `${prefixOf(locale)}/`.slice(1);
+
       const emit = (fileName: string, source: string) =>
         this.emitFile({ type: 'asset', fileName, source });
 
-      const footer = (extra: string) =>
-        [
-          '---',
-          '',
-          `More examples: <${SITE_URL}/examples.md> · Library summary for LLMs: <${SITE_URL}/llms.txt>`,
-          extra,
-          `Package: \`npm install react-horizontal-scrolling-menu\` · MIT · <${GITHUB}>`,
-          '',
-        ]
-          .filter(Boolean)
-          .join('\n');
-
       // The homepage's mirror is the llms.txt already published at its own
       // URL — one document, two names, because agents disagree about which
-      // to try. Read from public/ so there is still a single source.
+      // to try. Read from public/ so there is still a single source. One
+      // document for every language too: `$locale/index.tsx` advertises this
+      // path, not a per-locale one.
       emit('index.md', readFileSync(llmsTxtPath, 'utf8'));
 
-      const hub = EXAMPLE_GROUPS.map((group) => {
-        const entries = EXAMPLES.filter((example) => example.group === group);
-        if (entries.length === 0) return null;
-        return [
-          `## ${group}`,
-          '',
-          ...entries.map(
-            (example) =>
-              `- [${example.name}](${SITE_URL}/examples/${example.slug}.md) — ${example.blurb}`,
-          ),
-          '',
-        ].join('\n');
-      }).filter(Boolean);
+      for (const locale of ALL_LOCALES) {
+        emit(`${dir(locale)}examples.md`, hubDocument(locale));
 
-      emit(
-        'examples.md',
-        [
-          frontmatter({
-            title: 'react-horizontal-scrolling-menu — examples',
-            description:
-              'Every pattern the library supports, each with a live demo and its complete source.',
-            canonical: `${SITE_URL}/examples`,
-          }),
-          '# react-horizontal-scrolling-menu — examples',
-          '',
-          '> Every pattern the library supports, each with a live demo and its',
-          '> complete source. Links below point at the Markdown of each example;',
-          '> drop the `.md` for the rendered page.',
-          '',
-          '---',
-          '',
-          ...hub,
-          footer(''),
-        ].join('\n'),
-      );
-
-      for (const example of EXAMPLES) {
-        const file = fileURLToPath(new URL(example.sourceFile, repoRoot));
-        this.addWatchFile(file);
-        const code = readFileSync(file, 'utf8');
-        const fileName = example.sourceFile.split('/').pop() ?? 'source.tsx';
-
-        emit(
-          `examples/${example.slug}.md`,
-          [
-            frontmatter({
-              title: example.name,
-              description: example.blurb,
-              canonical: `${SITE_URL}/examples/${example.slug}`,
-              source: fileName,
-            }),
-            `# ${example.name}`,
-            '',
-            `> ${example.blurb}`,
-            '',
-            `Live demo, and the prose explaining how it works: the page above.`,
-            `Editable in the browser: <${STORIES[example.storyKey]}>`,
-            '',
-            '---',
-            '',
-            `Full source — \`${fileName}\`:`,
-            '',
-            '```tsx',
-            code.trimEnd(),
-            '```',
-            '',
-            footer(
-              `Working on this with an AI agent? The package ships SKILL.md files: \`npx @tanstack/intent@latest install\`, then load \`react-horizontal-scrolling-menu#menu-setup\`.`,
-            ),
-          ].join('\n'),
-        );
+        for (const example of EXAMPLES) {
+          const file = fileURLToPath(new URL(example.sourceFile, repoRoot));
+          this.addWatchFile(file);
+          emit(
+            `${dir(locale)}examples/${example.slug}.md`,
+            exampleDocument(locale, example, readFileSync(file, 'utf8')),
+          );
+        }
       }
     },
   };
@@ -256,96 +274,22 @@ function markdownMirrors(): Plugin {
 // better sources than their own rendered HTML: the homepage's mirror is the
 // hand-written llms.txt, and each example's carries its complete source file.
 // Everything else gets converted from what it actually renders.
-const HAS_BESPOKE_MIRROR = (path: string) =>
-  path === '/' || path === '/examples' || path.startsWith('/examples/');
-
-const turndown = new TurndownService({
-  headingStyle: 'atx',
-  codeBlockStyle: 'fenced',
-  bulletListMarker: '-',
-}).use(gfm); // tables, strikethrough — a comparison matrix without gfm is a wall of <tr>
-
-/**
- * Site-relative links mean nothing to a client holding this file over HTTP,
- * so they become absolute — and point at the other page's Markdown, since
- * every route on this site has a mirror. An agent following a link out of a
- * Markdown document should land in another one, not back in HTML.
- *
- * Two things are left alone: the root, whose mirror is `/index.md` rather
- * than the `/.md` this would otherwise produce, and anything that already
- * has a file extension (`/llms.txt`, `/og.png`) and so is not a page.
- */
-const absolutise = (markdown: string) =>
-  markdown.replace(
-    // The trailing group keeps any link title — `](/x "title")`.
-    /\]\((\/[^)\s]*)([^)]*)\)/g,
-    (_whole, href: string, title: string) => {
-      const target =
-        href === '/'
-          ? '/index.md'
-          : /\.[a-z0-9]+$/i.test(href)
-            ? href
-            : `${href}.md`;
-      return `](${SITE_URL}${target}${title})`;
-    },
-  );
-
-/**
- * Links rendered side by side in a flex row carry no whitespace between them
- * in the markup, so they convert to `[a](…)[b](…)` — valid Markdown, and
- * unreadable. A separator is what the visual gap meant.
- */
-const separateAdjacentLinks = (markdown: string) =>
-  markdown.replace(/\)\[/g, ') · [');
-
-/**
- * Converts each remaining prerendered page to `<path>.md`, from the HTML it
- * actually shipped.
- *
- * The alternative was keeping a second, hand-written copy of pages like
- * /compare in sync with the JSX by hand. Converting what rendered means the
- * mirror cannot drift from the page by construction — the page is the source.
- * Only `<main>` is converted: the header, footer and JSON-LD are chrome, and
- * an agent reading this wants the argument, not the navigation.
- */
-function convertedMirrors(outputDir: URL) {
-  return ({ page, html }: { page: { path: string }; html: string }) => {
-    if (HAS_BESPOKE_MIRROR(page.path)) return;
-
-    const main = html.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1];
-    if (!main) return;
-
-    const body = separateAdjacentLinks(absolutise(turndown.turndown(main)));
-    const { title, description, image } = metaOf(html);
-    const document = [
-      frontmatter({
-        title,
-        description,
-        canonical: `${SITE_URL}${page.path}`,
-        image,
-      }),
-      body.trim(),
-      '',
-      '---',
-      '',
-      `More examples: <${SITE_URL}/examples.md>`,
-      `Library summary for LLMs: <${SITE_URL}/llms.txt>`,
-      '',
-    ].join('\n');
-
-    const file = fileURLToPath(new URL(`.${page.path}.md`, outputDir));
-    mkdirSync(dirname(file), { recursive: true });
-    writeFileSync(file, document, 'utf8');
-  };
-}
-
 export default defineConfig({
   plugins: [
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
     tanstackStart({
+      // Every URL, stated — the same list the sitemap and `_headers` are built
+      // from, so the three cannot disagree, and the build no longer depends on
+      // 216 pages being reachable by following hrefs. It used to: the language
+      // switcher had to be nine anchors, because a `<select>` would have left
+      // all 192 translated pages unbuilt.
+      pages: ALL_PAGES.flatMap(({ urls }) =>
+        urls.map(({ url }) => ({ path: url })),
+      ),
       prerender: {
         enabled: true,
+        // Kept on as a backstop for a route added without a page-table entry.
         crawlLinks: true,
         // The crawler follows every same-origin href it finds, and the
         // footer now links /llms.txt — a static file in public/, not a
@@ -363,5 +307,6 @@ export default defineConfig({
     exampleCodeHtml(),
     markdownMirrors(),
     sitemap(),
+    localeHeaders(),
   ],
 });

@@ -29,6 +29,17 @@ export function ChevronRight({ size = 18 }: IconProps) {
   );
 }
 
+export function Globe({ size = 17 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" {...base} aria-hidden>
+      <circle cx="8" cy="8" r="6" />
+      <path d="M2.2 6.4h11.6M2.2 9.6h11.6" />
+      {/* The two meridians: a globe reads as a globe only once it has them. */}
+      <path d="M8 2c-1.7 1.6-2.6 3.6-2.6 6S6.3 12.4 8 14c1.7-1.6 2.6-3.6 2.6-6S9.7 3.6 8 2Z" />
+    </svg>
+  );
+}
+
 export function Check({ size = 15 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" {...base} aria-hidden>

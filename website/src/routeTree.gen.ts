@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
+import { Route as LocaleCompareRouteImport } from './routes/$locale/compare'
 import { Route as ExamplesIndexRouteImport } from './routes/examples/index'
 import { Route as ExamplesAddItemAndScrollToItRouteImport } from './routes/examples/add-item-and-scroll-to-it'
 import { Route as ExamplesAddItemsRouteImport } from './routes/examples/add-items'
@@ -33,16 +36,53 @@ import { Route as ExamplesScrollToItemRouteImport } from './routes/examples/scro
 import { Route as ExamplesSimpleRouteImport } from './routes/examples/simple'
 import { Route as ExamplesSwipeDesktopRouteImport } from './routes/examples/swipe-desktop'
 import { Route as ExamplesVerticalRouteImport } from './routes/examples/vertical'
+import { Route as LocaleExamplesIndexRouteImport } from './routes/$locale/examples/index'
+import { Route as LocaleExamplesAddItemAndScrollToItRouteImport } from './routes/$locale/examples/add-item-and-scroll-to-it'
+import { Route as LocaleExamplesAddItemsRouteImport } from './routes/$locale/examples/add-items'
+import { Route as LocaleExamplesAutoplayRouteImport } from './routes/$locale/examples/autoplay'
+import { Route as LocaleExamplesBottomArrowsRouteImport } from './routes/$locale/examples/bottom-arrows'
+import { Route as LocaleExamplesCenterOnClickRouteImport } from './routes/$locale/examples/center-on-click'
+import { Route as LocaleExamplesCustomTransitionRouteImport } from './routes/$locale/examples/custom-transition'
+import { Route as LocaleExamplesInfiniteLoopRouteImport } from './routes/$locale/examples/infinite-loop'
+import { Route as LocaleExamplesItemsAnimationRouteImport } from './routes/$locale/examples/items-animation'
+import { Route as LocaleExamplesMobileSwipeOnlyRouteImport } from './routes/$locale/examples/mobile-swipe-only'
+import { Route as LocaleExamplesMouseDragRouteImport } from './routes/$locale/examples/mouse-drag'
+import { Route as LocaleExamplesOneItemRouteImport } from './routes/$locale/examples/one-item'
+import { Route as LocaleExamplesOneItemScrollRouteImport } from './routes/$locale/examples/one-item-scroll'
+import { Route as LocaleExamplesPerformanceRouteImport } from './routes/$locale/examples/performance'
+import { Route as LocaleExamplesPreventBodyScrollRouteImport } from './routes/$locale/examples/prevent-body-scroll'
+import { Route as LocaleExamplesProgressRouteImport } from './routes/$locale/examples/progress'
+import { Route as LocaleExamplesRtlRouteImport } from './routes/$locale/examples/rtl'
+import { Route as LocaleExamplesSaveRestorePositionRouteImport } from './routes/$locale/examples/save-restore-position'
+import { Route as LocaleExamplesScrollToItemRouteImport } from './routes/$locale/examples/scroll-to-item'
+import { Route as LocaleExamplesSimpleRouteImport } from './routes/$locale/examples/simple'
+import { Route as LocaleExamplesSwipeDesktopRouteImport } from './routes/$locale/examples/swipe-desktop'
+import { Route as LocaleExamplesVerticalRouteImport } from './routes/$locale/examples/vertical'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleRouteRoute = LocaleRouteRouteImport.update({
+  id: '/$locale',
+  path: '/$locale',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleCompareRoute = LocaleCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => LocaleRouteRoute,
 } as any)
 const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
   id: '/examples/',
@@ -158,10 +198,135 @@ const ExamplesVerticalRoute = ExamplesVerticalRouteImport.update({
   path: '/examples/vertical',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleExamplesIndexRoute = LocaleExamplesIndexRouteImport.update({
+  id: '/examples/',
+  path: '/examples/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesAddItemAndScrollToItRoute =
+  LocaleExamplesAddItemAndScrollToItRouteImport.update({
+    id: '/examples/add-item-and-scroll-to-it',
+    path: '/examples/add-item-and-scroll-to-it',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesAddItemsRoute = LocaleExamplesAddItemsRouteImport.update({
+  id: '/examples/add-items',
+  path: '/examples/add-items',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesAutoplayRoute = LocaleExamplesAutoplayRouteImport.update({
+  id: '/examples/autoplay',
+  path: '/examples/autoplay',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesBottomArrowsRoute =
+  LocaleExamplesBottomArrowsRouteImport.update({
+    id: '/examples/bottom-arrows',
+    path: '/examples/bottom-arrows',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesCenterOnClickRoute =
+  LocaleExamplesCenterOnClickRouteImport.update({
+    id: '/examples/center-on-click',
+    path: '/examples/center-on-click',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesCustomTransitionRoute =
+  LocaleExamplesCustomTransitionRouteImport.update({
+    id: '/examples/custom-transition',
+    path: '/examples/custom-transition',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesInfiniteLoopRoute =
+  LocaleExamplesInfiniteLoopRouteImport.update({
+    id: '/examples/infinite-loop',
+    path: '/examples/infinite-loop',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesItemsAnimationRoute =
+  LocaleExamplesItemsAnimationRouteImport.update({
+    id: '/examples/items-animation',
+    path: '/examples/items-animation',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesMobileSwipeOnlyRoute =
+  LocaleExamplesMobileSwipeOnlyRouteImport.update({
+    id: '/examples/mobile-swipe-only',
+    path: '/examples/mobile-swipe-only',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesMouseDragRoute = LocaleExamplesMouseDragRouteImport.update({
+  id: '/examples/mouse-drag',
+  path: '/examples/mouse-drag',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesOneItemRoute = LocaleExamplesOneItemRouteImport.update({
+  id: '/examples/one-item',
+  path: '/examples/one-item',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesOneItemScrollRoute =
+  LocaleExamplesOneItemScrollRouteImport.update({
+    id: '/examples/one-item-scroll',
+    path: '/examples/one-item-scroll',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesPerformanceRoute =
+  LocaleExamplesPerformanceRouteImport.update({
+    id: '/examples/performance',
+    path: '/examples/performance',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesPreventBodyScrollRoute =
+  LocaleExamplesPreventBodyScrollRouteImport.update({
+    id: '/examples/prevent-body-scroll',
+    path: '/examples/prevent-body-scroll',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesProgressRoute = LocaleExamplesProgressRouteImport.update({
+  id: '/examples/progress',
+  path: '/examples/progress',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesRtlRoute = LocaleExamplesRtlRouteImport.update({
+  id: '/examples/rtl',
+  path: '/examples/rtl',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesSaveRestorePositionRoute =
+  LocaleExamplesSaveRestorePositionRouteImport.update({
+    id: '/examples/save-restore-position',
+    path: '/examples/save-restore-position',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesScrollToItemRoute =
+  LocaleExamplesScrollToItemRouteImport.update({
+    id: '/examples/scroll-to-item',
+    path: '/examples/scroll-to-item',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesSimpleRoute = LocaleExamplesSimpleRouteImport.update({
+  id: '/examples/simple',
+  path: '/examples/simple',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleExamplesSwipeDesktopRoute =
+  LocaleExamplesSwipeDesktopRouteImport.update({
+    id: '/examples/swipe-desktop',
+    path: '/examples/swipe-desktop',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleExamplesVerticalRoute = LocaleExamplesVerticalRouteImport.update({
+  id: '/examples/vertical',
+  path: '/examples/vertical',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteRouteWithChildren
   '/compare': typeof CompareRoute
+  '/$locale/compare': typeof LocaleCompareRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -183,11 +348,35 @@ export interface FileRoutesByFullPath {
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
   '/examples/vertical': typeof ExamplesVerticalRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/examples/': typeof ExamplesIndexRoute
+  '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
+  '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
+  '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
+  '/$locale/examples/bottom-arrows': typeof LocaleExamplesBottomArrowsRoute
+  '/$locale/examples/center-on-click': typeof LocaleExamplesCenterOnClickRoute
+  '/$locale/examples/custom-transition': typeof LocaleExamplesCustomTransitionRoute
+  '/$locale/examples/infinite-loop': typeof LocaleExamplesInfiniteLoopRoute
+  '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
+  '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
+  '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
+  '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
+  '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
+  '/$locale/examples/prevent-body-scroll': typeof LocaleExamplesPreventBodyScrollRoute
+  '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
+  '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
+  '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
+  '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
+  '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
+  '/$locale/examples/vertical': typeof LocaleExamplesVerticalRoute
+  '/$locale/examples/': typeof LocaleExamplesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
+  '/$locale/compare': typeof LocaleCompareRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -209,12 +398,37 @@ export interface FileRoutesByTo {
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
   '/examples/vertical': typeof ExamplesVerticalRoute
+  '/$locale': typeof LocaleIndexRoute
   '/examples': typeof ExamplesIndexRoute
+  '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
+  '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
+  '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
+  '/$locale/examples/bottom-arrows': typeof LocaleExamplesBottomArrowsRoute
+  '/$locale/examples/center-on-click': typeof LocaleExamplesCenterOnClickRoute
+  '/$locale/examples/custom-transition': typeof LocaleExamplesCustomTransitionRoute
+  '/$locale/examples/infinite-loop': typeof LocaleExamplesInfiniteLoopRoute
+  '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
+  '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
+  '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
+  '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
+  '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
+  '/$locale/examples/prevent-body-scroll': typeof LocaleExamplesPreventBodyScrollRoute
+  '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
+  '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
+  '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
+  '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
+  '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
+  '/$locale/examples/vertical': typeof LocaleExamplesVerticalRoute
+  '/$locale/examples': typeof LocaleExamplesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteRouteWithChildren
   '/compare': typeof CompareRoute
+  '/$locale/compare': typeof LocaleCompareRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -236,13 +450,38 @@ export interface FileRoutesById {
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
   '/examples/vertical': typeof ExamplesVerticalRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/examples/': typeof ExamplesIndexRoute
+  '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
+  '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
+  '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
+  '/$locale/examples/bottom-arrows': typeof LocaleExamplesBottomArrowsRoute
+  '/$locale/examples/center-on-click': typeof LocaleExamplesCenterOnClickRoute
+  '/$locale/examples/custom-transition': typeof LocaleExamplesCustomTransitionRoute
+  '/$locale/examples/infinite-loop': typeof LocaleExamplesInfiniteLoopRoute
+  '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
+  '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
+  '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
+  '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
+  '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
+  '/$locale/examples/prevent-body-scroll': typeof LocaleExamplesPreventBodyScrollRoute
+  '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
+  '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
+  '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
+  '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
+  '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
+  '/$locale/examples/vertical': typeof LocaleExamplesVerticalRoute
+  '/$locale/examples/': typeof LocaleExamplesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$locale'
     | '/compare'
+    | '/$locale/compare'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -264,11 +503,35 @@ export interface FileRouteTypes {
     | '/examples/simple'
     | '/examples/swipe-desktop'
     | '/examples/vertical'
+    | '/$locale/'
     | '/examples/'
+    | '/$locale/examples/add-item-and-scroll-to-it'
+    | '/$locale/examples/add-items'
+    | '/$locale/examples/autoplay'
+    | '/$locale/examples/bottom-arrows'
+    | '/$locale/examples/center-on-click'
+    | '/$locale/examples/custom-transition'
+    | '/$locale/examples/infinite-loop'
+    | '/$locale/examples/items-animation'
+    | '/$locale/examples/mobile-swipe-only'
+    | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/one-item'
+    | '/$locale/examples/one-item-scroll'
+    | '/$locale/examples/performance'
+    | '/$locale/examples/prevent-body-scroll'
+    | '/$locale/examples/progress'
+    | '/$locale/examples/rtl'
+    | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-to-item'
+    | '/$locale/examples/simple'
+    | '/$locale/examples/swipe-desktop'
+    | '/$locale/examples/vertical'
+    | '/$locale/examples/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/compare'
+    | '/$locale/compare'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -290,11 +553,36 @@ export interface FileRouteTypes {
     | '/examples/simple'
     | '/examples/swipe-desktop'
     | '/examples/vertical'
+    | '/$locale'
     | '/examples'
+    | '/$locale/examples/add-item-and-scroll-to-it'
+    | '/$locale/examples/add-items'
+    | '/$locale/examples/autoplay'
+    | '/$locale/examples/bottom-arrows'
+    | '/$locale/examples/center-on-click'
+    | '/$locale/examples/custom-transition'
+    | '/$locale/examples/infinite-loop'
+    | '/$locale/examples/items-animation'
+    | '/$locale/examples/mobile-swipe-only'
+    | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/one-item'
+    | '/$locale/examples/one-item-scroll'
+    | '/$locale/examples/performance'
+    | '/$locale/examples/prevent-body-scroll'
+    | '/$locale/examples/progress'
+    | '/$locale/examples/rtl'
+    | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-to-item'
+    | '/$locale/examples/simple'
+    | '/$locale/examples/swipe-desktop'
+    | '/$locale/examples/vertical'
+    | '/$locale/examples'
   id:
     | '__root__'
     | '/'
+    | '/$locale'
     | '/compare'
+    | '/$locale/compare'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -316,11 +604,35 @@ export interface FileRouteTypes {
     | '/examples/simple'
     | '/examples/swipe-desktop'
     | '/examples/vertical'
+    | '/$locale/'
     | '/examples/'
+    | '/$locale/examples/add-item-and-scroll-to-it'
+    | '/$locale/examples/add-items'
+    | '/$locale/examples/autoplay'
+    | '/$locale/examples/bottom-arrows'
+    | '/$locale/examples/center-on-click'
+    | '/$locale/examples/custom-transition'
+    | '/$locale/examples/infinite-loop'
+    | '/$locale/examples/items-animation'
+    | '/$locale/examples/mobile-swipe-only'
+    | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/one-item'
+    | '/$locale/examples/one-item-scroll'
+    | '/$locale/examples/performance'
+    | '/$locale/examples/prevent-body-scroll'
+    | '/$locale/examples/progress'
+    | '/$locale/examples/rtl'
+    | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-to-item'
+    | '/$locale/examples/simple'
+    | '/$locale/examples/swipe-desktop'
+    | '/$locale/examples/vertical'
+    | '/$locale/examples/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LocaleRouteRoute: typeof LocaleRouteRouteWithChildren
   CompareRoute: typeof CompareRoute
   ExamplesAddItemAndScrollToItRoute: typeof ExamplesAddItemAndScrollToItRoute
   ExamplesAddItemsRoute: typeof ExamplesAddItemsRoute
@@ -355,12 +667,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale': {
+      id: '/$locale'
+      path: '/$locale'
+      fullPath: '/$locale'
+      preLoaderRoute: typeof LocaleRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compare': {
       id: '/compare'
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/compare': {
+      id: '/$locale/compare'
+      path: '/compare'
+      fullPath: '/$locale/compare'
+      preLoaderRoute: typeof LocaleCompareRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
     '/examples/': {
       id: '/examples/'
@@ -516,11 +849,226 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExamplesVerticalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/examples/': {
+      id: '/$locale/examples/'
+      path: '/examples'
+      fullPath: '/$locale/examples/'
+      preLoaderRoute: typeof LocaleExamplesIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/add-item-and-scroll-to-it': {
+      id: '/$locale/examples/add-item-and-scroll-to-it'
+      path: '/examples/add-item-and-scroll-to-it'
+      fullPath: '/$locale/examples/add-item-and-scroll-to-it'
+      preLoaderRoute: typeof LocaleExamplesAddItemAndScrollToItRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/add-items': {
+      id: '/$locale/examples/add-items'
+      path: '/examples/add-items'
+      fullPath: '/$locale/examples/add-items'
+      preLoaderRoute: typeof LocaleExamplesAddItemsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/autoplay': {
+      id: '/$locale/examples/autoplay'
+      path: '/examples/autoplay'
+      fullPath: '/$locale/examples/autoplay'
+      preLoaderRoute: typeof LocaleExamplesAutoplayRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/bottom-arrows': {
+      id: '/$locale/examples/bottom-arrows'
+      path: '/examples/bottom-arrows'
+      fullPath: '/$locale/examples/bottom-arrows'
+      preLoaderRoute: typeof LocaleExamplesBottomArrowsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/center-on-click': {
+      id: '/$locale/examples/center-on-click'
+      path: '/examples/center-on-click'
+      fullPath: '/$locale/examples/center-on-click'
+      preLoaderRoute: typeof LocaleExamplesCenterOnClickRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/custom-transition': {
+      id: '/$locale/examples/custom-transition'
+      path: '/examples/custom-transition'
+      fullPath: '/$locale/examples/custom-transition'
+      preLoaderRoute: typeof LocaleExamplesCustomTransitionRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/infinite-loop': {
+      id: '/$locale/examples/infinite-loop'
+      path: '/examples/infinite-loop'
+      fullPath: '/$locale/examples/infinite-loop'
+      preLoaderRoute: typeof LocaleExamplesInfiniteLoopRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/items-animation': {
+      id: '/$locale/examples/items-animation'
+      path: '/examples/items-animation'
+      fullPath: '/$locale/examples/items-animation'
+      preLoaderRoute: typeof LocaleExamplesItemsAnimationRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/mobile-swipe-only': {
+      id: '/$locale/examples/mobile-swipe-only'
+      path: '/examples/mobile-swipe-only'
+      fullPath: '/$locale/examples/mobile-swipe-only'
+      preLoaderRoute: typeof LocaleExamplesMobileSwipeOnlyRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/mouse-drag': {
+      id: '/$locale/examples/mouse-drag'
+      path: '/examples/mouse-drag'
+      fullPath: '/$locale/examples/mouse-drag'
+      preLoaderRoute: typeof LocaleExamplesMouseDragRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/one-item': {
+      id: '/$locale/examples/one-item'
+      path: '/examples/one-item'
+      fullPath: '/$locale/examples/one-item'
+      preLoaderRoute: typeof LocaleExamplesOneItemRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/one-item-scroll': {
+      id: '/$locale/examples/one-item-scroll'
+      path: '/examples/one-item-scroll'
+      fullPath: '/$locale/examples/one-item-scroll'
+      preLoaderRoute: typeof LocaleExamplesOneItemScrollRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/performance': {
+      id: '/$locale/examples/performance'
+      path: '/examples/performance'
+      fullPath: '/$locale/examples/performance'
+      preLoaderRoute: typeof LocaleExamplesPerformanceRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/prevent-body-scroll': {
+      id: '/$locale/examples/prevent-body-scroll'
+      path: '/examples/prevent-body-scroll'
+      fullPath: '/$locale/examples/prevent-body-scroll'
+      preLoaderRoute: typeof LocaleExamplesPreventBodyScrollRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/progress': {
+      id: '/$locale/examples/progress'
+      path: '/examples/progress'
+      fullPath: '/$locale/examples/progress'
+      preLoaderRoute: typeof LocaleExamplesProgressRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/rtl': {
+      id: '/$locale/examples/rtl'
+      path: '/examples/rtl'
+      fullPath: '/$locale/examples/rtl'
+      preLoaderRoute: typeof LocaleExamplesRtlRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/save-restore-position': {
+      id: '/$locale/examples/save-restore-position'
+      path: '/examples/save-restore-position'
+      fullPath: '/$locale/examples/save-restore-position'
+      preLoaderRoute: typeof LocaleExamplesSaveRestorePositionRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/scroll-to-item': {
+      id: '/$locale/examples/scroll-to-item'
+      path: '/examples/scroll-to-item'
+      fullPath: '/$locale/examples/scroll-to-item'
+      preLoaderRoute: typeof LocaleExamplesScrollToItemRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/simple': {
+      id: '/$locale/examples/simple'
+      path: '/examples/simple'
+      fullPath: '/$locale/examples/simple'
+      preLoaderRoute: typeof LocaleExamplesSimpleRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/swipe-desktop': {
+      id: '/$locale/examples/swipe-desktop'
+      path: '/examples/swipe-desktop'
+      fullPath: '/$locale/examples/swipe-desktop'
+      preLoaderRoute: typeof LocaleExamplesSwipeDesktopRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/examples/vertical': {
+      id: '/$locale/examples/vertical'
+      path: '/examples/vertical'
+      fullPath: '/$locale/examples/vertical'
+      preLoaderRoute: typeof LocaleExamplesVerticalRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
   }
 }
 
+interface LocaleRouteRouteChildren {
+  LocaleCompareRoute: typeof LocaleCompareRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleExamplesAddItemAndScrollToItRoute: typeof LocaleExamplesAddItemAndScrollToItRoute
+  LocaleExamplesAddItemsRoute: typeof LocaleExamplesAddItemsRoute
+  LocaleExamplesAutoplayRoute: typeof LocaleExamplesAutoplayRoute
+  LocaleExamplesBottomArrowsRoute: typeof LocaleExamplesBottomArrowsRoute
+  LocaleExamplesCenterOnClickRoute: typeof LocaleExamplesCenterOnClickRoute
+  LocaleExamplesCustomTransitionRoute: typeof LocaleExamplesCustomTransitionRoute
+  LocaleExamplesInfiniteLoopRoute: typeof LocaleExamplesInfiniteLoopRoute
+  LocaleExamplesItemsAnimationRoute: typeof LocaleExamplesItemsAnimationRoute
+  LocaleExamplesMobileSwipeOnlyRoute: typeof LocaleExamplesMobileSwipeOnlyRoute
+  LocaleExamplesMouseDragRoute: typeof LocaleExamplesMouseDragRoute
+  LocaleExamplesOneItemRoute: typeof LocaleExamplesOneItemRoute
+  LocaleExamplesOneItemScrollRoute: typeof LocaleExamplesOneItemScrollRoute
+  LocaleExamplesPerformanceRoute: typeof LocaleExamplesPerformanceRoute
+  LocaleExamplesPreventBodyScrollRoute: typeof LocaleExamplesPreventBodyScrollRoute
+  LocaleExamplesProgressRoute: typeof LocaleExamplesProgressRoute
+  LocaleExamplesRtlRoute: typeof LocaleExamplesRtlRoute
+  LocaleExamplesSaveRestorePositionRoute: typeof LocaleExamplesSaveRestorePositionRoute
+  LocaleExamplesScrollToItemRoute: typeof LocaleExamplesScrollToItemRoute
+  LocaleExamplesSimpleRoute: typeof LocaleExamplesSimpleRoute
+  LocaleExamplesSwipeDesktopRoute: typeof LocaleExamplesSwipeDesktopRoute
+  LocaleExamplesVerticalRoute: typeof LocaleExamplesVerticalRoute
+  LocaleExamplesIndexRoute: typeof LocaleExamplesIndexRoute
+}
+
+const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
+  LocaleCompareRoute: LocaleCompareRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
+  LocaleExamplesAddItemAndScrollToItRoute:
+    LocaleExamplesAddItemAndScrollToItRoute,
+  LocaleExamplesAddItemsRoute: LocaleExamplesAddItemsRoute,
+  LocaleExamplesAutoplayRoute: LocaleExamplesAutoplayRoute,
+  LocaleExamplesBottomArrowsRoute: LocaleExamplesBottomArrowsRoute,
+  LocaleExamplesCenterOnClickRoute: LocaleExamplesCenterOnClickRoute,
+  LocaleExamplesCustomTransitionRoute: LocaleExamplesCustomTransitionRoute,
+  LocaleExamplesInfiniteLoopRoute: LocaleExamplesInfiniteLoopRoute,
+  LocaleExamplesItemsAnimationRoute: LocaleExamplesItemsAnimationRoute,
+  LocaleExamplesMobileSwipeOnlyRoute: LocaleExamplesMobileSwipeOnlyRoute,
+  LocaleExamplesMouseDragRoute: LocaleExamplesMouseDragRoute,
+  LocaleExamplesOneItemRoute: LocaleExamplesOneItemRoute,
+  LocaleExamplesOneItemScrollRoute: LocaleExamplesOneItemScrollRoute,
+  LocaleExamplesPerformanceRoute: LocaleExamplesPerformanceRoute,
+  LocaleExamplesPreventBodyScrollRoute: LocaleExamplesPreventBodyScrollRoute,
+  LocaleExamplesProgressRoute: LocaleExamplesProgressRoute,
+  LocaleExamplesRtlRoute: LocaleExamplesRtlRoute,
+  LocaleExamplesSaveRestorePositionRoute:
+    LocaleExamplesSaveRestorePositionRoute,
+  LocaleExamplesScrollToItemRoute: LocaleExamplesScrollToItemRoute,
+  LocaleExamplesSimpleRoute: LocaleExamplesSimpleRoute,
+  LocaleExamplesSwipeDesktopRoute: LocaleExamplesSwipeDesktopRoute,
+  LocaleExamplesVerticalRoute: LocaleExamplesVerticalRoute,
+  LocaleExamplesIndexRoute: LocaleExamplesIndexRoute,
+}
+
+const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
+  LocaleRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LocaleRouteRoute: LocaleRouteRouteWithChildren,
   CompareRoute: CompareRoute,
   ExamplesAddItemAndScrollToItRoute: ExamplesAddItemAndScrollToItRoute,
   ExamplesAddItemsRoute: ExamplesAddItemsRoute,

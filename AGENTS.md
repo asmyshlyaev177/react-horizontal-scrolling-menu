@@ -105,3 +105,107 @@ variant gets pinned into the entry for `/` by the first agent that asks, and
 every human visitor afterwards sees a wall of plain text — a 200 the whole
 time, so nothing alerts. It happened on a sibling site. The `.md` mirrors are
 a different case: one representation each, so they cache as ordinary assets.
+
+## Translations
+
+Eight languages besides English: `zh-CN`, `ja`, `ko`, `ru`, `es`, `pt-BR`, `fr`,
+`vi`. Declared once in `scripts/i18n/locales.mjs`; the README suffixes and the
+language-switcher line both derive from that list, so adding a language is an
+edit there plus `pnpm i18n:init`.
+
+`README.md` is the English source and is also what npmjs.com renders. Each
+translation is `README.<tag>.md` beside it, keeping BCP 47 case.
+
+```bash
+pnpm i18n:check    # structure, links, anchors, drift
+pnpm i18n status   # what is translated, what has drifted
+pnpm i18n diff ja  # the English diff a stale translation still owes
+```
+
+**Every translation records the git blob hash of the English README it came
+from**, in the `<!-- i18n:meta … -->` line at the top. Without it a translation
+sits a release behind its source and nothing says so. Never hand-edit that
+line; `pnpm i18n stamp <locale>` writes it once a translation is current.
+
+This README has no table of contents, but the link row under the title carries
+two in-page anchors (`#properties-and-callbacks`,
+`#using-with-ai-coding-agents`). Translating those headings changes the anchors
+GitHub derives from them, and `pnpm i18n:check` fails on any that no longer
+resolve. Note `website/src/lib/links.ts` points `API_DOCS` at the **English**
+README's `#properties-and-callbacks` — that stays English on purpose.
+
+### The website
+
+`website/` is localized too, at `/ja/…`, `/zh-cn/…` and six more — 24 routes
+times 9 languages, all prerendered.
+
+| Surface     | Where a translation lives        | Tool             |
+| ----------- | -------------------------------- | ---------------- |
+| `README.md` | `README.<tag>.md` beside it      | `pnpm i18n`      |
+| Site copy   | `website/src/content/<dir>/*.ts` | `pnpm i18n:copy` |
+
+Three things about the site are load-bearing:
+
+- **Prose is Markdown strings, not JSX.** `content/<dir>/examples.ts` holds each
+  page's sections as `{ heading, body }`, and `website/src/lib/prose.tsx`
+  renders the supported subset. Backticks are what keep `ScrollMenu` and
+  `useIsVisible` from being translated. In-site links in that Markdown are
+  spelled without a locale (`/examples/x`) — a translation copies the English
+  module's hrefs — and `prose.tsx` prefixes them from the current pathname.
+- **A route file never spells a sentence.** Each page is a `views/` component
+  taking `copy`, mounted twice: once by the English route and once by the
+  `$locale` one. That is why there are 21 example views and 42 example routes.
+- **The prerenderer is given every URL, not left to find them.** `pages` in
+  vite.config.ts is the same table the sitemap and `_headers` come from.
+  `crawlLinks` stays on as a backstop, but the build no longer depends on 216
+  pages being reachable by following hrefs — which it used to, and which is why
+  the language switcher had to be nine bare anchors. It is a `<select>` now,
+  with those anchors kept in a `<noscript>` for readers without JS and for
+  crawlers looking for a page's other language versions.
+
+`_headers` and the sitemap's `xhtml:link` alternates are generated in
+`vite.config.ts` from one page table; the two hand-written Markdown mirrors —
+the examples hub and one document per example, nine languages of each — are
+built in `website/src/lib/mirror-docs.ts`. `_headers` in particular went from 4
+hand-written blocks to 36: edit the generator, not `public/_headers`.
+
+**`EXAMPLES` in `lib/examples-manifest.ts` is structure, and it carries the
+English names.** vite.config reads it at build, so it has to; every visible use
+of an example's name or blurb goes through `copy.manifest.examples[slug]`
+instead. Reading a name straight off `EXAMPLES` is how the hub cards, the
+breadcrumbs and 168 `.md` mirrors ended up English under translated canonicals.
+
+The homepage routes build their `head()` by hand rather than through
+`lib/seo.ts` — their mirror is `/index.md`, not the `/.md` that rule produces —
+so anything added to `pageHead` has to be added there twice as well. The
+hreflang cluster was missing from exactly those two routes for that reason.
+
+`e2e/locales.spec.ts` runs the whole of `smoke.spec.ts`'s surface checks against
+`/ja`, because that suite asserts on English routes only and a locale can be
+comprehensively broken while all of it passes.
+
+Two things about the build, both caused by the config importing app source:
+
+- **`src/content/` and the `src/lib` modules `vite.config.ts` pulls in write
+  their relative imports with an explicit `.ts`**, and nothing else in the repo
+  does. Without it every one of those 69 files is a line of "unsupported by
+  `configLoader: 'native'`" on every build — 548 of them. Keep the extensions
+  when adding a content module; `tsconfig.json` carries
+  `allowImportingTsExtensions` for exactly this.
+- **`src/content/index.ts` is all nine languages in one chunk** — ~237 kB
+  gzipped, modulepreloaded by every page including the English ones, and the
+  only remaining build warning. Splitting it means `copyFor` can no longer be
+  a synchronous call, which reaches `lib/seo.ts` (runs inside `head()`, so no
+  hooks), `SiteChrome` and every route.
+
+Fonts are latin-subset only, declared in `__root.tsx`. zh/ja/ko/ru fall back
+cleanly because every glyph is outside the range; **Vietnamese is the one that
+breaks** — base letters inside, diacritics outside, so one word renders in two
+faces. `usesWebfont()` in `website/src/i18n.ts` opts those locales out of both
+the `@font-face` block and its preloads.
+
+`skills/*/SKILL.md` is **not** translated: it ships inside the npm tarball and
+is loaded by name by `@tanstack/intent`, whose format has no locale dimension.
+
+Handing the work to a model: `scripts/i18n/TRANSLATING.md` is the prompt and
+`scripts/i18n/GLOSSARY.md` the protected-term list.

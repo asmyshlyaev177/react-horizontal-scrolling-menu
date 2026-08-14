@@ -1,3 +1,6 @@
+import { copyFor } from '../content';
+import { en } from '../content/en';
+import { alternateLinks, localeFromPath, stripLocale } from '../i18n';
 import { LLMS_TXT, SITE_URL } from './links';
 
 /**
@@ -11,7 +14,7 @@ export const llmsTxtLink = {
   rel: 'alternate',
   type: 'text/markdown',
   href: `${SITE_URL}${LLMS_TXT}`,
-  title: 'LLM-friendly reference (llms.txt)',
+  title: en.chrome.links.llmsTxt,
 };
 
 // Per-route head: title/description/OG override the root defaults by
@@ -49,16 +52,35 @@ export const pageHead = ({
     { property: 'og:url', content: `${SITE_URL}${path}` },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description },
+    // The card's image alt is set on the root route, which sits above
+    // `$locale` and can only ever state the English one. The path knows.
+    {
+      property: 'og:image:alt',
+      content: copyFor(localeFromPath(path).code).chrome.ogImageAlt,
+    },
+    {
+      name: 'twitter:image:alt',
+      content: copyFor(localeFromPath(path).code).chrome.ogImageAlt,
+    },
   ],
   links: [
     { rel: 'canonical', href: `${SITE_URL}${path}` },
+    // The reciprocal hreflang cluster for this page. Every locale of it lists
+    // every other one *and* itself, plus x-default for English — a cluster
+    // whose members disagree about who is in it is discarded wholesale rather
+    // than partially honoured. Derived from the path, so a page cannot be
+    // added without one.
+    ...alternateLinks(stripLocale(path)),
     ...(markdown
       ? [
           {
             rel: 'alternate',
             type: 'text/markdown',
             href: `${SITE_URL}${path}.md`,
-            title: 'This page as Markdown',
+            // Describes *this* page, so it is in this page's language. The
+            // llms.txt link below is not: that is one English document.
+            title: copyFor(localeFromPath(path).code).chrome.links
+              .markdownAlternate,
           },
         ]
       : []),

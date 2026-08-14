@@ -35,17 +35,10 @@
 #
 # `:slug` matches one path segment and is interpolated into the value, so the
 # examples need one rule rather than twenty-one. It also matches the mirrors
-# themselves (`/examples/<slug>.md`), which is why the rule below is written
-# as `/examples/:slug` and not `/examples/*` — see the note there.
-/
-  Link: </index.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
-  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
-/examples
-  Link: </examples.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
-  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
-/examples/:slug
-  Link: </examples/:slug.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
-  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
-/compare
-  Link: </compare.md>; rel="alternate"; type="text/markdown"; title="This page as Markdown"
-  Link: </llms.txt>; rel="alternate"; type="text/markdown"; title="LLM-friendly reference (llms.txt)"
+# themselves (`/examples/<slug>.md`), which is why the rule is written as
+# `/examples/:slug` and not `/examples/*`.
+#
+# The per-route rules below this line are GENERATED — nine languages times four
+# route shapes is thirty-six blocks, and a missing one silently drops the
+# `Link:` alternates that e2e/smoke.spec.ts asserts. Edit the generator in
+# vite.config.ts, not this file, and re-run the build.

@@ -10,6 +10,11 @@
     "noEmit": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    // For src/content/** and the two lib modules vite.config.ts pulls in:
+    // those imports carry explicit `.ts` extensions so the config's own
+    // import graph is resolvable by `configLoader: 'native'`, which Vite
+    // plans to make the default. Safe with noEmit — nothing rewrites them.
+    "allowImportingTsExtensions": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "types": ["vite/client"]

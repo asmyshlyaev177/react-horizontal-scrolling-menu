@@ -1,6 +1,7 @@
-import { Link } from '@tanstack/react-router';
 import type * as React from 'react';
 
+import { copyFor } from '../content';
+import { codeOfDir } from '../i18n';
 import { exampleBySlug, EXAMPLES } from '../lib/examples-manifest';
 import { AUTHOR_SITE, SITE_URL, STORIES } from '../lib/links';
 import { CopyButton } from './CodeBlock';
@@ -8,6 +9,12 @@ import { ArrowUpRight } from './Icons';
 import { SiteFooter, SiteHeader } from './SiteChrome';
 
 interface ExamplePageProps {
+  /**
+   * Content-directory name of the language being rendered (`en`, `ja`, …).
+   * Every in-site link below is prefixed with it, so a reader following the
+   * breadcrumb or a related example stays in the language they were reading.
+   */
+  locale: string;
   slug: string;
   /** Task-phrased h1. */
   title: string;
@@ -23,11 +30,28 @@ interface ExamplePageProps {
   related?: string[];
 }
 
-const buildJsonLd = (slug: string, title: string, entryName: string) => ({
+/**
+ * Every URL and every name here is the reader's language: a Japanese page
+ * whose structured data points at `/examples/simple` and calls it "Getting
+ * started" is describing a different page than the one it is on.
+ */
+const buildJsonLd = ({
+  prefix,
+  slug,
+  title,
+  entryName,
+  examplesLabel,
+}: {
+  prefix: string;
+  slug: string;
+  title: string;
+  entryName: string;
+  examplesLabel: string;
+}) => ({
   '@context': 'https://schema.org',
   '@type': 'TechArticle',
   headline: title,
-  url: `${SITE_URL}/examples/${slug}`,
+  url: `${SITE_URL}${prefix}/examples/${slug}`,
   author: {
     '@type': 'Person',
     name: 'Aleksandr Smyshliaev',
@@ -46,20 +70,21 @@ const buildJsonLd = (slug: string, title: string, entryName: string) => ({
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Examples',
-        item: `${SITE_URL}/examples`,
+        name: examplesLabel,
+        item: `${SITE_URL}${prefix}/examples`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: entryName,
-        item: `${SITE_URL}/examples/${slug}`,
+        item: `${SITE_URL}${prefix}/examples/${slug}`,
       },
     ],
   },
 });
 
 export function ExamplePage({
+  locale,
   slug,
   title,
   lede,
@@ -71,25 +96,44 @@ export function ExamplePage({
   related = [],
 }: ExamplePageProps) {
   const entry = exampleBySlug(slug);
+  // `''` for English, `/ja` for the rest — every in-site href below is
+  // built from it so a reader stays in the language they were reading.
+  const prefix = locale === 'en' ? '' : `/${locale}`;
   if (!entry) throw new Error(`Unknown example slug: ${slug}`);
+  const site = copyFor(codeOfDir(locale));
+  const chrome = site.examplePage;
+  // `EXAMPLES` carries the English names — it is the structural manifest, and
+  // vite.config reads it at build. The visible name of an example is copy, so
+  // it comes from the locale's own manifest module.
+  const nameOf = (s: string) => site.manifest.examples[s]?.name ?? s;
   const storyUrl = STORIES[entry.storyKey];
   const relatedEntries = related
     .map(exampleBySlug)
     .filter((e): e is NonNullable<typeof e> => Boolean(e));
-  const jsonLd = buildJsonLd(slug, title, entry.name);
+  const jsonLd = buildJsonLd({
+    prefix,
+    slug,
+    title,
+    entryName: nameOf(slug),
+    examplesLabel: chrome.breadcrumbExamples,
+  });
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main id="main" className="site-container pt-10 pb-20">
-        <nav aria-label="Breadcrumb" className="text-sm text-muted">
-          <Link to="/examples" className="hover:text-ink">
-            Examples
-          </Link>
+        <nav aria-label={chrome.breadcrumbLabel} className="text-sm text-muted">
+          {/* A plain anchor, not <Link>: the target path is built from the
+              locale prefix at runtime and TanStack's `to` is typed against the
+              literal route table, which a template string cannot satisfy. The
+              related-example links below are anchors for the same reason. */}
+          <a href={`${prefix}/examples`} className="hover:text-ink">
+            {chrome.breadcrumbExamples}
+          </a>
           <span aria-hidden className="mx-2">
             /
           </span>
-          <span className="text-ink">{entry.name}</span>
+          <span className="text-ink">{nameOf(slug)}</span>
         </nav>
 
         <h1 className="mt-4 max-w-3xl text-4xl/tight font-bold tracking-tight text-balance">
@@ -109,7 +153,7 @@ export function ExamplePage({
 
         <p className="links-row mt-4">
           <a className="gallery-link" href={storyUrl}>
-            Edit this example live in Storybook <ArrowUpRight />
+            {chrome.storybookCta} <ArrowUpRight />
           </a>
         </p>
 
@@ -117,36 +161,38 @@ export function ExamplePage({
           {children}
         </div>
 
-        <section aria-label="Full source" className="mt-12">
-          <h2 className="text-2xl font-semibold tracking-tight">Full source</h2>
+        <section aria-label={chrome.fullSource} className="mt-12">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            {chrome.fullSource}
+          </h2>
           <p className="mt-2 max-w-2xl text-muted">
-            Complete and copy-paste ready — this is the exact file behind the{' '}
-            <a href={storyUrl}>live-editable Storybook version</a>.
+            {chrome.fullSourceLede}{' '}
+            <a href={storyUrl}>{chrome.fullSourceLedeLink}</a>.
           </p>
           <div className="code-panel mt-5">
             <div className="code-panel-bar">
               <span>{codeTitle}</span>
-              <CopyButton text={code.code} label="Copy full source" />
+              <CopyButton text={code.code} label={chrome.copyFullSource} />
             </div>
             <div dangerouslySetInnerHTML={{ __html: code.html }} />
           </div>
         </section>
 
         {relatedEntries.length > 0 && (
-          <section aria-label="Related examples" className="mt-12">
+          <section aria-label={chrome.relatedExamples} className="mt-12">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Related examples
+              {chrome.relatedExamples}
             </h2>
             <ul className="mt-4 grid list-none gap-3 pl-0 sm:grid-cols-2 lg:grid-cols-3">
               {relatedEntries.map((rel) => (
                 <li key={rel.slug}>
                   <a
-                    href={`/examples/${rel.slug}`}
+                    href={`${prefix}/examples/${rel.slug}`}
                     className="block h-full rounded-lg border border-border bg-surface p-4 text-ink no-underline hover:border-border-strong"
                   >
-                    <span className="font-semibold">{rel.name}</span>
+                    <span className="font-semibold">{nameOf(rel.slug)}</span>
                     <span className="mt-1 block text-sm text-muted">
-                      {rel.blurb}
+                      {site.manifest.examples[rel.slug]?.blurb}
                     </span>
                   </a>
                 </li>
@@ -156,12 +202,12 @@ export function ExamplePage({
         )}
 
         <p className="mt-12">
-          <Link className="gallery-link" to="/examples">
-            All {EXAMPLES.length} examples
-          </Link>
+          <a className="gallery-link" href={`${prefix}/examples`}>
+            {chrome.allExamples.replace('{count}', String(EXAMPLES.length))}
+          </a>
         </p>
       </main>
-      <SiteFooter />
+      <SiteFooter locale={locale} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

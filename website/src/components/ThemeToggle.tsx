@@ -63,7 +63,8 @@ function flipTheme() {
   syncMetaThemeColor(isSystem ? null : next);
 }
 
-export function ThemeToggle() {
+/** `label` is the button's only text; SiteChrome passes the reader's language. */
+export function ThemeToggle({ label }: { label: string }) {
   // THEME_INIT in __root.tsx applied a stored override before paint but left
   // the metas alone (see syncMetaThemeColor) — catch them up on mount.
   React.useEffect(() => {
@@ -77,7 +78,7 @@ export function ThemeToggle() {
     <button
       type="button"
       className="nav-link theme-toggle"
-      aria-label="Toggle color theme"
+      aria-label={label}
       onClick={flipTheme}
     >
       <Sun className="icon-sun" />
