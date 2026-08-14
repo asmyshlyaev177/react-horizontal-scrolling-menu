@@ -82,6 +82,12 @@
     ]
   },
   "scripts": {
+    "i18n": "node scripts/i18n/cli.mjs",
+    "i18n:init": "node scripts/i18n/cli.mjs init",
+    "i18n:check": "node scripts/i18n/cli.mjs check",
+    "i18n:copy": "node scripts/i18n/copy.mjs",
+    "i18n:copy:init": "node scripts/i18n/copy.mjs init",
+    "i18n:copy:check": "node scripts/i18n/copy.mjs check",
     "test:unit": "wireit",
     "test:e2e": "wireit",
     "test:e2e:dev": "wireit",

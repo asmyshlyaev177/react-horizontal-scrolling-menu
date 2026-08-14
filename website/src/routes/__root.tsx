@@ -11,9 +11,12 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useRouterState,
 } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 
+import { en } from '../content/en';
+import { localeFromPath, usesWebfont } from '../i18n';
 import { SITE_URL } from '../lib/links';
 
 /**
@@ -49,13 +52,11 @@ const FONT_FACES = `
 }
 `;
 
-// ≤60 chars, package name first — the SERP truncates around 60.
-const TITLE = 'react-horizontal-scrolling-menu — horizontal menu for React';
-// ~155 chars — the SERP snippet cuts around 160.
-const DESCRIPTION =
-  'Horizontal scrolling menu for React on native browser scrolling, with per-item visibility tracking. 5.7 kB gzipped, TypeScript-first, 347k downloads/month.';
-const OG_IMAGE_ALT =
-  'A row of category cards with the off-screen ones dimmed, above a live getVisible() readout.';
+// Site-wide document copy — content/en/chrome.ts, where the length budgets
+// these strings are written to (SERP title ≤60 chars, snippet ~155) live in
+// comments beside them.
+const { title: TITLE, description: DESCRIPTION } = en.chrome.meta;
+const OG_IMAGE_ALT = en.chrome.ogImageAlt;
 
 const CONTRACT = `<!--
 THESIS: the component sells itself — every demo on this page IS the library
@@ -90,7 +91,7 @@ export const Route = createRootRoute({
         content: '#ffffff',
       },
       { property: 'og:type', content: 'website' },
-      { property: 'og:site_name', content: 'react-horizontal-scrolling-menu' },
+      { property: 'og:site_name', content: en.chrome.siteName },
       { property: 'og:title', content: TITLE },
       { property: 'og:description', content: DESCRIPTION },
       { property: 'og:url', content: SITE_URL },
@@ -108,24 +109,10 @@ export const Route = createRootRoute({
       { name: 'twitter:image:alt', content: OG_IMAGE_ALT },
     ],
     links: [
-      // Fonts must be fetched before the stylesheet discovers them, or the
-      // hero paints in the fallback font first. crossOrigin is required:
-      // font requests are CORS-mode even same-origin, and a preload with
-      // mismatched mode is simply thrown away (double download).
-      {
-        rel: 'preload',
-        as: 'font',
-        type: 'font/woff2',
-        href: schibstedWoff2,
-        crossOrigin: 'anonymous',
-      },
-      {
-        rel: 'preload',
-        as: 'font',
-        type: 'font/woff2',
-        href: jetbrainsWoff2,
-        crossOrigin: 'anonymous',
-      },
+      // The two font preloads used to sit here. They moved into
+      // RootDocument's <head>, which is the only place that knows the locale:
+      // five of the nine never use these files, and preloading a font the page
+      // will not paint with is bytes spent for nothing.
       { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
       // Canonical is per-route (lib/seo.ts pageHead) — a root-level one
       // would duplicate on every child page. The `rel="alternate"` links to
@@ -183,11 +170,41 @@ const HEATMAP_SRC =
   'https://heatmap-analytics.asmyshlyaev177.workers.dev/tracker.js';
 
 function RootDocument({ children }: { children: ReactNode }) {
+  // The root route sits above the `$locale` segment, so it is never given the
+  // param — but it is the only place that renders <html>, and `lang` has to be
+  // right. Reading the matched pathname is how it learns which language it is
+  // rendering, at prerender time and on the client both.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const locale = localeFromPath(pathname);
+
   return (
     // suppressHydrationWarning: THEME_INIT sets data-theme on <html> before
     // React hydrates, which the server render can't know about.
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale.code} suppressHydrationWarning>
       <head>
+        {/* Before HeadContent: fonts must be fetched before the stylesheet
+            discovers them, or the hero paints in the fallback first.
+            crossOrigin is required — font requests are CORS-mode even
+            same-origin, and a preload with a mismatched mode is thrown away,
+            costing a second download rather than saving one. */}
+        {usesWebfont(locale.code) && (
+          <>
+            <link
+              rel="preload"
+              as="font"
+              type="font/woff2"
+              href={schibstedWoff2}
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              as="font"
+              type="font/woff2"
+              href={jetbrainsWoff2}
+              crossOrigin="anonymous"
+            />
+          </>
+        )}
         <HeadContent />
         {/* Rendered outside head() because TanStack's meta merging dedupes
             by name and would drop one of the two theme-color entries. */}
@@ -196,8 +213,15 @@ function RootDocument({ children }: { children: ReactNode }) {
           media="(prefers-color-scheme: dark)"
           content="#0a0a0a"
         />
-        {/* After HeadContent so it follows the bundled CSS — see FONT_FACES. */}
-        <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
+        {/* After HeadContent so it follows the bundled CSS — see FONT_FACES.
+            Skipped for the locales whose script the latin subsets do not cover:
+            zh/ja/ko/ru fall back cleanly because every glyph is outside the
+            declared unicode-range, but Vietnamese would render one word in two
+            faces — its base letters are inside the range and its diacritics are
+            not. Those locales take a consistent system stack instead. */}
+        {usesWebfont(locale.code) && (
+          <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
+        )}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         {/* Shared across my sites — one implementation, served from the
             portfolio. The element below shows itself only while the GitHub

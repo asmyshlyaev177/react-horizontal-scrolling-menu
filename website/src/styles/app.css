@@ -221,10 +221,16 @@ pre {
   padding-block: 1.1rem;
 }
 
+/* Wrapping, at every width rather than under a breakpoint: the row is brand +
+   five controls, and where it stops fitting depends on how long the nav labels
+   are in the language being rendered — `Compare` and `Vergleichen` and 比較 do
+   not run out of room at the same viewport. Letting it wrap when it has to
+   beats guessing a pixel value per locale. */
 .site-header .site-container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.5rem 1.5rem;
 }
 
 .brand {
@@ -246,7 +252,9 @@ pre {
 .site-nav {
   margin-left: auto;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.35rem;
 }
 
@@ -260,6 +268,9 @@ pre {
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
+  /* CJK has no spaces, so a squeezed flex row breaks 比較 across two lines
+     rather than overflowing. Nav labels are one line at every width. */
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -275,6 +286,56 @@ pre {
   border: 0;
   background: none;
   cursor: pointer;
+}
+
+/* The globe sits in the flow and the select is laid over it, padded clear of
+   it — one control to click, and no absolutely positioned icon to keep in
+   sync with the select's own height. */
+.lang-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+}
+
+.lang-picker svg {
+  position: absolute;
+  left: 0.6rem;
+  pointer-events: none;
+}
+
+.lang-select {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.45rem 0.6rem 0.45rem 2rem;
+  cursor: pointer;
+}
+
+.lang-select:hover {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* The list itself is drawn by the OS and inherits none of the above; without
+   this it is black-on-black in dark mode on Firefox and Chromium alike. */
+.lang-select option {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* No JS: the anchors this ships instead are the whole switcher, so they get
+   the separators the select's own chrome would have provided. */
+.lang-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 /* The icon shows the theme a click switches TO: moon in light, sun in dark.
@@ -304,7 +365,7 @@ pre {
 
 @media (max-width: 640px) {
   .site-header .site-container {
-    gap: 0.75rem;
+    gap: 0.5rem 0.75rem;
   }
 
   .brand span {
@@ -317,6 +378,15 @@ pre {
 
   .nav-link {
     padding: 0.45rem 0.55rem;
+  }
+
+  .lang-select {
+    padding-right: 0.4rem;
+    padding-left: 1.85rem;
+  }
+
+  .lang-picker svg {
+    left: 0.45rem;
   }
 }
 
