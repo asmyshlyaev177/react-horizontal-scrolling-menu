@@ -13,6 +13,7 @@ export const home: HomeCopy = {
     sub: 'A React scrolling menu built on the browser’s own scroll — per-item visibility tracking, arrows, drag, and a full imperative API. `5.7 kB` gzipped.',
     primaryCta: 'Get started',
     secondaryCta: 'Browse examples',
+    storybookCta: 'Open Storybook',
   },
 
   install: {

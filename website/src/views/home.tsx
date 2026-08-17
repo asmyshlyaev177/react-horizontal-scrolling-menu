@@ -72,8 +72,11 @@ export function View({ copy, locale }: { copy: HomeCopy; locale: string }) {
               <a className="btn btn-primary" href="#quick-start">
                 {copy.hero.primaryCta}
               </a>
-              <a className="btn btn-ghost" href={STORYBOOK}>
+              <a className="btn btn-ghost" href={`${prefix}/examples`}>
                 {copy.hero.secondaryCta}
+              </a>
+              <a className="btn btn-ghost" href={STORYBOOK}>
+                {copy.hero.storybookCta}
               </a>
             </div>
           </div>

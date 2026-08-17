@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'Un menu à défilement React construit sur le propre défilement du navigateur — suivi de visibilité par élément, flèches, glisser et une API impérative complète. `5,7 kB` gzippé.',
     primaryCta: 'Démarrer',
     secondaryCta: 'Parcourir les exemples',
+    storybookCta: 'Ouvrir le Storybook',
   },
 
   install: {

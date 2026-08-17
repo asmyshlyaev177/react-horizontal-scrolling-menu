@@ -92,6 +92,7 @@ export interface HomeCopy {
     sub: string;
     primaryCta: string;
     secondaryCta: string;
+    storybookCta: string;
   };
   install: {
     ariaLabel: string;

@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: '브라우저 자체 스크롤 위에 구축된 React 스크롤 메뉴 — 항목별 가시성 추적, 화살표, 드래그, 그리고 완전한 명령형 API. gzip `5.7 kB`.',
     primaryCta: '시작하기',
     secondaryCta: '예제 둘러보기',
+    storybookCta: 'Storybook 열기',
   },
 
   install: {

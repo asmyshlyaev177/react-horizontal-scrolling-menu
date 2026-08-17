@@ -515,7 +515,7 @@ pre {
 
 .arrow-btn:disabled {
   opacity: 0.28;
-  cursor: default;
+  cursor: not-allowed;
   box-shadow: none;
 }
 

@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'Un menú de desplazamiento de React construido sobre el propio desplazamiento del navegador: seguimiento de visibilidad por elemento, flechas, arrastre y una API imperativa completa. `5,7 kB` en gzip.',
     primaryCta: 'Empezar',
     secondaryCta: 'Ver ejemplos',
+    storybookCta: 'Abrir Storybook',
   },
 
   install: {

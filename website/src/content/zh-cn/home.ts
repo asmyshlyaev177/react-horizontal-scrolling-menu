@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: '一个基于浏览器自身滚动的 React 滚动菜单——逐项可见性追踪、箭头、拖拽，以及完整的命令式 API。gzip 后 `5.7 kB`。',
     primaryCta: '开始使用',
     secondaryCta: '浏览示例',
+    storybookCta: '打开 Storybook',
   },
 
   install: {

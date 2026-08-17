@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'Um menu de rolagem do React construído sobre a própria rolagem do navegador — rastreamento de visibilidade por item, setas, arraste e uma API imperativa completa. `5,7 kB` gzip.',
     primaryCta: 'Começar',
     secondaryCta: 'Ver exemplos',
+    storybookCta: 'Abrir o Storybook',
   },
 
   install: {

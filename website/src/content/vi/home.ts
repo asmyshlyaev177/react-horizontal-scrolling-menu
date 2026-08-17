@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'Một menu cuộn React được xây trên chính cuộn của trình duyệt — theo dõi khả năng hiển thị theo từng mục, mũi tên, kéo và một API mệnh lệnh đầy đủ. `5.7 kB` gzip.',
     primaryCta: 'Bắt đầu',
     secondaryCta: 'Duyệt ví dụ',
+    storybookCta: 'Mở Storybook',
   },
 
   install: {

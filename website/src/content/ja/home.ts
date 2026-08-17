@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'ブラウザ自身のスクロール上に構築された React スクロールメニュー——項目ごとの可視性追跡、矢印、ドラッグ、そして完全な命令型 API。gzip で `5.7 kB`。',
     primaryCta: 'はじめる',
     secondaryCta: '例を見る',
+    storybookCta: 'Storybook を開く',
   },
 
   install: {

@@ -19,6 +19,7 @@ export const home: HomeCopy = {
     sub: 'Меню прокрутки для React на собственной прокрутке браузера — отслеживание видимости по элементам, стрелки, перетаскивание и полный императивный API. `5,7 КБ` в gzip.',
     primaryCta: 'Начать',
     secondaryCta: 'Смотреть примеры',
+    storybookCta: 'Открыть Storybook',
   },
 
   install: {
