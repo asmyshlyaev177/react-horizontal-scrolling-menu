@@ -27,14 +27,15 @@ proporciones. 5,7 kB min+gzip.
 
 ### Quién lo usa
 
-Más de 20.000 repositorios dependen de esta biblioteca. Algunos que puedes
-leer:
+Más de 20.000 repositorios dependen de esta biblioteca. Cinco que puedes
+leer — cada enlace lleva al `import` del componente que la usa, fijado a un
+commit, no a un `package.json`:
 
-- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
-- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
-- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
-- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
-- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+- [Our World in Data](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3) — el carrusel de ideas clave en su renderizador de artículos; también sus [facetas de temas](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/latest/LatestTopicFacets.tsx#L10), que envuelven un `ToggleButton` de react-aria. `^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform/blob/90c1be6be0ad450a92d9483577433fdc8b09f477/packages/components/src/VerticalList/VerticalList.client.tsx#L6-L7) — el `VerticalList` de su paquete de componentes compartidos, construido a partir de la propia documentación de esta biblioteca. `^8.2.0`
+- [erxes](https://github.com/erxes/erxes/blob/efef0252d390f4072e21c0a188d289f01866b188/apps/posclient-front/components/ui/horizontalScrollMenu.tsx#L6) — el menú de categorías en su cliente de punto de venta. `^4.0.4`
+- [Reapit](https://github.com/reapit/foundations/blob/9edda57691befd398547bcdf4013916b85face52/packages/app-builder/src/components/ui/viewport/tab-bar.tsx#L4) — la barra de pestañas del viewport en su constructor de aplicaciones. `^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Tabs.tsx#L8) — el componente `Tabs` del panel; sus [`Arrows`](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Arrows.tsx#L9) usan `VisibilityContext` directamente. Archivado en 2024, fija `^2.1.1`.
 
 También aparece en [React Status #257](https://react.statuscode.com/issues/257).
 

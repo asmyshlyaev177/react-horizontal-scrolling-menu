@@ -25,14 +25,15 @@
 
 ### 利用実績
 
-2 万以上のリポジトリがこのライブラリに依存しています。閲覧できるものをいくつか
-紹介します：
+2 万以上のリポジトリがこのライブラリに依存しています。実際に読める 5 つを紹介
+します。各リンクは `package.json` ではなく、それを使っているコンポーネント内の
+`import` 行を指し、コミットに固定されています。
 
-- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
-- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
-- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
-- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
-- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+- [Our World in Data](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3) — 記事レンダラーのキーインサイト・スライダー。[トピックファセット](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/latest/LatestTopicFacets.tsx#L10) では react-aria の `ToggleButton` をラップしています。`^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform/blob/90c1be6be0ad450a92d9483577433fdc8b09f477/packages/components/src/VerticalList/VerticalList.client.tsx#L6-L7) — 共有コンポーネントパッケージの `VerticalList`。本ライブラリのドキュメントをそのまま参考に実装されています。`^8.2.0`
+- [erxes](https://github.com/erxes/erxes/blob/efef0252d390f4072e21c0a188d289f01866b188/apps/posclient-front/components/ui/horizontalScrollMenu.tsx#L6) — POS クライアントのカテゴリメニュー。`^4.0.4`
+- [Reapit](https://github.com/reapit/foundations/blob/9edda57691befd398547bcdf4013916b85face52/packages/app-builder/src/components/ui/viewport/tab-bar.tsx#L4) — アプリビルダーのビューポート・タブバー。`^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Tabs.tsx#L8) — ダッシュボードの `Tabs` コンポーネント。[`Arrows`](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Arrows.tsx#L9) は `VisibilityContext` を直接使っています。2024 年にアーカイブ済み、`^2.1.1` を固定。
 
 また [React Status #257](https://react.statuscode.com/issues/257) でも紹介されました。
 

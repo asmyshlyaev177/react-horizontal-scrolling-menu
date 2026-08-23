@@ -24,13 +24,14 @@
 
 ### 谁在使用
 
-超过 20,000 个仓库依赖此库。以下是几个可以查看的：
+超过 20,000 个仓库依赖此库。以下五个可以直接查看——每个链接都指向使用它的组件中的 `import` 那一行，
+并固定到某个提交，而不是指向 `package.json`：
 
-- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
-- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
-- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
-- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
-- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+- [Our World in Data](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3)——他们文章渲染器中的核心洞见滑块；还有[主题分面](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/latest/LatestTopicFacets.tsx#L10)，其中包裹了一个 react-aria `ToggleButton`。`^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform/blob/90c1be6be0ad450a92d9483577433fdc8b09f477/packages/components/src/VerticalList/VerticalList.client.tsx#L6-L7)——共享组件包中的 `VerticalList`，直接依照本库文档构建。`^8.2.0`
+- [erxes](https://github.com/erxes/erxes/blob/efef0252d390f4072e21c0a188d289f01866b188/apps/posclient-front/components/ui/horizontalScrollMenu.tsx#L6)——POS 客户端中的分类菜单。`^4.0.4`
+- [Reapit](https://github.com/reapit/foundations/blob/9edda57691befd398547bcdf4013916b85face52/packages/app-builder/src/components/ui/viewport/tab-bar.tsx#L4)——应用构建器中的视口标签栏。`^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Tabs.tsx#L8)——仪表板的 `Tabs` 组件；其 [`Arrows`](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Arrows.tsx#L9) 直接使用 `VisibilityContext`。2024 年已归档，固定在 `^2.1.1`。
 
 还登上了 [React Status #257](https://react.statuscode.com/issues/257)。
 

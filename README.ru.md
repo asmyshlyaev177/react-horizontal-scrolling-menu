@@ -26,14 +26,15 @@
 
 ### Кто использует
 
-Более 20 000 репозиториев зависят от этой библиотеки. Несколько из них можно
-изучить:
+Более 20 000 репозиториев зависят от этой библиотеки. Пять из них можно
+изучить — каждая ссылка ведёт на строку `import` в компоненте, который её
+использует, и закреплена за коммитом, а не на `package.json`:
 
-- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
-- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
-- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
-- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
-- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+- [Our World in Data](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3) — слайдер ключевых выводов в их рендерере статей; а также [фасеты тем](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/latest/LatestTopicFacets.tsx#L10), оборачивающие `ToggleButton` из react-aria. `^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform/blob/90c1be6be0ad450a92d9483577433fdc8b09f477/packages/components/src/VerticalList/VerticalList.client.tsx#L6-L7) — `VerticalList` в их общем пакете компонентов, собранный прямо по документации этой библиотеки. `^8.2.0`
+- [erxes](https://github.com/erxes/erxes/blob/efef0252d390f4072e21c0a188d289f01866b188/apps/posclient-front/components/ui/horizontalScrollMenu.tsx#L6) — меню категорий в их POS-клиенте. `^4.0.4`
+- [Reapit](https://github.com/reapit/foundations/blob/9edda57691befd398547bcdf4013916b85face52/packages/app-builder/src/components/ui/viewport/tab-bar.tsx#L4) — панель вкладок вьюпорта в их конструкторе приложений. `^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Tabs.tsx#L8) — компонент `Tabs` дашборда; их [`Arrows`](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Arrows.tsx#L9) используют `VisibilityContext` напрямую. Архивирован в 2024, закреплена `^2.1.1`.
 
 Также упомянута в [React Status #257](https://react.statuscode.com/issues/257).
 

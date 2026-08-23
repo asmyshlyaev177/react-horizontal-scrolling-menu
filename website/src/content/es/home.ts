@@ -7,7 +7,11 @@
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
-const OWID = 'https://github.com/owid/owid-grapher';
+// Deep-links the import, not the repo root: the claim is that they render
+// this component in production, and the line proves it. Commit-pinned so a
+// refactor on their side can't turn it into a 404.
+const OWID =
+  'https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3';
 
 export const home: HomeCopy = {
   jsonLdDescription:

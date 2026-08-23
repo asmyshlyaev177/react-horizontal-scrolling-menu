@@ -24,13 +24,15 @@
 
 ### 사용처
 
-2만 개 이상의 리포지토리가 이 라이브러리에 의존합니다. 살펴볼 수 있는 몇 가지:
+2만 개 이상의 리포지토리가 이 라이브러리에 의존합니다. 직접 살펴볼 수 있는 다섯 곳 —
+각 링크는 `package.json`이 아니라 이 라이브러리를 사용하는 컴포넌트의 `import` 줄로
+연결되며, 커밋에 고정되어 있습니다:
 
-- [Our World in Data](https://github.com/owid/owid-grapher) — `^8.2.0`
-- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform) — `^8.2.0`
-- [erxes](https://github.com/erxes/erxes) — `^4.0.4`
-- [Reapit](https://github.com/reapit/foundations) — `^3.2.5`
-- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws) — `^2.1.1`
+- [Our World in Data](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/gdocs/components/KeyInsights.tsx#L3) — 아티클 렌더러의 핵심 인사이트 슬라이더. [토픽 패싯](https://github.com/owid/owid-grapher/blob/4a60a2fb4532a2d287a1ef5660339dcc32bcd483/site/latest/LatestTopicFacets.tsx#L10)에서는 react-aria `ToggleButton`을 감쌉니다. `^8.2.0`
+- [Precious Plastic / ONE ARMY](https://github.com/ONEARMY/community-platform/blob/90c1be6be0ad450a92d9483577433fdc8b09f477/packages/components/src/VerticalList/VerticalList.client.tsx#L6-L7) — 공용 컴포넌트 패키지의 `VerticalList`. 이 라이브러리 문서를 그대로 참고해 만들어졌습니다. `^8.2.0`
+- [erxes](https://github.com/erxes/erxes/blob/efef0252d390f4072e21c0a188d289f01866b188/apps/posclient-front/components/ui/horizontalScrollMenu.tsx#L6) — POS 클라이언트의 카테고리 메뉴. `^4.0.4`
+- [Reapit](https://github.com/reapit/foundations/blob/9edda57691befd398547bcdf4013916b85face52/packages/app-builder/src/components/ui/viewport/tab-bar.tsx#L4) — 앱 빌더의 뷰포트 탭 바. `^3.2.5`
+- [AWS Performance Dashboard](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Tabs.tsx#L8) — 대시보드의 `Tabs` 컴포넌트. [`Arrows`](https://github.com/aws-solutions/performance-dashboard-on-aws/blob/cffa9c822ac8288a44d13a9394a2255e574c7592/frontend/src/components/Arrows.tsx#L9)는 `VisibilityContext`를 직접 사용합니다. 2024년 아카이브됨, `^2.1.1` 고정.
 
 또한 [React Status #257](https://react.statuscode.com/issues/257)에서 소개되었습니다.
 
