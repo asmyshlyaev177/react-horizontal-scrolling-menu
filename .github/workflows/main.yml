@@ -147,19 +147,23 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # The library is npm-managed; `website/` is pnpm, and its lockfile is
+      # the only one that lists the site's dependencies. pnpm is set up before
+      # setup-node so `cache: 'pnpm'` can find the store.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
-          cache: 'npm'
-          cache-dependency-path: 'website/package-lock.json'
+          cache: 'pnpm'
+          cache-dependency-path: 'website/pnpm-lock.yaml'
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile
         working-directory: website
       - name: Typecheck
-        run: npm run typecheck
+        run: pnpm run typecheck
         working-directory: website
-      # `npm test` builds, then runs the Playwright suite against `vite
+      # `pnpm test` builds, then runs the Playwright suite against `vite
       # preview` — the built site in workerd. No browser is downloaded on
       # purpose: every assertion in website/e2e is HTTP-level (status,
       # headers, body) and runs on Playwright's `request` fixture, so
@@ -170,7 +174,7 @@ jobs:
       # build-test above; inside a job container it accepts connections and
       # never answers them, which would hang the webServer wait.
       - name: Build and smoke test
-        run: npm test
+        run: pnpm test
         working-directory: website
       # The whole point of the page is that the demos are server-rendered;
       # a prerender that silently degrades to an empty shell must fail CI.
@@ -192,10 +196,10 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "CLOUDFLARE_API_TOKEN not set — skipping deploy (the site can still be deployed locally with 'npm run deploy')."
+            echo "CLOUDFLARE_API_TOKEN not set — skipping deploy (the site can still be deployed locally with 'pnpm deploy')."
             exit 0
           fi
-          npx wrangler deploy
+          pnpm exec wrangler deploy
         working-directory: website
 
   deploy-storybook:

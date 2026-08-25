@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@11.0.9",
   "description": "Landing page for react-horizontal-scrolling-menu, server-rendered on Cloudflare Workers",
   "scripts": {
     "dev": "vite dev",
