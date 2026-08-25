@@ -5,32 +5,19 @@
    playful flat color lives only in demo content.
    ============================================================ */
 
+@import '@asmyshlyaev177/design-tokens/tokens.css';
+
+/* The shared design system, identical across every project
+   (see https://asmyshlyaev177.dev/design). What stays here is what this
+   project owns: its typefaces, its button fills, and the demo palette.
+
+   `pnpm test:tokens` measures the contrast contract at the hues set below. */
+
 :root {
-  color-scheme: light;
-
-  --bg: oklch(1 0 0);
-  --surface: oklch(0.965 0.004 15);
-  --surface-2: oklch(0.93 0.006 15);
-  --ink: oklch(0.21 0.015 15);
-  --muted: oklch(0.45 0.015 15);
-  --border: color-mix(in oklab, var(--ink) 14%, transparent);
-  --border-strong: color-mix(in oklab, var(--ink) 26%, transparent);
-
-  --primary: oklch(0.55 0.21 15);
-  --primary-strong: oklch(0.48 0.2 15);
-  --btn-bg: oklch(0.51 0.2 15);
-  --btn-bg-hover: oklch(0.45 0.19 15);
-  --primary-soft: color-mix(in oklab, var(--primary) 8%, var(--bg));
-  --on-primary: oklch(0.99 0.005 15);
-  --accent: oklch(0.38 0.14 265);
-  --ok: oklch(0.5 0.14 150);
-
-  --demo-red: oklch(0.55 0.19 15);
-  --demo-amber: oklch(0.78 0.13 75);
-  --demo-green: oklch(0.66 0.14 150);
-  --demo-cyan: oklch(0.75 0.1 210);
-  --demo-blue: oklch(0.52 0.16 262);
-  --demo-violet: oklch(0.51 0.17 305);
+  /* scarlet, with the secondary blue as the accent */
+  --brand-hue: 15;
+  --accent-hue: 265;
+  --neutral-hue: 15;
 
   --font-sans:
     'Schibsted Grotesk Variable', 'Schibsted Grotesk', system-ui, sans-serif;
@@ -38,87 +25,20 @@
     'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SFMono-Regular',
     Menlo, monospace;
 
-  --container: 72rem;
-  --pad: clamp(1.25rem, 4vw, 2rem);
-  --radius-s: 8px;
-  --radius-m: 12px;
-  --radius-l: 18px;
-
-  --shadow-1:
-    0 1px 2px oklch(0.2 0.01 15 / 0.06), 0 4px 12px oklch(0.2 0.01 15 / 0.07);
-  --shadow-2:
-    0 2px 4px oklch(0.2 0.01 15 / 0.08), 0 12px 28px oklch(0.2 0.01 15 / 0.12);
-
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Dark theme tokens. Two ways in: the OS preference (unless the switcher
-   forced light) and the switcher forcing dark. The two blocks below MUST
-   stay identical — no selector can sit in both a media query and an
-   attribute guard at once, so the token set is duplicated. */
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-
-    --bg: oklch(0.125 0 0);
-    --surface: oklch(0.175 0.005 15);
-    --surface-2: oklch(0.225 0.006 15);
-    --ink: oklch(0.93 0.004 15);
-    --muted: oklch(0.7 0.008 15);
-    --border: color-mix(in oklab, var(--ink) 17%, transparent);
-    --border-strong: color-mix(in oklab, var(--ink) 30%, transparent);
-
-    --primary: oklch(0.63 0.195 15);
-    --primary-strong: oklch(0.7 0.185 15);
-    --btn-bg: oklch(0.51 0.2 15);
-    --btn-bg-hover: oklch(0.45 0.19 15);
-    --primary-soft: color-mix(in oklab, var(--primary) 14%, var(--bg));
-    --on-primary: oklch(0.99 0.005 15);
-    --accent: oklch(0.74 0.11 265);
-    --ok: oklch(0.72 0.14 150);
-
-    --demo-red: oklch(0.55 0.19 15);
-    --demo-amber: oklch(0.79 0.13 75);
-    --demo-green: oklch(0.68 0.14 150);
-    --demo-cyan: oklch(0.76 0.1 210);
-    --demo-blue: oklch(0.52 0.16 262);
-    --demo-violet: oklch(0.51 0.17 305);
-
-    --shadow-1: 0 1px 2px oklch(0 0 0 / 0.4), 0 4px 12px oklch(0 0 0 / 0.35);
-    --shadow-2: 0 2px 4px oklch(0 0 0 / 0.45), 0 12px 28px oklch(0 0 0 / 0.5);
-  }
-}
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-
-  --bg: oklch(0.125 0 0);
-  --surface: oklch(0.175 0.005 15);
-  --surface-2: oklch(0.225 0.006 15);
-  --ink: oklch(0.93 0.004 15);
-  --muted: oklch(0.7 0.008 15);
-  --border: color-mix(in oklab, var(--ink) 17%, transparent);
-  --border-strong: color-mix(in oklab, var(--ink) 30%, transparent);
-
-  --primary: oklch(0.63 0.195 15);
-  --primary-strong: oklch(0.7 0.185 15);
+  /* Button fills sit a step darker than --primary so white label text clears
+     AA on them; --primary itself is tuned to read on --bg. */
   --btn-bg: oklch(0.51 0.2 15);
   --btn-bg-hover: oklch(0.45 0.19 15);
-  --primary-soft: color-mix(in oklab, var(--primary) 14%, var(--bg));
-  --on-primary: oklch(0.99 0.005 15);
-  --accent: oklch(0.74 0.11 265);
-  --ok: oklch(0.72 0.14 150);
+  --ok: light-dark(oklch(0.5 0.14 150), oklch(0.72 0.14 150));
 
+  /* Demo content only — the scrolling menu's own cards. Deliberately flat and
+     playful, and deliberately not part of the shared system. */
   --demo-red: oklch(0.55 0.19 15);
-  --demo-amber: oklch(0.79 0.13 75);
-  --demo-green: oklch(0.68 0.14 150);
-  --demo-cyan: oklch(0.76 0.1 210);
+  --demo-amber: light-dark(oklch(0.78 0.13 75), oklch(0.79 0.13 75));
+  --demo-green: light-dark(oklch(0.66 0.14 150), oklch(0.68 0.14 150));
+  --demo-cyan: light-dark(oklch(0.75 0.1 210), oklch(0.76 0.1 210));
   --demo-blue: oklch(0.52 0.16 262);
   --demo-violet: oklch(0.51 0.17 305);
-
-  --shadow-1: 0 1px 2px oklch(0 0 0 / 0.4), 0 4px 12px oklch(0 0 0 / 0.35);
-  --shadow-2: 0 2px 4px oklch(0 0 0 / 0.45), 0 12px 28px oklch(0 0 0 / 0.5);
 }
 
 /* ---------- base ---------- */
@@ -197,7 +117,7 @@ pre {
   color: var(--ink);
   padding: 0.5rem 1rem;
   border-radius: var(--radius-s);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   transition: top 0.15s var(--ease-out);
 }
 
@@ -208,7 +128,7 @@ pre {
 .site-container {
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: var(--pad);
+  padding-inline: var(--gutter);
 }
 
 .prose {
@@ -319,7 +239,7 @@ pre {
 
 .lang-select:hover {
   background: var(--surface);
-  border-color: var(--border);
+  border-color: var(--line);
 }
 
 /* The list itself is drawn by the OS and inherits none of the above; without
@@ -404,7 +324,7 @@ pre {
 }
 
 .hero h1 .knows {
-  color: var(--primary);
+  color: var(--link);
 }
 
 .hero-sub {
@@ -419,7 +339,7 @@ pre {
   font-size: 0.92em;
   color: var(--ink);
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0.08em 0.35em;
 }
@@ -467,7 +387,7 @@ pre {
 }
 
 .btn-ghost {
-  border-color: var(--border-strong);
+  border-color: var(--line-strong);
   color: var(--ink);
   background: transparent;
 }
@@ -497,7 +417,7 @@ pre {
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 50%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   background: var(--bg);
   color: var(--ink);
   cursor: pointer;
@@ -529,8 +449,8 @@ pre {
 
 .hero-rail .react-horizontal-scrolling-menu--scroll-container {
   padding-inline: max(
-    var(--pad),
-    calc((100% - var(--container)) / 2 + var(--pad))
+    var(--gutter),
+    calc((100% - var(--container)) / 2 + var(--gutter))
   );
   padding-block: 1rem;
   gap: 0.9rem;
@@ -560,14 +480,14 @@ pre {
 
 .hero-rail .react-horizontal-scrolling-menu--arrow-left {
   left: max(
-    calc(var(--pad) - 0.5rem),
+    calc(var(--gutter) - 0.5rem),
     calc((100% - var(--container)) / 2 - 0.5rem)
   );
 }
 
 .hero-rail .react-horizontal-scrolling-menu--arrow-right {
   right: max(
-    calc(var(--pad) - 0.5rem),
+    calc(var(--gutter) - 0.5rem),
     calc((100% - var(--container)) / 2 - 0.5rem)
   );
 }
@@ -663,7 +583,7 @@ pre {
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem 1.5rem;
-  border-block: 1px solid var(--border);
+  border-block: 1px solid var(--line);
   padding-block: 1.4rem;
 }
 
@@ -677,13 +597,13 @@ pre {
   font-family: var(--font-mono);
   font-size: 0.98rem;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-m);
   padding: 0.7rem 1rem;
 }
 
 .install-cmd .dollar {
-  color: var(--primary);
+  color: var(--link);
   user-select: none;
 }
 
@@ -738,7 +658,7 @@ pre {
 
 .autoplay-demo {
   margin-top: 1.5rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
   padding: 0.9rem 0.75rem 1.4rem;
@@ -833,7 +753,7 @@ pre {
    wrapper. Must clip: an unclipped rail inflates the page width and
    scrollIntoView then scrolls the whole page sideways. */
 .example-demo {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
   padding: 1.25rem 0.75rem;
@@ -885,7 +805,7 @@ pre {
 
 .positioning h2 em {
   font-style: normal;
-  color: var(--primary);
+  color: var(--link);
 }
 
 .honest-scope {
@@ -899,13 +819,13 @@ pre {
 
 .pillar {
   padding-block: 1.5rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   display: grid;
   gap: 0.4rem;
 }
 
 .pillar:last-child {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
 }
 
 .pillar h3 {
@@ -959,7 +879,7 @@ pre {
 }
 
 .code-panel {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-m);
   overflow: hidden;
   background: var(--surface);
@@ -970,7 +890,7 @@ pre {
   align-items: center;
   gap: 0.75rem;
   padding: 0.55rem 0.9rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--muted);
@@ -999,17 +919,10 @@ pre {
 /* shiki dual theme: default vars are light, swap under dark scheme
    (same two ways in as the dark tokens: OS preference or the switcher) */
 .shiki span {
-  color: var(--shiki-light);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .shiki span {
-    color: var(--shiki-dark);
-  }
-}
-
-:root[data-theme='dark'] .shiki span {
-  color: var(--shiki-dark);
+  /* Shiki emits both themes as per-span custom properties; light-dark() picks
+     between them off the root's color-scheme, so the theme opt-in and the OS
+     preference need no rules of their own. */
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
 }
 
 .qs-side {
@@ -1021,7 +934,7 @@ pre {
 
 .qs-demo {
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-m);
   padding: 1.25rem 0.5rem;
   background: var(--bg);
@@ -1037,7 +950,7 @@ pre {
 .qs-card {
   width: 8.5rem;
   margin-inline: 0.4rem;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-m);
   padding: 0.85rem;
   background: var(--surface);
@@ -1077,7 +990,7 @@ pre {
 .qs-note svg {
   flex-shrink: 0;
   transform: translateY(2px);
-  color: var(--primary);
+  color: var(--link);
 }
 
 .qs-note code {
@@ -1148,7 +1061,7 @@ pre {
 }
 
 .gallery-demo {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
   padding: 1.5rem 0.75rem;
@@ -1175,7 +1088,7 @@ pre {
 
 /* tabs demo */
 .tab-pill {
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   background: var(--bg);
   border-radius: 999px;
   padding: 0.5rem 1.1rem;
@@ -1254,7 +1167,7 @@ pre {
   width: 9rem;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-m);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   background: var(--bg);
   padding: 0.8rem;
   display: flex;
@@ -1287,7 +1200,7 @@ pre {
   width: 1.2rem;
   height: 1.2rem;
   border-radius: 50%;
-  border: 2px solid var(--border-strong);
+  border: 2px solid var(--line-strong);
   border-top-color: var(--primary);
   animation: spin 0.8s linear infinite;
   margin-bottom: 0.5rem;
@@ -1313,7 +1226,7 @@ pre {
   width: 2.6rem;
   height: 1.5rem;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   background: var(--surface-2);
   cursor: pointer;
   transition: background 0.2s var(--ease-out);
@@ -1329,7 +1242,7 @@ pre {
   height: 1.15rem;
   border-radius: 50%;
   background: var(--bg);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   transition: transform 0.2s var(--ease-out);
 }
 
@@ -1343,7 +1256,7 @@ pre {
 }
 
 .rtl-item {
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
   background: var(--bg);
   border-radius: var(--radius-m);
   padding: 0.6rem 1.1rem;
@@ -1403,7 +1316,7 @@ pre {
 }
 
 .not-included {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-m);
   padding: 1.5rem 1.6rem;
   background: var(--surface);
@@ -1459,7 +1372,7 @@ pre {
 }
 
 .proof-statement strong {
-  color: var(--primary);
+  color: var(--link);
   font-weight: 700;
 }
 
@@ -1479,7 +1392,7 @@ pre {
 }
 
 .ai-panel {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
   padding: clamp(1.5rem, 3.5vw, 2.5rem);
@@ -1546,7 +1459,7 @@ pre {
   gap: 0.3rem 0.9rem;
   align-items: baseline;
   padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
 }
 
 .skill-list li:last-child {
@@ -1565,7 +1478,7 @@ pre {
 .skill-list code {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--primary);
+  color: var(--link);
   white-space: nowrap;
 }
 
@@ -1584,7 +1497,7 @@ pre {
 }
 
 .sb-panel {
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
   padding: clamp(1.75rem, 4vw, 3rem);
@@ -1625,7 +1538,7 @@ pre {
 }
 
 .author-card {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   padding-top: clamp(2rem, 5vw, 3rem);
   display: flex;
   gap: 1.75rem;
@@ -1637,7 +1550,7 @@ pre {
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--line-strong);
 }
 
 .author-body {
@@ -1668,7 +1581,7 @@ pre {
 /* ---------- footer ---------- */
 
 .site-footer {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   padding-block: 2rem 2.5rem;
   font-size: 0.93rem;
   color: var(--muted);
@@ -1712,7 +1625,7 @@ pre {
    drop it into this page's palette, in whichever theme is active. */
 for-hire-badge {
   --fhb-bg: var(--surface);
-  --fhb-border: var(--border);
+  --fhb-border: var(--line);
   --fhb-ink: var(--ink);
   --fhb-muted: var(--muted);
   --fhb-font: var(--font-sans);

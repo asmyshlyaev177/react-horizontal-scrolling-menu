@@ -10,7 +10,8 @@
     "preview": "vite build && vite preview",
     "deploy": "npm run build && wrangler deploy",
     "typecheck": "tsc --noEmit",
-    "test": "npm run build && playwright test",
+    "test:tokens": "check-tokens src/styles/app.css",
+    "test": "npm run test:tokens && npm run build && playwright test",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "react-horizontal-scrolling-menu": "^8.2.3"
   },
   "devDependencies": {
+    "@asmyshlyaev177/design-tokens": "^1.1.1",
     "@cloudflare/vite-plugin": "^1.51.1",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.3",

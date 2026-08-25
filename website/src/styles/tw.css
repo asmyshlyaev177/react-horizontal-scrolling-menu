@@ -18,8 +18,8 @@
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
+  --color-border: var(--line);
+  --color-border-strong: var(--line-strong);
   --color-primary: var(--primary);
   --color-ok: var(--ok);
   --color-demo-red: var(--demo-red);
