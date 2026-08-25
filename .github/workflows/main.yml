@@ -149,8 +149,12 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # The library is npm-managed; `website/` is pnpm, and its lockfile is
       # the only one that lists the site's dependencies. pnpm is set up before
-      # setup-node so `cache: 'pnpm'` can find the store.
+      # setup-node so `cache: 'pnpm'` can find the store, and pointed at the
+      # site's package.json: the action reads `packageManager` from the repo
+      # root by default, where this repo has none.
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          package_json_file: website/package.json
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
