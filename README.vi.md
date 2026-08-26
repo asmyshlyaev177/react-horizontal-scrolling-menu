@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · Tiếng Việt
-<!-- i18n:meta locale=vi source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=vi source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -351,11 +351,11 @@ hiện đại. Không hỗ trợ IE.
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # app ví dụ (Next.js, cổng 3003) với thư viện ở chế độ watch
-npm run demo-tanstack  # app ví dụ (TanStack Start SSR, cổng 3004)
-npm run storybook   # ví dụ
-npm test            # kiểm thử unit + e2e + storybook
+pnpm run setup
+pnpm run demo        # app ví dụ (Next.js, cổng 3003) với thư viện ở chế độ watch
+pnpm run demo-tanstack  # app ví dụ (TanStack Start SSR, cổng 3004)
+pnpm run storybook   # ví dụ
+pnpm test            # kiểm thử unit + e2e + storybook
 ```
 
 Hai app ví dụ tích hợp nằm trong repo — `example-nextjs` và `example-tanstack`

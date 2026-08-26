@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · Русский · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ru source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=ru source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -357,11 +357,11 @@ IntersectionObserver подключается только на клиенте. 
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # пример приложения (Next.js, порт 3003) с библиотекой в режиме watch
-npm run demo-tanstack  # пример приложения (TanStack Start SSR, порт 3004)
-npm run storybook   # примеры
-npm test            # юнит + e2e + storybook тесты
+pnpm run setup
+pnpm run demo        # пример приложения (Next.js, порт 3003) с библиотекой в режиме watch
+pnpm run demo-tanstack  # пример приложения (TanStack Start SSR, порт 3004)
+pnpm run storybook   # примеры
+pnpm test            # юнит + e2e + storybook тесты
 ```
 
 В репозитории живут два интеграционных примера — `example-nextjs` и

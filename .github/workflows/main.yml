@@ -22,7 +22,7 @@ jobs:
     # connections but never answers them inside docker job containers —
     # cloudflare/workers-sdk#6280, reproduced with the official Playwright
     # image — which left `wait-on` polling port 3004 forever. On the plain
-    # VM workerd is fine; `npm run setup` downloads the browsers and the
+    # VM workerd is fine; `pnpm run setup` downloads the browsers and the
     # install-deps step below provides their system libraries.
     runs-on: ubuntu-24.04
     # A hung step (e.g. wait-on polling a server that never answers) otherwise
@@ -36,13 +36,16 @@ jobs:
       WIREIT_LOGGER: 'simple'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Before setup-node so `cache: 'pnpm'` finds the store. Version comes
+      # from the root package.json `packageManager`.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Use Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       # NOTE: google/wireit@setup-github-actions-caching/v2 used to be here.
       # Its cache token mediator was unreachable from the job container this
@@ -53,7 +56,7 @@ jobs:
 
       # `setup` also downloads the browsers matching @playwright/test.
       - name: Install
-        run: npm run setup
+        run: pnpm run setup
 
       # The e2e specs run chromium only; firefox and webkit live in the
       # storybook-test job's container.
@@ -61,10 +64,10 @@ jobs:
         run: npx playwright install-deps chromium
 
       - name: Types and linter check
-        run: npm run test:lint
+        run: pnpm run test:lint
 
       - name: Unit tests
-        run: npm run test:unit -- --coverage --coverageReporters="lcov"
+        run: pnpm run test:unit -- --coverage --coverageReporters="lcov"
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699 # v1.3.0
@@ -78,10 +81,10 @@ jobs:
       # request landing in vite preview's bound-but-workerd-still-booting
       # window used to hang the resource's poll loop — and this step — forever.
       - name: E2E tests builded version
-        run: npm run test:e2e
+        run: pnpm run test:e2e
 
       - name: E2E tests dev version
-        run: npm run test:e2e:dev
+        run: pnpm run test:e2e:dev
 
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()
@@ -109,13 +112,16 @@ jobs:
       WIREIT_LOGGER: 'simple'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Before setup-node so `cache: 'pnpm'` finds the store. Version comes
+      # from the root package.json `packageManager`.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - name: Use Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       # The repo is checked out by the runner but git runs as root inside the
       # container, so every `git rev-parse` fails with "dubious ownership" —
@@ -127,7 +133,7 @@ jobs:
       # $PLAYWRIGHT_BROWSERS_PATH, so `playwright install` inside `setup`
       # is a no-op.
       - name: Install
-        run: npm run setup
+        run: pnpm run setup
 
       # Firefox refuses to start as root when $HOME belongs to someone else,
       # and the container's HOME (/github/home) is owned by pwuser. This is
@@ -135,7 +141,7 @@ jobs:
       - name: Storybook tests
         env:
           HOME: /root
-        run: npm run test:storybook-ci
+        run: pnpm run test:storybook-ci
 
   # The landing page in website/ — TanStack Start SSR'd on Cloudflare
   # Workers. Built on every push/PR so a library or website change that
@@ -147,23 +153,20 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      # The library is npm-managed; `website/` is pnpm, and its lockfile is
-      # the only one that lists the site's dependencies. pnpm is set up before
-      # setup-node so `cache: 'pnpm'` can find the store, and pointed at the
-      # site's package.json: the action reads `packageManager` from the repo
-      # root by default, where this repo has none.
+      # website/ is a workspace member on `workspace:*`, so it builds against
+      # this checkout. One root install covers every member.
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-        with:
-          package_json_file: website/package.json
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
           check-latest: true
           cache: 'pnpm'
-          cache-dependency-path: 'website/pnpm-lock.yaml'
+          cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install
         run: pnpm install --frozen-lockfile
-        working-directory: website
+      # The site imports dist/, so it must exist before website/ is built.
+      - name: Build the library
+        run: pnpm build
       - name: Typecheck
         run: pnpm run typecheck
         working-directory: website
@@ -213,14 +216,18 @@ jobs:
     if: github.ref_name == 'master'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Before setup-node so `cache: 'pnpm'` finds the store. Version comes
+      # from the root package.json `packageManager`.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install
-        run: npm run setup
+        run: pnpm run setup
       - name: Build storybook
-        run: npm run build-storybook
+        run: pnpm run build-storybook
       - name: Deploy storybook
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         if: github.ref_name == 'master'
@@ -285,6 +292,8 @@ jobs:
       # No `cache: npm` here: npm advises against restoring a package manager
       # cache in a release build, so the published tarball is built from what
       # the lockfile actually resolves to today.
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        if: steps.check.outputs.release == 'true'
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         if: steps.check.outputs.release == 'true'
         with:
@@ -303,7 +312,7 @@ jobs:
 
       - name: Install
         if: steps.check.outputs.release == 'true'
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Identify the committer
         if: steps.check.outputs.release == 'true'
@@ -311,7 +320,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      # Called directly rather than through `npm run release`, whose wireit
+      # Called directly rather than through `pnpm run release`, whose wireit
       # graph would re-run the entire suite that build-test just finished.
       - name: Version, changelog and tag
         if: steps.check.outputs.release == 'true'

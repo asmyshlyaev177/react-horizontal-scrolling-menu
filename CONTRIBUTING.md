@@ -2,13 +2,14 @@ Make sure that what you trying to fix really a bug, or if adding feature that is
 
 1. Fork the repo and install stuff:
 
-- Run `npm run setup` in root folder (it will install all deps and do other required steps)
-- Run `npm run demo` for run the demo project in watch mode
+- This repo uses **pnpm**. Run `pnpm run setup` in the root folder (it will
+  install all deps for the workspace and do other required steps)
+- Run `pnpm run demo` for run the demo project in watch mode
 
 2. Write code! Add some feature or fix bug.
 
 3. Check that all tests passed(unit and e2e) and add tests for your code.
-   You can run unit tests with `npm run test:unit` and Playwright e2e tests with `npm run test:e2e`
+   You can run unit tests with `pnpm run test:unit` and Playwright e2e tests with `pnpm run test:e2e`
 
 4. Update readme and example (if needed)
 

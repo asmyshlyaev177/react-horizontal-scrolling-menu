@@ -14,7 +14,7 @@
     "next": "^16.2.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-horizontal-scrolling-menu": "file:../"
+    "react-horizontal-scrolling-menu": "workspace:*"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.24",

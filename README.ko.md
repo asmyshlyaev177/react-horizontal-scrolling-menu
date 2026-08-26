@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · 한국어 · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ko source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=ko source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -347,11 +347,11 @@ IntersectionObserver는 클라이언트 측에서만 연결됩니다. `useIsVisi
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # 예제 앱 (Next.js, 포트 3003), 라이브러리를 watch 모드로
-npm run demo-tanstack  # 예제 앱 (TanStack Start SSR, 포트 3004)
-npm run storybook   # 예제
-npm test            # 유닛 + e2e + storybook 테스트
+pnpm run setup
+pnpm run demo        # 예제 앱 (Next.js, 포트 3003), 라이브러리를 watch 모드로
+pnpm run demo-tanstack  # 예제 앱 (TanStack Start SSR, 포트 3004)
+pnpm run storybook   # 예제
+pnpm test            # 유닛 + e2e + storybook 테스트
 ```
 
 리포지토리에는 두 개의 통합 예제 앱(`example-nextjs`와 `example-tanstack`, 후자는

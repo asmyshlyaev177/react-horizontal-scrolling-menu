@@ -43,11 +43,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install intent
-        run: npm install -g @tanstack/intent
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Validate skills
-        run: intent validate --github-summary
+        run: pnpm dlx @tanstack/intent validate --github-summary
 
   review:
     name: Check intent skill coverage
@@ -64,13 +63,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install intent
-        run: npm install -g @tanstack/intent
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Check skills
         id: stale
         run: |
-          intent stale --github-review --package-label "react-horizontal-scrolling-menu"
+          pnpm dlx @tanstack/intent stale --github-review --package-label "react-horizontal-scrolling-menu"
 
       - name: Open or update review PR
         if: steps.stale.outputs.has_review == 'true'
