@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && npm run typecheck",
+    "build": "vite build && pnpm run typecheck",
     "serve": "vite preview",
     "typecheck": "tsc --noEmit"
   },
@@ -15,7 +15,7 @@
     "lodash": "^4.18.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-horizontal-scrolling-menu": "file:../"
+    "react-horizontal-scrolling-menu": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.51.1",

@@ -28,6 +28,7 @@
     "tanstack-intent"
   ],
   "license": "MIT",
+  "packageManager": "pnpm@11.0.9",
   "type": "module",
   "main": "dist/index.mjs",
   "browser": "dist/index.mjs",
@@ -93,37 +94,38 @@
     "test:e2e:dev": "wireit",
     "test:storybook": "wireit",
     "test:storybook-ci": "wireit",
+    "pretest": "pnpm run prune-cache",
     "test": "wireit",
     "test:lint": "wireit",
     "run:e2e": "wireit",
+    "predev": "pnpm run prune-cache",
     "dev": "wireit",
     "kill-rollup": "wireit",
+    "prebuild": "pnpm run prune-cache",
     "build": "wireit",
     "demo": "wireit",
     "serve": "wireit",
     "release": "wireit",
     "pub": "wireit",
     "push": "wireit",
-    "beta": "npm version premajor --preid=beta",
-    "beta:bump": "npm version prerelease",
-    "beta:pub": "npm run build && npm publish --tag beta",
-    "reinstall": "npm run cleanup && npm run setup",
-    "install-deps": "wireit",
-    "install-example-deps": "wireit",
+    "beta": "pnpm version premajor --preid=beta",
+    "beta:bump": "pnpm version prerelease",
+    "beta:pub": "pnpm run build && npm publish --tag beta",
+    "reinstall": "pnpm run cleanup && pnpm run setup",
     "setup-tooling": "wireit",
-    "setup": "npm install && npm run setup-tooling",
+    "setup": "pnpm install && pnpm run setup-tooling",
     "cleanup": "rm -rf node_modules example-nextjs/node_modules example-tanstack/node_modules .wireit dist",
     "storybook": "wireit",
     "storybook:static": "wireit",
     "build-storybook": "wireit",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "prepare": "husky",
     "release:preflight": "wireit",
-    "deploy": "cd website && npm run deploy",
-    "preview": "cd website && npm run preview",
+    "deploy": "wireit",
+    "preview": "wireit",
     "serve-tanstack": "wireit",
     "demo-tanstack": "wireit",
-    "install-example-tanstack-deps": "wireit"
+    "prune-cache": "node scripts/prune-wireit-cache.mjs"
   },
   "wireit": {
     "build-storybook": {
@@ -179,7 +181,7 @@
       ]
     },
     "pub": {
-      "command": "npm run release && npm run push && npm publish",
+      "command": "pnpm run release && pnpm run push && npm publish",
       "dependencies": [
         "build"
       ]
@@ -188,7 +190,7 @@
       "command": "git push --follow-tags origin HEAD"
     },
     "test": {
-      "command": "npm run test:e2e && npm run test:e2e:dev",
+      "command": "pnpm run test:e2e && pnpm run test:e2e:dev",
       "dependencies": [
         "test:unit",
         "test:storybook"
@@ -207,14 +209,14 @@
       ]
     },
     "test:e2e": {
-      "command": "npm run run:e2e",
+      "command": "pnpm run run:e2e",
       "dependencies": [
         "serve",
         "serve-tanstack"
       ]
     },
     "test:e2e:dev": {
-      "command": "npm run run:e2e",
+      "command": "pnpm run run:e2e",
       "dependencies": [
         "demo",
         "demo-tanstack"
@@ -238,29 +240,17 @@
       ]
     },
     "demo": {
-      "command": "cd example-nextjs && npm run dev",
+      "command": "cd example-nextjs && pnpm run dev",
       "service": true,
       "dependencies": [
         "dev"
       ]
     },
     "serve": {
-      "command": "cd example-nextjs && npm run build && npm run serve 1> /dev/null",
+      "command": "cd example-nextjs && pnpm run build && pnpm run serve 1> /dev/null",
       "service": true,
       "dependencies": [
         "build"
-      ]
-    },
-    "install-deps": {
-      "command": "if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
-      "allowUsuallyExcludedPaths": true,
-      "clean": false,
-      "files": [
-        "package.json",
-        "package-lock.json"
-      ],
-      "output": [
-        "node_modules"
       ]
     },
     "install:playwright": {
@@ -269,24 +259,7 @@
       "files": [
         "package.json"
       ],
-      "output": [],
-      "dependencies": [
-        "install-deps"
-      ]
-    },
-    "install-example-deps": {
-      "command": "cd example-nextjs && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
-      "dependencies": [
-        "install-deps"
-      ],
-      "allowUsuallyExcludedPaths": true,
-      "clean": false,
-      "files": [
-        "example-nextjs/package.json"
-      ],
-      "output": [
-        "example-nextjs/node_modules"
-      ]
+      "output": []
     },
     "setup-tooling": {
       "command": "echo 'setup'",
@@ -296,8 +269,6 @@
       "clean": false,
       "output": [],
       "dependencies": [
-        "install-example-deps",
-        "install-example-tanstack-deps",
         "install:playwright"
       ]
     },
@@ -315,32 +286,30 @@
         "kill-rollup"
       ]
     },
-    "install-example-tanstack-deps": {
-      "command": "cd example-tanstack && if [ -d node_modules/.pnpm ]; then pnpm install; else npm install; fi",
-      "dependencies": [
-        "install-deps"
-      ],
-      "allowUsuallyExcludedPaths": true,
-      "clean": false,
-      "files": [
-        "example-tanstack/package.json"
-      ],
-      "output": [
-        "example-tanstack/node_modules"
-      ]
-    },
     "serve-tanstack": {
-      "command": "cd example-tanstack && npm run build && npm run serve",
+      "command": "cd example-tanstack && pnpm run build && pnpm run serve",
       "service": true,
       "dependencies": [
         "build"
       ]
     },
     "demo-tanstack": {
-      "command": "cd example-tanstack && npm run dev",
+      "command": "cd example-tanstack && pnpm run dev",
       "service": true,
       "dependencies": [
         "dev"
+      ]
+    },
+    "deploy": {
+      "command": "cd website && pnpm run deploy",
+      "dependencies": [
+        "build"
+      ]
+    },
+    "preview": {
+      "command": "cd website && pnpm run preview",
+      "dependencies": [
+        "build"
       ]
     }
   },
@@ -390,6 +359,7 @@
     "@storybook/react-vite": "^10.5.5",
     "@storybook/test-runner": "^0.24.4",
     "@tanstack/intent": "^0.3.6",
+    "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -420,6 +390,7 @@
     "husky": "^9.1.7",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "jest-mock": "^30.4.1",
     "lint-staged": "^17.2.0",
     "normalize.css": "^8.0.1",
     "prettier": "^3.9.6",
@@ -444,6 +415,7 @@
     "wireit": "^0.14.13"
   },
   "dependencies": {
+    "scroll-into-view-if-needed": "^3.1.0",
     "smooth-scroll-into-view-if-needed": "^2.0.2"
   },
   "allowScripts": {

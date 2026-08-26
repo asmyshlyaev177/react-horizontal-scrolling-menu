@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · 日本語 · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ja source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=ja source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -355,11 +355,11 @@ apiRef.current.scrollToItem(apiRef.current.getItemElementById('item-3'));
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # サンプルアプリ（Next.js、ポート 3003）、ライブラリをウォッチモードで実行
-npm run demo-tanstack  # サンプルアプリ（TanStack Start SSR、ポート 3004）
-npm run storybook   # 例
-npm test            # ユニット + e2e + storybook テスト
+pnpm run setup
+pnpm run demo        # サンプルアプリ（Next.js、ポート 3003）、ライブラリをウォッチモードで実行
+pnpm run demo-tanstack  # サンプルアプリ（TanStack Start SSR、ポート 3004）
+pnpm run storybook   # 例
+pnpm test            # ユニット + e2e + storybook テスト
 ```
 
 リポジトリには 2 つの統合サンプルアプリ（`example-nextjs` と

@@ -19,9 +19,8 @@ stories/              # Storybook stories; *.source.tsx files are the
 skills/               # AI agent skills, published with the package
                       #   (package.json `files`), one dir per SKILL.md
 website/              # the landing + docs site: TanStack Start, SSR,
-                      #   prerendered onto Cloudflare Workers. Its own npm
-                      #   project, with its own Playwright suite in
-                      #   website/e2e
+                      #   prerendered onto Cloudflare Workers. A workspace
+                      #   member, with its own Playwright suite in website/e2e
 e2e/                  # Playwright, against the built library
 types/                # public type surface
 ```
@@ -44,6 +43,27 @@ cd website && pnpm preview    # build, then serve the Worker locally
 cd website && pnpm deploy     # wrangler deploy
 ```
 
+## Package management
+
+pnpm only, one workspace: `pnpm-workspace.yaml` lists `example-nextjs`,
+`example-tanstack` and `website`, and the root `pnpm-lock.yaml` is the only
+lockfile. Every member depends on the library as `workspace:*` and is symlinked,
+not copied — so their `node_modules` are symlink farms, and the site and
+examples build against this checkout's `dist/`, never the published release.
+`dist/` must therefore exist first: root `deploy`/`preview` are wireit scripts
+depending on `build`, and the website CI job runs `pnpm build` before the site.
+
+There is deliberately no `install-deps` script — `verifyDepsBeforeRun: install`
+makes pnpm re-install on lockfile drift. Never reintroduce a wireit script
+whose `output` is a `node_modules` directory; that is what grew `.wireit` to
+73 GB, and pnpm's store already dedupes across lockfile states.
+
+`npm` survives in two deliberate places. `npm publish` (release job,
+`pub`/`beta:pub`) — trusted publishing exchanges an OIDC token, needs
+npm >= 11.5.1 and attests provenance with no `NPM_TOKEN`, none of which
+`pnpm publish` implements. And `npm install react-horizontal-scrolling-menu` in
+the READMEs, which is an instruction for the reader's project, not this one.
+
 ## Things that bite
 
 - **Every child of `ScrollMenu` needs a unique `itemId`.** That is how items
@@ -59,6 +79,11 @@ cd website && pnpm deploy     # wrangler deploy
   `visibleElements`, `isFirstItemVisible`/`isLastItemVisible` (v6),
   `Separator` items and `getPrevItem`/`getNextItem` (v7), the `Arrows` prop
   (v3). `skills/menu-migration` covers the upgrade.
+- **The wireit cache is pruned by an npm `pre` hook, not by wireit.** Wireit
+  keeps a full copy of every script's `output` per fingerprint, forever
+  ([wireit#71](https://github.com/google/wireit/issues/71)). `prebuild`,
+  `pretest` and `predev` run `pnpm prune-cache` first. Keep that call out of the
+  wireit graph — see the header of `scripts/prune-wireit-cache.mjs` for why.
 
 ## The website
 

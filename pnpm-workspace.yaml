@@ -1,9 +1,11 @@
-# pnpm compatibility for an npm-managed repo (package-lock.json + wireit + CI).
-# verifyDepsBeforeRun:false stops pnpm from auto-running `pnpm install`
-# before every `pnpm run <script>` — the auto-install is what kept failing
-# on unapproved build scripts. Approvals below cover deliberate installs,
-# in both the v11 key (allowBuilds) and the v10 key (onlyBuiltDependencies).
-verifyDepsBeforeRun: false
+packages:
+  - example-nextjs
+  - example-tanstack
+  - website
+
+# Replaces a wireit `install-deps` script that cached node_modules as `output`.
+# Was off because auto-install failed on unapproved builds; allowBuilds covers them.
+verifyDepsBeforeRun: install
 allowBuilds:
   '@swc/core': true
   core-js: true

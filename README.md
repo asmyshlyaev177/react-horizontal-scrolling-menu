@@ -361,11 +361,11 @@ modern browser. No IE.
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # example app (Next.js, port 3003) with the library in watch mode
-npm run demo-tanstack  # example app (TanStack Start SSR, port 3004)
-npm run storybook   # examples
-npm test            # unit + e2e + storybook tests
+pnpm run setup
+pnpm run demo        # example app (Next.js, port 3003) with the library in watch mode
+pnpm run demo-tanstack  # example app (TanStack Start SSR, port 3004)
+pnpm run storybook   # examples
+pnpm test            # unit + e2e + storybook tests
 ```
 
 Two integration example apps live in the repo — `example-nextjs` and

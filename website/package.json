@@ -9,10 +9,10 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite build && vite preview",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "pnpm run build && wrangler deploy",
     "typecheck": "tsc --noEmit",
     "test:tokens": "check-tokens src/styles/app.css",
-    "test": "npm run test:tokens && npm run build && playwright test",
+    "test": "pnpm run test:tokens && pnpm run build && playwright test",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "@tanstack/react-start": "^1.168.39",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-horizontal-scrolling-menu": "^8.2.3"
+    "react-horizontal-scrolling-menu": "workspace:*"
   },
   "devDependencies": {
     "@asmyshlyaev177/design-tokens": "^1.1.1",

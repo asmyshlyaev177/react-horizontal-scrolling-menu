@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · Português (BR) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=pt-BR source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=pt-BR source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -356,11 +356,11 @@ moderno. Sem IE.
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # app de exemplo (Next.js, porta 3003) com a biblioteca em modo watch
-npm run demo-tanstack  # app de exemplo (TanStack Start SSR, porta 3004)
-npm run storybook   # exemplos
-npm test            # testes unitários + e2e + storybook
+pnpm run setup
+pnpm run demo        # app de exemplo (Next.js, porta 3003) com a biblioteca em modo watch
+pnpm run demo-tanstack  # app de exemplo (TanStack Start SSR, porta 3004)
+pnpm run storybook   # exemplos
+pnpm test            # testes unitários + e2e + storybook
 ```
 
 Dois apps de exemplo de integração vivem no repositório — `example-nextjs` e

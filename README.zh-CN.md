@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · 简体中文 · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=zh-CN source=README.md source-blob=091dcc7b634f270278560b8d6a9292fab4f9683a status=translated -->
+<!-- i18n:meta locale=zh-CN source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -340,11 +340,11 @@ apiRef.current.scrollToItem(apiRef.current.getItemElementById('item-3'));
 ```bash
 git clone https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
 cd react-horizontal-scrolling-menu
-npm run setup
-npm run demo        # 示例应用（Next.js，端口 3003），库以 watch 模式运行
-npm run demo-tanstack  # 示例应用（TanStack Start SSR，端口 3004）
-npm run storybook   # 示例
-npm test            # 单元 + e2e + storybook 测试
+pnpm run setup
+pnpm run demo        # 示例应用（Next.js，端口 3003），库以 watch 模式运行
+pnpm run demo-tanstack  # 示例应用（TanStack Start SSR，端口 3004）
+pnpm run storybook   # 示例
+pnpm test            # 单元 + e2e + storybook 测试
 ```
 
 仓库里有两个集成示例应用——`example-nextjs` 与 `example-tanstack`（TanStack
