@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.3.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.3.0...v8.3.1) (2026-08-27)
+
+### Bug Fixes
+
+* keyboard navigation for scroll container ([fa050cd](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/fa050cd5b9f81a1d03e3e0d648e2efb549fdfabb))
 ## [8.3.0](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.2.3...v8.3.0) (2026-08-09)
 
 ### Features
