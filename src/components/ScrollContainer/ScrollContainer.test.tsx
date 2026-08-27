@@ -9,6 +9,7 @@ const _scrollRef = { current: null };
 
 const setup = ({
   className,
+  label,
   scrollRef = _scrollRef,
   onScroll,
   containerRef = _containerRef,
@@ -19,6 +20,7 @@ const setup = ({
   return render(
     <ScrollContainer
       className={className}
+      label={label}
       onScroll={onScroll}
       scrollRef={scrollRef}
       containerRef={containerRef}
@@ -48,6 +50,32 @@ describe('ScrollContainer', () => {
 
       expect(container.firstChild).toHaveClass(scrollContainerClassName);
       expect(container.firstChild).toHaveClass(className);
+    });
+  });
+
+  // The container scrolls, so it has to be reachable by keyboard on its own —
+  // nothing the consumer puts inside is guaranteed to be focusable.
+  describe('keyboard access', () => {
+    test('always carries a tab stop', () => {
+      const { container } = setup();
+
+      expect(container.firstChild).toHaveAttribute('tabindex', '0');
+    });
+
+    test('a bare tab stop announces no role or name', () => {
+      const { container } = setup();
+
+      expect(container.firstChild).not.toHaveAttribute('role');
+      expect(container.firstChild).not.toHaveAttribute('aria-label');
+    });
+
+    test('a label makes it a named region', () => {
+      const label = 'Categories';
+
+      const { container } = setup({ label });
+
+      expect(container.firstChild).toHaveAttribute('role', 'region');
+      expect(container.firstChild).toHaveAttribute('aria-label', label);
     });
   });
 

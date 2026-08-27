@@ -7,6 +7,7 @@ import { RefType } from '../../types';
 export type Props = {
   className?: string;
   children?: React.ReactNode;
+  label?: string;
   onScroll?: (event: React.UIEvent) => void;
   scrollRef: RefType<Element>;
   containerRef: RefType<Element>;
@@ -15,6 +16,7 @@ export type Props = {
 function ScrollContainer({
   className: _className = emptyStr,
   children,
+  label,
   onScroll = () => void 0,
   scrollRef,
   containerRef,
@@ -40,8 +42,19 @@ function ScrollContainer({
     [scrollRef, containerRef],
   );
 
+  // Items are the consumer's and need not be focusable, so the scrollable
+  // container carries the tab stop itself (axe `scrollable-region-focusable`).
+  // `role` stays off without a name: an unnamed region tells a reader nothing
+  // and collides with every other one on the page (`landmark-unique`).
   return (
-    <div className={scrollContainerClass} onScroll={onScroll} ref={setRefs}>
+    <div
+      className={scrollContainerClass}
+      onScroll={onScroll}
+      ref={setRefs}
+      tabIndex={0}
+      role={label ? 'region' : undefined}
+      aria-label={label}
+    >
       {children}
     </div>
   );

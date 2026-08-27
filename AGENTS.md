@@ -174,6 +174,9 @@ Four colour decisions came out of the first run, each naming a rule:
   text.
 - **No alpha tints of text tokens.** The watermark initial at `opacity: 0.55`
   sat under the large-text floor on every card.
+- **The library's scroll container carries `tabIndex={0}`.** Items are usually
+  plain cards, so without it the region is unreachable by keyboard
+  (`scrollable-region-focusable`). That ships to every consumer.
 
 **The one rule that matters:** the negotiated Markdown response must stay
 `Cache-Control: no-store`. Shared caches key on the URL and Cloudflare's edge

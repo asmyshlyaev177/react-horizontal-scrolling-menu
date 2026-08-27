@@ -123,6 +123,15 @@ export interface Props {
    */
   scrollContainerClassName?: string;
   /**
+    Accessible name for the scroll container.
+
+    The container always carries a tab stop, so a keyboard can scroll it with
+    no item focusable. A label additionally makes it a `region` a screen reader
+    announces by name ("Categories, region") — use your visible heading's
+    wording, in your own language.
+   */
+  scrollContainerLabel?: string;
+  /**
     For add custom className for wrapper
    */
   wrapperClassName?: string;
@@ -175,6 +184,7 @@ function ScrollMenu({
   onWheel = cbDefault,
   options = defaultObserverOptions,
   scrollContainerClassName = constants.emptyStr,
+  scrollContainerLabel,
   containerRef = constants.emptyRef,
   itemClassName = constants.emptyStr,
   wrapperClassName = constants.emptyStr,
@@ -333,6 +343,7 @@ function ScrollMenu({
           <div className={constants.arrowLeftClassName}>{LeftArrow}</div>
           <ScrollContainer
             className={containerClassName}
+            label={scrollContainerLabel}
             onScroll={scrollHandler}
             scrollRef={scrollContainerRef}
             containerRef={containerRef}

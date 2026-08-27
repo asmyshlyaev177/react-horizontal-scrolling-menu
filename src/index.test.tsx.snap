@@ -22,6 +22,7 @@ exports[`ScrollMenu Children, arrows, header and footer Header and footer 1`] = 
       />
       <div
         class="react-horizontal-scrolling-menu--scroll-container scroll-class"
+        tabindex="0"
       >
         <div
           class="react-horizontal-scrolling-menu--item "
@@ -86,6 +87,7 @@ exports[`ScrollMenu Children, arrows, header and footer LeftArrow, ScrollContain
       </div>
       <div
         class="react-horizontal-scrolling-menu--scroll-container scroll-class"
+        tabindex="0"
       >
         <div
           class="react-horizontal-scrolling-menu--item "
@@ -144,6 +146,7 @@ exports[`ScrollMenu should render without props 1`] = `
       />
       <div
         class="react-horizontal-scrolling-menu--scroll-container "
+        tabindex="0"
       >
         <div
           class="react-horizontal-scrolling-menu--item "
