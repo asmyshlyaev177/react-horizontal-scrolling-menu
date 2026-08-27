@@ -105,6 +105,15 @@ export interface Props {
      */
     scrollContainerClassName?: string;
     /**
+      Accessible name for the scroll container.
+  
+      The container always carries a tab stop, so a keyboard can scroll it with
+      no item focusable. A label additionally makes it a \`region\` a screen reader
+      announces by name ("Categories, region") — use your visible heading's
+      wording, in your own language.
+     */
+    scrollContainerLabel?: string;
+    /**
       For add custom className for wrapper
      */
     wrapperClassName?: string;
@@ -125,7 +134,7 @@ export interface Props {
 
   https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu
  */
-declare function ScrollMenu({ LeftArrow: _LeftArrow, RightArrow: _RightArrow, children, Header: _Header, Footer: _Footer, transitionDuration, transitionBehavior, onInit, onUpdate, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, onScroll, onTouchMove, onTouchStart, onTouchEnd, onWheel, options, scrollContainerClassName, containerRef, itemClassName, wrapperClassName, apiRef, RTL, noPolyfill, }: Props): React.JSX.Element;
+declare function ScrollMenu({ LeftArrow: _LeftArrow, RightArrow: _RightArrow, children, Header: _Header, Footer: _Footer, transitionDuration, transitionBehavior, onInit, onUpdate, onMouseDown, onMouseLeave, onMouseUp, onMouseMove, onScroll, onTouchMove, onTouchStart, onTouchEnd, onWheel, options, scrollContainerClassName, scrollContainerLabel, containerRef, itemClassName, wrapperClassName, apiRef, RTL, noPolyfill, }: Props): React.JSX.Element;
 export { constants, getItemsPos, ScrollMenu, slidingWindow, VisibilityContext };
 export type { ItemId, publicApiType };
 `})))()}n();export{t as default};

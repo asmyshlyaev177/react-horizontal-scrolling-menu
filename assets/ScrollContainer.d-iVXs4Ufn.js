@@ -3,10 +3,11 @@ import { RefType } from '../../types';
 export type Props = {
     className?: string;
     children?: React.ReactNode;
+    label?: string;
     onScroll?: (event: React.UIEvent) => void;
     scrollRef: RefType<Element>;
     containerRef: RefType<Element>;
 };
-declare function ScrollContainer({ className: _className, children, onScroll, scrollRef, containerRef, }: Props): React.JSX.Element;
+declare function ScrollContainer({ className: _className, children, label, onScroll, scrollRef, containerRef, }: Props): React.JSX.Element;
 export default ScrollContainer;
 `})))()}n();export{t as default};
