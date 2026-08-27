@@ -29,13 +29,13 @@
      AA on them; --primary itself is tuned to read on --bg. */
   --btn-bg: oklch(0.51 0.2 15);
   --btn-bg-hover: oklch(0.45 0.19 15);
-  --ok: light-dark(oklch(0.5 0.14 150), oklch(0.72 0.14 150));
+  --ok: light-dark(oklch(0.5 0.14 150), oklch(0.77 0.14 150));
 
   /* Demo content only — the scrolling menu's own cards. Deliberately flat and
      playful, and deliberately not part of the shared system. */
   --demo-red: oklch(0.55 0.19 15);
   --demo-amber: light-dark(oklch(0.78 0.13 75), oklch(0.79 0.13 75));
-  --demo-green: light-dark(oklch(0.66 0.14 150), oklch(0.68 0.14 150));
+  --demo-green: light-dark(oklch(0.76 0.14 150), oklch(0.77 0.14 150));
   --demo-cyan: light-dark(oklch(0.75 0.1 210), oklch(0.76 0.1 210));
   --demo-blue: oklch(0.52 0.16 262);
   --demo-violet: oklch(0.51 0.17 305);
@@ -78,7 +78,8 @@ p {
 }
 
 a {
-  color: var(--accent);
+  /* `--accent` is a fill; `--link` is the token held to the text floor. */
+  color: var(--link);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
@@ -520,7 +521,8 @@ pre {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 0.9;
-  opacity: 0.55;
+  /* Still a measured glyph: 0.55 sat under the large-text floor on every card. */
+  opacity: 0.7;
   user-select: none;
 }
 
@@ -563,7 +565,7 @@ pre {
 }
 
 .hero-readout .fn {
-  color: var(--accent);
+  color: var(--accent-on-soft);
 }
 
 .hero-hint {
@@ -717,7 +719,7 @@ pre {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 0.9;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 .loop-card .name {

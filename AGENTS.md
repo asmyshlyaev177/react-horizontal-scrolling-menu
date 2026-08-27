@@ -20,7 +20,8 @@ skills/               # AI agent skills, published with the package
                       #   (package.json `files`), one dir per SKILL.md
 website/              # the landing + docs site: TanStack Start, SSR,
                       #   prerendered onto Cloudflare Workers. A workspace
-                      #   member, with its own Playwright suite in website/e2e
+                      #   member, with two Playwright suites: website/e2e
+                      #   (HTTP-level smoke) and website/tests (a11y)
 e2e/                  # Playwright, against the built library
 types/                # public type surface
 ```
@@ -39,6 +40,7 @@ cd website && pnpm dev        # vite dev
 cd website && pnpm build      # build + prerender every route
 cd website && pnpm typecheck
 cd website && pnpm test       # build, then the smoke suite (website/e2e)
+cd website && pnpm test:a11y  # build, then axe + rendered contrast (website/tests)
 cd website && pnpm preview    # build, then serve the Worker locally
 cd website && pnpm deploy     # wrangler deploy
 ```
@@ -122,6 +124,56 @@ runs against `vite preview`, never `vite dev`, because the mirrors and
 `npx playwright test` reuses a build you already have. It launches no browser
 (everything is asserted over HTTP through Playwright's `request` fixture), so
 CI never downloads one — keep it that way.
+
+### The accessibility gate
+
+`website/tests/a11y.spec.ts`, driven by `website/playwright.a11y.config.ts` on
+port 4174, is the one suite that drives a real page. It is a separate config for
+exactly that reason: the smoke suite above stays browser-free, and the browser
+download lives in its own CI step beside `pnpm run test:a11y`.
+
+Two halves, both from `@asmyshlyaev177/design-tokens`, both run against the same
+loaded page in **both themes**, every assertion `expect.soft` so one cannot hide
+the other:
+
+- **axe** at `COMPREHENSIVE_TAGS` (WCAG 2.0/2.1/2.2 A and AA, plus
+  `best-practice`). Its own contrast rules stay disabled by the package default,
+  and `incomplete` is asserted on so a "needs review" finding gets a decision
+  once rather than living unread.
+- **Rendered contrast** over every visible text node, scored against WCAG 2 AA
+  and an APCA floor of Lc 60 — the weakest the token contract grants anything at
+  body size. `pnpm test:tokens` proves the token file is sound; this proves the
+  pages reached for the right token.
+
+**Six pages, one per template.** All 21 example routes render from one
+component; the three audited are the ones whose content differs in a way the
+audit can see (default, RTL, vertical).
+
+**The dimmed state is excluded, deliberately.** `useIsVisible` is the library's
+headline API and the demos show it by fading items that have scrolled out of the
+rail — that state is the subject being demonstrated, and it cannot both clear the
+floor and read as faded (the ink needs opacity 0.65 light / 0.75 dark to reach
+Lc 60). Everything faded is measured at full opacity on the same page, so the
+exclusion hides nothing: `[data-visible="false"]`, which is why `VerticalDemo`
+sets the attribute alongside its inline opacity.
+
+`website/shiki-contrast.ts` is a Shiki `tokens` transformer wired into both
+highlight sites in `vite.config.ts`. GitHub's palette leaves about a third of its
+tokens under the floor on `--surface` — `.code-panel pre` is transparent, so the
+panel is the ground, not the theme's own background — and the site ships both
+themes as per-span custom properties, so each half is scored against its own
+ground. Hues are read out of `app.css` rather than hardcoded.
+
+Four colour decisions came out of the first run, each naming a rule:
+
+- **`--accent` is a fill, not a link colour.** Every `<a>` on the site measured
+  Lc 58 / 4.46:1 on it; `--link` is the token with the checked floor.
+  `text-primary` in `tw.css` is the same trap one utility over.
+- **`--demo-green` had no readable ink.** Neither the near-black nor the
+  near-white card text cleared it at L 0.66, so the fill moved rather than the
+  text.
+- **No alpha tints of text tokens.** The watermark initial at `opacity: 0.55`
+  sat under the large-text floor on every card.
 
 **The one rule that matters:** the negotiated Markdown response must stay
 `Cache-Control: no-store`. Shared caches key on the URL and Cloudflare's edge

@@ -357,8 +357,11 @@ importers:
         version: link:..
     devDependencies:
       '@asmyshlyaev177/design-tokens':
-        specifier: ^1.1.1
-        version: 1.1.1(@playwright/test@1.62.1)
+        specifier: ^1.2.0
+        version: 1.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(@playwright/test@1.62.1)
+      '@axe-core/playwright':
+        specifier: ^4.13.0
+        version: 4.13.0(playwright-core@1.62.1)
       '@cloudflare/vite-plugin':
         specifier: ^1.51.1
         version: 1.54.0(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(wrangler@4.126.0)
@@ -418,24 +421,35 @@ packages:
         integrity: sha512-K1A6z8tS3XsmCMM86xoWdn7Fkdn9m6RSVtocUrJYIwZnFVkng/PvkEoWtOWmP+Scc6saYWHWZYbndEEXxl24jw==,
       }
 
-  '@asmyshlyaev177/design-tokens@1.1.1':
+  '@asmyshlyaev177/design-tokens@1.2.0':
     resolution:
       {
-        integrity: sha512-Lhr9y5F7AC6C0G43HbCZ3/3BcFeRFr/TuWlrv6kYkcE/Coh+kgbpgDxF1rBRdNTHPrlSAsjbfknzq/f57CwnPQ==,
+        integrity: sha512-xa4o4xhn/cf+iHGksPjO1Wm7XKiYixSFz7+l2hjh+LeQ8ih2RVb/kfKtYCiiBuKms/ZlNzipvT8aKnHnNVQGIQ==,
       }
     engines: { node: '>=20' }
     hasBin: true
     peerDependencies:
+      '@axe-core/playwright': '>=4.8'
       '@playwright/test': '>=1.40'
       lighthouse: '>=11'
       playwright-lighthouse: '>=4'
     peerDependenciesMeta:
+      '@axe-core/playwright':
+        optional: true
       '@playwright/test':
         optional: true
       lighthouse:
         optional: true
       playwright-lighthouse:
         optional: true
+
+  '@axe-core/playwright@4.13.0':
+    resolution:
+      {
+        integrity: sha512-6YLx+kxXu5GJceG4ozFg+33a2EMTdjYwWGloJ3sb9Kta5pp+ZNS53uxGVog5JetIY8s++P5UrtX+cri+u0VAVg==,
+      }
+    peerDependencies:
+      playwright-core: '>= 1.0.0'
 
   '@babel/code-frame@7.27.1':
     resolution:
@@ -13661,9 +13675,15 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.4
       lru-cache: 10.4.3
 
-  '@asmyshlyaev177/design-tokens@1.1.1(@playwright/test@1.62.1)':
+  '@asmyshlyaev177/design-tokens@1.2.0(@axe-core/playwright@4.13.0(playwright-core@1.62.1))(@playwright/test@1.62.1)':
     optionalDependencies:
+      '@axe-core/playwright': 4.13.0(playwright-core@1.62.1)
       '@playwright/test': 1.62.1
+
+  '@axe-core/playwright@4.13.0(playwright-core@1.62.1)':
+    dependencies:
+      axe-core: 4.13.0
+      playwright-core: 1.62.1
 
   '@babel/code-frame@7.27.1':
     dependencies:

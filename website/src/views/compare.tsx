@@ -43,14 +43,20 @@ export function View({ copy, locale }: { copy: CompareCopy; locale: string }) {
           <table className="w-full min-w-3xl border-collapse text-sm">
             <thead>
               <tr className="bg-surface text-left">
-                {copy.table.headers.map((header, i) => (
-                  <th
-                    key={i}
-                    className={`border-b border-border p-3 font-semibold ${i === 1 ? 'text-primary' : ''}`}
-                  >
-                    {header}
-                  </th>
-                ))}
+                {copy.table.headers.map((header, i) =>
+                  // The blank corner labels nothing, and an empty <th> is a
+                  // header that announces itself with no name.
+                  header ? (
+                    <th
+                      key={i}
+                      className={`border-b border-border p-3 font-semibold ${i === 1 ? 'text-accent-on-soft' : ''}`}
+                    >
+                      {header}
+                    </th>
+                  ) : (
+                    <td key={i} className="border-b border-border p-3" />
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>

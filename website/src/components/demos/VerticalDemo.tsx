@@ -94,6 +94,7 @@ function Row({ city, index }: { itemId: string; city: City; index: number }) {
   return (
     <div
       className="flex items-center gap-3 rounded-md border border-border bg-bg px-4 font-mono text-sm"
+      data-visible={isVisible}
       style={{
         height: 52,
         opacity: isVisible ? 1 : 0.35,

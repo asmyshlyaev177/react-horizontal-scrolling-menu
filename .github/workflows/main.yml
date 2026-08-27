@@ -183,6 +183,18 @@ jobs:
       - name: Build and smoke test
         run: pnpm test
         working-directory: website
+      # The one suite here that drives a real page, hence its own config, its
+      # own step, and the browser download the smoke suite avoids. No job
+      # container for the same reason build-test has none: `vite preview` is
+      # workerd, which hangs inside one. `--only-shell` because with no
+      # `channel` set a headless launch resolves to chromium-headless-shell —
+      # drop it if a test ever needs `headless: false`.
+      - name: Install Playwright chromium
+        run: pnpm exec playwright install --with-deps --only-shell chromium
+        working-directory: website
+      - name: Accessibility audit
+        run: pnpm run test:a11y
+        working-directory: website
       # The whole point of the page is that the demos are server-rendered;
       # a prerender that silently degrades to an empty shell must fail CI.
       - name: Assert demos are prerendered

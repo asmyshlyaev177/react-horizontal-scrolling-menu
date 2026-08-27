@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "test:tokens": "check-tokens src/styles/app.css",
     "test": "pnpm run test:tokens && pnpm run build && playwright test",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "test:a11y": "pnpm run build && playwright test -c playwright.a11y.config.ts"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
@@ -26,7 +27,8 @@
     "react-horizontal-scrolling-menu": "workspace:*"
   },
   "devDependencies": {
-    "@asmyshlyaev177/design-tokens": "^1.1.1",
+    "@asmyshlyaev177/design-tokens": "^1.2.0",
+    "@axe-core/playwright": "^4.13.0",
     "@cloudflare/vite-plugin": "^1.51.1",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.3",

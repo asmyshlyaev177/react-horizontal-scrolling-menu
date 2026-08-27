@@ -9,6 +9,7 @@ import viteReact from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
 
 import { ALL_LOCALES } from '../scripts/i18n/locales.mjs';
+import { shikiContrast } from './shiki-contrast.ts';
 import { EXAMPLES } from './src/lib/examples-manifest.ts';
 import { SITE_URL } from './src/lib/links.ts';
 import {
@@ -17,6 +18,18 @@ import {
   hubDocument,
   prefixOf,
 } from './src/lib/mirror-docs.ts';
+
+/** Every code block, both themes. GitHub's palette leaves a third of its
+ *  tokens under the contrast floor on this panel; the transformer lifts them. */
+const HIGHLIGHT = {
+  themes: { light: 'github-light-default', dark: 'github-dark-default' },
+  defaultColor: false as const,
+  transformers: [
+    shikiContrast(
+      readFileSync(new URL('./src/styles/app.css', import.meta.url), 'utf8'),
+    ),
+  ],
+};
 
 // Highlights every snippet in src/lib/snippets.ts with shiki at build
 // time and exposes the HTML as a virtual module. Shiki stays a dev
@@ -43,14 +56,7 @@ function snippetsHtml(): Plugin {
 
       const out: Record<string, string> = {};
       for (const [key, { code, lang }] of Object.entries(snippets)) {
-        out[key] = await codeToHtml(code, {
-          lang,
-          themes: {
-            light: 'github-light-default',
-            dark: 'github-dark-default',
-          },
-          defaultColor: false,
-        });
+        out[key] = await codeToHtml(code, { lang, ...HIGHLIGHT });
       }
       return `export default ${JSON.stringify(out)};`;
     },
@@ -82,14 +88,7 @@ function exampleCodeHtml(): Plugin {
       const code = readFileSync(file, 'utf8');
 
       const { codeToHtml } = await import('shiki');
-      const html = await codeToHtml(code, {
-        lang: 'tsx',
-        themes: {
-          light: 'github-light-default',
-          dark: 'github-dark-default',
-        },
-        defaultColor: false,
-      });
+      const html = await codeToHtml(code, { lang: 'tsx', ...HIGHLIGHT });
       return `export const code = ${JSON.stringify(code)};\nexport const html = ${JSON.stringify(html)};`;
     },
   };

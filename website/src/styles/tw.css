@@ -20,7 +20,9 @@
   --color-muted: var(--muted);
   --color-border: var(--line);
   --color-border-strong: var(--line-strong);
+  /* A fill: for text use text-accent-on-soft, not text-primary. */
   --color-primary: var(--primary);
+  --color-accent-on-soft: var(--accent-on-soft);
   --color-ok: var(--ok);
   --color-demo-red: var(--demo-red);
   --color-demo-amber: var(--demo-amber);
