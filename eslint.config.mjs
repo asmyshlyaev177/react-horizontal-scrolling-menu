@@ -127,6 +127,17 @@ export default tseslint.config(
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     rules: {
+      // ScrollContainer's <div> scrolls and its items may not be focusable, so
+      // it needs the tab stop; `region` is the role it takes once named. Any
+      // other bare tab stop still fails.
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'error',
+        {
+          tags: [],
+          roles: ['tabpanel', 'region'],
+          allowExpressionValues: true,
+        },
+      ],
       'react/react-in-jsx-scope': 'off',
       'react/display-name': 'off',
       'react/prop-types': 'off',
