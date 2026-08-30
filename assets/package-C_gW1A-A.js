@@ -1,6 +1,6 @@
 import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e((()=>{t=`{
   "name": "react-horizontal-scrolling-menu",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "author": {
     "name": "Aleksandr Smyshliaev",
     "email": "asmyshlyaev177@gmail.com",
