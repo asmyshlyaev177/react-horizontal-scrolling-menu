@@ -131,6 +131,89 @@ const ALL_PAGES = PAGE_PATHS.map((path) => ({
  * asserts the header on every route, so a missing block fails loudly rather
  * than quietly.
  */
+/**
+ * Emits the shadcn registry item at /r/scroll-menu.json, so
+ * `npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json`
+ * installs a styled ScrollMenu into any shadcn project. The component source
+ * lives in registry/scroll-menu.tsx — one file, embedded here at build so the
+ * served JSON can never drift from it. e2e/smoke.spec.ts fetches the item and
+ * compares it against that same file.
+ */
+function shadcnRegistry(): Plugin {
+  // One entry per registry item; `source` is embedded into the item JSON and
+  // stripped from the registry.json index (the directory validator rejects
+  // `content` there).
+  const items = [
+    {
+      source: new URL('./registry/scroll-menu.tsx', import.meta.url),
+      meta: {
+        name: 'scroll-menu',
+        type: 'registry:component',
+        title: 'Scroll Menu',
+        description:
+          'Horizontal scrolling row with edge-aware arrows, mouse drag-to-scroll, native touch scrolling and a hidden scrollbar. Built on react-horizontal-scrolling-menu.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu', 'lucide-react'],
+        registryDependencies: ['button'],
+        files: [
+          {
+            path: 'components/ui/scroll-menu.tsx',
+            target: 'components/ui/scroll-menu.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Every direct child of <ScrollMenu> needs a unique itemId prop. Examples and full API: ${SITE_URL}`,
+      },
+    },
+  ];
+
+  return {
+    name: 'shadcn-registry',
+    apply: 'build',
+    generateBundle() {
+      if (this.environment?.name !== 'client') return;
+
+      for (const { source, meta } of items) {
+        this.addWatchFile(fileURLToPath(source));
+        this.emitFile({
+          type: 'asset',
+          fileName: `r/${meta.name}.json`,
+          source:
+            JSON.stringify(
+              {
+                $schema: 'https://ui.shadcn.com/schema/registry-item.json',
+                ...meta,
+                files: meta.files.map((file) => ({
+                  ...file,
+                  content: readFileSync(source, 'utf8'),
+                })),
+              },
+              null,
+              2,
+            ) + '\n',
+        });
+      }
+
+      // The index the shadcn directory reads, beside the items it lists.
+      this.emitFile({
+        type: 'asset',
+        fileName: 'r/registry.json',
+        source:
+          JSON.stringify(
+            {
+              $schema: 'https://ui.shadcn.com/schema/registry.json',
+              name: 'react-horizontal-scrolling-menu',
+              homepage: SITE_URL,
+              items: items.map(({ meta }) => meta),
+            },
+            null,
+            2,
+          ) + '\n',
+      });
+    },
+  };
+}
+
 function localeHeaders(): Plugin {
   return {
     name: 'locale-headers',
@@ -306,6 +389,7 @@ export default defineConfig({
     exampleCodeHtml(),
     markdownMirrors(),
     sitemap(),
+    shadcnRegistry(),
     localeHeaders(),
   ],
 });

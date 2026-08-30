@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { readFileSync } from 'node:fs';
 
 import { expect, test } from '@playwright/test';
@@ -349,5 +350,58 @@ test.describe('the discovery files', () => {
     );
 
     expect(listed.sort()).toEqual([...ALL_HTML_ROUTES].sort());
+  });
+});
+
+test.describe('the shadcn registry', () => {
+  test('/r/scroll-menu.json is a valid registry item carrying the real source', async ({
+    request,
+  }) => {
+    const res = await request.get('/r/scroll-menu.json', { headers: BROWSER });
+
+    expect(res.status()).toBe(200);
+    expect(res.headers()['content-type']).toContain('application/json');
+
+    const item = await res.json();
+    expect(item.name).toBe('scroll-menu');
+    expect(item.type).toBe('registry:component');
+    expect(item.dependencies).toContain('react-horizontal-scrolling-menu');
+    expect(item.registryDependencies).toContain('button');
+
+    // The served content is the registry source file, verbatim — the build
+    // embeds it, so a drift here means the emitting plugin broke.
+    const source = readFileSync(
+      new URL('../registry/scroll-menu.tsx', import.meta.url),
+      'utf8',
+    );
+    expect(item.files).toHaveLength(1);
+    expect(item.files[0].target).toBe('components/ui/scroll-menu.tsx');
+    expect(item.files[0].content).toBe(source);
+  });
+
+  test('/r/registry.json indexes every item, without file contents', async ({
+    request,
+  }) => {
+    const res = await request.get('/r/registry.json', { headers: BROWSER });
+
+    expect(res.status()).toBe(200);
+    const registry = await res.json();
+    expect(registry.name).toBe('react-horizontal-scrolling-menu');
+    expect(registry.homepage).toBe(SITE_URL);
+    expect(registry.items.map((i: { name: string }) => i.name)).toContain(
+      'scroll-menu',
+    );
+
+    for (const item of registry.items) {
+      // The directory validator rejects an index whose files carry content —
+      // that belongs only in the per-item JSON, which must exist.
+      for (const file of item.files ?? []) {
+        expect(file.content).toBeUndefined();
+      }
+      const itemRes = await request.get(`/r/${item.name}.json`, {
+        headers: BROWSER,
+      });
+      expect(itemRes.status()).toBe(200);
+    }
   });
 });
