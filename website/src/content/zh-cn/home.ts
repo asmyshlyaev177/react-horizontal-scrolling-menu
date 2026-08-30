@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
+// i18n:meta locale=zh-CN source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -41,17 +41,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: '自动播放，无需轮播引擎',
+    heading: '自动播放，一份六十行的配方',
     lede: '没有 `autoplay` 属性——这条轨道是公开 API 上的一道配方：把行克隆到两端、在接缝处跳转一次 `scrollLeft`，再用一个定时器调用 `scrollNext()`。它在悬停、聚焦及隐藏的标签页下暂停，在减少动态效果偏好下保持静止——你甚至可以跨接缝反向拖拽它。',
     recipeLink: '阅读完整配方',
     storybookLink: '在 Storybook 中实时编辑',
   },
 
   positioning: {
-    heading: '是 *菜单*，不是轮播',
+    heading: '一个组件，覆盖所有横向行',
     scope: [
       'Embla、Swiper 和 keen-slider 用 JavaScript 重新实现滚动来构建图片滑块——吸附点、弹簧物理、渲染循环。本库不提供其中任何一样。它依托浏览器原生滚动，并加上浏览器无法提供的那一样东西：确切知道哪些项目在屏幕上。',
-      '对全屏图片滑块而言是 **错误的工具**——那里请用 Embla 或 Swiper。对分类栏、标签页条、筛选标签，以及任何你的应用需要感知的一行内容，它则是 **正确的工具**。',
+      '分类栏、卡片轮播、标签页条、筛选标签、画廊——任何你的应用需要感知的一行内容，都用你自己的组件和你自己的 CSS 搭建而成。它唯一略过的是花哨的幻灯片效果；专攻这类效果的库只需几分钟就能试用，选择这样的库也完全没问题。',
     ],
     pillars: [
       {
@@ -175,7 +175,7 @@ export const home: HomeCopy = {
     ],
     notIncludedHeading: '盒子里没有的',
     notIncluded: ['吸附与弹簧物理', '全屏图片滑块', '灯箱'],
-    note: `那些属于图片滑块的领域——Embla 和 Swiper 做得很好。[无限循环](${STORIES.infiniteLoop}) 与 [自动播放](${STORIES.autoplay}) 也不是属性——它们是配方：每个都在公开 API 上约六十行，可在 Storybook 中实时编辑。本页顶部那条轨道正是这个配方在运行。这里始终是个菜单。`,
+    note: `幻灯片效果是别处已经解决好的问题——如果页面需要 cube 过渡效果，找一个提供这些效果的库就行；试用一个只需几分钟。[无限循环](${STORIES.infiniteLoop}) 与 [自动播放](${STORIES.autoplay}) 不是属性——它们是配方：每个都在公开 API 上约六十行，可在 Storybook 中实时编辑。本页顶部那条轨道正是这个配方在运行。`,
   },
 
   proof: {

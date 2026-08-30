@@ -17,12 +17,12 @@ export const useCases: UseCasesCopy = {
     name: 'Netflix-style row',
     blurb: 'Poster cards, hover arrows over the edges, edge fade, drag.',
     title: 'Netflix-style horizontal row in React',
-    lede: 'The row of posters you scrub through on every streaming site is not a carousel — it is a menu. Nothing snaps, nothing autoplays; it rides native momentum scrolling with arrows overlaid on top. That is exactly what `react-horizontal-scrolling-menu` ships: your cards, native scroll, and per-item visibility so the arrows know when to hide.',
+    lede: 'The row of posters you scrub through on every streaming site rides native momentum scrolling with arrows overlaid on top. That is exactly what `react-horizontal-scrolling-menu` ships: your cards, native scroll, and per-item visibility so the arrows know when to hide.',
     demoHint:
       'Drag it, or hover the row — the arrows fade in over the edges, and each disappears when its end of the row is reached.',
     prose: [
       {
-        heading: 'Why this is not a carousel job',
+        heading: 'Why native scrolling fits',
         body: `A Netflix row never shows one slide at a time. Items are partially cut off at the edges on purpose — the cut-off poster is the affordance that says "there's more". Carousel engines fight this: they own the gesture layer with JavaScript transforms, snap to slide boundaries, and re-implement the momentum your users' browsers already have. On a row of clickable cards all of that is overhead.
 
 Native scrolling gives you momentum, touch, trackpad and scrollbar for free. The two things it does not give you are the overlay arrows and knowing which cards are on screen — and those are the two things this library adds, via [\`useIsVisible\`](/examples/simple) per item and edge-aware arrow state.`,
@@ -146,7 +146,7 @@ This library is the layer below that: a scrolling row with visibility tracking, 
     blurb:
       'A storefront department row: edge-aware arrows, lazy images, analytics.',
     title: 'A category rail for your store, in React',
-    lede: 'Category rails — the tappable row of departments over a storefront grid — are the highest-traffic scroll containers in e-commerce, and they are menus, not carousels: every tile is a link, nothing snaps, and half a tile peeking at the edge is what invites the scroll.',
+    lede: 'Category rails — the tappable row of departments over a storefront grid — are the highest-traffic scroll containers in e-commerce: every tile is a link, nothing snaps, and half a tile peeking at the edge is what invites the scroll.',
     demoHint:
       'Drag the rail or use the arrows — they disable at the real ends of the row.',
     prose: [

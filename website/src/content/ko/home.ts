@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
+// i18n:meta locale=ko source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -41,17 +41,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: '캐러셀 엔진 없이 자동 재생',
+    heading: '자동 재생, 60줄짜리 레시피로',
     lede: '`autoplay` 프로퍼티는 없습니다. 이 레일은 공개 API 위의 레시피입니다. 행을 양 끝으로 복제하고, 이음새에서 `scrollLeft`를 한 번 점프시키고, `scrollNext()`를 호출하는 타이머를 돌립니다. 호버, 포커스, 숨은 탭에서 일시정지하고, 동작 줄이기 설정에서는 가만히 있으며 — 이음새를 넘어 거꾸로라도 드래그할 수 있습니다.',
     recipeLink: '전체 레시피 읽기',
     storybookLink: 'Storybook에서 라이브 편집',
   },
 
   positioning: {
-    heading: '캐러셀이 아니라 *메뉴*',
+    heading: '하나의 컴포넌트, 모든 가로 행',
     scope: [
       'Embla, Swiper, keen-slider는 이미지 슬라이더를 만들기 위해 JavaScript로 스크롤을 다시 구현합니다 — 스냅 포인트, 스프링 물리, 렌더 루프. 이 라이브러리는 그중 어느 것도 제공하지 않습니다. 브라우저 네이티브 스크롤을 타고, 브라우저가 주지 않는 한 가지 — 어떤 항목이 화면에 있는지 정확히 아는 것을 더합니다.',
-      '전체 화면 이미지 슬라이더에는 **잘못된 도구** — 거기서는 Embla나 Swiper를 쓰세요. 카테고리 행, 탭 스트립, 칩 필터, 그리고 앱이 파악해야 하는 모든 행에는 **올바른 도구**.',
+      '카테고리 행, 카드 캐러셀, 탭 스트립, 칩 필터, 갤러리 — 앱이 파악해야 하는 모든 행을 여러분의 컴포넌트와 CSS로 직접 구성할 수 있습니다. 이 라이브러리가 건너뛰는 단 한 가지는 화려한 슬라이드 효과입니다. 그런 효과를 전문으로 하는 라이브러리를 시험해 보는 데는 몇 분이면 충분하며, 그런 라이브러리를 선택해도 전혀 문제 되지 않습니다.',
     ],
     pillars: [
       {
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       '전체 화면 이미지 슬라이더',
       '라이트박스',
     ],
-    note: `그것은 이미지 슬라이더의 영역입니다 — Embla와 Swiper가 잘 합니다. [무한 루프](${STORIES.infiniteLoop})와 [자동 재생](${STORIES.autoplay})도 프로퍼티가 아닙니다 — 레시피입니다. 각각 공개 API의 약 60줄이며, Storybook에서 라이브 편집할 수 있습니다. 이 페이지 위쪽의 레일은 바로 그 레시피가 돌고 있는 것입니다. 이것은 메뉴로 남습니다.`,
+    note: `슬라이드 효과는 다른 곳에서 이미 해결된 문제입니다 — 페이지에 큐브 전환 효과가 필요하다면 그런 효과를 제공하는 라이브러리를 가져다 쓰세요. 시험해 보는 데는 몇 분이면 충분합니다. [무한 루프](${STORIES.infiniteLoop})와 [자동 재생](${STORIES.autoplay})은 프로퍼티가 아닙니다 — 레시피입니다. 각각 공개 API의 약 60줄이며, Storybook에서 라이브로 편집할 수 있습니다. 이 페이지 위쪽의 레일은 바로 그 레시피가 돌고 있는 것입니다.`,
   },
 
   proof: {

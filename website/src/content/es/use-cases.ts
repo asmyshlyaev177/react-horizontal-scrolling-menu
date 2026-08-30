@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=es source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -24,12 +24,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'Cómo crear una fila horizontal estilo Netflix en React — sin una librería de carrusel',
     title: 'Fila horizontal estilo Netflix en React',
-    lede: 'La fila de pósters que recorres en cualquier plataforma de streaming no es un carrusel: es un menú. Nada encaja a la fuerza, nada se reproduce solo; usa el desplazamiento nativo con inercia, con flechas superpuestas encima. Eso es exactamente lo que ofrece `react-horizontal-scrolling-menu`: tus tarjetas, scroll nativo y visibilidad por elemento para que las flechas sepan cuándo ocultarse.',
+    lede: 'La fila de pósters que recorres en cualquier plataforma de streaming usa el desplazamiento nativo con inercia, con flechas superpuestas encima. Eso es exactamente lo que ofrece `react-horizontal-scrolling-menu`: tus tarjetas, scroll nativo y visibilidad por elemento para que las flechas sepan cuándo ocultarse.',
     demoHint:
       'Arrástrala o pasa el cursor sobre la fila: las flechas aparecen sobre los bordes y cada una desaparece cuando se llega a ese extremo de la fila.',
     prose: [
       {
-        heading: 'Por qué esto no es tarea de un carrusel',
+        heading: 'Por qué el scroll nativo encaja',
         body: `Una fila estilo Netflix nunca muestra una sola diapositiva a la vez. Los elementos se cortan a propósito en los bordes: el póster cortado es la señal de que "hay más". Los motores de carrusel luchan contra esto: controlan la capa de gestos con transformaciones de JavaScript, encajan en los límites de cada diapositiva y reimplementan la inercia que el navegador de tus usuarios ya tiene. En una fila de tarjetas pulsables, todo eso es sobrecarga innecesaria.
 
 El scroll nativo te da inercia, tacto, trackpad y barra de desplazamiento gratis. Las dos cosas que no te da son las flechas superpuestas y saber qué tarjetas están en pantalla, y esas son justo las dos cosas que añade esta librería, mediante [\`useIsVisible\`](/examples/simple) por elemento y un estado de flechas consciente de los bordes.`,
@@ -156,7 +156,7 @@ Esta librería es la capa de debajo: una fila con scroll y seguimiento de visibi
     jsonLdHeadline:
       'Cómo crear un riel de categorías de e-commerce en React con scroll nativo',
     title: 'Un riel de categorías para tu tienda, en React',
-    lede: 'Los rieles de categorías —la fila pulsable de departamentos sobre la cuadrícula de una tienda— son los contenedores de scroll con más tráfico en e-commerce, y son menús, no carruseles: cada mosaico es un enlace, nada encaja a la fuerza, y que medio mosaico asome en el borde es justo lo que invita a desplazarse.',
+    lede: 'Los rieles de categorías —la fila pulsable de departamentos sobre la cuadrícula de una tienda— son los contenedores de scroll con más tráfico en e-commerce: cada mosaico es un enlace, nada encaja a la fuerza, y que medio mosaico asome en el borde es justo lo que invita a desplazarse.',
     demoHint:
       'Arrastra el riel o usa las flechas: se desactivan en los extremos reales de la fila.',
     prose: [

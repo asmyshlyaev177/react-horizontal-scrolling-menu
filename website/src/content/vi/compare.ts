@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=vi source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     'Carousel hay menu cuộn? react-horizontal-scrolling-menu đấu với Swiper, Embla, keen-slider và react-slick',
 
   title: 'Carousel hay menu cuộn? Một so sánh trung thực',
-  lede: 'Swiper, Embla, keen-slider và react-slick là các engine carousel: chúng triển khai lại việc cuộn bằng JavaScript để có ngữ nghĩa slide, vật lý snap và các hiệu ứng. react-horizontal-scrolling-menu không nằm trong số đó — nó dùng cuộn gốc của trình duyệt và thêm theo dõi khả năng hiển thị theo từng mục. Bạn muốn cái nào phụ thuộc vào việc bạn đang xây gì; và với một phần thực tế việc dùng carousel, câu trả lời trung thực là: suốt thời gian qua bạn đang xây một menu.',
+  lede: 'Swiper, Embla, keen-slider và react-slick là các engine carousel: chúng triển khai lại việc cuộn bằng JavaScript để có ngữ nghĩa slide, vật lý snap và các hiệu ứng. react-horizontal-scrolling-menu không nằm trong số đó — nó dùng cuộn gốc của trình duyệt và thêm theo dõi khả năng hiển thị theo từng mục. Bạn muốn cái nào phụ thuộc vào việc bạn đang xây gì — bảng và các ghi chú bên dưới trình bày điều đó một cách trung thực, theo cả hai chiều.',
 
   table: {
     headers: [

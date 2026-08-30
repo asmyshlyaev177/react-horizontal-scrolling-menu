@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · Français · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=fr source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=fr source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -162,8 +162,10 @@ TypeScript partout. Sûr pour le SSR — la
 [page d’accueil](https://react-horizontal-scrolling-menu.dev) rend chaque démo
 côté serveur.
 
-Pas de moteur de carrousel : pas de physique d’accroche ni de ressort — si vous
-voulez un diaporama d’images en plein écran, utilisez Embla ou Swiper. La [page de comparaison](https://react-horizontal-scrolling-menu.dev/compare) dit honnêtement quand ils gagnent, avec des analyses détaillées : [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternatives à react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) et [alternatives à Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). La
+Pas de physique d’accroche ni de ressort intégrée — les effets de diapositive
+(fade, cube, coverflow) sont la seule tâche mieux assurée par une bibliothèque
+d’effets dédiée, et en essayer une ne coûte que quelques minutes de nos jours.
+La [page de comparaison](https://react-horizontal-scrolling-menu.dev/compare) expose les compromis honnêtement, avec des analyses détaillées : [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternatives à react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) et [alternatives à Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). La
 lecture automatique et la boucle infinie ne sont pas non plus des props ; ce
 sont des recettes d’environ soixante lignes chacune sur l’API publique,
 modifiables en direct dans Storybook

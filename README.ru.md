@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · Русский · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ru source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=ru source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -159,8 +159,8 @@ Footer, RTL, определение динамического добавлен�
 повсюду. Безопасно для SSR — [лендинг](https://react-horizontal-scrolling-menu.dev)
 рендерит каждую демонстрацию на сервере.
 
-Никакого движка карусели: ни снапа, ни пружинной физики — если нужен
-полноэкранный слайдер изображений, используйте Embla или Swiper. [Страница сравнения](https://react-horizontal-scrolling-menu.dev/compare) честно говорит, когда выигрывают они, с разборами [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [альтернатив react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) и [альтернатив Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives).
+Никакого встроенного снапа и пружинной физики: эффекты слайдов (fade, cube,
+coverflow) — это единственная задача, с которой лучше справится специализированная библиотека эффектов, а попробовать её в наши дни — дело нескольких минут. [Страница сравнения](https://react-horizontal-scrolling-menu.dev/compare) честно раскладывает эти компромиссы, с разборами [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [альтернатив react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) и [альтернатив Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives).
 Автовоспроизведение и бесконечный цикл — тоже не пропсы; это рецепты примерно по
 шестьдесят строк на публичном API, редактируемые вживую в Storybook
 ([бесконечный цикл](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),

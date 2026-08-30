@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=fr source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -24,12 +24,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'Comment créer une rangée horizontale façon Netflix en React — sans bibliothèque de carrousel',
     title: 'Rangée horizontale façon Netflix en React',
-    lede: "La rangée d'affiches que vous parcourez sur chaque site de streaming n'est pas un carrousel — c'est un menu. Rien ne s'aligne, rien ne se lance automatiquement ; elle repose sur le défilement natif à inertie, avec des flèches superposées par-dessus. C'est exactement ce que fournit `react-horizontal-scrolling-menu` : vos cartes, le défilement natif, et une visibilité par élément pour que les flèches sachent quand se cacher.",
+    lede: "La rangée d'affiches que vous parcourez sur chaque site de streaming repose sur le défilement natif à inertie, avec des flèches superposées par-dessus. C'est exactement ce que fournit `react-horizontal-scrolling-menu` : vos cartes, le défilement natif, et une visibilité par élément pour que les flèches sachent quand se cacher.",
     demoHint:
       'Faites-la glisser, ou survolez la rangée — les flèches apparaissent en fondu sur les bords, et chacune disparaît quand son extrémité de la rangée est atteinte.',
     prose: [
       {
-        heading: "Pourquoi ce n'est pas un travail de carrousel",
+        heading: 'Pourquoi le défilement natif convient',
         body: `Une rangée Netflix n'affiche jamais une seule diapositive à la fois. Les éléments sont volontairement coupés en partie sur les bords — l'affiche tronquée est l'indice visuel qui dit « il y en a plus ». Les moteurs de carrousel luttent contre cela : ils s'approprient la couche de gestes avec des transformations JavaScript, s'alignent sur des limites de diapositives, et réimplémentent l'inertie que les navigateurs de vos utilisateurs possèdent déjà. Sur une rangée de cartes cliquables, tout cela est superflu.
 
 Le défilement natif vous donne l'inertie, le tactile, le trackpad et la barre de défilement gratuitement. Les deux choses qu'il ne vous donne pas sont les flèches superposées et le fait de savoir quelles cartes sont à l'écran — et ce sont justement les deux choses qu'ajoute cette bibliothèque, via [\`useIsVisible\`](/examples/simple) par élément et un état des flèches conscient des bords.`,
@@ -156,7 +156,7 @@ Cette bibliothèque est la couche en dessous : une rangée défilante avec suivi
     jsonLdHeadline:
       'Construire un rail de catégories e-commerce en React sur du défilement natif',
     title: 'Un rail de catégories pour votre boutique, en React',
-    lede: "Les rails de catégories — la rangée cliquable de rayons au-dessus d'une grille de vitrine — sont les conteneurs de défilement les plus fréquentés en e-commerce, et ce sont des menus, pas des carrousels : chaque vignette est un lien, rien ne s'aligne, et une demi-vignette qui dépasse au bord est ce qui invite au défilement.",
+    lede: "Les rails de catégories — la rangée cliquable de rayons au-dessus d'une grille de vitrine — sont les conteneurs de défilement les plus fréquentés en e-commerce : chaque vignette est un lien, rien ne s'aligne, et une demi-vignette qui dépasse au bord est ce qui invite au défilement.",
     demoHint:
       'Faites glisser le rail ou utilisez les flèches — elles se désactivent aux véritables extrémités de la rangée.',
     prose: [

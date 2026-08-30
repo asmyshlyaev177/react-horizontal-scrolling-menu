@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=ja source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -24,12 +24,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'カルーセルライブラリなしで React に Netflix 風の横スクロール行を作る方法',
     title: 'React で作る Netflix 風の横スクロール行',
-    lede: 'どのストリーミングサイトでもスクロールするあのポスター行は、カルーセルではなくメニューです。スナップもオートプレイもせず、矢印を重ねたままネイティブの慣性スクロールに乗るだけ。それこそが `react-horizontal-scrolling-menu` が提供するものです — あなたのカードとネイティブスクロール、そして矢印がいつ隠れるべきかを知るためのアイテムごとの可視性判定。',
+    lede: 'どのストリーミングサイトでもスクロールするあのポスター行は、矢印を重ねたままネイティブの慣性スクロールに乗ります。それこそが `react-horizontal-scrolling-menu` が提供するものです — あなたのカードとネイティブスクロール、そして矢印がいつ隠れるべきかを知るためのアイテムごとの可視性判定。',
     demoHint:
       'ドラッグするか、行にホバーしてみてください — 矢印が端にフェードインし、行のその端に到達すると消えます。',
     prose: [
       {
-        heading: 'なぜこれはカルーセルの仕事ではないのか',
+        heading: 'なぜネイティブスクロールが適しているのか',
         body: `Netflix の行は一度に 1 枚のスライドだけを見せることは決してありません。アイテムが端で意図的に一部だけ表示されているのは、「まだ続きがある」ことを伝えるアフォーダンスです。カルーセルエンジンはこれに逆らいます — JavaScript のトランスフォームでジェスチャー層を独占し、スライドの境界にスナップし、ユーザーのブラウザーがすでに持っている慣性を再実装します。クリック可能なカードの行では、そのすべてが余計なオーバーヘッドです。
 
 ネイティブスクロールなら慣性、タッチ、トラックパッド、スクロールバーがすべて無料で手に入ります。得られないのはオーバーレイの矢印と、どのカードが画面内にあるかを知ることの 2 点だけ — このライブラリが加えるのはまさにその 2 点で、アイテムごとの [\`useIsVisible\`](/examples/simple) とエッジ対応の矢印状態です。`,
@@ -153,7 +153,7 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'ネイティブスクロールで React の EC カテゴリーレールを構築する',
     title: 'React で作る、あなたのストア向けカテゴリーレール',
-    lede: 'カテゴリーレール — ストアフロントのグリッドの上にある、タップ可能な部門の行 — は EC サイトの中で最もトラフィックの多いスクロールコンテナであり、それらはカルーセルではなくメニューです：すべてのタイルはリンクで、何もスナップせず、端で半分だけ見えるタイルがスクロールへと誘います。',
+    lede: 'カテゴリーレール — ストアフロントのグリッドの上にある、タップ可能な部門の行 — は EC サイトの中で最もトラフィックの多いスクロールコンテナです：すべてのタイルはリンクで、何もスナップせず、端で半分だけ見えるタイルがスクロールへと誘います。',
     demoHint:
       'レールをドラッグするか矢印を使ってみてください — 行の本当の端で無効になります。',
     prose: [

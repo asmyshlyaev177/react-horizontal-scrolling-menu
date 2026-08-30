@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · Español · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=es source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=es source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -160,8 +160,9 @@ añadido/eliminación y tipos de TypeScript por todas partes. Seguro para SSR: l
 [página de inicio](https://react-horizontal-scrolling-menu.dev) renderiza cada
 demo en el servidor.
 
-Sin motor de carrusel: sin física de ajuste ni de muelle — si quieres un slider
-de imágenes a pantalla completa, usa Embla o Swiper. La [página de comparación](https://react-horizontal-scrolling-menu.dev/compare) es honesta sobre cuándo ganan ellos, con análisis de [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternativas a react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) y [alternativas a Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). El autoplay y el bucle
+Sin física de ajuste ni de muelle integrada — los efectos de diapositiva
+(fade, cube, coverflow) son la única tarea que resuelve mejor una biblioteca
+de efectos dedicada, y hoy en día probar una cuesta minutos. La [página de comparación](https://react-horizontal-scrolling-menu.dev/compare) expone los pros y contras con honestidad, con análisis de [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternativas a react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) y [alternativas a Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). El autoplay y el bucle
 infinito tampoco son props; son recetas de unas sesenta líneas cada una sobre la
 API pública, editables en vivo en Storybook
 ([bucle infinito](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),

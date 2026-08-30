@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=ko source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     '캐러셀인가 스크롤 메뉴인가? react-horizontal-scrolling-menu vs Swiper, Embla, keen-slider, react-slick',
 
   title: '캐러셀인가 스크롤 메뉴인가? 솔직한 비교',
-  lede: 'Swiper, Embla, keen-slider, react-slick은 캐러셀 엔진입니다. 슬라이드 의미론, 스냅 물리, 효과를 얻기 위해 JavaScript로 스크롤을 다시 구현합니다. react-horizontal-scrolling-menu는 그중 하나가 아닙니다. 브라우저 네이티브 스크롤을 타고 항목별 가시성 추적을 더합니다. 어느 쪽을 원하는지는 무엇을 만드는지에 달려 있습니다. 그리고 캐러셀 사용의 상당 부분에 대한 솔직한 답은, 애초에 메뉴를 만들고 있었다는 것입니다.',
+  lede: 'Swiper, Embla, keen-slider, react-slick은 캐러셀 엔진입니다. 슬라이드 의미론, 스냅 물리, 효과를 얻기 위해 JavaScript로 스크롤을 다시 구현합니다. react-horizontal-scrolling-menu는 그중 하나가 아닙니다. 브라우저 네이티브 스크롤을 타고 항목별 가시성 추적을 더합니다. 어느 쪽을 원하는지는 무엇을 만드는지에 달려 있습니다 — 아래 표와 설명이 양쪽을 솔직하게 정리합니다.',
 
   table: {
     headers: [

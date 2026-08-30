@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=ko source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -23,12 +23,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'React에서 캐러셀 라이브러리 없이 Netflix 스타일 가로 스크롤 행을 만드는 방법',
     title: 'React의 Netflix 스타일 가로 스크롤 행',
-    lede: '모든 스트리밍 사이트에서 넘겨보는 포스터 행은 캐러셀이 아니라 메뉴입니다. 아무것도 스냅되지 않고 자동 재생도 없습니다. 위에 화살표를 겹쳐 놓은 채 네이티브 모멘텀 스크롤을 그대로 사용합니다. `react-horizontal-scrolling-menu`가 제공하는 것이 정확히 이것입니다: 여러분의 카드, 네이티브 스크롤, 그리고 화살표가 언제 숨어야 하는지 아는 항목별 가시성.',
+    lede: '모든 스트리밍 사이트에서 넘겨보는 포스터 행은 위에 화살표를 겹쳐 놓은 채 네이티브 모멘텀 스크롤을 그대로 사용합니다. `react-horizontal-scrolling-menu`가 제공하는 것이 정확히 이것입니다: 여러분의 카드, 네이티브 스크롤, 그리고 화살표가 언제 숨어야 하는지 아는 항목별 가시성.',
     demoHint:
       '드래그하거나 행에 마우스를 올려보세요 — 화살표가 가장자리 위로 서서히 나타나고, 행의 끝에 도달하면 각각 사라집니다.',
     prose: [
       {
-        heading: '캐러셀로 풀 문제가 아닌 이유',
+        heading: '네이티브 스크롤이 맞는 이유',
         body: `Netflix 행은 한 번에 하나의 슬라이드만 보여주지 않습니다. 항목은 일부러 가장자리에서 잘려 보이는데, 이 잘린 포스터가 "더 있다"는 것을 알려주는 어포던스입니다. 캐러셀 엔진은 이와 반대로 동작합니다: JavaScript 트랜스폼으로 제스처 레이어를 직접 소유하고, 슬라이드 경계에 스냅하며, 사용자 브라우저가 이미 가지고 있는 모멘텀을 다시 구현합니다. 클릭 가능한 카드 행에서는 이 모든 것이 오버헤드일 뿐입니다.
 
 네이티브 스크롤은 모멘텀, 터치, 트랙패드, 스크롤바를 공짜로 제공합니다. 다만 오버레이 화살표와 어떤 카드가 화면에 보이는지 아는 것, 이 두 가지는 제공하지 않습니다 — 이 라이브러리가 추가하는 것이 바로 이 두 가지로, 항목별 [\`useIsVisible\`](/examples/simple)과 가장자리 인식 화살표 상태로 구현됩니다.`,
@@ -151,7 +151,7 @@ export const useCases: UseCasesCopy = {
     },
     jsonLdHeadline: 'React와 네이티브 스크롤로 이커머스 카테고리 레일 만들기',
     title: 'React로 만드는 스토어용 카테고리 레일',
-    lede: '카테고리 레일 — 스토어 그리드 위에 놓인, 탭할 수 있는 부서 행 — 은 이커머스에서 트래픽이 가장 높은 스크롤 컨테이너이며, 캐러셀이 아니라 메뉴입니다: 모든 타일이 링크이고, 스냅되는 것은 없으며, 가장자리에 반쯤 걸쳐 보이는 타일이 스크롤을 유도합니다.',
+    lede: '카테고리 레일 — 스토어 그리드 위에 놓인, 탭할 수 있는 부서 행 — 은 이커머스에서 트래픽이 가장 높은 스크롤 컨테이너입니다: 모든 타일이 링크이고, 스냅되는 것은 없으며, 가장자리에 반쯤 걸쳐 보이는 타일이 스크롤을 유도합니다.',
     demoHint:
       '레일을 드래그하거나 화살표를 사용해보세요 — 행의 진짜 끝에서 비활성화됩니다.',
     prose: [

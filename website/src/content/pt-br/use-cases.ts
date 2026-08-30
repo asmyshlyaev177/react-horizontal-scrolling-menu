@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -24,12 +24,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'Como criar uma linha horizontal estilo Netflix em React — sem biblioteca de carrossel',
     title: 'Linha horizontal estilo Netflix em React',
-    lede: 'A fileira de pôsteres que você percorre em qualquer site de streaming não é um carrossel — é um menu. Nada se encaixa (snap), nada toca automaticamente; ela usa a rolagem nativa com inércia (momentum), com setas sobrepostas por cima. É exatamente isso que o `react-horizontal-scrolling-menu` entrega: seus cards, rolagem nativa e visibilidade por item para que as setas saibam quando se esconder.',
+    lede: 'A fileira de pôsteres que você percorre em qualquer site de streaming usa a rolagem nativa com inércia (momentum), com setas sobrepostas por cima. É exatamente isso que o `react-horizontal-scrolling-menu` entrega: seus cards, rolagem nativa e visibilidade por item para que as setas saibam quando se esconder.',
     demoHint:
       'Arraste, ou passe o mouse sobre a fileira — as setas aparecem gradualmente nas bordas, e cada uma desaparece quando aquele extremo da fileira é alcançado.',
     prose: [
       {
-        heading: 'Por que isso não é trabalho para um carrossel',
+        heading: 'Por que a rolagem nativa se encaixa',
         body: `Uma fileira estilo Netflix nunca mostra um slide por vez. Os itens são propositalmente cortados nas bordas — o pôster cortado é o indício visual que diz "tem mais". Motores de carrossel lutam contra isso: eles assumem a camada de gestos com transformações em JavaScript, encaixam (snap) nos limites dos slides e reimplementam a inércia que o navegador do usuário já tem. Em uma fileira de cards clicáveis, tudo isso é overhead.
 
 A rolagem nativa te dá inércia, toque, trackpad e barra de rolagem de graça. As duas coisas que ela não te dá são as setas sobrepostas e saber quais cards estão na tela — e são exatamente essas duas coisas que esta biblioteca adiciona, via [\`useIsVisible\`](/examples/simple) por item e um estado de seta sensível às bordas.`,
@@ -155,7 +155,7 @@ Esta biblioteca é a camada abaixo disso: uma fileira rolável com rastreamento 
     jsonLdHeadline:
       'Construindo uma trilha de categorias de e-commerce em React sobre rolagem nativa',
     title: 'Uma trilha de categorias para sua loja, em React',
-    lede: 'Trilhas de categorias — a fileira tocável de departamentos acima da grade de uma loja — são os contêineres de rolagem de maior tráfego no e-commerce, e são menus, não carrosséis: cada bloco é um link, nada se encaixa, e meio bloco espiando na borda é o que convida à rolagem.',
+    lede: 'Trilhas de categorias — a fileira tocável de departamentos acima da grade de uma loja — são os contêineres de rolagem de maior tráfego no e-commerce: cada bloco é um link, nada se encaixa, e meio bloco espiando na borda é o que convida à rolagem.',
     demoHint:
       'Arraste a trilha ou use as setas — elas se desativam nas extremidades reais da fileira.',
     prose: [

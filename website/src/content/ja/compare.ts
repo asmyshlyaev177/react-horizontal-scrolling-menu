@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=ja source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     'カルーセルかスクロールメニューか？react-horizontal-scrolling-menu vs Swiper、Embla、keen-slider、react-slick',
 
   title: 'カルーセルかスクロールメニューか？正直な比較',
-  lede: 'Swiper、Embla、keen-slider、react-slick はカルーセルエンジンです。スライドのセマンティクス、スナップ物理、エフェクトを得るために JavaScript でスクロールを再実装しています。react-horizontal-scrolling-menu はそのいずれでもありません。ブラウザネイティブのスクロールに乗り、項目ごとの可視性追跡を加えます。どちらが欲しいかは何を作るか次第です。そしてカルーセル用途のかなりの割合については、正直な答えは「あなたは最初からメニューを作っていた」です。',
+  lede: 'Swiper、Embla、keen-slider、react-slick はカルーセルエンジンです。スライドのセマンティクス、スナップ物理、エフェクトを得るために JavaScript でスクロールを再実装しています。react-horizontal-scrolling-menu はそのいずれでもありません。ブラウザネイティブのスクロールに乗り、項目ごとの可視性追跡を加えます。どちらが欲しいかは、何を作るか次第です——下の表とこのあとの解説が、両方の立場から正直に示します。',
 
   table: {
     headers: [

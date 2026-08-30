@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -22,12 +22,12 @@ export const useCases: UseCasesCopy = {
     },
     jsonLdHeadline: '如何在 React 中构建 Netflix 风格的横向滚动行——无需轮播库',
     title: 'React 中的 Netflix 风格横向滚动行',
-    lede: '你在每个流媒体网站上滑动浏览的那一排海报，其实不是轮播图——而是一个菜单。它不会吸附对齐，也不会自动播放；它依靠原生的惯性滚动，箭头则叠加在上层。这正是 `react-horizontal-scrolling-menu` 提供的能力：你的卡片、原生滚动，以及逐项可见性检测，让箭头知道何时该隐藏。',
+    lede: '你在每个流媒体网站上滑动浏览的那一排海报，依靠原生的惯性滚动，箭头则叠加在上层。这正是 `react-horizontal-scrolling-menu` 提供的能力：你的卡片、原生滚动，以及逐项可见性检测，让箭头知道何时该隐藏。',
     demoHint:
       '拖拽它，或者悬停在这一行上——箭头会在边缘处渐显，当到达该行的相应端点时，对应箭头就会消失。',
     prose: [
       {
-        heading: '为什么这不是轮播图该做的事',
+        heading: '为什么原生滚动更合适',
         body: `Netflix 风格的行从不会一次只显示一张幻灯片。边缘处的项目故意被部分裁切——被裁切的海报正是在提示“还有更多”。轮播引擎则与此背道而驰：它们用 JavaScript 变换接管手势层，吸附到幻灯片边界，并重新实现用户浏览器本就具备的惯性滚动。对于一排可点击的卡片来说，这些都是多余的开销。
 
 原生滚动免费为你提供了惯性、触摸、触控板和滚动条支持。它没有提供的两样东西是叠加箭头和感知屏幕上有哪些卡片——而这正是本库通过逐项 [\`useIsVisible\`](/examples/simple) 和边缘感知箭头状态所补上的两件事。`,
@@ -146,7 +146,7 @@ export const useCases: UseCasesCopy = {
     },
     jsonLdHeadline: '如何基于原生滚动在 React 中构建电商分类栏',
     title: 'React 中面向你的商店的分类栏',
-    lede: '分类栏——位于店铺商品网格上方、可点击的部门分类行——是电商场景中流量最高的滚动容器，而它们本质是菜单，不是轮播图：每个方块都是一个链接，没有吸附对齐，而边缘处露出半个方块正是在邀请用户继续滚动。',
+    lede: '分类栏——位于店铺商品网格上方、可点击的部门分类行——是电商场景中流量最高的滚动容器：每个方块都是一个链接，没有吸附对齐，而边缘处露出半个方块正是在邀请用户继续滚动。',
     demoHint: '拖拽这一栏，或使用箭头——它们会在该行真正的端点处禁用。',
     prose: [
       {

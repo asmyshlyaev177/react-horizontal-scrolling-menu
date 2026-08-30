@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ru source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=ru source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     'Карусель или меню прокрутки? react-horizontal-scrolling-menu против Swiper, Embla, keen-slider и react-slick',
 
   title: 'Карусель или меню прокрутки? Честное сравнение',
-  lede: 'Swiper, Embla, keen-slider и react-slick — это движки каруселей: они заново реализуют прокрутку на JavaScript, чтобы получить семантику слайдов, физику снапа и эффекты. react-horizontal-scrolling-menu не из их числа — он едет на нативной прокрутке браузера и добавляет отслеживание видимости каждого элемента. Что вам нужно, зависит от того, что вы строите; и для заметной доли использования каруселей честный ответ таков: всё это время вы строили меню.',
+  lede: 'Swiper, Embla, keen-slider и react-slick — это движки каруселей: они заново реализуют прокрутку на JavaScript, чтобы получить семантику слайдов, физику снапа и эффекты. react-horizontal-scrolling-menu не из их числа — он едет на нативной прокрутке браузера и добавляет отслеживание видимости каждого элемента. Что вам нужно, зависит от того, что вы строите, — таблица и заметки ниже честно раскладывают всё по полочкам, с обеих сторон.',
 
   table: {
     headers: [

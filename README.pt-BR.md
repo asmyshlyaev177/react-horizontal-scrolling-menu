@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · Português (BR) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=pt-BR source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=pt-BR source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -159,8 +159,9 @@ TypeScript por toda parte. Seguro para SSR — a
 [página inicial](https://react-horizontal-scrolling-menu.dev) renderiza cada
 demo no servidor.
 
-Sem motor de carrossel: sem física de snap ou de mola — se você quer um slider
-de imagens em tela cheia, use Embla ou Swiper. A [página de comparação](https://react-horizontal-scrolling-menu.dev/compare) é honesta sobre quando eles ganham, com análises de [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternativas ao react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) e [alternativas ao Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Autoplay e loop infinito também
+Sem física de snap ou de mola embutida — efeitos de slide (fade, cube,
+coverflow) são a única tarefa mais bem atendida por uma biblioteca de efeitos
+dedicada, e experimentar uma custa minutos hoje em dia. A [página de comparação](https://react-horizontal-scrolling-menu.dev/compare) expõe os prós e contras com honestidade, com análises de [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternativas ao react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) e [alternativas ao Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Autoplay e loop infinito também
 não são props; são receitas de cerca de sessenta linhas cada sobre a API
 pública, editáveis ao vivo no Storybook
 ([loop infinito](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),

@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · 日本語 · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ja source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=ja source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -160,8 +160,9 @@ Header と Footer スロット、RTL、動的な追加・削除の検出、そ�
 TypeScript の型があります。SSR セーフで、[ランディングページ](https://react-horizontal-scrolling-menu.dev)
 はすべてのデモをサーバーレンダリングします。
 
-カルーセルエンジンはありません。スナップやスプリング物理もありません。全画面の
-画像スライダーが欲しいなら Embla か Swiper を使ってください。どちらが勝つ場面かは[比較ページ](https://react-horizontal-scrolling-menu.dev/compare)が正直に述べており、[Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick の代替](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper の代替](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)の詳細ページもあります。自動再生と無限
+スナップやスプリング物理は内蔵していません——スライドエフェクト（フェード、
+キューブ、カバーフローなど）は専門のエフェクトライブラリに任せたほうがよい
+唯一の仕事で、今どき試すのに数分しかかかりません。[比較ページ](https://react-horizontal-scrolling-menu.dev/compare)がそのトレードオフを正直に示しており、[Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick の代替](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper の代替](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)の詳細ページもあります。自動再生と無限
 ループもプロパティではありません。公開 API の上にそれぞれ約 60 行で書ける
 レシピで、Storybook でライブ編集できます
 （[無限ループ](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop)、

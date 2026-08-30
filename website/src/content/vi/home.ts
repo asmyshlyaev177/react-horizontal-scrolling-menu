@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
+// i18n:meta locale=vi source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -41,17 +41,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: 'Tự phát, không cần engine carousel',
+    heading: 'Tự phát, một recipe sáu mươi dòng',
     lede: 'Không có prop `autoplay` — ray này là một recipe trên API công khai: hàng được nhân bản ra hai đầu, một cú nhảy `scrollLeft` tại đường nối và một bộ hẹn giờ gọi `scrollNext()`. Nó tạm dừng khi hover, focus và trên các tab bị ẩn, đứng yên dưới chế độ giảm chuyển động — và bạn có thể kéo nó, thậm chí ngược lại, qua đường nối.',
     recipeLink: 'Đọc recipe đầy đủ',
     storybookLink: 'Chỉnh sửa trực tiếp trong Storybook',
   },
 
   positioning: {
-    heading: 'Một *menu*, không phải carousel',
+    heading: 'Một component, mọi hàng ngang',
     scope: [
       'Embla, Swiper và keen-slider triển khai lại việc cuộn bằng JavaScript để xây slider ảnh — điểm snap, vật lý lò xo, một vòng lặp render. Thư viện này không gửi kèm bất cứ thứ gì trong số đó. Nó dùng cuộn gốc của trình duyệt và thêm thứ duy nhất trình duyệt không cho bạn: biết chính xác mục nào đang trên màn hình.',
-      '**Sai công cụ** cho một slider ảnh toàn màn hình — hãy dùng Embla hoặc Swiper ở đó. **Đúng công cụ** cho các hàng danh mục, dải tab, bộ lọc chip và bất kỳ hàng nội dung nào mà ứng dụng của bạn cần xử lý.',
+      'Hàng danh mục, carousel thẻ, dải tab, bộ lọc chip, thư viện ảnh — bất kỳ hàng nội dung nào mà ứng dụng của bạn cần xử lý, xây từ component của bạn và CSS của bạn. Thứ duy nhất nó bỏ qua là các hiệu ứng slide cầu kỳ; một thư viện chuyên về việc đó chỉ mất vài phút để dùng thử, và chẳng có vấn đề gì nếu bạn tìm đến nó.',
     ],
     pillars: [
       {
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       'Slider ảnh toàn màn hình',
       'Lightbox',
     ],
-    note: `Đó thuộc về thế giới slider ảnh — Embla và Swiper làm tốt. [Vòng lặp vô hạn](${STORIES.infiniteLoop}) và [tự phát](${STORIES.autoplay}) cũng không phải props — chúng là recipe: khoảng sáu mươi dòng của API công khai mỗi cái, có thể chỉnh sửa trực tiếp trong Storybook. Ray gần đầu trang này chính là recipe đó đang chạy. Cái này vẫn là một menu.`,
+    note: `Hiệu ứng slide là bài toán đã có lời giải ở nơi khác — nếu một trang cần hiệu ứng chuyển kiểu cube, hãy chọn một thư viện có sẵn hiệu ứng đó; dùng thử chỉ mất vài phút. [Vòng lặp vô hạn](${STORIES.infiniteLoop}) và [tự phát](${STORIES.autoplay}) không phải là props — chúng là recipe: khoảng sáu mươi dòng của API công khai mỗi cái, có thể chỉnh sửa trực tiếp trong Storybook. Ray gần đầu trang này chính là recipe đó đang chạy.`,
   },
 
   proof: {

@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=zh-CN source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     '轮播还是滚动菜单？react-horizontal-scrolling-menu 对比 Swiper、Embla、keen-slider 与 react-slick',
 
   title: '轮播还是滚动菜单？一次坦诚的对比',
-  lede: 'Swiper、Embla、keen-slider 与 react-slick 都是轮播引擎：它们用 JavaScript 重新实现滚动，以获得幻灯片语义、吸附物理与各种效果。react-horizontal-scrolling-menu 并非其中之一——它依托浏览器原生滚动，并加上逐项可见性追踪。你想要哪一个取决于你在构建什么；而对相当一部分轮播的实际用途而言，坦诚的答案是：你从一开始就在构建一个菜单。',
+  lede: 'Swiper、Embla、keen-slider 与 react-slick 都是轮播引擎：它们用 JavaScript 重新实现滚动，以获得幻灯片语义、吸附物理与各种效果。react-horizontal-scrolling-menu 并非其中之一——它依托浏览器原生滚动，并加上逐项可见性追踪。你想要哪一个取决于你在构建什么——下方的表格与说明会坦诚地把两边的情况都列出来。',
 
   table: {
     headers: ['', '本库', 'Swiper', 'Embla', 'keen-slider', 'react-slick'],

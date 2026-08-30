@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
+// i18n:meta locale=ja source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -41,17 +41,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: 'カルーセルエンジンなしの自動再生',
+    heading: '自動再生は 60 行のレシピ',
     lede: '`autoplay` プロパティはありません。このレールは公開 API 上のレシピです。行を両端にクローンし、継ぎ目で 1 回 `scrollLeft` をジャンプさせ、`scrollNext()` を呼ぶタイマーを回します。ホバー、フォーカス、非表示タブで一時停止し、動きを減らす設定下では静止します。継ぎ目をまたいで、逆向きにさえドラッグできます。',
     recipeLink: '完全なレシピを読む',
     storybookLink: 'Storybook でライブ編集',
   },
 
   positioning: {
-    heading: '*メニュー*であり、カルーセルではない',
+    heading: '1 つのコンポーネントで、あらゆる横スクロール行に対応',
     scope: [
       'Embla、Swiper、keen-slider は、画像スライダーを作るために JavaScript でスクロールを再実装しています——スナップポイント、スプリング物理、レンダーループ。このライブラリはそのどれも同梱しません。ブラウザネイティブのスクロールに乗り、ブラウザが与えない 1 つ——どの項目が画面上にあるかの把握を加えます。',
-      '全画面画像スライダーにとっては **間違った道具**——そこでは Embla か Swiper を。カテゴリー行、タブストリップ、チップフィルター、そしてアプリが把握する必要のあるあらゆる行にとっては、**正しい道具**。',
+      'カテゴリー行、カードカルーセル、タブストリップ、チップフィルター、ギャラリー——アプリが把握する必要のあるものなら、どんな行でも、あなた自身のコンポーネントとあなた自身の CSS で組み立てます。唯一省いているのは凝ったスライドエフェクトです——それに特化したライブラリを試すのに数分しかかからず、そちらに頼ることに何の問題もありません。',
     ],
     pillars: [
       {
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       '全画面画像スライダー',
       'ライトボックス',
     ],
-    note: `それは画像スライダーの領域です——Embla と Swiper が上手にこなします。[無限ループ](${STORIES.infiniteLoop}) と [自動再生](${STORIES.autoplay}) もプロパティではありません——レシピです。それぞれ公開 API の約 60 行で、Storybook でライブ編集できます。このページ上部のレールは、まさにそのレシピが動いているものです。これはメニューのままです。`,
+    note: `スライドエフェクトは、すでに他所で解決済みの問題です——ページにキューブトランジションが必要なら、それを備えたライブラリを使えばいい話です。試すのに数分しかかかりません。[無限ループ](${STORIES.infiniteLoop}) と [自動再生](${STORIES.autoplay}) もプロパティではありません——レシピです。それぞれ公開 API の約 60 行で、Storybook でライブ編集できます。このページ上部のレールは、まさにそのレシピが動いているものです。`,
   },
 
   proof: {

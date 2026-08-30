@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/compare.ts source-blob=c29839efeb7de75a4cfbad0342c7bfb7266a0666 status=translated
+// i18n:meta locale=fr source=en/compare.ts source-blob=109fc8a1eaa58ebec8e1085289370248a158cabd status=translated
 import type { CompareCopy } from '../types.ts';
 
 export const compare: CompareCopy = {
@@ -16,7 +16,7 @@ export const compare: CompareCopy = {
     'Carrousel ou menu à défilement ? react-horizontal-scrolling-menu face à Swiper, Embla, keen-slider et react-slick',
 
   title: 'Carrousel ou menu à défilement ? Une comparaison honnête',
-  lede: 'Swiper, Embla, keen-slider et react-slick sont des moteurs de carrousel : ils réimplémentent le défilement en JavaScript pour obtenir la sémantique des diapositives, la physique d’accroche et les effets. react-horizontal-scrolling-menu n’en est pas un — il s’appuie sur le défilement natif du navigateur et ajoute un suivi de visibilité par élément. Lequel vous voulez dépend de ce que vous construisez ; et pour une bonne part des usages réels du carrousel, la réponse honnête est : vous construisiez un menu depuis le début.',
+  lede: 'Swiper, Embla, keen-slider et react-slick sont des moteurs de carrousel : ils réimplémentent le défilement en JavaScript pour obtenir la sémantique des diapositives, la physique d’accroche et les effets. react-horizontal-scrolling-menu n’en est pas un — il s’appuie sur le défilement natif du navigateur et ajoute un suivi de visibilité par élément. Lequel vous voulez dépend de ce que vous construisez — le tableau et les notes ci-dessous l’exposent honnêtement, dans les deux sens.',
 
   table: {
     headers: [

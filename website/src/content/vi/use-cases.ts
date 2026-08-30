@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/use-cases.ts source-blob=90fca8a33a3a26de44d29e981f98e2a5cd248922 status=translated
+// i18n:meta locale=vi source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -24,12 +24,12 @@ export const useCases: UseCasesCopy = {
     jsonLdHeadline:
       'Cách xây dựng dải cuộn ngang kiểu Netflix trong React — không cần thư viện carousel',
     title: 'Dải cuộn ngang kiểu Netflix trong React',
-    lede: 'Dải áp phích bạn lướt qua trên mọi trang xem phim trực tuyến không phải là carousel — đó là một menu. Không có gì snap, không có gì tự phát; nó chạy trên cuộn quán tính gốc của trình duyệt với các mũi tên phủ lên trên. Đó chính xác là những gì `react-horizontal-scrolling-menu` cung cấp: thẻ của bạn, cuộn gốc, và khả năng hiển thị theo từng item để mũi tên biết khi nào cần ẩn.',
+    lede: 'Dải áp phích bạn lướt qua trên mọi trang xem phim trực tuyến chạy trên cuộn quán tính gốc của trình duyệt với các mũi tên phủ lên trên. Đó chính xác là những gì `react-horizontal-scrolling-menu` cung cấp: thẻ của bạn, cuộn gốc, và khả năng hiển thị theo từng item để mũi tên biết khi nào cần ẩn.',
     demoHint:
       'Kéo nó, hoặc di chuột qua dải — các mũi tên mờ dần hiện lên ở các cạnh, và mỗi mũi tên biến mất khi đến đầu dải tương ứng.',
     prose: [
       {
-        heading: 'Tại sao đây không phải là việc của carousel',
+        heading: 'Tại sao cuộn gốc phù hợp',
         body: `Dải Netflix không bao giờ hiển thị từng slide một lúc. Các item bị cắt một phần ở các cạnh một cách có chủ ý — tấm áp phích bị cắt là tín hiệu thị giác nói rằng "còn nữa". Các engine carousel chống lại điều này: chúng chiếm lấy tầng cử chỉ bằng các phép biến đổi JavaScript, snap vào ranh giới slide, và tái triển khai quán tính mà trình duyệt của người dùng vốn đã có sẵn. Trên một dải thẻ có thể nhấp, tất cả những điều đó là chi phí thừa.
 
 Cuộn gốc cho bạn quán tính, cảm ứng, trackpad và thanh cuộn miễn phí. Hai thứ nó không cho bạn là mũi tên phủ lên và biết thẻ nào đang trên màn hình — và đó chính là hai thứ thư viện này bổ sung, thông qua [\`useIsVisible\`](/examples/simple) cho từng item và trạng thái mũi tên nhận biết cạnh.`,
@@ -152,7 +152,7 @@ Thư viện này là tầng bên dưới điều đó: một dải cuộn có th
     jsonLdHeadline:
       'Xây dựng một rail danh mục thương mại điện tử trong React trên nền cuộn gốc',
     title: 'Một rail danh mục cho cửa hàng của bạn, trong React',
-    lede: 'Rail danh mục — dải các bộ phận có thể chạm phía trên lưới cửa hàng — là các vùng chứa cuộn có lưu lượng cao nhất trong thương mại điện tử, và chúng là menu, không phải carousel: mỗi ô là một liên kết, không có gì snap, và một nửa ô hé lộ ở cạnh chính là thứ mời gọi người dùng cuộn.',
+    lede: 'Rail danh mục — dải các bộ phận có thể chạm phía trên lưới cửa hàng — là các vùng chứa cuộn có lưu lượng cao nhất trong thương mại điện tử: mỗi ô là một liên kết, không có gì snap, và một nửa ô hé lộ ở cạnh chính là thứ mời gọi người dùng cuộn.',
     demoHint:
       'Kéo rail hoặc dùng mũi tên — chúng vô hiệu hóa ở các đầu thật sự của dải.',
     prose: [

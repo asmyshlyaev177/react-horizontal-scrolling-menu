@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
+// i18n:meta locale=pt-BR source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -41,17 +41,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: 'Autoplay, sem motor de carrossel',
+    heading: 'Autoplay, como uma receita de sessenta linhas',
     lede: 'Não existe uma prop `autoplay` — este carril é uma receita sobre a API pública: a linha clonada nas duas pontas, um salto de `scrollLeft` na emenda e um temporizador chamando `scrollNext()`. Ele pausa no hover, no foco e em abas ocultas, fica parado sob movimento reduzido — e você pode arrastá-lo, até para trás, através da emenda.',
     recipeLink: 'Ler a receita completa',
     storybookLink: 'Edite ao vivo no Storybook',
   },
 
   positioning: {
-    heading: 'Um *menu*, não um carrossel',
+    heading: 'Um componente, toda linha horizontal',
     scope: [
       'Embla, Swiper e keen-slider reimplementam a rolagem em JavaScript para construir sliders de imagens — pontos de snap, física de mola, um loop de render. Esta biblioteca não entrega nada disso. Ela usa a rolagem nativa do navegador e adiciona a única coisa que o navegador não dá: saber exatamente quais itens estão na tela.',
-      '**A ferramenta errada** para um slider de imagens em tela cheia — use Embla ou Swiper lá. **A ferramenta certa** para linhas de categorias, faixas de abas, filtros de chips e qualquer linha de coisas sobre a qual seu app precise raciocinar.',
+      'Linhas de categorias, carrosséis de cards, faixas de abas, filtros de chips, galerias — qualquer linha de coisas sobre a qual seu app precise raciocinar, construída a partir dos seus próprios componentes e do seu próprio CSS. A única coisa que ela deixa de fora são efeitos de slide chamativos; uma biblioteca especializada nisso está a minutos de distância para experimentar, e não há problema nenhum em recorrer a uma.',
     ],
     pillars: [
       {
@@ -179,7 +179,7 @@ export const home: HomeCopy = {
       'Sliders de imagens em tela cheia',
       'Lightboxes',
     ],
-    note: `Isso pertence ao mundo dos sliders de imagens — Embla e Swiper fazem bem. O [loop infinito](${STORIES.infiniteLoop}) e o [autoplay](${STORIES.autoplay}) também não são props — são receitas: cerca de sessenta linhas da API pública cada, editáveis ao vivo no Storybook. O carril perto do topo desta página é exatamente essa receita em execução. Isto continua sendo um menu.`,
+    note: `Efeitos de slide são um problema já resolvido em outro lugar — se uma página precisa de transições em cubo, pegue uma biblioteca que as entrega; experimentar uma leva minutos. O [loop infinito](${STORIES.infiniteLoop}) e o [autoplay](${STORIES.autoplay}) não são props — são receitas: cerca de sessenta linhas da API pública cada, editáveis ao vivo no Storybook. O carril perto do topo desta página é exatamente essa receita em execução.`,
   },
 
   proof: {

@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · Tiếng Việt
-<!-- i18n:meta locale=vi source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=vi source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -157,8 +157,9 @@ Header và Footer, RTL, phát hiện thêm/xóa động và các kiểu TypeScri
 An toàn với SSR — [trang chủ](https://react-horizontal-scrolling-menu.dev) render
 từng bản demo trên server.
 
-Không có engine carousel: không có vật lý snap hay lò xo — nếu bạn muốn một
-slider ảnh toàn màn hình, hãy dùng Embla hoặc Swiper. [Trang so sánh](https://react-horizontal-scrolling-menu.dev/compare) nói thẳng khi nào chúng thắng, kèm các bài phân tích sâu: [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [các lựa chọn thay thế react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) và [các lựa chọn thay thế Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Tự phát và vòng lặp vô hạn
+Không có vật lý snap hay lò xo dựng sẵn — hiệu ứng chuyển slide (fade, cube,
+coverflow) là công việc duy nhất một thư viện hiệu ứng chuyên dụng làm tốt hơn,
+và dùng thử một thư viện như vậy giờ chỉ mất vài phút. [Trang so sánh](https://react-horizontal-scrolling-menu.dev/compare) trình bày trung thực các đánh đổi, kèm các bài phân tích sâu: [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [các lựa chọn thay thế react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) và [các lựa chọn thay thế Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Tự phát và vòng lặp vô hạn
 cũng không phải props; chúng là các recipe khoảng sáu mươi dòng mỗi cái trên API
 công khai, có thể chỉnh sửa trực tiếp trong Storybook
 ([vòng lặp vô hạn](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),

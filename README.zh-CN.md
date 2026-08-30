@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · 简体中文 · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=zh-CN source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=zh-CN source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -152,8 +152,7 @@ npx @tanstack/intent@latest install   # 每个项目一次
 类型。SSR 安全——[落地页](https://react-horizontal-scrolling-menu.dev)
 会服务端渲染每一个示例。
 
-没有轮播引擎：没有吸附或弹簧物理——如果你想要全屏图片滑块，请使用 Embla 或
-Swiper。[比较页面](https://react-horizontal-scrolling-menu.dev/compare)坦率地说明了它们在什么场景下更合适，并有深入的对比：[Embla 与 Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick 替代方案](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper 替代方案](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)。自动播放与无限循环也不是属性；它们是在公开 API 上各约六十行的配方，
+没有内置吸附或弹簧物理——幻灯片效果（fade、cube、coverflow）是唯一更适合交给专门的效果库来做的事，如今试用一个也只需几分钟。[比较页面](https://react-horizontal-scrolling-menu.dev/compare)坦诚地摆出了这些取舍，并有深入的对比：[Embla 与 Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick 替代方案](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper 替代方案](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)。自动播放与无限循环也不是属性；它们是在公开 API 上各约六十行的配方，
 可在 Storybook 中实时编辑
 （[无限循环](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop)、
 [自动播放](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-autoplay--autoplay)）。

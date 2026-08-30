@@ -169,10 +169,11 @@ and Footer slots, RTL, dynamic add/remove detection, and TypeScript types
 throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-menu.dev)
 server-renders every demo.
 
-No carousel engine: no snap or spring physics — if you want a fullscreen
-image slider, use Embla or Swiper. The
-[comparison page](https://react-horizontal-scrolling-menu.dev/compare) is
-honest about when they win, with deep dives on
+No snap or spring physics built in — slide effects (fade, cube, coverflow)
+are the one job better served by a dedicated effects library, and trying
+one costs minutes these days. The
+[comparison page](https://react-horizontal-scrolling-menu.dev/compare)
+lays the trade-offs out honestly, with deep dives on
 [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper),
 [react-slick alternatives](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)
 and

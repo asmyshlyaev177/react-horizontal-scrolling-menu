@@ -1,12 +1,13 @@
 # react-horizontal-scrolling-menu
 
-> Horizontal scrolling menu component for React, built on native browser
-> scrolling with per-item visibility tracking (IntersectionObserver).
-> 5.7 kB min+gzip, TypeScript-first, MIT, one stable API across
-> React 16.8–19. ~347k npm downloads per month. A menu, not a carousel:
-> the right tool for category rows, tab strips, chip filters and any row
-> of things an app needs to reason about — not for fullscreen image
-> sliders (use Embla or Swiper there).
+> Universal horizontal scrolling component for React — menus, carousels,
+> rails, tab strips — built on native browser scrolling with per-item
+> visibility tracking (IntersectionObserver). 5.7 kB min+gzip,
+> TypeScript-first, MIT, one stable API across React 16.8–19. ~347k npm
+> downloads per month. Very customizable: items, arrows, header and
+> footer are your own components with your own CSS. Well tested and
+> documented; snap-effect slide decks are the one job for a dedicated
+> effects library.
 
 Install: `npm install react-horizontal-scrolling-menu`
 In a shadcn/ui project: `npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json` installs a styled ready-made component (registry index: </r/registry.json>).

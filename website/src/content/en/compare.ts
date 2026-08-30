@@ -10,7 +10,7 @@ export const compare: CompareCopy = {
     'Carousel or scrolling menu? react-horizontal-scrolling-menu vs Swiper, Embla, keen-slider and react-slick',
 
   title: 'Carousel or scrolling menu? An honest comparison',
-  lede: 'Swiper, Embla, keen-slider and react-slick are carousel engines: they re-implement scrolling in JavaScript to get slide semantics, snap physics and effects. react-horizontal-scrolling-menu is not one of them — it rides native browser scrolling and adds per-item visibility tracking. Which one you want depends on what you’re building, and for a real slice of carousel usage the honest answer is: you were building a menu all along.',
+  lede: 'Swiper, Embla, keen-slider and react-slick are carousel engines: they re-implement scrolling in JavaScript to get slide semantics, snap physics and effects. react-horizontal-scrolling-menu is not one of them — it rides native browser scrolling and adds per-item visibility tracking. Which one you want depends on what you’re building — the table and the notes below lay it out honestly, both ways.',
 
   table: {
     headers: [

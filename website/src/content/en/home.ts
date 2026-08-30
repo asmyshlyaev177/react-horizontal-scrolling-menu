@@ -35,17 +35,17 @@ export const home: HomeCopy = {
   },
 
   autoplay: {
-    heading: 'Autoplay, without a carousel engine',
+    heading: 'Autoplay, as a sixty-line recipe',
     lede: 'There’s no `autoplay` prop — this rail is a recipe on the public API: the row cloned onto both ends, one `scrollLeft` jump at the seam, and a timer calling `scrollNext()`. It pauses on hover, focus and hidden tabs, sits still under reduced motion — and you can drag it, even backwards, across the seam.',
     recipeLink: 'Read the full recipe',
     storybookLink: 'Edit it live in Storybook',
   },
 
   positioning: {
-    heading: 'A *menu*, not a carousel',
+    heading: 'One component, every horizontal row',
     scope: [
       'Embla, Swiper and keen-slider re-implement scrolling in JavaScript to build image sliders — snap points, spring physics, a render loop. This library ships none of that. It rides native browser scrolling and adds the one thing the browser doesn’t give you: knowing exactly which items are on screen.',
-      '**The wrong tool** for a fullscreen image slider — use Embla or Swiper there. **The right tool** for category rows, tab strips, chip filters, and any row of things your app needs to reason about.',
+      'Category rows, card carousels, tab strips, chip filters, galleries — any row of things your app needs to reason about, built from your own components and your own CSS. The one thing it skips is fancy slide effects; a library that specializes in those is minutes away to try, and there is no problem in reaching for one.',
     ],
     pillars: [
       {
@@ -173,7 +173,7 @@ export const home: HomeCopy = {
       'Fullscreen image sliders',
       'Lightboxes',
     ],
-    note: `Those belong to image-slider land — Embla and Swiper do them well. [Infinite loop](${STORIES.infiniteLoop}) and [autoplay](${STORIES.autoplay}) aren’t props either — they’re recipes: about sixty lines of the public API each, live-editable in Storybook. The rail near the top of this page is exactly that recipe, running. This stays a menu.`,
+    note: `Slide effects are a solved problem elsewhere — if a page needs cube transitions, grab a library that ships them; trying one takes minutes. [Infinite loop](${STORIES.infiniteLoop}) and [autoplay](${STORIES.autoplay}) aren’t props — they’re recipes: about sixty lines of the public API each, live-editable in Storybook. The rail near the top of this page is exactly that recipe, running.`,
   },
 
   proof: {

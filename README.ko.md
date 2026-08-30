@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · 한국어 · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ko source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
+<!-- i18n:meta locale=ko source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -154,8 +154,9 @@ npx @tanstack/intent@latest install   # 프로젝트당 한 번
 걸친 TypeScript 타입이 있습니다. SSR 안전 — [랜딩 페이지](https://react-horizontal-scrolling-menu.dev)는
 모든 데모를 서버 렌더링합니다.
 
-캐러셀 엔진은 없습니다. 스냅이나 스프링 물리도 없습니다. 전체 화면 이미지
-슬라이더가 필요하다면 Embla나 Swiper를 사용하세요. 어떤 경우에 그들이 더 나은지는 [비교 페이지](https://react-horizontal-scrolling-menu.dev/compare)가 솔직하게 다루며, [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [react-slick 대안](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives), [Swiper 대안](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives) 심층 페이지도 있습니다. 자동 재생과 무한 루프도
+스냅이나 스프링 물리는 내장되어 있지 않습니다 — 슬라이드 효과(페이드, 큐브,
+커버플로우)는 전용 효과 라이브러리가 더 잘 해내는 유일한 영역이며, 요즘은 그런
+라이브러리를 시도해 보는 데 몇 분이면 충분합니다. [비교 페이지](https://react-horizontal-scrolling-menu.dev/compare)는 그 트레이드오프를 솔직하게 다루며, [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [react-slick 대안](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives), [Swiper 대안](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives) 심층 페이지도 있습니다. 자동 재생과 무한 루프도
 프로퍼티가 아닙니다. 공개 API 위에 각각 약 60줄로 작성하는 레시피로,
 Storybook에서 라이브 편집할 수 있습니다
 ([무한 루프](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
