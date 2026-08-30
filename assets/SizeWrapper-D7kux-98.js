@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{_ as t,g as n}from"./dist-oGMj_wFx.js";var r;function i(){return(i=e((()=>{n(),r=t(`div`)({maxWidth:`650px`,maxHeight:`400px`})})))()}export{i as n,r as t};

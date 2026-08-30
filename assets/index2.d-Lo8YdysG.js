@@ -122,7 +122,7 @@ export interface Props {
   
       e.g. apiRef.current?.scrollToItem(...)
      */
-    apiRef?: React.MutableRefObject<publicApiType> | React.RefObject<publicApiType | null> | React.RefCallback<publicApiType>;
+    apiRef?: React.RefObject<publicApiType | null> | React.RefCallback<publicApiType>;
     RTL?: boolean;
     /**
       Disable scrollIntoView polyfill

@@ -7,7 +7,7 @@ export default function createApi(items: ItemsMap, menuVisible: {
 }, transitionOptions?: {
     duration?: scrollToItemOptions['duration'];
     behavior?: scrollToItemOptions['behavior'];
-    boundary?: React.MutableRefObject<scrollToItemOptions['boundary']>;
+    boundary?: React.RefObject<scrollToItemOptions['boundary']>;
 }, noPolyfill?: boolean): {
     /**
      * Get an item by id
@@ -69,7 +69,8 @@ export default function createApi(items: ItemsMap, menuVisible: {
      * \`\`\`
      */
     getPrevElement: () => IOItem | undefined;
-    isFirstItemVisible: boolean;
+    /** Live getter — a plain value would go stale on the memoised apiRef. */
+    readonly isFirstItemVisible: boolean;
     /**
      * Return item visibility
      *
@@ -90,7 +91,8 @@ export default function createApi(items: ItemsMap, menuVisible: {
      * \`\`\`
      */
     isLastItem: (id: ItemId) => boolean;
-    isLastItemVisible: boolean;
+    /** Live getter — see isFirstItemVisible. */
+    readonly isLastItemVisible: boolean;
     /**
      * Scroll to next group of items
      *

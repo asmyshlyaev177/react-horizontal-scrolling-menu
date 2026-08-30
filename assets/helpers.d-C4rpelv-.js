@@ -9,5 +9,5 @@ export declare const getItemElementById: (id: ItemId) => Element | null;
 export declare const getItemElementByIndex: (id: ItemId) => Element | null;
 export declare function getElementOrConstructor(Elem: React.FC | React.ReactNode | React.MemoExoticComponent<any>): React.JSX.Element | null;
 export declare const getItemId: (item: React.ReactNode) => string;
-export declare function isMutableRef<T>(elem: React.MutableRefObject<T> | React.RefObject<T | null> | React.RefCallback<T> | React.LegacyRef<T>): elem is React.MutableRefObject<T> | React.RefObject<T | null>;
+export declare function isRefObject<T>(elem: React.RefObject<T | null> | React.RefCallback<T> | React.LegacyRef<T>): elem is React.RefObject<T | null>;
 `})))()}n();export{t as default};

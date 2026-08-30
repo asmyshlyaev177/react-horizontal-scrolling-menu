@@ -11,9 +11,9 @@ export type Event = (typeof events)[keyof typeof events];
 export type EventKey = Event | ItemId;
 export type Item = [itemId: ItemId, observerEntry: IOItem];
 export type visibleElements = ItemId[];
-export type RefType<T> = React.MutableRefObject<T | null> | React.RefCallback<T>;
+export type RefType<T> = React.RefObject<T | null> | React.RefCallback<T>;
 export interface Refs {
-    [key: ItemId]: React.MutableRefObject<HTMLElement | null>;
+    [key: ItemId]: React.RefObject<HTMLElement | null>;
 }
 /**
  * Publishes an item's DOM node into the menu's ref registry. Items receive this
