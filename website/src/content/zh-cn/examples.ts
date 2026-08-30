@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=zh-CN source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -670,6 +670,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef` 接受 ref 对象或回调 ref——`useAutoAnimate` 的回调可直接接入。',
           '- auto-animate 零配置且与框架无关；React 绑定就是那个 `useAutoAnimate` hook。',
           '- 上面的演示把 id 管理简化为一个单调计数器；代码面板展示的是 story 补空档的版本。',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'MUI 可滚动标签页替代方案：原生滚动实现',
+      description:
+        'MUI 的 variant="scrollable" 不够用了？保留 value/onChange 契约，滚动按钮撑得住移动端，居中与可滚动还能共存。附完整源码。',
+    },
+    title: '超越 MUI 的可滚动标签页',
+    lede: 'Material UI 的可滚动标签页与 Tabs 的语义焊死在一起，滚动按钮还会在移动端默认消失。此配方保留了你的代码所依赖的部分——`value`/`onChange` 契约——并换掉底下的这一行：原生滚动、能自行居中的选中项，以及可以容纳任何内容的标签。',
+    demoHint:
+      '点击靠近任一边缘的标签——它会自行居中。拖拽这一行，就像在手机上一样。',
+    prose: [
+      {
+        heading: '保留 value/onChange 契约',
+        body: '源码中的 `handleChange` 用的是与 MUI 完全相同的签名——`(event, newValue)`。迁移换的是标签标记，而不是重接状态：你的 `useState`、事件处理器与标签面板都原封不动。选中项通过 `api.scrollToItem(el, ’smooth’, ’center’)` 自行居中，接线方式与 [居中选中](/examples/center-on-click) 完全一致。',
+      },
+      {
+        heading: '在移动端也不会消失的滚动按钮',
+        body: 'MUI 在 600px 以下会隐藏滚动按钮，除非你用 `allowScrollButtonsMobile` 主动开启——即便开启了，它们也只是 Tabs 内部的实现。这里的箭头是你自己的组件：`useIsVisible(’first’)` / `useIsVisible(’last’)` 驱动一次透明度渐隐，它们在任何视口下都会渲染，触摸滚动则始终原生，与箭头做什么无关。',
+      },
+      {
+        heading: '居中与可滚动，二者兼得',
+        body: '在 MUI 中，`centered` 属性与 `scrollable` 变体互斥——文档告诉你只能二选一。这里的居中不是一种布局模式，而是每次点击触发的一次滚动，因此这一行二者兼得：它原生地溢出滚动，且每个被选中的标签都会滑向中间。',
+      },
+      {
+        heading: '不止是标签的标签',
+        body: '演示中的两个标签带有计数徽章；换成 Chip、Avatar 或混合内容同样可行——唯一的要求是一个 `itemId`。你可以像源码那样用 `@emotion/styled` 设置样式，也可以用 MUI 自己的 `styled()` 让它融入 Material 应用，或者直接用 Tailwind。上面的演示还加上了 [拖拽滚动](/examples/mouse-drag)；在挂载时恢复选中的标签，那正是 [保存与恢复位置](/examples/save-restore-position) 的做法。',
+      },
+      {
+        heading: '注意',
+        body: [
+          '- 选择你的 ARIA 模式：当真实面板会切换时（就像这里），保留 `role="tablist"`/`role="tab"`/`aria-selected`；当这些“标签”其实是导航链接时，改用 `aria-current`。',
+          '- 启用拖拽后，要抑制松开拖拽时触发的点击——演示会在选中前检查 `dragManager.dragging`，和 [拖拽配方](/examples/mouse-drag) 里的做法一样。',
+          '- [RTL](/examples/rtl) 不需要额外的工作：这一行是原生滚动容器，因此 `direction: rtl` 会翻转它，箭头也包含在内。',
         ].join('\n'),
       },
     ],

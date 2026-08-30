@@ -164,6 +164,12 @@ const SOURCES: ExampleSource[] = [
     storyKey: 'autoplay',
     sourceFile: 'stories/Autoplay/Autoplay.source.tsx',
   },
+  {
+    slug: 'mui-scrollable-tabs',
+    group: 'Recipes',
+    storyKey: 'muiTabs',
+    sourceFile: 'stories/MuiTabs/MuiTabs.source.tsx',
+  },
 ];
 
 export const EXAMPLES: ExampleEntry[] = SOURCES.map((source) => {

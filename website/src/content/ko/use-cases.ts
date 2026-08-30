@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=ko source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -82,7 +82,7 @@ export const useCases: UseCasesCopy = {
         heading: 'MUI 스크롤 탭이 부족해지고 있다면',
         body: `Material UI의 \`variant="scrollable"\` 탭은 Material 디자인 시스템 안에서는 올바른 답입니다 — 여러분의 "탭"이 더 이상 탭이 아니게 되기 전까지는요. MUI는 스트립을 Tabs 시맨틱에 용접해 놓았습니다: \`value\`/\`onChange\` 쌍, 탭 패널, 그리고 MUI가 모바일에서 기본으로 숨기는 스크롤 버튼까지. 행에 칩, 카드, 아바타 또는 혼합 콘텐츠가 들어가거나 드래그 스크롤이 필요하거나 어떤 항목이 보이는지 알아야 하는 순간, 여러분은 컴포넌트를 사용하는 게 아니라 컴포넌트와 싸우게 됩니다.
 
-이 라이브러리는 그 아래 계층입니다: 가시성 추적이 있는 스크롤 행이며, "탭"이 무엇이어야 하는지에 대한 의견이 없습니다. 여러분의 탭은 \`itemId\`를 가진 모든 컴포넌트일 수 있습니다 — Tailwind, MUI 자체의 \`styled\`, 또는 순수 CSS로 스타일링하세요. 선택 상태는 위 데모가 하나의 \`useState\`에 보관하는 것처럼 온전히 여러분의 몫입니다.`,
+이 라이브러리는 그 아래 계층입니다: 가시성 추적이 있는 스크롤 행이며, "탭"이 무엇이어야 하는지에 대한 의견이 없습니다. 여러분의 탭은 \`itemId\`를 가진 모든 컴포넌트일 수 있습니다 — Tailwind, MUI 자체의 \`styled\`, 또는 순수 CSS로 스타일링하세요. 선택 상태는 위 데모가 하나의 \`useState\`에 보관하는 것처럼 온전히 여러분의 몫입니다. [MUI 너머의 스크롤 가능 탭 레시피](/examples/mui-scrollable-tabs)가 그 가교를 코드로 풀어낸 것입니다 — \`value\`/\`onChange\`는 그대로 두고, 스트립만 바꿉니다.`,
       },
       {
         heading: '접근성은 대부분 공짜입니다 — 두 가지 빈틈만 주의하세요',

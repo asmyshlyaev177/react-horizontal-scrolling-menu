@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -79,7 +79,7 @@ export const useCases: UseCasesCopy = {
         heading: '如果你正在超出 MUI 可滚动标签栏的能力范围',
         body: `在 Material 设计体系内，Material UI 的 \`variant="scrollable"\` 标签是正确答案——直到你的“标签”不再是标签为止。MUI 把这条栏牢牢焊死在 Tabs 语义上：一对 \`value\`/\`onChange\`、标签面板，以及 MUI 在移动端默认隐藏的滚动按钮。一旦你的这一行需要容纳纸片、卡片、头像或混合内容，或者需要拖拽滚动，或者需要知道哪些项目可见，你就是在和这个组件较劲，而不是在使用它。
 
-本库处于更底层：一个带可见性跟踪的可滚动行，对“标签”是什么不做任何假设。你的标签可以是任何带有 \`itemId\` 的组件——用 Tailwind、MUI 自己的 \`styled\`，或纯 CSS 来设置样式都可以。选中状态始终由你掌控，就像上方演示那样，只用一个 \`useState\` 保存。`,
+本库处于更底层：一个带可见性跟踪的可滚动行，对“标签”是什么不做任何假设。你的标签可以是任何带有 \`itemId\` 的组件——用 Tailwind、MUI 自己的 \`styled\`，或纯 CSS 来设置样式都可以。选中状态始终由你掌控，就像上方演示那样，只用一个 \`useState\` 保存。[超越 MUI 的可滚动标签页方案](/examples/mui-scrollable-tabs) 就是这座桥的具体写法——保留 \`value\`/\`onChange\`，换掉这条栏。`,
       },
       {
         heading: '无障碍访问基本是免费的——但要留意两处空白',

@@ -674,4 +674,42 @@ export const examples: ExamplesCopy = {
       },
     ],
   },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'MUI scrollable tabs alternative: native scrolling tabs',
+      description:
+        'Outgrowing MUI variant="scrollable"? Keep the value/onChange contract, get scroll buttons that survive mobile, centered and scrollable together. Full source.',
+    },
+    title: 'Scrollable tabs beyond MUI',
+    lede: 'Material UI’s scrollable tabs are welded to Tabs semantics, and their scroll buttons vanish on mobile by default. This recipe keeps the part your code relies on — the `value`/`onChange` contract — and swaps the strip underneath: native scrolling, a selection that centers itself, tabs that can hold anything.',
+    demoHint:
+      'Click a tab near either edge — it centers itself. Drag the row, like on a phone.',
+    prose: [
+      {
+        heading: 'Keep the value/onChange contract',
+        body: 'The `handleChange` in the source has MUI’s exact signature — `(event, newValue)`. Migrating means swapping markup, not rewiring state: your `useState`, handlers and tab panels stay untouched. Selection centers itself with `api.scrollToItem(el, ’smooth’, ’center’)`, wired exactly as in [center-on-click](/examples/center-on-click).',
+      },
+      {
+        heading: 'Scroll buttons that survive mobile',
+        body: 'MUI hides its scroll buttons below 600px unless you opt in with `allowScrollButtonsMobile` — and even then they are internal to Tabs. Here the arrows are your own components: `useIsVisible(’first’)` / `useIsVisible(’last’)` drive an opacity fade, they render on every viewport, and touch scrolling is native regardless of what the arrows do.',
+      },
+      {
+        heading: 'Centered and scrollable, together',
+        body: 'In MUI the `centered` prop and the `scrollable` variant are mutually exclusive — the docs tell you to pick one. Here centering is not a layout mode but a per-click scroll, so the strip is both at once: it overflows natively and every selected tab glides to the middle.',
+      },
+      {
+        heading: 'Tabs that stop being tabs',
+        body: 'Two tabs in the demo carry count badges; chips, avatars or mixed content work the same — the only requirement is an `itemId`. Style with `@emotion/styled` as the source does, with MUI’s own `styled()` so it sits in a Material app, or with Tailwind. The demo above adds [drag-to-scroll](/examples/mouse-drag); restoring the selected tab on mount is [save & restore position](/examples/save-restore-position).',
+      },
+      {
+        heading: 'Notes',
+        body: [
+          '- Pick your ARIA pattern: keep `role="tablist"`/`role="tab"`/`aria-selected` when real panels switch (as here), or `aria-current` when the “tabs” are navigation links.',
+          '- With drag enabled, suppress the click that fires on drag release — the demo checks `dragManager.dragging` before selecting, same as the [drag recipe](/examples/mouse-drag).',
+          '- [RTL](/examples/rtl) needs no extra work: the strip is a native scroll container, so `direction: rtl` flips it, arrows included.',
+        ].join('\n'),
+      },
+    ],
+  },
 };

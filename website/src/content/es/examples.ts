@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=es source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -698,6 +698,45 @@ export const examples: ExamplesCopy = {
           '- `containerRef` acepta un objeto ref o una ref callback — el callback de `useAutoAnimate` se conecta directamente.',
           '- auto-animate es de configuración cero e independiente del framework; el enlace a React es el único hook `useAutoAnimate`.',
           '- La demo de arriba simplifica la gestión de id a un contador monótono; el panel de código muestra la versión con relleno de huecos de la historia.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title:
+        'Alternativa a las pestañas desplazables de MUI: desplazamiento nativo',
+      description:
+        '¿Te estás quedando corto con MUI variant="scrollable"? Conserva value/onChange, gana botones de desplazamiento que sobreviven en móvil, centrado y desplazable a la vez. Fuente completa.',
+    },
+    title: 'Pestañas desplazables más allá de MUI',
+    lede: 'Las pestañas desplazables de Material UI están soldadas a la semántica de Tabs, y sus botones de desplazamiento desaparecen en móvil por defecto. Esta receta conserva la parte de la que depende tu código — el contrato `value`/`onChange` — y cambia la franja de debajo: desplazamiento nativo, una selección que se centra sola, pestañas que pueden contener cualquier cosa.',
+    demoHint:
+      'Haz clic en una pestaña cerca de cualquiera de los bordes — se centra sola. Arrastra la fila, como en un móvil.',
+    prose: [
+      {
+        heading: 'Mantén el contrato value/onChange',
+        body: 'El `handleChange` de la fuente tiene la firma exacta de MUI — `(event, newValue)`. Migrar significa cambiar el marcado, no recablear el estado: tu `useState`, los manejadores y los paneles de pestaña quedan intactos. La selección se centra sola con `api.scrollToItem(el, ’smooth’, ’center’)`, conectado exactamente igual que en [centrar al hacer clic](/examples/center-on-click).',
+      },
+      {
+        heading: 'Botones de desplazamiento que sobreviven en móvil',
+        body: 'MUI oculta sus botones de desplazamiento por debajo de 600px salvo que lo actives con `allowScrollButtonsMobile` — e incluso entonces son internos a Tabs. Aquí las flechas son tus propios componentes: `useIsVisible(’first’)` / `useIsVisible(’last’)` impulsan un desvanecido de opacidad, se renderizan en cualquier viewport, y el desplazamiento táctil es nativo sin importar lo que hagan las flechas.',
+      },
+      {
+        heading: 'Centrado y desplazable, a la vez',
+        body: 'En MUI la prop `centered` y la variant `scrollable` son mutuamente excluyentes — la documentación te dice que elijas una. Aquí centrar no es un modo de diseño sino un desplazamiento por clic, así que la franja es ambas cosas a la vez: desborda de forma nativa y cada pestaña seleccionada se desliza hasta el centro.',
+      },
+      {
+        heading: 'Pestañas que dejan de ser pestañas',
+        body: 'Dos pestañas de la demo llevan insignias de contador; los chips, avatares o contenido mixto funcionan igual — el único requisito es un `itemId`. Dales estilo con `@emotion/styled` como hace la fuente, con el `styled()` propio de MUI para que encaje en una aplicación Material, o con Tailwind. La demo de arriba añade [arrastrar para desplazarse](/examples/mouse-drag); restaurar la pestaña seleccionada al montar es [guardar y restaurar posición](/examples/save-restore-position).',
+      },
+      {
+        heading: 'Notas',
+        body: [
+          '- Elige tu patrón ARIA: conserva `role="tablist"`/`role="tab"`/`aria-selected` cuando cambian paneles reales (como aquí), o `aria-current` cuando las "pestañas" son enlaces de navegación.',
+          '- Con el arrastre activado, suprime el clic que se dispara al soltar el arrastre — la demo comprueba `dragManager.dragging` antes de seleccionar, igual que la [receta de arrastre](/examples/mouse-drag).',
+          '- [RTL](/examples/rtl) no necesita trabajo extra: la franja es un contenedor de desplazamiento nativo, así que `direction: rtl` la invierte, flechas incluidas.',
         ].join('\n'),
       },
     ],

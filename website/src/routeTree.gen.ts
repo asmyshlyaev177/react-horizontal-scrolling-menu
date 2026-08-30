@@ -36,6 +36,7 @@ import { Route as ExamplesInfiniteLoopRouteImport } from './routes/examples/infi
 import { Route as ExamplesItemsAnimationRouteImport } from './routes/examples/items-animation'
 import { Route as ExamplesMobileSwipeOnlyRouteImport } from './routes/examples/mobile-swipe-only'
 import { Route as ExamplesMouseDragRouteImport } from './routes/examples/mouse-drag'
+import { Route as ExamplesMuiScrollableTabsRouteImport } from './routes/examples/mui-scrollable-tabs'
 import { Route as ExamplesOneItemRouteImport } from './routes/examples/one-item'
 import { Route as ExamplesOneItemScrollRouteImport } from './routes/examples/one-item-scroll'
 import { Route as ExamplesPerformanceRouteImport } from './routes/examples/performance'
@@ -61,6 +62,7 @@ import { Route as LocaleExamplesInfiniteLoopRouteImport } from './routes/$locale
 import { Route as LocaleExamplesItemsAnimationRouteImport } from './routes/$locale/examples/items-animation'
 import { Route as LocaleExamplesMobileSwipeOnlyRouteImport } from './routes/$locale/examples/mobile-swipe-only'
 import { Route as LocaleExamplesMouseDragRouteImport } from './routes/$locale/examples/mouse-drag'
+import { Route as LocaleExamplesMuiScrollableTabsRouteImport } from './routes/$locale/examples/mui-scrollable-tabs'
 import { Route as LocaleExamplesOneItemRouteImport } from './routes/$locale/examples/one-item'
 import { Route as LocaleExamplesOneItemScrollRouteImport } from './routes/$locale/examples/one-item-scroll'
 import { Route as LocaleExamplesPerformanceRouteImport } from './routes/$locale/examples/performance'
@@ -212,6 +214,12 @@ const ExamplesMouseDragRoute = ExamplesMouseDragRouteImport.update({
   path: '/examples/mouse-drag',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExamplesMuiScrollableTabsRoute =
+  ExamplesMuiScrollableTabsRouteImport.update({
+    id: '/examples/mui-scrollable-tabs',
+    path: '/examples/mui-scrollable-tabs',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ExamplesOneItemRoute = ExamplesOneItemRouteImport.update({
   id: '/examples/one-item',
   path: '/examples/one-item',
@@ -349,6 +357,12 @@ const LocaleExamplesMouseDragRoute = LocaleExamplesMouseDragRouteImport.update({
   path: '/examples/mouse-drag',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleExamplesMuiScrollableTabsRoute =
+  LocaleExamplesMuiScrollableTabsRouteImport.update({
+    id: '/examples/mui-scrollable-tabs',
+    path: '/examples/mui-scrollable-tabs',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleExamplesOneItemRoute = LocaleExamplesOneItemRouteImport.update({
   id: '/examples/one-item',
   path: '/examples/one-item',
@@ -437,6 +451,7 @@ export interface FileRoutesByFullPath {
   '/examples/items-animation': typeof ExamplesItemsAnimationRoute
   '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
   '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/mui-scrollable-tabs': typeof ExamplesMuiScrollableTabsRoute
   '/examples/one-item': typeof ExamplesOneItemRoute
   '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
   '/examples/performance': typeof ExamplesPerformanceRoute
@@ -463,6 +478,7 @@ export interface FileRoutesByFullPath {
   '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
   '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
   '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/mui-scrollable-tabs': typeof LocaleExamplesMuiScrollableTabsRoute
   '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
   '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
   '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
@@ -501,6 +517,7 @@ export interface FileRoutesByTo {
   '/examples/items-animation': typeof ExamplesItemsAnimationRoute
   '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
   '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/mui-scrollable-tabs': typeof ExamplesMuiScrollableTabsRoute
   '/examples/one-item': typeof ExamplesOneItemRoute
   '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
   '/examples/performance': typeof ExamplesPerformanceRoute
@@ -527,6 +544,7 @@ export interface FileRoutesByTo {
   '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
   '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
   '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/mui-scrollable-tabs': typeof LocaleExamplesMuiScrollableTabsRoute
   '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
   '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
   '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
@@ -567,6 +585,7 @@ export interface FileRoutesById {
   '/examples/items-animation': typeof ExamplesItemsAnimationRoute
   '/examples/mobile-swipe-only': typeof ExamplesMobileSwipeOnlyRoute
   '/examples/mouse-drag': typeof ExamplesMouseDragRoute
+  '/examples/mui-scrollable-tabs': typeof ExamplesMuiScrollableTabsRoute
   '/examples/one-item': typeof ExamplesOneItemRoute
   '/examples/one-item-scroll': typeof ExamplesOneItemScrollRoute
   '/examples/performance': typeof ExamplesPerformanceRoute
@@ -593,6 +612,7 @@ export interface FileRoutesById {
   '/$locale/examples/items-animation': typeof LocaleExamplesItemsAnimationRoute
   '/$locale/examples/mobile-swipe-only': typeof LocaleExamplesMobileSwipeOnlyRoute
   '/$locale/examples/mouse-drag': typeof LocaleExamplesMouseDragRoute
+  '/$locale/examples/mui-scrollable-tabs': typeof LocaleExamplesMuiScrollableTabsRoute
   '/$locale/examples/one-item': typeof LocaleExamplesOneItemRoute
   '/$locale/examples/one-item-scroll': typeof LocaleExamplesOneItemScrollRoute
   '/$locale/examples/performance': typeof LocaleExamplesPerformanceRoute
@@ -634,6 +654,7 @@ export interface FileRouteTypes {
     | '/examples/items-animation'
     | '/examples/mobile-swipe-only'
     | '/examples/mouse-drag'
+    | '/examples/mui-scrollable-tabs'
     | '/examples/one-item'
     | '/examples/one-item-scroll'
     | '/examples/performance'
@@ -660,6 +681,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/items-animation'
     | '/$locale/examples/mobile-swipe-only'
     | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/mui-scrollable-tabs'
     | '/$locale/examples/one-item'
     | '/$locale/examples/one-item-scroll'
     | '/$locale/examples/performance'
@@ -698,6 +720,7 @@ export interface FileRouteTypes {
     | '/examples/items-animation'
     | '/examples/mobile-swipe-only'
     | '/examples/mouse-drag'
+    | '/examples/mui-scrollable-tabs'
     | '/examples/one-item'
     | '/examples/one-item-scroll'
     | '/examples/performance'
@@ -724,6 +747,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/items-animation'
     | '/$locale/examples/mobile-swipe-only'
     | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/mui-scrollable-tabs'
     | '/$locale/examples/one-item'
     | '/$locale/examples/one-item-scroll'
     | '/$locale/examples/performance'
@@ -763,6 +787,7 @@ export interface FileRouteTypes {
     | '/examples/items-animation'
     | '/examples/mobile-swipe-only'
     | '/examples/mouse-drag'
+    | '/examples/mui-scrollable-tabs'
     | '/examples/one-item'
     | '/examples/one-item-scroll'
     | '/examples/performance'
@@ -789,6 +814,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/items-animation'
     | '/$locale/examples/mobile-swipe-only'
     | '/$locale/examples/mouse-drag'
+    | '/$locale/examples/mui-scrollable-tabs'
     | '/$locale/examples/one-item'
     | '/$locale/examples/one-item-scroll'
     | '/$locale/examples/performance'
@@ -824,6 +850,7 @@ export interface RootRouteChildren {
   ExamplesItemsAnimationRoute: typeof ExamplesItemsAnimationRoute
   ExamplesMobileSwipeOnlyRoute: typeof ExamplesMobileSwipeOnlyRoute
   ExamplesMouseDragRoute: typeof ExamplesMouseDragRoute
+  ExamplesMuiScrollableTabsRoute: typeof ExamplesMuiScrollableTabsRoute
   ExamplesOneItemRoute: typeof ExamplesOneItemRoute
   ExamplesOneItemScrollRoute: typeof ExamplesOneItemScrollRoute
   ExamplesPerformanceRoute: typeof ExamplesPerformanceRoute
@@ -1029,6 +1056,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExamplesMouseDragRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/examples/mui-scrollable-tabs': {
+      id: '/examples/mui-scrollable-tabs'
+      path: '/examples/mui-scrollable-tabs'
+      fullPath: '/examples/mui-scrollable-tabs'
+      preLoaderRoute: typeof ExamplesMuiScrollableTabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/examples/one-item': {
       id: '/examples/one-item'
       path: '/examples/one-item'
@@ -1204,6 +1238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleExamplesMouseDragRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/examples/mui-scrollable-tabs': {
+      id: '/$locale/examples/mui-scrollable-tabs'
+      path: '/examples/mui-scrollable-tabs'
+      fullPath: '/$locale/examples/mui-scrollable-tabs'
+      preLoaderRoute: typeof LocaleExamplesMuiScrollableTabsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/examples/one-item': {
       id: '/$locale/examples/one-item'
       path: '/examples/one-item'
@@ -1304,6 +1345,7 @@ interface LocaleRouteRouteChildren {
   LocaleExamplesItemsAnimationRoute: typeof LocaleExamplesItemsAnimationRoute
   LocaleExamplesMobileSwipeOnlyRoute: typeof LocaleExamplesMobileSwipeOnlyRoute
   LocaleExamplesMouseDragRoute: typeof LocaleExamplesMouseDragRoute
+  LocaleExamplesMuiScrollableTabsRoute: typeof LocaleExamplesMuiScrollableTabsRoute
   LocaleExamplesOneItemRoute: typeof LocaleExamplesOneItemRoute
   LocaleExamplesOneItemScrollRoute: typeof LocaleExamplesOneItemScrollRoute
   LocaleExamplesPerformanceRoute: typeof LocaleExamplesPerformanceRoute
@@ -1340,6 +1382,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleExamplesItemsAnimationRoute: LocaleExamplesItemsAnimationRoute,
   LocaleExamplesMobileSwipeOnlyRoute: LocaleExamplesMobileSwipeOnlyRoute,
   LocaleExamplesMouseDragRoute: LocaleExamplesMouseDragRoute,
+  LocaleExamplesMuiScrollableTabsRoute: LocaleExamplesMuiScrollableTabsRoute,
   LocaleExamplesOneItemRoute: LocaleExamplesOneItemRoute,
   LocaleExamplesOneItemScrollRoute: LocaleExamplesOneItemScrollRoute,
   LocaleExamplesPerformanceRoute: LocaleExamplesPerformanceRoute,
@@ -1380,6 +1423,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExamplesItemsAnimationRoute: ExamplesItemsAnimationRoute,
   ExamplesMobileSwipeOnlyRoute: ExamplesMobileSwipeOnlyRoute,
   ExamplesMouseDragRoute: ExamplesMouseDragRoute,
+  ExamplesMuiScrollableTabsRoute: ExamplesMuiScrollableTabsRoute,
   ExamplesOneItemRoute: ExamplesOneItemRoute,
   ExamplesOneItemScrollRoute: ExamplesOneItemScrollRoute,
   ExamplesPerformanceRoute: ExamplesPerformanceRoute,

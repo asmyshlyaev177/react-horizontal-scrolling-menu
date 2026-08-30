@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/manifest.ts source-blob=269945541172d5f4f06823bd0d6393dfc44a3fb2 status=translated
+// i18n:meta locale=fr source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -112,6 +112,11 @@ export const manifest: ManifestCopy = {
     autoplay: {
       name: 'Lecture automatique',
       blurb: 'Une boucle qui avance seule avec une pause accessible.',
+    },
+    'mui-scrollable-tabs': {
+      name: 'Onglets défilables au-delà de MUI',
+      blurb:
+        'Gardez le contrat value/onChange de MUI ; remplacez la bande sous-jacente.',
     },
   },
 };

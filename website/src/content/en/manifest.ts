@@ -98,5 +98,9 @@ export const manifest: ManifestCopy = {
       name: 'Autoplay',
       blurb: 'A self-advancing loop with accessible pause behavior.',
     },
+    'mui-scrollable-tabs': {
+      name: 'Scrollable tabs beyond MUI',
+      blurb: 'Keep MUI’s value/onChange contract; swap the strip underneath.',
+    },
   },
 };

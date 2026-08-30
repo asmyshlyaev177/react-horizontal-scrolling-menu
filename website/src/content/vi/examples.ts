@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=vi source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -676,6 +676,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef` nhận một đối tượng ref hoặc một ref callback — callback của `useAutoAnimate` cắm thẳng vào.',
           '- auto-animate không cấu hình và độc lập framework; liên kết React là một hook `useAutoAnimate` duy nhất.',
           '- Demo phía trên đơn giản hóa quản lý id thành bộ đếm đơn điệu; panel code cho thấy phiên bản lấp khoảng trống của story.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'Lựa chọn thay thế tab cuộn MUI: tab cuộn gốc trình duyệt',
+      description:
+        'Vượt quá khả năng của MUI variant="scrollable"? Giữ hợp đồng value/onChange, có nút cuộn sống sót qua di động, vừa căn giữa vừa cuộn được. Nguồn đầy đủ.',
+    },
+    title: 'Tab cuộn được vượt ra ngoài MUI',
+    lede: 'Các tab cuộn được của Material UI bị hàn vào ngữ nghĩa Tabs, và các nút cuộn của chúng mặc định biến mất trên di động. Công thức này giữ lại phần mà code của bạn phụ thuộc vào — hợp đồng `value`/`onChange` — và đổi dải bên dưới nó: cuộn gốc, một lựa chọn tự căn giữa, các tab có thể chứa bất kỳ thứ gì.',
+    demoHint:
+      'Bấm một tab gần một trong hai cạnh — nó tự căn giữa. Kéo hàng, như trên điện thoại.',
+    prose: [
+      {
+        heading: 'Giữ hợp đồng value/onChange',
+        body: '`handleChange` trong nguồn có đúng chữ ký của MUI — `(event, newValue)`. Di chuyển nghĩa là đổi markup, không phải nối lại state: `useState`, các handler và tab panel của bạn giữ nguyên không đổi. Lựa chọn tự căn giữa bằng `api.scrollToItem(el, ’smooth’, ’center’)`, được nối chính xác như trong [căn giữa khi bấm](/examples/center-on-click).',
+      },
+      {
+        heading: 'Nút cuộn sống sót qua di động',
+        body: 'MUI ẩn nút cuộn của nó dưới 600px trừ khi bạn bật bằng `allowScrollButtonsMobile` — và ngay cả khi đó chúng vẫn là nội bộ của Tabs. Ở đây các mũi tên là component của riêng bạn: `useIsVisible(’first’)` / `useIsVisible(’last’)` điều khiển một hiệu ứng mờ dần bằng opacity, chúng render trên mọi viewport, và cuộn cảm ứng vẫn là gốc bất kể mũi tên làm gì.',
+      },
+      {
+        heading: 'Căn giữa và cuộn được, cùng lúc',
+        body: 'Trong MUI, prop `centered` và variant `scrollable` loại trừ lẫn nhau — tài liệu bảo bạn chọn một trong hai. Ở đây căn giữa không phải một chế độ layout mà là một lần cuộn theo từng cú bấm, nên dải này là cả hai cùng lúc: nó tràn một cách gốc và mọi tab được chọn đều lướt về giữa.',
+      },
+      {
+        heading: 'Tab không còn là tab nữa',
+        body: 'Hai tab trong demo mang badge đếm số; chip, avatar hay nội dung hỗn hợp cũng hoạt động y hệt — yêu cầu duy nhất là một `itemId`. Style bằng `@emotion/styled` như trong nguồn, bằng `styled()` của riêng MUI để nó phù hợp với một ứng dụng Material, hoặc bằng Tailwind. Demo ở trên thêm [kéo để cuộn](/examples/mouse-drag); khôi phục tab đã chọn khi mount là [lưu và khôi phục vị trí](/examples/save-restore-position).',
+      },
+      {
+        heading: 'Ghi chú',
+        body: [
+          '- Chọn mẫu ARIA của bạn: giữ `role="tablist"`/`role="tab"`/`aria-selected` khi panel thật sự chuyển đổi (như ở đây), hoặc `aria-current` khi "tab" là liên kết điều hướng.',
+          '- Khi bật kéo, chặn cú bấm được kích hoạt lúc thả kéo — demo kiểm tra `dragManager.dragging` trước khi chọn, giống như [công thức kéo để cuộn](/examples/mouse-drag).',
+          '- [RTL](/examples/rtl) không cần thêm việc gì: dải này là một vùng chứa cuộn gốc, nên `direction: rtl` lật nó, kể cả mũi tên.',
         ].join('\n'),
       },
     ],

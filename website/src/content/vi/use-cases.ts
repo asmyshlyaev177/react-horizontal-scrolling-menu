@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=vi source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -81,7 +81,7 @@ Các mũi tên đến từ cùng dữ liệu hiển thị: \`useLeftArrowVisible
         heading: 'Nếu bạn đang vượt quá khả năng của tab cuộn MUI',
         body: `Tab \`variant="scrollable"\` của Material UI là câu trả lời đúng bên trong hệ thống thiết kế Material — cho đến khi "tab" của bạn không còn là tab nữa. MUI hàn dải này vào ngữ nghĩa Tabs: một cặp \`value\`/\`onChange\`, các tab panel, và nút cuộn mà MUI mặc định ẩn trên mobile. Ngay khi dải của bạn chứa chip, thẻ, avatar hay nội dung hỗn hợp, hoặc cần kéo để cuộn, hoặc cần biết item nào đang hiển thị, bạn đang chống lại component thay vì sử dụng nó.
 
-Thư viện này là tầng bên dưới điều đó: một dải cuộn có theo dõi khả năng hiển thị, không có quan điểm gì về "tab" là gì. Tab của bạn là bất kỳ component nào có \`itemId\` — style nó bằng Tailwind, \`styled\` của riêng MUI, hoặc CSS thuần. Trạng thái lựa chọn vẫn thuộc về bạn, hệt như demo ở trên giữ nó trong một \`useState\` duy nhất.`,
+Thư viện này là tầng bên dưới điều đó: một dải cuộn có theo dõi khả năng hiển thị, không có quan điểm gì về "tab" là gì. Tab của bạn là bất kỳ component nào có \`itemId\` — style nó bằng Tailwind, \`styled\` của riêng MUI, hoặc CSS thuần. Trạng thái lựa chọn vẫn thuộc về bạn, hệt như demo ở trên giữ nó trong một \`useState\` duy nhất. Công thức [tab cuộn được vượt ra ngoài MUI](/examples/mui-scrollable-tabs) chính là cầu nối đó được viết ra — \`value\`/\`onChange\` giữ nguyên, dải được đổi.`,
       },
       {
         heading: 'Khả năng truy cập gần như miễn phí — chú ý hai lỗ hổng',

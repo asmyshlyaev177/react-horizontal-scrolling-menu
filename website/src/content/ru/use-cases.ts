@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ru source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=ru source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -82,7 +82,7 @@ export const useCases: UseCasesCopy = {
         heading: 'Если вам стало тесно в прокручиваемых вкладках MUI',
         body: `Вкладки Material UI с \`variant="scrollable"\` — правильный выбор внутри дизайн-системы Material, пока ваши «вкладки» остаются вкладками. MUI жёстко привязывает полосу к семантике Tabs: пара \`value\`/\`onChange\`, панели вкладок и кнопки прокрутки, которые MUI по умолчанию скрывает на мобильных устройствах. Как только в ряду появляются чипы, карточки, аватары или смешанный контент, или требуется перетаскивание для прокрутки, или нужно знать, какие элементы видны, — вы уже боретесь с компонентом, а не используете его.
 
-Эта библиотека — слой уровнем ниже: прокручиваемый ряд с отслеживанием видимости, без каких-либо представлений о том, что такое «вкладка». Ваша вкладка — это любой компонент с \`itemId\`: стилизуйте его через Tailwind, собственный \`styled\` из MUI или обычный CSS. Состояние выбора остаётся вашим — точно так же демо выше хранит его в одном \`useState\`.`,
+Эта библиотека — слой уровнем ниже: прокручиваемый ряд с отслеживанием видимости, без каких-либо представлений о том, что такое «вкладка». Ваша вкладка — это любой компонент с \`itemId\`: стилизуйте его через Tailwind, собственный \`styled\` из MUI или обычный CSS. Состояние выбора остаётся вашим — точно так же демо выше хранит его в одном \`useState\`. [Рецепт «Прокручиваемые вкладки за пределами MUI»](/examples/mui-scrollable-tabs) — тот самый мост, расписанный в коде: \`value\`/\`onChange\` сохранены, а полоса заменена.`,
       },
       {
         heading: 'Доступность почти бесплатна — учтите два пробела',

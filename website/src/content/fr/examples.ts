@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=fr source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -696,6 +696,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef` accepte un objet ref ou une ref callback — le callback de `useAutoAnimate` se branche directement.',
           '- auto-animate est sans configuration et indépendant du framework ; la liaison React est le seul hook `useAutoAnimate`.',
           '- La démo ci-dessus simplifie la gestion des id en un compteur monotone ; le panneau de code montre la version avec rebouchage de trous de la story.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'Alternative aux onglets défilables MUI : défilement natif',
+      description:
+        'Vous dépassez variant="scrollable" de MUI ? Gardez le contrat value/onChange, boutons qui survivent au mobile, centré et défilable à la fois. Source complète.',
+    },
+    title: 'Onglets défilables au-delà de MUI',
+    lede: 'Les onglets défilables de Material UI sont soudés à la sémantique de Tabs, et leurs boutons de défilement disparaissent sur mobile par défaut. Cette recette garde la partie dont votre code dépend — le contrat `value`/`onChange` — et remplace la bande sous-jacente : défilement natif, une sélection qui se centre elle-même, des onglets capables de contenir n’importe quoi.',
+    demoHint:
+      'Cliquez sur un onglet près de l’un ou l’autre bord — il se centre lui-même. Faites glisser la rangée, comme sur un téléphone.',
+    prose: [
+      {
+        heading: 'Garder le contrat value/onChange',
+        body: 'Le `handleChange` de la source a exactement la signature de MUI — `(event, newValue)`. Migrer signifie remplacer le balisage, pas recâbler l’état : vos `useState`, gestionnaires et panneaux d’onglets restent intacts. La sélection se centre elle-même avec `api.scrollToItem(el, ’smooth’, ’center’)`, câblée exactement comme dans l’[exemple de centrage au clic](/examples/center-on-click).',
+      },
+      {
+        heading: 'Boutons de défilement qui survivent sur mobile',
+        body: 'MUI masque ses boutons de défilement en dessous de 600px, sauf si vous activez `allowScrollButtonsMobile` — et même alors, ils restent internes à Tabs. Ici, les flèches sont vos propres composants : `useIsVisible(’first’)` / `useIsVisible(’last’)` pilotent un fondu d’opacité, elles s’affichent sur chaque viewport, et le défilement tactile reste natif, quoi que fassent les flèches.',
+      },
+      {
+        heading: 'Centrer et défiler, à la fois',
+        body: 'Dans MUI, la prop `centered` et le variant `scrollable` s’excluent mutuellement — la documentation vous dit d’en choisir un. Ici, le centrage n’est pas un mode de mise en page mais un défilement au clic, donc la bande est les deux à la fois : elle déborde nativement et chaque onglet sélectionné glisse jusqu’au milieu.',
+      },
+      {
+        heading: 'Onglets qui cessent d’être des onglets',
+        body: 'Deux onglets de la démo portent des badges de comptage ; puces, avatars ou contenu mixte fonctionnent de la même façon — la seule exigence est un `itemId`. Stylez avec `@emotion/styled` comme le fait la source, avec le `styled()` propre à MUI pour qu’il s’intègre dans une application Material, ou avec Tailwind. La démo ci-dessus ajoute le [glisser pour défiler](/examples/mouse-drag) ; restaurer l’onglet sélectionné au montage, c’est [sauvegarder et restaurer la position](/examples/save-restore-position).',
+      },
+      {
+        heading: 'Notes',
+        body: [
+          '- Choisissez votre motif ARIA : gardez `role="tablist"`/`role="tab"`/`aria-selected` quand de vrais panneaux basculent (comme ici), ou `aria-current` quand les « onglets » sont des liens de navigation.',
+          '- Avec le glisser activé, supprimez le clic qui se déclenche au relâchement du glissement — la démo vérifie `dragManager.dragging` avant de sélectionner, comme la [recette de glisser pour défiler](/examples/mouse-drag).',
+          '- Le [RTL](/examples/rtl) ne demande aucun travail supplémentaire : la bande est un conteneur de défilement natif, donc `direction: rtl` l’inverse, flèches comprises.',
         ].join('\n'),
       },
     ],

@@ -28,6 +28,7 @@ export const STORIES = {
   oneItemScroll: storyUrl('examples-oneitemscroll--one-item-scroll'),
   bottomArrows: storyUrl('examples-bottomarrows--bottom-arrows'),
   centerOnClick: storyUrl('examples-centeronclick--center-on-click'),
+  muiTabs: storyUrl('examples-muitabs--mui-tabs'),
   scrollToItem: storyUrl('examples-scrolltoitem--scroll-to-item'),
   saveRestorePosition: storyUrl('examples-saverestoreposition--position'),
   customTransition: storyUrl('examples-customtransition--custom-transition'),

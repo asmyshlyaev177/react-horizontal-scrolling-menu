@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=fr source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -83,7 +83,7 @@ Les flèches proviennent des mêmes données de visibilité : \`useLeftArrowVisi
         heading: 'Si vous dépassez les onglets défilants de MUI',
         body: `Les onglets \`variant="scrollable"\` de Material UI sont la bonne réponse à l'intérieur du système de design de Material — jusqu'à ce que vos « onglets » cessent d'être des onglets. MUI soude la barre à la sémantique de Tabs : une paire \`value\`/\`onChange\`, des panneaux d'onglets, et des boutons de défilement que MUI masque sur mobile par défaut. Dès que votre rangée contient des puces, des cartes, des avatars ou du contenu mixte, ou a besoin du glisser pour défiler, ou a besoin de savoir quels éléments sont visibles, vous luttez contre le composant plutôt que de l'utiliser.
 
-Cette bibliothèque est la couche en dessous : une rangée défilante avec suivi de visibilité, sans aucun avis sur ce qu'est un « onglet ». Votre onglet est n'importe quel composant portant un \`itemId\` — stylez-le avec Tailwind, le \`styled\` de MUI, ou du CSS ordinaire. L'état de sélection reste le vôtre, exactement comme la démo ci-dessus le garde dans un seul \`useState\`.`,
+Cette bibliothèque est la couche en dessous : une rangée défilante avec suivi de visibilité, sans aucun avis sur ce qu'est un « onglet ». Votre onglet est n'importe quel composant portant un \`itemId\` — stylez-le avec Tailwind, le \`styled\` de MUI, ou du CSS ordinaire. L'état de sélection reste le vôtre, exactement comme la démo ci-dessus le garde dans un seul \`useState\`. La [recette des onglets défilants au-delà de MUI](/examples/mui-scrollable-tabs) est ce pont mis en œuvre — \`value\`/\`onChange\` conservés, la barre remplacée.`,
       },
       {
         heading:

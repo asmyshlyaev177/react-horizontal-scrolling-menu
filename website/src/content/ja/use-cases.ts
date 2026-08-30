@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=ja source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -82,7 +82,7 @@ export const useCases: UseCasesCopy = {
         heading: 'MUI のスクロールタブでは物足りなくなってきたら',
         body: `Material UI の \`variant="scrollable"\` タブは、Material のデザインシステムの中では正しい答えです — あなたの「タブ」がタブでなくなるまでは。MUI は帯を Tabs のセマンティクスに溶接しています：\`value\`/\`onChange\` のペア、タブパネル、そしてモバイルではデフォルトで非表示になるスクロールボタン。行にチップやカード、アバター、混在コンテンツを入れたい瞬間、ドラッグスクロールが必要な瞬間、どのアイテムが見えているか知りたい瞬間から、あなたはコンポーネントを使うのではなく、それと戦うことになります。
 
-このライブラリはその下の層です：可視性トラッキング付きのスクロールする行で、「タブ」が何であるべきかについての意見は持ちません。あなたのタブは \`itemId\` を持つ任意のコンポーネントです — Tailwind でも、MUI 自身の \`styled\` でも、素の CSS でもスタイリングできます。選択状態はあなたの手元に残ります。上のデモが 1 つの \`useState\` に保持しているのとまったく同じです。`,
+このライブラリはその下の層です：可視性トラッキング付きのスクロールする行で、「タブ」が何であるべきかについての意見は持ちません。あなたのタブは \`itemId\` を持つ任意のコンポーネントです — Tailwind でも、MUI 自身の \`styled\` でも、素の CSS でもスタイリングできます。選択状態はあなたの手元に残ります。上のデモが 1 つの \`useState\` に保持しているのとまったく同じです。[MUI を超えるスクロール可能なタブ](/examples/mui-scrollable-tabs) レシピは、その橋渡しを書き出したものです — \`value\`/\`onChange\` は維持したまま、帯だけを入れ替えます。`,
       },
       {
         heading: 'アクセシビリティはほぼ無料 — 2 つの隙間に注意',

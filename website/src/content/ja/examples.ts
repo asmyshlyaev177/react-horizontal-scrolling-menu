@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=ja source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -677,6 +677,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef` は ref オブジェクトかコールバック ref を受け取ります——`useAutoAnimate` のコールバックは直接差し込めます。',
           '- auto-animate はゼロ設定でフレームワーク非依存。React バインディングは `useAutoAnimate` フック 1 つです。',
           '- 上のデモは id 管理を単調カウンターに簡略化しています。コードパネルはストーリーの隙間埋め版を示します。',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'MUI のスクロールタブの代替：ネイティブスクロールタブ',
+      description:
+        'MUI の variant="scrollable" に物足りなくなってきましたか？value/onChange 契約は保ったまま、モバイルでも消えないスクロールボタンを手に入れ、中央寄せとスクロールを両立。完全なソース付き。',
+    },
+    title: 'MUI を超えるスクロール可能なタブ',
+    lede: 'Material UI のスクロール可能なタブは Tabs のセマンティクスに溶接されており、モバイルではデフォルトでスクロールボタンが消えます。このレシピはあなたのコードが依存している部分——`value`/`onChange` 契約——を保ったまま、内部の帯を入れ替えます：ネイティブスクロール、自ら中央に寄る選択、どんな中身でも持てるタブ。',
+    demoHint:
+      'どちらかの端近くのタブをクリック——自分で中央に寄ります。行はドラッグでも動かせます——携帯と同じように。',
+    prose: [
+      {
+        heading: 'value/onChange 契約を保つ',
+        body: 'ソース内の `handleChange` は MUI と全く同じシグネチャ——`(event, newValue)`——を持ちます。移行はマークアップの差し替えを意味し、state の配線し直しではありません：あなたの `useState`、ハンドラー、タブパネルはそのままです。選択は `api.scrollToItem(el, ’smooth’, ’center’)` で自ら中央に寄ります——[center-on-click](/examples/center-on-click) の例とまったく同じ配線です。',
+      },
+      {
+        heading: 'モバイルでも消えないスクロールボタン',
+        body: 'MUI は `allowScrollButtonsMobile` で明示的にオプトインしない限り、600px 未満でスクロールボタンを非表示にします——それでも、あくまで Tabs の内部要素です。ここでは矢印はあなた自身のコンポーネントです：`useIsVisible(’first’)` / `useIsVisible(’last’)` が不透明度のフェードを駆動し、あらゆるビューポートで描画され、矢印が何をしていようとタッチスクロールはネイティブのままです。',
+      },
+      {
+        heading: '中央寄せとスクロールを両立',
+        body: 'MUI では `centered` プロパティと `scrollable` バリアントは互いに排他的です——ドキュメントはどちらか一方を選ぶよう指示します。ここでは中央寄せはレイアウトモードではなく、クリックごとのスクロールなので、帯は両方を同時に満たします：ネイティブにオーバーフローしつつ、選択された各タブが中央へ滑ります。',
+      },
+      {
+        heading: 'タブでなくなるタブ',
+        body: 'デモの 2 つのタブは件数バッジを持ちます。チップやアバター、混在コンテンツも同じように動きます——唯一の要件は `itemId` を持つことです。ソースと同じように `@emotion/styled` でスタイリングしても、Material アプリに馴染ませるために MUI 自身の `styled()` を使っても、あるいは Tailwind を使ってもかまいません。上のデモは [ドラッグスクロール](/examples/mouse-drag) を追加しており、マウント時に選択済みタブを復元するのは [位置の保存と復元](/examples/save-restore-position) です。',
+      },
+      {
+        heading: 'Notes',
+        body: [
+          '- ARIA パターンを選んでください：実際のパネルが切り替わる場合（ここのように）は `role="tablist"`/`role="tab"`/`aria-selected` を保ち、「タブ」がナビゲーションリンクである場合は `aria-current` を使います。',
+          '- ドラッグを有効にする場合は、ドラッグ解放時に発火するクリックを抑制してください——デモは選択前に `dragManager.dragging` を確認しますが、これは [ドラッグのレシピ](/examples/mouse-drag) と同じです。',
+          '- [RTL](/examples/rtl) は追加の作業を必要としません：帯はネイティブのスクロールコンテナなので、`direction: rtl` が矢印ごと反転させます。',
         ].join('\n'),
       },
     ],

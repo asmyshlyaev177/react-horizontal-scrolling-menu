@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=ko source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -676,6 +676,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef`는 ref 객체나 콜백 ref를 받습니다 — `useAutoAnimate`의 콜백이 곧바로 끼워집니다.',
           '- auto-animate은 무설정이고 프레임워크 독립적입니다. React 바인딩은 `useAutoAnimate` 훅 하나입니다.',
           '- 위의 데모는 id 관리를 단조 카운터로 단순화합니다. 코드 패널은 스토리의 빈틈 메우기 버전을 보여줍니다.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'MUI 스크롤 가능 탭 대안: 네이티브 스크롤 탭',
+      description:
+        'MUI variant="scrollable"의 한계를 넘어섰다면? value/onChange 계약은 그대로 두고 모바일에서도 살아남는 스크롤 버튼을 얻고, 가운데 정렬과 스크롤을 동시에 누리세요. 전체 소스 포함.',
+    },
+    title: 'MUI 너머의 스크롤 가능 탭',
+    lede: 'Material UI의 스크롤 가능 탭은 Tabs 시맨틱에 용접되어 있고, 스크롤 버튼은 기본적으로 모바일에서 사라집니다. 이 레시피는 여러분의 코드가 의존하는 부분 — `value`/`onChange` 계약 — 은 그대로 두고, 그 아래 스트립만 바꿉니다: 네이티브 스크롤, 스스로 가운데 정렬되는 선택, 무엇이든 담을 수 있는 탭.',
+    demoHint:
+      '어느 쪽 가장자리 근처의 탭을 클릭 — 스스로 가운데로 정렬됩니다. 휴대폰에서처럼 행을 드래그해보세요.',
+    prose: [
+      {
+        heading: 'value/onChange 계약 유지하기',
+        body: '소스의 `handleChange`는 MUI와 정확히 같은 시그니처를 갖습니다 — `(event, newValue)`. 마이그레이션은 상태를 다시 배선하는 게 아니라 마크업만 교체하는 것을 뜻합니다: 여러분의 `useState`, 핸들러, 탭 패널은 그대로입니다. 선택은 `api.scrollToItem(el, ’smooth’, ’center’)`로 스스로 가운데 정렬되며, [center-on-click](/examples/center-on-click)과 정확히 같은 방식으로 배선되어 있습니다.',
+      },
+      {
+        heading: '모바일에서도 살아남는 스크롤 버튼',
+        body: 'MUI는 `allowScrollButtonsMobile`로 옵트인하지 않는 한 600px 미만에서 스크롤 버튼을 숨기며, 옵트인해도 그 버튼은 Tabs 내부의 것일 뿐입니다. 여기서 화살표는 여러분 자신의 컴포넌트입니다: `useIsVisible(’first’)` / `useIsVisible(’last’)`가 불투명도 페이드를 제어하고, 모든 뷰포트에서 렌더링되며, 화살표가 무엇을 하든 터치 스크롤은 네이티브로 남습니다.',
+      },
+      {
+        heading: '가운데 정렬과 스크롤, 동시에',
+        body: 'MUI에서는 `centered` 프로퍼티와 `scrollable` 변형이 상호 배타적입니다 — 문서는 둘 중 하나를 고르라고 말합니다. 여기서 가운데 정렬은 레이아웃 모드가 아니라 클릭마다 일어나는 스크롤이므로, 스트립은 둘 다를 동시에 만족합니다: 네이티브로 오버플로하면서 선택된 탭마다 가운데로 미끄러져 갑니다.',
+      },
+      {
+        heading: '더 이상 탭이 아닌 탭',
+        body: '데모의 탭 두 개는 카운트 배지를 달고 있습니다. 칩, 아바타, 혼합 콘텐츠도 똑같이 동작합니다 — 유일한 요구사항은 `itemId`뿐입니다. 소스처럼 `@emotion/styled`로 스타일링하거나, Material 앱에 자연스럽게 어울리도록 MUI 자체의 `styled()`로, 또는 Tailwind로 스타일링하세요. 위 데모는 [드래그 스크롤](/examples/mouse-drag)을 더했고, 마운트 시 선택한 탭을 복원하는 것은 [위치 저장과 복원](/examples/save-restore-position)입니다.',
+      },
+      {
+        heading: '참고',
+        body: [
+          '- ARIA 패턴을 직접 고르세요: 실제 패널이 전환된다면(여기처럼) `role="tablist"`/`role="tab"`/`aria-selected`를 유지하고, "탭"이 내비게이션 링크라면 `aria-current`를 쓰세요.',
+          '- 드래그가 활성화되어 있다면, 놓는 순간 발생하는 클릭을 억제하세요 — 데모는 선택 전에 `dragManager.dragging`을 확인합니다. [드래그 레시피](/examples/mouse-drag)와 같은 방식입니다.',
+          '- [RTL](/examples/rtl)은 별도 작업이 필요 없습니다: 스트립은 네이티브 스크롤 컨테이너이므로 `direction: rtl`이 화살표까지 포함해 뒤집어 줍니다.',
         ].join('\n'),
       },
     ],

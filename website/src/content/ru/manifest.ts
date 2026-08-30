@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ru source=en/manifest.ts source-blob=269945541172d5f4f06823bd0d6393dfc44a3fb2 status=translated
+// i18n:meta locale=ru source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -106,6 +106,11 @@ export const manifest: ManifestCopy = {
     autoplay: {
       name: 'Автовоспроизведение',
       blurb: 'Само-продвигающийся цикл с доступным поведением паузы.',
+    },
+    'mui-scrollable-tabs': {
+      name: 'Прокручиваемые вкладки за пределами MUI',
+      blurb:
+        'Сохраните контракт value/onChange от MUI и замените полосу под капотом.',
     },
   },
 };

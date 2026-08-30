@@ -74,7 +74,7 @@ The arrows come from the same visibility data: \`useLeftArrowVisible\` is false 
         heading: 'If you are outgrowing MUI scrollable tabs',
         body: `Material UI's \`variant="scrollable"\` tabs are the right answer inside Material's design system — until your "tabs" stop being tabs. MUI welds the strip to Tabs semantics: a \`value\`/\`onChange\` pair, tab panels, and scroll buttons that MUI hides on mobile by default. The moment your row holds chips, cards, avatars or mixed content, or needs drag-to-scroll, or needs to know which items are visible, you are fighting the component rather than using it.
 
-This library is the layer below that: a scrolling row with visibility tracking, no opinion about what a "tab" is. Your tab is any component with an \`itemId\` — style it with Tailwind, MUI's own \`styled\`, or plain CSS. Selection state stays yours, exactly like the demo above keeps it in one \`useState\`.`,
+This library is the layer below that: a scrolling row with visibility tracking, no opinion about what a "tab" is. Your tab is any component with an \`itemId\` — style it with Tailwind, MUI's own \`styled\`, or plain CSS. Selection state stays yours, exactly like the demo above keeps it in one \`useState\`. The [Scrollable tabs beyond MUI recipe](/examples/mui-scrollable-tabs) is that bridge written out — \`value\`/\`onChange\` kept, the strip swapped.`,
       },
       {
         heading: 'Accessibility is mostly free — mind the two gaps',

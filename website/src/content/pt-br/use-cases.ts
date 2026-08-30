@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -83,7 +83,7 @@ As setas vêm dos mesmos dados de visibilidade: \`useLeftArrowVisible\` só é f
         heading: 'Se você está deixando as abas roláveis do MUI para trás',
         body: `As abas \`variant="scrollable"\` do Material UI são a resposta certa dentro do design system do Material — até suas "abas" pararem de ser abas. O MUI solda a barra à semântica de Tabs: um par \`value\`/\`onChange\`, painéis de aba e botões de rolagem que o MUI esconde no mobile por padrão. No momento em que sua fileira passa a ter chips, cards, avatares ou conteúdo misto, ou precisa de arraste para rolar, ou precisa saber quais itens estão visíveis, você está lutando contra o componente em vez de usá-lo.
 
-Esta biblioteca é a camada abaixo disso: uma fileira rolável com rastreamento de visibilidade, sem opinião sobre o que é uma "aba". Sua aba é qualquer componente com um \`itemId\` — estilize com Tailwind, o \`styled\` do próprio MUI, ou CSS puro. O estado de seleção continua seu, exatamente como a demo acima o mantém em um único \`useState\`.`,
+Esta biblioteca é a camada abaixo disso: uma fileira rolável com rastreamento de visibilidade, sem opinião sobre o que é uma "aba". Sua aba é qualquer componente com um \`itemId\` — estilize com Tailwind, o \`styled\` do próprio MUI, ou CSS puro. O estado de seleção continua seu, exatamente como a demo acima o mantém em um único \`useState\`. A [receita de abas roláveis além do MUI](/examples/mui-scrollable-tabs) é essa ponte por escrito — \`value\`/\`onChange\` mantido, a barra trocada.`,
       },
       {
         heading: 'Acessibilidade é quase de graça — atenção às duas lacunas',

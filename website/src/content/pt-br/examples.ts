@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/examples.ts source-blob=ffe3d71c21e3e6e545b59fae6bf1db09ad72e4ee status=translated
+// i18n:meta locale=pt-BR source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -687,6 +687,44 @@ export const examples: ExamplesCopy = {
           '- `containerRef` aceita um objeto de ref ou uma ref callback — o callback do `useAutoAnimate` se conecta direto.',
           '- auto-animate é de configuração zero e independente de framework; a ligação com React é o único hook `useAutoAnimate`.',
           '- A demo acima simplifica o gerenciamento de id para um contador monótono; o painel de código mostra a versão com preenchimento de lacunas da história.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'mui-scrollable-tabs': {
+    meta: {
+      title: 'Alternativa ao MUI: abas roláveis com rolagem nativa',
+      description:
+        'Superando o MUI variant="scrollable"? Mantenha value/onChange, ganhe botões de rolagem que sobrevivem ao mobile, centralização e rolagem juntas. Fonte completa.',
+    },
+    title: 'Abas roláveis além do MUI',
+    lede: 'As abas roláveis do Material UI estão soldadas à semântica de Tabs, e seus botões de rolagem desaparecem no mobile por padrão. Esta receita mantém a parte de que seu código depende — o contrato `value`/`onChange` — e troca a faixa por baixo: rolagem nativa, uma seleção que se centraliza sozinha, abas que podem conter qualquer coisa.',
+    demoHint:
+      'Clique em uma aba perto de qualquer borda — ela se centraliza sozinha. Arraste a linha, como num telefone.',
+    prose: [
+      {
+        heading: 'Mantenha o contrato value/onChange',
+        body: 'O `handleChange` na fonte tem a assinatura exata do MUI — `(event, newValue)`. Migrar significa trocar o markup, não reconectar o estado: seu `useState`, handlers e painéis de aba permanecem intocados. A seleção se centraliza sozinha com `api.scrollToItem(el, ’smooth’, ’center’)`, ligada exatamente como em [center-on-click](/examples/center-on-click).',
+      },
+      {
+        heading: 'Botões de rolagem que sobrevivem ao mobile',
+        body: 'O MUI esconde seus botões de rolagem abaixo de 600px, a menos que você habilite com `allowScrollButtonsMobile` — e mesmo assim eles são internos ao Tabs. Aqui as setas são seus próprios componentes: `useIsVisible(’first’)` / `useIsVisible(’last’)` conduzem um fade de opacidade, elas renderizam em qualquer viewport, e a rolagem por toque é nativa independente do que as setas fazem.',
+      },
+      {
+        heading: 'Centralização e rolagem, juntas',
+        body: 'No MUI, a prop `centered` e a variante `scrollable` são mutuamente exclusivas — a documentação manda escolher uma. Aqui centralizar não é um modo de layout, mas uma rolagem por clique, então a faixa é as duas coisas ao mesmo tempo: ela transborda nativamente e cada aba selecionada desliza para o meio.',
+      },
+      {
+        heading: 'Abas que param de ser abas',
+        body: 'Duas abas na demo carregam badges de contagem; chips, avatares ou conteúdo misto funcionam do mesmo jeito — o único requisito é um `itemId`. Estilize com `@emotion/styled` como a fonte faz, com o próprio `styled()` do MUI para se encaixar num app Material, ou com Tailwind. A demo acima adiciona [arraste para rolar](/examples/mouse-drag); restaurar a aba selecionada ao montar é [salvar e restaurar posição](/examples/save-restore-position).',
+      },
+      {
+        heading: 'Notas',
+        body: [
+          '- Escolha seu padrão ARIA: mantenha `role="tablist"`/`role="tab"`/`aria-selected` quando painéis reais forem trocados (como aqui), ou `aria-current` quando as "abas" forem links de navegação.',
+          '- Com o arraste habilitado, suprima o clique que dispara ao soltar o arraste — a demo verifica `dragManager.dragging` antes de selecionar, assim como na [receita de arraste](/examples/mouse-drag).',
+          '- [RTL](/examples/rtl) não exige trabalho extra: a faixa é um contêiner de rolagem nativo, então `direction: rtl` a inverte, setas incluídas.',
         ].join('\n'),
       },
     ],

@@ -27,6 +27,7 @@ const PAGES = [
   '/compare',
   '/examples/simple',
   '/examples/rtl',
+  '/examples/mui-scrollable-tabs',
   '/examples/vertical',
 ];
 

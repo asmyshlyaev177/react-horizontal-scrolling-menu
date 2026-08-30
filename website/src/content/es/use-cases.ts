@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/use-cases.ts source-blob=f2566d16e6210064d14d82378f8f753d7e273c8c status=translated
+// i18n:meta locale=es source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -84,7 +84,7 @@ Las flechas vienen de los mismos datos de visibilidad: \`useLeftArrowVisible\` e
           'Si te estás quedando corto con las pestañas desplazables de MUI',
         body: `Las pestañas \`variant="scrollable"\` de Material UI son la respuesta correcta dentro del sistema de diseño de Material, hasta que tus "pestañas" dejan de ser pestañas. MUI suelda la barra a la semántica de Tabs: un par \`value\`/\`onChange\`, paneles de pestaña y botones de scroll que MUI oculta en móvil por defecto. En el momento en que tu fila contiene chips, tarjetas, avatares o contenido mixto, o necesita arrastre para desplazar, o necesita saber qué elementos están visibles, estás luchando contra el componente en lugar de usarlo.
 
-Esta librería es la capa de debajo: una fila con scroll y seguimiento de visibilidad, sin opinión sobre qué es una "pestaña". Tu pestaña es cualquier componente con un \`itemId\`: dale estilo con Tailwind, con el \`styled\` propio de MUI o con CSS normal. El estado de selección sigue siendo tuyo, igual que la demo de arriba lo guarda en un único \`useState\`.`,
+Esta librería es la capa de debajo: una fila con scroll y seguimiento de visibilidad, sin opinión sobre qué es una "pestaña". Tu pestaña es cualquier componente con un \`itemId\`: dale estilo con Tailwind, con el \`styled\` propio de MUI o con CSS normal. El estado de selección sigue siendo tuyo, igual que la demo de arriba lo guarda en un único \`useState\`. La [receta de pestañas desplazables más allá de MUI](/examples/mui-scrollable-tabs) es ese puente hecho realidad — se conserva \`value\`/\`onChange\`, se cambia la barra.`,
       },
       {
         heading: 'La accesibilidad sale casi gratis: cuidado con dos huecos',

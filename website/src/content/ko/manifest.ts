@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/manifest.ts source-blob=269945541172d5f4f06823bd0d6393dfc44a3fb2 status=translated
+// i18n:meta locale=ko source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -103,6 +103,11 @@ export const manifest: ManifestCopy = {
     autoplay: {
       name: '자동 재생',
       blurb: '접근 가능한 일시정지 동작을 갖춘 자동 전진 루프.',
+    },
+    'mui-scrollable-tabs': {
+      name: 'MUI 너머의 스크롤 가능 탭',
+      blurb:
+        'MUI의 value/onChange 계약은 유지하고, 그 아래 스트립만 교체합니다.',
     },
   },
 };
