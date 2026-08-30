@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [8.3.2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.3.1...v8.3.2) (2026-08-30)
+
+### Bug Fixes
+
+* isLastItemVisible fix ([2402db2](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/commit/2402db2c9d0f53e303ea4c5313429e65fd73de5f))
 ## [8.3.1](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/compare/v8.3.0...v8.3.1) (2026-08-27)
 
 ### Bug Fixes
