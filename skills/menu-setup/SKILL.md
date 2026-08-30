@@ -437,5 +437,6 @@ skills/menu-scrolling/SKILL.md.
 
 - skills/menu-visibility/SKILL.md — canonical arrows are visibility-driven;
   setup code quality depends on using the reactive hooks
-  (`useLeftArrowVisible`/`useRightArrowVisible`/`useIsVisible`), not the
-  frozen `isFirstItemVisible`/`isLastItemVisible` snapshots.
+  (`useLeftArrowVisible`/`useRightArrowVisible`/`useIsVisible`), not
+  render reads of the non-reactive
+  `isFirstItemVisible`/`isLastItemVisible` getters.

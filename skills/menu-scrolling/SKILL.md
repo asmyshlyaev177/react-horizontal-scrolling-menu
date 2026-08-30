@@ -217,12 +217,12 @@ strings; plain JS gets no error at all).
 Source: src/createApi.ts:307-313 (JSDoc) vs src/helpers.tsx:59-64;
 https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/157
 
-### HIGH Reading data values from apiRef
+### HIGH Reading data values from apiRef during render
 
 Wrong:
 
 ```tsx
-const atEnd = apiRef.current?.isLastItemVisible; // frozen/stale forever
+const atEnd = apiRef.current?.isLastItemVisible; // in render: never re-renders
 ```
 
 Correct:
@@ -232,9 +232,11 @@ const api = apiRef.current;
 if (api) api.scrollToItem(api.getItemById('item-3'), 'smooth', 'center');
 ```
 
-apiRef is a mutable object React cannot re-render on, so data values read
-from it (visibility booleans, snapshots) go stale — use it only to fire
-methods; read reactive state via context hooks inside the menu.
+apiRef is a mutable object React cannot re-render on — values read from it
+during render go stale. Inside event handlers and timers the visibility
+getters read the live ItemsMap and are fine (on <= 8.3.1 they were frozen
+even there — read `api.items.last()?.visible` instead). Reactive state in
+components comes from the context hooks.
 
 Source: README.md apiRef section;
 https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/issues/167
@@ -370,10 +372,10 @@ shipping. See skills/menu-setup/SKILL.md and skills/menu-visibility/SKILL.md.
 
 ### HIGH Tension: Imperative convenience vs reactive truth
 
-The api object mixes live methods, reactive hooks, frozen snapshots
+The api object mixes live methods, reactive hooks, non-reactive getters
 (`isFirstItemVisible`/`isLastItemVisible`) and mutable stores (`items`,
-apiRef). Fire methods imperatively; read state only through the hooks in
-components rendered under ScrollMenu — imperative reads are stale. See
+apiRef). Fire methods imperatively; in components rendered under ScrollMenu
+read state through the hooks — render reads of the getters never update. See
 skills/menu-visibility/SKILL.md.
 
 ### HIGH Tension: Native scroll correctness vs animation control

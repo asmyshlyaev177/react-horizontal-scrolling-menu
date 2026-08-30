@@ -7,9 +7,8 @@ import { ScrollMenu, useScrollMenu } from '@/components/ui/scroll-menu';
 import { cn } from '@/lib/utils';
 
 /**
- * Netflix-style media rail: content fades out at the overflowing edges and
- * full-height overlay arrows appear on hover instead of sitting beside the
- * row. Children are your cards — each needs a unique `itemId` prop.
+ * Netflix-style media rail: edge fade, full-height overlay arrows on hover.
+ * Children are your cards — each needs a unique `itemId` prop.
  */
 function MediaRow({
   className,
@@ -34,10 +33,7 @@ function MediaRow({
   );
 }
 
-/**
- * Rendered as the menu Header so it sits inside VisibilityContext, then
- * positioned over the row via the wrapper's `relative`.
- */
+/** Rendered as the menu Header so it sits inside VisibilityContext. */
 function MediaRowArrows() {
   const api = useScrollMenu();
   const atStart = api.useLeftArrowVisible();

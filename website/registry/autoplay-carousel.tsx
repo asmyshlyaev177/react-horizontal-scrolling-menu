@@ -9,12 +9,9 @@ import { ScrollMenu } from '@/components/ui/scroll-menu';
 import { cn } from '@/lib/utils';
 
 /**
- * Autoplaying carousel on the scroll-menu row: a timer advances one group at
- * a time and wraps back to the start after the last item. Autoplay pauses on
- * hover, touch, focus within the row, hidden tabs, `prefers-reduced-motion`
- * and the play/pause toggle (always rendered — WCAG 2.2.2 wants moving
- * content stoppable). Children are your slides — each needs a unique
- * `itemId` prop; arrows and drag-to-scroll come from scroll-menu.
+ * Autoplaying carousel: advances a group per tick, wraps at the end. Pauses
+ * on hover, touch, focus, hidden tab, reduced motion and the play/pause
+ * toggle (always rendered — WCAG 2.2.2). Slides need a unique `itemId` prop.
  */
 function Carousel({
   interval = 4000,
@@ -41,12 +38,10 @@ function Carousel({
       if (!api?.menuVisible.current || document.visibilityState !== 'visible') {
         return;
       }
-      // Not api.isLastItemVisible: that snapshot is taken when the api object
-      // is created and goes stale. The ItemsMap entries are updated in place
-      // by the observer, so reading it at tick time is always current.
+      // items.last() is live on every release; api.isLastItemVisible was a
+      // stale snapshot until 8.3.1.
       if (api.items.last()?.visible) {
-        // The last item stays visible while the wrap animates, so an
-        // unguarded wrap restarts every tick and the scroll stalls mid-way.
+        // Unguarded, the wrap restarts every tick and stalls mid-scroll.
         if (Date.now() - lastWrapAt.current < interval * 2) return;
         lastWrapAt.current = Date.now();
         const first = api.items.first();
@@ -114,8 +109,7 @@ const subscribeReducedMotion = (onChange: () => void) => {
 };
 
 function useReducedMotion() {
-  // Server snapshot false: autoplay assumes motion is fine until the client
-  // media query says otherwise.
+  // Server snapshot false: assume motion is fine until the client says otherwise.
   return React.useSyncExternalStore(
     subscribeReducedMotion,
     () => window.matchMedia(REDUCED_MOTION).matches,

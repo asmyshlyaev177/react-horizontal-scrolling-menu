@@ -134,17 +134,11 @@ const ALL_PAGES = PAGE_PATHS.map((path) => ({
  * than quietly.
  */
 /**
- * Emits the shadcn registry item at /r/scroll-menu.json, so
- * `npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json`
- * installs a styled ScrollMenu into any shadcn project. The component source
- * lives in registry/scroll-menu.tsx — one file, embedded here at build so the
- * served JSON can never drift from it. e2e/smoke.spec.ts fetches the item and
- * compares it against that same file.
+ * Emits the shadcn registry: one /r/<name>.json per item (source embedded at
+ * build, so the served JSON cannot drift) plus the /r/registry.json index.
+ * Installed via `npx shadcn add <site>/r/<name>.json`; smoke-tested.
  */
 function shadcnRegistry(): Plugin {
-  // One entry per registry item; `source` is embedded into the item JSON and
-  // stripped from the registry.json index (the directory validator rejects
-  // `content` there).
   const items = [
     {
       source: new URL('./registry/scroll-menu.tsx', import.meta.url),

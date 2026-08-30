@@ -6,7 +6,7 @@ description: >
   useLeftArrowVisible/useRightArrowVisible, the options prop (ratio,
   rootMargin, threshold), items.getVisible()/subscribe/unsubscribe, and the
   async IntersectionObserver truth model (items must be seen once, menuVisible
-  gating, frozen isFirstItemVisible snapshots). Load when disabling arrows at
+  gating, non-reactive isFirstItemVisible reads). Load when disabling arrows at
   the edges, styling items by visibility, building progress indicators, or
   debugging flickering or dead arrows.
 metadata:
@@ -184,7 +184,7 @@ configurable — it is always the internal scroll container.
 
 ## Common Mistakes
 
-### [CRITICAL] Reading isFirstItemVisible/isLastItemVisible expecting reactivity
+### [CRITICAL] Reading isFirstItemVisible/isLastItemVisible in render expecting reactivity
 
 Wrong:
 
@@ -209,12 +209,14 @@ return (
 );
 ```
 
-These context fields are frozen first-render snapshots — computed while the
-`ItemsMap` is still empty, inside an api memo that never recomputes — so they
-stay `false` forever; the reactive paths are the hooks or
-`items.getVisible()` read inside callbacks.
+Reading these fields never subscribes the component: the value is live at
+read time (live getters over the ItemsMap; on <= 8.3.1 they were frozen at
+api creation and stuck `false`), but nothing re-renders when it changes.
+Reactive paths are the hooks, or `items.getVisible()` inside callbacks;
+reading the getters inside event handlers and timers is fine.
 
-Source: src/createApi.ts:91-92; CHANGELOG v6.0.0
+Source: src/createApi.ts (isFirstItemVisible/isLastItemVisible getters);
+CHANGELOG v6.0.0
 
 ### [CRITICAL] Destructuring the removed v5-era visibility API from context
 
@@ -236,7 +238,7 @@ const visibleIds = api.items.getVisible().map(([id]) => id);
 `visibleElements`, `initComplete` and reactive
 `isFirstItemVisible`/`isLastItemVisible` were removed in v6 (Observer
 rewrite); nearly every pre-2024 tutorial uses them, and in v8 they are
-`undefined` or frozen snapshots.
+`undefined` or non-reactive getters.
 
 Source: CHANGELOG v6.0.0 (#270); issue #282; see skills/menu-migration/SKILL.md
 
@@ -402,18 +404,18 @@ Source: README.md items class instance; src/ItemsMap/ItemsMap.ts:15-21; src/Obse
 ### HIGH Tension: trivial quick start vs total silence on misuse
 
 The library contains zero throws or warnings — every visibility contract
-violation (missing/duplicate `itemId`, reading frozen snapshots, off-screen
+violation (missing/duplicate `itemId`, render-reading the getters, off-screen
 menus) fails silently with no error to debug from. Self-check the contracts
 instead of waiting for the console. Setup-side contracts:
 skills/menu-setup/SKILL.md; scrolling-side: skills/menu-scrolling/SKILL.md.
 
 ### HIGH Tension: imperative convenience vs reactive truth
 
-The api object mixes live methods, reactive hooks, frozen snapshots
-(`isFirstItemVisible`) and mutable stores (`items`, `apiRef`). Imperative
-reads are convenient but stale; hooks are correct but bound by rules of
-hooks. Read data via hooks (or `getVisible()` inside callbacks), fire
-methods imperatively. Imperative side: skills/menu-scrolling/SKILL.md.
+The api object mixes live methods, reactive hooks, non-reactive getters
+(`isFirstItemVisible`) and mutable stores (`items`, `apiRef`). Reads during
+render don't subscribe and go stale; hooks are correct but bound by rules of
+hooks. Read data via hooks (or the getters/`getVisible()` inside callbacks),
+fire methods imperatively. Imperative side: skills/menu-scrolling/SKILL.md.
 
 ### HIGH Tension: SSR first paint vs async browser truth
 

@@ -14,11 +14,8 @@ interface ScrollTab {
 }
 
 /**
- * Scrollable tab strip: the MUI "scrollable tabs" use case without the Tabs
- * coupling — free-form triggers, drag-to-scroll, arrows only when they fit.
- * The active tab is centered on selection and on first paint.
- *
- * Plain buttons with `aria-current`, not `role="tab"`: a tablist contract
+ * Scrollable tab strip; the active tab centers itself on click and first
+ * paint. Plain buttons with `aria-current`, not `role="tab"` — a tablist
  * demands roving focus and tabpanel wiring this row does not own.
  */
 function ScrollTabs({

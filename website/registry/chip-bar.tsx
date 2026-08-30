@@ -14,11 +14,7 @@ interface ChipOption {
   className?: string;
 }
 
-/**
- * Horizontal multi-select filter bar: toggleable chips in a drag-to-scroll
- * row that never wraps. Controlled — pass `selected` and get the next array
- * back from `onSelectedChange`.
- */
+/** Multi-select filter chips in a drag-to-scroll row. Controlled. */
 function ChipBar({
   options,
   selected,

@@ -102,18 +102,19 @@ of hooks.
 | `useLeftArrowVisible`  | `() => boolean`                                                            | True when the first item is visible (disable the left arrow); latched — updates only while `menuVisible.current` |
 | `useRightArrowVisible` | `() => boolean`                                                            | Same for the last item / right arrow                                                                             |
 
-## Frozen snapshots — never use for reactivity
+## Visibility getters — live, but not reactive
 
 | Member               | Type      |
 | -------------------- | --------- |
 | `isFirstItemVisible` | `boolean` |
 | `isLastItemVisible`  | `boolean` |
 
-Computed once when the api memo runs — while the ItemsMap can still be
-empty — and never recomputed (src/createApi.ts:91-92). They read as `false`
-and stay frozen. Use `useLeftArrowVisible`/`useRightArrowVisible` or
-`useIsVisible('first' | 'last')` instead; inside callbacks, read
-`api.items.getVisible()`.
+Live getters over the ItemsMap — correct inside event handlers and timers,
+but reading them never subscribes a component, so renders built on them do
+not update. (On <= 8.3.1 they were frozen at api creation and always
+`false`.) For reactivity use `useLeftArrowVisible`/`useRightArrowVisible` or
+`useIsVisible('first' | 'last')`; inside callbacks `api.items.getVisible()`
+also works.
 
 ## items: ItemsMap
 

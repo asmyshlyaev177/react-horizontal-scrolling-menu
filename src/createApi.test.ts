@@ -43,8 +43,21 @@ const setup = (ratio = [0.3, 1, 0.7]) => {
   );
   items.setBatch(nodes);
 
+  // Re-deliver the same entries with new ratios, as the observer would.
+  const applyRatio = (nextRatio: number[]) =>
+    items.setBatch(
+      observerEntriesToItems(
+        newItems.map((el, ind) => ({
+          ...el,
+          intersectionRatio: nextRatio[ind],
+        })) as unknown as IntersectionObserverEntry[],
+        { ...observerOptions, ratio: 0.5 },
+      ),
+    );
+
   return {
     items,
+    applyRatio,
     nodes: nodes.map((el) => el[1]),
   };
 };
@@ -193,6 +206,15 @@ describe('createApi', () => {
 
       expect(createApi(items, menuVisible).isFirstItemVisible).toEqual(false);
     });
+
+    test('reflects visibility changes after the api object was created', () => {
+      const { items, applyRatio } = setup([0.7, 0, 0]);
+      const api = createApi(items, menuVisible);
+
+      expect(api.isFirstItemVisible).toEqual(true);
+      applyRatio([0.3, 1, 1]);
+      expect(api.isFirstItemVisible).toEqual(false);
+    });
   });
 
   describe('isLastItemVisible', () => {
@@ -212,6 +234,15 @@ describe('createApi', () => {
       const items = new ItemsMap();
 
       expect(createApi(items, menuVisible).isLastItemVisible).toEqual(false);
+    });
+
+    test('reflects visibility changes after the api object was created', () => {
+      const { items, applyRatio } = setup([1, 1, 0.3]);
+      const api = createApi(items, menuVisible);
+
+      expect(api.isLastItemVisible).toEqual(false);
+      applyRatio([0.3, 0.9, 0.9]);
+      expect(api.isLastItemVisible).toEqual(true);
     });
   });
 

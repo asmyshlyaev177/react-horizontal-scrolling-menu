@@ -8,7 +8,7 @@ import * as constants from './constants';
 import { VisibilityContext } from './context';
 import createApi, { type publicApiType } from './createApi';
 import getItemsPos from './getItemsPos';
-import { getElementOrConstructor, isMutableRef } from './helpers';
+import { getElementOrConstructor, isRefObject } from './helpers';
 import useIntersectionObserver from './hooks/useIntersectionObserver';
 import useItemsChanged from './hooks/useItemsChanged';
 import { useMenuVisible } from './hooks/useMenuVisible';
@@ -140,12 +140,9 @@ export interface Props {
 
     e.g. apiRef.current?.scrollToItem(...)
    */
+  // Accepts every useRef shape; the legacy MutableRefObject is assignable too.
   apiRef?:
-    | React.MutableRefObject<publicApiType>
-    // `useRef<publicApiType>(null)` is typed as `RefObject<publicApiType | null>`
-    // by React 19, so without this arm no caller can pass a ref without a cast.
-    | React.RefObject<publicApiType | null>
-    | React.RefCallback<publicApiType>;
+    React.RefObject<publicApiType | null> | React.RefCallback<publicApiType>;
   RTL?: boolean;
   /**
     Disable scrollIntoView polyfill
@@ -265,13 +262,15 @@ function ScrollMenu({
   );
   /* eslint-enable react-hooks/refs */
 
+  /* eslint-disable react-hooks/refs -- publicApiType carries the
+     scrollContainer/menuVisible refs by contract */
   const getContext = React.useCallback(
-    () => ({
-      ...api,
-      items,
-      scrollContainer: scrollContainerRef,
-      menuVisible,
-    }),
+    // Descriptor copy, not spread — a spread would freeze the visibility getters.
+    () =>
+      Object.assign(
+        Object.defineProperties({}, Object.getOwnPropertyDescriptors(api)),
+        { items, scrollContainer: scrollContainerRef, menuVisible },
+      ) as publicApiType,
     [api, items, scrollContainerRef, menuVisible],
   );
 
@@ -282,6 +281,7 @@ function ScrollMenu({
     () => getContext(),
     [getContext],
   );
+  /* eslint-enable react-hooks/refs */
 
   useOnCb({ context, onInit, onUpdate });
 
@@ -289,7 +289,7 @@ function ScrollMenu({
   // `apiRef` prop, so this mutation is deliberate.
   /* eslint-disable react-hooks/immutability */
   React.useEffect(() => {
-    if (isMutableRef(apiRef)) {
+    if (isRefObject(apiRef)) {
       apiRef.current = context;
     } else {
       apiRef(context);
@@ -317,13 +317,7 @@ function ScrollMenu({
     [RTL, scrollContainerClassName],
   );
 
-  /* The pointer props are handler *factories*: the public API calls them with
-     the context to obtain the actual handler, which has to happen during render.
-     `context` is the VisibilityContext value and deliberately carries the
-     `scrollContainer` and `menuVisible` refs (see publicApiType), so the compiler
-     sees a ref read. Removing these would mean dropping refs from the public API,
-     which is a breaking change. */
-  /* eslint-disable react-hooks/refs */
+  // Pointer props are handler factories: they take the context during render.
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -361,7 +355,6 @@ function ScrollMenu({
       </VisibilityContext.Provider>
     </div>
   );
-  /* eslint-enable react-hooks/refs */
 }
 
 export { constants, getItemsPos, ScrollMenu, slidingWindow, VisibilityContext };
