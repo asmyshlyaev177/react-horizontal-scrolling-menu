@@ -24,7 +24,7 @@ export default function createApi(
   transitionOptions?: {
     duration?: scrollToItemOptions['duration'];
     behavior?: scrollToItemOptions['behavior'];
-    boundary?: React.MutableRefObject<scrollToItemOptions['boundary']>;
+    boundary?: React.RefObject<scrollToItemOptions['boundary']>;
   },
   noPolyfill?: boolean,
 ) {
@@ -87,9 +87,6 @@ export default function createApi(
 
     return disabled;
   };
-
-  const isFirstItemVisible = !!items.first()?.visible;
-  const isLastItemVisible = !!items.last()?.visible;
 
   const getItemById = (id: ItemId) =>
     items.find((value) => value[1].key === String(id))?.[1];
@@ -220,7 +217,10 @@ export default function createApi(
      * ```
      */
     getPrevElement,
-    isFirstItemVisible,
+    /** Live getter — a plain value would go stale on the memoised apiRef. */
+    get isFirstItemVisible() {
+      return !!items.first()?.visible;
+    },
     /**
      * Return item visibility
      *
@@ -241,7 +241,10 @@ export default function createApi(
      * ```
      */
     isLastItem,
-    isLastItemVisible,
+    /** Live getter — see isFirstItemVisible. */
+    get isLastItemVisible() {
+      return !!items.last()?.visible;
+    },
     /**
      * Scroll to next group of items
      *

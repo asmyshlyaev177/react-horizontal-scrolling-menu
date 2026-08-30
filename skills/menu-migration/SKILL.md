@@ -129,7 +129,7 @@ The v6.0.0 Observer rewrite (#270) removed `visibleElements`,
 `visibleItemsWithoutSeparators`). Nearly every pre-2024 tutorial uses them.
 
 ```tsx
-// pre-v6 — compiles in JS, dead on v8: undefined and frozen values
+// pre-v6 — compiles in JS, dead on v8: undefined and non-reactive values
 function OldLeftArrow() {
   const { isFirstItemVisible, initComplete, scrollPrev } =
     React.useContext(VisibilityContext);
@@ -262,7 +262,7 @@ condition built on them is permanently falsy.
 
 Source: CHANGELOG.md:220-228 (v6.0.0, #270); issue #282
 
-### CRITICAL isFirstItemVisible / isLastItemVisible are frozen snapshots
+### CRITICAL isFirstItemVisible / isLastItemVisible are not reactive
 
 Wrong:
 
@@ -287,14 +287,13 @@ return (
 );
 ```
 
-These two fields still exist on the context but are computed once inside a
-`useMemo` whose dependencies (`items`, transition props, `noPolyfill`,
-`menuVisible`) never change on visibility events — evaluated while the
-ItemsMap is still empty,
-they stay `false` forever; the reactive paths are the hooks or
-`items.getVisible()` read inside callbacks.
+These two fields still exist on the context as live getters, but reading
+them never subscribes the component, so a render using them does not update
+on visibility change (on <= 8.3.1 they were additionally frozen at api
+creation and stuck `false`). Reactive paths are the hooks or
+`items.getVisible()` inside callbacks.
 
-Source: src/createApi.ts:91-92; src/index.tsx:242-255; CHANGELOG v6.0.0
+Source: src/createApi.ts (visibility getters); CHANGELOG v6.0.0
 
 ### CRITICAL Transition props silently ignored under default noPolyfill
 

@@ -53,6 +53,14 @@ Also featured in [React Status #257](https://react.statuscode.com/issues/257).
 npm install react-horizontal-scrolling-menu
 ```
 
+Using [shadcn/ui](https://ui.shadcn.com)? One command installs a styled,
+ready-made component — edge-aware arrow buttons, drag-to-scroll, hidden
+scrollbar — straight into your `components/ui/`:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

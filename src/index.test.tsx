@@ -194,7 +194,7 @@ describe('ScrollMenu', () => {
   describe('apiRef', () => {
     test('MutableRef', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
-      const apiRef = { current: {} } as React.MutableRefObject<publicApiType>;
+      const apiRef = { current: {} } as React.RefObject<publicApiType>;
 
       const { container } = setup({ apiRef });
 
@@ -203,9 +203,22 @@ describe('ScrollMenu', () => {
       comparePublicApi(apiRef.current);
     });
 
+    test('visibility properties stay live getters, not spread snapshots', () => {
+      (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
+      const apiRef = { current: {} } as React.RefObject<publicApiType>;
+
+      setup({ apiRef });
+
+      for (const prop of ['isFirstItemVisible', 'isLastItemVisible']) {
+        expect(
+          Object.getOwnPropertyDescriptor(apiRef.current, prop)?.get,
+        ).toBeInstanceOf(Function);
+      }
+    });
+
     test('Callback', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
-      const apiRef = { current: {} } as React.MutableRefObject<publicApiType>;
+      const apiRef = { current: {} } as React.RefObject<publicApiType>;
       const cb = (api: publicApiType) => {
         apiRef.current = api;
       };
@@ -223,7 +236,7 @@ describe('ScrollMenu', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
       const containerRef = {
         current: {},
-      } as React.MutableRefObject<Element>;
+      } as React.RefObject<Element>;
       const { container } = setup({ containerRef });
       const scrollContainer = container.querySelector(
         '.react-horizontal-scrolling-menu--scroll-container',
@@ -237,7 +250,7 @@ describe('ScrollMenu', () => {
       (useIntersectionObserver as jest.Mock).mockReturnValue(defaultItems);
       const containerRef = {
         current: {},
-      } as React.MutableRefObject<Element>;
+      } as React.RefObject<Element>;
       const cb = (elem: Element) => {
         containerRef.current = elem;
       };

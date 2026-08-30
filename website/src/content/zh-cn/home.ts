@@ -29,6 +29,9 @@ export const home: HomeCopy = {
   install: {
     ariaLabel: '安装',
     copyLabel: '复制安装命令',
+    shadcnNote:
+      '或使用 [shadcn/ui](https://ui.shadcn.com) 现成组件 — 箭头、拖拽滚动、自带样式',
+    shadcnCopyLabel: '复制 shadcn 命令',
     facts: [
       '每月下载 **34.7 万**次',
       '**5.7 kB** 压缩+gzip',

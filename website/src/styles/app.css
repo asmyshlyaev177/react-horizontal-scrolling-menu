@@ -589,6 +589,12 @@ pre {
   padding-block: 1.4rem;
 }
 
+/* Second command under the first: one shared hairline, not two. */
+.install-row--alt {
+  border-top: 0;
+  padding-top: 0;
+}
+
 .install-cmd {
   display: inline-flex;
   align-items: center;

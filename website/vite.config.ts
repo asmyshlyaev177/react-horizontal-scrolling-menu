@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable max-lines-per-function */
 import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -132,17 +134,11 @@ const ALL_PAGES = PAGE_PATHS.map((path) => ({
  * than quietly.
  */
 /**
- * Emits the shadcn registry item at /r/scroll-menu.json, so
- * `npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json`
- * installs a styled ScrollMenu into any shadcn project. The component source
- * lives in registry/scroll-menu.tsx — one file, embedded here at build so the
- * served JSON can never drift from it. e2e/smoke.spec.ts fetches the item and
- * compares it against that same file.
+ * Emits the shadcn registry: one /r/<name>.json per item (source embedded at
+ * build, so the served JSON cannot drift) plus the /r/registry.json index.
+ * Installed via `npx shadcn add <site>/r/<name>.json`; smoke-tested.
  */
 function shadcnRegistry(): Plugin {
-  // One entry per registry item; `source` is embedded into the item JSON and
-  // stripped from the registry.json index (the directory validator rejects
-  // `content` there).
   const items = [
     {
       source: new URL('./registry/scroll-menu.tsx', import.meta.url),
@@ -163,6 +159,90 @@ function shadcnRegistry(): Plugin {
           },
         ],
         docs: `Every direct child of <ScrollMenu> needs a unique itemId prop. Examples and full API: ${SITE_URL}`,
+      },
+    },
+    {
+      source: new URL('./registry/scroll-tabs.tsx', import.meta.url),
+      meta: {
+        name: 'scroll-tabs',
+        type: 'registry:component',
+        title: 'Scroll Tabs',
+        description:
+          'Scrollable tab strip — the MUI scrollable-tabs use case without the Tabs coupling. Active tab centers itself; arrows and drag-to-scroll from scroll-menu.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu'],
+        registryDependencies: [`${SITE_URL}/r/scroll-menu.json`],
+        files: [
+          {
+            path: 'components/ui/scroll-tabs.tsx',
+            target: 'components/ui/scroll-tabs.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Controlled: pass tabs, value and onValueChange. Examples: ${SITE_URL}`,
+      },
+    },
+    {
+      source: new URL('./registry/chip-bar.tsx', import.meta.url),
+      meta: {
+        name: 'chip-bar',
+        type: 'registry:component',
+        title: 'Chip Bar',
+        description:
+          'Horizontal multi-select filter bar: toggleable chips in a drag-to-scroll row that never wraps.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu', 'lucide-react'],
+        registryDependencies: [`${SITE_URL}/r/scroll-menu.json`],
+        files: [
+          {
+            path: 'components/ui/chip-bar.tsx',
+            target: 'components/ui/chip-bar.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Controlled: pass options, selected and onSelectedChange. Examples: ${SITE_URL}`,
+      },
+    },
+    {
+      source: new URL('./registry/media-row.tsx', import.meta.url),
+      meta: {
+        name: 'media-row',
+        type: 'registry:component',
+        title: 'Media Row',
+        description:
+          'Netflix-style media rail: edge fade masks and full-height overlay arrows on hover. Bring your own cards.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu', 'lucide-react'],
+        registryDependencies: [`${SITE_URL}/r/scroll-menu.json`],
+        files: [
+          {
+            path: 'components/ui/media-row.tsx',
+            target: 'components/ui/media-row.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Each child card needs a unique itemId prop. Examples: ${SITE_URL}`,
+      },
+    },
+    {
+      source: new URL('./registry/autoplay-carousel.tsx', import.meta.url),
+      meta: {
+        name: 'autoplay-carousel',
+        type: 'registry:component',
+        title: 'Carousel',
+        description:
+          'Autoplaying carousel on the scroll-menu row: advances a group at a time, wraps at the end, pauses on hover, focus, hidden tabs, reduced motion and a built-in play/pause toggle.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu', 'lucide-react'],
+        registryDependencies: ['button', `${SITE_URL}/r/scroll-menu.json`],
+        files: [
+          {
+            path: 'components/ui/autoplay-carousel.tsx',
+            target: 'components/ui/autoplay-carousel.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Each slide needs a unique itemId prop. Examples: ${SITE_URL}`,
       },
     },
   ];

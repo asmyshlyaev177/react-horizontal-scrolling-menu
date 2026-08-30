@@ -11,10 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-/**
- * Imperative API of the surrounding ScrollMenu: scrollToItem, scrollPrev/Next,
- * per-item visibility hooks. Only valid inside ScrollMenu children and arrows.
- */
+/** Imperative menu API; only valid inside ScrollMenu children and arrows. */
 function useScrollMenu(): publicApiType {
   return React.useContext(VisibilityContext);
 }
@@ -30,11 +27,9 @@ interface ScrollMenuProps extends Omit<
 }
 
 /**
- * Horizontal scrolling row: arrows that disable at the edges, drag-to-scroll
- * with the mouse, native touch scrolling, hidden scrollbar.
- *
- * Every direct child must carry a unique `itemId` prop — that is how the
- * menu tracks visibility. Full API: https://react-horizontal-scrolling-menu.dev
+ * Horizontal scrolling row: edge-aware arrows, drag-to-scroll, hidden
+ * scrollbar. Every direct child needs a unique `itemId` prop.
+ * Docs: https://react-horizontal-scrolling-menu.dev
  */
 function ScrollMenu({
   className,
@@ -67,9 +62,8 @@ function ScrollMenu({
 
   return (
     <div
-      // The library ships a 6-rule stylesheet; a CSS side-effect import is a
-      // TS error in fresh TypeScript 6 projects, so its layout is restated
-      // here as utilities instead. `.rtl` covers the RTL prop.
+      // The library's 6-rule stylesheet as utilities — a CSS side-effect
+      // import is a TS error in fresh TypeScript 6 projects.
       className={cn(
         'relative',
         '[&_.react-horizontal-scrolling-menu--inner-wrapper]:flex',
@@ -80,7 +74,7 @@ function ScrollMenu({
         className,
       )}
       onMouseLeave={dragStop}
-      // A drag ends on top of an item; swallow that click so it is not a select.
+      // Swallow the click that ends a drag.
       onClickCapture={(ev) => {
         if (drag.current.dragging) {
           ev.preventDefault();
@@ -115,8 +109,7 @@ function ScrollMenu({
 
 function ScrollMenuLeftArrow() {
   const api = useScrollMenu();
-  // Library naming: useLeftArrowVisible() is true when the FIRST item is
-  // fully visible — i.e. when the arrow should be disabled.
+  // useLeftArrowVisible() is true when the first item is visible = arrow disabled.
   const atStart = api.useLeftArrowVisible();
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { emptyStr, scrollContainerClassName } from '../../constants';
-import { isMutableRef } from '../../helpers';
+import { isRefObject } from '../../helpers';
 import { RefType } from '../../types';
 
 export type Props = {
@@ -28,12 +28,12 @@ function ScrollContainer({
 
   const setRefs = React.useCallback(
     (elem: HTMLDivElement) => {
-      if (isMutableRef(scrollRef)) {
+      if (isRefObject(scrollRef)) {
         scrollRef.current = elem;
       } else {
         scrollRef(elem);
       }
-      if (isMutableRef(containerRef)) {
+      if (isRefObject(containerRef)) {
         containerRef.current = elem;
       } else {
         containerRef(elem);

@@ -44,6 +44,12 @@ Cũng được giới thiệu trên [React Status #257](https://react.statuscode
 npm install react-horizontal-scrolling-menu
 ```
 
+Bạn dùng [shadcn/ui](https://ui.shadcn.com)? Một lệnh duy nhất cài đặt component đã được style sẵn — nút mũi tên nhận biết mép, kéo để cuộn, thanh cuộn ẩn — thẳng vào `components/ui/` của bạn:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {
