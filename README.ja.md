@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · 日本語 · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ja source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
+<!-- i18n:meta locale=ja source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -161,7 +161,7 @@ TypeScript の型があります。SSR セーフで、[ランディングペー�
 はすべてのデモをサーバーレンダリングします。
 
 カルーセルエンジンはありません。スナップやスプリング物理もありません。全画面の
-画像スライダーが欲しいなら Embla か Swiper を使ってください。自動再生と無限
+画像スライダーが欲しいなら Embla か Swiper を使ってください。どちらが勝つ場面かは[比較ページ](https://react-horizontal-scrolling-menu.dev/compare)が正直に述べており、[Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick の代替](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper の代替](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)の詳細ページもあります。自動再生と無限
 ループもプロパティではありません。公開 API の上にそれぞれ約 60 行で書ける
 レシピで、Storybook でライブ編集できます
 （[無限ループ](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop)、
@@ -169,6 +169,8 @@ TypeScript の型があります。SSR セーフで、[ランディングペー�
 何が見えているかを知っている行が必要なら、これがそれです。
 
 ## 例
+
+目的別の完成パターン。それぞれサーバーレンダリングされたライブデモ、コード、対応する shadcn インストールつき：[Netflix 風の行](https://react-horizontal-scrolling-menu.dev/netflix-row) · [スクロール可能なタブ](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [フィルターチップ](https://react-horizontal-scrolling-menu.dev/filter-chips) · [カテゴリーレール](https://react-horizontal-scrolling-menu.dev/category-rail)。
 
 すべての例は
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)

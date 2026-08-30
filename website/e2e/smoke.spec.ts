@@ -405,3 +405,62 @@ test.describe('the shadcn registry', () => {
     }
   });
 });
+
+test.describe('use-case and comparison pages', () => {
+  // The demo is the page's proof: it must be in the server HTML, not behind
+  // hydration — agents and crawlers read the markup only.
+  for (const path of [
+    '/netflix-row',
+    '/scrollable-tabs',
+    '/filter-chips',
+    '/category-rail',
+  ]) {
+    test(`${path} server-renders its live demo`, async ({ request }) => {
+      const html = await (await request.get(path, { headers: BROWSER })).text();
+      expect(html).toContain(
+        'react-horizontal-scrolling-menu--scroll-container',
+      );
+      // The shadcn install command (shiki splits tokens into spans, so match
+      // the registry URL, which survives as one token).
+      expect(html).toContain('react-horizontal-scrolling-menu.dev/r/');
+    });
+  }
+
+  for (const path of [
+    '/compare/embla-vs-swiper',
+    '/compare/react-slick-alternatives',
+    '/compare/swiper-alternatives',
+  ]) {
+    test(`${path} server-renders its comparison table`, async ({ request }) => {
+      const html = await (await request.get(path, { headers: BROWSER })).text();
+      expect(html).toContain('<table');
+    });
+  }
+
+  test('/examples links every use-case page', async ({ request }) => {
+    const html = await (
+      await request.get('/examples', { headers: BROWSER })
+    ).text();
+    for (const slug of [
+      'netflix-row',
+      'scrollable-tabs',
+      'filter-chips',
+      'category-rail',
+    ]) {
+      expect(html).toContain(`href="/${slug}"`);
+    }
+  });
+
+  test('/compare links every pair page', async ({ request }) => {
+    const html = await (
+      await request.get('/compare', { headers: BROWSER })
+    ).text();
+    for (const slug of [
+      'embla-vs-swiper',
+      'react-slick-alternatives',
+      'swiper-alternatives',
+    ]) {
+      expect(html).toContain(`href="/compare/${slug}"`);
+    }
+  });
+});

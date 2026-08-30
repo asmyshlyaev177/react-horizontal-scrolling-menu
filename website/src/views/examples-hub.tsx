@@ -3,6 +3,7 @@ import { SiteFooter, SiteHeader } from '../components/SiteChrome';
 import type { SiteCopy } from '../content/types';
 import { EXAMPLE_GROUPS, EXAMPLES } from '../lib/examples-manifest';
 import { STORYBOOK } from '../lib/links';
+import { USE_CASES } from '../lib/use-cases-manifest';
 
 /**
  * The /examples listing, independent of which language it renders in.
@@ -26,6 +27,30 @@ export function View({
           {copy.title}
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">{copy.lede}</p>
+
+        <section aria-label={site.useCases.hub.heading} className="mt-10">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            {site.useCases.hub.heading}
+          </h2>
+          <p className="mt-2 max-w-2xl text-muted">{site.useCases.hub.lede}</p>
+          <ul className="mt-4 grid list-none gap-3 pl-0 sm:grid-cols-2 lg:grid-cols-4">
+            {USE_CASES.map(({ slug, key }) => (
+              <li key={slug}>
+                <a
+                  href={`${prefix}/${slug}`}
+                  className="block h-full rounded-lg border border-border bg-surface p-4 text-ink no-underline hover:border-border-strong"
+                >
+                  <span className="font-semibold">
+                    {site.useCases[key].name}
+                  </span>
+                  <span className="mt-1 block text-sm text-muted">
+                    {site.useCases[key].blurb}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {EXAMPLE_GROUPS.map((group) => {
           const entries = EXAMPLES.filter((example) => example.group === group);

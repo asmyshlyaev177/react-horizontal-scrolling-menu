@@ -21,5 +21,6 @@ export const Route = createFileRoute('/$locale/compare')({
 function Page() {
   const { locale: dir } = Route.useParams();
   const locale = localeFromParam(dir);
-  return <View copy={copyFor(locale?.code ?? 'en').compare} locale={dir} />;
+  const site = copyFor(locale?.code ?? 'en');
+  return <View copy={site.compare} pairs={site.comparePairs} locale={dir} />;
 }

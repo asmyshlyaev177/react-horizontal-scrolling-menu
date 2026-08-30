@@ -2,19 +2,23 @@
 import type { SiteCopy } from '../types.ts';
 import { chrome } from './chrome.ts';
 import { compare } from './compare.ts';
+import { comparePairs } from './compare-pairs.ts';
 import { examples } from './examples.ts';
 import { examplePage, examplesHub } from './examples-hub.ts';
 import { home } from './home.ts';
 import { manifest } from './manifest.ts';
+import { useCases } from './use-cases.ts';
 
 export const fr: SiteCopy = {
   chrome,
   compare,
+  comparePairs,
   examplePage,
   examples,
   examplesHub,
   home,
   manifest,
+  useCases,
 };
 
 export default fr;

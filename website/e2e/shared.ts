@@ -22,6 +22,13 @@ export const HTML_ROUTES = [
   '/',
   '/examples',
   '/compare',
+  '/compare/embla-vs-swiper',
+  '/compare/react-slick-alternatives',
+  '/compare/swiper-alternatives',
+  '/netflix-row',
+  '/scrollable-tabs',
+  '/filter-chips',
+  '/category-rail',
   ...EXAMPLES.map((example) => `/examples/${example.slug}`),
 ];
 

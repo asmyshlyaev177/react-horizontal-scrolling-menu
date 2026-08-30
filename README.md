@@ -170,7 +170,13 @@ throughout. SSR-safe — the [landing page](https://react-horizontal-scrolling-m
 server-renders every demo.
 
 No carousel engine: no snap or spring physics — if you want a fullscreen
-image slider, use Embla or Swiper. Autoplay and infinite loop aren't props
+image slider, use Embla or Swiper. The
+[comparison page](https://react-horizontal-scrolling-menu.dev/compare) is
+honest about when they win, with deep dives on
+[Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper),
+[react-slick alternatives](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)
+and
+[Swiper alternatives](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Autoplay and infinite loop aren't props
 either; they're recipes of about sixty lines each on the public API,
 live-editable in Storybook
 ([infinite loop](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
@@ -178,6 +184,13 @@ live-editable in Storybook
 If you need a row that knows what's visible, this is it.
 
 ## Examples
+
+Complete patterns by outcome, each with a live server-rendered demo, the
+code, and a matching shadcn install:
+[Netflix-style row](https://react-horizontal-scrolling-menu.dev/netflix-row) ·
+[scrollable tabs](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) ·
+[filter chips](https://react-horizontal-scrolling-menu.dev/filter-chips) ·
+[category rail](https://react-horizontal-scrolling-menu.dev/category-rail).
 
 Every example is live-editable in the
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

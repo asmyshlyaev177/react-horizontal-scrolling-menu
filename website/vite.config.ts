@@ -100,11 +100,26 @@ function exampleCodeHtml(): Plugin {
 // (content freshness = HEAD commit, never new Date()).
 
 /** The locale-independent path of every page the site routes. */
+const COMPARE_PAIR_PATHS = [
+  '/compare/embla-vs-swiper',
+  '/compare/react-slick-alternatives',
+  '/compare/swiper-alternatives',
+];
+
+const USE_CASE_PATHS = [
+  '/netflix-row',
+  '/scrollable-tabs',
+  '/filter-chips',
+  '/category-rail',
+];
+
 const PAGE_PATHS = [
   '/',
   '/examples',
   ...EXAMPLES.map((example) => `/examples/${example.slug}`),
   '/compare',
+  ...COMPARE_PAIR_PATHS,
+  ...USE_CASE_PATHS,
 ];
 
 /**
@@ -325,6 +340,12 @@ function localeHeaders(): Plugin {
           // `:slug` is interpolated into the value, so one rule covers all 21.
           [`${p}/examples/:slug`, own(`${p}/examples/:slug.md`)],
           [`${p}/compare`, own(`${p}/compare.md`)],
+          // One placeholder rule covers the three pair pages.
+          [`${p}/compare/:slug`, own(`${p}/compare/:slug.md`)],
+          ...USE_CASE_PATHS.map((path) => [
+            `${p}${path}`,
+            own(`${p}${path}.md`),
+          ]),
         ].map(([route, link]) => `${route}\n${link}\n${llms}`);
       });
 

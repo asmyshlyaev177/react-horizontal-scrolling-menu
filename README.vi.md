@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · Tiếng Việt
-<!-- i18n:meta locale=vi source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
+<!-- i18n:meta locale=vi source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -158,7 +158,7 @@ An toàn với SSR — [trang chủ](https://react-horizontal-scrolling-menu.dev
 từng bản demo trên server.
 
 Không có engine carousel: không có vật lý snap hay lò xo — nếu bạn muốn một
-slider ảnh toàn màn hình, hãy dùng Embla hoặc Swiper. Tự phát và vòng lặp vô hạn
+slider ảnh toàn màn hình, hãy dùng Embla hoặc Swiper. [Trang so sánh](https://react-horizontal-scrolling-menu.dev/compare) nói thẳng khi nào chúng thắng, kèm các bài phân tích sâu: [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [các lựa chọn thay thế react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) và [các lựa chọn thay thế Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Tự phát và vòng lặp vô hạn
 cũng không phải props; chúng là các recipe khoảng sáu mươi dòng mỗi cái trên API
 công khai, có thể chỉnh sửa trực tiếp trong Storybook
 ([vòng lặp vô hạn](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
@@ -166,6 +166,8 @@ công khai, có thể chỉnh sửa trực tiếp trong Storybook
 Nếu bạn cần một hàng biết cái gì đang hiển thị, thì đây chính là nó.
 
 ## Ví dụ
+
+Các mẫu hoàn chỉnh theo mục tiêu, mỗi mẫu có demo render phía máy chủ, mã nguồn và lệnh cài shadcn tương ứng: [dải kiểu Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [tab cuộn được](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chip lọc](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail danh mục](https://react-horizontal-scrolling-menu.dev/category-rail).
 
 Mỗi ví dụ đều có thể chỉnh sửa trực tiếp trong
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

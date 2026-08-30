@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/home.ts source-blob=1da4a2b83ec7a4e233dae7ab5c335622de7edad4 status=translated
+// i18n:meta locale=ja source=en/home.ts source-blob=732c3dd50b5369701d5eea6813f6b1f5c2c05ab4 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 

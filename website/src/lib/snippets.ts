@@ -131,6 +131,166 @@ React.useEffect(() => {
   ))}
 </ScrollMenu>`,
   },
+  netflixRow: {
+    lang: 'tsx',
+    code: `function MediaRow({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="group relative">
+      <ScrollMenu Header={<OverlayArrows />} wrapperClassName="edge-fade">
+        {children}
+      </ScrollMenu>
+    </div>
+  );
+}
+
+// Rendered as Header, so it lives inside the menu's VisibilityContext
+// and can sit absolutely positioned over the row ends.
+function OverlayArrows() {
+  const api = React.useContext<publicApiType>(VisibilityContext);
+  const atStart = api.useLeftArrowVisible();
+  const atEnd = api.useRightArrowVisible();
+  return (
+    <>
+      <button
+        className="overlay-arrow left-0"
+        hidden={atStart}
+        onClick={() => api.scrollPrev()}
+      >
+        ←
+      </button>
+      <button
+        className="overlay-arrow right-0"
+        hidden={atEnd}
+        onClick={() => api.scrollNext()}
+      >
+        →
+      </button>
+    </>
+  );
+}
+
+/* .edge-fade — the Netflix edge, one CSS line:
+   mask-image: linear-gradient(to right,
+     transparent, black 40px, black calc(100% - 40px), transparent); */`,
+  },
+
+  scrollableTabs: {
+    lang: 'tsx',
+    code: `function ScrollTabs({ tabs }: { tabs: string[] }) {
+  const [active, setActive] = React.useState(tabs[0]);
+  return (
+    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+      {tabs.map((tab) => (
+        <Tab itemId={tab} key={tab} label={tab}
+          active={tab === active} onSelect={() => setActive(tab)} />
+      ))}
+    </ScrollMenu>
+  );
+}
+
+function Tab({ itemId, label, active, onSelect }: TabProps) {
+  const api = React.useContext<publicApiType>(VisibilityContext);
+  return (
+    <button
+      aria-current={active}
+      onClick={(ev) => {
+        onSelect();
+        // The behavior that makes tabs feel native: selecting an
+        // edge tab glides it to the center of the strip.
+        api.scrollToItem(ev.currentTarget, 'smooth', 'center');
+      }}
+    >
+      {label}
+    </button>
+  );
+}`,
+  },
+
+  filterChips: {
+    lang: 'tsx',
+    code: `function ChipBar({ options }: { options: string[] }) {
+  const apiRef = React.useRef<publicApiType>(null);
+  const [selected, setSelected] = React.useState<string[]>([]);
+
+  const toggle = (id: string) =>
+    setSelected((cur) =>
+      cur.includes(id) ? cur.filter((c) => c !== id) : [...cur, id],
+    );
+
+  // A chip appended off-screen scrolls itself into view.
+  const addChip = (id: string) => {
+    toggle(id);
+    requestAnimationFrame(() => {
+      const el = apiRef.current?.getItemElementById(id);
+      if (el) apiRef.current?.scrollToItem(el, 'smooth', 'end');
+    });
+  };
+
+  return (
+    <ScrollMenu apiRef={apiRef}>
+      {options.map((id) => (
+        <Chip itemId={id} key={id} pressed={selected.includes(id)}
+          onToggle={() => toggle(id)} />
+      ))}
+    </ScrollMenu>
+  );
+}`,
+  },
+
+  categoryRail: {
+    lang: 'tsx',
+    code: `function CategoryRail({ categories }: { categories: Category[] }) {
+  return (
+    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+      {categories.map((category) => (
+        <CategoryTile itemId={category.id} key={category.id} {...category} />
+      ))}
+    </ScrollMenu>
+  );
+}
+
+function CategoryTile({ itemId, name, image }: CategoryTileProps) {
+  // Lazy images for free: placeholders until the tile is on screen.
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const isVisible = visibility.useIsVisible(itemId, false);
+  return (
+    <a href={\`/category/\${itemId}\`} className="rail-tile">
+      {isVisible ? <img src={image} alt="" /> : <div className="ph" />}
+      <span>{name}</span>
+    </a>
+  );
+}
+
+function LeftArrow() {
+  const visibility = React.useContext<publicApiType>(VisibilityContext);
+  const atStart = visibility.useLeftArrowVisible();
+  return (
+    <button disabled={atStart} onClick={() => visibility.scrollPrev()}>
+      ←
+    </button>
+  );
+}`,
+  },
+
+  shadcnMediaRow: {
+    lang: 'bash',
+    code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/media-row.json',
+  },
+
+  shadcnScrollTabs: {
+    lang: 'bash',
+    code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-tabs.json',
+  },
+
+  shadcnChipBar: {
+    lang: 'bash',
+    code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/chip-bar.json',
+  },
+
+  shadcnScrollMenu: {
+    lang: 'bash',
+    code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json',
+  },
 } satisfies Record<string, Snippet>;
 
 export type SnippetKey = keyof typeof snippets;

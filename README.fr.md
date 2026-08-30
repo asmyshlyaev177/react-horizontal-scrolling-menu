@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · Français · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=fr source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
+<!-- i18n:meta locale=fr source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -163,7 +163,7 @@ TypeScript partout. Sûr pour le SSR — la
 côté serveur.
 
 Pas de moteur de carrousel : pas de physique d’accroche ni de ressort — si vous
-voulez un diaporama d’images en plein écran, utilisez Embla ou Swiper. La
+voulez un diaporama d’images en plein écran, utilisez Embla ou Swiper. La [page de comparaison](https://react-horizontal-scrolling-menu.dev/compare) dit honnêtement quand ils gagnent, avec des analyses détaillées : [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternatives à react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) et [alternatives à Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). La
 lecture automatique et la boucle infinie ne sont pas non plus des props ; ce
 sont des recettes d’environ soixante lignes chacune sur l’API publique,
 modifiables en direct dans Storybook
@@ -172,6 +172,8 @@ modifiables en direct dans Storybook
 Si vous avez besoin d’une rangée qui sache ce qui est visible, c’est celle-ci.
 
 ## Exemples
+
+Des patterns complets par objectif, chacun avec une démo rendue côté serveur, le code et son installation shadcn : [rangée façon Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [onglets défilants](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtre](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail de catégories](https://react-horizontal-scrolling-menu.dev/category-rail).
 
 Chaque exemple est modifiable en direct dans
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

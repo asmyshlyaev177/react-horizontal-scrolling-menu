@@ -183,6 +183,76 @@ export interface CompareCopy {
   };
 }
 
+/**
+ * One use-case page: an outcome-named landing (`/netflix-row`, …) that wraps
+ * existing demos and examples under the phrasing people search by.
+ */
+export interface UseCaseCopy {
+  meta: PageMeta;
+  /** `headline` on the TechArticle JSON-LD. */
+  jsonLdHeadline: string;
+  /** Card name and one-liner on the /examples hub. */
+  name: string;
+  blurb: string;
+  title: string;
+  lede: string;
+  /** One line under the demo (what to try). */
+  demoHint: string;
+  prose: readonly ProseSection[];
+  /** Heading + lede above the inline code listing. */
+  snippet: {
+    heading: string;
+    lede: string;
+  };
+  /** The shadcn-registry install section. */
+  shadcn: {
+    heading: string;
+    body: string;
+  };
+}
+
+export interface UseCasesCopy {
+  /** The "Use cases" section on the /examples hub. */
+  hub: {
+    heading: string;
+    lede: string;
+  };
+  netflixRow: UseCaseCopy;
+  scrollableTabs: UseCaseCopy;
+  filterChips: UseCaseCopy;
+  categoryRail: UseCaseCopy;
+}
+
+/** One neutral comparison page (`/compare/embla-vs-swiper`, …). */
+export interface ComparePairCopy {
+  meta: PageMeta;
+  /** `headline` on the TechArticle JSON-LD. */
+  jsonLdHeadline: string;
+  /** Hub-card name and one-liner on /compare. */
+  name: string;
+  blurb: string;
+  title: string;
+  lede: string;
+  table: {
+    headers: readonly string[];
+    /** Row label first, then one cell per column, in header order. */
+    rows: readonly (readonly string[])[];
+    note: string;
+  };
+  prose: readonly ProseSection[];
+}
+
+export interface ComparePairsCopy {
+  /** The "more comparisons" section on the /compare hub. */
+  hub: {
+    heading: string;
+    lede: string;
+  };
+  emblaVsSwiper: ComparePairCopy;
+  reactSlickAlternatives: ComparePairCopy;
+  swiperAlternatives: ComparePairCopy;
+}
+
 /** Hub-card name and one-liner for one example. */
 export interface ExampleListing {
   name: string;
@@ -245,6 +315,8 @@ export interface SiteCopy {
   chrome: ChromeCopy;
   home: HomeCopy;
   compare: CompareCopy;
+  comparePairs: ComparePairsCopy;
+  useCases: UseCasesCopy;
   manifest: ManifestCopy;
   examples: ExamplesCopy;
 }

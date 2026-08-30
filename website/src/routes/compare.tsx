@@ -11,5 +11,7 @@ export const Route = createFileRoute('/compare')({
       title: en.compare.meta.title,
       description: en.compare.meta.description,
     }),
-  component: () => <View copy={en.compare} locale="en" />,
+  component: () => (
+    <View copy={en.compare} pairs={en.comparePairs} locale="en" />
+  ),
 });

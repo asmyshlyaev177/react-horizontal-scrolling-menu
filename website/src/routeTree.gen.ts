@@ -11,9 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteRouteImport } from './routes/$locale/route'
+import { Route as CategoryRailRouteImport } from './routes/category-rail'
 import { Route as CompareRouteImport } from './routes/compare'
+import { Route as FilterChipsRouteImport } from './routes/filter-chips'
+import { Route as NetflixRowRouteImport } from './routes/netflix-row'
+import { Route as ScrollableTabsRouteImport } from './routes/scrollable-tabs'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
+import { Route as LocaleCategoryRailRouteImport } from './routes/$locale/category-rail'
 import { Route as LocaleCompareRouteImport } from './routes/$locale/compare'
+import { Route as LocaleFilterChipsRouteImport } from './routes/$locale/filter-chips'
+import { Route as LocaleNetflixRowRouteImport } from './routes/$locale/netflix-row'
+import { Route as LocaleScrollableTabsRouteImport } from './routes/$locale/scrollable-tabs'
+import { Route as CompareEmblaVsSwiperRouteImport } from './routes/compare_.embla-vs-swiper'
+import { Route as CompareReactSlickAlternativesRouteImport } from './routes/compare_.react-slick-alternatives'
+import { Route as CompareSwiperAlternativesRouteImport } from './routes/compare_.swiper-alternatives'
 import { Route as ExamplesIndexRouteImport } from './routes/examples/index'
 import { Route as ExamplesAddItemAndScrollToItRouteImport } from './routes/examples/add-item-and-scroll-to-it'
 import { Route as ExamplesAddItemsRouteImport } from './routes/examples/add-items'
@@ -36,6 +47,9 @@ import { Route as ExamplesScrollToItemRouteImport } from './routes/examples/scro
 import { Route as ExamplesSimpleRouteImport } from './routes/examples/simple'
 import { Route as ExamplesSwipeDesktopRouteImport } from './routes/examples/swipe-desktop'
 import { Route as ExamplesVerticalRouteImport } from './routes/examples/vertical'
+import { Route as LocaleCompareEmblaVsSwiperRouteImport } from './routes/$locale/compare_.embla-vs-swiper'
+import { Route as LocaleCompareReactSlickAlternativesRouteImport } from './routes/$locale/compare_.react-slick-alternatives'
+import { Route as LocaleCompareSwiperAlternativesRouteImport } from './routes/$locale/compare_.swiper-alternatives'
 import { Route as LocaleExamplesIndexRouteImport } from './routes/$locale/examples/index'
 import { Route as LocaleExamplesAddItemAndScrollToItRouteImport } from './routes/$locale/examples/add-item-and-scroll-to-it'
 import { Route as LocaleExamplesAddItemsRouteImport } from './routes/$locale/examples/add-items'
@@ -69,9 +83,29 @@ const LocaleRouteRoute = LocaleRouteRouteImport.update({
   path: '/$locale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoryRailRoute = CategoryRailRouteImport.update({
+  id: '/category-rail',
+  path: '/category-rail',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FilterChipsRoute = FilterChipsRouteImport.update({
+  id: '/filter-chips',
+  path: '/filter-chips',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NetflixRowRoute = NetflixRowRouteImport.update({
+  id: '/netflix-row',
+  path: '/netflix-row',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScrollableTabsRoute = ScrollableTabsRouteImport.update({
+  id: '/scrollable-tabs',
+  path: '/scrollable-tabs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
@@ -79,11 +113,48 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleCategoryRailRoute = LocaleCategoryRailRouteImport.update({
+  id: '/category-rail',
+  path: '/category-rail',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleCompareRoute = LocaleCompareRouteImport.update({
   id: '/compare',
   path: '/compare',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleFilterChipsRoute = LocaleFilterChipsRouteImport.update({
+  id: '/filter-chips',
+  path: '/filter-chips',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleNetflixRowRoute = LocaleNetflixRowRouteImport.update({
+  id: '/netflix-row',
+  path: '/netflix-row',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleScrollableTabsRoute = LocaleScrollableTabsRouteImport.update({
+  id: '/scrollable-tabs',
+  path: '/scrollable-tabs',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const CompareEmblaVsSwiperRoute = CompareEmblaVsSwiperRouteImport.update({
+  id: '/compare_/embla-vs-swiper',
+  path: '/compare/embla-vs-swiper',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareReactSlickAlternativesRoute =
+  CompareReactSlickAlternativesRouteImport.update({
+    id: '/compare_/react-slick-alternatives',
+    path: '/compare/react-slick-alternatives',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CompareSwiperAlternativesRoute =
+  CompareSwiperAlternativesRouteImport.update({
+    id: '/compare_/swiper-alternatives',
+    path: '/compare/swiper-alternatives',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ExamplesIndexRoute = ExamplesIndexRouteImport.update({
   id: '/examples/',
   path: '/examples/',
@@ -198,6 +269,24 @@ const ExamplesVerticalRoute = ExamplesVerticalRouteImport.update({
   path: '/examples/vertical',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleCompareEmblaVsSwiperRoute =
+  LocaleCompareEmblaVsSwiperRouteImport.update({
+    id: '/compare_/embla-vs-swiper',
+    path: '/compare/embla-vs-swiper',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleCompareReactSlickAlternativesRoute =
+  LocaleCompareReactSlickAlternativesRouteImport.update({
+    id: '/compare_/react-slick-alternatives',
+    path: '/compare/react-slick-alternatives',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleCompareSwiperAlternativesRoute =
+  LocaleCompareSwiperAlternativesRouteImport.update({
+    id: '/compare_/swiper-alternatives',
+    path: '/compare/swiper-alternatives',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleExamplesIndexRoute = LocaleExamplesIndexRouteImport.update({
   id: '/examples/',
   path: '/examples/',
@@ -325,8 +414,19 @@ const LocaleExamplesVerticalRoute = LocaleExamplesVerticalRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteRouteWithChildren
+  '/category-rail': typeof CategoryRailRoute
   '/compare': typeof CompareRoute
+  '/filter-chips': typeof FilterChipsRoute
+  '/netflix-row': typeof NetflixRowRoute
+  '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
+  '/$locale/filter-chips': typeof LocaleFilterChipsRoute
+  '/$locale/netflix-row': typeof LocaleNetflixRowRoute
+  '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/compare/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
+  '/compare/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
+  '/compare/swiper-alternatives': typeof CompareSwiperAlternativesRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -350,6 +450,9 @@ export interface FileRoutesByFullPath {
   '/examples/vertical': typeof ExamplesVerticalRoute
   '/$locale/': typeof LocaleIndexRoute
   '/examples/': typeof ExamplesIndexRoute
+  '/$locale/compare/embla-vs-swiper': typeof LocaleCompareEmblaVsSwiperRoute
+  '/$locale/compare/react-slick-alternatives': typeof LocaleCompareReactSlickAlternativesRoute
+  '/$locale/compare/swiper-alternatives': typeof LocaleCompareSwiperAlternativesRoute
   '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
   '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
   '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
@@ -375,8 +478,19 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/category-rail': typeof CategoryRailRoute
   '/compare': typeof CompareRoute
+  '/filter-chips': typeof FilterChipsRoute
+  '/netflix-row': typeof NetflixRowRoute
+  '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
+  '/$locale/filter-chips': typeof LocaleFilterChipsRoute
+  '/$locale/netflix-row': typeof LocaleNetflixRowRoute
+  '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/compare/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
+  '/compare/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
+  '/compare/swiper-alternatives': typeof CompareSwiperAlternativesRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -400,6 +514,9 @@ export interface FileRoutesByTo {
   '/examples/vertical': typeof ExamplesVerticalRoute
   '/$locale': typeof LocaleIndexRoute
   '/examples': typeof ExamplesIndexRoute
+  '/$locale/compare/embla-vs-swiper': typeof LocaleCompareEmblaVsSwiperRoute
+  '/$locale/compare/react-slick-alternatives': typeof LocaleCompareReactSlickAlternativesRoute
+  '/$locale/compare/swiper-alternatives': typeof LocaleCompareSwiperAlternativesRoute
   '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
   '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
   '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
@@ -427,8 +544,19 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteRouteWithChildren
+  '/category-rail': typeof CategoryRailRoute
   '/compare': typeof CompareRoute
+  '/filter-chips': typeof FilterChipsRoute
+  '/netflix-row': typeof NetflixRowRoute
+  '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
+  '/$locale/filter-chips': typeof LocaleFilterChipsRoute
+  '/$locale/netflix-row': typeof LocaleNetflixRowRoute
+  '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/compare_/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
+  '/compare_/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
+  '/compare_/swiper-alternatives': typeof CompareSwiperAlternativesRoute
   '/examples/add-item-and-scroll-to-it': typeof ExamplesAddItemAndScrollToItRoute
   '/examples/add-items': typeof ExamplesAddItemsRoute
   '/examples/autoplay': typeof ExamplesAutoplayRoute
@@ -452,6 +580,9 @@ export interface FileRoutesById {
   '/examples/vertical': typeof ExamplesVerticalRoute
   '/$locale/': typeof LocaleIndexRoute
   '/examples/': typeof ExamplesIndexRoute
+  '/$locale/compare_/embla-vs-swiper': typeof LocaleCompareEmblaVsSwiperRoute
+  '/$locale/compare_/react-slick-alternatives': typeof LocaleCompareReactSlickAlternativesRoute
+  '/$locale/compare_/swiper-alternatives': typeof LocaleCompareSwiperAlternativesRoute
   '/$locale/examples/add-item-and-scroll-to-it': typeof LocaleExamplesAddItemAndScrollToItRoute
   '/$locale/examples/add-items': typeof LocaleExamplesAddItemsRoute
   '/$locale/examples/autoplay': typeof LocaleExamplesAutoplayRoute
@@ -480,8 +611,19 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$locale'
+    | '/category-rail'
     | '/compare'
+    | '/filter-chips'
+    | '/netflix-row'
+    | '/scrollable-tabs'
+    | '/$locale/category-rail'
     | '/$locale/compare'
+    | '/$locale/filter-chips'
+    | '/$locale/netflix-row'
+    | '/$locale/scrollable-tabs'
+    | '/compare/embla-vs-swiper'
+    | '/compare/react-slick-alternatives'
+    | '/compare/swiper-alternatives'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -505,6 +647,9 @@ export interface FileRouteTypes {
     | '/examples/vertical'
     | '/$locale/'
     | '/examples/'
+    | '/$locale/compare/embla-vs-swiper'
+    | '/$locale/compare/react-slick-alternatives'
+    | '/$locale/compare/swiper-alternatives'
     | '/$locale/examples/add-item-and-scroll-to-it'
     | '/$locale/examples/add-items'
     | '/$locale/examples/autoplay'
@@ -530,8 +675,19 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/category-rail'
     | '/compare'
+    | '/filter-chips'
+    | '/netflix-row'
+    | '/scrollable-tabs'
+    | '/$locale/category-rail'
     | '/$locale/compare'
+    | '/$locale/filter-chips'
+    | '/$locale/netflix-row'
+    | '/$locale/scrollable-tabs'
+    | '/compare/embla-vs-swiper'
+    | '/compare/react-slick-alternatives'
+    | '/compare/swiper-alternatives'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -555,6 +711,9 @@ export interface FileRouteTypes {
     | '/examples/vertical'
     | '/$locale'
     | '/examples'
+    | '/$locale/compare/embla-vs-swiper'
+    | '/$locale/compare/react-slick-alternatives'
+    | '/$locale/compare/swiper-alternatives'
     | '/$locale/examples/add-item-and-scroll-to-it'
     | '/$locale/examples/add-items'
     | '/$locale/examples/autoplay'
@@ -581,8 +740,19 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$locale'
+    | '/category-rail'
     | '/compare'
+    | '/filter-chips'
+    | '/netflix-row'
+    | '/scrollable-tabs'
+    | '/$locale/category-rail'
     | '/$locale/compare'
+    | '/$locale/filter-chips'
+    | '/$locale/netflix-row'
+    | '/$locale/scrollable-tabs'
+    | '/compare_/embla-vs-swiper'
+    | '/compare_/react-slick-alternatives'
+    | '/compare_/swiper-alternatives'
     | '/examples/add-item-and-scroll-to-it'
     | '/examples/add-items'
     | '/examples/autoplay'
@@ -606,6 +776,9 @@ export interface FileRouteTypes {
     | '/examples/vertical'
     | '/$locale/'
     | '/examples/'
+    | '/$locale/compare_/embla-vs-swiper'
+    | '/$locale/compare_/react-slick-alternatives'
+    | '/$locale/compare_/swiper-alternatives'
     | '/$locale/examples/add-item-and-scroll-to-it'
     | '/$locale/examples/add-items'
     | '/$locale/examples/autoplay'
@@ -633,7 +806,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRouteRoute: typeof LocaleRouteRouteWithChildren
+  CategoryRailRoute: typeof CategoryRailRoute
   CompareRoute: typeof CompareRoute
+  FilterChipsRoute: typeof FilterChipsRoute
+  NetflixRowRoute: typeof NetflixRowRoute
+  ScrollableTabsRoute: typeof ScrollableTabsRoute
+  CompareEmblaVsSwiperRoute: typeof CompareEmblaVsSwiperRoute
+  CompareReactSlickAlternativesRoute: typeof CompareReactSlickAlternativesRoute
+  CompareSwiperAlternativesRoute: typeof CompareSwiperAlternativesRoute
   ExamplesAddItemAndScrollToItRoute: typeof ExamplesAddItemAndScrollToItRoute
   ExamplesAddItemsRoute: typeof ExamplesAddItemsRoute
   ExamplesAutoplayRoute: typeof ExamplesAutoplayRoute
@@ -674,11 +854,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/category-rail': {
+      id: '/category-rail'
+      path: '/category-rail'
+      fullPath: '/category-rail'
+      preLoaderRoute: typeof CategoryRailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compare': {
       id: '/compare'
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/filter-chips': {
+      id: '/filter-chips'
+      path: '/filter-chips'
+      fullPath: '/filter-chips'
+      preLoaderRoute: typeof FilterChipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/netflix-row': {
+      id: '/netflix-row'
+      path: '/netflix-row'
+      fullPath: '/netflix-row'
+      preLoaderRoute: typeof NetflixRowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scrollable-tabs': {
+      id: '/scrollable-tabs'
+      path: '/scrollable-tabs'
+      fullPath: '/scrollable-tabs'
+      preLoaderRoute: typeof ScrollableTabsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/': {
@@ -688,12 +896,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/category-rail': {
+      id: '/$locale/category-rail'
+      path: '/category-rail'
+      fullPath: '/$locale/category-rail'
+      preLoaderRoute: typeof LocaleCategoryRailRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/compare': {
       id: '/$locale/compare'
       path: '/compare'
       fullPath: '/$locale/compare'
       preLoaderRoute: typeof LocaleCompareRouteImport
       parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/filter-chips': {
+      id: '/$locale/filter-chips'
+      path: '/filter-chips'
+      fullPath: '/$locale/filter-chips'
+      preLoaderRoute: typeof LocaleFilterChipsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/netflix-row': {
+      id: '/$locale/netflix-row'
+      path: '/netflix-row'
+      fullPath: '/$locale/netflix-row'
+      preLoaderRoute: typeof LocaleNetflixRowRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/scrollable-tabs': {
+      id: '/$locale/scrollable-tabs'
+      path: '/scrollable-tabs'
+      fullPath: '/$locale/scrollable-tabs'
+      preLoaderRoute: typeof LocaleScrollableTabsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/compare_/embla-vs-swiper': {
+      id: '/compare_/embla-vs-swiper'
+      path: '/compare/embla-vs-swiper'
+      fullPath: '/compare/embla-vs-swiper'
+      preLoaderRoute: typeof CompareEmblaVsSwiperRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare_/react-slick-alternatives': {
+      id: '/compare_/react-slick-alternatives'
+      path: '/compare/react-slick-alternatives'
+      fullPath: '/compare/react-slick-alternatives'
+      preLoaderRoute: typeof CompareReactSlickAlternativesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare_/swiper-alternatives': {
+      id: '/compare_/swiper-alternatives'
+      path: '/compare/swiper-alternatives'
+      fullPath: '/compare/swiper-alternatives'
+      preLoaderRoute: typeof CompareSwiperAlternativesRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/examples/': {
       id: '/examples/'
@@ -848,6 +1105,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/examples/vertical'
       preLoaderRoute: typeof ExamplesVerticalRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/$locale/compare_/embla-vs-swiper': {
+      id: '/$locale/compare_/embla-vs-swiper'
+      path: '/compare/embla-vs-swiper'
+      fullPath: '/$locale/compare/embla-vs-swiper'
+      preLoaderRoute: typeof LocaleCompareEmblaVsSwiperRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/compare_/react-slick-alternatives': {
+      id: '/$locale/compare_/react-slick-alternatives'
+      path: '/compare/react-slick-alternatives'
+      fullPath: '/$locale/compare/react-slick-alternatives'
+      preLoaderRoute: typeof LocaleCompareReactSlickAlternativesRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/compare_/swiper-alternatives': {
+      id: '/$locale/compare_/swiper-alternatives'
+      path: '/compare/swiper-alternatives'
+      fullPath: '/$locale/compare/swiper-alternatives'
+      preLoaderRoute: typeof LocaleCompareSwiperAlternativesRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/examples/': {
       id: '/$locale/examples/'
@@ -1007,8 +1285,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface LocaleRouteRouteChildren {
+  LocaleCategoryRailRoute: typeof LocaleCategoryRailRoute
   LocaleCompareRoute: typeof LocaleCompareRoute
+  LocaleFilterChipsRoute: typeof LocaleFilterChipsRoute
+  LocaleNetflixRowRoute: typeof LocaleNetflixRowRoute
+  LocaleScrollableTabsRoute: typeof LocaleScrollableTabsRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleCompareEmblaVsSwiperRoute: typeof LocaleCompareEmblaVsSwiperRoute
+  LocaleCompareReactSlickAlternativesRoute: typeof LocaleCompareReactSlickAlternativesRoute
+  LocaleCompareSwiperAlternativesRoute: typeof LocaleCompareSwiperAlternativesRoute
   LocaleExamplesAddItemAndScrollToItRoute: typeof LocaleExamplesAddItemAndScrollToItRoute
   LocaleExamplesAddItemsRoute: typeof LocaleExamplesAddItemsRoute
   LocaleExamplesAutoplayRoute: typeof LocaleExamplesAutoplayRoute
@@ -1034,8 +1319,16 @@ interface LocaleRouteRouteChildren {
 }
 
 const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
+  LocaleCategoryRailRoute: LocaleCategoryRailRoute,
   LocaleCompareRoute: LocaleCompareRoute,
+  LocaleFilterChipsRoute: LocaleFilterChipsRoute,
+  LocaleNetflixRowRoute: LocaleNetflixRowRoute,
+  LocaleScrollableTabsRoute: LocaleScrollableTabsRoute,
   LocaleIndexRoute: LocaleIndexRoute,
+  LocaleCompareEmblaVsSwiperRoute: LocaleCompareEmblaVsSwiperRoute,
+  LocaleCompareReactSlickAlternativesRoute:
+    LocaleCompareReactSlickAlternativesRoute,
+  LocaleCompareSwiperAlternativesRoute: LocaleCompareSwiperAlternativesRoute,
   LocaleExamplesAddItemAndScrollToItRoute:
     LocaleExamplesAddItemAndScrollToItRoute,
   LocaleExamplesAddItemsRoute: LocaleExamplesAddItemsRoute,
@@ -1069,7 +1362,14 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRouteRoute: LocaleRouteRouteWithChildren,
+  CategoryRailRoute: CategoryRailRoute,
   CompareRoute: CompareRoute,
+  FilterChipsRoute: FilterChipsRoute,
+  NetflixRowRoute: NetflixRowRoute,
+  ScrollableTabsRoute: ScrollableTabsRoute,
+  CompareEmblaVsSwiperRoute: CompareEmblaVsSwiperRoute,
+  CompareReactSlickAlternativesRoute: CompareReactSlickAlternativesRoute,
+  CompareSwiperAlternativesRoute: CompareSwiperAlternativesRoute,
   ExamplesAddItemAndScrollToItRoute: ExamplesAddItemAndScrollToItRoute,
   ExamplesAddItemsRoute: ExamplesAddItemsRoute,
   ExamplesAutoplayRoute: ExamplesAutoplayRoute,

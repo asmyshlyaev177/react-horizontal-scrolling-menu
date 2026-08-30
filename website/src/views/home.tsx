@@ -269,10 +269,7 @@ export function View({ copy, locale }: { copy: HomeCopy; locale: string }) {
                 <Inline text={copy.gallery.tabs.body} />
               </p>
               <CodeBlock snippet="tabs" title="Tab.tsx" />
-              <a
-                className="gallery-link"
-                href={`${prefix}/examples/center-on-click`}
-              >
+              <a className="gallery-link" href={`${prefix}/scrollable-tabs`}>
                 {copy.gallery.tabs.link}
               </a>
             </div>
@@ -286,10 +283,7 @@ export function View({ copy, locale }: { copy: HomeCopy; locale: string }) {
                 <Inline text={copy.gallery.chips.body} />
               </p>
               <CodeBlock snippet="chips" title="Filters.tsx" />
-              <a
-                className="gallery-link"
-                href={`${prefix}/examples/add-item-and-scroll-to-it`}
-              >
+              <a className="gallery-link" href={`${prefix}/filter-chips`}>
                 {copy.gallery.chips.link}
               </a>
             </div>

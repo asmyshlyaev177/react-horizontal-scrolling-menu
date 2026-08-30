@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · 简体中文 · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=zh-CN source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
+<!-- i18n:meta locale=zh-CN source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -153,13 +153,15 @@ npx @tanstack/intent@latest install   # 每个项目一次
 会服务端渲染每一个示例。
 
 没有轮播引擎：没有吸附或弹簧物理——如果你想要全屏图片滑块，请使用 Embla 或
-Swiper。自动播放与无限循环也不是属性；它们是在公开 API 上各约六十行的配方，
+Swiper。[比较页面](https://react-horizontal-scrolling-menu.dev/compare)坦率地说明了它们在什么场景下更合适，并有深入的对比：[Embla 与 Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper)、[react-slick 替代方案](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives)、[Swiper 替代方案](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)。自动播放与无限循环也不是属性；它们是在公开 API 上各约六十行的配方，
 可在 Storybook 中实时编辑
 （[无限循环](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop)、
 [自动播放](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-autoplay--autoplay)）。
 如果你需要一行知道什么可见的内容，就是它了。
 
 ## 示例
+
+按目标整理的完整模式，每个都有服务端渲染的在线演示、代码和对应的 shadcn 安装命令：[Netflix 风格行](https://react-horizontal-scrolling-menu.dev/netflix-row) · [可滚动标签栏](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [筛选标签](https://react-horizontal-scrolling-menu.dev/filter-chips) · [分类栏](https://react-horizontal-scrolling-menu.dev/category-rail)。
 
 每个示例都可以在
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)

@@ -69,6 +69,8 @@ Intent skills.
 - [Landing & docs](https://react-horizontal-scrolling-menu.dev)
 - [Examples, live with full source](https://react-horizontal-scrolling-menu.dev/examples)
 - [Carousel-or-menu comparison (vs Swiper, Embla, keen-slider, react-slick)](https://react-horizontal-scrolling-menu.dev/compare)
+- Comparison deep dives: [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper) · [react-slick alternatives](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) · [Swiper alternatives](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives)
+- Use-case guides: [Netflix-style row](https://react-horizontal-scrolling-menu.dev/netflix-row) · [scrollable tabs](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [filter chips](https://react-horizontal-scrolling-menu.dev/filter-chips) · [category rail](https://react-horizontal-scrolling-menu.dev/category-rail)
 - [Storybook playground (live-editable)](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)
 - [API reference (README)](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu#properties-and-callbacks)
 - [AI agent skills, as published](https://github.com/asmyshlyaev177/react-horizontal-scrolling-menu/tree/master/skills)

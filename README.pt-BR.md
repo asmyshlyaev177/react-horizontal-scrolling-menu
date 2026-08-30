@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · Português (BR) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=pt-BR source=README.md source-blob=8958730422d74e17cb64c668f1e52d7eeee19c63 status=translated -->
+<!-- i18n:meta locale=pt-BR source=README.md source-blob=8f85dff5e27ce4fdbbe7523f271f45614ffabf1f status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -160,7 +160,7 @@ TypeScript por toda parte. Seguro para SSR — a
 demo no servidor.
 
 Sem motor de carrossel: sem física de snap ou de mola — se você quer um slider
-de imagens em tela cheia, use Embla ou Swiper. Autoplay e loop infinito também
+de imagens em tela cheia, use Embla ou Swiper. A [página de comparação](https://react-horizontal-scrolling-menu.dev/compare) é honesta sobre quando eles ganham, com análises de [Embla vs Swiper](https://react-horizontal-scrolling-menu.dev/compare/embla-vs-swiper), [alternativas ao react-slick](https://react-horizontal-scrolling-menu.dev/compare/react-slick-alternatives) e [alternativas ao Swiper](https://react-horizontal-scrolling-menu.dev/compare/swiper-alternatives). Autoplay e loop infinito também
 não são props; são receitas de cerca de sessenta linhas cada sobre a API
 pública, editáveis ao vivo no Storybook
 ([loop infinito](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu/?path=/story/examples-infiniteloop--infinite-loop),
@@ -168,6 +168,8 @@ pública, editáveis ao vivo no Storybook
 Se você precisa de uma linha que saiba o que está visível, é isto.
 
 ## Exemplos
+
+Padrões completos por objetivo, cada um com demo renderizada no servidor, o código e a instalação shadcn correspondente: [linha estilo Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [abas roláveis](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtro](https://react-horizontal-scrolling-menu.dev/filter-chips) · [trilha de categorias](https://react-horizontal-scrolling-menu.dev/category-rail).
 
 Cada exemplo é editável ao vivo no
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —
