@@ -42,6 +42,12 @@
 npm install react-horizontal-scrolling-menu
 ```
 
+[shadcn/ui](https://ui.shadcn.com)를 사용하시나요? 명령어 하나로 스타일이 적용된 컴포넌트(가장자리 인식 화살표 버튼, 드래그 스크롤, 숨김 스크롤바)를 `components/ui/`에 바로 설치할 수 있습니다:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

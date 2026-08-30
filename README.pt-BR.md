@@ -44,6 +44,12 @@ Também em destaque no [React Status #257](https://react.statuscode.com/issues/2
 npm install react-horizontal-scrolling-menu
 ```
 
+Usa [shadcn/ui](https://ui.shadcn.com)? Um único comando instala um componente pronto e estilizado — setas sensíveis às bordas, drag-to-scroll, scrollbar oculta — direto no seu `components/ui/`:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

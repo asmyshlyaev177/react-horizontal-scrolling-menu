@@ -41,6 +41,12 @@
 npm install react-horizontal-scrolling-menu
 ```
 
+在用 [shadcn/ui](https://ui.shadcn.com)？一条命令即可将带样式的现成组件（边缘感知的箭头按钮、拖拽滚动、隐藏滚动条）直接安装到你的 `components/ui/`：
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

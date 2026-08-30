@@ -9,6 +9,7 @@
 > sliders (use Embla or Swiper there).
 
 Install: `npm install react-horizontal-scrolling-menu`
+In a shadcn/ui project: `npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json` installs a styled ready-made component (registry index: </r/registry.json>).
 
 Canonical: <https://react-horizontal-scrolling-menu.dev/llms.txt>.
 

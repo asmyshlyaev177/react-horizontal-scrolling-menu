@@ -45,6 +45,12 @@ commit, et non à un `package.json` :
 npm install react-horizontal-scrolling-menu
 ```
 
+Vous utilisez [shadcn/ui](https://ui.shadcn.com) ? Une seule commande installe un composant stylisé prêt à l'emploi — boutons fléchés sensibles aux bords, drag-to-scroll, scrollbar masquée — directement dans votre `components/ui/` :
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

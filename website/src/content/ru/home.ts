@@ -29,6 +29,9 @@ export const home: HomeCopy = {
   install: {
     ariaLabel: 'Установить',
     copyLabel: 'Скопировать команду установки',
+    shadcnNote:
+      'Или готовый компонент для [shadcn/ui](https://ui.shadcn.com) — стрелки, drag-to-scroll, со стилями',
+    shadcnCopyLabel: 'Скопировать команду shadcn',
     facts: [
       '**347 тыс.** загрузок/мес',
       '**5,7 КБ** min+gzip',

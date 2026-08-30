@@ -43,6 +43,12 @@
 npm install react-horizontal-scrolling-menu
 ```
 
+[shadcn/ui](https://ui.shadcn.com) をお使いですか？コマンド一つで、スタイル済みのコンポーネント（端で無効化される矢印ボタン、ドラッグスクロール、非表示スクロールバー）を `components/ui/` に直接インストールできます:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

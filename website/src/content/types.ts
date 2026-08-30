@@ -97,6 +97,9 @@ export interface HomeCopy {
   install: {
     ariaLabel: string;
     copyLabel: string;
+    /** Lead-in for the shadcn registry command, rendered by Inline. */
+    shadcnNote: string;
+    shadcnCopyLabel: string;
     facts: readonly string[];
   };
   autoplay: {

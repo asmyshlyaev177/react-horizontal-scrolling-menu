@@ -29,6 +29,9 @@ export const home: HomeCopy = {
   install: {
     ariaLabel: 'Cài đặt',
     copyLabel: 'Sao chép lệnh cài đặt',
+    shadcnNote:
+      'Hoặc component [shadcn/ui](https://ui.shadcn.com) dựng sẵn — mũi tên, kéo để cuộn, đã style',
+    shadcnCopyLabel: 'Sao chép lệnh shadcn',
     facts: [
       '**347k** lượt tải/tháng',
       '**5.7 kB** min+gzip',

@@ -44,6 +44,12 @@
 npm install react-horizontal-scrolling-menu
 ```
 
+Используете [shadcn/ui](https://ui.shadcn.com)? Одна команда установит готовый стилизованный компонент — кнопки-стрелки, drag-to-scroll, скрытый скроллбар — прямо в ваш `components/ui/`:
+
+```bash
+npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json
+```
+
 ```tsx
 import React from 'react';
 import {

@@ -29,6 +29,8 @@ import { Inline } from '../lib/prose';
  */
 const INSTALL_CMD = 'npm install react-horizontal-scrolling-menu';
 const INTENT_CMD = 'npx @tanstack/intent@latest install';
+const SHADCN_CMD =
+  'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json';
 
 // Built per render: the structured description is copy, so it is a
 // different string in every language.
@@ -102,6 +104,23 @@ export function View({ copy, locale }: { copy: HomeCopy; locale: string }) {
                   <Inline text={fact} />
                 </span>
               ))}
+            </span>
+          </div>
+          <div className="install-row install-row--alt">
+            <span className="install-cmd">
+              <span className="dollar" aria-hidden>
+                $
+              </span>
+              {SHADCN_CMD}
+              <CopyButton
+                text={SHADCN_CMD}
+                label={copy.install.shadcnCopyLabel}
+              />
+            </span>
+            <span className="install-facts">
+              <span>
+                <Inline text={copy.install.shadcnNote} />
+              </span>
             </span>
           </div>
         </section>
