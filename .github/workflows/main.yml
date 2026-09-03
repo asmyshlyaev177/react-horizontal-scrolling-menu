@@ -359,3 +359,16 @@ jobs:
       - name: Push the release commit and tag
         if: steps.check.outputs.release == 'true'
         run: git push --follow-tags origin HEAD:master
+
+      # Context7 re-clones master, so this has to run after the push above. The
+      # release is already published by now, so a failed refresh must not fail it.
+      - name: Refresh Context7 docs
+        if: steps.check.outputs.release == 'true'
+        continue-on-error: true
+        env:
+          CONTEXT7_API_KEY: ${{ secrets.CONTEXT7_API_KEY }}
+        run: |
+          curl -fsS -X POST https://context7.com/api/v1/refresh \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $CONTEXT7_API_KEY" \
+            -d '{"libraryName": "/${{ github.repository }}"}'
