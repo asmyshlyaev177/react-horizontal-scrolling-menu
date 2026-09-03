@@ -1,0 +1,59 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "react-horizontal-scrolling-menu",
+  "description": "Horizontal scrolling menu component for React with per-item visibility tracking via IntersectionObserver; mouse, touch, arrows, programmatic scrolling, SSR-safe",
+  "url": "https://context7.com/asmyshlyaev177/react-horizontal-scrolling-menu",
+  "public_key": "pk_aBG9eyfVOOEEihsixOASG",
+  "excludeFolders": [
+    ".github",
+    ".husky",
+    ".storybook",
+    ".vscode",
+    "scripts",
+    "src",
+    "types",
+    "e2e",
+    "stories",
+    "example-nextjs",
+    "example-tanstack",
+    "website",
+    "skills/_artifacts",
+    "dist",
+    "storybook-static",
+    "playwright-report",
+    "test-results"
+  ],
+  "excludeFiles": [
+    "README.es.md",
+    "README.fr.md",
+    "README.ja.md",
+    "README.ko.md",
+    "README.pt-BR.md",
+    "README.ru.md",
+    "README.vi.md",
+    "README.zh-CN.md",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "PULL_REQUEST_TEMPLATE.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "TRANSLATING.md",
+    "GLOSSARY.md"
+  ],
+  "rules": [
+    "Always import 'react-horizontal-scrolling-menu/dist/styles.css'; the JS bundle never injects CSS and without it the menu renders vertically",
+    "Every direct child of ScrollMenu needs a unique string itemId prop; that is how visibility tracking and scrollToItem find items",
+    "Read menu state with React.useContext(VisibilityContext) only inside components rendered under ScrollMenu; use the hooks useIsVisible(itemId, defaultValue), useLeftArrowVisible() and useRightArrowVisible()",
+    "Do not destructure visibleElements, isFirstItemVisible, isLastItemVisible or initComplete from the context; they were removed in v8, use the hooks instead",
+    "onWheel and onScroll are plain (api, event) => void callbacks; every mouse and touch prop (onMouseDown, onMouseUp, onMouseMove, onMouseLeave, onTouchStart, onTouchMove, onTouchEnd) is curried: (api) => (event) => void",
+    "Scroll imperatively with api.scrollToItem(api.getItemById(id), behavior, inline, block), scrollNext() and scrollPrev(); use apiRef only to fire methods from outside, never to read data",
+    "The component is client-only: add 'use client' in React Server Components; control SSR first paint with the defaultValue argument of useIsVisible",
+    "noPolyfill defaults to true since v8 (native scrollIntoView); transitionDuration (default 500) and transitionBehavior only take effect with noPolyfill={false}"
+  ],
+  "previousVersions": [
+    {
+      "tag": "v7.1.8"
+    }
+  ]
+}
