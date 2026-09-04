@@ -1,6 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-import { ALL_LOCALES, LOCALES } from '../../scripts/i18n/locales.mjs';
+import {
+  ALL_LOCALES,
+  INDEXED_LOCALES,
+  LOCALES,
+} from '../../scripts/i18n/locales.mjs';
 import { copyFor } from '../src/content';
 import { en } from '../src/content/en';
 import { EXAMPLES } from '../src/lib/examples-manifest';
@@ -53,27 +57,39 @@ test.describe(`a translated locale (/${LOCALE.dir}) publishes the same surfaces`
     });
   }
 
-  test('every page declares the full hreflang cluster, homepage included', async ({
-    request,
-  }) => {
-    // Nine languages plus x-default. The homepage builds its head by hand
-    // rather than through pageHead(), and so once had none at all.
-    for (const path of ['/', '/examples', '/compare']) {
-      const html = await (
-        await request.get(`/${LOCALE.dir}${path}`.replace(/\/$/, ''), {
-          headers: BROWSER,
-        })
-      ).text();
-      const head = html.slice(0, html.indexOf('</head>'));
-      const alternates = [...head.matchAll(/hrefLang="([^"]+)"/g)].map(
-        ([, lang]) => lang,
-      );
-      expect(alternates, `${path} hreflang cluster`).toEqual([
-        ...ALL_LOCALES.map((l) => l.code),
-        'x-default',
-      ]);
-    }
-  });
+  // An indexed locale declares the cluster of indexed locales plus x-default;
+  // an unindexed one declares `noindex` and no cluster at all. Both shapes,
+  // on the homepage too — it builds its head by hand rather than through
+  // pageHead(), and so once had none at all.
+  const INDEXED = INDEXED_LOCALES.find((l) => l.code !== 'en')!;
+  const UNINDEXED = LOCALES.find((l) => !l.indexed)!;
+  const CLUSTER = [...INDEXED_LOCALES.map((l) => l.code), 'x-default'];
+  for (const [locale, cluster] of [
+    [INDEXED, CLUSTER],
+    [UNINDEXED, []],
+  ] as const) {
+    const shape = cluster.length
+      ? 'the indexed hreflang cluster'
+      : 'noindex and no cluster';
+    test(`/${locale.dir} pages declare ${shape}`, async ({ request }) => {
+      for (const path of ['/', '/examples', '/compare']) {
+        const html = await (
+          await request.get(`/${locale.dir}${path}`.replace(/\/$/, ''), {
+            headers: BROWSER,
+          })
+        ).text();
+        const head = html.slice(0, html.indexOf('</head>'));
+        const alternates = [...head.matchAll(/hrefLang="([^"]+)"/g)].map(
+          ([, lang]) => lang,
+        );
+        expect(alternates, `${path} hreflang cluster`).toEqual(cluster);
+        expect(
+          /<meta name="robots" content="noindex"/.test(head),
+          `${path} noindex`,
+        ).toBe(!locale.indexed);
+      }
+    });
+  }
 
   test('the hub and the example mirrors carry that language, not English', async ({
     request,

@@ -193,6 +193,15 @@ Eight languages besides English: `zh-CN`, `ja`, `ko`, `ru`, `es`, `pt-BR`, `fr`,
 language-switcher line both derive from that list, so adding a language is an
 edit there plus `pnpm i18n:init`.
 
+Each locale also carries `indexed`. Only `ru` and `es` are `true`: the six
+others ship `<meta name="robots" content="noindex">`, sit in no hreflang
+cluster and are absent from the sitemap, while staying built and in the
+switcher. The figures behind the split are in the table's comment; a sister
+site lost its whole index in Aug 2026 to eight-way translated near-duplicates,
+so a locale earns its way in with Search Console impressions, not by existing.
+`website/src/i18n.ts` (`indexHead`), `vite.config.ts`'s sitemap and
+`e2e/locales.spec.ts` all read the flag.
+
 `README.md` is the English source and is also what npmjs.com renders. Each
 translation is `README.<tag>.md` beside it, keeping BCP 47 case.
 

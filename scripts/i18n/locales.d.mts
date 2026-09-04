@@ -13,12 +13,16 @@ export interface Locale {
   label: string;
   /** English name, for reports and prompts. */
   english: string;
+  /** Told to crawlers, or `noindex` and out of every hreflang cluster and the sitemap. */
+  indexed: boolean;
 }
 
 export const SOURCE_LOCALE: 'en';
 export const SOURCE: Locale;
 export const LOCALES: readonly Locale[];
 export const ALL_LOCALES: readonly Locale[];
+/** The locales a crawler is told about — `ALL_LOCALES` with `indexed`. */
+export const INDEXED_LOCALES: readonly Locale[];
 export const CODES: readonly string[];
 export function findLocale(input: string): Locale | undefined;
 export function localizedName(baseName: string, code: string): string;

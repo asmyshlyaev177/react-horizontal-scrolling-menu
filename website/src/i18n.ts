@@ -6,6 +6,7 @@
 
 import {
   ALL_LOCALES,
+  INDEXED_LOCALES,
   type Locale,
   LOCALES,
   SOURCE,
@@ -13,7 +14,7 @@ import {
 } from '../../scripts/i18n/locales.mjs';
 import { SITE_URL } from './lib/links';
 
-export { ALL_LOCALES, LOCALES, SOURCE, SOURCE_LOCALE };
+export { ALL_LOCALES, INDEXED_LOCALES, LOCALES, SOURCE, SOURCE_LOCALE };
 export type { Locale };
 
 /** `''` for English, `/ja` for the rest. English is served unprefixed. */
@@ -55,9 +56,11 @@ export function stripLocale(pathname: string): string {
 /**
  * The reciprocal hreflang cluster for one page, as `<link>` descriptors.
  *
- * Every locale of a page lists every other one *and* itself, plus `x-default`
- * pointing at English — a cluster whose members disagree about who is in it is
- * discarded wholesale rather than partially honoured.
+ * Every *indexed* locale of a page lists every other one *and* itself, plus
+ * `x-default` pointing at English — a cluster whose members disagree about who
+ * is in it is discarded wholesale rather than partially honoured. An unindexed
+ * locale is left out on both sides for the same reason, and its own pages
+ * emit no cluster at all (`indexHead`).
  */
 export function alternateLinks(pathWithoutLocale: string) {
   // Trailing slash trimmed so the homepage's cluster spells `/ja`, not `/ja/`
@@ -66,13 +69,23 @@ export function alternateLinks(pathWithoutLocale: string) {
   const href = (code: string) =>
     `${SITE_URL}${localePrefix(code)}${pathWithoutLocale}`.replace(/\/$/, '');
   return [
-    ...ALL_LOCALES.map((l) => ({
+    ...INDEXED_LOCALES.map((l) => ({
       rel: 'alternate',
       hrefLang: l.code,
       href: href(l.code),
     })),
     { rel: 'alternate', hrefLang: 'x-default', href: href(SOURCE_LOCALE) },
   ];
+}
+
+/**
+ * The index-facing half of a page's head: its hreflang cluster when the
+ * locale is indexed, a `noindex` and nothing else when it is not.
+ */
+export function indexHead(locale: Locale, pathWithoutLocale: string) {
+  if (locale.indexed)
+    return { meta: [], links: alternateLinks(pathWithoutLocale) };
+  return { meta: [{ name: 'robots', content: 'noindex' }], links: [] };
 }
 
 /**

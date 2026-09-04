@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { copyFor } from '../../content';
-import { alternateLinks, localeFromParam } from '../../i18n';
+import { indexHead, localeFromParam, SOURCE } from '../../i18n';
 import { SITE_URL } from '../../lib/links';
 import { llmsTxtLink } from '../../lib/seo';
 import { View } from '../../views/home';
@@ -15,8 +15,10 @@ export const Route = createFileRoute('/$locale/')({
     const locale = localeFromParam(params.locale);
     const copy = copyFor(locale?.code ?? 'en');
     const canonical = `${SITE_URL}/${params.locale}`;
+    const index = indexHead(locale ?? SOURCE, '/');
     return {
       meta: [
+        ...index.meta,
         { title: copy.chrome.meta.title },
         { name: 'description', content: copy.chrome.meta.description },
         { property: 'og:title', content: copy.chrome.meta.title },
@@ -35,7 +37,7 @@ export const Route = createFileRoute('/$locale/')({
       ],
       links: [
         { rel: 'canonical', href: canonical },
-        ...alternateLinks('/'),
+        ...index.links,
         // Every locale homepage advertises the same English Markdown mirror:
         // /index.md is the published llms.txt, one document by design.
         {

@@ -1,6 +1,6 @@
 import { copyFor } from '../content';
 import { en } from '../content/en';
-import { alternateLinks, localeFromPath, stripLocale } from '../i18n';
+import { indexHead, localeFromPath, stripLocale } from '../i18n';
 import { LLMS_TXT, SITE_URL } from './links';
 
 /**
@@ -45,6 +45,7 @@ export const pageHead = ({
   markdown?: boolean;
 }) => ({
   meta: [
+    ...indexHead(localeFromPath(path), stripLocale(path)).meta,
     { title },
     { name: 'description', content: description },
     { property: 'og:title', content: title },
@@ -65,12 +66,10 @@ export const pageHead = ({
   ],
   links: [
     { rel: 'canonical', href: `${SITE_URL}${path}` },
-    // The reciprocal hreflang cluster for this page. Every locale of it lists
-    // every other one *and* itself, plus x-default for English — a cluster
-    // whose members disagree about who is in it is discarded wholesale rather
-    // than partially honoured. Derived from the path, so a page cannot be
-    // added without one.
-    ...alternateLinks(stripLocale(path)),
+    // The reciprocal hreflang cluster for this page, or nothing on an
+    // unindexed locale. Derived from the path, so a page cannot be added
+    // without one.
+    ...indexHead(localeFromPath(path), stripLocale(path)).links,
     ...(markdown
       ? [
           {

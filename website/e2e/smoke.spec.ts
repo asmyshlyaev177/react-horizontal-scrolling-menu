@@ -52,9 +52,10 @@ const ROBOTS_TXT = readFileSync(
  * sitemap has to list all of them, and that is what this is for. One
  * translated locale is checked end to end in locales.spec.ts.
  */
+// The sitemap's set: an unindexed locale is `noindex` and stays out of it.
 const ALL_HTML_ROUTES = [
   ...HTML_ROUTES,
-  ...LOCALES.flatMap((locale) =>
+  ...LOCALES.filter((locale) => locale.indexed).flatMap((locale) =>
     HTML_ROUTES.map((path) => `/${locale.dir}${path}`.replace(/\/$/, '')),
   ),
 ];

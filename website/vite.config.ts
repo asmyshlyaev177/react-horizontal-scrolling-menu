@@ -366,10 +366,12 @@ function sitemap(): Plugin {
       })
         .toString()
         .trim();
-      // Every page in every language, each entry carrying the full alternates
-      // cluster. Without `xhtml:link` the eight translations read as
-      // near-duplicates of the English pages rather than alternates of them.
-      const urls = ALL_PAGES.flatMap(({ urls: group }) => {
+      // Every page in every *indexed* language, each entry carrying the full
+      // alternates cluster. Without `xhtml:link` the translations read as
+      // near-duplicates of the English pages rather than alternates of them;
+      // an unindexed locale is `noindex` and belongs in neither list.
+      const urls = ALL_PAGES.flatMap(({ urls: all }) => {
+        const group = all.filter(({ locale }) => locale.indexed);
         const alternates = group
           .map(
             ({ locale, url }) =>
