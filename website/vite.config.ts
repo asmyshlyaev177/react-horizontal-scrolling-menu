@@ -361,11 +361,17 @@ function sitemap(): Plugin {
     apply: 'build',
     generateBundle() {
       if (this.environment?.name !== 'client') return;
-      const lastmod = execSync('git log -1 --format=%cI', {
-        cwd: fileURLToPath(new URL('.', import.meta.url)),
-      })
-        .toString()
-        .trim();
+      // The newest commit touching the site's own directory, not HEAD: this
+      // package shares a repository with the library, and a release there is
+      // not a change to any page here. HEAD stays the fallback for a shallow
+      // clone, where a path-scoped log can find nothing.
+      const gitDate = (args: string) =>
+        execSync(`git log -1 --format=%cI ${args}`, {
+          cwd: fileURLToPath(new URL('.', import.meta.url)),
+        })
+          .toString()
+          .trim();
+      const lastmod = gitDate('-- .') || gitDate('');
       // Every page in every *indexed* language, each entry carrying the full
       // alternates cluster. Without `xhtml:link` the translations read as
       // near-duplicates of the English pages rather than alternates of them;
