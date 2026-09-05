@@ -73,6 +73,30 @@ async function getAssets() {
   }
 }
 
+/**
+ * `410 Gone` for the router's own dynamic segment, spelled literally.
+ *
+ * A build once emitted the raw route id as an href on `/ja/*` and `/es/*`, and
+ * Googlebot crawled four `/$locale/...` URLs off those pages. The links are
+ * gone; the URLs are not, and `routes/$locale/route.tsx` answers them 404 like
+ * any other unknown segment. 410 says "never coming back", which Search drops
+ * faster than a 404 it has to keep rechecking.
+ *
+ * Both spellings: the edge percent-encodes `$` and redirects before the Worker
+ * sees the request, so what arrives here is `/%24locale/...`.
+ *
+ * Narrow on purpose. `/jp` and `/nope/compare` are typos of a real path and
+ * stay 404 — see the pair of tests in `e2e/locales.spec.ts`.
+ */
+const ROUTE_PATTERN_PATH = /^\/(?:\$|%24)locale(?:\/|$)/i;
+
+const goneRoutePattern = createMiddleware({ type: 'request' }).server(
+  ({ pathname, next }) =>
+    ROUTE_PATTERN_PATH.test(pathname)
+      ? new Response(null, { status: 410 })
+      : next(),
+);
+
 export const startInstance = createStart(() => ({
-  requestMiddleware: [homepageMarkdown],
+  requestMiddleware: [goneRoutePattern, homepageMarkdown],
 }));

@@ -176,6 +176,24 @@ test.describe(`a translated locale (/${LOCALE.dir}) reads as that language`, () 
     }
   });
 
+  test('the route id spelled literally is 410, not 404', async ({
+    request,
+  }) => {
+    // Googlebot has four of these from a build that emitted the raw route id
+    // as an href. 410 is dropped from the index faster than a 404. The edge
+    // percent-encodes `$` and redirects, so `%24locale` is what the Worker
+    // actually receives — both spellings are asserted.
+    for (const path of [
+      '/$locale',
+      '/$locale/examples/rtl',
+      '/%24locale',
+      '/%24locale/examples/rtl',
+    ]) {
+      const response = await request.get(path, { headers: BROWSER });
+      expect(response.status(), `${path} should be gone`).toBe(410);
+    }
+  });
+
   test('in-prose links keep the reader in this language', async ({
     request,
   }) => {
