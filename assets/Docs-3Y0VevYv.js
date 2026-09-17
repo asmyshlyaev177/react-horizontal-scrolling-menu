@@ -219,7 +219,8 @@ code, and a matching shadcn install:
 [Netflix-style row](https://react-horizontal-scrolling-menu.dev/netflix-row) ·
 [scrollable tabs](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) ·
 [filter chips](https://react-horizontal-scrolling-menu.dev/filter-chips) ·
-[category rail](https://react-horizontal-scrolling-menu.dev/category-rail).
+[category rail](https://react-horizontal-scrolling-menu.dev/category-rail) ·
+[testimonial carousel](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Every example is live-editable in the
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —
