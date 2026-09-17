@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · Русский · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ru source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=ru source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -169,7 +169,7 @@ coverflow) — это единственная задача, с которой �
 
 ## Примеры
 
-Готовые паттерны по задачам, каждый с живым серверным демо, кодом и командой установки shadcn: [ряд в стиле Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [прокручиваемые вкладки](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [чипы-фильтры](https://react-horizontal-scrolling-menu.dev/filter-chips) · [рейл категорий](https://react-horizontal-scrolling-menu.dev/category-rail).
+Готовые паттерны по задачам, каждый с живым серверным демо, кодом и командой установки shadcn: [ряд в стиле Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [прокручиваемые вкладки](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [чипы-фильтры](https://react-horizontal-scrolling-menu.dev/filter-chips) · [рейл категорий](https://react-horizontal-scrolling-menu.dev/category-rail) · [карусель отзывов](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Каждый пример можно редактировать вживую в
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

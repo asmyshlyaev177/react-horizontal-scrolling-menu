@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · 简体中文 · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=zh-CN source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=zh-CN source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -160,7 +160,7 @@ npx @tanstack/intent@latest install   # 每个项目一次
 
 ## 示例
 
-按目标整理的完整模式，每个都有服务端渲染的在线演示、代码和对应的 shadcn 安装命令：[Netflix 风格行](https://react-horizontal-scrolling-menu.dev/netflix-row) · [可滚动标签栏](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [筛选标签](https://react-horizontal-scrolling-menu.dev/filter-chips) · [分类栏](https://react-horizontal-scrolling-menu.dev/category-rail)。
+按目标整理的完整模式，每个都有服务端渲染的在线演示、代码和对应的 shadcn 安装命令：[Netflix 风格行](https://react-horizontal-scrolling-menu.dev/netflix-row) · [可滚动标签栏](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [筛选标签](https://react-horizontal-scrolling-menu.dev/filter-chips) · [分类栏](https://react-horizontal-scrolling-menu.dev/category-rail) · [评价轮播](https://react-horizontal-scrolling-menu.dev/testimonial-carousel)。
 
 每个示例都可以在
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)

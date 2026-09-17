@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=vi source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -183,6 +183,45 @@ Thư viện này là tầng bên dưới điều đó: một dải cuộn có th
     shadcn: {
       heading: 'Hoặc cài đặt nó như một component shadcn',
       body: 'Registry item cơ bản [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) chính là rail này — mũi tên được style theo shadcn, kéo để cuộn, thanh cuộn ẩn — được cài vào `components/ui/` của bạn và style theo token của bạn:',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'Carousel lời chứng thực React trên scroll snap gốc',
+      description:
+        'Carousel lời chứng thực trong React không cần thư viện slider: scroll-snap căn giữa từng thẻ và hoạt ảnh CSS xòe các thẻ còn lại. Chấm, mũi tên, mã nguồn.',
+    },
+    jsonLdHeadline:
+      'Xây carousel lời chứng thực trong React trên CSS scroll snap, không cần thư viện slider',
+    name: 'Carousel lời chứng thực',
+    blurb:
+      'Thẻ đánh giá bắt dính vào giữa và xòe ra — bằng CSS, không phải engine slider.',
+    title: 'Một carousel lời chứng thực trong React, trên scroll snap gốc',
+    lede: 'Mục đánh giá trên mọi trang marketing: một thẻ ở giữa, các thẻ kề nghiêng phía sau, chấm bên dưới, vuốt hoặc bấm để sang thẻ tiếp. Thư viện slider bán đúng thứ này. Trình duyệt đã có cả hai nửa — `scroll-snap-type` để dừng đúng chỗ và hoạt ảnh theo cuộn để nghiêng — còn thư viện này thêm phần không thuộc về cả hai: biết thẻ nào đang là hiện tại.',
+    demoHint:
+      'Vuốt, kéo, hoặc dùng mũi tên và chấm — hàng lần nào cũng dừng trên một thẻ.',
+    prose: [
+      {
+        heading: 'Thư viện slider thực sự làm gì ở đây',
+        body: "Carousel lời chứng thực là cách dùng Swiper kinh điển: ba thẻ hiển thị, thẻ giữa phẳng, chấm phân trang, tự phát. Mỗi thứ trong đó hoặc là CSS, hoặc là vài dòng trên API của thư viện này:\n\n- **Dừng đúng trên một thẻ** là `scroll-snap-type: x mandatory` trên hàng và `scroll-snap-align: center` trên các mục. Cuộn bằng cảm ứng, con lăn và bàn phím vẫn là gốc và tự giảm tốc rồi dừng trên một thẻ.\n- **Độ nghiêng** là hoạt ảnh theo cuộn trên từng thẻ, nên góc bám theo vị trí cuộn từng pixel mà JavaScript không đo gì cả. Chromium và Safari 26 vẽ nó; Firefox vẫn giữ sau một cờ và hiển thị thẻ phẳng, và quy tắc được bảo vệ bằng `@supports`.\n- **Chấm và mũi tên** cần biết thẻ hiện tại: `onScroll` tìm thẻ gần tâm hàng nhất, và `scrollToItem(el, 'smooth', 'center')` bước sang thẻ kề hoặc nhảy tới thẻ của một chấm, theo cấu trúc luôn đáp đúng điểm bắt dính.",
+      },
+      {
+        heading: 'Điều duy nhất phải làm đúng: kéo',
+        body: 'Một vùng chứa bắt dính bắt buộc sẽ bắt dính mọi lần ghi `scrollLeft` bằng chương trình, nên [công thức kéo bằng chuột](/examples/mouse-drag) dùng nguyên sẽ giật từng thẻ. [Ví dụ scroll snap](/examples/scroll-snap) cho thấy cách sửa: tắt bắt dính trong suốt cử chỉ, trượt tới thẻ gần nhất bằng `scrollToItem` khi thả, và trả bắt dính lại cho CSS khi cú trượt đã ổn định — bật lại sớm hơn sẽ nhảy thay vì trượt. Cảm ứng không cần gì trong số này; hàng là một vùng chứa cuộn thật.',
+      },
+      {
+        heading: 'Tự phát, vòng lặp, và phần thuộc về bạn',
+        body: '[Tự phát](/examples/autoplay) là một bộ đếm giờ gọi cùng `scrollToItem`, tạm dừng khi rê chuột, khi có focus và khi giảm chuyển động. [Vòng lặp vô hạn](/examples/infinite-loop) cũng kết hợp được: lần teleport dịch đúng một độ dài vòng lặp, tức một số nguyên điểm bắt dính. Thẻ là component của bạn — ảnh đại diện, đánh giá, trích dẫn, logo — và hình học chỉ là ba thuộc tính tùy chỉnh: bề rộng thẻ, khoảng cách và độ nghiêng.',
+      },
+    ],
+    snippet: {
+      heading: 'Mẫu hình, tối giản',
+      lede: 'Bắt dính và độ nghiêng nằm trong stylesheet; mũi tên và chấm là một phép đo và một `scrollToItem`. Demo ở trên là thế này cộng thêm các thẻ.',
+    },
+    shadcn: {
+      heading: 'Hoặc cài đặt nó như một component shadcn',
+      body: 'Mục registry [snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) mang cả mẫu — bắt dính, hình quạt, mũi tên, chấm và thao tác kéo đáp xuống thẻ gần nhất — thành một component kiểu Tailwind trong `components/ui/` của bạn. Hãy mang thẻ của riêng bạn:',
     },
   },
 };

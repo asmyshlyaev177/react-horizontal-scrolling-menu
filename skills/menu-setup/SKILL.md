@@ -12,7 +12,7 @@ description: >
 metadata:
   type: lifecycle
   library: 'react-horizontal-scrolling-menu'
-  library_version: '8.2.3'
+  library_version: '8.3.2'
 sources:
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:README.md'
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:src/index.tsx'

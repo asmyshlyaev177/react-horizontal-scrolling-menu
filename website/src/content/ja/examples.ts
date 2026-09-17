@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=ja source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -715,6 +715,45 @@ export const examples: ExamplesCopy = {
           '- ARIA パターンを選んでください：実際のパネルが切り替わる場合（ここのように）は `role="tablist"`/`role="tab"`/`aria-selected` を保ち、「タブ」がナビゲーションリンクである場合は `aria-current` を使います。',
           '- ドラッグを有効にする場合は、ドラッグ解放時に発火するクリックを抑制してください——デモは選択前に `dragManager.dragging` を確認しますが、これは [ドラッグのレシピ](/examples/mouse-drag) と同じです。',
           '- [RTL](/examples/rtl) は追加の作業を必要としません：帯はネイティブのスクロールコンテナなので、`direction: rtl` が矢印ごと反転させます。',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'React スクロールスナップカルーセル：CSS のスナップと傾き',
+      description:
+        'ネイティブスクロールの推薦カルーセル。CSS scroll-snap が各カードを中央に揃え、スクロール駆動アニメーションが残りを扇状に広げます。矢印、ドット、ドラッグは公開 API のみ。完全なソース付き。',
+    },
+    title: 'CSS が描く、スナップするカードカルーセル',
+    lede: '推薦カルーセルの見た目——1 枚のカードが中央にあり、隣のカードがその後ろで扇状に広がる——を、カルーセルエンジンなしで。`scroll-snap-type` がすべてのスワイプをカード上に着地させ、CSS のスクロール駆動アニメーションが中央からの距離に応じて各カードを回転させます。残りはライブラリが担います。どのカードが現在か、1 枚ずつ進む矢印、カードへ飛ぶドット、離すと最も近いカードに落ち着くマウスドラッグです。',
+    demoHint:
+      'スワイプ、ドラッグ、または矢印とドットを使ってください——行は必ずカード上で止まり、扇はスクロールの 1 ピクセルごとに追従します。',
+    prose: [
+      {
+        heading: 'スナップは CSS',
+        body: '`scrollContainerClassName` 経由で行に付けた `scroll-snap-type: x mandatory` と、`itemClassName` 経由で各項目に付けた `scroll-snap-align: center`。これがスナップのすべてです。タッチ、ホイール、キーボードのスクロールはネイティブのままなので、ブラウザが自分で減速してカードに止まります。行の左右のパディングは中央のカードの両脇の空間と等しく、それが最初と最後のカードも中央に来られる理由です。',
+      },
+      {
+        heading: '扇はスクロール駆動アニメーション',
+        body: '各カードは自身の `view()` タイムラインでアニメーションします。行の中での位置が時計です。キーフレームは行の中央の両側にカード 2 枚分のピッチを覆うので、中央のカードは平らで、隣は 1 枚ごとに `--tilt` だけ余分に傾き、角度はスクロールの 1 ピクセルごとに更新されます——何も計測せず、何も再レンダリングしません。このルールは `@supports (animation-timeline: view())` の下にあります。Chromium と Safari 26 は描画し、Firefox はまだこの機能をフラグの裏に置いているので、平らなカードを表示します。スナップとドットはそのまま動きます。',
+      },
+      {
+        heading: '残る JavaScript',
+        body: "`onScroll` が、中心が行の中央に最も近いカードを見つけます——ノードは `getItemElementById`、位置は `offsetLeft` と `scrollLeft` の比較——そしてそのインデックスを state に保持し、ドット、カードの強調、矢印に使います。矢印は隣へ進み、ドットはカードへ飛びます。どちらも `scrollToItem(el, 'smooth', 'center')` で、構造上スナップ位置に着地します。",
+      },
+      {
+        heading: 'ドラッグはスナップを切る必要がある',
+        body: 'mandatory のスナップコンテナは、プログラムからの `scrollLeft` への書き込みをすべてスナップするため、行を手で動かすマウスドラッグはカードごとにつっかえます。ドラッグはジェスチャーの間だけインラインで `scroll-snap-type: none` を設定します。離すと行は `scrollToItem` で最も近いカードへ滑らかに移動し、その移動が落ち着いてからスナップが戻ります。早く戻すと、ブラウザは滑らかに移動する代わりにスナップ位置へ瞬時にジャンプします。',
+      },
+      {
+        heading: '補足',
+        body: [
+          '- つまみは 3 つのカスタムプロパティ——`--card`、`--gap`、`--tilt`——で、アニメーション範囲を含む他のすべての長さはそこから導かれます。',
+          '- [無限ループ](/examples/infinite-loop)はこれと組み合わせられます。テレポートはループ 1 周分、つまり整数個のスナップ位置だけ移動するからです。[自動再生](/examples/autoplay)も同様で、同じ `scrollToItem` を呼ぶタイマーです。',
+          '- ドラッグは[マウスドラッグ](/examples/mouse-drag)のレシピからクリックガードを除いたものです。カードはクリックできないので、ドラッグとクリックを区別する必要がありません。',
+          '- `prefers-reduced-motion` は扇を切ります。スナップは残ります。装飾ではなく、行のスクロールの仕方そのものだからです。',
         ].join('\n'),
       },
     ],

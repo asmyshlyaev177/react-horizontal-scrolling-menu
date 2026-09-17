@@ -117,3 +117,75 @@ export const cities: City[] = [
   { id: 'denver', name: 'Denver', color: 'var(--demo-amber)', darkText: true },
   { id: 'hanoi', name: 'Hanoi', color: 'var(--demo-blue)' },
 ];
+
+export interface Review {
+  id: string;
+  name: string;
+  role: string;
+  rating: number;
+  quote: string;
+  color: string;
+  darkText?: boolean;
+}
+
+// Six fictional customers of a fictional product: the scroll-snap demo needs
+// cards with a face, a name, a rating and a paragraph, and nothing more.
+export const reviews: Review[] = [
+  {
+    id: 'mia',
+    name: 'Mia Chen',
+    role: 'Product designer',
+    rating: 5,
+    quote:
+      'Setup took an afternoon and the first report landed in my inbox the next morning. I have not opened the old spreadsheet since.',
+    color: 'var(--demo-blue)',
+  },
+  {
+    id: 'tomas',
+    name: 'Tomás Reyes',
+    role: 'Engineering manager',
+    rating: 5,
+    quote:
+      'The weekly digest is the only email my team reads end to end. Short, specific, and it names the person who unblocked you.',
+    color: 'var(--demo-amber)',
+    darkText: true,
+  },
+  {
+    id: 'aisha',
+    name: 'Aisha Okafor',
+    role: 'Founder',
+    rating: 4,
+    quote:
+      'I wanted numbers I could defend in a board meeting. Every figure links back to the source, so nobody has to take my word for it.',
+    color: 'var(--demo-violet)',
+  },
+  {
+    id: 'jonas',
+    name: 'Jonas Lindqvist',
+    role: 'Data analyst',
+    rating: 5,
+    quote:
+      'Exports are plain CSV with sane column names. That alone saved me a script I had been maintaining for two years.',
+    color: 'var(--demo-green)',
+    darkText: true,
+  },
+  {
+    id: 'priya',
+    name: 'Priya Natarajan',
+    role: 'Operations lead',
+    rating: 5,
+    quote:
+      'Support answered a Sunday question in twenty minutes with a fix, not a ticket number. That is what I pay for.',
+    color: 'var(--demo-red)',
+  },
+  {
+    id: 'lucas',
+    name: 'Lucas Moreau',
+    role: 'Freelance developer',
+    rating: 4,
+    quote:
+      'The API does exactly what the docs say, and the docs are one page. I shipped the integration before lunch.',
+    color: 'var(--demo-cyan)',
+    darkText: true,
+  },
+];

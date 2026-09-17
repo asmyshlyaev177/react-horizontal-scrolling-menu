@@ -28,6 +28,7 @@ const PAGES = [
   '/examples/simple',
   '/examples/rtl',
   '/examples/mui-scrollable-tabs',
+  '/examples/scroll-snap',
   '/examples/vertical',
 ];
 

@@ -170,6 +170,12 @@ const SOURCES: ExampleSource[] = [
     storyKey: 'muiTabs',
     sourceFile: 'stories/MuiTabs/MuiTabs.source.tsx',
   },
+  {
+    slug: 'scroll-snap',
+    group: 'Recipes',
+    storyKey: 'scrollSnap',
+    sourceFile: 'stories/ScrollSnap/ScrollSnap.source.tsx',
+  },
 ];
 
 export const EXAMPLES: ExampleEntry[] = SOURCES.map((source) => {

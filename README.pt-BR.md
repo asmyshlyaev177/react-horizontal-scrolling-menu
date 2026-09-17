@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · Português (BR) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=pt-BR source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=pt-BR source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -170,7 +170,7 @@ Se você precisa de uma linha que saiba o que está visível, é isto.
 
 ## Exemplos
 
-Padrões completos por objetivo, cada um com demo renderizada no servidor, o código e a instalação shadcn correspondente: [linha estilo Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [abas roláveis](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtro](https://react-horizontal-scrolling-menu.dev/filter-chips) · [trilha de categorias](https://react-horizontal-scrolling-menu.dev/category-rail).
+Padrões completos por objetivo, cada um com demo renderizada no servidor, o código e a instalação shadcn correspondente: [linha estilo Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [abas roláveis](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtro](https://react-horizontal-scrolling-menu.dev/filter-chips) · [trilha de categorias](https://react-horizontal-scrolling-menu.dev/category-rail) · [carrossel de depoimentos](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Cada exemplo é editável ao vivo no
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

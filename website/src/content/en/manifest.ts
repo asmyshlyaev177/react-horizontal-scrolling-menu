@@ -102,5 +102,10 @@ export const manifest: ManifestCopy = {
       name: 'Scrollable tabs beyond MUI',
       blurb: 'Keep MUI’s value/onChange contract; swap the strip underneath.',
     },
+    'scroll-snap': {
+      name: 'Scroll snap carousel',
+      blurb:
+        'Cards snap to the center and fan out in CSS — no carousel engine.',
+    },
   },
 };

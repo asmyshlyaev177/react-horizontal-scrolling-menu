@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=zh-CN source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -175,6 +175,42 @@ export const useCases: UseCasesCopy = {
     shadcn: {
       heading: '或者以 shadcn 组件的形式安装',
       body: '基础的 [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) 注册表条目就是这条分类栏——shadcn 样式的箭头、拖拽滚动、隐藏滚动条——安装进你的 `components/ui/`，并由你自己的 tokens 定义样式：',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: '基于原生滚动吸附的 React 评价轮播',
+      description:
+        '不用滑块库的 React 评价轮播：CSS scroll-snap 让每张卡片居中，滚动驱动动画把其余卡片扇形展开。圆点、箭头、拖拽，附源码。',
+    },
+    jsonLdHeadline: '在 React 中基于 CSS 滚动吸附构建评价轮播，无需滑块库',
+    name: '评价轮播',
+    blurb: '评价卡片吸附到中间并扇形展开——用 CSS，而不是滑块引擎。',
+    title: '一个基于原生滚动吸附的 React 评价轮播',
+    lede: '每个营销网站上的评价区块：一张卡片居中，相邻卡片在后面倾斜，下面是圆点，滑动或点击切换到下一张。滑块库卖的正是这个。浏览器已经具备两个部分——`scroll-snap-type` 负责停靠，滚动驱动动画负责倾斜——而本库补上两者都不是的那部分：知道哪张卡片是当前的。',
+    demoHint: '滑动、拖拽，或使用箭头和圆点——这一行每次都会停在一张卡片上。',
+    prose: [
+      {
+        heading: '滑块库在这里真正做的事',
+        body: "评价轮播是最典型的 Swiper 用法：三张可见卡片，中间那张是平的，分页圆点，自动播放。这些每一项要么是 CSS，要么是本库 API 上的几行代码：\n\n- **停在一张卡片上**是这一行上的 `scroll-snap-type: x mandatory` 和项目上的 `scroll-snap-align: center`。触摸、滚轮和键盘滚动仍是原生的，会自己减速停到一张卡片上。\n- **倾斜**是每张卡片上的滚动驱动动画，角度逐像素跟随滚动位置，JavaScript 不测量任何东西。Chromium 与 Safari 26 会绘制它；Firefox 仍把它放在开关后面，显示平放的卡片，这条规则用 `@supports` 做了保护。\n- **圆点和箭头**需要知道当前卡片：`onScroll` 找出离这一行中心最近的那张，`scrollToItem(el, 'smooth', 'center')` 步进到相邻卡片或跳到圆点对应的卡片，天然落在吸附点上。",
+      },
+      {
+        heading: '唯一要做对的事：拖拽',
+        body: '强制吸附容器会吸附每一次程序化的 `scrollLeft` 写入，因此照搬[鼠标拖拽示例](/examples/mouse-drag)会一张一张地卡顿。[滚动吸附示例](/examples/scroll-snap)给出了解法：手势期间关闭吸附，松开时用 `scrollToItem` 滑到最近的卡片，等滑动停稳后再把吸附交还给 CSS——过早恢复会跳过去而不是滑过去。触摸完全不需要这些；这一行是真正的滚动容器。',
+      },
+      {
+        heading: '自动播放、循环，以及属于你的部分',
+        body: '[自动播放](/examples/autoplay)是一个调用同一个 `scrollToItem` 的定时器，在悬停、聚焦和减少动态时暂停。[无限循环](/examples/infinite-loop)也能组合：它的传送移动整整一个循环长度，也就是整数个吸附点。卡片是你的组件——头像、评分、引言、logo——几何只有三个自定义属性：卡片宽度、间距和倾斜角。',
+      },
+    ],
+    snippet: {
+      heading: '最简模式',
+      lede: '吸附和倾斜在样式表里；箭头和圆点只是一次测量和一个 `scrollToItem`。上面的演示就是这个加上卡片。',
+    },
+    shadcn: {
+      heading: '或者以 shadcn 组件的形式安装',
+      body: '[snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) registry 项把整个模式——吸附、扇形、箭头、圆点，以及松开后落到最近卡片的拖拽——打包为你 `components/ui/` 里的 Tailwind 样式组件。带上你自己的卡片：',
     },
   },
 };

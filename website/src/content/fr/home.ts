@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=fr source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Des recettes que vous expédierez vraiment',
-    lede: 'Quatre motifs courants, en direct, avec les lignes qui comptent.',
+    lede: 'Cinq motifs courants, en direct, avec les lignes qui comptent.',
     tabs: {
       title: 'Une bande d’onglets qui centre l’onglet actif',
       body: "Cliquez sur un onglet : `scrollToItem` avec `inline: 'center'` l’amène au milieu de la rangée. Le même appel gère `start`, `end` et la pagination.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'De droite à gauche, avec une prop',
       body: '`RTL` inverse la direction du conteneur de défilement ; les flèches et la logique de pagination suivent.',
+      link: 'Voir l’exemple complet',
+    },
+    snap: {
+      title: 'Des cartes qui s’accrochent au centre et s’ouvrent en éventail',
+      body: 'Deux fonctionnalités CSS font le carrousel : `scroll-snap-type` fait atterrir chaque balayage sur une carte, et une animation pilotée par le défilement incline chaque carte selon sa distance au milieu. La bibliothèque vous dit quelle carte est courante.',
       link: 'Voir l’exemple complet',
     },
   },

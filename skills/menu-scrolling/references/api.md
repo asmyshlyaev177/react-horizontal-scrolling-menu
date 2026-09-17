@@ -1,4 +1,4 @@
-# publicApiType member reference — react-horizontal-scrolling-menu 8.2.3
+# publicApiType member reference — react-horizontal-scrolling-menu 8.3.2
 
 The complete api object surface, verified against `src/createApi.ts`,
 `src/ItemsMap/ItemsMap.ts`, `src/helpers.tsx` and `src/types.ts`.

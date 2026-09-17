@@ -178,4 +178,43 @@ The [comparison page](/compare) has the full table against Swiper, Embla, keen-s
       body: 'The base [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) registry item is this rail — shadcn-styled arrows, drag to scroll, hidden scrollbar — installed into your `components/ui/` and styled by your tokens:',
     },
   },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'React testimonial carousel on native scroll snap',
+      description:
+        'Testimonial carousel in React without a slider library: CSS scroll-snap centers each card, a scroll-driven animation fans out the rest. Dots, arrows, drag, source.',
+    },
+    jsonLdHeadline:
+      'Building a testimonial carousel in React on CSS scroll snap, without a slider library',
+    name: 'Testimonial carousel',
+    blurb:
+      'Review cards that snap to the center and fan out — CSS, not a slider engine.',
+    title: 'A testimonial carousel in React, on native scroll snap',
+    lede: 'The reviews section on every marketing site: one card in the middle, its neighbours tilted behind it, dots underneath, a swipe or a click to the next one. Slider libraries sell exactly this. The browser already has both halves — `scroll-snap-type` for the landing and a scroll-driven animation for the tilt — and this library adds the part that is neither: knowing which card is current.',
+    demoHint:
+      'Swipe, drag, or use the arrows and dots — the rail settles on a card every time.',
+    prose: [
+      {
+        heading: 'What a slider library is really for here',
+        body: "Testimonial carousels are the canonical Swiper install: three visible cards, the middle one flat, pagination bullets, autoplay. Every one of those is either CSS or a few lines on this library’s API:\n\n- **Landing on a card** is `scroll-snap-type: x mandatory` on the rail and `scroll-snap-align: center` on the items. Touch, wheel and keyboard scrolling stay native and decelerate onto a card by themselves.\n- **The tilt** is a scroll-driven animation on each card, so the angle follows the scroll position pixel for pixel with nothing measured in JavaScript. Chromium and Safari 26 draw it; Firefox still keeps it behind a flag and shows flat cards, and the rule is guarded with `@supports`.\n- **Dots and arrows** need to know the current card: `onScroll` finds the one nearest the rail’s center, and `scrollToItem(el, 'smooth', 'center')` steps to a neighbour or jumps to a dot’s card, landing on a snap point by construction.",
+      },
+      {
+        heading: 'The one thing to get right: drag',
+        body: 'A mandatory snap container snaps every programmatic write to `scrollLeft`, so the [mouse-drag recipe](/examples/mouse-drag) as written would stutter from card to card. The [scroll-snap example](/examples/scroll-snap) shows the fix: switch snapping off for the gesture, glide to the closest card with `scrollToItem` on release, and hand snapping back to CSS once that glide has settled — re-enabling it earlier jumps instead of gliding. Touch needs none of this; the rail is a real scroll container.',
+      },
+      {
+        heading: 'Autoplay, loop, and what stays yours',
+        body: '[Autoplay](/examples/autoplay) is a timer calling the same `scrollToItem`, paused on hover, focus and reduced motion. An [infinite loop](/examples/infinite-loop) composes too: its teleport moves by a whole loop length, which is a whole number of snap points. The cards are your components — an avatar, a rating, a quote, a logo — and the geometry is three custom properties: card width, gap and tilt.',
+      },
+    ],
+    snippet: {
+      heading: 'The pattern, minimal',
+      lede: 'Snap and tilt are the stylesheet; the arrows and dots are one measurement and one `scrollToItem`. The demo above is this plus the cards.',
+    },
+    shadcn: {
+      heading: 'Or install it as a shadcn component',
+      body: 'The [snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) registry item ships the whole pattern — snap, fan, arrows, dots and a drag that releases onto the closest card — as a Tailwind-styled component in your `components/ui/`. Bring your own cards:',
+    },
+  },
 };

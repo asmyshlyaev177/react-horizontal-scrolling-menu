@@ -29,6 +29,7 @@ export const HTML_ROUTES = [
   '/scrollable-tabs',
   '/filter-chips',
   '/category-rail',
+  '/testimonial-carousel',
   ...EXAMPLES.map((example) => `/examples/${example.slug}`),
 ];
 

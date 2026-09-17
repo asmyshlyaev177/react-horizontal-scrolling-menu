@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=ko source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -714,6 +714,45 @@ export const examples: ExamplesCopy = {
           '- ARIA 패턴을 직접 고르세요: 실제 패널이 전환된다면(여기처럼) `role="tablist"`/`role="tab"`/`aria-selected`를 유지하고, "탭"이 내비게이션 링크라면 `aria-current`를 쓰세요.',
           '- 드래그가 활성화되어 있다면, 놓는 순간 발생하는 클릭을 억제하세요 — 데모는 선택 전에 `dragManager.dragging`을 확인합니다. [드래그 레시피](/examples/mouse-drag)와 같은 방식입니다.',
           '- [RTL](/examples/rtl)은 별도 작업이 필요 없습니다: 스트립은 네이티브 스크롤 컨테이너이므로 `direction: rtl`이 화살표까지 포함해 뒤집어 줍니다.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'React 스크롤 스냅 캐러셀: CSS 스냅과 기울기, 엔진 없이',
+      description:
+        '네이티브 스크롤 위의 후기 캐러셀: CSS scroll-snap이 각 카드를 가운데에 맞추고, 스크롤 기반 애니메이션이 나머지를 부채꼴로 펼칩니다. 화살표, 점, 드래그는 공개 API로. 전체 소스 포함.',
+    },
+    title: 'CSS가 그리는, 스냅되는 카드 캐러셀',
+    lede: '후기 캐러셀의 모습 — 카드 한 장이 가운데에 있고 이웃 카드들이 그 뒤로 부채꼴로 펼쳐지는 — 을 캐러셀 엔진 없이 만듭니다. `scroll-snap-type`이 모든 스와이프를 카드 위에 멈추게 하고, CSS 스크롤 기반 애니메이션이 가운데에서 떨어진 거리만큼 각 카드를 회전시키며, 나머지는 라이브러리가 맡습니다. 어느 카드가 현재인지, 한 장씩 넘기는 화살표, 카드로 건너뛰는 점, 놓으면 가장 가까운 카드에 안착하는 마우스 드래그입니다.',
+    demoHint:
+      '스와이프하거나, 드래그하거나, 화살표와 점을 써 보세요 — 행은 언제나 카드 위에서 멈추고, 부채꼴은 스크롤의 모든 픽셀을 따라갑니다.',
+    prose: [
+      {
+        heading: '스냅은 CSS',
+        body: '`scrollContainerClassName`으로 행에 붙인 `scroll-snap-type: x mandatory`와 `itemClassName`으로 각 항목에 붙인 `scroll-snap-align: center`가 스냅의 전부입니다. 터치, 휠, 키보드 스크롤은 네이티브 그대로라서 브라우저가 스스로 감속해 카드 위에 멈춥니다. 행의 좌우 패딩은 가운데 카드 양옆의 공간과 같으며, 그 덕분에 첫 카드와 마지막 카드도 가운데에 올 수 있습니다.',
+      },
+      {
+        heading: '부채꼴은 스크롤 기반 애니메이션',
+        body: '각 카드는 자신의 `view()` 타임라인으로 애니메이션합니다. 행 안에서의 위치가 곧 시계입니다. 키프레임은 행의 가운데 양쪽으로 카드 두 칸씩을 덮으므로, 가운데 카드는 평평하고 이웃은 한 장마다 `--tilt`만큼 더 기울며, 각도는 스크롤의 모든 픽셀마다 갱신됩니다 — 아무것도 측정하지 않고 아무것도 다시 렌더링하지 않습니다. 이 규칙은 `@supports (animation-timeline: view())` 아래에 있습니다. Chromium과 Safari 26은 그려 주고, Firefox는 아직 이 기능을 플래그 뒤에 두고 있어 평평한 카드를 보여 주며, 스냅과 점은 그대로 동작합니다.',
+      },
+      {
+        heading: '남는 JavaScript',
+        body: "`onScroll`이 중심이 행의 가운데에 가장 가까운 카드를 찾고 — 노드는 `getItemElementById`로, 위치는 `offsetLeft`를 `scrollLeft`와 비교해서 — 그 인덱스를 state에 두어 점, 카드 강조, 화살표가 씁니다. 화살표는 이웃으로 한 칸 이동하고 점은 카드로 건너뛰는데, 둘 다 `scrollToItem(el, 'smooth', 'center')`를 쓰므로 구조상 스냅 지점에 안착합니다.",
+      },
+      {
+        heading: '드래그는 스냅을 꺼야 합니다',
+        body: 'mandatory 스냅 컨테이너는 프로그램의 모든 `scrollLeft` 쓰기를 스냅하므로, 행을 손으로 옮기는 마우스 드래그는 카드마다 덜컥거리게 됩니다. 드래그는 제스처 동안 인라인으로 `scroll-snap-type: none`을 설정합니다. 놓으면 행이 `scrollToItem`으로 가장 가까운 카드까지 미끄러지고, 그 이동이 안정된 뒤에야 스냅이 돌아옵니다. 더 일찍 켜면 브라우저는 미끄러지는 대신 스냅 지점으로 즉시 점프합니다.',
+      },
+      {
+        heading: '참고',
+        body: [
+          '- 손잡이는 세 개의 커스텀 프로퍼티 — `--card`, `--gap`, `--tilt` — 이고, 애니메이션 범위를 포함한 다른 모든 길이는 여기서 파생됩니다.',
+          '- [무한 루프](/examples/infinite-loop)와 함께 쓸 수 있습니다. 텔레포트는 루프 한 바퀴 길이, 곧 정수 개의 스냅 지점만큼 이동하기 때문입니다. 같은 `scrollToItem`을 호출하는 타이머인 [자동 재생](/examples/autoplay)도 마찬가지입니다.',
+          '- 드래그는 [마우스 드래그](/examples/mouse-drag) 레시피에서 클릭 가드를 뺀 것입니다. 카드는 클릭할 수 없으므로 드래그와 클릭을 구분할 필요가 없습니다.',
+          '- `prefers-reduced-motion`은 부채꼴을 끕니다. 스냅은 남습니다. 장식이 아니라 행이 스크롤되는 방식이기 때문입니다.',
         ].join('\n'),
       },
     ],

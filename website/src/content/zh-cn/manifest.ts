@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
+// i18n:meta locale=zh-CN source=en/manifest.ts source-blob=4877f1ee74fa02f7ae1f9e695c0acaa73e4f6dfc status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -107,6 +107,10 @@ export const manifest: ManifestCopy = {
     'mui-scrollable-tabs': {
       name: '超越 MUI 的可滚动标签页',
       blurb: '保留 MUI 的 value/onChange 契约；换掉底下的这一行。',
+    },
+    'scroll-snap': {
+      name: '滚动吸附轮播',
+      blurb: '卡片吸附到中间并以 CSS 扇形展开——不需要轮播引擎。',
     },
   },
 };

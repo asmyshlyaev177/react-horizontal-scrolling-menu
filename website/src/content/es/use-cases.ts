@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=es source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -186,6 +186,45 @@ La [página de comparación](/compare) tiene la tabla completa frente a Swiper, 
     shadcn: {
       heading: 'O instálalo como componente shadcn',
       body: 'El elemento base del registro [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) es este riel —flechas con estilo shadcn, arrastre para desplazar, barra de scroll oculta— instalado en tu `components/ui/` y con estilos según tus tokens:',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'Carrusel de testimonios en React con scroll snap nativo',
+      description:
+        'Carrusel de testimonios en React sin biblioteca de slider: scroll-snap centra cada tarjeta y una animación CSS abre el resto en abanico. Puntos, flechas y fuente.',
+    },
+    jsonLdHeadline:
+      'Construir un carrusel de testimonios en React sobre CSS scroll snap, sin biblioteca de slider',
+    name: 'Carrusel de testimonios',
+    blurb:
+      'Tarjetas de reseñas que se ajustan al centro y se abren en abanico — CSS, no un motor de slider.',
+    title: 'Un carrusel de testimonios en React, sobre scroll snap nativo',
+    lede: 'La sección de reseñas de todo sitio de marketing: una tarjeta en el centro, sus vecinas inclinadas detrás, puntos debajo, un deslizamiento o un clic para pasar a la siguiente. Las bibliotecas de slider venden exactamente esto. El navegador ya tiene las dos mitades — `scroll-snap-type` para el aterrizaje y una animación dirigida por el desplazamiento para la inclinación — y esta biblioteca añade la parte que no es ninguna de las dos: saber qué tarjeta es la actual.',
+    demoHint:
+      'Desliza, arrastra o usa las flechas y los puntos — la fila se asienta sobre una tarjeta cada vez.',
+    prose: [
+      {
+        heading: 'Para qué sirve realmente aquí una biblioteca de slider',
+        body: "Los carruseles de testimonios son la instalación canónica de Swiper: tres tarjetas visibles, la del medio plana, puntos de paginación, autoplay. Cada una de esas cosas es CSS o unas pocas líneas sobre la API de esta biblioteca:\n\n- **Aterrizar en una tarjeta** es `scroll-snap-type: x mandatory` en la fila y `scroll-snap-align: center` en los elementos. El desplazamiento táctil, con rueda y con teclado sigue siendo nativo y desacelera solo hasta una tarjeta.\n- **La inclinación** es una animación dirigida por el desplazamiento en cada tarjeta, así que el ángulo sigue la posición de scroll píxel a píxel sin medir nada en JavaScript. Chromium y Safari 26 la dibujan; Firefox aún la mantiene tras una bandera y muestra tarjetas planas, y la regla está protegida con `@supports`.\n- **Puntos y flechas** necesitan saber la tarjeta actual: `onScroll` encuentra la más cercana al centro de la fila, y `scrollToItem(el, 'smooth', 'center')` avanza a una vecina o salta a la tarjeta de un punto, cayendo en un punto de ajuste por construcción.",
+      },
+      {
+        heading: 'Lo único que hay que hacer bien: el arrastre',
+        body: 'Un contenedor con ajuste obligatorio ajusta cada escritura programática en `scrollLeft`, así que la [receta de arrastre con el ratón](/examples/mouse-drag) tal cual iría a trompicones de tarjeta en tarjeta. El [ejemplo de scroll snap](/examples/scroll-snap) muestra la solución: apagar el ajuste durante el gesto, deslizarse hasta la tarjeta más cercana con `scrollToItem` al soltar y devolver el ajuste a CSS cuando ese deslizamiento se haya asentado — reactivarlo antes salta en lugar de deslizarse. El tacto no necesita nada de esto; la fila es un contenedor de scroll real.',
+      },
+      {
+        heading: 'Autoplay, bucle y lo que sigue siendo tuyo',
+        body: 'El [autoplay](/examples/autoplay) es un temporizador que llama al mismo `scrollToItem`, en pausa al pasar el ratón, con el foco y con movimiento reducido. Un [bucle infinito](/examples/infinite-loop) también se combina: su teletransporte se mueve una longitud de bucle entera, que es un número entero de puntos de ajuste. Las tarjetas son tus componentes — un avatar, una valoración, una cita, un logo — y la geometría son tres propiedades personalizadas: ancho de tarjeta, separación e inclinación.',
+      },
+    ],
+    snippet: {
+      heading: 'El patrón, en su forma mínima',
+      lede: 'El ajuste y la inclinación son la hoja de estilos; las flechas y los puntos son una medición y un `scrollToItem`. La demo de arriba es esto más las tarjetas.',
+    },
+    shadcn: {
+      heading: 'O instálalo como componente shadcn',
+      body: 'El elemento de registro [snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) trae el patrón completo — ajuste, abanico, flechas, puntos y un arrastre que cae sobre la tarjeta más cercana — como componente con estilos Tailwind en tu `components/ui/`. Pon tus propias tarjetas:',
     },
   },
 };

@@ -5,6 +5,7 @@ import { HeroDemo } from '../components/demos/HeroDemo';
 import { InfiniteDemo } from '../components/demos/InfiniteDemo';
 import { QuickStartDemo } from '../components/demos/QuickStartDemo';
 import { RTLDemo } from '../components/demos/RTLDemo';
+import { ScrollSnapDemo } from '../components/demos/ScrollSnapDemo';
 import { TabsDemo } from '../components/demos/TabsDemo';
 import { ArrowUpRight, Check, Minus } from '../components/Icons';
 import { SiteFooter, SiteHeader } from '../components/SiteChrome';
@@ -316,6 +317,23 @@ export function View({ copy, locale }: { copy: HomeCopy; locale: string }) {
               </a>
             </div>
             <RTLDemo />
+          </div>
+
+          <div className="gallery-item">
+            <div className="gallery-copy">
+              <h3>{copy.gallery.snap.title}</h3>
+              <p>
+                <Inline text={copy.gallery.snap.body} />
+              </p>
+              <CodeBlock snippet="snap" title="snap.css" />
+              <a
+                className="gallery-link"
+                href={`${prefix}/testimonial-carousel`}
+              >
+                {copy.gallery.snap.link}
+              </a>
+            </div>
+            <ScrollSnapDemo />
           </div>
         </section>
 

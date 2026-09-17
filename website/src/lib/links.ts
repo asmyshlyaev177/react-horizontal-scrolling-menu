@@ -49,4 +49,5 @@ export const STORIES = {
   rtl: storyUrl('examples-rtl--rtl'),
   infiniteLoop: storyUrl('examples-infiniteloop--infinite-loop'),
   autoplay: storyUrl('examples-autoplay--autoplay'),
+  scrollSnap: storyUrl('examples-scrollsnap--scroll-snap'),
 };

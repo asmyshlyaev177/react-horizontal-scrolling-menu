@@ -144,10 +144,11 @@ skills:
       Features that are recipes on the public API, not props: autoplay
       (interval gated on menuVisible), infinite loop (clone-and-teleport),
       center on click, save/restore scroll position, load-more with a loader
-      item, one item per scroll, hiding arrows, multiple menus and tab
-      switching — each mapped to its live-editable Storybook story. Load
-      when asked for autoplay, looping, carousel-like behavior, or any
-      feature not in the props table.
+      item, one item per scroll, scroll-snap carousel (CSS snap, current card
+      from onScroll), hiding arrows, multiple menus and tab switching — each
+      mapped to its live-editable Storybook story. Load when asked for
+      autoplay, looping, snapping, carousel-like behavior, or any feature not
+      in the props table.
     sources:
       - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/Autoplay/Autoplay.source.tsx'
       - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/InfiniteLoop/InfiniteLoop.source.tsx'
@@ -155,6 +156,7 @@ skills:
       - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/SaveRestorePosition/SaveRestorePosition.source.tsx'
       - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/AddItems/AddItems.source.tsx'
       - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/OneItemScroll/OneItemScroll.source.tsx'
+      - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/ScrollSnap/ScrollSnap.source.tsx'
 
   - name: 'migration from older versions'
     slug: 'menu-migration'

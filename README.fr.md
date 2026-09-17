@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · Français · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=fr source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=fr source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -175,7 +175,7 @@ Si vous avez besoin d’une rangée qui sache ce qui est visible, c’est celle-
 
 ## Exemples
 
-Des patterns complets par objectif, chacun avec une démo rendue côté serveur, le code et son installation shadcn : [rangée façon Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [onglets défilants](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtre](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail de catégories](https://react-horizontal-scrolling-menu.dev/category-rail).
+Des patterns complets par objectif, chacun avec une démo rendue côté serveur, le code et son installation shadcn : [rangée façon Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [onglets défilants](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtre](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail de catégories](https://react-horizontal-scrolling-menu.dev/category-rail) · [carrousel de témoignages](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Chaque exemple est modifiable en direct dans
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

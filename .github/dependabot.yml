@@ -20,3 +20,8 @@ updates:
       interval: 'monthly'
     target-branch: 'master'
     open-pull-requests-limit: 3
+    groups:
+      # init/autobuild/analyze must share one version; bumped one at a time
+      # (the PR limit held two back) init 4.37.9 refused analyze 4.37.6's config.
+      codeql-action:
+        patterns: ['github/codeql-action*']

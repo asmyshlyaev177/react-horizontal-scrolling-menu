@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=es source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Recetas que enviarás a producción',
-    lede: 'Cuatro patrones comunes, en vivo, con las líneas que importan.',
+    lede: 'Cinco patrones comunes, en vivo, con las líneas que importan.',
     tabs: {
       title: 'Una franja de pestañas que centra la pestaña activa',
       body: "Haz clic en una pestaña: `scrollToItem` con `inline: 'center'` la lleva al medio de la fila. La misma llamada maneja `start`, `end` y la paginación.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'De derecha a izquierda, con una prop',
       body: '`RTL` invierte la dirección del contenedor de desplazamiento; las flechas y la lógica de paginación le siguen.',
+      link: 'Ver el ejemplo completo',
+    },
+    snap: {
+      title: 'Tarjetas que se ajustan al centro y se abren en abanico',
+      body: 'Dos funciones de CSS hacen el carrusel: `scroll-snap-type` hace aterrizar cada deslizamiento en una tarjeta, y una animación dirigida por el desplazamiento inclina cada tarjeta según su distancia al centro. La biblioteca te dice qué tarjeta es la actual.',
       link: 'Ver el ejemplo completo',
     },
   },

@@ -1,4 +1,4 @@
-# Live story map — react-horizontal-scrolling-menu 8.2.3
+# Live story map — react-horizontal-scrolling-menu 8.3.2
 
 Every recipe in `menu-recipes` is maintained as a live-editable Storybook
 story. Link the user at the story rather than pasting a static snippet when
@@ -17,6 +17,7 @@ Base: `https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu`
 | Scroll to item                | `/?path=/story/examples-scrolltoitem--scroll-to-item`                    | `stories/ScrollToItem/ScrollToItem.source.tsx`                 |
 | Add item + scroll to it       | `/?path=/story/examples-additemandscrolltoit--add-item-and-scroll-to-it` | `stories/AddItemAndScrollToIt/AddItemAndScrollToIt.source.tsx` |
 | Arrows in Footer (below menu) | `/?path=/story/examples-bottomarrows--bottom-arrows`                     | `stories/BottomArrows/BottomArrows.source.tsx`                 |
+| Scroll-snap carousel          | `/?path=/story/examples-scrollsnap--scroll-snap`                         | `stories/ScrollSnap/ScrollSnap.source.tsx`                     |
 
 Each story renders from its `*.source.tsx`, so the story page and the file on
 disk never drift — quote the source file, not a remembered version of it.

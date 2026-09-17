@@ -415,6 +415,7 @@ test.describe('use-case and comparison pages', () => {
     '/scrollable-tabs',
     '/filter-chips',
     '/category-rail',
+    '/testimonial-carousel',
   ]) {
     test(`${path} server-renders its live demo`, async ({ request }) => {
       const html = await (await request.get(path, { headers: BROWSER })).text();
@@ -447,6 +448,7 @@ test.describe('use-case and comparison pages', () => {
       'scrollable-tabs',
       'filter-chips',
       'category-rail',
+      'testimonial-carousel',
     ]) {
       expect(html).toContain(`href="/${slug}"`);
     }
