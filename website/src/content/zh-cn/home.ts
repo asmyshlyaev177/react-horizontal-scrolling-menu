@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=zh-CN source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: '你会真正上线的配方',
-    lede: '四种常见模式，在线演示，附关键代码。',
+    lede: '五种常见模式，在线演示，附关键代码。',
     tabs: {
       title: '让活动标签页居中的标签页条',
       body: "点击一个标签页：`scrollToItem` 配 `inline: 'center'` 会把它带到行的中间。同一个调用也能处理 `start`、`end` 与分页。",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: '从右到左，一个属性',
       body: '`RTL` 翻转滚动容器的方向；箭头与分页逻辑随之改变。',
+      link: '查看完整示例',
+    },
+    snap: {
+      title: '吸附到中间并扇形展开的卡片',
+      body: '两个 CSS 特性构成了这个轮播：`scroll-snap-type` 让每次滑动停在一张卡片上，滚动驱动动画按每张卡片离中间的距离倾斜它。本库告诉你哪张卡片是当前的。',
       link: '查看完整示例',
     },
   },

@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
+// i18n:meta locale=ja source=en/manifest.ts source-blob=4877f1ee74fa02f7ae1f9e695c0acaa73e4f6dfc status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -109,6 +109,11 @@ export const manifest: ManifestCopy = {
     'mui-scrollable-tabs': {
       name: 'MUI を超えるスクロール可能なタブ',
       blurb: 'MUI の value/onChange 契約を保ち、内部の帯を入れ替えます。',
+    },
+    'scroll-snap': {
+      name: 'スクロールスナップのカルーセル',
+      blurb:
+        'カードが中央にスナップし、CSS で扇状に広がります——カルーセルエンジンは不要。',
     },
   },
 };

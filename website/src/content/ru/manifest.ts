@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ru source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
+// i18n:meta locale=ru source=en/manifest.ts source-blob=4877f1ee74fa02f7ae1f9e695c0acaa73e4f6dfc status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -111,6 +111,11 @@ export const manifest: ManifestCopy = {
       name: 'Прокручиваемые вкладки за пределами MUI',
       blurb:
         'Сохраните контракт value/onChange от MUI и замените полосу под капотом.',
+    },
+    'scroll-snap': {
+      name: 'Карусель с привязкой прокрутки',
+      blurb:
+        'Карточки прилипают к центру и раскрываются веером на CSS — без движка карусели.',
     },
   },
 };

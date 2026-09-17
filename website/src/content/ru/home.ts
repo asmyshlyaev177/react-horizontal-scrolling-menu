@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ru source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=ru source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Рецепты, которые вы реально отправите в прод',
-    lede: 'Четыре распространённых паттерна, живьём, с ключевыми строками.',
+    lede: 'Пять распространённых паттернов, живьём, с ключевыми строками.',
     tabs: {
       title: 'Полоса вкладок, которая центрирует активную вкладку',
       body: "Кликните вкладку: `scrollToItem` с `inline: 'center'` приводит её в середину ряда. Тот же вызов обрабатывает `start`, `end` и пагинацию.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'Справа налево, одним пропом',
       body: '`RTL` разворачивает направление контейнера прокрутки; стрелки и логика пагинации следуют.',
+      link: 'Смотреть полный пример',
+    },
+    snap: {
+      title: 'Карточки, прилипающие к центру и раскрывающиеся веером',
+      body: 'Карусель делают две возможности CSS: `scroll-snap-type` останавливает каждый свайп на карточке, а анимация по прокрутке наклоняет каждую карточку по её расстоянию до середины. Библиотека говорит, какая карточка текущая.',
       link: 'Смотреть полный пример',
     },
   },

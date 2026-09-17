@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=pt-BR source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Receitas que você realmente enviará',
-    lede: 'Quatro padrões comuns, ao vivo, com as linhas que importam.',
+    lede: 'Cinco padrões comuns, ao vivo, com as linhas que importam.',
     tabs: {
       title: 'Uma faixa de abas que centraliza a aba ativa',
       body: "Clique em uma aba: `scrollToItem` com `inline: 'center'` a traz para o meio da linha. A mesma chamada lida com `start`, `end` e paginação.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'Da direita para a esquerda, com uma prop',
       body: '`RTL` inverte a direção do contêiner de rolagem; as setas e a lógica de paginação seguem.',
+      link: 'Ver o exemplo completo',
+    },
+    snap: {
+      title: 'Cartões que se encaixam no centro e se abrem em leque',
+      body: 'Dois recursos de CSS fazem o carrossel: `scroll-snap-type` faz cada deslize pousar em um cartão, e uma animação dirigida pela rolagem inclina cada cartão conforme sua distância do meio. A biblioteca diz qual cartão é o atual.',
       link: 'Ver o exemplo completo',
     },
   },

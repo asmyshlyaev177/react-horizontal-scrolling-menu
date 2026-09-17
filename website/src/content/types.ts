@@ -135,6 +135,7 @@ export interface HomeCopy {
     chips: GalleryItem;
     infinite: GalleryItem;
     rtl: GalleryItem;
+    snap: GalleryItem;
   };
   features: {
     heading: string;
@@ -221,6 +222,7 @@ export interface UseCasesCopy {
   scrollableTabs: UseCaseCopy;
   filterChips: UseCaseCopy;
   categoryRail: UseCaseCopy;
+  testimonialCarousel: UseCaseCopy;
 }
 
 /** One neutral comparison page (`/compare/embla-vs-swiper`, …). */

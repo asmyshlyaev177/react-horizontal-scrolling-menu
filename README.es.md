@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · Español · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=es source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=es source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -171,7 +171,7 @@ Si necesitas una fila que sepa qué es visible, esto es para ti.
 
 ## Ejemplos
 
-Patrones completos por objetivo, cada uno con demo renderizada en el servidor, el código y su instalación shadcn: [fila estilo Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [pestañas desplazables](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtro](https://react-horizontal-scrolling-menu.dev/filter-chips) · [riel de categorías](https://react-horizontal-scrolling-menu.dev/category-rail).
+Patrones completos por objetivo, cada uno con demo renderizada en el servidor, el código y su instalación shadcn: [fila estilo Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [pestañas desplazables](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chips de filtro](https://react-horizontal-scrolling-menu.dev/filter-chips) · [riel de categorías](https://react-horizontal-scrolling-menu.dev/category-rail) · [carrusel de testimonios](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Cada ejemplo es editable en vivo en
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu):

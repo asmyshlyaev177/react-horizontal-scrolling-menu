@@ -1684,3 +1684,189 @@ for-hire-badge {
   --fhb-font: var(--font-sans);
   --fhb-shadow: var(--shadow-2);
 }
+
+/* ---------- scroll-snap demo ---------- */
+
+/* CSS scroll-snap centers each card and a scroll-driven animation turns
+   every card by how far it sits from the rail's center. --card, --gap and
+   --tilt are the knobs; every other length derives from them. */
+.snap-demo {
+  --card: min(17.5rem, 78vw);
+  --gap: 1rem;
+  --tilt: 8deg;
+  --pitch: calc(var(--card) + var(--gap));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  background: var(--surface);
+  padding: 0.75rem 0.75rem 1rem;
+  overflow: hidden;
+}
+
+/* Arrows float over the rail rather than sit beside it, so the rail spans
+   the panel and its 50% padding centers the edge cards exactly. */
+.snap-demo .react-horizontal-scrolling-menu--inner-wrapper {
+  position: relative;
+}
+
+.snap-demo .react-horizontal-scrolling-menu--arrow-left,
+.snap-demo .react-horizontal-scrolling-menu--arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.snap-demo .react-horizontal-scrolling-menu--arrow-left {
+  left: 0.25rem;
+}
+
+.snap-demo .react-horizontal-scrolling-menu--arrow-right {
+  right: 0.25rem;
+}
+
+.snap-demo .arrow-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.snap-demo .react-horizontal-scrolling-menu--scroll-container {
+  scroll-snap-type: x mandatory;
+  gap: var(--gap);
+  /* Side padding equal to the space beside a centered card lets the first
+     and last card reach the middle; the bottom room is for the fan. */
+  padding: 1rem calc(50% - var(--card) / 2) 2.5rem;
+  cursor: grab;
+  user-select: none;
+}
+
+.snap-demo .react-horizontal-scrolling-menu--item {
+  scroll-snap-align: center;
+}
+
+.snap-card {
+  width: var(--card);
+  height: 100%;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+  transform-origin: 50% 100%;
+}
+
+.snap-card[data-active='true'] {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-2);
+}
+
+/* The card's own position in the rail is the timeline. The keyframes span
+   two card pitches either side of the center: flat in the middle, one
+   --tilt further per neighbour. Firefox still flags scroll-driven
+   animations; there the cards stay flat and everything else works. */
+@supports (animation-timeline: view()) {
+  .snap-card {
+    animation: snap-tilt linear both;
+    animation-timeline: view(inline);
+    animation-range: cover calc(50% - 2 * var(--pitch)) cover
+      calc(50% + 2 * var(--pitch));
+  }
+}
+
+@keyframes snap-tilt {
+  from {
+    transform: translateY(1.5rem) rotate(calc(2 * var(--tilt))) scale(0.88);
+  }
+  50% {
+    transform: none;
+  }
+  to {
+    transform: translateY(1.5rem) rotate(calc(-2 * var(--tilt))) scale(0.88);
+  }
+}
+
+.snap-card-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.snap-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.snap-name,
+.snap-role {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.snap-name {
+  font-weight: 650;
+}
+
+.snap-role {
+  color: var(--muted);
+}
+
+/* Icons, not text, so the amber is held to the 3:1 graphics floor on --bg
+   rather than the 4.5:1 text floor no amber can clear on white. */
+.snap-stars {
+  display: flex;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+  color: var(--line-strong);
+}
+
+.snap-stars .is-filled {
+  color: light-dark(oklch(0.62 0.15 75), oklch(0.8 0.13 75));
+}
+
+.snap-quote {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.snap-dots {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+/* A 24px hit target (WCAG 2.5.8) drawing a 10px dot. */
+.snap-dot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.snap-dot::before {
+  content: '';
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.snap-dot[aria-current='true']::before {
+  background: var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snap-card {
+    animation: none;
+  }
+}

@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · 한국어 · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [Tiếng Việt](./README.vi.md)
-<!-- i18n:meta locale=ko source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=ko source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -165,7 +165,7 @@ Storybook에서 라이브 편집할 수 있습니다
 
 ## 예제
 
-목적별 완성 패턴 — 각각 서버 렌더링 라이브 데모, 코드, 대응하는 shadcn 설치 명령 포함: [Netflix 스타일 행](https://react-horizontal-scrolling-menu.dev/netflix-row) · [스크롤 가능한 탭](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [필터 칩](https://react-horizontal-scrolling-menu.dev/filter-chips) · [카테고리 레일](https://react-horizontal-scrolling-menu.dev/category-rail).
+목적별 완성 패턴 — 각각 서버 렌더링 라이브 데모, 코드, 대응하는 shadcn 설치 명령 포함: [Netflix 스타일 행](https://react-horizontal-scrolling-menu.dev/netflix-row) · [스크롤 가능한 탭](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [필터 칩](https://react-horizontal-scrolling-menu.dev/filter-chips) · [카테고리 레일](https://react-horizontal-scrolling-menu.dev/category-rail) · [후기 캐러셀](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 모든 예제는
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu)에서

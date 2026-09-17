@@ -111,6 +111,7 @@ const USE_CASE_PATHS = [
   '/scrollable-tabs',
   '/filter-chips',
   '/category-rail',
+  '/testimonial-carousel',
 ];
 
 const PAGE_PATHS = [
@@ -258,6 +259,27 @@ function shadcnRegistry(): Plugin {
           },
         ],
         docs: `Each slide needs a unique itemId prop. Examples: ${SITE_URL}`,
+      },
+    },
+    {
+      source: new URL('./registry/snap-carousel.tsx', import.meta.url),
+      meta: {
+        name: 'snap-carousel',
+        type: 'registry:component',
+        title: 'Snap Carousel',
+        description:
+          'Snapping card carousel on native scrolling: CSS scroll-snap centers each card, a scroll-driven animation fans the neighbours out, arrows step one card, dots jump to one, mouse drag releases onto the closest card.',
+        author: 'asmyshlyaev177 <https://asmyshlyaev177.dev>',
+        dependencies: ['react-horizontal-scrolling-menu', 'lucide-react'],
+        registryDependencies: ['button'],
+        files: [
+          {
+            path: 'components/ui/snap-carousel.tsx',
+            target: 'components/ui/snap-carousel.tsx',
+            type: 'registry:component',
+          },
+        ],
+        docs: `Each card needs a unique itemId prop and fills its slot. Examples: ${SITE_URL}/testimonial-carousel`,
       },
     },
   ];

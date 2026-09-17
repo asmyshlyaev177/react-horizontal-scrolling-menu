@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=ja source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: '実際に出荷するレシピ',
-    lede: '4 つの一般的なパターンを、重要な行とともにライブで。',
+    lede: '5 つの一般的なパターンを、重要な行とともにライブで。',
     tabs: {
       title: 'アクティブなタブを中央に揃えるタブストリップ',
       body: "タブをクリック：`scrollToItem` に `inline: 'center'` を渡すと、行の中央に持ってきます。同じ呼び出しで `start`、`end`、ページングも扱えます。",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: '右から左、1 つのプロパティ',
       body: '`RTL` がスクロールコンテナの方向を反転し、矢印とページングのロジックがそれに従います。',
+      link: '完全な例を見る',
+    },
+    snap: {
+      title: '中央にスナップして扇状に広がるカード',
+      body: '2 つの CSS 機能がカルーセルを作ります。`scroll-snap-type` がすべてのスワイプをカード上に着地させ、スクロール駆動アニメーションが中央からの距離に応じて各カードを傾けます。ライブラリはどのカードが現在かを教えます。',
       link: '完全な例を見る',
     },
   },

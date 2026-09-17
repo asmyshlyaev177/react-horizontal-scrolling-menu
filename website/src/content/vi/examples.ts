@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=vi source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -714,6 +714,45 @@ export const examples: ExamplesCopy = {
           '- Chọn mẫu ARIA của bạn: giữ `role="tablist"`/`role="tab"`/`aria-selected` khi panel thật sự chuyển đổi (như ở đây), hoặc `aria-current` khi "tab" là liên kết điều hướng.',
           '- Khi bật kéo, chặn cú bấm được kích hoạt lúc thả kéo — demo kiểm tra `dragManager.dragging` trước khi chọn, giống như [công thức kéo để cuộn](/examples/mouse-drag).',
           '- [RTL](/examples/rtl) không cần thêm việc gì: dải này là một vùng chứa cuộn gốc, nên `direction: rtl` lật nó, kể cả mũi tên.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'Carousel scroll-snap React: bắt dính và nghiêng bằng CSS',
+      description:
+        'Carousel lời chứng thực trên cuộn gốc: scroll-snap căn giữa từng thẻ và một hoạt ảnh CSS xòe các thẻ còn lại. Mũi tên, chấm và kéo trên API công khai.',
+    },
+    title: 'Một carousel thẻ bắt dính, do CSS vẽ',
+    lede: 'Diện mạo của carousel lời chứng thực — một thẻ ở giữa, các thẻ kề xòe ra phía sau — mà không cần engine carousel. `scroll-snap-type` làm mỗi lần vuốt dừng đúng trên một thẻ, một hoạt ảnh CSS theo cuộn xoay từng thẻ theo khoảng cách của nó tới tâm, và thư viện lo phần còn lại: thẻ nào đang là hiện tại, mũi tên tiến từng thẻ, chấm nhảy tới một thẻ, và kéo chuột mà khi thả sẽ đáp xuống thẻ gần nhất.',
+    demoHint:
+      'Vuốt, kéo, hoặc dùng mũi tên và chấm — hàng luôn dừng trên một thẻ, và hình quạt bám theo từng pixel cuộn.',
+    prose: [
+      {
+        heading: 'Bắt dính là CSS',
+        body: '`scroll-snap-type: x mandatory` trên hàng, qua `scrollContainerClassName`, và `scroll-snap-align: center` trên mỗi mục, qua `itemClassName`, là toàn bộ phần bắt dính. Cuộn bằng cảm ứng, con lăn và bàn phím vẫn là gốc, nên trình duyệt tự giảm tốc rồi dừng trên một thẻ. Đệm hai bên của hàng bằng đúng khoảng trống cạnh một thẻ đã căn giữa — chính điều đó cho phép thẻ đầu và thẻ cuối cũng nằm được ở giữa.',
+      },
+      {
+        heading: 'Hình quạt là hoạt ảnh theo cuộn',
+        body: 'Mỗi thẻ hoạt ảnh trên dòng thời gian `view()` của riêng nó: vị trí của nó trong hàng chính là đồng hồ. Các keyframe trải hai bước thẻ về mỗi phía tâm hàng, nên thẻ giữa nằm phẳng, mỗi thẻ kề xoay thêm một `--tilt`, và góc cập nhật theo từng pixel cuộn — không đo gì và không render lại gì. Quy tắc nằm dưới `@supports (animation-timeline: view())`: Chromium và Safari 26 vẽ nó, Firefox vẫn giữ tính năng sau một cờ và hiển thị thẻ phẳng, còn bắt dính và chấm vẫn hoạt động như trước.',
+      },
+      {
+        heading: 'Phần JavaScript còn lại',
+        body: "`onScroll` tìm thẻ có tâm gần tâm hàng nhất — `getItemElementById` để lấy nút, `offsetLeft` so với `scrollLeft` — và giữ chỉ số của nó trong state cho chấm, phần tô nổi thẻ và mũi tên. Mũi tên bước sang thẻ kề và chấm nhảy tới một thẻ, cả hai đều bằng `scrollToItem(el, 'smooth', 'center')`, vốn theo cấu trúc sẽ đáp đúng điểm bắt dính.",
+      },
+      {
+        heading: 'Kéo phải tắt bắt dính',
+        body: 'Một vùng chứa bắt dính bắt buộc sẽ bắt dính mọi lần ghi `scrollLeft` bằng chương trình, nên kéo chuột di chuyển hàng bằng tay sẽ giật từng thẻ. Thao tác kéo đặt `scroll-snap-type: none` inline trong suốt cử chỉ. Khi thả, hàng trượt tới thẻ gần nhất bằng `scrollToItem`, và bắt dính chỉ trở lại khi cú trượt đó đã ổn định: bật lại sớm hơn khiến trình duyệt nhảy ngay tới điểm bắt dính thay vì trượt tới đó.',
+      },
+      {
+        heading: 'Ghi chú',
+        body: [
+          '- Các núm chỉnh là ba thuộc tính tùy chỉnh — `--card`, `--gap` và `--tilt` — và mọi độ dài khác đều suy ra từ chúng, kể cả phạm vi hoạt ảnh.',
+          '- [Vòng lặp vô hạn](/examples/infinite-loop) kết hợp được với cách này: một lần teleport dịch đúng một độ dài vòng lặp, tức một số nguyên điểm bắt dính. [Tự phát](/examples/autoplay) cũng vậy, một bộ đếm giờ gọi cùng `scrollToItem`.',
+          '- Thao tác kéo là [công thức kéo bằng chuột](/examples/mouse-drag) bỏ đi phần chắn bấm: thẻ không bấm được, nên không cần phân biệt kéo với bấm.',
+          '- `prefers-reduced-motion` tắt hình quạt. Bắt dính vẫn giữ, vì đó là cách hàng cuộn, không phải trang trí.',
         ].join('\n'),
       },
     ],

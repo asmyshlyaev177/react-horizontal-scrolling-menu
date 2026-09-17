@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=ko source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -181,6 +181,45 @@ export const useCases: UseCasesCopy = {
     shadcn: {
       heading: '또는 shadcn 컴포넌트로 설치하기',
       body: '기본 [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) 레지스트리 아이템이 바로 이 레일입니다 — shadcn 스타일의 화살표, 드래그 스크롤, 숨겨진 스크롤바 — `components/ui/`에 설치되어 여러분의 토큰으로 스타일링됩니다:',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: '네이티브 스크롤 스냅 위의 React 후기 캐러셀',
+      description:
+        '슬라이더 라이브러리 없는 React 후기 캐러셀: CSS scroll-snap이 각 카드를 가운데에 맞추고, 스크롤 기반 애니메이션이 나머지를 부채꼴로 펼칩니다. 점, 화살표, 드래그, 소스 포함.',
+    },
+    jsonLdHeadline:
+      '슬라이더 라이브러리 없이 CSS 스크롤 스냅 위에 React 후기 캐러셀 만들기',
+    name: '후기 캐러셀',
+    blurb:
+      '가운데에 스냅되고 부채꼴로 펼쳐지는 후기 카드 — 슬라이더 엔진이 아니라 CSS로.',
+    title: '네이티브 스크롤 스냅 위의 React 후기 캐러셀',
+    lede: '모든 마케팅 사이트에 있는 후기 섹션: 카드 한 장이 가운데, 이웃 카드는 뒤에서 기울고, 아래에는 점, 스와이프나 클릭으로 다음 카드로. 슬라이더 라이브러리가 파는 것이 바로 이것입니다. 브라우저는 이미 두 반쪽을 갖고 있습니다 — 안착에는 `scroll-snap-type`, 기울기에는 스크롤 기반 애니메이션 — 그리고 이 라이브러리는 그 둘 다 아닌 부분을 더합니다. 어느 카드가 현재인지 아는 것입니다.',
+    demoHint:
+      '스와이프하거나, 드래그하거나, 화살표와 점을 써 보세요 — 행은 매번 카드 위에서 멈춥니다.',
+    prose: [
+      {
+        heading: '여기서 슬라이더 라이브러리가 실제로 하는 일',
+        body: "후기 캐러셀은 Swiper의 전형적인 용도입니다. 보이는 카드 세 장, 가운데는 평평, 페이지네이션 점, 자동 재생. 이것들 하나하나가 CSS이거나 이 라이브러리 API 위의 몇 줄입니다.\n\n- **카드 위에 안착**은 행의 `scroll-snap-type: x mandatory`와 항목의 `scroll-snap-align: center`입니다. 터치, 휠, 키보드 스크롤은 네이티브 그대로이며 스스로 감속해 카드에 멈춥니다.\n- **기울기**는 각 카드의 스크롤 기반 애니메이션이라, 각도가 스크롤 위치를 픽셀 단위로 따라가고 JavaScript는 아무것도 측정하지 않습니다. Chromium과 Safari 26은 그려 주고, Firefox는 아직 플래그 뒤에 두어 평평한 카드를 보여 주며, 규칙은 `@supports`로 보호됩니다.\n- **점과 화살표**는 현재 카드를 알아야 합니다. `onScroll`이 행의 가운데에 가장 가까운 카드를 찾고, `scrollToItem(el, 'smooth', 'center')`가 이웃으로 한 칸 가거나 점의 카드로 건너뛰며, 구조상 스냅 지점에 안착합니다.",
+      },
+      {
+        heading: '제대로 해야 할 한 가지: 드래그',
+        body: 'mandatory 스냅 컨테이너는 프로그램의 모든 `scrollLeft` 쓰기를 스냅하므로, [마우스 드래그 레시피](/examples/mouse-drag)를 그대로 쓰면 카드마다 덜컥거립니다. [스크롤 스냅 예제](/examples/scroll-snap)가 해법을 보여 줍니다. 제스처 동안 스냅을 끄고, 놓으면 `scrollToItem`으로 가장 가까운 카드까지 미끄러지며, 그 이동이 안정된 뒤에 스냅을 CSS에 돌려줍니다 — 더 일찍 켜면 미끄러지는 대신 점프합니다. 터치에는 이 중 아무것도 필요 없습니다. 행은 진짜 스크롤 컨테이너이기 때문입니다.',
+      },
+      {
+        heading: '자동 재생, 루프, 그리고 여러분의 몫',
+        body: '[자동 재생](/examples/autoplay)은 같은 `scrollToItem`을 호출하는 타이머로, 호버, 포커스, 동작 줄이기에서 멈춥니다. [무한 루프](/examples/infinite-loop)도 조합됩니다. 텔레포트가 루프 한 바퀴 길이, 곧 정수 개의 스냅 지점만큼 이동하기 때문입니다. 카드는 여러분의 컴포넌트이고 — 아바타, 평점, 인용, 로고 — 기하는 커스텀 프로퍼티 세 개, 카드 너비, 간격, 기울기뿐입니다.',
+      },
+    ],
+    snippet: {
+      heading: '패턴, 최소 구성',
+      lede: '스냅과 기울기는 스타일시트이고, 화살표와 점은 측정 한 번과 `scrollToItem` 하나입니다. 위 데모는 여기에 카드를 더한 것입니다.',
+    },
+    shadcn: {
+      heading: '또는 shadcn 컴포넌트로 설치하기',
+      body: '[snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) 레지스트리 항목은 이 패턴 전체 — 스냅, 부채꼴, 화살표, 점, 가장 가까운 카드에 안착하는 드래그 — 를 Tailwind로 스타일된 컴포넌트로 `components/ui/`에 넣어 줍니다. 카드는 직접 가져오세요:',
     },
   },
 };

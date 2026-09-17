@@ -712,4 +712,43 @@ export const examples: ExamplesCopy = {
       },
     ],
   },
+
+  'scroll-snap': {
+    meta: {
+      title: 'React scroll-snap carousel: CSS snap and tilt, no engine',
+      description:
+        'Testimonial carousel on native scrolling: CSS scroll-snap centers each card, a scroll-driven animation fans out the rest. Arrows, dots and drag on the public API.',
+    },
+    title: 'A snapping card carousel, drawn by CSS',
+    lede: 'The testimonial-carousel look — one card in the middle, its neighbours fanned out behind it — without a carousel engine. `scroll-snap-type` lands every swipe on a card, a CSS scroll-driven animation turns each card by how far it sits from the center, and the library supplies the rest: which card is current, arrows that step one card, dots that jump to one, and a mouse drag that releases onto the closest card.',
+    demoHint:
+      'Swipe, drag, or use the arrows and dots — the rail always settles on a card, and the fan follows every pixel of the scroll.',
+    prose: [
+      {
+        heading: 'Snap is CSS',
+        body: '`scroll-snap-type: x mandatory` on the rail, through `scrollContainerClassName`, and `scroll-snap-align: center` on every item, through `itemClassName`, are the whole snap. Touch, wheel and keyboard scrolling stay native, so the browser decelerates onto a card by itself. The rail’s side padding equals the space beside a centered card — that is what lets the first and the last card sit in the middle too.',
+      },
+      {
+        heading: 'The fan is a scroll-driven animation',
+        body: 'Each card animates on its own `view()` timeline: its position inside the rail is the clock. The keyframes span two card pitches either side of the rail’s center, so the middle card is flat, each neighbour turns a further `--tilt`, and the angle updates with every pixel of scroll — nothing is measured and nothing re-renders. The rule sits under `@supports (animation-timeline: view())`: Chromium and Safari 26 draw it, Firefox still keeps the feature behind a flag and shows flat cards, with the snap and the dots working as before.',
+      },
+      {
+        heading: 'What JavaScript is left',
+        body: "`onScroll` finds the card whose center is closest to the rail’s center — `getItemElementById` for the node, `offsetLeft` against `scrollLeft` — and keeps its index in state for the dots, the card highlight and the arrows. Arrows step to a neighbour and dots jump to a card, both with `scrollToItem(el, 'smooth', 'center')`, which by construction lands on a snap point.",
+      },
+      {
+        heading: 'Drag has to switch snap off',
+        body: 'A mandatory snap container snaps every programmatic `scrollLeft` write, so a mouse drag that moves the rail by hand would stutter from card to card. The drag sets `scroll-snap-type: none` inline for the gesture. On release the rail glides to the closest card with `scrollToItem`, and snapping comes back only once that glide has settled: re-enabling it earlier makes the browser jump to the snap point instantly instead of gliding there.',
+      },
+      {
+        heading: 'Notes',
+        body: [
+          '- Three custom properties are the knobs — `--card`, `--gap` and `--tilt` — and every other length derives from them, the animation range included.',
+          '- The [infinite loop](/examples/infinite-loop) composes with this: a teleport moves by one loop length, which is a whole number of snap points. So does [autoplay](/examples/autoplay), a timer calling the same `scrollToItem`.',
+          '- The drag is the [mouse-drag recipe](/examples/mouse-drag) without the click guard: the cards are not clickable, so nothing has to tell a drag from a click.',
+          '- `prefers-reduced-motion` switches the fan off. The snap stays, because it is how the rail scrolls, not decoration.',
+        ].join('\n'),
+      },
+    ],
+  },
 };

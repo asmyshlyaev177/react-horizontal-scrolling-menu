@@ -127,7 +127,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Recipes you’ll actually ship',
-    lede: 'Four common patterns, live, with the lines that matter.',
+    lede: 'Five common patterns, live, with the lines that matter.',
     tabs: {
       title: 'A tab strip that centers the active tab',
       body: "Click a tab: `scrollToItem` with `inline: 'center'` brings it to the middle of the row. The same call handles `start`, `end` and paging.",
@@ -146,6 +146,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'Right-to-left, one prop',
       body: '`RTL` flips the scroll container’s direction; arrows and paging logic follow.',
+      link: 'See the full example',
+    },
+    snap: {
+      title: 'Cards that snap to the center and fan out',
+      body: 'Two CSS features make the carousel: `scroll-snap-type` lands every swipe on a card, and a scroll-driven animation tilts each card by its distance from the middle. The library tells you which card is current.',
       link: 'See the full example',
     },
   },

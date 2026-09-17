@@ -1,4 +1,4 @@
-# Infinite loop reference — react-horizontal-scrolling-menu 8.2.3
+# Infinite loop reference — react-horizontal-scrolling-menu 8.3.2
 
 The complete clone-and-teleport recipe, verified against
 `stories/InfiniteLoop/InfiniteLoop.source.tsx`. There is no `loop` prop; this

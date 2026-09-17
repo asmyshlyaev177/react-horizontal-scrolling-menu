@@ -49,7 +49,8 @@
     "onWheel and onScroll are plain (api, event) => void callbacks; every mouse and touch prop (onMouseDown, onMouseUp, onMouseMove, onMouseLeave, onTouchStart, onTouchMove, onTouchEnd) is curried: (api) => (event) => void",
     "Scroll imperatively with api.scrollToItem(api.getItemById(id), behavior, inline, block), scrollNext() and scrollPrev(); use apiRef only to fire methods from outside, never to read data",
     "The component is client-only: add 'use client' in React Server Components; control SSR first paint with the defaultValue argument of useIsVisible",
-    "noPolyfill defaults to true since v8 (native scrollIntoView); transitionDuration (default 500) and transitionBehavior only take effect with noPolyfill={false}"
+    "noPolyfill defaults to true since v8 (native scrollIntoView); transitionDuration (default 500) and transitionBehavior only take effect with noPolyfill={false}",
+    "Snapping to a card is not a prop: put scroll-snap-type: x mandatory on the container via scrollContainerClassName and scroll-snap-align: center on items via itemClassName, find the current card in onScroll, and switch snap off while a mouse drag writes scrollLeft (Storybook: Examples/ScrollSnap)"
   ],
   "previousVersions": [
     {

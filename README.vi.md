@@ -1,7 +1,7 @@
 <!-- i18n:start -->
 
 [English](./README.md) · [简体中文](./README.zh-CN.md) · [日本語](./README.ja.md) · [한국어](./README.ko.md) · [Русский](./README.ru.md) · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · Tiếng Việt
-<!-- i18n:meta locale=vi source=README.md source-blob=50880d72225fafe98e028fa9a69b354d4966a176 status=translated -->
+<!-- i18n:meta locale=vi source=README.md source-blob=466764f9d2d71d5e2f72e863a208ed13aded53bc status=translated -->
 <!-- i18n:end -->
 
 # React horizontal scrolling menu
@@ -168,7 +168,7 @@ Nếu bạn cần một hàng biết cái gì đang hiển thị, thì đây ch�
 
 ## Ví dụ
 
-Các mẫu hoàn chỉnh theo mục tiêu, mỗi mẫu có demo render phía máy chủ, mã nguồn và lệnh cài shadcn tương ứng: [dải kiểu Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [tab cuộn được](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chip lọc](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail danh mục](https://react-horizontal-scrolling-menu.dev/category-rail).
+Các mẫu hoàn chỉnh theo mục tiêu, mỗi mẫu có demo render phía máy chủ, mã nguồn và lệnh cài shadcn tương ứng: [dải kiểu Netflix](https://react-horizontal-scrolling-menu.dev/netflix-row) · [tab cuộn được](https://react-horizontal-scrolling-menu.dev/scrollable-tabs) · [chip lọc](https://react-horizontal-scrolling-menu.dev/filter-chips) · [rail danh mục](https://react-horizontal-scrolling-menu.dev/category-rail) · [carousel lời chứng thực](https://react-horizontal-scrolling-menu.dev/testimonial-carousel).
 
 Mỗi ví dụ đều có thể chỉnh sửa trực tiếp trong
 [Storybook](https://asmyshlyaev177.github.io/react-horizontal-scrolling-menu) —

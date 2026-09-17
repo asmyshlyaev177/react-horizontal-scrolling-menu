@@ -527,7 +527,7 @@ skills:
   - name: 'recipes'
     slug: 'menu-recipes'
     domain: 'composing-features'
-    description: 'Userland features composed on the public API: autoplay, infinite loop, center-on-click, save/restore position, load-more, one-item-per-scroll — recipes, not props'
+    description: 'Userland features composed on the public API: autoplay, infinite loop, center-on-click, save/restore position, load-more, one-item-per-scroll, scroll-snap carousel — recipes, not props'
     type: 'core'
     covers:
       - 'autoplay (interval gated on menu visibility)'
@@ -536,6 +536,7 @@ skills:
       - 'save/restore scroll position'
       - 'load more / dynamic add with loader item'
       - 'one item per scroll'
+      - 'scroll-snap carousel (CSS scroll-snap-type, fan via scroll-driven animation, drag with snap off)'
       - 'hide arrows / arrows in footer'
       - 'multiple menus and tab switching'
       - 'Storybook story map'
@@ -545,10 +546,11 @@ skills:
       - 'center the clicked item'
       - 'restore scroll position after navigation'
       - 'load more items when the end comes into view'
+      - 'snap cards to the center (testimonial / card carousel)'
     subsystems: []
     failure_modes:
       - mistake: 'hallucinating autoplay/loop/snap props'
-        mechanism: 'Autoplay and infinite loop are deliberately not props — they are ~60-line recipes on the public API (Storybook: Autoplay, InfiniteLoop); an agent inventing autoplay={true} generates dead code. Same for snap physics — out of scope by design.'
+        mechanism: 'Autoplay and infinite loop are deliberately not props — they are ~60-line recipes on the public API (Storybook: Autoplay, InfiniteLoop); an agent inventing autoplay={true} generates dead code. Snapping to a card is CSS scroll-snap on scrollContainerClassName/itemClassName (Storybook: ScrollSnap), never a prop; spring physics and slide effects stay out of scope.'
         wrong_pattern: |
           <ScrollMenu autoplay autoplayInterval={3000} loop>
         correct_pattern: |
@@ -557,6 +559,16 @@ skills:
           // (see Autoplay and InfiniteLoop stories for the full recipes)
         source: 'README.md "What it does — and doesn''t"; stories/Autoplay, stories/InfiniteLoop'
         priority: 'CRITICAL'
+        status: 'active'
+      - mistake: 'drag on a mandatory snap container stutters, then jumps'
+        mechanism: 'A scroll-snap-type: mandatory container snaps every programmatic scrollLeft write, so the drag recipe re-snaps on each mousemove; and re-enabling snap while the release glide runs snaps instantly instead of gliding.'
+        wrong_pattern: |
+          onMouseMove={(api) => (ev) => { api.scrollContainer.current.scrollLeft += delta; }}
+        correct_pattern: |
+          // mousedown: rail.style.scrollSnapType = 'none'; mousemove: scrollLeft += delta;
+          // mouseup: scrollToItem(nearest, 'smooth', 'center'); restore snap once scrolling settles
+        source: 'stories/ScrollSnap/ScrollSnap.source.tsx; skills/menu-recipes/references/scroll-snap.md'
+        priority: 'HIGH'
         status: 'active'
       - mistake: 'autoplay interval scrolls the page to the menu'
         mechanism: 'scrollNext on an off-screen menu drags the page (scrollIntoView reaches ancestors); gate the interval on the menu being visible.'

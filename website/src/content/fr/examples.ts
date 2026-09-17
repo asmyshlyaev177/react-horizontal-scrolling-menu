@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=fr source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -734,6 +734,45 @@ export const examples: ExamplesCopy = {
           '- Choisissez votre motif ARIA : gardez `role="tablist"`/`role="tab"`/`aria-selected` quand de vrais panneaux basculent (comme ici), ou `aria-current` quand les « onglets » sont des liens de navigation.',
           '- Avec le glisser activé, supprimez le clic qui se déclenche au relâchement du glissement — la démo vérifie `dragManager.dragging` avant de sélectionner, comme la [recette de glisser pour défiler](/examples/mouse-drag).',
           '- Le [RTL](/examples/rtl) ne demande aucun travail supplémentaire : la bande est un conteneur de défilement natif, donc `direction: rtl` l’inverse, flèches comprises.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'Carrousel scroll-snap React : accrochage et inclinaison CSS',
+      description:
+        'Carrousel de témoignages en défilement natif : scroll-snap centre chaque carte et une animation CSS ouvre le reste en éventail. Flèches, points et glisser inclus.',
+    },
+    title: 'Un carrousel de cartes qui s’accroche, dessiné par le CSS',
+    lede: 'L’allure du carrousel de témoignages — une carte au centre, ses voisines ouvertes en éventail derrière elle — sans moteur de carrousel. `scroll-snap-type` fait atterrir chaque balayage sur une carte, une animation CSS pilotée par le défilement tourne chaque carte selon sa distance au centre, et la bibliothèque fournit le reste : quelle carte est courante, des flèches qui avancent d’une carte, des points qui sautent à une carte, et un glisser à la souris qui, au relâchement, se pose sur la carte la plus proche.',
+    demoHint:
+      'Balayez, faites glisser ou utilisez les flèches et les points — la rangée s’arrête toujours sur une carte, et l’éventail suit chaque pixel du défilement.',
+    prose: [
+      {
+        heading: 'L’accrochage, c’est du CSS',
+        body: '`scroll-snap-type: x mandatory` sur la rangée, via `scrollContainerClassName`, et `scroll-snap-align: center` sur chaque élément, via `itemClassName` : c’est tout l’accrochage. Le défilement tactile, à la molette et au clavier reste natif, donc le navigateur décélère de lui-même jusqu’à une carte. Le remplissage latéral de la rangée égale l’espace à côté d’une carte centrée — c’est ce qui permet à la première et à la dernière carte de se placer au milieu elles aussi.',
+      },
+      {
+        heading: 'L’éventail est une animation pilotée par le défilement',
+        body: 'Chaque carte s’anime sur sa propre chronologie `view()` : sa position dans la rangée est l’horloge. Les images clés couvrent deux pas de carte de chaque côté du centre de la rangée, donc la carte du milieu est plate, chaque voisine tourne d’un `--tilt` de plus, et l’angle se met à jour à chaque pixel de défilement — rien n’est mesuré et rien n’est rerendu. La règle vit sous `@supports (animation-timeline: view())` : Chromium et Safari 26 la dessinent, Firefox garde encore la fonctionnalité derrière un drapeau et montre des cartes plates, l’accrochage et les points fonctionnant comme avant.',
+      },
+      {
+        heading: 'Le JavaScript qui reste',
+        body: "`onScroll` trouve la carte dont le centre est le plus proche du centre de la rangée — `getItemElementById` pour le nœud, `offsetLeft` face à `scrollLeft` — et garde son index dans l’état pour les points, la mise en avant de la carte et les flèches. Les flèches avancent vers une voisine et les points sautent à une carte, les deux avec `scrollToItem(el, 'smooth', 'center')`, qui par construction atterrit sur un point d’accrochage.",
+      },
+      {
+        heading: 'Le glisser doit couper l’accrochage',
+        body: 'Un conteneur à accrochage obligatoire accroche chaque écriture programmatique de `scrollLeft`, donc un glisser à la souris qui déplace la rangée à la main sauterait de carte en carte. Le glisser pose `scroll-snap-type: none` en ligne le temps du geste. Au relâchement, la rangée glisse jusqu’à la carte la plus proche avec `scrollToItem`, et l’accrochage ne revient qu’une fois ce glissement stabilisé : le réactiver plus tôt fait sauter le navigateur instantanément au point d’accrochage au lieu d’y glisser.',
+      },
+      {
+        heading: 'Notes',
+        body: [
+          '- Les réglages sont trois propriétés personnalisées — `--card`, `--gap` et `--tilt` — et toutes les autres longueurs en dérivent, plage d’animation comprise.',
+          '- La [boucle infinie](/examples/infinite-loop) se combine avec ceci : une téléportation déplace d’une longueur de boucle entière, soit un nombre entier de points d’accrochage. La [lecture automatique](/examples/autoplay) aussi, un minuteur appelant le même `scrollToItem`.',
+          '- Le glisser est la [recette de glisser à la souris](/examples/mouse-drag) sans la garde de clic : les cartes ne sont pas cliquables, donc rien n’a à distinguer un glisser d’un clic.',
+          '- `prefers-reduced-motion` coupe l’éventail. L’accrochage reste, parce que c’est ainsi que la rangée défile, pas une décoration.',
         ].join('\n'),
       },
     ],

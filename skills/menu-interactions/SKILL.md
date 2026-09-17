@@ -13,7 +13,7 @@ description: >-
 metadata:
   type: core
   library: 'react-horizontal-scrolling-menu'
-  library_version: '8.2.3'
+  library_version: '8.3.2'
 sources:
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:README.md'
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:src/index.tsx'
@@ -212,6 +212,11 @@ export function MouseDragMenu() {
   );
 }
 ```
+
+On a `scroll-snap-type: mandatory` rail this drag stutters: the browser snaps
+every `scrollLeft` write. Set `scrollSnapType = 'none'` on the container for
+the gesture, glide to the closest item with `scrollToItem` on release, and
+restore it once scrolling settles — `skills/menu-recipes/references/scroll-snap.md`.
 
 ### Touchpad vs mouse-wheel detection
 

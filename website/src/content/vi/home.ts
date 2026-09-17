@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=vi source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=vi source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: 'Những recipe bạn sẽ thực sự đưa lên',
-    lede: 'Bốn pattern phổ biến, trực tiếp, với những dòng quan trọng.',
+    lede: 'Năm pattern phổ biến, trực tiếp, với những dòng quan trọng.',
     tabs: {
       title: 'Một dải tab căn giữa tab đang hoạt động',
       body: "Bấm một tab: `scrollToItem` với `inline: 'center'` đưa nó ra giữa hàng. Cùng lệnh đó xử lý `start`, `end` và phân trang.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: 'Phải sang trái, một prop',
       body: '`RTL` lật hướng của container cuộn; mũi tên và logic phân trang theo sau.',
+      link: 'Xem ví dụ đầy đủ',
+    },
+    snap: {
+      title: 'Thẻ bắt dính vào giữa và xòe ra',
+      body: 'Hai tính năng CSS làm nên carousel: `scroll-snap-type` làm mỗi lần vuốt dừng đúng trên một thẻ, và hoạt ảnh theo cuộn nghiêng từng thẻ theo khoảng cách của nó tới giữa. Thư viện cho bạn biết thẻ nào đang là hiện tại.',
       link: 'Xem ví dụ đầy đủ',
     },
   },

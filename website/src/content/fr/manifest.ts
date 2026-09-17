@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/manifest.ts source-blob=ed8adc8ba4ca3539df6b5d03d2463ff01904c27a status=translated
+// i18n:meta locale=fr source=en/manifest.ts source-blob=4877f1ee74fa02f7ae1f9e695c0acaa73e4f6dfc status=translated
 import type { ManifestCopy } from '../types.ts';
 
 /**
@@ -117,6 +117,11 @@ export const manifest: ManifestCopy = {
       name: 'Onglets défilables au-delà de MUI',
       blurb:
         'Gardez le contrat value/onChange de MUI ; remplacez la bande sous-jacente.',
+    },
+    'scroll-snap': {
+      name: 'Carrousel à accrochage au défilement',
+      blurb:
+        'Les cartes s’accrochent au centre et s’ouvrent en éventail en CSS — sans moteur de carrousel.',
     },
   },
 };

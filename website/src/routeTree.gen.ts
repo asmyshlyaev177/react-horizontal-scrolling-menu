@@ -16,12 +16,14 @@ import { Route as CompareRouteImport } from './routes/compare'
 import { Route as FilterChipsRouteImport } from './routes/filter-chips'
 import { Route as NetflixRowRouteImport } from './routes/netflix-row'
 import { Route as ScrollableTabsRouteImport } from './routes/scrollable-tabs'
+import { Route as TestimonialCarouselRouteImport } from './routes/testimonial-carousel'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleCategoryRailRouteImport } from './routes/$locale/category-rail'
 import { Route as LocaleCompareRouteImport } from './routes/$locale/compare'
 import { Route as LocaleFilterChipsRouteImport } from './routes/$locale/filter-chips'
 import { Route as LocaleNetflixRowRouteImport } from './routes/$locale/netflix-row'
 import { Route as LocaleScrollableTabsRouteImport } from './routes/$locale/scrollable-tabs'
+import { Route as LocaleTestimonialCarouselRouteImport } from './routes/$locale/testimonial-carousel'
 import { Route as CompareEmblaVsSwiperRouteImport } from './routes/compare_.embla-vs-swiper'
 import { Route as CompareReactSlickAlternativesRouteImport } from './routes/compare_.react-slick-alternatives'
 import { Route as CompareSwiperAlternativesRouteImport } from './routes/compare_.swiper-alternatives'
@@ -44,6 +46,7 @@ import { Route as ExamplesPreventBodyScrollRouteImport } from './routes/examples
 import { Route as ExamplesProgressRouteImport } from './routes/examples/progress'
 import { Route as ExamplesRtlRouteImport } from './routes/examples/rtl'
 import { Route as ExamplesSaveRestorePositionRouteImport } from './routes/examples/save-restore-position'
+import { Route as ExamplesScrollSnapRouteImport } from './routes/examples/scroll-snap'
 import { Route as ExamplesScrollToItemRouteImport } from './routes/examples/scroll-to-item'
 import { Route as ExamplesSimpleRouteImport } from './routes/examples/simple'
 import { Route as ExamplesSwipeDesktopRouteImport } from './routes/examples/swipe-desktop'
@@ -70,6 +73,7 @@ import { Route as LocaleExamplesPreventBodyScrollRouteImport } from './routes/$l
 import { Route as LocaleExamplesProgressRouteImport } from './routes/$locale/examples/progress'
 import { Route as LocaleExamplesRtlRouteImport } from './routes/$locale/examples/rtl'
 import { Route as LocaleExamplesSaveRestorePositionRouteImport } from './routes/$locale/examples/save-restore-position'
+import { Route as LocaleExamplesScrollSnapRouteImport } from './routes/$locale/examples/scroll-snap'
 import { Route as LocaleExamplesScrollToItemRouteImport } from './routes/$locale/examples/scroll-to-item'
 import { Route as LocaleExamplesSimpleRouteImport } from './routes/$locale/examples/simple'
 import { Route as LocaleExamplesSwipeDesktopRouteImport } from './routes/$locale/examples/swipe-desktop'
@@ -110,6 +114,11 @@ const ScrollableTabsRoute = ScrollableTabsRouteImport.update({
   path: '/scrollable-tabs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestimonialCarouselRoute = TestimonialCarouselRouteImport.update({
+  id: '/testimonial-carousel',
+  path: '/testimonial-carousel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleIndexRoute = LocaleIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -140,6 +149,12 @@ const LocaleScrollableTabsRoute = LocaleScrollableTabsRouteImport.update({
   path: '/scrollable-tabs',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleTestimonialCarouselRoute =
+  LocaleTestimonialCarouselRouteImport.update({
+    id: '/testimonial-carousel',
+    path: '/testimonial-carousel',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const CompareEmblaVsSwiperRoute = CompareEmblaVsSwiperRouteImport.update({
   id: '/compare_/embla-vs-swiper',
   path: '/compare/embla-vs-swiper',
@@ -257,6 +272,11 @@ const ExamplesSaveRestorePositionRoute =
     path: '/examples/save-restore-position',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ExamplesScrollSnapRoute = ExamplesScrollSnapRouteImport.update({
+  id: '/examples/scroll-snap',
+  path: '/examples/scroll-snap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExamplesScrollToItemRoute = ExamplesScrollToItemRouteImport.update({
   id: '/examples/scroll-to-item',
   path: '/examples/scroll-to-item',
@@ -402,6 +422,12 @@ const LocaleExamplesSaveRestorePositionRoute =
     path: '/examples/save-restore-position',
     getParentRoute: () => LocaleRouteRoute,
   } as any)
+const LocaleExamplesScrollSnapRoute =
+  LocaleExamplesScrollSnapRouteImport.update({
+    id: '/examples/scroll-snap',
+    path: '/examples/scroll-snap',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleExamplesScrollToItemRoute =
   LocaleExamplesScrollToItemRouteImport.update({
     id: '/examples/scroll-to-item',
@@ -433,11 +459,13 @@ export interface FileRoutesByFullPath {
   '/filter-chips': typeof FilterChipsRoute
   '/netflix-row': typeof NetflixRowRoute
   '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/testimonial-carousel': typeof TestimonialCarouselRoute
   '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
   '/$locale/filter-chips': typeof LocaleFilterChipsRoute
   '/$locale/netflix-row': typeof LocaleNetflixRowRoute
   '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/$locale/testimonial-carousel': typeof LocaleTestimonialCarouselRoute
   '/compare/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
   '/compare/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
   '/compare/swiper-alternatives': typeof CompareSwiperAlternativesRoute
@@ -459,6 +487,7 @@ export interface FileRoutesByFullPath {
   '/examples/progress': typeof ExamplesProgressRoute
   '/examples/rtl': typeof ExamplesRtlRoute
   '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-snap': typeof ExamplesScrollSnapRoute
   '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
@@ -486,6 +515,7 @@ export interface FileRoutesByFullPath {
   '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
   '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
   '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-snap': typeof LocaleExamplesScrollSnapRoute
   '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
   '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
   '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
@@ -499,11 +529,13 @@ export interface FileRoutesByTo {
   '/filter-chips': typeof FilterChipsRoute
   '/netflix-row': typeof NetflixRowRoute
   '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/testimonial-carousel': typeof TestimonialCarouselRoute
   '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
   '/$locale/filter-chips': typeof LocaleFilterChipsRoute
   '/$locale/netflix-row': typeof LocaleNetflixRowRoute
   '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/$locale/testimonial-carousel': typeof LocaleTestimonialCarouselRoute
   '/compare/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
   '/compare/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
   '/compare/swiper-alternatives': typeof CompareSwiperAlternativesRoute
@@ -525,6 +557,7 @@ export interface FileRoutesByTo {
   '/examples/progress': typeof ExamplesProgressRoute
   '/examples/rtl': typeof ExamplesRtlRoute
   '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-snap': typeof ExamplesScrollSnapRoute
   '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
@@ -552,6 +585,7 @@ export interface FileRoutesByTo {
   '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
   '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
   '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-snap': typeof LocaleExamplesScrollSnapRoute
   '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
   '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
   '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
@@ -567,11 +601,13 @@ export interface FileRoutesById {
   '/filter-chips': typeof FilterChipsRoute
   '/netflix-row': typeof NetflixRowRoute
   '/scrollable-tabs': typeof ScrollableTabsRoute
+  '/testimonial-carousel': typeof TestimonialCarouselRoute
   '/$locale/category-rail': typeof LocaleCategoryRailRoute
   '/$locale/compare': typeof LocaleCompareRoute
   '/$locale/filter-chips': typeof LocaleFilterChipsRoute
   '/$locale/netflix-row': typeof LocaleNetflixRowRoute
   '/$locale/scrollable-tabs': typeof LocaleScrollableTabsRoute
+  '/$locale/testimonial-carousel': typeof LocaleTestimonialCarouselRoute
   '/compare_/embla-vs-swiper': typeof CompareEmblaVsSwiperRoute
   '/compare_/react-slick-alternatives': typeof CompareReactSlickAlternativesRoute
   '/compare_/swiper-alternatives': typeof CompareSwiperAlternativesRoute
@@ -593,6 +629,7 @@ export interface FileRoutesById {
   '/examples/progress': typeof ExamplesProgressRoute
   '/examples/rtl': typeof ExamplesRtlRoute
   '/examples/save-restore-position': typeof ExamplesSaveRestorePositionRoute
+  '/examples/scroll-snap': typeof ExamplesScrollSnapRoute
   '/examples/scroll-to-item': typeof ExamplesScrollToItemRoute
   '/examples/simple': typeof ExamplesSimpleRoute
   '/examples/swipe-desktop': typeof ExamplesSwipeDesktopRoute
@@ -620,6 +657,7 @@ export interface FileRoutesById {
   '/$locale/examples/progress': typeof LocaleExamplesProgressRoute
   '/$locale/examples/rtl': typeof LocaleExamplesRtlRoute
   '/$locale/examples/save-restore-position': typeof LocaleExamplesSaveRestorePositionRoute
+  '/$locale/examples/scroll-snap': typeof LocaleExamplesScrollSnapRoute
   '/$locale/examples/scroll-to-item': typeof LocaleExamplesScrollToItemRoute
   '/$locale/examples/simple': typeof LocaleExamplesSimpleRoute
   '/$locale/examples/swipe-desktop': typeof LocaleExamplesSwipeDesktopRoute
@@ -636,11 +674,13 @@ export interface FileRouteTypes {
     | '/filter-chips'
     | '/netflix-row'
     | '/scrollable-tabs'
+    | '/testimonial-carousel'
     | '/$locale/category-rail'
     | '/$locale/compare'
     | '/$locale/filter-chips'
     | '/$locale/netflix-row'
     | '/$locale/scrollable-tabs'
+    | '/$locale/testimonial-carousel'
     | '/compare/embla-vs-swiper'
     | '/compare/react-slick-alternatives'
     | '/compare/swiper-alternatives'
@@ -662,6 +702,7 @@ export interface FileRouteTypes {
     | '/examples/progress'
     | '/examples/rtl'
     | '/examples/save-restore-position'
+    | '/examples/scroll-snap'
     | '/examples/scroll-to-item'
     | '/examples/simple'
     | '/examples/swipe-desktop'
@@ -689,6 +730,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/progress'
     | '/$locale/examples/rtl'
     | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-snap'
     | '/$locale/examples/scroll-to-item'
     | '/$locale/examples/simple'
     | '/$locale/examples/swipe-desktop'
@@ -702,11 +744,13 @@ export interface FileRouteTypes {
     | '/filter-chips'
     | '/netflix-row'
     | '/scrollable-tabs'
+    | '/testimonial-carousel'
     | '/$locale/category-rail'
     | '/$locale/compare'
     | '/$locale/filter-chips'
     | '/$locale/netflix-row'
     | '/$locale/scrollable-tabs'
+    | '/$locale/testimonial-carousel'
     | '/compare/embla-vs-swiper'
     | '/compare/react-slick-alternatives'
     | '/compare/swiper-alternatives'
@@ -728,6 +772,7 @@ export interface FileRouteTypes {
     | '/examples/progress'
     | '/examples/rtl'
     | '/examples/save-restore-position'
+    | '/examples/scroll-snap'
     | '/examples/scroll-to-item'
     | '/examples/simple'
     | '/examples/swipe-desktop'
@@ -755,6 +800,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/progress'
     | '/$locale/examples/rtl'
     | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-snap'
     | '/$locale/examples/scroll-to-item'
     | '/$locale/examples/simple'
     | '/$locale/examples/swipe-desktop'
@@ -769,11 +815,13 @@ export interface FileRouteTypes {
     | '/filter-chips'
     | '/netflix-row'
     | '/scrollable-tabs'
+    | '/testimonial-carousel'
     | '/$locale/category-rail'
     | '/$locale/compare'
     | '/$locale/filter-chips'
     | '/$locale/netflix-row'
     | '/$locale/scrollable-tabs'
+    | '/$locale/testimonial-carousel'
     | '/compare_/embla-vs-swiper'
     | '/compare_/react-slick-alternatives'
     | '/compare_/swiper-alternatives'
@@ -795,6 +843,7 @@ export interface FileRouteTypes {
     | '/examples/progress'
     | '/examples/rtl'
     | '/examples/save-restore-position'
+    | '/examples/scroll-snap'
     | '/examples/scroll-to-item'
     | '/examples/simple'
     | '/examples/swipe-desktop'
@@ -822,6 +871,7 @@ export interface FileRouteTypes {
     | '/$locale/examples/progress'
     | '/$locale/examples/rtl'
     | '/$locale/examples/save-restore-position'
+    | '/$locale/examples/scroll-snap'
     | '/$locale/examples/scroll-to-item'
     | '/$locale/examples/simple'
     | '/$locale/examples/swipe-desktop'
@@ -837,6 +887,7 @@ export interface RootRouteChildren {
   FilterChipsRoute: typeof FilterChipsRoute
   NetflixRowRoute: typeof NetflixRowRoute
   ScrollableTabsRoute: typeof ScrollableTabsRoute
+  TestimonialCarouselRoute: typeof TestimonialCarouselRoute
   CompareEmblaVsSwiperRoute: typeof CompareEmblaVsSwiperRoute
   CompareReactSlickAlternativesRoute: typeof CompareReactSlickAlternativesRoute
   CompareSwiperAlternativesRoute: typeof CompareSwiperAlternativesRoute
@@ -858,6 +909,7 @@ export interface RootRouteChildren {
   ExamplesProgressRoute: typeof ExamplesProgressRoute
   ExamplesRtlRoute: typeof ExamplesRtlRoute
   ExamplesSaveRestorePositionRoute: typeof ExamplesSaveRestorePositionRoute
+  ExamplesScrollSnapRoute: typeof ExamplesScrollSnapRoute
   ExamplesScrollToItemRoute: typeof ExamplesScrollToItemRoute
   ExamplesSimpleRoute: typeof ExamplesSimpleRoute
   ExamplesSwipeDesktopRoute: typeof ExamplesSwipeDesktopRoute
@@ -916,6 +968,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScrollableTabsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/testimonial-carousel': {
+      id: '/testimonial-carousel'
+      path: '/testimonial-carousel'
+      fullPath: '/testimonial-carousel'
+      preLoaderRoute: typeof TestimonialCarouselRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/': {
       id: '/$locale/'
       path: '/'
@@ -956,6 +1015,13 @@ declare module '@tanstack/react-router' {
       path: '/scrollable-tabs'
       fullPath: '/$locale/scrollable-tabs'
       preLoaderRoute: typeof LocaleScrollableTabsRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/testimonial-carousel': {
+      id: '/$locale/testimonial-carousel'
+      path: '/testimonial-carousel'
+      fullPath: '/$locale/testimonial-carousel'
+      preLoaderRoute: typeof LocaleTestimonialCarouselRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/compare_/embla-vs-swiper': {
@@ -1110,6 +1176,13 @@ declare module '@tanstack/react-router' {
       path: '/examples/save-restore-position'
       fullPath: '/examples/save-restore-position'
       preLoaderRoute: typeof ExamplesSaveRestorePositionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/examples/scroll-snap': {
+      id: '/examples/scroll-snap'
+      path: '/examples/scroll-snap'
+      fullPath: '/examples/scroll-snap'
+      preLoaderRoute: typeof ExamplesScrollSnapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/examples/scroll-to-item': {
@@ -1294,6 +1367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleExamplesSaveRestorePositionRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/examples/scroll-snap': {
+      id: '/$locale/examples/scroll-snap'
+      path: '/examples/scroll-snap'
+      fullPath: '/$locale/examples/scroll-snap'
+      preLoaderRoute: typeof LocaleExamplesScrollSnapRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/examples/scroll-to-item': {
       id: '/$locale/examples/scroll-to-item'
       path: '/examples/scroll-to-item'
@@ -1331,6 +1411,7 @@ interface LocaleRouteRouteChildren {
   LocaleFilterChipsRoute: typeof LocaleFilterChipsRoute
   LocaleNetflixRowRoute: typeof LocaleNetflixRowRoute
   LocaleScrollableTabsRoute: typeof LocaleScrollableTabsRoute
+  LocaleTestimonialCarouselRoute: typeof LocaleTestimonialCarouselRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleCompareEmblaVsSwiperRoute: typeof LocaleCompareEmblaVsSwiperRoute
   LocaleCompareReactSlickAlternativesRoute: typeof LocaleCompareReactSlickAlternativesRoute
@@ -1353,6 +1434,7 @@ interface LocaleRouteRouteChildren {
   LocaleExamplesProgressRoute: typeof LocaleExamplesProgressRoute
   LocaleExamplesRtlRoute: typeof LocaleExamplesRtlRoute
   LocaleExamplesSaveRestorePositionRoute: typeof LocaleExamplesSaveRestorePositionRoute
+  LocaleExamplesScrollSnapRoute: typeof LocaleExamplesScrollSnapRoute
   LocaleExamplesScrollToItemRoute: typeof LocaleExamplesScrollToItemRoute
   LocaleExamplesSimpleRoute: typeof LocaleExamplesSimpleRoute
   LocaleExamplesSwipeDesktopRoute: typeof LocaleExamplesSwipeDesktopRoute
@@ -1366,6 +1448,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleFilterChipsRoute: LocaleFilterChipsRoute,
   LocaleNetflixRowRoute: LocaleNetflixRowRoute,
   LocaleScrollableTabsRoute: LocaleScrollableTabsRoute,
+  LocaleTestimonialCarouselRoute: LocaleTestimonialCarouselRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleCompareEmblaVsSwiperRoute: LocaleCompareEmblaVsSwiperRoute,
   LocaleCompareReactSlickAlternativesRoute:
@@ -1391,6 +1474,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleExamplesRtlRoute: LocaleExamplesRtlRoute,
   LocaleExamplesSaveRestorePositionRoute:
     LocaleExamplesSaveRestorePositionRoute,
+  LocaleExamplesScrollSnapRoute: LocaleExamplesScrollSnapRoute,
   LocaleExamplesScrollToItemRoute: LocaleExamplesScrollToItemRoute,
   LocaleExamplesSimpleRoute: LocaleExamplesSimpleRoute,
   LocaleExamplesSwipeDesktopRoute: LocaleExamplesSwipeDesktopRoute,
@@ -1410,6 +1494,7 @@ const rootRouteChildren: RootRouteChildren = {
   FilterChipsRoute: FilterChipsRoute,
   NetflixRowRoute: NetflixRowRoute,
   ScrollableTabsRoute: ScrollableTabsRoute,
+  TestimonialCarouselRoute: TestimonialCarouselRoute,
   CompareEmblaVsSwiperRoute: CompareEmblaVsSwiperRoute,
   CompareReactSlickAlternativesRoute: CompareReactSlickAlternativesRoute,
   CompareSwiperAlternativesRoute: CompareSwiperAlternativesRoute,
@@ -1431,6 +1516,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExamplesProgressRoute: ExamplesProgressRoute,
   ExamplesRtlRoute: ExamplesRtlRoute,
   ExamplesSaveRestorePositionRoute: ExamplesSaveRestorePositionRoute,
+  ExamplesScrollSnapRoute: ExamplesScrollSnapRoute,
   ExamplesScrollToItemRoute: ExamplesScrollToItemRoute,
   ExamplesSimpleRoute: ExamplesSimpleRoute,
   ExamplesSwipeDesktopRoute: ExamplesSwipeDesktopRoute,

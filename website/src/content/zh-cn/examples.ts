@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=zh-CN source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=zh-CN source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -708,6 +708,45 @@ export const examples: ExamplesCopy = {
           '- 选择你的 ARIA 模式：当真实面板会切换时（就像这里），保留 `role="tablist"`/`role="tab"`/`aria-selected`；当这些“标签”其实是导航链接时，改用 `aria-current`。',
           '- 启用拖拽后，要抑制松开拖拽时触发的点击——演示会在选中前检查 `dragManager.dragging`，和 [拖拽配方](/examples/mouse-drag) 里的做法一样。',
           '- [RTL](/examples/rtl) 不需要额外的工作：这一行是原生滚动容器，因此 `direction: rtl` 会翻转它，箭头也包含在内。',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'React 滚动吸附轮播：CSS 吸附与倾斜，无需引擎',
+      description:
+        '基于原生滚动的评价轮播：CSS scroll-snap 让每张卡片居中，滚动驱动动画把其余卡片扇形展开。箭头、圆点和拖拽全部基于公开 API。演示与完整源码。',
+    },
+    title: '一个由 CSS 绘制的吸附式卡片轮播',
+    lede: '评价轮播的经典外观——一张卡片居中，相邻卡片在它身后扇形展开——不需要轮播引擎。`scroll-snap-type` 让每次滑动都停在一张卡片上，CSS 滚动驱动动画按每张卡片离中心的距离旋转它，其余交给本库：哪张卡片是当前的、每次前进一张的箭头、跳到某张卡片的圆点，以及松开后落到最近卡片的鼠标拖拽。',
+    demoHint:
+      '滑动、拖拽，或使用箭头和圆点——这一行总会停在一张卡片上，而扇形跟随滚动的每一个像素。',
+    prose: [
+      {
+        heading: '吸附是 CSS',
+        body: '通过 `scrollContainerClassName` 给这一行加上 `scroll-snap-type: x mandatory`，通过 `itemClassName` 给每个项目加上 `scroll-snap-align: center`，这就是全部的吸附。触摸、滚轮和键盘滚动仍是原生的，所以浏览器会自己减速停在一张卡片上。这一行的左右内边距等于居中卡片两侧的空间——正是它让第一张和最后一张卡片也能停在中间。',
+      },
+      {
+        heading: '扇形是滚动驱动动画',
+        body: '每张卡片在自己的 `view()` 时间线上做动画：它在这一行中的位置就是时钟。关键帧覆盖中心两侧各两个卡片间距，所以中间的卡片是平的，每个邻居再多转一个 `--tilt`，而角度随滚动的每一个像素更新——不测量任何东西，也不重新渲染。这条规则放在 `@supports (animation-timeline: view())` 之下：Chromium 与 Safari 26 会绘制它，Firefox 仍把该特性放在开关后面，会显示平放的卡片，而吸附与圆点照常工作。',
+      },
+      {
+        heading: '剩下的 JavaScript',
+        body: "`onScroll` 找出中心离这一行中心最近的卡片——用 `getItemElementById` 取节点，用 `offsetLeft` 对照 `scrollLeft`——并把它的索引存在 state 里，供圆点、卡片高亮和箭头使用。箭头步进到相邻卡片，圆点跳到某张卡片，二者都用 `scrollToItem(el, 'smooth', 'center')`，它天然落在吸附点上。",
+      },
+      {
+        heading: '拖拽必须关闭吸附',
+        body: '强制吸附容器会吸附每一次程序化的 `scrollLeft` 写入，因此手动移动这一行的鼠标拖拽会一张一张地卡顿。拖拽期间会以内联样式设置 `scroll-snap-type: none`。松开时，这一行用 `scrollToItem` 滑到最近的卡片，吸附只在这次滑动停稳之后才恢复：过早恢复会让浏览器瞬间跳到吸附点，而不是滑过去。',
+      },
+      {
+        heading: '注意事项',
+        body: [
+          '- 三个自定义属性就是全部旋钮——`--card`、`--gap` 和 `--tilt`——其余每个长度都由它们推导，包括动画范围。',
+          '- [无限循环](/examples/infinite-loop)可以与之组合：一次传送移动整整一个循环长度，也就是整数个吸附点。[自动播放](/examples/autoplay)同样可以，它只是一个调用同一个 `scrollToItem` 的定时器。',
+          '- 拖拽就是[鼠标拖拽](/examples/mouse-drag)这一示例去掉点击保护：卡片不可点击，所以无需区分拖拽和点击。',
+          '- `prefers-reduced-motion` 会关闭扇形。吸附保留，因为它是这一行的滚动方式，而不是装饰。',
         ].join('\n'),
       },
     ],

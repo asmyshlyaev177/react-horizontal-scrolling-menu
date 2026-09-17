@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ko source=en/home.ts source-blob=57936690d03bef1af5dc60d73e902386d9840147 status=translated
+// i18n:meta locale=ko source=en/home.ts source-blob=fda745878e5d06692611c84565262067289a2653 status=translated
 import { INTENT, REACT_STATUS, STORIES } from '../../lib/links.ts';
 import type { HomeCopy } from '../types.ts';
 
@@ -133,7 +133,7 @@ export const home: HomeCopy = {
 
   gallery: {
     heading: '실제로 배포할 레시피',
-    lede: '네 가지 일반 패턴을, 핵심 줄과 함께 라이브로.',
+    lede: '다섯 가지 일반 패턴을, 핵심 줄과 함께 라이브로.',
     tabs: {
       title: '활성 탭을 가운데 정렬하는 탭 스트립',
       body: "탭을 클릭: `scrollToItem`에 `inline: 'center'`를 넘기면 행의 중앙으로 가져옵니다. 같은 호출로 `start`, `end`, 페이징도 처리합니다.",
@@ -152,6 +152,11 @@ export const home: HomeCopy = {
     rtl: {
       title: '오른쪽에서 왼쪽, 프로퍼티 하나',
       body: '`RTL`이 스크롤 컨테이너의 방향을 뒤집고, 화살표와 페이징 로직이 따릅니다.',
+      link: '전체 예제 보기',
+    },
+    snap: {
+      title: '가운데에 스냅되고 부채꼴로 펼쳐지는 카드',
+      body: '두 가지 CSS 기능이 캐러셀을 만듭니다. `scroll-snap-type`이 모든 스와이프를 카드 위에 멈추게 하고, 스크롤 기반 애니메이션이 가운데에서 떨어진 거리만큼 각 카드를 기울입니다. 라이브러리는 어느 카드가 현재인지 알려 줍니다.',
       link: '전체 예제 보기',
     },
   },

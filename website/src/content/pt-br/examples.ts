@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=pt-BR source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -725,6 +725,45 @@ export const examples: ExamplesCopy = {
           '- Escolha seu padrão ARIA: mantenha `role="tablist"`/`role="tab"`/`aria-selected` quando painéis reais forem trocados (como aqui), ou `aria-current` quando as "abas" forem links de navegação.',
           '- Com o arraste habilitado, suprima o clique que dispara ao soltar o arraste — a demo verifica `dragManager.dragging` antes de selecionar, assim como na [receita de arraste](/examples/mouse-drag).',
           '- [RTL](/examples/rtl) não exige trabalho extra: a faixa é um contêiner de rolagem nativo, então `direction: rtl` a inverte, setas incluídas.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'Carrossel scroll-snap em React: encaixe e inclinação em CSS',
+      description:
+        'Carrossel de depoimentos com rolagem nativa: scroll-snap centraliza cada cartão e uma animação CSS abre o resto em leque. Setas, pontos e arraste incluídos.',
+    },
+    title: 'Um carrossel de cartões com encaixe, desenhado pelo CSS',
+    lede: 'O visual do carrossel de depoimentos — um cartão no centro, os vizinhos abertos em leque atrás dele — sem motor de carrossel. `scroll-snap-type` faz cada deslize terminar sobre um cartão, uma animação CSS dirigida pela rolagem gira cada cartão conforme sua distância do centro, e a biblioteca fornece o resto: qual cartão é o atual, setas que avançam um cartão, pontos que pulam para um, e um arraste com o mouse que, ao soltar, cai sobre o cartão mais próximo.',
+    demoHint:
+      'Deslize, arraste ou use as setas e os pontos — a linha sempre assenta sobre um cartão, e o leque acompanha cada pixel da rolagem.',
+    prose: [
+      {
+        heading: 'O encaixe é CSS',
+        body: '`scroll-snap-type: x mandatory` na linha, via `scrollContainerClassName`, e `scroll-snap-align: center` em cada item, via `itemClassName`, são todo o encaixe. A rolagem por toque, roda e teclado continua nativa, então o navegador desacelera sozinho até um cartão. O preenchimento lateral da linha é igual ao espaço ao lado de um cartão centralizado — é isso que permite que o primeiro e o último cartão também fiquem no meio.',
+      },
+      {
+        heading: 'O leque é uma animação dirigida pela rolagem',
+        body: 'Cada cartão anima na sua própria linha do tempo `view()`: sua posição dentro da linha é o relógio. Os keyframes cobrem dois passos de cartão de cada lado do centro da linha, então o cartão do meio fica plano, cada vizinho gira mais um `--tilt`, e o ângulo se atualiza a cada pixel de rolagem — nada é medido e nada é renderizado de novo. A regra fica sob `@supports (animation-timeline: view())`: Chromium e Safari 26 a desenham, o Firefox ainda mantém o recurso atrás de uma flag e mostra cartões planos, com o encaixe e os pontos funcionando como antes.',
+      },
+      {
+        heading: 'O JavaScript que sobra',
+        body: "`onScroll` encontra o cartão cujo centro está mais perto do centro da linha — `getItemElementById` para o nó, `offsetLeft` contra `scrollLeft` — e guarda seu índice no estado para os pontos, o destaque do cartão e as setas. As setas avançam para um vizinho e os pontos pulam para um cartão, ambos com `scrollToItem(el, 'smooth', 'center')`, que por construção cai em um ponto de encaixe.",
+      },
+      {
+        heading: 'O arraste precisa desligar o encaixe',
+        body: 'Um contêiner com encaixe obrigatório encaixa cada escrita programática em `scrollLeft`, então um arraste com o mouse que move a linha à mão engasgaria de cartão em cartão. O arraste define `scroll-snap-type: none` inline durante o gesto. Ao soltar, a linha desliza até o cartão mais próximo com `scrollToItem`, e o encaixe só volta quando esse deslize assentou: reativá-lo antes faz o navegador pular na hora para o ponto de encaixe em vez de deslizar até ele.',
+      },
+      {
+        heading: 'Notas',
+        body: [
+          '- Os controles são três propriedades personalizadas — `--card`, `--gap` e `--tilt` — e todos os outros comprimentos derivam delas, inclusive o intervalo da animação.',
+          '- O [loop infinito](/examples/infinite-loop) se combina com isto: um teletransporte move um comprimento de loop inteiro, que é um número inteiro de pontos de encaixe. O [autoplay](/examples/autoplay) também, um timer que chama o mesmo `scrollToItem`.',
+          '- O arraste é a [receita de arraste com o mouse](/examples/mouse-drag) sem a guarda de clique: os cartões não são clicáveis, então nada precisa distinguir um arraste de um clique.',
+          '- `prefers-reduced-motion` desliga o leque. O encaixe fica, porque é como a linha rola, não decoração.',
         ].join('\n'),
       },
     ],

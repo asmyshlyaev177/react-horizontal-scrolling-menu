@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=fr source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=fr source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -186,6 +186,45 @@ La [page de comparaison](/compare) contient le tableau complet face à Swiper, E
     shadcn: {
       heading: 'Ou installez-le comme composant shadcn',
       body: "L'élément de registre de base [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) est ce rail — flèches stylées shadcn, glisser pour défiler, barre de défilement masquée — installé dans votre `components/ui/` et stylé par vos tokens :",
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'Carrousel de témoignages React sur scroll snap natif',
+      description:
+        'Carrousel de témoignages en React sans bibliothèque de slider : scroll-snap centre chaque carte et une animation CSS ouvre le reste en éventail. Points, flèches, source.',
+    },
+    jsonLdHeadline:
+      'Construire un carrousel de témoignages en React sur CSS scroll snap, sans bibliothèque de slider',
+    name: 'Carrousel de témoignages',
+    blurb:
+      'Des cartes d’avis qui s’accrochent au centre et s’ouvrent en éventail — du CSS, pas un moteur de slider.',
+    title: 'Un carrousel de témoignages en React, sur scroll snap natif',
+    lede: 'La section d’avis de tout site marketing : une carte au centre, ses voisines inclinées derrière, des points en dessous, un balayage ou un clic pour passer à la suivante. Les bibliothèques de slider vendent exactement cela. Le navigateur a déjà les deux moitiés — `scroll-snap-type` pour l’atterrissage et une animation pilotée par le défilement pour l’inclinaison — et cette bibliothèque ajoute la part qui n’est ni l’une ni l’autre : savoir quelle carte est courante.',
+    demoHint:
+      'Balayez, faites glisser ou utilisez les flèches et les points — la rangée se pose sur une carte à chaque fois.',
+    prose: [
+      {
+        heading: 'À quoi sert vraiment ici une bibliothèque de slider',
+        body: "Les carrousels de témoignages sont l’installation canonique de Swiper : trois cartes visibles, celle du milieu plate, des points de pagination, une lecture automatique. Chacun de ces éléments est soit du CSS, soit quelques lignes sur l’API de cette bibliothèque :\n\n- **Atterrir sur une carte**, c’est `scroll-snap-type: x mandatory` sur la rangée et `scroll-snap-align: center` sur les éléments. Le défilement tactile, à la molette et au clavier reste natif et décélère de lui-même jusqu’à une carte.\n- **L’inclinaison** est une animation pilotée par le défilement sur chaque carte, donc l’angle suit la position de défilement pixel par pixel sans rien mesurer en JavaScript. Chromium et Safari 26 la dessinent ; Firefox la garde encore derrière un drapeau et montre des cartes plates, et la règle est protégée par `@supports`.\n- **Points et flèches** doivent connaître la carte courante : `onScroll` trouve la plus proche du centre de la rangée, et `scrollToItem(el, 'smooth', 'center')` avance vers une voisine ou saute à la carte d’un point, en atterrissant par construction sur un point d’accrochage.",
+      },
+      {
+        heading: 'La seule chose à réussir : le glisser',
+        body: 'Un conteneur à accrochage obligatoire accroche chaque écriture programmatique de `scrollLeft`, donc la [recette de glisser à la souris](/examples/mouse-drag) telle quelle sauterait de carte en carte. L’[exemple scroll snap](/examples/scroll-snap) montre la correction : couper l’accrochage le temps du geste, glisser jusqu’à la carte la plus proche avec `scrollToItem` au relâchement, et rendre l’accrochage au CSS une fois ce glissement stabilisé — le réactiver plus tôt saute au lieu de glisser. Le tactile n’a besoin de rien de tout cela ; la rangée est un vrai conteneur de défilement.',
+      },
+      {
+        heading: 'Lecture automatique, boucle, et ce qui reste à vous',
+        body: 'La [lecture automatique](/examples/autoplay) est un minuteur appelant le même `scrollToItem`, en pause au survol, au focus et en mouvement réduit. Une [boucle infinie](/examples/infinite-loop) se combine aussi : sa téléportation déplace d’une longueur de boucle entière, soit un nombre entier de points d’accrochage. Les cartes sont vos composants — un avatar, une note, une citation, un logo — et la géométrie tient en trois propriétés personnalisées : largeur de carte, espacement et inclinaison.',
+      },
+    ],
+    snippet: {
+      heading: 'Le motif, minimal',
+      lede: 'L’accrochage et l’inclinaison sont la feuille de style ; les flèches et les points sont une mesure et un `scrollToItem`. La démo ci-dessus, c’est cela plus les cartes.',
+    },
+    shadcn: {
+      heading: 'Ou installez-le comme composant shadcn',
+      body: 'L’élément de registre [snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) livre tout le motif — accrochage, éventail, flèches, points et un glisser qui se pose sur la carte la plus proche — comme composant stylé Tailwind dans votre `components/ui/`. Apportez vos propres cartes :',
     },
   },
 };

@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=es source=en/examples.ts source-blob=60d5f83e262100978eb4d1dc9565659367d156c4 status=translated
+// i18n:meta locale=es source=en/examples.ts source-blob=fd9a5c2576dbe766e5837d4858a15e482928c4d0 status=translated
 import type { ExamplesCopy } from '../types.ts';
 
 /** Copy for the example pages, keyed by the slugs in `examples-manifest.ts`. */
@@ -737,6 +737,45 @@ export const examples: ExamplesCopy = {
           '- Elige tu patrón ARIA: conserva `role="tablist"`/`role="tab"`/`aria-selected` cuando cambian paneles reales (como aquí), o `aria-current` cuando las "pestañas" son enlaces de navegación.',
           '- Con el arrastre activado, suprime el clic que se dispara al soltar el arrastre — la demo comprueba `dragManager.dragging` antes de seleccionar, igual que la [receta de arrastre](/examples/mouse-drag).',
           '- [RTL](/examples/rtl) no necesita trabajo extra: la franja es un contenedor de desplazamiento nativo, así que `direction: rtl` la invierte, flechas incluidas.',
+        ].join('\n'),
+      },
+    ],
+  },
+
+  'scroll-snap': {
+    meta: {
+      title: 'Carrusel scroll-snap en React: ajuste e inclinación en CSS',
+      description:
+        'Carrusel de testimonios con desplazamiento nativo: scroll-snap centra cada tarjeta y una animación CSS abre el resto en abanico. Flechas, puntos y arrastre incluidos.',
+    },
+    title: 'Un carrusel de tarjetas con ajuste, dibujado por CSS',
+    lede: 'El aspecto del carrusel de testimonios — una tarjeta en el centro, sus vecinas abiertas en abanico detrás — sin motor de carrusel. `scroll-snap-type` hace que cada deslizamiento termine sobre una tarjeta, una animación CSS dirigida por el desplazamiento gira cada tarjeta según lo lejos que esté del centro, y la biblioteca aporta el resto: qué tarjeta es la actual, flechas que avanzan una tarjeta, puntos que saltan a una, y un arrastre con el ratón que al soltar cae sobre la tarjeta más cercana.',
+    demoHint:
+      'Desliza, arrastra o usa las flechas y los puntos — la fila siempre se asienta sobre una tarjeta, y el abanico sigue cada píxel del desplazamiento.',
+    prose: [
+      {
+        heading: 'El ajuste es CSS',
+        body: '`scroll-snap-type: x mandatory` en la fila, mediante `scrollContainerClassName`, y `scroll-snap-align: center` en cada elemento, mediante `itemClassName`, son todo el ajuste. El desplazamiento táctil, con rueda y con teclado sigue siendo nativo, así que el navegador desacelera por sí solo hasta una tarjeta. El relleno lateral de la fila es igual al espacio junto a una tarjeta centrada — eso es lo que permite que la primera y la última tarjeta también queden en el medio.',
+      },
+      {
+        heading: 'El abanico es una animación dirigida por el desplazamiento',
+        body: 'Cada tarjeta se anima en su propia línea de tiempo `view()`: su posición dentro de la fila es el reloj. Los fotogramas clave abarcan dos pasos de tarjeta a cada lado del centro de la fila, así que la tarjeta central está plana, cada vecina gira un `--tilt` más, y el ángulo se actualiza con cada píxel de desplazamiento — no se mide nada y nada se vuelve a renderizar. La regla vive bajo `@supports (animation-timeline: view())`: Chromium y Safari 26 la dibujan, Firefox aún mantiene la función tras una bandera y muestra tarjetas planas, con el ajuste y los puntos funcionando igual.',
+      },
+      {
+        heading: 'El JavaScript que queda',
+        body: "`onScroll` encuentra la tarjeta cuyo centro está más cerca del centro de la fila — `getItemElementById` para el nodo, `offsetLeft` frente a `scrollLeft` — y guarda su índice en el estado para los puntos, el resaltado de la tarjeta y las flechas. Las flechas avanzan a una vecina y los puntos saltan a una tarjeta, ambos con `scrollToItem(el, 'smooth', 'center')`, que por construcción cae en un punto de ajuste.",
+      },
+      {
+        heading: 'El arrastre tiene que apagar el ajuste',
+        body: 'Un contenedor con ajuste obligatorio ajusta cada escritura programática de `scrollLeft`, así que un arrastre con el ratón que mueva la fila a mano iría a trompicones de tarjeta en tarjeta. El arrastre pone `scroll-snap-type: none` en línea durante el gesto. Al soltar, la fila se desliza hasta la tarjeta más cercana con `scrollToItem`, y el ajuste solo vuelve cuando ese deslizamiento se ha asentado: reactivarlo antes hace que el navegador salte al instante al punto de ajuste en lugar de deslizarse hasta él.',
+      },
+      {
+        heading: 'Notas',
+        body: [
+          '- Los mandos son tres propiedades personalizadas — `--card`, `--gap` y `--tilt` — y todas las demás longitudes derivan de ellas, incluido el rango de la animación.',
+          '- El [bucle infinito](/examples/infinite-loop) se combina con esto: un teletransporte se mueve una longitud de bucle entera, que es un número entero de puntos de ajuste. También el [autoplay](/examples/autoplay), un temporizador que llama al mismo `scrollToItem`.',
+          '- El arrastre es la [receta de arrastre con el ratón](/examples/mouse-drag) sin la guarda de clic: las tarjetas no son clicables, así que nada tiene que distinguir un arrastre de un clic.',
+          '- `prefers-reduced-motion` apaga el abanico. El ajuste se queda, porque es la forma en que la fila se desplaza, no decoración.',
         ].join('\n'),
       },
     ],

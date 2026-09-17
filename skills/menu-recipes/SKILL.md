@@ -6,14 +6,16 @@ description: >
   loop/carousel (clone head/tail + scrollLeft teleport at seams), center on
   click (scrollToItem 'center'), save/restore scroll position (onUpdate,
   onInit, scrollContainer), load-more with a loader item (items.last()?.visible
-  in onUpdate), one item per scroll (getPrevElement/getNextElement), hiding
-  arrows, multiple menus, tab switching. Load when asked for autoplay, looping,
-  carousel-like behavior, infinite scroll, or any feature missing from the
-  props table — inventing an autoplay/loop/snap prop generates dead code.
+  in onUpdate), one item per scroll (getPrevElement/getNextElement), snap to
+  a card (CSS scroll-snap on scrollContainerClassName/itemClassName, current
+  card from onScroll, drag with snap switched off), hiding arrows, multiple
+  menus, tab switching. Load when asked for autoplay, looping, snapping,
+  a testimonial/card carousel, infinite scroll, or any feature missing from
+  the props table — inventing an autoplay/loop/snap prop generates dead code.
 metadata:
   type: core
   library: 'react-horizontal-scrolling-menu'
-  library_version: '8.2.3'
+  library_version: '8.3.2'
 sources:
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/Autoplay/Autoplay.source.tsx'
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/InfiniteLoop/InfiniteLoop.source.tsx'
@@ -21,13 +23,15 @@ sources:
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/SaveRestorePosition/Position.source.tsx'
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/AddItems/AddItems.source.tsx'
   - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/OneItemScroll/OneItemScroll.source.tsx'
+  - 'asmyshlyaev177/react-horizontal-scrolling-menu:stories/ScrollSnap/ScrollSnap.source.tsx'
 ---
 
 # react-horizontal-scrolling-menu — Recipes
 
 No autoplay, loop, or snap props exist, by design (README "What it does —
-and doesn't"). Each feature below is a ~60-line recipe on the public API.
-Generate the recipe, never a prop.
+and doesn't"). Each feature below is a ~60-line recipe on the public API;
+snapping to a card is CSS scroll-snap, not physics. Generate the recipe,
+never a prop.
 
 Every recipe is also a live-editable Storybook story — URLs and source paths
 in `references/stories.md`.
@@ -228,15 +232,11 @@ export function LoadMoreMenu() {
   const [items, setItems] = React.useState(ids);
   const [loading, setLoading] = React.useState(false);
 
-  const fetchMore = () => {
+  const fetchMore = async () => {
     setLoading(true);
-    window.setTimeout(() => {
-      setItems((cur) => [
-        ...cur,
-        ...Array.from({ length: 5 }, (_, i) => `item-${cur.length + i}`),
-      ]);
-      setLoading(false);
-    }, 1000);
+    const next = await fetchPage(items.length); // your API
+    setItems((cur) => [...cur, ...next]);
+    setLoading(false);
   };
   return (
     <ScrollMenu
@@ -260,16 +260,6 @@ export function LoadMoreMenu() {
 visible window.
 
 ```tsx
-function OneLeftArrow() {
-  const api = React.useContext<publicApiType>(VisibilityContext);
-  const onClick = () =>
-    api.scrollToItem(api.getPrevElement(), 'smooth', 'start');
-  return (
-    <button disabled={api.useLeftArrowVisible()} onClick={onClick}>
-      Prev
-    </button>
-  );
-}
 function OneRightArrow() {
   const api = React.useContext<publicApiType>(VisibilityContext);
   const onClick = () => api.scrollToItem(api.getNextElement(), 'smooth', 'end');
@@ -279,12 +269,23 @@ function OneRightArrow() {
     </button>
   );
 }
+// OneLeftArrow mirrors it: getPrevElement(), 'start', useLeftArrowVisible().
 ```
 
-For custom group/page math the package also exports the menu's own helpers:
-`slidingWindow(api.items.toItems(), visibleIds).next()` picks the next group
-and `getItemsPos(group).center` its centre id — see
-`skills/menu-scrolling/SKILL.md`.
+For custom group math, `slidingWindow(...).next()` and `getItemsPos(group)`
+are exported too — see `skills/menu-scrolling/SKILL.md`.
+
+### Snap to a card: CSS scroll-snap, current card from onScroll
+
+Snapping is a stylesheet, not a prop: `scroll-snap-type: x mandatory` on
+the rail (`scrollContainerClassName`), `scroll-snap-align: center` on every
+item (`itemClassName`), side padding of `calc(50% - card / 2)` so the edge
+cards can center. The library's part is the current card: `onScroll` picks
+the item whose center is closest to the rail's center (`offsetLeft` against
+`scrollLeft`), and arrows and dots call `scrollToItem(el, 'smooth',
+'center')` — a snap point by construction. The tilted fan of the neighbours
+is a CSS scroll-driven animation, and a mouse drag needs snap switched off
+for the gesture; the code for all three is in `references/scroll-snap.md`.
 
 ### Hiding arrows, arrows below the menu, multiple menus, tabs
 
@@ -312,22 +313,34 @@ Wrong:
 Correct:
 
 ```tsx
-// Autoplay is a recipe: a timer firing scrollNext(), gated on visibility.
-const apiRef = React.useRef<publicApiType | null>(null);
-React.useEffect(() => {
-  const id = window.setInterval(() => {
-    if (apiRef.current?.menuVisible.current) apiRef.current.scrollNext();
-  }, 3000);
-  return () => window.clearInterval(id);
-}, []);
-// Loop is the useInfiniteLoop clone-and-teleport hook — references/infinite-loop.md
+// Autoplay: a timer firing scrollNext(), gated on menuVisible — recipe above.
+// Loop: the useInfiniteLoop clone-and-teleport hook — references/infinite-loop.md
+// Snap: CSS scroll-snap on the rail and items — recipe above.
 ```
 
 These props do not exist and are silently ignored — the menu renders normally
-and never plays or loops; snap physics is out of scope by design (use Embla
-or Swiper for a physics carousel).
+and never plays, loops or snaps. Only spring physics and slide effects are
+out of scope by design (use Embla or Swiper for those).
 
-Source: README.md "What it does — and doesn't"; stories/Autoplay, stories/InfiniteLoop
+Source: README.md "What it does — and doesn't"; stories/Autoplay, stories/InfiniteLoop, stories/ScrollSnap
+
+### HIGH Drag-to-scroll on a mandatory snap container stutters, then jumps
+
+Wrong: the plain drag recipe — `scrollLeft += delta` on every mousemove.
+
+Correct:
+
+```tsx
+// mousedown:  rail.style.scrollSnapType = 'none'
+// mousemove:  rail.scrollLeft += delta
+// mouseup:    scrollToItem(nearest card, 'smooth', 'center'), then
+//             rail.style.scrollSnapType = '' once scrolling settles
+```
+
+A mandatory snap container snaps every programmatic `scrollLeft` write, and
+restoring snap while the release glide runs jumps instead of gliding.
+
+Source: stories/ScrollSnap/ScrollSnap.source.tsx; references/scroll-snap.md
 
 ### HIGH Autoplay interval scrolls the page to the menu
 
@@ -469,14 +482,13 @@ Source: stories/AddItems/AddItems.source.tsx:54-59; discussion #297
 
 ## See also
 
-- `skills/menu-scrolling/SKILL.md` — every recipe is built from the
-  imperative API (`scrollToItem`, `scrollNext`/`scrollPrev`,
-  `scrollContainer`, `apiRef`, `getItemElementById`, `slidingWindow`).
-- `skills/menu-interactions/SKILL.md` — drag, wheel and body-scroll recipes
-  wire the pointer callback shapes: mouse/touch props are handler factories
-  `(api) => (event) => void`; `onWheel`/`onScroll` are plain callbacks.
+- `skills/menu-scrolling/SKILL.md` — the imperative API every recipe is
+  built from (`scrollToItem`, `scrollNext`/`scrollPrev`, `apiRef`).
+- `skills/menu-interactions/SKILL.md` — drag, wheel and body-scroll recipes;
+  mouse/touch props are factories `(api) => (event) => void`.
 
 ## References
 
 - [Infinite loop: the full hook, Safari fallback and drag integration](references/infinite-loop.md)
+- [Scroll-snap carousel: the CSS, the fan, and drag with snap switched off](references/scroll-snap.md)
 - [Live story map: URLs and source files per recipe](references/stories.md)

@@ -3,7 +3,7 @@
 // to the browser or the worker.
 
 export interface Snippet {
-  lang: 'tsx' | 'bash';
+  lang: 'tsx' | 'bash' | 'css';
   code: string;
 }
 
@@ -272,6 +272,54 @@ function LeftArrow() {
 }`,
   },
 
+  testimonialCarousel: {
+    lang: 'tsx',
+    code: `function TestimonialCarousel({ reviews }: { reviews: Review[] }) {
+  const [active, setActive] = React.useState(0);
+
+  return (
+    <ScrollMenu
+      scrollContainerClassName="snap-rail"
+      itemClassName="snap-slot"
+      onScroll={(api) => setActive(nearestIndex(api, reviews))}
+      LeftArrow={<Arrow id={reviews[active - 1]?.id} />}
+      RightArrow={<Arrow id={reviews[active + 1]?.id} />}
+    >
+      {reviews.map((review) => (
+        <ReviewCard itemId={review.id} key={review.id} {...review} />
+      ))}
+    </ScrollMenu>
+  );
+}
+
+// The card whose center is closest to the rail's center.
+function nearestIndex(api: publicApiType, reviews: Review[]) {
+  const rail = api.scrollContainer.current!;
+  const middle = rail.scrollLeft + rail.clientWidth / 2;
+  const distances = reviews.map(({ id }) => {
+    const slot = api.getItemElementById(id) as HTMLElement;
+    return Math.abs(slot.offsetLeft + slot.offsetWidth / 2 - middle);
+  });
+  return distances.indexOf(Math.min(...distances));
+}
+
+// Arrows step one card: the neighbour of the centered one, centered.
+function Arrow({ id }: { id?: string }) {
+  const api = React.useContext<publicApiType>(VisibilityContext);
+  const step = () => {
+    const el = id && api.getItemElementById(id);
+    if (el) api.scrollToItem(el, 'smooth', 'center');
+  };
+  return <button disabled={!id} onClick={step}>→</button>;
+}
+
+/* .snap-rail — the browser lands every swipe on a card:
+     scroll-snap-type: x mandatory;
+     padding-inline: calc(50% - var(--card) / 2);
+   .snap-slot — scroll-snap-align: center;
+   The fan is the snap.css panel on the homepage. */`,
+  },
+
   shadcnMediaRow: {
     lang: 'bash',
     code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/media-row.json',
@@ -290,6 +338,37 @@ function LeftArrow() {
   shadcnScrollMenu: {
     lang: 'bash',
     code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json',
+  },
+
+  shadcnSnapCarousel: {
+    lang: 'bash',
+    code: 'npx shadcn@latest add https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json',
+  },
+
+  snap: {
+    lang: 'css',
+    code: `/* Snap: the browser lands every swipe on a card */
+.snap-rail {
+  scroll-snap-type: x mandatory;
+  padding-inline: calc(50% - var(--card) / 2);
+}
+.snap-slot {
+  scroll-snap-align: center;
+}
+
+/* Fan: each card's own position in the rail is the timeline */
+.snap-card {
+  transform-origin: 50% 100%;
+  animation: snap-tilt linear both;
+  animation-timeline: view(inline);
+  animation-range: cover calc(50% - 2 * var(--pitch))
+    cover calc(50% + 2 * var(--pitch));
+}
+@keyframes snap-tilt {
+  from { transform: translateY(1.5rem) rotate(16deg) scale(0.88); }
+  50%  { transform: none; }
+  to   { transform: translateY(1.5rem) rotate(-16deg) scale(0.88); }
+}`,
   },
 } satisfies Record<string, Snippet>;
 

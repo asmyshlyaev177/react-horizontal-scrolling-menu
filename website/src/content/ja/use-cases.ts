@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=ja source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=ja source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -183,6 +183,45 @@ export const useCases: UseCasesCopy = {
     shadcn: {
       heading: 'または shadcn コンポーネントとしてインストール',
       body: 'ベースとなる [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) レジストリアイテムがこのレールです — shadcn スタイルの矢印、ドラッグスクロール、非表示のスクロールバー — あなたの `components/ui/` にインストールされ、あなたのトークンでスタイリングされます：',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'ネイティブのスクロールスナップで作る React 推薦カルーセル',
+      description:
+        'スライダーライブラリなしの React 推薦カルーセル。CSS scroll-snap が各カードを中央に揃え、スクロール駆動アニメーションが残りを扇状に広げます。ドット、矢印、ドラッグ、ソース付き。',
+    },
+    jsonLdHeadline:
+      'スライダーライブラリなしで、CSS スクロールスナップの上に React の推薦カルーセルを作る',
+    name: '推薦カルーセル',
+    blurb:
+      'レビューカードが中央にスナップして扇状に広がります——スライダーエンジンではなく CSS で。',
+    title: 'ネイティブのスクロールスナップで作る、React の推薦カルーセル',
+    lede: 'どのマーケティングサイトにもあるレビューセクション。1 枚のカードが中央、隣のカードが後ろで傾き、下にドット、スワイプかクリックで次へ。スライダーライブラリが売るのはまさにこれです。ブラウザはすでに両方の半分を持っています——着地には `scroll-snap-type`、傾きにはスクロール駆動アニメーション——そしてこのライブラリは、そのどちらでもない部分を足します。どのカードが現在かを知ることです。',
+    demoHint:
+      'スワイプ、ドラッグ、または矢印とドットを使ってください——行は毎回カード上で止まります。',
+    prose: [
+      {
+        heading: 'ここでスライダーライブラリが本当にしていること',
+        body: "推薦カルーセルは Swiper の典型的な用途です。3 枚の見えるカード、中央は平ら、ページネーションのドット、自動再生。そのどれもが CSS か、このライブラリの API 上の数行です。\n\n- **カードへの着地**は、行の `scroll-snap-type: x mandatory` と項目の `scroll-snap-align: center` です。タッチ、ホイール、キーボードのスクロールはネイティブのままで、自分で減速してカードに止まります。\n- **傾き**は各カードのスクロール駆動アニメーションで、角度はスクロール位置に 1 ピクセルごとに追従し、JavaScript は何も計測しません。Chromium と Safari 26 は描画し、Firefox はまだフラグの裏に置いていて平らなカードを表示します。ルールは `@supports` で守られています。\n- **ドットと矢印**は現在のカードを知る必要があります。`onScroll` が行の中央に最も近いカードを見つけ、`scrollToItem(el, 'smooth', 'center')` が隣へ進むかドットのカードへ飛び、構造上スナップ位置に着地します。",
+      },
+      {
+        heading: '唯一きちんとやるべきこと：ドラッグ',
+        body: 'mandatory のスナップコンテナはプログラムからの `scrollLeft` への書き込みをすべてスナップするため、[マウスドラッグのレシピ](/examples/mouse-drag)をそのまま使うとカードごとにつっかえます。[スクロールスナップの例](/examples/scroll-snap)が解決策を示します。ジェスチャーの間はスナップを切り、離したら `scrollToItem` で最も近いカードへ滑らかに移動し、その移動が落ち着いてからスナップを CSS に返す——早く戻すと滑らかに動く代わりにジャンプします。タッチにはこれらは不要です。行は本物のスクロールコンテナだからです。',
+      },
+      {
+        heading: '自動再生、ループ、そしてあなたのもの',
+        body: '[自動再生](/examples/autoplay)は同じ `scrollToItem` を呼ぶタイマーで、ホバー、フォーカス、視差効果の低減で一時停止します。[無限ループ](/examples/infinite-loop)も組み合わせられます。テレポートはループ 1 周分、つまり整数個のスナップ位置だけ移動するからです。カードはあなたのコンポーネントです——アバター、評価、引用、ロゴ——そして幾何はカスタムプロパティ 3 つ、カード幅、間隔、傾きだけです。',
+      },
+    ],
+    snippet: {
+      heading: 'パターン、最小構成',
+      lede: 'スナップと傾きはスタイルシート。矢印とドットは 1 回の計測と 1 つの `scrollToItem` です。上のデモはこれにカードを足したものです。',
+    },
+    shadcn: {
+      heading: 'または shadcn コンポーネントとしてインストール',
+      body: '[snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) レジストリ項目は、このパターン全体——スナップ、扇、矢印、ドット、最も近いカードに落ち着くドラッグ——を Tailwind でスタイルされたコンポーネントとして `components/ui/` に届けます。カードは自分のものを：',
     },
   },
 };

@@ -31,6 +31,7 @@ const preview: Preview = {
             'CustomTransition',
             'InfiniteLoop',
             'Autoplay',
+            'ScrollSnap',
             'Vertical',
             'BottomArrows',
             'MobileSwipeOnly',

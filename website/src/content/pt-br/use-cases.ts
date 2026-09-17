@@ -3,7 +3,7 @@
 // Values only: every key, its order and its type come from the English
 // module, and a missing or renamed one is a type error rather than a
 // silently English page.
-// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=0bba3e70db5e9e86a65737d044573e94eae8728e status=translated
+// i18n:meta locale=pt-BR source=en/use-cases.ts source-blob=b55624f35b3311f7b1bd66fbdbd27962adb23bee status=translated
 import type { UseCasesCopy } from '../types.ts';
 
 export const useCases: UseCasesCopy = {
@@ -185,6 +185,45 @@ A [página de comparação](/compare) tem a tabela completa contra Swiper, Embla
     shadcn: {
       heading: 'Ou instale como um componente shadcn',
       body: 'O item de registro base [scroll-menu](https://react-horizontal-scrolling-menu.dev/r/scroll-menu.json) é essa mesma trilha — setas estilizadas pelo shadcn, arraste para rolar, barra de rolagem escondida — instalado no seu `components/ui/` e estilizado pelos seus tokens:',
+    },
+  },
+
+  testimonialCarousel: {
+    meta: {
+      title: 'Carrossel de depoimentos em React com scroll snap nativo',
+      description:
+        'Carrossel de depoimentos em React sem biblioteca de slider: scroll-snap centraliza cada cartão e uma animação CSS abre o resto em leque. Pontos, setas e fonte.',
+    },
+    jsonLdHeadline:
+      'Construindo um carrossel de depoimentos em React sobre CSS scroll snap, sem biblioteca de slider',
+    name: 'Carrossel de depoimentos',
+    blurb:
+      'Cartões de avaliação que se encaixam no centro e se abrem em leque — CSS, não um motor de slider.',
+    title: 'Um carrossel de depoimentos em React, sobre scroll snap nativo',
+    lede: 'A seção de avaliações de todo site de marketing: um cartão no centro, os vizinhos inclinados atrás, pontos embaixo, um deslize ou um clique para o próximo. As bibliotecas de slider vendem exatamente isso. O navegador já tem as duas metades — `scroll-snap-type` para o pouso e uma animação dirigida pela rolagem para a inclinação — e esta biblioteca adiciona a parte que não é nenhuma das duas: saber qual cartão é o atual.',
+    demoHint:
+      'Deslize, arraste ou use as setas e os pontos — a linha assenta sobre um cartão toda vez.',
+    prose: [
+      {
+        heading: 'Para que serve de verdade uma biblioteca de slider aqui',
+        body: "Carrosséis de depoimentos são a instalação canônica do Swiper: três cartões visíveis, o do meio plano, pontos de paginação, autoplay. Cada um desses itens é CSS ou algumas linhas sobre a API desta biblioteca:\n\n- **Pousar em um cartão** é `scroll-snap-type: x mandatory` na linha e `scroll-snap-align: center` nos itens. A rolagem por toque, roda e teclado continua nativa e desacelera sozinha até um cartão.\n- **A inclinação** é uma animação dirigida pela rolagem em cada cartão, então o ângulo acompanha a posição de rolagem pixel a pixel sem medir nada em JavaScript. Chromium e Safari 26 a desenham; o Firefox ainda a mantém atrás de uma flag e mostra cartões planos, e a regra é protegida com `@supports`.\n- **Pontos e setas** precisam saber o cartão atual: `onScroll` encontra o mais próximo do centro da linha, e `scrollToItem(el, 'smooth', 'center')` avança para um vizinho ou pula para o cartão de um ponto, caindo em um ponto de encaixe por construção.",
+      },
+      {
+        heading: 'A única coisa a acertar: o arraste',
+        body: 'Um contêiner com encaixe obrigatório encaixa cada escrita programática em `scrollLeft`, então a [receita de arraste com o mouse](/examples/mouse-drag) como está engasgaria de cartão em cartão. O [exemplo de scroll snap](/examples/scroll-snap) mostra a correção: desligar o encaixe durante o gesto, deslizar até o cartão mais próximo com `scrollToItem` ao soltar e devolver o encaixe ao CSS quando esse deslize assentar — reativá-lo antes pula em vez de deslizar. O toque não precisa de nada disso; a linha é um contêiner de rolagem de verdade.',
+      },
+      {
+        heading: 'Autoplay, loop e o que continua seu',
+        body: 'O [autoplay](/examples/autoplay) é um timer que chama o mesmo `scrollToItem`, pausado no hover, no foco e com movimento reduzido. Um [loop infinito](/examples/infinite-loop) também se combina: seu teletransporte move um comprimento de loop inteiro, que é um número inteiro de pontos de encaixe. Os cartões são seus componentes — um avatar, uma nota, uma citação, um logo — e a geometria são três propriedades personalizadas: largura do cartão, espaçamento e inclinação.',
+      },
+    ],
+    snippet: {
+      heading: 'O padrão, no mínimo',
+      lede: 'Encaixe e inclinação são a folha de estilos; as setas e os pontos são uma medição e um `scrollToItem`. A demo acima é isso mais os cartões.',
+    },
+    shadcn: {
+      heading: 'Ou instale como um componente shadcn',
+      body: 'O item de registro [snap-carousel](https://react-horizontal-scrolling-menu.dev/r/snap-carousel.json) traz o padrão inteiro — encaixe, leque, setas, pontos e um arraste que cai sobre o cartão mais próximo — como componente estilizado com Tailwind no seu `components/ui/`. Traga seus próprios cartões:',
     },
   },
 };

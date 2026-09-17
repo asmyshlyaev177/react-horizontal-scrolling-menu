@@ -6,9 +6,10 @@ IntersectionObserver. Items are the consumer's own components (unique `itemId`
 per child), navigation works by scrollbar/touch/wheel/drag or user-provided
 arrow components, and a full imperative API is exposed through
 `VisibilityContext` (inside) or `apiRef` (outside). Explicitly a menu, not a
-carousel: no snap/spring physics, autoplay and infinite loop are recipes.
+carousel: no spring physics or slide effects; autoplay, infinite loop and
+scroll-snap (CSS) are recipes.
 
-Targets v8.2.3. Status: reviewed (maintainer interview 2026-08-09).
+Targets v8.3.2. Status: reviewed (maintainer interview 2026-08-09).
 
 ## Domains
 
@@ -101,15 +102,16 @@ Targets v8.2.3. Status: reviewed (maintainer interview 2026-08-09).
 | 4   | synchronous visibility assertions in tests  | HIGH     | stories/test.tsx  | —               |
 | 5   | old Next.js without transpilePackages       | MEDIUM   | README, #240      | —               |
 
-### menu-recipes (5)
+### menu-recipes (6)
 
-| #   | Mistake                                    | Priority | Source          | Cross-skill? |
-| --- | ------------------------------------------ | -------- | --------------- | ------------ |
-| 1   | hallucinated autoplay/loop/snap props      | CRITICAL | README, stories | —            |
-| 2   | autoplay interval scrolls page to the menu | HIGH     | #276, story     | —            |
-| 3   | seamless loop promised without clones      | MEDIUM   | #213, story     | —            |
-| 4   | tab switching with stale menu state        | MEDIUM   | disc #294, #204 | —            |
-| 5   | load-more without a loader item            | MEDIUM   | AddItems story  | —            |
+| #   | Mistake                                    | Priority | Source           | Cross-skill? |
+| --- | ------------------------------------------ | -------- | ---------------- | ------------ |
+| 1   | hallucinated autoplay/loop/snap props      | CRITICAL | README, stories  | —            |
+| 2   | autoplay interval scrolls page to the menu | HIGH     | #276, story      | —            |
+| 3   | seamless loop promised without clones      | MEDIUM   | #213, story      | —            |
+| 4   | tab switching with stale menu state        | MEDIUM   | disc #294, #204  | —            |
+| 5   | load-more without a loader item            | MEDIUM   | AddItems story   | —            |
+| 6   | drag on a mandatory snap container jumps   | HIGH     | ScrollSnap story | interactions |
 
 ### menu-migration (6)
 

@@ -11,4 +11,5 @@ export const USE_CASES: {
   { slug: 'scrollable-tabs', key: 'scrollableTabs' },
   { slug: 'filter-chips', key: 'filterChips' },
   { slug: 'category-rail', key: 'categoryRail' },
+  { slug: 'testimonial-carousel', key: 'testimonialCarousel' },
 ];
