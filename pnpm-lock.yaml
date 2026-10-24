@@ -225,8 +225,8 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0
       wireit:
-        specifier: ^0.14.13
-        version: 0.14.13
+        specifier: ^0.15.0
+        version: 0.15.0
 
   example-nextjs:
     dependencies:
@@ -5582,13 +5582,6 @@ packages:
       }
     engines: { node: '>= 0.8' }
 
-  binary-extensions@2.3.0:
-    resolution:
-      {
-        integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==,
-      }
-    engines: { node: '>=8' }
-
   bl@4.1.0:
     resolution:
       {
@@ -5903,12 +5896,12 @@ packages:
       }
     engines: { node: '>= 16' }
 
-  chokidar@3.6.0:
+  chokidar@4.0.3:
     resolution:
       {
-        integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==,
+        integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==,
       }
-    engines: { node: '>= 8.10.0' }
+    engines: { node: '>= 14.16.0' }
 
   chokidar@5.0.0:
     resolution:
@@ -8415,13 +8408,6 @@ packages:
       }
     engines: { node: '>= 0.4' }
 
-  is-binary-path@2.1.0:
-    resolution:
-      {
-        integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==,
-      }
-    engines: { node: '>=8' }
-
   is-boolean-object@1.2.2:
     resolution:
       {
@@ -10845,6 +10831,13 @@ packages:
       }
     engines: { node: '>=12' }
 
+  picomatch@4.0.7:
+    resolution:
+      {
+        integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==,
+      }
+    engines: { node: '>=12' }
+
   pify@5.0.0:
     resolution:
       {
@@ -11477,12 +11470,12 @@ packages:
       }
     engines: { node: '>= 6' }
 
-  readdirp@3.6.0:
+  readdirp@4.1.2:
     resolution:
       {
-        integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==,
+        integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==,
       }
-    engines: { node: '>=8.10.0' }
+    engines: { node: '>= 14.18.0' }
 
   readdirp@5.1.1:
     resolution:
@@ -13445,10 +13438,10 @@ packages:
       }
     engines: { node: '>=12' }
 
-  wireit@0.14.13:
+  wireit@0.15.0:
     resolution:
       {
-        integrity: sha512-Fo/VlEZKY4j53DQoW7Z/fWFrNGbnrfphgVDJdFoas5rVWUA9Z14/3AixEZcEfAuywympLCq49sTXVcD+sNtIxg==,
+        integrity: sha512-JOAKq9FTnDGQub2ApX7Laqjbad06hnl0inNCcPS9+VaudDnUkhle6Xy0YmgUCBSJjgJIf1htvOX+KJI/3fQLlw==,
       }
     engines: { node: '>=18.0.0' }
     hasBin: true
@@ -16816,8 +16809,6 @@ snapshots:
     dependencies:
       safe-buffer: 5.1.2
 
-  binary-extensions@2.3.0: {}
-
   bl@4.1.0:
     dependencies:
       buffer: 5.7.1
@@ -17030,17 +17021,9 @@ snapshots:
 
   check-error@2.1.3: {}
 
-  chokidar@3.6.0:
+  chokidar@4.0.3:
     dependencies:
-      anymatch: 3.1.3
-      braces: 3.0.3
-      glob-parent: 5.1.2
-      is-binary-path: 2.1.0
-      is-glob: 4.0.3
-      normalize-path: 3.0.0
-      readdirp: 3.6.0
-    optionalDependencies:
-      fsevents: 2.3.3
+      readdirp: 4.1.2
 
   chokidar@5.0.0:
     dependencies:
@@ -18798,10 +18781,6 @@ snapshots:
   is-bigint@1.1.0:
     dependencies:
       has-bigints: 1.1.0
-
-  is-binary-path@2.1.0:
-    dependencies:
-      binary-extensions: 2.3.0
 
   is-boolean-object@1.2.2:
     dependencies:
@@ -20703,6 +20682,8 @@ snapshots:
 
   picomatch@4.0.5: {}
 
+  picomatch@4.0.7: {}
+
   pify@5.0.0: {}
 
   pirates@4.0.7: {}
@@ -21096,9 +21077,7 @@ snapshots:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  readdirp@3.6.0:
-    dependencies:
-      picomatch: 2.3.2
+  readdirp@4.1.2: {}
 
   readdirp@5.1.1: {}
 
@@ -22480,12 +22459,14 @@ snapshots:
     dependencies:
       string-width: 5.1.2
 
-  wireit@0.14.13:
+  wireit@0.15.0:
     dependencies:
       brace-expansion: 5.0.9
-      chokidar: 3.6.0
+      chokidar: 4.0.3
       fast-glob: 3.3.3
+      glob-parent: 6.0.2
       jsonc-parser: 3.3.1
+      picomatch: 4.0.7
       proper-lockfile: 4.1.2
 
   word-wrap@1.2.5: {}

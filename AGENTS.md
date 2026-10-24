@@ -81,11 +81,6 @@ the READMEs, which is an instruction for the reader's project, not this one.
   `visibleElements`, `isFirstItemVisible`/`isLastItemVisible` (v6),
   `Separator` items and `getPrevItem`/`getNextItem` (v7), the `Arrows` prop
   (v3). `skills/menu-migration` covers the upgrade.
-- **The wireit cache is pruned by an npm `pre` hook, not by wireit.** Wireit
-  keeps a full copy of every script's `output` per fingerprint, forever
-  ([wireit#71](https://github.com/google/wireit/issues/71)). `prebuild`,
-  `pretest` and `predev` run `pnpm prune-cache` first. Keep that call out of the
-  wireit graph — see the header of `scripts/prune-wireit-cache.mjs` for why.
 
 ## The website
 
