@@ -88,12 +88,9 @@ import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e
     "test:unit": "wireit",
     "test:e2e": "wireit",
     "test:storybook": "wireit",
-    "pretest": "pnpm run prune-cache",
     "test": "wireit",
     "test:lint": "wireit",
     "run:e2e": "wireit",
-    "predev": "pnpm run prune-cache",
-    "prebuild": "pnpm run prune-cache",
     "build": "wireit",
     "demo": "wireit",
     "serve": "wireit",
@@ -124,8 +121,7 @@ import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e
     "i18n:copy:check": "node scripts/i18n/copy.mjs check",
     "test:e2e:dev": "wireit",
     "test:storybook-ci": "wireit",
-    "kill-rollup": "wireit",
-    "prune-cache": "node scripts/prune-wireit-cache.mjs"
+    "kill-rollup": "wireit"
   },
   "wireit": {
     "build-storybook": {
@@ -412,7 +408,7 @@ import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t;function n(){return(n=e
     "usehooks-ts": "^3.1.1",
     "vite": "^8.1.5",
     "wait-on": "^9.1.0",
-    "wireit": "^0.14.13"
+    "wireit": "^0.15.0"
   },
   "dependencies": {
     "scroll-into-view-if-needed": "^3.1.0",
