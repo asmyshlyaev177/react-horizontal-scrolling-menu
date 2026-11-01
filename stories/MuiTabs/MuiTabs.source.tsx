@@ -106,7 +106,7 @@ function LeftArrow() {
   return (
     <ArrowButton
       type="button"
-      hidden={isFirstItemVisible}
+      disabled={isFirstItemVisible}
       aria-label="Scroll tabs left"
       onClick={() => visibility.scrollPrev()}
     >
@@ -121,7 +121,7 @@ function RightArrow() {
   return (
     <ArrowButton
       type="button"
-      hidden={isLastItemVisible}
+      disabled={isLastItemVisible}
       aria-label="Scroll tabs right"
       onClick={() => visibility.scrollNext()}
     >
@@ -176,16 +176,21 @@ const Badge = styled('span')({
 
 // Unlike MUI's scroll buttons, these are plain components you own — they
 // render on every viewport (MUI hides its buttons below 600px) and fade
-// out at the edges via useIsVisible instead of unmounting.
-const ArrowButton = styled('button')<{ hidden?: boolean }>((props) => ({
+// out at the edges via useIsVisible instead of unmounting. `disabled`, not
+// `hidden`: the hidden attribute is display:none, and an arrow leaving the
+// layout resizes the strip mid-scroll, so the scroll stops short of the end.
+const ArrowButton = styled('button')({
   appearance: 'none',
   border: 'none',
   background: 'none',
-  cursor: props.hidden ? 'default' : 'pointer',
+  cursor: 'pointer',
   width: '40px',
   fontSize: '1.5rem',
   color: 'rgba(0, 0, 0, 0.54)',
-  opacity: props.hidden ? 0 : 1,
-  pointerEvents: props.hidden ? 'none' : 'auto',
   transition: 'opacity 0.2s',
-}));
+
+  '&:disabled': {
+    cursor: 'default',
+    opacity: 0,
+  },
+});

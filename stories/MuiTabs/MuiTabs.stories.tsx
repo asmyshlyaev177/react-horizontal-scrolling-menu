@@ -57,6 +57,14 @@ export const Test = {
     expect(scrollEl).not.toBeNull();
     expect(scrollEl.scrollLeft).toBe(0);
 
+    // A faded arrow must keep its box: if it left the layout, the strip
+    // would resize mid-scroll and a smooth scroll would stop short of the end.
+    const fadedLeftArrow = canvas.getByLabelText('Scroll tabs left');
+    await waitFor(() =>
+      expect(getComputedStyle(fadedLeftArrow).opacity).toBe('0'),
+    );
+    expect(fadedLeftArrow.getBoundingClientRect().width).toBeGreaterThan(0);
+
     // Selecting the last tab must move aria-selected and center it —
     // i.e. actually scroll the strip.
     const last = tabs[tabs.length - 1];
