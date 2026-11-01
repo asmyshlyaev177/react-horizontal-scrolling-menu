@@ -57,6 +57,39 @@ export const Test = {
     expect(scrollEl).not.toBeNull();
     expect(scrollEl.scrollLeft).toBe(0);
 
+    // DIAG-START
+    const diagLog: string[] = [];
+    const lastTabEl = tabs[tabs.length - 1];
+    const diagRow = () => {
+      const c = scrollEl.getBoundingClientRect();
+      const t = lastTabEl.getBoundingClientRect();
+      const ratio =
+        Math.max(0, Math.min(t.right, c.right) - Math.max(t.left, c.left)) /
+        t.width;
+      const l = canvas.getByLabelText('Scroll tabs left') as HTMLButtonElement;
+      const r = canvas.getByLabelText('Scroll tabs right') as HTMLButtonElement;
+      return `sl=${scrollEl.scrollLeft} cw=${scrollEl.clientWidth} sw=${scrollEl.scrollWidth} last=${ratio.toFixed(3)} sel=${lastTabEl.getAttribute('aria-selected')} L=${l.disabled}/${getComputedStyle(l).opacity} R=${r.disabled}/${getComputedStyle(r).opacity}`;
+    };
+    let diagPrev = '';
+    const diagLoop = () => {
+      const row = diagRow();
+      if (row !== diagPrev)
+        diagLog.push(`${Math.round(performance.now())} ${row}`);
+      diagPrev = row;
+      requestAnimationFrame(diagLoop);
+    };
+    requestAnimationFrame(diagLoop);
+    new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) =>
+          diagLog.push(
+            `${Math.round(performance.now())} IO ratio=${e.intersectionRatio.toFixed(3)} isect=${e.isIntersecting}`,
+          ),
+        ),
+      { root: scrollEl, rootMargin: '5px', threshold: [0.05, 0.5, 0.75, 0.95] },
+    ).observe(lastTabEl);
+    // DIAG-END
+
     // A faded arrow must keep its box: if it left the layout, the strip
     // would resize mid-scroll and a smooth scroll would stop short of the end.
     const fadedLeftArrow = canvas.getByLabelText('Scroll tabs left');
@@ -68,6 +101,7 @@ export const Test = {
     // Selecting the last tab must move aria-selected and center it —
     // i.e. actually scroll the strip.
     const last = tabs[tabs.length - 1];
+    diagLog.push(`${Math.round(performance.now())} CLICK`);
     await userEvent.click(last);
     await waitFor(
       () => {
@@ -83,7 +117,10 @@ export const Test = {
       () => {
         const leftArrow = canvas.getByLabelText('Scroll tabs left');
         const rightArrow = canvas.getByLabelText('Scroll tabs right');
-        expect(getComputedStyle(rightArrow).opacity).toBe('0');
+        expect(
+          getComputedStyle(rightArrow).opacity,
+          '\n' + diagLog.join('\n') + '\nNOW ' + diagRow(),
+        ).toBe('0');
         expect(getComputedStyle(leftArrow).opacity).toBe('1');
       },
       { timeout: settleTimeout },
